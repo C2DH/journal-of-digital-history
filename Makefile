@@ -1,3 +1,10 @@
+run:
+	docker-compose down --remove-orphans && \
+	GIT_TAG=$(shell git describe --tags --abbrev=0 HEAD) \
+	GIT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD) \
+	GIT_REVISION=$(shell git rev-parse --short HEAD) \
+	docker-compose up --build
+
 run-dev:
 	REACT_APP_GIT_TAG=$(shell git describe --tags --abbrev=0 HEAD) \
 	REACT_APP_GIT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD) \
