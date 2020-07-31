@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter,
@@ -11,24 +11,23 @@ import {
 } from "react-router-dom";
 
 export default function App(){
-  return <BrowserRouter>
-    <nav>
-      
-      <Link to="/">Issues</Link> 
-      <Link to="/about">About</Link>
-    </nav>
-    <Routes>
-      <Route path="/" element={<Issues />} > 
-        <Route path="/" element={<IssueIndex />}/>
-        // slug the placeholder matching any value find 
-        <Route path="/issue/:slug" element={<Issue />}/>
-      </Route>
-      <Route path="/article/:slug" element={<Article />}/>
-      <Route path="about" element={<About />} />
-      //in case of page not found 
-      <Route path="*" element={<NotFound />} />
+  return (
+    <BrowserRouter>
+      <nav>
+        <Link to="/">Issues</Link> 
+        <Link to="/about">About</Link>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Issues />} > 
+          <Route path="/" element={<IssueIndex />}/>
+          <Route path="/issue/:slug" element={<Issue />} /*slug the placeholder matching any value find*//>
+        </Route>
+        <Route path="/article/:slug" element={<Article />}/>
+        <Route path="about" element={<About />} />
+        <Route path="*" element={<NotFound />} /* page not found *//>
       </Routes>
-  </BrowserRouter>;
+    </BrowserRouter>
+  );
 }
 
 

@@ -1,29 +1,29 @@
-# pull official base image 
-FROM node:13.12.0-alpine
+FROM node:13.12.0-alpine as builder
 
-# set working directory
-WORKDIR /app
+ARG GIT_TAG
+ARG GIT_BRANCH
+ARG GIT_REVISION
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+WORKDIR /jdh
 
-# install app dependencies
-COPY package.json ./
-COPY package-lock.json ./
-RUN npm install --silent
-RUN npm install react-scripts@3.4.1 -g --silent
-#RUN npm install --save react-router-dom --silent
+COPY package.json .
+COPY yarn.lock .
 
-# add app
-COPY . ./
+RUN yarn install
 
-# start app
-CMD ["npm", "start"]
+COPY public ./public
+COPY src ./src
+COPY .env .
 
-# Stage 1, based on NGINX to provide a configuration to be used with react-router
-FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx.html
-RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx/nginx.conf /etc/nginx/conf.d
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+ENV NODE_ENV production
+ENV NODE_OPTIONS --max_old_space_size=4096
+
+ENV REACT_APP_GIT_TAG=${GIT_TAG}
+ENV REACT_APP_GIT_BRANCH=${GIT_BRANCH}
+ENV REACT_APP_GIT_REVISION=${GIT_REVISION}
+
+RUN yarn build
+
+FROM busybox
+WORKDIR /jdh
+COPY --from=builder /jdh/build ./

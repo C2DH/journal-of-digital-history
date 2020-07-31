@@ -15,3 +15,6 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+// add information on version on startup
+console.info('version', process.env.REACT_APP_GIT_TAG, process.env.REACT_APP_GIT_BRANCH, process.env.REACT_APP_GIT_REVISION)
