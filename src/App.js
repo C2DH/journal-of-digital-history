@@ -1,6 +1,6 @@
 import React from 'react';
 // import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 import {
   BrowserRouter,
   Routes,
@@ -14,11 +14,11 @@ export default function App(){
   return (
     <BrowserRouter>
       <nav>
-        <Link to="/">Issues</Link> 
+        <Link to="/">Issues</Link>
         <Link to="/about">About</Link>
       </nav>
       <Routes>
-        <Route path="/" element={<Issues />} > 
+        <Route path="/" element={<Issues />} >
           <Route path="/" element={<IssueIndex />}/>
           <Route path="/issue/:slug" element={<Issue />} /*slug the placeholder matching any value find*//>
         </Route>
@@ -73,7 +73,7 @@ function IssueIndex() {
           <Link to={`/issue/${slug}`}>
             <h2>{name}</h2>
             <img src={img} alt={name} />
-          </Link>          
+          </Link>
         </li>
       ))}
     </ul>
@@ -98,16 +98,16 @@ function Issue(){
         <ul>
         {Object.entries(articles).map(([slug, { name, img }]) => (
           <li key={slug}>
-             <Link to={`/article/${slug}`}> 
+             <Link to={`/article/${slug}`}>
               <h2>{name}</h2>
               <img src={img} alt={name} />
-            </Link>           
+            </Link>
           </li>
         ))}
         </ul>
       </div>
    </div>
-   
+
   );
 }
 
