@@ -3,6 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import WebFontLoader from 'webfontloader'
+
+WebFontLoader.load({
+  google: {
+    families: [
+      'Fira+Mono:400,700:latin-ext',
+      'Fira+Sans:400,700:latin-ext'
+    ]
+  }
+})
 
 ReactDOM.render(
   <React.StrictMode>

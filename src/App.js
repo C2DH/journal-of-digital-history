@@ -1,6 +1,6 @@
 import React from 'react';
-// import logo from './logo.svg';
-import './App.css';
+import logo from './assets/images/jdh-logo.svg';
+import './App.scss';
 import {
   BrowserRouter,
   Routes,
@@ -9,23 +9,47 @@ import {
   Outlet,
   useParams,
 } from "react-router-dom";
+import { Nav, Navbar, Container } from "react-bootstrap";
 
 export default function App(){
   return (
     <BrowserRouter>
-      <nav>
-        <Link to="/">Issues</Link> 
-        <Link to="/about">About</Link>
-      </nav>
-      <Routes>
-        <Route path="/" element={<Issues />} > 
-          <Route path="/" element={<IssueIndex />}/>
-          <Route path="/issue/:slug" element={<Issue />} /*slug the placeholder matching any value find*//>
-        </Route>
-        <Route path="/article/:slug" element={<Article />}/>
-        <Route path="about" element={<About />} />
-        <Route path="*" element={<NotFound />} /* page not found *//>
-      </Routes>
+      <Navbar fixed="top" bg="light" variant="light">
+        <Container>
+          <Navbar.Brand href="#home" className="d-flex align-items-center">
+            <img
+              alt=""
+              src={logo}
+              height="50px"
+              className="flex-grow-1 mr-1"
+            />
+            <span>Journal of<br/>Digital<br/>history</span>
+          </Navbar.Brand>
+          <Nav className="ml-auto">
+            <Nav.Link href="/" exact activeClassName="activeLink">Home</Nav.Link>
+            <Nav.Link href="#pricing">references</Nav.Link>
+            <Nav.Link href="#pricing">datasets</Nav.Link>
+            <Nav.Link href="/about">about</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+      <main>
+        {
+          // <nav>
+          //   <Link to="/">Issues</Link>
+          //   <Link to="/about">About</Link>
+          // </nav>
+        }
+        <Routes>
+          <Route path="/" element={<Issues />} >
+            <Route path="/" element={<IssueIndex />}/>
+            <Route path="/issue/:slug" element={<Issue />} /*slug the placeholder matching any value find*//>
+          </Route>
+          <Route path="/article/:slug" element={<Article />}/>
+          <Route path="/about" element={<About />} />
+          <Route path="*" element={<NotFound />} /* page not found *//>
+        </Routes>
+      </main>
     </BrowserRouter>
   );
 }
@@ -73,7 +97,7 @@ function IssueIndex() {
           <Link to={`/issue/${slug}`}>
             <h2>{name}</h2>
             <img src={img} alt={name} />
-          </Link>          
+          </Link>
         </li>
       ))}
     </ul>
@@ -98,16 +122,16 @@ function Issue(){
         <ul>
         {Object.entries(articles).map(([slug, { name, img }]) => (
           <li key={slug}>
-             <Link to={`/article/${slug}`}> 
+             <Link to={`/article/${slug}`}>
               <h2>{name}</h2>
               <img src={img} alt={name} />
-            </Link>           
+            </Link>
           </li>
         ))}
         </ul>
       </div>
    </div>
-   
+
   );
 }
 

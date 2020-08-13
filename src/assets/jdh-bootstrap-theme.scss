@@ -1,0 +1,19 @@
+/* make the customizations */
+$theme-colors: (
+    "info": tomato,
+    "danger": teal
+);
+
+@import "~bootstrap/scss/bootstrap";
+
+body{
+  background: $gray-100;
+  font-family: 'Fira Sans', sans-serif;
+}
+
+.navbar-brand{
+  font-family: 'Fira Mono', monospace;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+}
