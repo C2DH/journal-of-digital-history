@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import logo from './assets/images/jdh-logo.svg';
 import './App.scss';
 import {
@@ -9,27 +9,32 @@ import {
   Outlet,
   useParams,
 } from "react-router-dom";
+
 import { Nav, Navbar, Container } from "react-bootstrap";
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Editor = lazy(() => import('./pages/Editor'));
 
 export default function App(){
   return (
     <BrowserRouter>
-      <Navbar fixed="top" bg="light" variant="light">
+      <Navbar fixed="top" bg="light" variant="light" className="border-bottom">
         <Container>
           <Navbar.Brand href="#home" className="d-flex align-items-center">
             <img
               alt=""
               src={logo}
-              height="50px"
+              height="25px"
               className="flex-grow-1 mr-1"
             />
-            <span>Journal of<br/>Digital<br/>history</span>
+            <span>Journal of Digital history</span>
           </Navbar.Brand>
           <Nav className="ml-auto">
-            <Nav.Link href="/" exact activeClassName="activeLink">Home</Nav.Link>
-            <Nav.Link href="#pricing">references</Nav.Link>
-            <Nav.Link href="#pricing">datasets</Nav.Link>
-            <Nav.Link href="/about">about</Nav.Link>
+            <Link to="/">Home</Link>
+            <Link to="#pricing">references</Link>
+            <Link to="#pricing">datasets</Link>
+            <Link to="/about">about</Link>
+            <Link to="/editor">editor</Link>
           </Nav>
         </Container>
       </Navbar>
@@ -40,15 +45,19 @@ export default function App(){
           //   <Link to="/about">About</Link>
           // </nav>
         }
-        <Routes>
-          <Route path="/" element={<Issues />} >
-            <Route path="/" element={<IssueIndex />}/>
-            <Route path="/issue/:slug" element={<Issue />} /*slug the placeholder matching any value find*//>
-          </Route>
-          <Route path="/article/:slug" element={<Article />}/>
-          <Route path="/about" element={<About />} />
-          <Route path="*" element={<NotFound />} /* page not found *//>
-        </Routes>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Home />}/>
+            <Route path="/issues" element={<Issues />}>
+              <Route path="/" element={<IssueIndex />}/>
+              <Route path="/issue/:slug" element={<Issue />} /*slug the placeholder matching any value find*//>
+            </Route>
+            <Route path="/article/:slug" element={<Article />}/>
+            <Route path="/about" element={<About />}/>
+            <Route path="/editor" element={<Editor />}/>
+            <Route path="*" element={<NotFound />} /* page not found *//>
+          </Routes>
+        </Suspense>
       </main>
     </BrowserRouter>
   );
@@ -60,23 +69,6 @@ function NotFound(){
     <h1>Not found</h1>
     <p>sorry your page was not found</p>
   </div>);
-}
-
-
-function Home(){
-  return (
-    <div>
-      <h1>Welcome home</h1>
-    </div>
-  );
-}
-
-function About(){
-  return (
-    <div>
-      <h1>Welcome about</h1>
-    </div>
-  );
 }
 
 function Issues() {
