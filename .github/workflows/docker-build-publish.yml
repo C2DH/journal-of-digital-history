@@ -4,7 +4,7 @@ on:
   # for the develop branch and all new tags
   push:
     branches:
-      - master
+      - develop
     tags:
       - v*
       - preview-*
