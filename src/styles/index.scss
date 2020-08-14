@@ -1,0 +1,50 @@
+// Override variables
+@import 'variables';
+
+// Boostrap scss
+@import '~bootstrap/scss/bootstrap';
+
+:root {
+  --transition: 0.3s ease-in-out;
+  --border-color: rgba(255, 255, 255, 0.5);
+  --modal-z-index: 90;
+  --modal-close-z-index: 91;
+  --secondary-rgb: #{map-get($theme-colors, 'secondary')};
+  @each $bp, $value in $grays {
+    --gray-#{$bp}: #{$value};
+  }
+  @each $bp, $value in $spacers {
+    --spacer-#{$bp}: #{$value};
+  }
+  @each $bp, $value in $spacers {
+    --negative-spacer-#{$bp}: #{-$value};
+  }
+  @each $bp, $value in $spacers {
+    --negative-spacer-#{$bp*2}: #{-$value*2};
+  }
+  @each $bp, $value in $container-max-widths {
+    --#{$bp}: #{$value};
+  }
+}
+
+body,
+html,
+#root {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.navbar-brand{
+  // font-family: 'Fira Mono', monospace;
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+body{
+  background-color: var(--gray-100);
+}
+main{
+  padding-top: 10rem;
+}
