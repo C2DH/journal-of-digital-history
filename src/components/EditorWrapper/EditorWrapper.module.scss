@@ -1,0 +1,48 @@
+.editor{
+  background-color: var(--white);
+  counter-reset: paragraph heading;
+
+  & > div{
+    min-height: 5rem;
+    border: 1px solid transparent;
+    padding: var(--spacer-3);
+    color: var(--dark);
+
+    &:focus{
+      outline: none;
+      border-color: var(--primary)
+    }
+
+    p, h1, h2, h3, h4 {
+      position: relative;
+    }
+    h1, h1, h2, h3, h4{
+      counter-reset: paragraph;
+    }
+  }
+  & > div > p::before,
+  & > div > h1::before{
+    font-family: 'Fira Mono', monospace;
+    position:absolute;
+    left: var(--negative-spacer-10);
+    width: var(--spacer-5);
+    text-align: right;
+    color: var(--gray-500);
+    font-size: 1rem;
+  }
+  & > div > p::before{
+    // Increment the value of section counter by 1
+    counter-increment: paragraph;
+    // display the number, each p
+    content: counter(heading) "."counter(paragraph);
+  }
+  & > div > h1::before {
+    font-weight: normal;
+    color: var(--gray-800);
+    line-height: 2;
+    // Increment the value of section counter by 1
+    counter-increment: heading;
+    // display the number, each p
+    content: counter(heading);
+  }
+}
