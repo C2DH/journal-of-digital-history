@@ -1,11 +1,11 @@
 import React, { Suspense, lazy } from 'react';
 import logo from './assets/images/jdh-logo.svg';
-import './App.scss';
 import {
   BrowserRouter,
   Routes,
   Route,
   Link,
+  NavLink,
   Outlet,
   useParams,
 } from "react-router-dom";
@@ -30,11 +30,21 @@ export default function App(){
             <span>Journal of Digital history</span>
           </Navbar.Brand>
           <Nav className="ml-auto">
-            <Link to="/">Home</Link>
-            <Link to="#pricing">references</Link>
-            <Link to="#pricing">datasets</Link>
-            <Link to="/about">about</Link>
-            <Link to="/editor">editor</Link>
+            <Nav.Item>
+              <Nav.Link as={NavLink} to="/" end>Home</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link as={NavLink} to="#pricing" end>references</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link as={NavLink} to="#pricing" end>datasets</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link as={NavLink} to="/about">about</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link as={NavLink} to="/editor">editor</Nav.Link>
+            </Nav.Item>
           </Nav>
         </Container>
       </Navbar>
