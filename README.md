@@ -16,10 +16,12 @@ Makefile contains a couple of useful commands that inject local environmental va
        
 ## Production environment
 We use docker [c2dhunilu/journal-of-digital-history](https://hub.docker.com/repository/docker/c2dhunilu/journal-of-digital-history)
-The repo contains the built files and it is shipped automatically to docker hub with the github actions
+The repo contains the built files and it is shipped automatically to docker hub with the github actions.
+See the docker-stack repo on how we do use the frontend app in production:
+[docker-compose.yml#L83](https://github.com/C2DH/journal-digital-history-docker-stack/blob/master/docker-compose.yml#L83)
+
 
 ## Theme
 The frontend app uses bootstrap with [Reactbootstrap](https://react-bootstrap.github.io/getting-started/introduction). The main stylesheet is at `./src/styles/index.scss` and import all variables defined in the `./src/styles/_variables.scss` as [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties).
 Then every component has its own module.scss (read the [documentation on react scss module](https://create-react-app.dev/docs/adding-a-css-modules-stylesheet/)) that has access to the css variables e.g. `var(--gray-100)`;
 Fonts are loaded with WebFontLoader in ./src/index.js: Fira sans and Fira Mono
-
