@@ -1,0 +1,34 @@
+{
+  "fr_FR": {
+    "translation": {
+      "navigation": {
+        "about": "le journal",
+        "datasets": "datasets",
+        "home": "accueil",
+        "references": "références",
+        "submit": "envoyez-nous un article"
+      },
+      "pages": {
+        "abstractSubmission": {
+          "title": "Our 3-step submission process"
+        }
+      }
+    }
+  },
+  "en_US": {
+    "translation": {
+      "navigation": {
+        "about": "about",
+        "datasets": "datasets",
+        "home": "/",
+        "references": "references",
+        "submit": "Submit an article"
+      },
+      "pages": {
+        "abstractSubmission": {
+          "title": "Our 3-step submission process"
+        }
+      }
+    }
+  }
+}
