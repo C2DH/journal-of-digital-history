@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next'
+import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
 import { getStartLang, LANGUAGE_PATH, LANGUAGES } from './logic/language';
 import translations from './translations'
 
@@ -58,9 +59,13 @@ function LangRoutes() {
 }
 
 function AppRoutes() {
+  // <Redirect from="/" exact to={startLangShort} />
   return (
     <Switch>
       <Redirect from="/" exact to={startLangShort} />
+      <Route path="/authorized">
+        <div>authorized</div>
+      </Route>
       <Route path={LANGUAGE_PATH}>
         <LangRoutes />
       </Route>
@@ -74,12 +79,18 @@ function AppRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
-      <Header availableLanguages={LANGUAGES}/>
-      <main>
-        <Suspense fallback={<div>Loading...</div>}>
-          <AppRoutes />
-        </Suspense>
-      </main>
+      <Auth0ProviderWithHistory
+       domain="dev-cy19cq3w.eu.auth0.com"
+       clientId="NSxE7D46GRk9nh32wdvbtBUy7bLLQnZL"
+       redirectUri={`${window.location.origin}/authorized`}
+      >
+        <Header availableLanguages={LANGUAGES}/>
+        <main>
+          <Suspense fallback={<div>Loading...</div>}>
+            <AppRoutes />
+          </Suspense>
+        </main>
+      </Auth0ProviderWithHistory>
     </BrowserRouter>
   )
 }

@@ -42,6 +42,13 @@ html,
   font-weight: normal;
 }
 
+.btn-link{
+   margin: 0;
+   padding: 0;
+   border: 0;
+   background: 'transparent';
+}
+
 body{
   background-color: var(--gray-100);
 }

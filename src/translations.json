@@ -10,8 +10,13 @@
       },
       "pages": {
         "abstractSubmission": {
-          "title": "Our 3-step submission process"
+          "title": "Our 3-step submission process",
+          "email": "addresse email",
+          "username": "nom utilisateur"
         }
+      },
+      "actions": {
+        "logout": "(se deconnecter)"
       }
     }
   },
@@ -26,8 +31,13 @@
       },
       "pages": {
         "abstractSubmission": {
-          "title": "Our 3-step submission process"
+          "title": "Our 3-step submission process",
+          "email": "Your email address",
+          "username": "Desired username"
         }
+      },
+      "actions": {
+        "logout": "(log out)"
       }
     }
   }

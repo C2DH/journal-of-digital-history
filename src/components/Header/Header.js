@@ -3,9 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { Nav, Navbar, Container } from 'react-bootstrap'
 import SwitchLanguage from '../SwitchLanguage'
 import LangNavLink from '../LangNavLink'
+import UserProfile from './UserProfile'
 import logo from '../../assets/images/jdh-logo.svg'
 
-export default function Header({ lang, availableLanguages }) {
+export default function Header({ availableLanguages }) {
   const { t } = useTranslation()
   // console.info('header render with lang:', lang);
   return (
@@ -37,6 +38,7 @@ export default function Header({ lang, availableLanguages }) {
           <LangNavLink to="/about" exact>{t('navigation.about')}</LangNavLink>
         </Nav.Item>
         <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>
+        <UserProfile/>
       </Nav>
     </Container>
   </Navbar>)
