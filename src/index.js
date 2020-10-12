@@ -30,5 +30,5 @@ serviceWorker.unregister();
 console.info('version', 
   process.env.REACT_APP_GIT_TAG, 
   process.env.REACT_APP_GIT_BRANCH,
-  `\nhttps://github.com/C2DH/gsb-100/commit/${process.env.REACT_APP_GIT_REVISION}`
+  `\nhttps://github.com/C2DH/journal-of-digital-history/commit/${process.env.REACT_APP_GIT_REVISION}`
 )
