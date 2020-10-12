@@ -27,4 +27,8 @@ ReactDOM.render(
 serviceWorker.unregister();
 
 // add information on version on startup
-console.info('version', process.env.REACT_APP_GIT_TAG, process.env.REACT_APP_GIT_BRANCH, process.env.REACT_APP_GIT_REVISION)
+console.info('version', 
+  process.env.REACT_APP_GIT_TAG, 
+  process.env.REACT_APP_GIT_BRANCH,
+  `\nhttps://github.com/C2DH/gsb-100/commit/${process.env.REACT_APP_GIT_REVISION}`
+)
