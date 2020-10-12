@@ -1,8 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { NavLink } from 'react-router-dom'
 import { Nav, Navbar, Container } from 'react-bootstrap'
 import SwitchLanguage from '../SwitchLanguage'
+import LangNavLink from '../LangNavLink'
 import logo from '../../assets/images/jdh-logo.svg'
 
 export default function Header({ lang, availableLanguages }) {
@@ -22,19 +22,19 @@ export default function Header({ lang, availableLanguages }) {
       </Navbar.Brand>
       <Nav className="ml-auto">
         <Nav.Item>
-          <Nav.Link as={NavLink} to={`/${lang}`} exact>{t('navigation.home')}</Nav.Link>
+          <LangNavLink to="/" exact>{t('navigation.home')}</LangNavLink>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link as={NavLink} to={`/${lang}/references`} exact>{t('navigation.references')}</Nav.Link>
+          <LangNavLink to="/references" exact>{t('navigation.references')}</LangNavLink>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link as={NavLink} to={`/${lang}/datasets`} exact>{t('navigation.datasets')}</Nav.Link>
+          <LangNavLink to="/datasets" exact>{t('navigation.datasets')}</LangNavLink>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link as={NavLink} to={`/${lang}/submit`} exact>{t('navigation.submit')}</Nav.Link>
+          <LangNavLink to="/submit" exact>{t('navigation.submit')}</LangNavLink>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link as={NavLink} to={`/${lang}/about`} exact>{t('navigation.about')}</Nav.Link>
+          <LangNavLink to="/about" exact>{t('navigation.about')}</LangNavLink>
         </Nav.Item>
         <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>
       </Nav>
