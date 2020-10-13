@@ -6,7 +6,7 @@ import LangNavLink from '../LangNavLink'
 import UserProfile from './UserProfile'
 import logo from '../../assets/images/jdh-logo.svg'
 
-export default function Header({ availableLanguages }) {
+export default function Header({ availableLanguages, isAuthDisabled }) {
   const { t } = useTranslation()
   // console.info('header render with lang:', lang);
   return (
@@ -38,7 +38,7 @@ export default function Header({ availableLanguages }) {
           <LangNavLink to="/about" exact>{t('navigation.about')}</LangNavLink>
         </Nav.Item>
         <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>
-        <UserProfile/>
+        {!isAuthDisabled && <UserProfile/>}
       </Nav>
     </Container>
   </Navbar>)

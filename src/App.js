@@ -87,7 +87,7 @@ export default function App() {
         clientId="NSxE7D46GRk9nh32wdvbtBUy7bLLQnZL"
         redirectUri={`${window.location.origin}/authorized`}
       >
-        <Header availableLanguages={LANGUAGES}/>
+        <Header availableLanguages={LANGUAGES} isAuthDisabled={isUnsafeEnvironment}/>
         <main>
           <Suspense fallback={<div>Loading...</div>}>
             <AppRoutes />
