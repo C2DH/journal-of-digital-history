@@ -4,6 +4,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 export default function UserProfile() {
   const { user, isLoading, isAuthenticated, error } = useAuth0();
+  if (error) {
+    console.warn(error);
+  }
   if (isLoading) {
     return (
       <div className="nav-item">
@@ -11,7 +14,6 @@ export default function UserProfile() {
       </div>
     )
   }
-  console.info(isAuthenticated, error, user)
   if (!isAuthenticated) {
     return (
       <div className="nav-item">

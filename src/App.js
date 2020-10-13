@@ -37,9 +37,11 @@ i18n
     },
   })
 
+const isUnsafeEnvironment = process.env.NODE_ENV !== 'development' && window.location.protocol === 'http:'
+console.info('Auth0Provider:', isUnsafeEnvironment ? 'disabled' : 'enabled')
+
 function LangRoutes() {
   const { path } = useRouteMatch()
-  console.info('LangRoutes render', path)
   return (
     <Switch>
       <Route exact path={`${path}`}>
@@ -80,9 +82,10 @@ export default function App() {
   return (
     <BrowserRouter>
       <Auth0ProviderWithHistory
-       domain="dev-cy19cq3w.eu.auth0.com"
-       clientId="NSxE7D46GRk9nh32wdvbtBUy7bLLQnZL"
-       redirectUri={`${window.location.origin}/authorized`}
+        disabled={isUnsafeEnvironment}
+        domain="dev-cy19cq3w.eu.auth0.com"
+        clientId="NSxE7D46GRk9nh32wdvbtBUy7bLLQnZL"
+        redirectUri={`${window.location.origin}/authorized`}
       >
         <Header availableLanguages={LANGUAGES}/>
         <main>
