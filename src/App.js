@@ -9,22 +9,22 @@ import {
 } from "react-router-dom";
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next'
-import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
 import { getStartLang, LANGUAGE_PATH, LANGUAGES } from './logic/language';
 import translations from './translations'
-
+import {useStore} from './store'
 import Header from './components/Header'
+import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
 
 const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
 const AbstractSubmission = lazy(() => import('./pages/AbstractSubmission'))
+const Article = lazy(() => import('./pages/Article'))
 const NotFound = () => {
   return (<div>
     <h1>Not found</h1>
     <p>sorry your page was not found</p>
   </div>);
 }
-
 const { startLangShort, lang } = getStartLang()
 console.info('start language:', lang, startLangShort)
 i18n
@@ -49,6 +49,9 @@ function LangRoutes() {
       </Route>
       <Route exact path={`${path}/about`}>
         <About />
+      </Route>
+      <Route exact path={`${path}/article`}>
+        <Article />
       </Route>
       <Route exact path={`${path}/submit`}>
         <AbstractSubmission/>
@@ -78,7 +81,16 @@ function AppRoutes() {
   )
 }
 
+function MainBackground() {
+  const backgroundColor =  useStore((state) => state.backgroundColor);
+  
+  return (
+    <div className="vh-100 vw-100 position-fixed main-background" style={{backgroundColor}}></div>
+  )
+}
+
 export default function App() {
+  
   return (
     <BrowserRouter>
       <Auth0ProviderWithHistory
@@ -89,6 +101,7 @@ export default function App() {
       >
         <Header availableLanguages={LANGUAGES} isAuthDisabled={isUnsafeEnvironment}/>
         <main>
+          <MainBackground />
           <Suspense fallback={<div>Loading...</div>}>
             <AppRoutes />
           </Suspense>
