@@ -11,8 +11,17 @@
       "pages": {
         "abstractSubmission": {
           "title": "Our 3-step submission process",
-          "email": "addresse email",
-          "username": "nom utilisateur"
+          "subheading": "...",
+          "authorEmail": "addresse email",
+          "authorUsername": "nom utilisateur",
+          "articleTitle": "Title",
+          "articleAbstract": "Abstract",
+          "articleDataset": "Davaverse url",
+          "authorAffiliation": "Affiliation"
+        },
+        "home": {
+          "latestIssues": "Latest issues",
+          "latestArticles": "latest articles"
         }
       },
       "actions": {
@@ -32,8 +41,17 @@
       "pages": {
         "abstractSubmission": {
           "title": "Our 3-step submission process",
-          "email": "Your email address",
-          "username": "Desired username"
+          "subheading": "...",
+          "authorEmail": "addresse email",
+          "authorUsername": "nom utilisateur",
+          "articleTitle": "Title",
+          "articleAbstract": "Abstract",
+          "articleDataset": "Davaverse url",
+          "authorAffiliation": "Affiliation"
+        },
+        "home": {
+          "latestIssues": "Latest issues",
+          "latestArticles": "Latest articles"
         }
       },
       "actions": {
