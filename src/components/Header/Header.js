@@ -10,7 +10,7 @@ export default function Header({ availableLanguages, isAuthDisabled }) {
   const { t } = useTranslation()
   // console.info('header render with lang:', lang);
   return (
-    <Navbar fixed="top" bg="light" variant="light" className="border-bottom">
+    <Navbar className='border-bottom' fixed="top" bg="light" variant="light" expand="md">
     <Container>
       <Navbar.Brand href="#home" className="d-flex align-items-center">
         <img
