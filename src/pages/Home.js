@@ -1,23 +1,29 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useTranslation } from 'react-i18next'
-import { Container } from "react-bootstrap"
-
+import { Container } from 'react-bootstrap'
+import ScrollableGallery from '../components/ScrollableGallery'
+import issues from '../data/mock-list-of-issues'
+import { useStore } from '../store'
 
 export default function Home(){
   const { t } = useTranslation()
+  console.info(issues)
+  useEffect(() => {
+    // Update the document title using the browser API
+    useStore.setState({ backgroundColor: 'var(--white)' });
+  });
   return (
-    <Container>
-      <h1>Explore our issues</h1>
-      <h2>{t('start')}</h2>
-      <div className="jumbotron">
-        <h1 className="display-4">Hello, world!</h1>
-        <p className="lead">I was already convinced that jupyter notebooks were the best solution. I now think that it is the best and also the only solution that we can put into practice..</p>
-        <hr className="my-4" />
-        <p>I was already convinced that jupyter notebooks were the best solution. I now think that it is the best and also the only solution that we can put into practice..</p>
-        <p className="lead">
-          <button className="btn btn-primary btn-lg">Learn more</button>
-        </p>
-      </div>
-    </Container>
+    <div className="page">
+      <Container>
+        <h1>Explore our issues</h1>
+        <h2>{t('start')}</h2>
+      </Container>
+      <ScrollableGallery
+        id='latestIssues'
+        offsetTop='70px'
+        title={t('pages.home.latestIssues')}
+        steps={issues?.results}
+        stepComponent=''/>
+    </div>
   );
 }
