@@ -1,0 +1,1345 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "#  Commémorations, scandale et circulation de l’information"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "<img src=\"data/CentenaireVerdun.jpg\"/>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Le Centenaire de la Grande Guerre fait l’objet de nombreuses commémorations. Sur le réseau social numérique Twitter, des millions de tweets l’évoquent. En analysant des données collectées sur Twitter, cet article, après avoir donné une vision générale des traces du centenaire sur ce réseau, se penche sur le cas des commémorations polémiques de la bataille de Verdun."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Centenaire, Twitter, Grande Guerre, Verdun, scandale"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "The Centenary of the Great War gave birth to numerous commemorations. On the on-line social network Twitter, millions of tweets mention it. By analyzing data collected on Twitter, this article, after giving an overview of the traces of the centenary on this network, looks at the case of the polemical commemorations of the Battle of Verdun."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Centenary, Twitter, Great War, Verdun, scandal"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "## Introduction"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Depuis novembre 2013, sont organisées dans plusieurs pays, anciens belligérants, de grandes séries de commémorations de la Grande Guerre, à l’occasion de son Centenaire. À notre connaissance, il s’agit de la première commémoration de grande ampleur qui s’inscrit dans un nouveau contexte médiatique, celui des réseaux sociaux numériques, qui ont – tout particulièrement Facebook ou Twitter – été utilisés massivement à l’occasion des cérémonies, mais aussi, de manière continue, pendant toute la durée du Centenaire."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Nous allons nous pencher plus spécifiquement sur l’usage de Twitter pendant le Centenaire. Créé en mars 2006, Twitter est un réseau social numérique dit de *microblogging*, permettant de publier sur la plateforme twitter.com de courts messages de 140 caractères à l’origine, 280 depuis novembre 2017. Ces messages peuvent être retweetés, c’est-à-dire cités tel quel ou avec un commentaire. Un utilisateur peut en mentionner un (ou plusieurs) autre(s) en écrivant leurs pseudonymes commencé par « @ » pour, par exemple, entamer une discussion. Il peut également insérer un hashtag ou « mot-dièse », c’est-à-dire un mot-clé précédé d’un croisillon (« # »). L’usage du hashtag, fonctionnalité inventée par les utilisateurs de Twitter, peut correspondre à différentes pratiques : valoriser une idée, ironiser ou rejoindre un sujet plus largement discuté par d’autres comptes Twitter. Ces derniers sont d’une très grande variété : comptes institutionnels, comptes personnels mais aussi comptes automatisés de diverses natures (*bots*)."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Twitter, au contraire de Facebook par exemple, repose sur un modèle d’ouverture relative de l’accès à ses données. En avril 2014, nous avons ainsi pu démarrer une collecte de données autour du Centenaire de la Grande Guerre : en utilisant l’interface de programmation dite de streaming, nous avons collecté cinq millions de tweets environ jusqu’à aujourd’hui, sur la base de mots clés. La collecte continuera, dans la mesure du possible, jusqu’au centenaire du traité de Versailles signé avec l’Allemagne le 28 juin 1919. Toutefois, la version opérationnelles de la base de données que nous utilisons ici couvre la période allant d’avril 2014 à novembre 2016. Cette version de la base de données contient près de 3,5 millions de tweets, dont 1,1 million sont des tweets originaux et environ 2,4 millions sont des retweets. Ces tweets ont impliqué un peu plus de 840 000 utilisateurs. Ils contiennent en tout plus de 140 000 hashtags ou mots-dièses, dont 120 000 n’ont été utilisés que dix fois ou moins. Environ 85 % des tweets collectés sont en anglais, 10 % des tweets sont en français. Les 5 % restant sont en diverses langues. Peu d’entre eux sont en allemand : malgré des expositions et des publications en nombre important, la Grande Guerre n’est pas un objet mémoriel outre-Rhin.[<sup>1</sup>](#fn1)."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "<span id=\"fn1\"><cite data-cite=\"7009778/7UUQ8NJR\"></cite></span>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2)."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "<span id=\"fn2\"><cite data-cite=\"7009778/GBFQ2FF7\"></cite></span>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "L’un des intérêts de ce projet de recherche est de s’interroger sur les interactions pouvant exister entre les commémorations, les traces de mémoire collective d’un côté, l’usage des réseaux sociaux numériques et plus particulièrement de Twitter d’un autre. Pour ce faire, nous utilisons des procédés dits de lecture distante, notamment tels qu’exposés dans *Graphs, maps and trees* de Franco Moretti [<sup>3</sup>](#fn3). Définie de manière très rapide, la lecture distante consiste à demander à l’ordinateur de lire pour nous, lorsque la masse de données à exploiter est trop importante pour une lecture humaine, proche de nos sources. Concrètement, il s’agit d’utiliser des outils informatiques : visualisation de données (dont celle des réseaux sociaux) ou fouille de texte, c’est-à-dire une approche statistique du texte, par exemple. Nous articulons toutefois cette lecture distante avec une lecture plus proche de nos sources (Clavert, 2014) : nous allons employer une méthode utilisant ainsi une approche macroscopique pour comprendre le contexte large des échos du Centenaire sur Twitter, puis nous passerons progressivement à une approche au microscope permettant de mieux comprendre un ensemble de deux événements, qui, dans le contexte large, apparaissent comme particuliers : l’annulation d’un concert du rappeur français Black M et la commémoration franco-allemande de la bataille de Verdun du 29 mai 2016."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "<span id=\"fn3\"><cite data-cite=\"7009778/TSIQRMTK\"></cite></span>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "## Le Centenaire de la Grande Guerre sur Twitter : généralités"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Twitter a été et est encore un lieu d’expression autour de la Première Guerre mondiale. Pour comprendre les usages qui s’y expriment autour du Centenaire, les échos des commémorations qui s’y expriment, nous allons nous pencher en premier lieu sur la temporalité générale des tweets que nous avons collectés."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 160,
+      "metadata": {
+        
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/plain": [
+              "2337507"
+            ]
+          },
+          "execution_count": 160,
+          "metadata": {
+            
+          },
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "import os\n",
+        "import pandas as pd\n",
+        "csv_file_path = os.getcwd() + \"/data/tweets.csv\"\n",
+        "df_tweet = pd.read_csv(csv_file_path)\n",
+        "len(df_tweet)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "We keep only the appropriate columns"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 161,
+      "metadata": {
+        
+      },
+      "outputs": [
+        
+      ],
+      "source": [
+        "# tweet_id / tweet_text / created_at / geo_at /  geo_long\n",
+        "df_tweet = df_tweet[['tweet_id', 'tweet_text', 'created_at','geo_lat','geo_long','is_rt']]"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 162,
+      "metadata": {
+        
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>tweet_id</th>\n",
+              "      <th>tweet_text</th>\n",
+              "      <th>created_at</th>\n",
+              "      <th>geo_lat</th>\n",
+              "      <th>geo_long</th>\n",
+              "      <th>is_rt</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>715464762079985664</td>\n",
+              "      <td>le Conseil départemental de la Somme qui félic...</td>\n",
+              "      <td>2016-03-31 11:04:26.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>715464772699824128</td>\n",
+              "      <td>RT @TimesArchive: Running low on chutney in yo...</td>\n",
+              "      <td>2016-03-31 11:04:29.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>True</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>715464850160414720</td>\n",
+              "      <td>@_DavidBolger working with the BA in Voice and...</td>\n",
+              "      <td>2016-03-31 11:04:47.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>715465645563858944</td>\n",
+              "      <td>#OnThisDay Nach schwersten Grabenkämpfen vertr...</td>\n",
+              "      <td>2016-03-31 11:07:57.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>715465645241065472</td>\n",
+              "      <td>RT @rte: Where ever you are in the world you c...</td>\n",
+              "      <td>2016-03-31 11:07:57.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>True</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "             tweet_id                                         tweet_text  \\\n",
+              "0  715464762079985664  le Conseil départemental de la Somme qui félic...   \n",
+              "1  715464772699824128  RT @TimesArchive: Running low on chutney in yo...   \n",
+              "2  715464850160414720  @_DavidBolger working with the BA in Voice and...   \n",
+              "3  715465645563858944  #OnThisDay Nach schwersten Grabenkämpfen vertr...   \n",
+              "4  715465645241065472  RT @rte: Where ever you are in the world you c...   \n",
+              "\n",
+              "              created_at  geo_lat  geo_long  is_rt  \n",
+              "0  2016-03-31 11:04:26.0      0.0       0.0  False  \n",
+              "1  2016-03-31 11:04:29.0      0.0       0.0   True  \n",
+              "2  2016-03-31 11:04:47.0      0.0       0.0  False  \n",
+              "3  2016-03-31 11:07:57.0      0.0       0.0  False  \n",
+              "4  2016-03-31 11:07:57.0      0.0       0.0   True  "
+            ]
+          },
+          "execution_count": 162,
+          "metadata": {
+            
+          },
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "df_tweet.head()"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 163,
+      "metadata": {
+        
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/plain": [
+              "tweet_id        int64\n",
+              "tweet_text     object\n",
+              "created_at     object\n",
+              "geo_lat       float64\n",
+              "geo_long      float64\n",
+              "is_rt            bool\n",
+              "dtype: object"
+            ]
+          },
+          "execution_count": 163,
+          "metadata": {
+            
+          },
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "#look at the type of the columns\n",
+        "df_tweet.dtypes"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "### Select only tweet for a specific period"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 164,
+      "metadata": {
+        
+      },
+      "outputs": [
+        {
+          "name": "stdout",
+          "output_type": "stream",
+          "text": [
+            "2016-03-30 17:14:24.0 2017-09-27 12:10:16.0\n"
+          ]
+        }
+      ],
+      "source": [
+        "print(df_tweet['created_at'].min(), df_tweet['created_at'].max())\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 165,
+      "metadata": {
+        
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>tweet_id</th>\n",
+              "      <th>tweet_text</th>\n",
+              "      <th>created_at</th>\n",
+              "      <th>geo_lat</th>\n",
+              "      <th>geo_long</th>\n",
+              "      <th>is_rt</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>715464762079985664</td>\n",
+              "      <td>le Conseil départemental de la Somme qui félic...</td>\n",
+              "      <td>2016-03-31 11:04:26</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>715464772699824128</td>\n",
+              "      <td>RT @TimesArchive: Running low on chutney in yo...</td>\n",
+              "      <td>2016-03-31 11:04:29</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>True</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>715464850160414720</td>\n",
+              "      <td>@_DavidBolger working with the BA in Voice and...</td>\n",
+              "      <td>2016-03-31 11:04:47</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>715465645563858944</td>\n",
+              "      <td>#OnThisDay Nach schwersten Grabenkämpfen vertr...</td>\n",
+              "      <td>2016-03-31 11:07:57</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>715465645241065472</td>\n",
+              "      <td>RT @rte: Where ever you are in the world you c...</td>\n",
+              "      <td>2016-03-31 11:07:57</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>True</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "             tweet_id                                         tweet_text  \\\n",
+              "0  715464762079985664  le Conseil départemental de la Somme qui félic...   \n",
+              "1  715464772699824128  RT @TimesArchive: Running low on chutney in yo...   \n",
+              "2  715464850160414720  @_DavidBolger working with the BA in Voice and...   \n",
+              "3  715465645563858944  #OnThisDay Nach schwersten Grabenkämpfen vertr...   \n",
+              "4  715465645241065472  RT @rte: Where ever you are in the world you c...   \n",
+              "\n",
+              "           created_at  geo_lat  geo_long  is_rt  \n",
+              "0 2016-03-31 11:04:26      0.0       0.0  False  \n",
+              "1 2016-03-31 11:04:29      0.0       0.0   True  \n",
+              "2 2016-03-31 11:04:47      0.0       0.0  False  \n",
+              "3 2016-03-31 11:07:57      0.0       0.0  False  \n",
+              "4 2016-03-31 11:07:57      0.0       0.0   True  "
+            ]
+          },
+          "execution_count": 165,
+          "metadata": {
+            
+          },
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "df_tweet['created_at']= pd.to_datetime(df_tweet['created_at'], format='%Y-%m-%d', errors='coerce')\n",
+        "#df_tweet['created_at']= df_tweet['created_at'].dt.date\n",
+        "df_tweet.head()\n",
+        "\n",
+        "#df_tweet[df_tweet['created_at'].dt.date.astype(str) > '2014-04-11'] \n",
+        "#len(df_tweet)\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "### Generate the graph: Number of tweet per day"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 166,
+      "metadata": {
+        
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/plain": [
+              "<matplotlib.axes._subplots.AxesSubplot at 0x3e0676d10>"
+            ]
+          },
+          "execution_count": 166,
+          "metadata": {
+            
+          },
+          "output_type": "execute_result"
+        },
+        {
+          "data": {
+            "image/png": "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\n",
+            "text/plain": [
+              "<Figure size 432x288 with 1 Axes>"
+            ]
+          },
+          "metadata": {
+            "needs_background": "light"
+          },
+          "output_type": "display_data"
+        }
+      ],
+      "source": [
+        "df_tweet.groupby(\"created_at\")[\"tweet_id\"].count().plot()"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 167,
+      "metadata": {
+        
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>tweet_id</th>\n",
+              "      <th>tweet_text</th>\n",
+              "      <th>created_at</th>\n",
+              "      <th>geo_lat</th>\n",
+              "      <th>geo_long</th>\n",
+              "      <th>is_rt</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>715464762079985664</td>\n",
+              "      <td>le Conseil départemental de la Somme qui félic...</td>\n",
+              "      <td>2016-03</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>715464772699824128</td>\n",
+              "      <td>RT @TimesArchive: Running low on chutney in yo...</td>\n",
+              "      <td>2016-03</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>True</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>715464850160414720</td>\n",
+              "      <td>@_DavidBolger working with the BA in Voice and...</td>\n",
+              "      <td>2016-03</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>715465645563858944</td>\n",
+              "      <td>#OnThisDay Nach schwersten Grabenkämpfen vertr...</td>\n",
+              "      <td>2016-03</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>False</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>715465645241065472</td>\n",
+              "      <td>RT @rte: Where ever you are in the world you c...</td>\n",
+              "      <td>2016-03</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>True</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "             tweet_id                                         tweet_text  \\\n",
+              "0  715464762079985664  le Conseil départemental de la Somme qui félic...   \n",
+              "1  715464772699824128  RT @TimesArchive: Running low on chutney in yo...   \n",
+              "2  715464850160414720  @_DavidBolger working with the BA in Voice and...   \n",
+              "3  715465645563858944  #OnThisDay Nach schwersten Grabenkämpfen vertr...   \n",
+              "4  715465645241065472  RT @rte: Where ever you are in the world you c...   \n",
+              "\n",
+              "  created_at  geo_lat  geo_long  is_rt  \n",
+              "0    2016-03      0.0       0.0  False  \n",
+              "1    2016-03      0.0       0.0   True  \n",
+              "2    2016-03      0.0       0.0  False  \n",
+              "3    2016-03      0.0       0.0  False  \n",
+              "4    2016-03      0.0       0.0   True  "
+            ]
+          },
+          "execution_count": 167,
+          "metadata": {
+            
+          },
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "df_tweet['created_at'] = df_tweet.created_at.dt.to_period(\"M\")\n",
+        "df_tweet.head()"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 168,
+      "metadata": {
+        
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/plain": [
+              "<matplotlib.axes._subplots.AxesSubplot at 0x3a0ddf650>"
+            ]
+          },
+          "execution_count": 168,
+          "metadata": {
+            
+          },
+          "output_type": "execute_result"
+        },
+        {
+          "data": {
+            "image/png": "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\n",
+            "text/plain": [
+              "<Figure size 432x288 with 1 Axes>"
+            ]
+          },
+          "metadata": {
+            "needs_background": "light"
+          },
+          "output_type": "display_data"
+        }
+      ],
+      "source": [
+        "df_tweet.groupby(\"created_at\")[\"tweet_id\"].count().plot()\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "En se penchant sur le nombre de tweets par jour, nous pouvons opérer une double observation : de nombreux « pics », c’est-à-dire des jours ou des ensembles de jours où le nombre de tweets est nettement plus élevé que le reste de l’année, correspondent à des grands moments de commémoration d’une part ; un ensemble de deux de ces pics forment un profil différent de celui des autres d’autre part."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Les pics observés ici sont de différentes natures : des événements concernant l’ensemble des belligérants (28 juin 2014, centenaire de l’assassinat de l’archiduc François-Ferdinand) ; le 11 novembre – qui touche l’ensemble des belligérants mais est en premier lieu commémoré en France (3, 5 et 11) et qui est également le seul événement récurrent dans notre base de données – ; les entrées en guerre (2), mais dont la commémoration a d’abord été marquée par le centenaire du 4 août 1914, c’est-à-dire de l’entrée en guerre du Royaume-Uni ; des événements concernant un groupe de belligérants dont le centenaire du débarquement de Galipoli, devenu l'ANZAC Day, jour de commémoration de l’Australie et de la Nouvelle-Zélande (4) ou le centenaire de l’Easter rising en Irlande (7) ; et, enfin, le centenaire des grandes batailles de l’année 1916 (6 et 8-10)."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Dans ce dernier cas, la commémoration franco-britannique du centenaire de la bataille de la Somme (1er juillet 2016) a été le jour où la Grande Guerre a sans doute été la plus tweetée (10). Le centenaire de la bataille de Verdun (6, 8 et 9) a fait l’objet de deux grandes commémorations (et d’une série de commémorations plus précises et d’envergure moindre) : en février 2016, pour le centième anniversaire des débuts de la bataille, cérémonie en présence du ministre français de la Défense et ayant mis en scène notamment un hommage aux officiers saint-cyriens tombés au combat ; le 29 mai 2016, pour une cérémonie franco-allemande, à l’ossuaire de Douaumont. Toutefois, cette seconde commémoration de la bataille de Verdun fait l’objet d’un profil particulier, avec un double pic (8, 9) dont le premier précède la commémoration."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Les commémorations du 11 novembre et celles liés à la bataille de Verdun, sont des événements où les tweets francophones sont majoritaires, alors que, pendant le reste de la période étudiée, le nombre de tweets anglophones est largement supérieur. En s’intéressant à un sous-corpus de tweets français, nous pouvons nous attarder au contenu du sous-corpus et, surtout, à sa temporalité."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "<img src=\"data/VERDUNClavertFigure02.png\"/>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "**Figure 1 – Projection chronologique d’une classification hiérarchique descendante**"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "La figure 1 est une projection dans le temps des grandes thématiques qui marquent le sous-corpus des tweets francophones. Chaque couleur représente une thématique. Ces thématiques, ou classes, sont constituées d’un ensemble de tweets dont la similarité a été évaluée statistiquement significante sur la base de cooccurences de mots présents dans ces tweets. Les mots indiqués sont les mots les plus caractéristiques de cette classe. Ces classes sont constituées sur la base de la méthodologie Reinert (Reinert, 1983) telle qu’implémentée par le logiciel iramuteq (Ratinaud & Dejean, 2009). "
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Cette figure 2 nous permet d’analyser la temporalité du sous-corpus francophone. Cette temporalité est double : si, toute l’année, le soldat mort pour la France est l’objet central de la mémoire collective de la Grande Guerre dans ce corpus, le vocabulaire de l’hommage est plus général lors des grandes commémorations, et plus particulier – c’est-à-dire s’intéressant à des Poilus précis - le reste de l’année."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Cette dichotomie s’explique par l’activité qui s’est déployée autour de la base de données des Morts pour la France, publiée par le ministère français de la Défense sur le site web Mémoire des Hommes (http://www.memoiredeshommes.sga.defense.gouv.fr/). Cette base de données recense, à l’origine avec peu de métadonnées descriptives, l’ensemble des 1,3 millions de morts ayant obtenu la mention « Morts pour la France », c’est-à-dire décédé des suites de faits de guerre. Le contenu de cette base de données est d’abord constitué d’images des actes administratifs déclarant une personne morte pour la France. Un module d’indexation a été fourni, permettant de transformer ces images en texte à proprement parler, c’est-à-dire en texte vu comme texte par l’ordinateur. Ce module d’indexation a fait l’objet d’une appropriation par de nombreux internautes, dont beaucoup ont un compte Twitter et utilisent un hashtag particulier (#1j1p). Chaque fiche indexée fait alors l’objet d’un tweet décrivant la personne – la plupart du temps un Poilu – dont elle est l’objet (Clavert, 2018). Les classes 14, 1 et 2 sont représentatives de ce phénomène."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "<img src=\"data/VERDUNClavertFigureXX.jpg\"/>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Les jours de grandes commémorations font l’objet de tweets différents : l’indexation ne s’arrête certes pas, mais les termes utilisés dans de nombreux tweets font surtout l’objet d’un hommage plus général aux soldats morts pour la France. Pour chaque 11 novembre, pour la commémoration du centenaire de la bataille de Verdun de février 2016 et pour le centenaire de la bataille de la Somme le 1er juillet 2016, les termes de l’hommage aux Poilus sont bien plus généralistes."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Toutefois, une exception est présente : la commémoration franco-allemande de la bataille de Verdun, en mai 2016. Les deux classes les plus représentatives touchent à un vocabulaire bien différent : classes 7 (tombe, courir, cimetière) et 10 (concert, black, annulé). La classification des tweets par thèmes et la temporalisation de ces classes confirme ainsi cette anomalie, déjà constatée lors de l’analyse de la temporalité générale révélée par notre base de données de tweets (figure 1), qu’est la commémoration franco-allemande du Centenaire de la bataille de Verdun."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "## Bibliographie"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "<div class=\"cite2c-biblio\"></div><cite data-cite=\"7009778/GBFQ2FF7\"></cite>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 20,
+      "metadata": {
+        
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/plain": [
+              "0.00000     2331218\n",
+              "49.89392        305\n",
+              "34.73173        133\n",
+              "48.85690        107\n",
+              "49.15900         82\n",
+              "             ...   \n",
+              "35.99606          1\n",
+              "40.47843          1\n",
+              "35.86429          1\n",
+              "50.53498          1\n",
+              "39.00000          1\n",
+              "Name: geo_lat, Length: 3352, dtype: int64"
+            ]
+          },
+          "execution_count": 20,
+          "metadata": {
+            
+          },
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "#look at the unique values for the geolocalisation\n",
+        "#latitude\n",
+        "df_tweet['geo_lat'].value_counts()"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 21,
+      "metadata": {
+        
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/plain": [
+              " 0.00000      2331218\n",
+              " 2.29424          305\n",
+              "-118.39375        133\n",
+              " 2.34120          107\n",
+              " 5.38400           81\n",
+              "               ...   \n",
+              " 20.46370           1\n",
+              " 2.31124            1\n",
+              "-72.60989           1\n",
+              " 8.93320            1\n",
+              "-0.07583            1\n",
+              "Name: geo_long, Length: 3380, dtype: int64"
+            ]
+          },
+          "execution_count": 21,
+          "metadata": {
+            
+          },
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "#look at the unique values for the geolocalisation\n",
+        "#longitude\n",
+        "df_tweet['geo_long'].value_counts()"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        
+      },
+      "outputs": [
+        
+      ],
+      "source": [
+        
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        
+      },
+      "outputs": [
+        
+      ],
+      "source": [
+        
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        
+      },
+      "outputs": [
+        
+      ],
+      "source": [
+        
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 6,
+      "metadata": {
+        
+      },
+      "outputs": [
+        
+      ],
+      "source": [
+        "from ipywidgets import IntSlider\n",
+        "# the slider has an attribute (trait called value)\n",
+        "slider = IntSlider(value=50)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 7,
+      "metadata": {
+        
+      },
+      "outputs": [
+        {
+          "data": {
+            "application/vnd.jupyter.widget-view+json": {
+              "model_id": "3673ac25cdb44b0db00b26204369c43b",
+              "version_major": 2,
+              "version_minor": 0
+            },
+            "text/plain": [
+              "IntSlider(value=50)"
+            ]
+          },
+          "metadata": {
+            
+          },
+          "output_type": "display_data"
+        }
+      ],
+      "source": [
+        "slider"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 10,
+      "metadata": {
+        
+      },
+      "outputs": [
+        
+      ],
+      "source": [
+        "# python <=> UI \n",
+        "# visual reprensation reflets change in python object and vice versa\n",
+        "slider.value = 70"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 11,
+      "metadata": {
+        
+      },
+      "outputs": [
+        {
+          "data": {
+            "text/plain": [
+              "70"
+            ]
+          },
+          "execution_count": 11,
+          "metadata": {
+            
+          },
+          "output_type": "execute_result"
+        }
+      ],
+      "source": [
+        "slider.value"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Display the value but not listening to the change"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 12,
+      "metadata": {
+        
+      },
+      "outputs": [
+        {
+          "data": {
+            "application/vnd.jupyter.widget-view+json": {
+              "model_id": "f261381420ca4b41983a0cc164d3f699",
+              "version_major": 2,
+              "version_minor": 0
+            },
+            "text/plain": [
+              "HTML(value=\"The slider's value is <b>70</b>\")"
+            ]
+          },
+          "metadata": {
+            
+          },
+          "output_type": "display_data"
+        }
+      ],
+      "source": [
+        "from ipywidgets import HTML\n",
+        "text = HTML(\"The slider's value is <b>{}</b>\".format(slider.value))\n",
+        "text"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "Listening to the changes"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 14,
+      "metadata": {
+        
+      },
+      "outputs": [
+        {
+          "data": {
+            "application/vnd.jupyter.widget-view+json": {
+              "model_id": "f261381420ca4b41983a0cc164d3f699",
+              "version_major": 2,
+              "version_minor": 0
+            },
+            "text/plain": [
+              "HTML(value=\"The slider's value is <b>70</b>\")"
+            ]
+          },
+          "metadata": {
+            
+          },
+          "output_type": "display_data"
+        }
+      ],
+      "source": [
+        "from ipywidgets import HTML\n",
+        "def update_html(change):\n",
+        "    text.value = \"The slider's value is <b>{}</b>\".format(slider.value)\n",
+        "\n",
+        "#but to have a dynamic update, need to use the observe\n",
+        "#execute a callback whenever the slider value is changed\n",
+        "slider.observe(update_html, 'value')\n",
+        "text"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "The widget ecosystem:\n",
+        "- ipywidgets (core UI controls)\n",
+        "- bqplot (2D plotting develop at Bloomberg)\n",
+        "- pythreejs, ipyvolume (3d plotting)\n",
+        "- ipyleaflet (maps)\n",
+        "- voila"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        
+      },
+      "source": [
+        "\n",
+        "\n",
+        "Plotting library built on top of the widget ecosystem"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 2,
+      "metadata": {
+        
+      },
+      "outputs": [
+        {
+          "ename": "ModuleNotFoundError",
+          "evalue": "No module named 'bqplot_extra'",
+          "output_type": "error",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mModuleNotFoundError\u001b[0m                       Traceback (most recent call last)",
+            "\u001b[0;32m<ipython-input-2-0513f699c4e8>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0;32mfrom\u001b[0m \u001b[0mbqplot\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mLinearScale\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mScatter\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mFigure\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 4\u001b[0;31m \u001b[0;32mfrom\u001b[0m \u001b[0mbqplot_extra\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mregression_lines\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0;34m*\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      5\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      6\u001b[0m \u001b[0;31m#Styles for the bqplot lines and scatters\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mModuleNotFoundError\u001b[0m: No module named 'bqplot_extra'"
+          ]
+        }
+      ],
+      "source": [
+        "import numpy as np\n",
+        "\n",
+        "from bqplot import LinearScale, Scatter, Figure\n",
+        "from bqplot_extra.regression_lines import *\n",
+        "\n",
+        "#Styles for the bqplot lines and scatters\n",
+        "line_style = {'colors':['magenta'], 'stroke_width': 3}\n",
+        "scatter_style = {'colors':['white'], 'stroke': black}\n",
+        "\n"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        
+      },
+      "outputs": [
+        
+      ],
+      "source": [
+        
+      ]
+    }
+  ],
+  "metadata": {
+    "cite2c": {
+      "citations": {
+        "7009778/7UUQ8NJR": {
+          "URL": "http://www.cairn.info/resume.php?ID_ARTICLE=HP_022_0050",
+          "author": [
+            {
+              "family": "Patin",
+              "given": "Nicolas"
+            }
+          ],
+          "container-title": "Histoire@Politique",
+          "id": "7009778/7UUQ8NJR",
+          "issue": "22",
+          "issued": {
+            "day": 22,
+            "month": 10,
+            "year": 2014
+          },
+          "language": "fr",
+          "page": "50-68",
+          "page-first": "50",
+          "shortTitle": "La Grande Guerre",
+          "title": "La Grande Guerre : un angle mort de l'histoire allemande ?",
+          "title-short": "La Grande Guerre",
+          "type": "article-journal"
+        },
+        "7009778/E9SGWNY8": {
+          "URL": "http://swcarpentry.github.io/shell-novice/",
+          "accessed": {
+            "day": 8,
+            "month": 7,
+            "year": 2019
+          },
+          "id": "7009778/E9SGWNY8",
+          "title": "The Unix Shell",
+          "type": "article"
+        },
+        "7009778/GBFQ2FF7": {
+          "ISBN": "978-2-84016-285-8",
+          "author": [
+            {
+              "family": "Clavert",
+              "given": "Frédéric"
+            }
+          ],
+          "collection-title": "Intelligences numériques",
+          "container-title": "Temps et temporalités du web",
+          "editor": [
+            {
+              "family": "Schafer",
+              "given": "Valérie"
+            }
+          ],
+          "event-place": "Nanterre",
+          "id": "7009778/GBFQ2FF7",
+          "issued": {
+            "season": "avril",
+            "year": 2018
+          },
+          "language": "French",
+          "page": "113-134",
+          "page-first": "113",
+          "publisher": "Presses universitaires de Paris Nanterre",
+          "publisher-place": "Nanterre",
+          "title": "Temporalités du Centenaire de la Grande Guerre sur Twitter",
+          "type": "chapter"
+        },
+        "7009778/TSIQRMTK": {
+          "ISBN": "1-84467-185-2",
+          "author": [
+            {
+              "family": "Moretti",
+              "given": "Franco"
+            }
+          ],
+          "id": "7009778/TSIQRMTK",
+          "issued": {
+            "day": 17,
+            "month": 9,
+            "year": 2007
+          },
+          "number-of-pages": "119",
+          "publisher": "Verso",
+          "shortTitle": "Graphs, Maps, Trees",
+          "title": "Graphs, Maps, Trees: Abstract Models for Literary History",
+          "title-short": "Graphs, Maps, Trees",
+          "type": "book"
+        },
+        "7009778/VHWHSPDV": {
+          "URL": "http://swcarpentry.github.io/shell-novice/",
+          "accessed": {
+            "day": 8,
+            "month": 7,
+            "year": 2019
+          },
+          "id": "7009778/VHWHSPDV",
+          "title": "The Unix Shell",
+          "type": "webpage"
+        }
+      }
+    },
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    },
+    "language_info": {
+      "codemirror_mode": {
+        "name": "ipython",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.7.6"
+    },
+    "toc": {
+      "base_numbering": 1,
+      "nav_menu": {
+        
+      },
+      "number_sections": true,
+      "sideBar": true,
+      "skip_h1_title": false,
+      "title_cell": "Table of Contents",
+      "title_sidebar": "Contents",
+      "toc_cell": false,
+      "toc_position": {
+        "height": "calc(100% - 180px)",
+        "left": "10px",
+        "top": "150px",
+        "width": "288px"
+      },
+      "toc_section_display": true,
+      "toc_window_display": true
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 4
+}
