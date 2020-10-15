@@ -36,10 +36,11 @@ html,
   text-rendering: optimizeLegibility;
 }
 
-.navbar-brand{
-  // font-family: 'Fira Mono', monospace;
-  font-size: 1rem;
-  font-weight: normal;
+.navbar-light .navbar-brand{
+  font-family: 'Fira Mono', monospace;
+  font-size: .9rem;
+  font-weight: bold;
+  color: black;
 }
 
 .btn-link{
@@ -49,9 +50,22 @@ html,
    background: 'transparent';
 }
 
+.navbar .nav-link{
+  font-size: .9rem;
+  color: white;
+}
 body{
   background-color: var(--gray-100);
 }
 main{
-  padding-top: 10rem;
+  // padding-top: 10rem;
+}
+.main-background{
+  background-color: var(--primary);
+  transition: background-color 1s ease-in-out;
+  z-index: -1;
+}
+
+.page{
+  padding-top: 200px;
 }

@@ -3,10 +3,13 @@
 // following doc
 // https://getbootstrap.com/docs/4.5/getting-started/theming/
 $theme-colors: (
-  'primary': #00b37f,
+  'primary': #00f5d4,
   'secondary': #222322,
   'gray': #ececec,
 );
+// 9b5de5
+// f15bb5
+// fee440
 
 $grid-breakpoints: (
   xs: 0,
@@ -38,7 +41,7 @@ $border-radius: 0;
 $navbar-dark-color: white;
 $navbar-dark-hover-color: map-get($theme-colors, 'primary');
 $navbar-dark-active-color: map-get($theme-colors, 'primary');
-$navbar-padding-y: 1.5rem;
+$navbar-padding-y: 1rem;
 $navbar-nav-link-padding-x: 1rem;
 
 $nav-link-margin-y: 1rem;
