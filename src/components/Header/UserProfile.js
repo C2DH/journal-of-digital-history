@@ -1,6 +1,7 @@
 import React from 'react'
 import Auth0 from '../Auth0'
-import { useAuth0 } from "@auth0/auth0-react";
+import { Dropdown } from 'react-bootstrap'
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function UserProfile() {
   const { user, isLoading, isAuthenticated, error } = useAuth0();
@@ -10,7 +11,7 @@ export default function UserProfile() {
   if (isLoading) {
     return (
       <div className="nav-item">
-        <div className="navbar-text">Loading ...</div>
+        <div className="navbar-text">...</div>
       </div>
     )
   }
@@ -23,13 +24,19 @@ export default function UserProfile() {
   }
   return (
     isAuthenticated && (
-      <div className="nav-item">
-        <div className="navbar-text d-flex align-items-center">
-          <div>{user.nickname}</div>
-          <Auth0.LogoutButton className="mx-2 btn-link" />
-          <img src={user.picture} alt={user.name} style={{height:'20px'}}/>
-        </div>
-      </div>
+      <Dropdown className="nav-item" drop="down">
+      <Dropdown.Toggle as="a" className="nav-link p-0">
+        <img src={user.picture} alt={user.name} style={{height:'36px', borderRadius:'50%'}}/>
+      </Dropdown.Toggle>
+      <Dropdown.Menu className='dropdown-menu-right'>
+        <Dropdown.Item>
+          <Auth0.LogoutButton />
+        </Dropdown.Item>
+        <Dropdown.Item>
+        {user.nickname}
+        </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     )
   );
 };
