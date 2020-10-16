@@ -50,7 +50,7 @@ class ArticleCover extends Component{
 export default function ArticleHeader() {
   return(
     <div className={styles.ArticleHeader}>
-      <div className='d-flex align-items-center position-relative' style={{minHeight: '120%'}}>
+      <div className='d-flex align-items-center position-relative' style={{paddingTop: '200px', paddingBottom: '100px'}}>
         <div className='position-absolute h-100 w-100' style={{overflow: 'hidden'}}>
           <ArticleCover url='https://live.staticflickr.com/5316/13940668626_9146f941ec_k_d.jpg' />
         </div>

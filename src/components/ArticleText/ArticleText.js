@@ -1,84 +1,68 @@
-import React, { Component } from 'react';
-import { Scrollama, Step } from 'react-scrollama';
+import React from 'react';
 import { Container, Row, Col} from 'react-bootstrap'
+import MarkdownIt from 'markdown-it'
 
-class ArticleText extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: 0,
-      direction: '',
-      steps: [],
-      progress: 0,
-    };
+const markdownParser = MarkdownIt({
+  html: false,
+  linkify: true,
+  typographer: true
+})
+
+// markdownParser.r heading
+const ToC = (md) => {
+  md.core.ruler.push('anchor', (state) => {
+    state.tokens
+      .filter(t => t.type === 'heading_open')
+      .forEach((token, i) => {
+        console.info(token, i, state.tokens[i + 1])
+      })
+  })
+}
+markdownParser.use(ToC)
+
+const ArticleCell = (props) => {
+  const { type, source=[], outputs=[] } = props
+  if (type === 'markdown') {
+    const rendered = markdownParser.render(source.join('\n\n'))
+    return (<div dangerouslySetInnerHTML={{__html: rendered}} />)
   }
-  
-  onStepProgress = ({ progress }) => {
-    this.setState({ progress });
-  };
-  // This callback fires when a Step hits the offset threshold. It receives the
-  // data prop of the step, which in this demo stores the index of the step.
-  onStepEnter = ({ data, direction }) => {
-    this.setState({ data, direction });
-  };
-  onStepExit = ({ data, direction }) => {
-    console.info('onStepExit', data, direction)
-    // this.setState({ data, direction });
-  };
-  
-  render() {
-    // const { progress, data } = this.state;
-    const { paragraphs = [] } = this.props;
-    console.info(paragraphs);
+  if (type === 'code') {
     return (
-      <div className='bg-light mt-5 pt-5'>
-        {paragraphs.map((paragraph, i) => {
+      <div>
+        <pre className="bg-dark text-white p-3">{source}</pre>
+        {outputs.length && outputs.map((output,i) => {
           return (
-            <Container className="mt-5">
-              <Row>
-                <Col lg={6}>
-                  <p><b>{i}</b> {paragraph.cell_type}</p>
-                  { paragraph.cell_type === 'code' && (
-                    <pre className="bg-dark text-white p-3">{paragraph.source}</pre>
-                  )}
-                  { paragraph.cell_type === 'markdown' && (
-                    <p>{paragraph.source}</p>
-                  )}
-                </Col>
-              </Row></Container>
+            <blockquote className='pl-3 py-2 pr-2' style={{borderLeft: '2px solid', background:'var(--gray-200)'}}>
+              <div>{output.output_type} {output.ename}</div>
+              <div>{output.evalue}</div>
+            </blockquote>
           )
         })}
-        {/*
-          <div style={{ position: 'sticky', top: '10vh', width: '5wv',border: '1px solid orchid' }}>
-            I'm sticky. The current triggered step index is: {data}
-          </div>
-          // <div style={{ overflow: 'hidden' }}>
-          
-          // <Scrollama 
-          //   onStepEnter={this.onStepEnter}
-          //   onStepExit={this.onStepExit}
-          //   onStepProgress={this.onStepProgress}
-          //   offset={0.42}
-          //   threshold={0}>
-          //   {[1, 2, 3, 4].map((_, stepIndex) => (
-          //     <Step data={stepIndex} key={stepIndex}>
-          //       <div
-          //         style={{
-          //           margin: '50vh 0',
-          //           border: '1px solid gray',
-          //           opacity: data === stepIndex ? 1 : 0.2,
-          //         }}
-          //       >
-          //         I'm a Scrollama Step of index {stepIndex} {data} {progress}
-          //       </div>
-          //     </Step>
-          //   ))}
-          // </Scrollama>
-          // </div>
-        */}
       </div>
     )
   }
+  return (<div>unknown type: {type}</div>)
+}
+
+const ArticleText = (props) => {
+  const { paragraphs = [] } = props;
+  console.info('ArticleText render:', paragraphs.length, 'cells');
+
+  return (
+    <div className='bg-light mt-5 pt-5'>
+      {paragraphs.map((paragraph, i) => {
+        return (
+          <Container className="mt-5" key={i}>
+            <Row>
+              <Col lg={6}>
+                <ArticleCell source={paragraph.source} type={paragraph.cell_type} outputs={paragraph.outputs}/>
+              </Col>
+            </Row>
+          </Container>
+        )
+      })}
+    </div>
+  )
 }
 
 export default ArticleText;
