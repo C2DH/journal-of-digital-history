@@ -1,0 +1,1198 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#  Commémorations, scandale et circulation de l’information"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<img src=\"data/CentenaireVerdun.jpg\"/>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Le Centenaire de la Grande Guerre fait l’objet de nombreuses commémorations. Sur le réseau social numérique Twitter, des millions de tweets l’évoquent. En analysant des données collectées sur Twitter, cet article, après avoir donné une vision générale des traces du centenaire sur ce réseau, se penche sur le cas des commémorations polémiques de la bataille de Verdun."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Centenaire, Twitter, Grande Guerre, Verdun, scandale"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The Centenary of the Great War gave birth to numerous commemorations. On the on-line social network Twitter, millions of tweets mention it. By analyzing data collected on Twitter, this article, after giving an overview of the traces of the centenary on this network, looks at the case of the polemical commemorations of the Battle of Verdun."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Centenary, Twitter, Great War, Verdun, scandal"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Introduction"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Depuis novembre 2013, sont organisées dans plusieurs pays, anciens belligérants, de grandes séries de commémorations de la Grande Guerre, à l’occasion de son Centenaire. À notre connaissance, il s’agit de la première commémoration de grande ampleur qui s’inscrit dans un nouveau contexte médiatique, celui des réseaux sociaux numériques, qui ont – tout particulièrement Facebook ou Twitter – été utilisés massivement à l’occasion des cérémonies, mais aussi, de manière continue, pendant toute la durée du Centenaire."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Nous allons nous pencher plus spécifiquement sur l’usage de Twitter pendant le Centenaire. Créé en mars 2006, Twitter est un réseau social numérique dit de *microblogging*, permettant de publier sur la plateforme twitter.com de courts messages de 140 caractères à l’origine, 280 depuis novembre 2017. Ces messages peuvent être retweetés, c’est-à-dire cités tel quel ou avec un commentaire. Un utilisateur peut en mentionner un (ou plusieurs) autre(s) en écrivant leurs pseudonymes commencé par « @ » pour, par exemple, entamer une discussion. Il peut également insérer un hashtag ou « mot-dièse », c’est-à-dire un mot-clé précédé d’un croisillon (« # »). L’usage du hashtag, fonctionnalité inventée par les utilisateurs de Twitter, peut correspondre à différentes pratiques : valoriser une idée, ironiser ou rejoindre un sujet plus largement discuté par d’autres comptes Twitter. Ces derniers sont d’une très grande variété : comptes institutionnels, comptes personnels mais aussi comptes automatisés de diverses natures (*bots*)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Twitter, au contraire de Facebook par exemple, repose sur un modèle d’ouverture relative de l’accès à ses données. En avril 2014, nous avons ainsi pu démarrer une collecte de données autour du Centenaire de la Grande Guerre : en utilisant l’interface de programmation dite de streaming, nous avons collecté cinq millions de tweets environ jusqu’à aujourd’hui, sur la base de mots clés. La collecte continuera, dans la mesure du possible, jusqu’au centenaire du traité de Versailles signé avec l’Allemagne le 28 juin 1919. Toutefois, la version opérationnelles de la base de données que nous utilisons ici couvre la période allant d’avril 2014 à novembre 2016. Cette version de la base de données contient près de 3,5 millions de tweets, dont 1,1 million sont des tweets originaux et environ 2,4 millions sont des retweets. Ces tweets ont impliqué un peu plus de 840 000 utilisateurs. Ils contiennent en tout plus de 140 000 hashtags ou mots-dièses, dont 120 000 n’ont été utilisés que dix fois ou moins. Environ 85 % des tweets collectés sont en anglais, 10 % des tweets sont en français. Les 5 % restant sont en diverses langues. Peu d’entre eux sont en allemand : malgré des expositions et des publications en nombre important, la Grande Guerre n’est pas un objet mémoriel outre-Rhin.[<sup>1</sup>](#fn1)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<span id=\"fn1\"><cite data-cite=\"7009778/7UUQ8NJR\"></cite></span>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<span id=\"fn2\"><cite data-cite=\"7009778/GBFQ2FF7\"></cite></span>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "L’un des intérêts de ce projet de recherche est de s’interroger sur les interactions pouvant exister entre les commémorations, les traces de mémoire collective d’un côté, l’usage des réseaux sociaux numériques et plus particulièrement de Twitter d’un autre. Pour ce faire, nous utilisons des procédés dits de lecture distante, notamment tels qu’exposés dans *Graphs, maps and trees* de Franco Moretti [<sup>3</sup>](#fn3). Définie de manière très rapide, la lecture distante consiste à demander à l’ordinateur de lire pour nous, lorsque la masse de données à exploiter est trop importante pour une lecture humaine, proche de nos sources. Concrètement, il s’agit d’utiliser des outils informatiques : visualisation de données (dont celle des réseaux sociaux) ou fouille de texte, c’est-à-dire une approche statistique du texte, par exemple. Nous articulons toutefois cette lecture distante avec une lecture plus proche de nos sources (Clavert, 2014) : nous allons employer une méthode utilisant ainsi une approche macroscopique pour comprendre le contexte large des échos du Centenaire sur Twitter, puis nous passerons progressivement à une approche au microscope permettant de mieux comprendre un ensemble de deux événements, qui, dans le contexte large, apparaissent comme particuliers : l’annulation d’un concert du rappeur français Black M et la commémoration franco-allemande de la bataille de Verdun du 29 mai 2016."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<span id=\"fn3\"><cite data-cite=\"7009778/TSIQRMTK\"></cite></span>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Le Centenaire de la Grande Guerre sur Twitter : généralités"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Twitter a été et est encore un lieu d’expression autour de la Première Guerre mondiale. Pour comprendre les usages qui s’y expriment autour du Centenaire, les échos des commémorations qui s’y expriment, nous allons nous pencher en premier lieu sur la temporalité générale des tweets que nous avons collectés."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:45:58.066208Z",
+     "iopub.status.busy": "2020-10-16T09:45:58.065421Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.663063Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.663723Z"
+    }
+   },
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "/**************/.local/share/virtualenvs/nbconvert-T7OsOOfb/lib/python3.8/site-packages/pandas/compat/__init__.py:120: UserWarning: Could not import the lzma module. Your installed Python is incomplete. Attempting to use lzma compression will result in a RuntimeError.\n",
+      "  warnings.warn(msg)\n"
+     ]
+    },
+    {
+     "ename": "FileNotFoundError",
+     "evalue": "[Errno 2] No such file or directory: '*********/journal-of-digital-history/src/data/data/tweets.csv'",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mFileNotFoundError\u001b[0m                         Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-1-b420b06c26b4>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mpandas\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0mpd\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0mcsv_file_path\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mos\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mgetcwd\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;34m+\u001b[0m \u001b[0;34m\"/data/tweets.csv\"\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 4\u001b[0;31m \u001b[0mdf_tweet\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mpd\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mread_csv\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mcsv_file_path\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      5\u001b[0m \u001b[0mlen\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mdf_tweet\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/.local/share/virtualenvs/nbconvert-T7OsOOfb/lib/python3.8/site-packages/pandas/io/parsers.py\u001b[0m in \u001b[0;36mread_csv\u001b[0;34m(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, dialect, error_bad_lines, warn_bad_lines, delim_whitespace, low_memory, memory_map, float_precision)\u001b[0m\n\u001b[1;32m    684\u001b[0m     )\n\u001b[1;32m    685\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 686\u001b[0;31m     \u001b[0;32mreturn\u001b[0m \u001b[0m_read\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfilepath_or_buffer\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mkwds\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    687\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    688\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/.local/share/virtualenvs/nbconvert-T7OsOOfb/lib/python3.8/site-packages/pandas/io/parsers.py\u001b[0m in \u001b[0;36m_read\u001b[0;34m(filepath_or_buffer, kwds)\u001b[0m\n\u001b[1;32m    450\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    451\u001b[0m     \u001b[0;31m# Create the parser.\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 452\u001b[0;31m     \u001b[0mparser\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mTextFileReader\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mfp_or_buf\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwds\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    453\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    454\u001b[0m     \u001b[0;32mif\u001b[0m \u001b[0mchunksize\u001b[0m \u001b[0;32mor\u001b[0m \u001b[0miterator\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/.local/share/virtualenvs/nbconvert-T7OsOOfb/lib/python3.8/site-packages/pandas/io/parsers.py\u001b[0m in \u001b[0;36m__init__\u001b[0;34m(self, f, engine, **kwds)\u001b[0m\n\u001b[1;32m    944\u001b[0m             \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0moptions\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m\"has_index_names\"\u001b[0m\u001b[0;34m]\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mkwds\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m\"has_index_names\"\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    945\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 946\u001b[0;31m         \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_make_engine\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mengine\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    947\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    948\u001b[0m     \u001b[0;32mdef\u001b[0m \u001b[0mclose\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/.local/share/virtualenvs/nbconvert-T7OsOOfb/lib/python3.8/site-packages/pandas/io/parsers.py\u001b[0m in \u001b[0;36m_make_engine\u001b[0;34m(self, engine)\u001b[0m\n\u001b[1;32m   1176\u001b[0m     \u001b[0;32mdef\u001b[0m \u001b[0m_make_engine\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mengine\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m\"c\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1177\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0mengine\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;34m\"c\"\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 1178\u001b[0;31m             \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_engine\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mCParserWrapper\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mf\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0moptions\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   1179\u001b[0m         \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1180\u001b[0m             \u001b[0;32mif\u001b[0m \u001b[0mengine\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;34m\"python\"\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m~/.local/share/virtualenvs/nbconvert-T7OsOOfb/lib/python3.8/site-packages/pandas/io/parsers.py\u001b[0m in \u001b[0;36m__init__\u001b[0;34m(self, src, **kwds)\u001b[0m\n\u001b[1;32m   2006\u001b[0m         \u001b[0mkwds\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m\"usecols\"\u001b[0m\u001b[0;34m]\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0musecols\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   2007\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 2008\u001b[0;31m         \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_reader\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mparsers\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mTextReader\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0msrc\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwds\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   2009\u001b[0m         \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0munnamed_cols\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_reader\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0munnamed_cols\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   2010\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32mpandas/_libs/parsers.pyx\u001b[0m in \u001b[0;36mpandas._libs.parsers.TextReader.__cinit__\u001b[0;34m()\u001b[0m\n",
+      "\u001b[0;32mpandas/_libs/parsers.pyx\u001b[0m in \u001b[0;36mpandas._libs.parsers.TextReader._setup_parser_source\u001b[0;34m()\u001b[0m\n",
+      "\u001b[0;31mFileNotFoundError\u001b[0m: [Errno 2] No such file or directory: '*********/journal-of-digital-history/src/data/data/tweets.csv'"
+     ]
+    }
+   ],
+   "source": [
+    "import os\n",
+    "import pandas as pd\n",
+    "csv_file_path = os.getcwd() + \"/data/tweets.csv\"\n",
+    "df_tweet = pd.read_csv(csv_file_path)\n",
+    "len(df_tweet)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "We keep only the appropriate columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.668915Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.666524Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.671240Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.671653Z"
+    }
+   },
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'df_tweet' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-1-7eb56b1e5a53>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0;31m# tweet_id / tweet_text / created_at / geo_at /  geo_long\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 2\u001b[0;31m \u001b[0mdf_tweet\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mdf_tweet\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'tweet_id'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m'tweet_text'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m'created_at'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'geo_lat'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'geo_long'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'is_rt'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m: name 'df_tweet' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "# tweet_id / tweet_text / created_at / geo_at /  geo_long\n",
+    "df_tweet = df_tweet[['tweet_id', 'tweet_text', 'created_at','geo_lat','geo_long','is_rt']]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.674619Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.674075Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.678110Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.678567Z"
+    }
+   },
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'df_tweet' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-1-5f3fe2af91ea>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mdf_tweet\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mhead\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m: name 'df_tweet' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "df_tweet.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.681191Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.680611Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.684942Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.685321Z"
+    }
+   },
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'df_tweet' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-1-46ba7026d53d>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0;31m#look at the type of the columns\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 2\u001b[0;31m \u001b[0mdf_tweet\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdtypes\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m: name 'df_tweet' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "#look at the type of the columns\n",
+    "df_tweet.dtypes"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Select only tweet for a specific period"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.688274Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.687764Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.692128Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.692527Z"
+    }
+   },
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'df_tweet' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-1-5f50bebf2be4>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mdf_tweet\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'created_at'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mmin\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mdf_tweet\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'created_at'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mmax\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      2\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mNameError\u001b[0m: name 'df_tweet' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "print(df_tweet['created_at'].min(), df_tweet['created_at'].max())\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.695551Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.694876Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.699528Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.699919Z"
+    }
+   },
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'df_tweet' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-1-9952010b0e2a>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mdf_tweet\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'created_at'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m=\u001b[0m \u001b[0mpd\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mto_datetime\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mdf_tweet\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'created_at'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mformat\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m'%Y-%m-%d'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0merrors\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;34m'coerce'\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      2\u001b[0m \u001b[0;31m#df_tweet['created_at']= df_tweet['created_at'].dt.date\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0mdf_tweet\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mhead\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      4\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m \u001b[0;31m#df_tweet[df_tweet['created_at'].dt.date.astype(str) > '2014-04-11']\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mNameError\u001b[0m: name 'df_tweet' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "df_tweet['created_at']= pd.to_datetime(df_tweet['created_at'], format='%Y-%m-%d', errors='coerce')\n",
+    "#df_tweet['created_at']= df_tweet['created_at'].dt.date\n",
+    "df_tweet.head()\n",
+    "\n",
+    "#df_tweet[df_tweet['created_at'].dt.date.astype(str) > '2014-04-11'] \n",
+    "#len(df_tweet)\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Generate the graph: Number of tweet per day"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.703123Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.702447Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.706841Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.707266Z"
+    }
+   },
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'df_tweet' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-1-fae204532d6c>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mdf_tweet\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mgroupby\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"created_at\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m\"tweet_id\"\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcount\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mplot\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m: name 'df_tweet' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "df_tweet.groupby(\"created_at\")[\"tweet_id\"].count().plot()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.710079Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.709566Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.713796Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.714188Z"
+    }
+   },
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'df_tweet' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-1-430cc1dfdf8b>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mdf_tweet\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'created_at'\u001b[0m\u001b[0;34m]\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mdf_tweet\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcreated_at\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdt\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mto_period\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"M\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      2\u001b[0m \u001b[0mdf_tweet\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mhead\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mNameError\u001b[0m: name 'df_tweet' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "df_tweet['created_at'] = df_tweet.created_at.dt.to_period(\"M\")\n",
+    "df_tweet.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.717231Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.716595Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.720777Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.721232Z"
+    }
+   },
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'df_tweet' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-1-fae204532d6c>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mdf_tweet\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mgroupby\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"created_at\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m\"tweet_id\"\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mcount\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mplot\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m: name 'df_tweet' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "df_tweet.groupby(\"created_at\")[\"tweet_id\"].count().plot()\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "En se penchant sur le nombre de tweets par jour, nous pouvons opérer une double observation : de nombreux « pics », c’est-à-dire des jours ou des ensembles de jours où le nombre de tweets est nettement plus élevé que le reste de l’année, correspondent à des grands moments de commémoration d’une part ; un ensemble de deux de ces pics forment un profil différent de celui des autres d’autre part."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Les pics observés ici sont de différentes natures : des événements concernant l’ensemble des belligérants (28 juin 2014, centenaire de l’assassinat de l’archiduc François-Ferdinand) ; le 11 novembre – qui touche l’ensemble des belligérants mais est en premier lieu commémoré en France (3, 5 et 11) et qui est également le seul événement récurrent dans notre base de données – ; les entrées en guerre (2), mais dont la commémoration a d’abord été marquée par le centenaire du 4 août 1914, c’est-à-dire de l’entrée en guerre du Royaume-Uni ; des événements concernant un groupe de belligérants dont le centenaire du débarquement de Galipoli, devenu l'ANZAC Day, jour de commémoration de l’Australie et de la Nouvelle-Zélande (4) ou le centenaire de l’Easter rising en Irlande (7) ; et, enfin, le centenaire des grandes batailles de l’année 1916 (6 et 8-10)."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Dans ce dernier cas, la commémoration franco-britannique du centenaire de la bataille de la Somme (1er juillet 2016) a été le jour où la Grande Guerre a sans doute été la plus tweetée (10). Le centenaire de la bataille de Verdun (6, 8 et 9) a fait l’objet de deux grandes commémorations (et d’une série de commémorations plus précises et d’envergure moindre) : en février 2016, pour le centième anniversaire des débuts de la bataille, cérémonie en présence du ministre français de la Défense et ayant mis en scène notamment un hommage aux officiers saint-cyriens tombés au combat ; le 29 mai 2016, pour une cérémonie franco-allemande, à l’ossuaire de Douaumont. Toutefois, cette seconde commémoration de la bataille de Verdun fait l’objet d’un profil particulier, avec un double pic (8, 9) dont le premier précède la commémoration."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Les commémorations du 11 novembre et celles liés à la bataille de Verdun, sont des événements où les tweets francophones sont majoritaires, alors que, pendant le reste de la période étudiée, le nombre de tweets anglophones est largement supérieur. En s’intéressant à un sous-corpus de tweets français, nous pouvons nous attarder au contenu du sous-corpus et, surtout, à sa temporalité."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<img src=\"data/VERDUNClavertFigure02.png\"/>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "**Figure 1 – Projection chronologique d’une classification hiérarchique descendante**"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "La figure 1 est une projection dans le temps des grandes thématiques qui marquent le sous-corpus des tweets francophones. Chaque couleur représente une thématique. Ces thématiques, ou classes, sont constituées d’un ensemble de tweets dont la similarité a été évaluée statistiquement significante sur la base de cooccurences de mots présents dans ces tweets. Les mots indiqués sont les mots les plus caractéristiques de cette classe. Ces classes sont constituées sur la base de la méthodologie Reinert (Reinert, 1983) telle qu’implémentée par le logiciel iramuteq (Ratinaud & Dejean, 2009). "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Cette figure 2 nous permet d’analyser la temporalité du sous-corpus francophone. Cette temporalité est double : si, toute l’année, le soldat mort pour la France est l’objet central de la mémoire collective de la Grande Guerre dans ce corpus, le vocabulaire de l’hommage est plus général lors des grandes commémorations, et plus particulier – c’est-à-dire s’intéressant à des Poilus précis - le reste de l’année."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Cette dichotomie s’explique par l’activité qui s’est déployée autour de la base de données des Morts pour la France, publiée par le ministère français de la Défense sur le site web Mémoire des Hommes (http://www.memoiredeshommes.sga.defense.gouv.fr/). Cette base de données recense, à l’origine avec peu de métadonnées descriptives, l’ensemble des 1,3 millions de morts ayant obtenu la mention « Morts pour la France », c’est-à-dire décédé des suites de faits de guerre. Le contenu de cette base de données est d’abord constitué d’images des actes administratifs déclarant une personne morte pour la France. Un module d’indexation a été fourni, permettant de transformer ces images en texte à proprement parler, c’est-à-dire en texte vu comme texte par l’ordinateur. Ce module d’indexation a fait l’objet d’une appropriation par de nombreux internautes, dont beaucoup ont un compte Twitter et utilisent un hashtag particulier (#1j1p). Chaque fiche indexée fait alors l’objet d’un tweet décrivant la personne – la plupart du temps un Poilu – dont elle est l’objet (Clavert, 2018). Les classes 14, 1 et 2 sont représentatives de ce phénomène."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<img src=\"data/VERDUNClavertFigureXX.jpg\"/>"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Les jours de grandes commémorations font l’objet de tweets différents : l’indexation ne s’arrête certes pas, mais les termes utilisés dans de nombreux tweets font surtout l’objet d’un hommage plus général aux soldats morts pour la France. Pour chaque 11 novembre, pour la commémoration du centenaire de la bataille de Verdun de février 2016 et pour le centenaire de la bataille de la Somme le 1er juillet 2016, les termes de l’hommage aux Poilus sont bien plus généralistes."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Toutefois, une exception est présente : la commémoration franco-allemande de la bataille de Verdun, en mai 2016. Les deux classes les plus représentatives touchent à un vocabulaire bien différent : classes 7 (tombe, courir, cimetière) et 10 (concert, black, annulé). La classification des tweets par thèmes et la temporalisation de ces classes confirme ainsi cette anomalie, déjà constatée lors de l’analyse de la temporalité générale révélée par notre base de données de tweets (figure 1), qu’est la commémoration franco-allemande du Centenaire de la bataille de Verdun."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Bibliographie"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<div class=\"cite2c-biblio\"></div><cite data-cite=\"7009778/GBFQ2FF7\"></cite>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.725023Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.724411Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.728891Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.729273Z"
+    }
+   },
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'df_tweet' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-1-167d90a713c9>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0;31m#look at the unique values for the geolocalisation\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0;31m#latitude\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 3\u001b[0;31m \u001b[0mdf_tweet\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'geo_lat'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mvalue_counts\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m: name 'df_tweet' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "#look at the unique values for the geolocalisation\n",
+    "#latitude\n",
+    "df_tweet['geo_lat'].value_counts()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.731986Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.731413Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.735607Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.735997Z"
+    }
+   },
+   "outputs": [
+    {
+     "ename": "NameError",
+     "evalue": "name 'df_tweet' is not defined",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m                                 Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-1-da72abad87da>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0;31m#look at the unique values for the geolocalisation\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0;31m#longitude\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 3\u001b[0;31m \u001b[0mdf_tweet\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'geo_long'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mvalue_counts\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;31mNameError\u001b[0m: name 'df_tweet' is not defined"
+     ]
+    }
+   ],
+   "source": [
+    "#look at the unique values for the geolocalisation\n",
+    "#longitude\n",
+    "df_tweet['geo_long'].value_counts()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.739309Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.738766Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.775022Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.775390Z"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "from ipywidgets import IntSlider\n",
+    "# the slider has an attribute (trait called value)\n",
+    "slider = IntSlider(value=50)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.779237Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.778623Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.781329Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.781699Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "081f559709ef4d03a66e428bbdad32f7",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "IntSlider(value=50)"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "slider"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 14,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.785208Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.784456Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.786511Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.786884Z"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "# python <=> UI \n",
+    "# visual reprensation reflets change in python object and vice versa\n",
+    "slider.value = 70"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.793304Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.792769Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.794987Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.795651Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "70"
+      ]
+     },
+     "execution_count": 1,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "slider.value"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Display the value but not listening to the change"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.801840Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.800327Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.805234Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.805603Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "f547cb4512f84a06b6f6e8cb4a3bf1e0",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "HTML(value=\"The slider's value is <b>70</b>\")"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "from ipywidgets import HTML\n",
+    "text = HTML(\"The slider's value is <b>{}</b>\".format(slider.value))\n",
+    "text"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Listening to the changes"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.809411Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.808774Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.811047Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.811416Z"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "application/vnd.jupyter.widget-view+json": {
+       "model_id": "f547cb4512f84a06b6f6e8cb4a3bf1e0",
+       "version_major": 2,
+       "version_minor": 0
+      },
+      "text/plain": [
+       "HTML(value=\"The slider's value is <b>70</b>\")"
+      ]
+     },
+     "metadata": {},
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "from ipywidgets import HTML\n",
+    "def update_html(change):\n",
+    "    text.value = \"The slider's value is <b>{}</b>\".format(slider.value)\n",
+    "\n",
+    "#but to have a dynamic update, need to use the observe\n",
+    "#execute a callback whenever the slider value is changed\n",
+    "slider.observe(update_html, 'value')\n",
+    "text"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The widget ecosystem:\n",
+    "- ipywidgets (core UI controls)\n",
+    "- bqplot (2D plotting develop at Bloomberg)\n",
+    "- pythreejs, ipyvolume (3d plotting)\n",
+    "- ipyleaflet (maps)\n",
+    "- voila"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "\n",
+    "\n",
+    "Plotting library built on top of the widget ecosystem"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {
+    "execution": {
+     "iopub.execute_input": "2020-10-16T09:46:06.814674Z",
+     "iopub.status.busy": "2020-10-16T09:46:06.814154Z",
+     "iopub.status.idle": "2020-10-16T09:46:06.822175Z",
+     "shell.execute_reply": "2020-10-16T09:46:06.822565Z"
+    }
+   },
+   "outputs": [
+    {
+     "ename": "ModuleNotFoundError",
+     "evalue": "No module named 'bqplot'",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mModuleNotFoundError\u001b[0m                       Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-1-0513f699c4e8>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[1;32m      1\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mnumpy\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0mnp\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      2\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 3\u001b[0;31m \u001b[0;32mfrom\u001b[0m \u001b[0mbqplot\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0mLinearScale\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mScatter\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mFigure\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      4\u001b[0m \u001b[0;32mfrom\u001b[0m \u001b[0mbqplot_extra\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mregression_lines\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0;34m*\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mModuleNotFoundError\u001b[0m: No module named 'bqplot'"
+     ]
+    }
+   ],
+   "source": [
+    "import numpy as np\n",
+    "\n",
+    "from bqplot import LinearScale, Scatter, Figure\n",
+    "from bqplot_extra.regression_lines import *\n",
+    "\n",
+    "#Styles for the bqplot lines and scatters\n",
+    "line_style = {'colors':['magenta'], 'stroke_width': 3}\n",
+    "scatter_style = {'colors':['white'], 'stroke': black}\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "cite2c": {
+   "citations": {
+    "7009778/7UUQ8NJR": {
+     "URL": "http://www.cairn.info/resume.php?ID_ARTICLE=HP_022_0050",
+     "author": [
+      {
+       "family": "Patin",
+       "given": "Nicolas"
+      }
+     ],
+     "container-title": "Histoire@Politique",
+     "id": "7009778/7UUQ8NJR",
+     "issue": "22",
+     "issued": {
+      "day": 22,
+      "month": 10,
+      "year": 2014
+     },
+     "language": "fr",
+     "page": "50-68",
+     "page-first": "50",
+     "shortTitle": "La Grande Guerre",
+     "title": "La Grande Guerre : un angle mort de l'histoire allemande ?",
+     "title-short": "La Grande Guerre",
+     "type": "article-journal"
+    },
+    "7009778/E9SGWNY8": {
+     "URL": "http://swcarpentry.github.io/shell-novice/",
+     "accessed": {
+      "day": 8,
+      "month": 7,
+      "year": 2019
+     },
+     "id": "7009778/E9SGWNY8",
+     "title": "The Unix Shell",
+     "type": "article"
+    },
+    "7009778/GBFQ2FF7": {
+     "ISBN": "978-2-84016-285-8",
+     "author": [
+      {
+       "family": "Clavert",
+       "given": "Frédéric"
+      }
+     ],
+     "collection-title": "Intelligences numériques",
+     "container-title": "Temps et temporalités du web",
+     "editor": [
+      {
+       "family": "Schafer",
+       "given": "Valérie"
+      }
+     ],
+     "event-place": "Nanterre",
+     "id": "7009778/GBFQ2FF7",
+     "issued": {
+      "season": "avril",
+      "year": 2018
+     },
+     "language": "French",
+     "page": "113-134",
+     "page-first": "113",
+     "publisher": "Presses universitaires de Paris Nanterre",
+     "publisher-place": "Nanterre",
+     "title": "Temporalités du Centenaire de la Grande Guerre sur Twitter",
+     "type": "chapter"
+    },
+    "7009778/TSIQRMTK": {
+     "ISBN": "1-84467-185-2",
+     "author": [
+      {
+       "family": "Moretti",
+       "given": "Franco"
+      }
+     ],
+     "id": "7009778/TSIQRMTK",
+     "issued": {
+      "day": 17,
+      "month": 9,
+      "year": 2007
+     },
+     "number-of-pages": "119",
+     "publisher": "Verso",
+     "shortTitle": "Graphs, Maps, Trees",
+     "title": "Graphs, Maps, Trees: Abstract Models for Literary History",
+     "title-short": "Graphs, Maps, Trees",
+     "type": "book"
+    },
+    "7009778/VHWHSPDV": {
+     "URL": "http://swcarpentry.github.io/shell-novice/",
+     "accessed": {
+      "day": 8,
+      "month": 7,
+      "year": 2019
+     },
+     "id": "7009778/VHWHSPDV",
+     "title": "The Unix Shell",
+     "type": "webpage"
+    }
+   }
+  },
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.0"
+  },
+  "toc": {
+   "base_numbering": 1,
+   "nav_menu": {},
+   "number_sections": true,
+   "sideBar": true,
+   "skip_h1_title": false,
+   "title_cell": "Table of Contents",
+   "title_sidebar": "Contents",
+   "toc_cell": false,
+   "toc_position": {
+    "height": "calc(100% - 180px)",
+    "left": "10px",
+    "top": "150px",
+    "width": "288px"
+   },
+   "toc_section_display": true,
+   "toc_window_display": true
+  },
+  "widgets": {
+   "application/vnd.jupyter.widget-state+json": {
+    "state": {
+     "081f559709ef4d03a66e428bbdad32f7": {
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "1.5.0",
+      "model_name": "IntSliderModel",
+      "state": {
+       "_dom_classes": [],
+       "_model_module": "@jupyter-widgets/controls",
+       "_model_module_version": "1.5.0",
+       "_model_name": "IntSliderModel",
+       "_view_count": null,
+       "_view_module": "@jupyter-widgets/controls",
+       "_view_module_version": "1.5.0",
+       "_view_name": "IntSliderView",
+       "continuous_update": true,
+       "description": "",
+       "description_tooltip": null,
+       "disabled": false,
+       "layout": "IPY_MODEL_13d3388e78e8427c8e2c3fd1d03c982e",
+       "max": 100,
+       "min": 0,
+       "orientation": "horizontal",
+       "readout": true,
+       "readout_format": "d",
+       "step": 1,
+       "style": "IPY_MODEL_1d8bab2678cd43ccbf4262fd14df4b3d",
+       "value": 70
+      }
+     },
+     "13d3388e78e8427c8e2c3fd1d03c982e": {
+      "model_module": "@jupyter-widgets/base",
+      "model_module_version": "1.2.0",
+      "model_name": "LayoutModel",
+      "state": {
+       "_model_module": "@jupyter-widgets/base",
+       "_model_module_version": "1.2.0",
+       "_model_name": "LayoutModel",
+       "_view_count": null,
+       "_view_module": "@jupyter-widgets/base",
+       "_view_module_version": "1.2.0",
+       "_view_name": "LayoutView",
+       "align_content": null,
+       "align_items": null,
+       "align_self": null,
+       "border": null,
+       "bottom": null,
+       "display": null,
+       "flex": null,
+       "flex_flow": null,
+       "grid_area": null,
+       "grid_auto_columns": null,
+       "grid_auto_flow": null,
+       "grid_auto_rows": null,
+       "grid_column": null,
+       "grid_gap": null,
+       "grid_row": null,
+       "grid_template_areas": null,
+       "grid_template_columns": null,
+       "grid_template_rows": null,
+       "height": null,
+       "justify_content": null,
+       "justify_items": null,
+       "left": null,
+       "margin": null,
+       "max_height": null,
+       "max_width": null,
+       "min_height": null,
+       "min_width": null,
+       "object_fit": null,
+       "object_position": null,
+       "order": null,
+       "overflow": null,
+       "overflow_x": null,
+       "overflow_y": null,
+       "padding": null,
+       "right": null,
+       "top": null,
+       "visibility": null,
+       "width": null
+      }
+     },
+     "159a5d3eb0e74f88b30fd46e32402945": {
+      "model_module": "@jupyter-widgets/base",
+      "model_module_version": "1.2.0",
+      "model_name": "LayoutModel",
+      "state": {
+       "_model_module": "@jupyter-widgets/base",
+       "_model_module_version": "1.2.0",
+       "_model_name": "LayoutModel",
+       "_view_count": null,
+       "_view_module": "@jupyter-widgets/base",
+       "_view_module_version": "1.2.0",
+       "_view_name": "LayoutView",
+       "align_content": null,
+       "align_items": null,
+       "align_self": null,
+       "border": null,
+       "bottom": null,
+       "display": null,
+       "flex": null,
+       "flex_flow": null,
+       "grid_area": null,
+       "grid_auto_columns": null,
+       "grid_auto_flow": null,
+       "grid_auto_rows": null,
+       "grid_column": null,
+       "grid_gap": null,
+       "grid_row": null,
+       "grid_template_areas": null,
+       "grid_template_columns": null,
+       "grid_template_rows": null,
+       "height": null,
+       "justify_content": null,
+       "justify_items": null,
+       "left": null,
+       "margin": null,
+       "max_height": null,
+       "max_width": null,
+       "min_height": null,
+       "min_width": null,
+       "object_fit": null,
+       "object_position": null,
+       "order": null,
+       "overflow": null,
+       "overflow_x": null,
+       "overflow_y": null,
+       "padding": null,
+       "right": null,
+       "top": null,
+       "visibility": null,
+       "width": null
+      }
+     },
+     "1d8bab2678cd43ccbf4262fd14df4b3d": {
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "1.5.0",
+      "model_name": "SliderStyleModel",
+      "state": {
+       "_model_module": "@jupyter-widgets/controls",
+       "_model_module_version": "1.5.0",
+       "_model_name": "SliderStyleModel",
+       "_view_count": null,
+       "_view_module": "@jupyter-widgets/base",
+       "_view_module_version": "1.2.0",
+       "_view_name": "StyleView",
+       "description_width": "",
+       "handle_color": null
+      }
+     },
+     "83d8a3b4796f4621b84bbe3b4c689bea": {
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "1.5.0",
+      "model_name": "DescriptionStyleModel",
+      "state": {
+       "_model_module": "@jupyter-widgets/controls",
+       "_model_module_version": "1.5.0",
+       "_model_name": "DescriptionStyleModel",
+       "_view_count": null,
+       "_view_module": "@jupyter-widgets/base",
+       "_view_module_version": "1.2.0",
+       "_view_name": "StyleView",
+       "description_width": ""
+      }
+     },
+     "f547cb4512f84a06b6f6e8cb4a3bf1e0": {
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "1.5.0",
+      "model_name": "HTMLModel",
+      "state": {
+       "_dom_classes": [],
+       "_model_module": "@jupyter-widgets/controls",
+       "_model_module_version": "1.5.0",
+       "_model_name": "HTMLModel",
+       "_view_count": null,
+       "_view_module": "@jupyter-widgets/controls",
+       "_view_module_version": "1.5.0",
+       "_view_name": "HTMLView",
+       "description": "",
+       "description_tooltip": null,
+       "layout": "IPY_MODEL_159a5d3eb0e74f88b30fd46e32402945",
+       "placeholder": "​",
+       "style": "IPY_MODEL_83d8a3b4796f4621b84bbe3b4c689bea",
+       "value": "The slider's value is <b>70</b>"
+      }
+     }
+    },
+    "version_major": 2,
+    "version_minor": 0
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
