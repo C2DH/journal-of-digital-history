@@ -1,0 +1,123 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://journaldigitalhistory.eu/schemas/abstract.json",
+    "type": "object",
+    "title": "Schema to validate abstract submissions",
+    "description": "Abstracts are stored as JSON",
+    "default": {},
+    "examples": [
+        {
+            "title": "article title",
+            "abstract": "article abstract",
+            "authors": [
+                {
+                    "firstname": "John",
+                    "lastname": "Foo",
+                    "affiliation": "University of Minnesota"
+                }
+            ]
+        }
+    ],
+    "required": [
+        "title",
+        "abstract",
+        "authors"
+    ],
+    "properties": {
+        "title": {
+            "$id": "#/properties/title",
+            "type": "string",
+            "title": "The title schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "article title"
+            ]
+        },
+        "abstract": {
+            "$id": "#/properties/abstract",
+            "type": "string",
+            "title": "The abstract schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "article abstract"
+            ]
+        },
+        "authors": {
+            "$id": "#/properties/authors",
+            "type": "array",
+            "title": "The authors schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": [],
+            "examples": [
+                [
+                    {
+                        "firstname": "John",
+                        "lastname": "Foo",
+                        "affiliation": "University of Minnesota"
+                    }
+                ]
+            ],
+            "additionalItems": true,
+            "items": {
+                "$id": "#/properties/authors/items",
+                "anyOf": [
+                    {
+                        "$id": "#/properties/authors/items/anyOf/0",
+                        "type": "object",
+                        "title": "The first anyOf schema",
+                        "description": "An explanation about the purpose of this instance.",
+                        "default": {},
+                        "examples": [
+                            {
+                                "firstname": "John",
+                                "lastname": "Foo",
+                                "affiliation": "University of Minnesota"
+                            }
+                        ],
+                        "required": [
+                            "firstname",
+                            "lastname",
+                            "affiliation"
+                        ],
+                        "properties": {
+                            "firstname": {
+                                "$id": "#/properties/authors/items/anyOf/0/properties/firstname",
+                                "type": "string",
+                                "title": "The firstname schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "John"
+                                ]
+                            },
+                            "lastname": {
+                                "$id": "#/properties/authors/items/anyOf/0/properties/lastname",
+                                "type": "string",
+                                "title": "The lastname schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "Foo"
+                                ]
+                            },
+                            "affiliation": {
+                                "$id": "#/properties/authors/items/anyOf/0/properties/affiliation",
+                                "type": "string",
+                                "title": "The affiliation schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "University of Minnesota"
+                                ]
+                            }
+                        },
+                        "additionalProperties": true
+                    }
+                ]
+            }
+        }
+    },
+    "additionalProperties": true
+}
