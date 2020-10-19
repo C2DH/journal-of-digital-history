@@ -1,0 +1,14 @@
+$primary: red;
+
+div.ArticleCell {
+  position: relative;
+}
+
+div.ParagraphNumber {
+  position: absolute;
+  left: -35px;
+  width: 20px;
+  text-align: right;
+  font-family: 'Fira mono', monospace;
+  color: lighten($primary, 20%);
+}
