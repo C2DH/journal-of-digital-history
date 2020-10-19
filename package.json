@@ -13,6 +13,7 @@
     "@types/react": "^16.9.46",
     "@types/react-dom": "^16.9.8",
     "bootstrap": "^4.5.0",
+    "citation-js": "^0.5.0-alpha.7",
     "history": "^5.0.0",
     "i18next": "^19.8.2",
     "lodash.find": "^4.6.0",
