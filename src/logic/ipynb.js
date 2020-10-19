@@ -43,7 +43,9 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
     } else if (cell.cell_type === 'code') {
       paragraphs.push(new ArticleCell({
         type: 'code',
-        content: cell.source.join('\n\n')
+        content: cell.source.join(''),
+        idx,
+        outputs: cell.outputs,
       }))
     }
   })
