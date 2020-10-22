@@ -60,6 +60,30 @@
             "minLength": 100,
             "maxLength": 1000
         },
+        "datasetUrl": {
+            "$id": "#/properties/datasetUrl",
+            "type": "string",
+            "title": "The dataset url schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "dataset url"
+            ],
+            "minLength": 7,
+            "maxLength": 500,
+            "pattern": "^(https?|http?)://"
+        },
+        "datasetLabel": {
+            "$id": "#/properties/datasetLabel",
+            "type": "string",
+            "title": "The dataset label schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "dataset label, comment etc?"
+            ],
+            "maxLength": 500
+        },
         "authors": {
             "$id": "#/properties/authors",
             "type": "array",

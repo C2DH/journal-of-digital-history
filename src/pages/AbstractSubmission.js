@@ -12,13 +12,20 @@ const AbstractSubmissionPreview = ({ results }) => {
   return (
     <div>
       <h3>{t('pages.abstractSubmission.preview')}</h3>
-      <div className="p-3 border shadow" style={{
+      <div className="p-3 border rounded shadow" style={{
         backgroundColor: 'var(--gray-100)',
-        borderRadius: '4px'
+        maxHeight: '50vh',
+        overflow: 'scroll'
       }}>
       {results.map(({ value, isValid=false, label }) => (
-        <div>
-          <Badge variant={ isValid ? 'success': 'transparent' } pill>{t(label)}</Badge><p>{value}</p>
+        <div >
+          <Badge variant={ isValid ? 'success': 'transparent' } pill>{t(label)}</Badge>
+          <p style={{
+            height: '25px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}>{value}</p>
         </div>
       ))}
       </div>
@@ -93,7 +100,12 @@ export default function AbstractSubmission(props) {
             <hr />
           </Col>
           <Col md={4}>
+            <div style={{
+              position: 'sticky',
+              top: '120px'
+            }}>
             <AbstractSubmissionPreview results={results} /> 
+            </div>
           </Col>
         </Row>
         

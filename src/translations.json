@@ -26,7 +26,8 @@
           "ContactPointSectionTitle": "Contact",
           "DataSectionTitle": "Tools, Code & Data",
           "AuthorsSectionTitle": "Authors",
-          "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias"
+          "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias",
+          "datasetDetailsUrl": "URL"
         },
         "home": {
           "latestIssues": "Latest issues",
@@ -69,7 +70,9 @@
           "ContactPointSectionTitle": "Contact",
           "DataSectionTitle": "Tools, Code & Data",
           "AuthorsSectionTitle": "Authors",
-          "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias"
+          "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias",
+          "datasetDetailsUrl": "Link URL",
+          "datasetDetailsLabel": "Link description, license (where applicable)"
         },
         "home": {
           "latestIssues": "Latest issues",
@@ -77,7 +80,8 @@
         }
       },
       "actions": {
-        "logout": "(log out)"
+        "logout": "(log out)",
+        "addLink": "Add link"
       },
       "numbers": {
         "maxAllowedCharactersWithCount": "Maximum {{count}} characters allowed",

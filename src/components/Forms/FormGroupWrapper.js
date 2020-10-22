@@ -7,9 +7,10 @@ import { getValidatorResult, getPartialSchema } from '../../logic/validation'
 const FormGroupWrapper = ({
   id,
   schemaId, as, type, placeholder, label, children, 
-  ignoreWhenLengthIslessThan, rows, setFormErrors,
+  ignoreWhenLengthIslessThan = 1, rows, setFormErrors,
+  initialValue,
   onChange,
-}) => {
+}= {}) => {
   const { t } = useTranslation()
   const schema = getPartialSchema(schemaId)
   const [isValid, setIsValid] = useState(null)
@@ -51,6 +52,7 @@ const FormGroupWrapper = ({
         onChange={handleChange}
         isInvalid={isValid === false}
         isValid={isValid === true} 
+        value={initialValue}
       />
       {schema.maxLength && (
         <Form.Text className="text-muted">
