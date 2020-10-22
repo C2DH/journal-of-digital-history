@@ -32,7 +32,9 @@
             "default": "",
             "examples": [
                 "article title"
-            ]
+            ],
+            "minLength": 10,
+            "maxLength": 250
         },
         "abstract": {
             "$id": "#/properties/abstract",
@@ -42,7 +44,21 @@
             "default": "",
             "examples": [
                 "article abstract"
-            ]
+            ],
+            "minLength": 100,
+            "maxLength": 1000
+        },
+        "datasetDetails": {
+            "$id": "#/properties/datasetDetails",
+            "type": "string",
+            "title": "The datasetDetails schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "datasetDetails"
+            ],
+            "minLength": 100,
+            "maxLength": 1000
         },
         "authors": {
             "$id": "#/properties/authors",
@@ -64,7 +80,7 @@
                 "$id": "#/properties/authors/items",
                 "anyOf": [
                     {
-                        "$id": "#/properties/authors/items/anyOf/0",
+                        "$id": "#/properties/authors/items/anyOf/author",
                         "type": "object",
                         "title": "The first anyOf schema",
                         "description": "An explanation about the purpose of this instance.",
@@ -83,18 +99,31 @@
                         ],
                         "properties": {
                             "firstname": {
-                                "$id": "#/properties/authors/items/anyOf/0/properties/firstname",
+                                "$id": "#/properties/authors/items/anyOf/author/properties/firstname",
                                 "type": "string",
                                 "title": "The firstname schema",
                                 "description": "An explanation about the purpose of this instance.",
                                 "default": "",
                                 "examples": [
                                     "John"
-                                ]
+                                ],
+                                "maxLength": 50
                             },
                             "lastname": {
-                                "$id": "#/properties/authors/items/anyOf/0/properties/lastname",
+                                "$id": "#/properties/authors/items/anyOf/author/properties/lastname",
                                 "type": "string",
+                                "title": "The lastname schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "Foo"
+                                ],
+                                "maxLength": 100
+                            },
+                            "lastname": {
+                                "$id": "#/properties/authors/items/anyOf/author/properties/username",
+                                "type": "string",
+                                "pattern": "^[a-z-0-9]{6,}$",
                                 "title": "The lastname schema",
                                 "description": "An explanation about the purpose of this instance.",
                                 "default": "",
@@ -102,8 +131,19 @@
                                     "Foo"
                                 ]
                             },
+                            "firstname": {
+                                "$id": "#/properties/authors/items/anyOf/author/properties/email",
+                                "type": "string",
+                                "pattern": "^[a-z0-9\\._%+!$&*=^|~#%{}\/\\-]+@([a-z0-9\\-]+\\.){1,}([a-z]{2,22})$",
+                                "title": "Author Email",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "John@uni.lu"
+                                ]
+                            },
                             "affiliation": {
-                                "$id": "#/properties/authors/items/anyOf/0/properties/affiliation",
+                                "$id": "#/properties/authors/items/anyOf/author/properties/affiliation",
                                 "type": "string",
                                 "title": "The affiliation schema",
                                 "description": "An explanation about the purpose of this instance.",

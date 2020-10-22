@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Nav, Navbar, Container, Row, Col } from 'react-bootstrap'
+import { Nav, Navbar, Container } from 'react-bootstrap'
 import SwitchLanguage from '../SwitchLanguage'
 import SwitchLanguageLink from '../SwitchLanguage/SwitchLanguageLink'
 import LangNavLink from '../LangNavLink'
@@ -19,7 +19,7 @@ const PrimaryRoutes = [
 
 const MobileHeader = ({ langs }) => {
   const { t, i18n } = useTranslation()
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
   return (
     <Nav className={`${styles.MobileHeaderNav} d-block d-sm-none`}>
       <div className={styles.MobileHeaderToggler}
@@ -48,8 +48,8 @@ const MobileHeader = ({ langs }) => {
         ))}
         </div>
         <div className="m-4 pb-4 d-flex align-items-center">
-          <div className="w-50"><img src={uniluLogo} style={{width:'200px'}}/></div>
-          <div className="w-50"><img src={deGruyterLogo} style={{width:'150px'}}/></div>
+          <div className="w-50"><img alt='C2DH - University of Luxembourg' src={uniluLogo} style={{width:'200px'}}/></div>
+          <div className="w-50"><img alt='De Gruyter Publisher' src={deGruyterLogo} style={{width:'150px'}}/></div>
         </div>
       </div>
     </Nav>

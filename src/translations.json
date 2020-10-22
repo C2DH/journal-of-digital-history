@@ -10,14 +10,23 @@
       },
       "pages": {
         "abstractSubmission": {
-          "title": "Our 3-step submission process",
+          "title": "Envoyez-nous un article",
           "subheading": "...",
           "authorEmail": "addresse email",
+          "authorEmailCheck": "Repeter adresse email",
+          "authorFirstName": "Prènom",
+          "authorLastName": "Nom",
           "authorUsername": "nom utilisateur",
+          "articleContact": "Contact info",
           "articleTitle": "Title",
           "articleAbstract": "Abstract",
           "articleDataset": "Davaverse url",
-          "authorAffiliation": "Affiliation"
+          "authorAffiliation": "Affiliation",
+          "preview": "Preview",
+          "ContactPointSectionTitle": "Contact",
+          "DataSectionTitle": "Tools, Code & Data",
+          "AuthorsSectionTitle": "Authors",
+          "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias"
         },
         "home": {
           "latestIssues": "Latest issues",
@@ -26,6 +35,10 @@
       },
       "actions": {
         "logout": "(se deconnecter)"
+      },
+      "numbers": {
+        "maxAllowedCharactersWithCount": "Maximum {{count}} characters allowed",
+        "currentCharactersWithCount": "(now: <b>{{count}}</b> characters counted)"
       }
     }
   },
@@ -40,14 +53,23 @@
       },
       "pages": {
         "abstractSubmission": {
-          "title": "Our 3-step submission process",
+          "title": "Abstract submission",
           "subheading": "...",
-          "authorEmail": "addresse email",
+          "authorEmail": "email address",
+          "authorEmailCheck": "email address, again",
+          "authorFirstName": "First name",
+          "authorLastName": "Last name",
           "authorUsername": "nom utilisateur",
+          "articleContact": "Contact info",
           "articleTitle": "Title",
           "articleAbstract": "Abstract",
           "articleDataset": "Davaverse url",
-          "authorAffiliation": "Affiliation"
+          "authorAffiliation": "Affiliation",
+          "preview": "Preview",
+          "ContactPointSectionTitle": "Contact",
+          "DataSectionTitle": "Tools, Code & Data",
+          "AuthorsSectionTitle": "Authors",
+          "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias"
         },
         "home": {
           "latestIssues": "Latest issues",
@@ -56,6 +78,10 @@
       },
       "actions": {
         "logout": "(log out)"
+      },
+      "numbers": {
+        "maxAllowedCharactersWithCount": "Maximum {{count}} characters allowed",
+        "currentCharactersWithCount": "(now: <b>{{count}}</b> characters counted)"
       }
     }
   }

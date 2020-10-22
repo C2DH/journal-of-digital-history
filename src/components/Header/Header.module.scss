@@ -1,6 +1,12 @@
 .Navbar{
   background: transparent;
 }
+$breakpoint-tablet: 768px;
+@media (min-width: $breakpoint-tablet) {
+  .Navbar{
+    background:var(--primary);
+  }
+}
 .BrandImage{
   background-color: var(--primary);
   height: 50px;
