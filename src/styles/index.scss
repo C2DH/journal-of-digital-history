@@ -9,6 +9,7 @@
   --border-color: rgba(255, 255, 255, 0.5);
   --modal-z-index: 90;
   --modal-close-z-index: 91;
+  --accent: #{map-get($theme-colors, 'accent')};
   --secondary-rgb: #{map-get($theme-colors, 'secondary')};
   @each $bp, $value in $grays {
     --gray-#{$bp}: #{$value};
@@ -50,6 +51,9 @@ html,
    background: 'transparent';
 }
 
+.rounded{
+  border-radius: .25rem !important;
+}
 .navbar .nav-link{
   font-size: .9rem;
   color: white;

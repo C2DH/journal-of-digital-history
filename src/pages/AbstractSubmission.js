@@ -1,62 +1,115 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Container, Form, Button, Col, Row } from "react-bootstrap"
+import { Container, Form, Button, Col, Row, Jumbotron,Badge } from 'react-bootstrap'
 import { useStore } from '../store'
+import FormGroupWrapper from '../components/Forms/FormGroupWrapper'
+import FormAuthorsList from '../components/Forms/FormAuthorsList'
+import FormAuthorContact from '../components/Forms/FormAuthorContact'
+import FormAbstractDataset from '../components/Forms/FormAbstractDataset'
 
-export default function AbstractSubmission() {
+const AbstractSubmissionPreview = ({ results }) => {
   const { t } = useTranslation()
+  return (
+    <div>
+      <h3>{t('pages.abstractSubmission.preview')}</h3>
+      <div className="p-3 border rounded shadow" style={{
+        backgroundColor: 'var(--gray-100)',
+        maxHeight: '50vh',
+        overflow: 'scroll'
+      }}>
+      {results.map(({ value, isValid=false, label }) => (
+        <div >
+          <Badge variant={ isValid ? 'success': 'transparent' } pill>{t(label)}</Badge>
+          <p style={{
+            height: '25px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}>{value}</p>
+        </div>
+      ))}
+      </div>
+    </div>
+  )
+}
+
+export default function AbstractSubmission(props) {
+  const { t } = useTranslation()
+  const [ results, setResults ] = useState([
+    { id: 'title', value: null, label: 'pages.abstractSubmission.articleTitle' },
+    { id: 'abstract', value: null, label: 'pages.abstractSubmission.articleAbstract' },
+    { id: 'contact', value: null, label: 'pages.abstractSubmission.articleContact' },
+  ])
+
   useEffect(() => {
     // Update the document title using the browser API
     useStore.setState({ backgroundColor: 'var(--light)' });
   });
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.info('handleSubmit', results)
+  }
+
+  console.info('changed', props)
+  const handleChange = ({ id, value, isValid }) => {
+    console.info(id, value, isValid)
+    setResults(results.map((d) => {
+      if (d.id === id) {
+        return { ...d, value, isValid }
+      }
+      return { ...d }
+    }))
+  }
   return (
-    <Container className="page">
+    <Container className="page mb-5">
       <h1>{t('pages.abstractSubmission.title')}</h1>
-      <h2 className="mb-5">{t('pages.abstractSubmission.subheading')}</h2>
-      <Form>
+      <hr />
+      <Jumbotron className="pt-4 pb-2 px-4">
+        <h3>Call for paper: <b>The Digital Dilemma under the lens of history and historians</b></h3>
+        <p>
+        This is a simple hero unit, a simple jumbotron-style component for calling
+          extra attention to featured content or information.
+          <br />
+          <Badge pill variant="secondary">Due date: Dec. 2020</Badge>
+        </p>
+      </Jumbotron>
+      <hr />
+      <Form noValidate onSubmit={handleSubmit}>
         <Row>
-          <Col md={6}>
-          <Form.Group controlId="formEmail">
-            <Form.Label>{t('pages.abstractSubmission.articleDataset')}</Form.Label>
-            <Form.Control type="url" placeholder="dataverse public url" />
-            <Form.Text className="text-muted">
-              Please check our <a href="#guidelines">guidelines</a>
-            </Form.Text>
-          </Form.Group>
-            <Form.Group controlId="formArticleTitle">
-              <Form.Label>{t('pages.abstractSubmission.articleTitle')}</Form.Label>
-              <Form.Control as="textarea" placeholder="Title" />
-              <Form.Text className="text-muted">
-                max 200 characters  <code>;)</code>
-              </Form.Text>
-            </Form.Group>
-            <Form.Group controlId="formArticleAbstract">
-              <Form.Label>{t('pages.abstractSubmission.articleAbstract')}</Form.Label>
-              <Form.Control as="textarea" placeholder="Title" rows="10"/>
-              <Form.Text className="text-muted">
-                max 1000 chars
-              </Form.Text>
-            </Form.Group>
+          <Col md={8}>
+            <h3>A title and an abstract</h3>
+            <FormGroupWrapper id='title' as='textarea' schemaId='#/properties/title' rows={3} 
+              label='pages.abstractSubmission.articleTitle'
+              ignoreWhenLengthIslessThan={1}
+              onChange={handleChange}
+            />
+            <FormGroupWrapper id='abstract' as='textarea' schemaId='#/properties/abstract' rows={5}
+              label='pages.abstractSubmission.articleAbstract'
+              ignoreWhenLengthIslessThan={1} 
+              onChange={handleChange}
+            />
+            <hr/>
+            <h3>{t('pages.abstractSubmission.ContactPointSectionTitle')}</h3>
+            <FormAuthorContact groupId='contact' onChange={handleChange} />
+            <hr />
+            <h2>{t('pages.abstractSubmission.AuthorsSectionTitle')}</h2>
+            <FormAuthorsList />
+            <hr />
+            <h2>{t('pages.abstractSubmission.DataSectionTitle')}</h2>
+            <FormAbstractDataset />
+            <hr />
           </Col>
-          <Col md={6}>
-            <Form.Group controlId="formEmail">
-              <Form.Label>{t('pages.abstractSubmission.authorEmail')}</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
-              <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-              </Form.Text>
-            </Form.Group>
-            <Form.Group controlId="formEmail">
-              <Form.Label>{t('pages.abstractSubmission.authorUsername')}</Form.Label>
-              <Form.Control type="email" placeholder="Enter username" />
-              <Form.Text className="text-muted">
-                use a-z characters only, e.g. <code>bobsinclair</code>
-              </Form.Text>
-            </Form.Group>
+          <Col md={4}>
+            <div style={{
+              position: 'sticky',
+              top: '120px'
+            }}>
+            <AbstractSubmissionPreview results={results} /> 
+            </div>
           </Col>
         </Row>
         
-        <Button variant="primary" type="submit">
+        <Button variant="primary" size="lg" className="px-4" type="submit">
           Submit
         </Button>
       </Form>

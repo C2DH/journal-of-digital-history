@@ -54,7 +54,7 @@ function LangRoutes() {
         <Article />
       </Route>
       <Route exact path={`${path}/submit`}>
-        <AbstractSubmission/>
+        <AbstractSubmission />
       </Route>
       <Route path={`${path}*`}>
         <NotFound />

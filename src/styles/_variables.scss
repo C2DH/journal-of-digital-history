@@ -6,6 +6,7 @@ $theme-colors: (
   'primary': #00f5d4,
   'secondary': #222322,
   'gray': #ececec,
+  'accent': #9b5de5,
 );
 // 9b5de5
 // f15bb5
@@ -36,7 +37,7 @@ $font-family-sans-serif: 'Fira sans', system-ui, -apple-system, 'Segoe UI', Robo
 
 $font-size-base: 1rem;
 
-$border-radius: 0;
+$border-radius: .1rem;
 
 $navbar-dark-color: white;
 $navbar-dark-hover-color: map-get($theme-colors, 'primary');
