@@ -17,12 +17,14 @@ const FormAbstractGenericSortableList = ({ onChange, ItemClass, listItemComponen
   ])
 
   const handleChange = ({item}) => {
-    setItems(items.map((d, i) => {
+    const _items = items.map((d, i) => {
       if (d.id === item.id) {
         return new ItemClass({...item})
       }
       return new ItemClass({...d})
-    }))
+    })
+    setItems(_items)
+    onChange({ items: _items})
   }
 
   const addNewItem = () => {
