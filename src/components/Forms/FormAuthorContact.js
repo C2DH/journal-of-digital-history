@@ -2,66 +2,83 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form, Col, Row } from 'react-bootstrap'
 import FormGroupWrapper from './FormGroupWrapper'
+import Author from '../../models/Author'
 
 
-const FormAuthorContact = ({ groupId, onChange }) => {
+const FormAuthorContact = ({ onChange }) => {
   const { t } = useTranslation()
-  const [ results, setResults ] = useState([
-    { id: 'contactFirstName', value: null, label: 'pages.abstractSubmission.contactFirstName' },
-    { id: 'contactLastName', value: null, label: 'pages.abstractSubmission.contactLastName' },
-    { id: 'contactEmail', value: null, label: 'pages.abstractSubmission.contactEmail' }
+  const [parts, setParts] = useState([
+    { id: 'firstname', isValid: null },
+    { id: 'lastname', isValid: null },
+    { id: 'email', isValid: null }
   ])
-  
+  const [author, setAuthor] = useState(new Author())
+  const [isAuthorValid, setAuthorIsValid] = useState(null)
   const [repeatEmail, setRepeatEmail] = useState('')
   const [repeatEmailIsValid, setRepeatEmailIsValid] = useState(null)
-  const handleChange = ({ id, value, isValid }) => {
-    const _results = results.map((d) => {
+
+  const handleRepeatEmail = (value) => {
+    setRepeatEmail(value)
+    setRepeatEmailIsValid(author.email === value)
+    onChange({
+      value: author,
+      isValid: isAuthorValid && author.email === value,
+    })
+  }
+
+  const handleChange = ({ id, isValid, value }) => {
+    // handleChangeis triggered whenever one of this component field gets updated.
+    const _parts = parts.map((d) => {
       if (d.id === id) {
         return { ...d, value, isValid }
       }
       return { ...d }
     })
-    const _repeatEmailIsValid = repeatEmail === _results.find(d => d.id === 'contactEmail').value
-    setRepeatEmailIsValid(_repeatEmailIsValid)
-    setResults(_results)
-    // output only if is valid
-    const isGroupValid = _repeatEmailIsValid && !_results.some(d => !d.isValid)
-    console.info('FormAuthorContact handleChange', id, value, isValid, 'group valid', isGroupValid, repeatEmail)
-    
-    if (isGroupValid) {
-      onChange({
-        id: groupId,
-        value: _results.map(d => d.value),
-        isValid: isGroupValid,
-      })
+    // update related field in Author instance
+    const temporaryAuthor = new Author({
+      ...author,
+      [id]: value,
+    })
+    const temporaryAuthorIsValid = _parts.some(d => !d.isValid);
+    // store current state results
+    setParts(_parts)
+    setAuthorIsValid(temporaryAuthorIsValid)
+    setAuthor(temporaryAuthor)
+    // only if email changed
+    if( id === 'email') {
+      setRepeatEmailIsValid(temporaryAuthor.email === repeatEmail)
     }
+    // try to send out the value
+    onChange({
+      value: author,
+      isValid: temporaryAuthorIsValid && temporaryAuthor.email === repeatEmail,
+    })
   }
   return (
     <div>
       <Row>
       <Col>
       <FormGroupWrapper
-        id='contactFirstName'
-        schemaId='#/properties/authors/items/anyOf/author/properties/firstname'
+        schemaId='#/definitions/firstname'
         label='pages.abstractSubmission.authorFirstName' ignoreWhenLengthIslessThan={5}
-        onChange={handleChange}
+        onChange={(field) => handleChange({ id: 'firstname', ...field })}
       />
       </Col>
       <Col>
       <FormGroupWrapper
         id='contactLastName'
-        schemaId='#/properties/authors/items/anyOf/author/properties/lastname'
+        schemaId='#/definitions/lastname'
         label='pages.abstractSubmission.authorLastName' ignoreWhenLengthIslessThan={5}
-        onChange={handleChange}
+        onChange={(field) => handleChange({ id: 'lastname', ...field })}
       />
       </Col>
       </Row>
-      <FormGroupWrapper 
+      <FormGroupWrapper
         id='contactEmail'
         placeholder='your email' type='email'
-        schemaId='#/properties/authors/items/anyOf/author/properties/email'
+        schemaId='#/definitions/email'
         label='pages.abstractSubmission.authorEmail' ignoreWhenLengthIslessThan={5}
-        onChange={handleChange}
+        onChange={(field) => handleChange({ id: 'email', ...field })}
       >
         <Form.Text className="text-muted">
           We'll never share your email with anyone else
@@ -70,14 +87,15 @@ const FormAuthorContact = ({ groupId, onChange }) => {
       <Form.Group>
         <Form.Label>{t('pages.abstractSubmission.authorEmailCheck')} </Form.Label>
         <Form.Control type='email' placeholder='write your email again'
-          onChange={(event) => setRepeatEmail(event.target.value)}
+          onChange={(event) => handleRepeatEmail(event.target.value)}
           isInvalid={repeatEmailIsValid === false}
-          isValid={repeatEmailIsValid === true} 
+          isValid={repeatEmailIsValid === true}
         />
         <Form.Text className="text-muted">
           Note: copy paste is disabled
         </Form.Text>
       </Form.Group>
+      <pre>{JSON.stringify(author)}</pre>
     </div>
   )
 }
