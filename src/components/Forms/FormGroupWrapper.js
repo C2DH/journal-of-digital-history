@@ -5,8 +5,7 @@ import { getValidatorResult, getPartialSchema } from '../../logic/validation'
 
 
 const FormGroupWrapper = ({
-  id,
-  schemaId, as, type, placeholder, label, children, 
+  schemaId, as, type, placeholder, label, children,
   ignoreWhenLengthIslessThan = 1, rows, setFormErrors,
   initialValue,
   onChange,
@@ -23,7 +22,7 @@ const FormGroupWrapper = ({
     if (setFormErrors) {
       setFormErrors({ schemaId, label, pristine: true, errors: []})
     }
-    onChange({ id, value: null })
+    onChange({ value: null })
     setIsValid(null)
     setErrors([])
   }
@@ -43,7 +42,7 @@ const FormGroupWrapper = ({
     }
     setIsValid(result.valid)
     setErrors(result.errors)
-    onChange({ id, value: event.target.value, isValid: result.valid })
+    onChange({ value: event.target.value, isValid: result.valid })
   }
   return (
     <Form.Group controlId={schemaId}>
@@ -51,7 +50,7 @@ const FormGroupWrapper = ({
       <Form.Control as={as} type={type} rows={rows} placeholder={placeholder}
         onChange={handleChange}
         isInvalid={isValid === false}
-        isValid={isValid === true} 
+        isValid={isValid === true}
         value={initialValue}
       />
       {schema.maxLength && (
