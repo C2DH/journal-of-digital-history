@@ -88,7 +88,7 @@
           ],
           "maxLength": 100
       },
-      "URL": {
+      "url": {
         "$id": "#/definitions/url",
         "type": "string",
         "title": "The dataset url schema",
@@ -100,16 +100,35 @@
         "minLength": 7,
         "maxLength": 500,
         "pattern": "^(https?|http?)://"
+      },
+      "orcid": {
+        "$id": "#/definitions/orcid",
+        "type": "string",
+        "title": "The orcid schema",
+        "description": "The ORCID ID is a 16-digit number that is compatible with the ISO Standard (ISO 27729). ORCID IDs will be randomly assigned by the ORCID Registry and will be expressed as a URI.",
+        "default": "",
+        "examples": [
+            "https://orcid.org/0000-0002-0237-2532"
+        ],
+        "minLength": 7,
+        "maxLength": 500,
+        "pattern": "^https://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}$"
       }
     },
     "examples": [
         {
             "title": "article title",
             "abstract": "article abstract",
+            "contact": {
+              "firstname": "John",
+              "lastname": "Foo",
+              "affiliation": "University of Minnesota"
+            },
             "authors": [
                 {
                     "firstname": "John",
                     "lastname": "Foo",
+                    "email": "john.fooooooo@uni.lu",
                     "affiliation": "University of Minnesota"
                 }
             ]
@@ -160,6 +179,8 @@
             "title": "A list of authors",
             "description": "An explanation about the purpose of this instance.",
             "default": [],
+            "minItems": 1,
+            "maxItems": 10,
             "examples": [
                 [
                     {
