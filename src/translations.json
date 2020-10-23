@@ -25,7 +25,7 @@
           "preview": "Preview",
           "ContactPointSectionTitle": "Contact",
           "DataSectionTitle": "Tools, Code & Data",
-          "AuthorsSectionTitle": "Authors",
+          "AuthorsSectionTitle": "Contributors",
           "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias",
           "datasetDetailsUrl": "URL"
         },
@@ -69,7 +69,7 @@
           "preview": "Preview",
           "ContactPointSectionTitle": "Contact",
           "DataSectionTitle": "Tools, Code & Data",
-          "AuthorsSectionTitle": "Authors",
+          "AuthorsSectionTitle": "Contributors",
           "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias",
           "datasetDetailsUrl": "Link URL",
           "datasetDetailsLabel": "Link description, license (where applicable)"
