@@ -29,15 +29,15 @@ const MobileHeader = ({ langs }) => {
         transform: isVisible ? 'translateY(0)' : 'translateY(-100vh)'
       }}>
         <div className="m-4 pb-4 border-bottom">
-        {PrimaryRoutes.map(({to, label}) => (
-          <Nav.Item>
+        {PrimaryRoutes.map(({to, label},i) => (
+          <Nav.Item key={`primary-route-${i}`}>
             <LangNavLink className={styles.MobileHeaderNavLink} to={to} exact>{t(label)}</LangNavLink>
           </Nav.Item>
         ))}
         </div>
         <div className="m-4 pb-4">
-        {langs.map((lang) => (
-          <Nav.Item>
+        {langs.map((lang, i) => (
+          <Nav.Item key={`lang-switch-${i}`}>
             <SwitchLanguageLink
               lang={lang}
               onClick={() => {
@@ -58,7 +58,7 @@ const MobileHeader = ({ langs }) => {
 
 const Header = ({ availableLanguages, isAuthDisabled }) => {
   const { t } = useTranslation()
-  
+
   // console.info('header render with lang:', lang);
   return (
     <Navbar className={styles.Navbar} fixed="top" variant="light" expand="md">
@@ -70,8 +70,8 @@ const Header = ({ availableLanguages, isAuthDisabled }) => {
         <span className="d-md-block d-none">{t('Journal of Digital history')}</span>
       </Navbar.Brand>
       <Nav className="ml-auto d-md-flex d-none">
-        {PrimaryRoutes.map(({to, label}) => (
-          <Nav.Item>
+        {PrimaryRoutes.map(({to, label}, i) => (
+          <Nav.Item key={`primary-route-${i}`}>
             <LangNavLink to={to} exact>{t(label)}</LangNavLink>
           </Nav.Item>
         ))}
