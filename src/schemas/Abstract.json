@@ -5,6 +5,103 @@
     "title": "Schema to validate abstract submissions",
     "description": "Abstracts are stored as JSON",
     "default": {},
+    "definitions": {
+      "title": {
+          "$id": "#/definitions/title",
+          "type": "string",
+          "title": "An usual article title",
+          "description": "The article title",
+          "default": "",
+          "examples": [ "Once Upon a Time in Belval" ],
+          "minLength": 10,
+          "maxLength": 250
+      },
+      "abstract": {
+          "$id": "#/definitions/abstract",
+          "type": "string",
+          "title": "The article abstract",
+          "description": "The article abstract",
+          "default": "",
+          "examples": [
+              "article abstract"
+          ],
+          "minLength": 100,
+          "maxLength": 1000
+      },
+      "text250": {
+          "$id": "#/definitions/text250",
+          "type": "string",
+          "title": "A short text",
+          "description": "A short text, max 250 characters",
+          "default": "",
+          "examples": [ "Once Upon a Time in Belval, theere was a little house on a little hill" ],
+          "maxLength": 250
+      },
+      "text500": {
+          "$id": "#/definitions/text500",
+          "type": "string",
+          "title": "A medium text",
+          "description": "A medium text, max 500 characters",
+          "default": "",
+          "examples": [ "Once Upon a Time in Belval, theere was a little house on a little hill" ],
+          "maxLength": 500
+      },
+      "firstname": {
+          "$id": "#/definitions/firstname",
+          "type": "string",
+          "title": "A first name",
+          "description": "Person first name, up to 50 letters",
+          "default": "",
+          "examples": [
+              "Joe"
+          ],
+          "maxLength": 50
+      },
+      "lastname": {
+          "$id": "#/definitions/lastname",
+          "type": "string",
+          "title": "A last name",
+          "description": "Person last name, up to 50 letters",
+          "default": "",
+          "examples": [
+              "De Filippo"
+          ],
+          "maxLength": 50
+      },
+      "email": {
+          "$id": "#/definitions/email",
+          "type": "string",
+          "pattern": "^[a-z0-9\\._%+!$&*=^|~#%{}\/\\-]+@([a-z0-9\\-]+\\.){1,}([a-z]{2,22})$",
+          "title": "An Email",
+          "description": "Personal email for authors, users etc...",
+          "default": "",
+          "examples": ["joe.defilippo@uni.lu"]
+      },
+      "affiliation": {
+          "$id": "#/definitions/affiliation",
+          "type": "string",
+          "title": "a name of an Institution",
+          "description": "Author current affiliation",
+          "default": "",
+          "examples": [
+              "University of Minnesota, LUxembourg"
+          ],
+          "maxLength": 100
+      },
+      "URL": {
+        "$id": "#/definitions/url",
+        "type": "string",
+        "title": "The dataset url schema",
+        "description": "An explanation about the purpose of this instance.",
+        "default": "",
+        "examples": [
+            "dataset url"
+        ],
+        "minLength": 7,
+        "maxLength": 500,
+        "pattern": "^(https?|http?)://"
+      }
+    },
     "examples": [
         {
             "title": "article title",
@@ -21,73 +118,46 @@
     "required": [
         "title",
         "abstract",
+        "contact",
         "authors"
     ],
+    "additionalProperties": false,
     "properties": {
-        "title": {
-            "$id": "#/properties/title",
-            "type": "string",
-            "title": "The title schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": "",
-            "examples": [
-                "article title"
-            ],
-            "minLength": 10,
-            "maxLength": 250
+        "title": { "$ref": "#/definitions/title" },
+        "abstract": { "$ref": "#/definitions/abstract" },
+        "datasets": {
+          "$id": "#/properties/dataset",
+          "type": "object",
+          "required": [
+            "description"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "url":  { "$ref": "#/definitions/url" },
+            "description":  { "$ref": "#/definitions/text500" }
+          }
         },
-        "abstract": {
-            "$id": "#/properties/abstract",
-            "type": "string",
-            "title": "The abstract schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": "",
-            "examples": [
-                "article abstract"
-            ],
-            "minLength": 100,
-            "maxLength": 1000
-        },
-        "datasetDetails": {
-            "$id": "#/properties/datasetDetails",
-            "type": "string",
-            "title": "The datasetDetails schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": "",
-            "examples": [
-                "datasetDetails"
-            ],
-            "minLength": 100,
-            "maxLength": 1000
-        },
-        "datasetUrl": {
-            "$id": "#/properties/datasetUrl",
-            "type": "string",
-            "title": "The dataset url schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": "",
-            "examples": [
-                "dataset url"
-            ],
-            "minLength": 7,
-            "maxLength": 500,
-            "pattern": "^(https?|http?)://"
-        },
-        "datasetLabel": {
-            "$id": "#/properties/datasetLabel",
-            "type": "string",
-            "title": "The dataset label schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": "",
-            "examples": [
-                "dataset label, comment etc?"
-            ],
-            "maxLength": 500
+        "contact": {
+          "$id": "#/properties/contact",
+          "type": "object",
+          "title": "Basic contact info",
+          "required": [
+            "firstname",
+            "lastname",
+            "email"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "firstname":  { "$ref": "#/definitions/firstname" },
+            "lastname":  { "$ref": "#/definitions/lastname" },
+            "email":  { "$ref": "#/definitions/email" },
+            "affiliation":  { "$ref": "#/definitions/affiliation" }
+          }
         },
         "authors": {
             "$id": "#/properties/authors",
             "type": "array",
-            "title": "The authors schema",
+            "title": "A list of authors",
             "description": "An explanation about the purpose of this instance.",
             "default": [],
             "examples": [
@@ -95,7 +165,8 @@
                     {
                         "firstname": "John",
                         "lastname": "Foo",
-                        "affiliation": "University of Minnesota"
+                        "email": "john.fooooooooo@uni.lu",
+                        "affiliation": "University of Minnesota, Luxembourg"
                     }
                 ]
             ],
@@ -106,7 +177,7 @@
                     {
                         "$id": "#/properties/authors/items/anyOf/author",
                         "type": "object",
-                        "title": "The first anyOf schema",
+                        "title": "An author of a paper",
                         "description": "An explanation about the purpose of this instance.",
                         "default": {},
                         "examples": [
@@ -121,67 +192,16 @@
                             "lastname",
                             "affiliation"
                         ],
+                        "additionalProperties": false,
                         "properties": {
-                            "firstname": {
-                                "$id": "#/properties/authors/items/anyOf/author/properties/firstname",
-                                "type": "string",
-                                "title": "The firstname schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": "",
-                                "examples": [
-                                    "John"
-                                ],
-                                "maxLength": 50
-                            },
-                            "lastname": {
-                                "$id": "#/properties/authors/items/anyOf/author/properties/lastname",
-                                "type": "string",
-                                "title": "The lastname schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": "",
-                                "examples": [
-                                    "Foo"
-                                ],
-                                "maxLength": 100
-                            },
-                            "lastname": {
-                                "$id": "#/properties/authors/items/anyOf/author/properties/username",
-                                "type": "string",
-                                "pattern": "^[a-z-0-9]{6,}$",
-                                "title": "The lastname schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": "",
-                                "examples": [
-                                    "Foo"
-                                ]
-                            },
-                            "firstname": {
-                                "$id": "#/properties/authors/items/anyOf/author/properties/email",
-                                "type": "string",
-                                "pattern": "^[a-z0-9\\._%+!$&*=^|~#%{}\/\\-]+@([a-z0-9\\-]+\\.){1,}([a-z]{2,22})$",
-                                "title": "Author Email",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": "",
-                                "examples": [
-                                    "John@uni.lu"
-                                ]
-                            },
-                            "affiliation": {
-                                "$id": "#/properties/authors/items/anyOf/author/properties/affiliation",
-                                "type": "string",
-                                "title": "The affiliation schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": "",
-                                "examples": [
-                                    "University of Minnesota"
-                                ]
-                            }
-                        },
-                        "additionalProperties": true
+                            "firstname": { "$ref": "#/definitions/firstname" },
+                            "lastname": { "$ref": "#/definitions/lastname" },
+                            "email": { "$ref": "#/definitions/email" },
+                            "affiliation": { "$ref": "#/definitions/affiliation" }
+                        }
                     }
                 ]
             }
         }
-    },
-    "additionalProperties": true
+    }
 }
