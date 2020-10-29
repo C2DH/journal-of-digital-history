@@ -73,3 +73,8 @@ main{
 .page{
   padding-top: 200px;
 }
+.generic-list-item{
+  position: absolute;
+  will-change: transform, height, opacity;
+  width: 100%;
+}
