@@ -13,6 +13,7 @@ import { getStartLang, LANGUAGE_PATH, LANGUAGES } from './logic/language';
 import translations from './translations'
 import {useStore} from './store'
 import Header from './components/Header'
+import Footer from './components/Footer'
 import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
 
 const Home = lazy(() => import('./pages/Home'))
@@ -81,16 +82,16 @@ function AppRoutes() {
   )
 }
 
-function MainBackground() {
+const MainBackground = () => {
   const backgroundColor =  useStore((state) => state.backgroundColor);
-  
   return (
-    <div className="vh-100 vw-100 position-fixed main-background" style={{backgroundColor}}></div>
+    <div className="vh-100 vw-100 position-fixed main-background" style={{top: 0, backgroundColor}}></div>
   )
 }
 
+
 export default function App() {
-  
+
   return (
     <BrowserRouter>
       <Auth0ProviderWithHistory
@@ -106,6 +107,7 @@ export default function App() {
             <AppRoutes />
           </Suspense>
         </main>
+        <Footer ></Footer>
       </Auth0ProviderWithHistory>
     </BrowserRouter>
   )
