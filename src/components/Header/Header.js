@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Nav, Navbar, Container } from 'react-bootstrap'
+import { Nav, Navbar, Container, Row, Col } from 'react-bootstrap'
 import SwitchLanguage from '../SwitchLanguage'
 import SwitchLanguageLink from '../SwitchLanguage/SwitchLanguageLink'
 import LangNavLink from '../LangNavLink'
@@ -9,13 +9,8 @@ import logo from '../../assets/images/jdh-logo.svg'
 import deGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo.svg'
 import uniluLogo from '../../assets/images/unilu-c2dh-logo.png'
 import styles from './Header.module.scss'
-const PrimaryRoutes = [
-  { to:'/', label: 'navigation.home'},
-  { to: '/references', label: 'navigation.references' },
-  { to: '/datasets', label: 'navigation.datasets' },
-  { to: '/submit', label: 'navigation.submit' },
-  { to: '/about', label: 'navigation.about' }
-]
+import { PrimaryRoutes } from '../../constants'
+
 
 const MobileHeader = ({ langs }) => {
   const { t, i18n } = useTranslation()
@@ -56,6 +51,52 @@ const MobileHeader = ({ langs }) => {
   )
 }
 
+const NavPrimaryRoutes = ({ routes, ...props}) => {
+  const { t } = useTranslation()
+  return (
+    <Nav {...props}>
+      {routes.map(({to, label}, i) => (
+        <Nav.Item key={`primary-route-${i}`}>
+          <LangNavLink to={to} exact>{t(label)}</LangNavLink>
+        </Nav.Item>
+      ))}
+      {props.children}
+    </Nav>
+  )
+}
+
+const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
+  const { t } = useTranslation()
+  return (
+    <Navbar className={styles.Navbar}  variant="light" expand="md">
+    <Container>
+      <Row className="w-100">
+        <Col md={3}>
+        <Navbar.Brand href="#home" className="d-flex align-items-center">
+          <div className={`${styles.BrandImage}`} style={{
+            backgroundImage: `url(${logo})`,
+          }}></div>
+          <span className="d-md-block d-none">Journal of <br/>Digital History</span>
+        </Navbar.Brand>
+        </Col>
+        <Col md={3}>
+          <NavPrimaryRoutes className="flex-column" routes={[PrimaryRoutes[0], PrimaryRoutes[1]]} />
+        </Col>
+        <Col md={3}>
+          <NavPrimaryRoutes className="flex-column" routes={[PrimaryRoutes[2], PrimaryRoutes[3], PrimaryRoutes[4]]} />
+        </Col>
+        <Col md={3}>
+          <Nav className="flex-column">
+            <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>
+            {!isAuthDisabled && <UserProfile/>}
+          </Nav>
+        </Col>
+      </Row>
+    </Container>
+    </Navbar>
+  )
+}
+
 const Header = ({ availableLanguages, isAuthDisabled }) => {
   const { t } = useTranslation()
 
@@ -67,21 +108,16 @@ const Header = ({ availableLanguages, isAuthDisabled }) => {
         <div className={`${styles.BrandImage} brand-image flex-grow-1 mr-1`} style={{
           backgroundImage: `url(${logo})`,
         }}></div>
-        <span className="d-md-block d-none">{t('Journal of Digital history')}</span>
+        <span className="d-md-block d-none">Journal of <br/>Digital History</span>
       </Navbar.Brand>
-      <Nav className="ml-auto d-md-flex d-none">
-        {PrimaryRoutes.map(({to, label}, i) => (
-          <Nav.Item key={`primary-route-${i}`}>
-            <LangNavLink to={to} exact>{t(label)}</LangNavLink>
-          </Nav.Item>
-        ))}
+      <NavPrimaryRoutes className="ml-auto d-md-flex d-none" routes={PrimaryRoutes}>
         <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>
         {!isAuthDisabled && <UserProfile/>}
-      </Nav>
+
+      </NavPrimaryRoutes>
       <MobileHeader langs={availableLanguages}/>
     </Container>
   </Navbar>)
 }
 
-
-export default Header
+export default RowHeader

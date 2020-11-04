@@ -7,7 +7,7 @@ class ScrollableGallery extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: 0,
+      data: null,
       direction: '',
       steps: [],
       progress: 0,
@@ -31,7 +31,7 @@ class ScrollableGallery extends Component {
     }
     // this.setState({ data, direction });
   };
-  
+
   render() {
     const { progress, data } = this.state;
     const { offsetTop, title, steps=[] } = this.props;
@@ -42,7 +42,7 @@ class ScrollableGallery extends Component {
           <h2 className="text-center">{title} {steps.length}</h2>
         </div>
         <div style={{ overflow: 'hidden' }}>
-        <Scrollama 
+        <Scrollama
           onStepEnter={this.onStepEnter}
           onStepExit={this.onStepExit}
           onStepProgress={this.onStepProgress}

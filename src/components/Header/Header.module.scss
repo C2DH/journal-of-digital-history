@@ -4,17 +4,17 @@
 $breakpoint-tablet: 768px;
 @media (min-width: $breakpoint-tablet) {
   .Navbar{
-    background:var(--primary);
+    background: linear-gradient(180deg, rgba(255,255,255,1) -100%, rgba(255,255,255,0) 100%);
   }
 }
 .BrandImage{
-  background-color: var(--primary);
+  border-left: 2px solid var(--primary);
   height: 50px;
   width: 50px;
   background-repeat: no-repeat;
   background-size: 65%;
   background-position: center;
-  border-radius:2px;
+  // border-radius:5px;
 }
 .MobileHeaderNav{
   width: 50px;
