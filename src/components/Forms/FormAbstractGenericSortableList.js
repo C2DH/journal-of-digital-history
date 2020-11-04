@@ -48,10 +48,10 @@ const FormAbstractGenericSortableList = ({ onChange, ItemClass, listItemComponen
       const y = +height
       height += 300
 
-      console.info(data, i, height)
+      // console.info(data, i, height)
       return { ...data, y, keykey: 'aaaaaa-' + data.id }
     }),
-    d => d.keykey,
+    d => d.id,
     {
       from: { opacity: 0.5 },
       leave: { opacity: 0.5 },
@@ -63,11 +63,11 @@ const FormAbstractGenericSortableList = ({ onChange, ItemClass, listItemComponen
 
   return (
     <div>
-    <div className="position-relative w-100" style={{ height }}>
-      {transitions.map(({ item, props: { y, ...rest }, key }, index) => (
+    <div className="position-relative w-100 animate-height" style={{ height }}>
+      {transitions.map(({ item, props: { y, ...rest }}, index) => (
         <animated.div
-          key={key} className="generic-list-item"
-          style={{ zIndex: items.length - index, transform: y.interpolate(y => `translate3d(0,${y}px,0)`), ...rest }}
+          key={item.id} className="generic-list-item bg-light"
+          style={{ zIndex: index, height: 300, transform: y.interpolate(y => `translate3d(0,${y}px,0)`), ...rest }}
         >
         <div className="d-flex align-items-top mb-2 pl-2 pr-1 pb-2 pt-0 border rounded shadow-sm">
           <ListItemComponent className="w-100 mt-2"  item={item} onChange={handleChange} />
