@@ -8,6 +8,7 @@ import WebFontLoader from 'webfontloader'
 WebFontLoader.load({
   google: {
     families: [
+      'Source+Serif+Pro:400,700',
       'Fira+Mono:400,700:latin-ext',
       'Fira+Sans:400,700:latin-ext'
     ]
@@ -27,8 +28,8 @@ ReactDOM.render(
 serviceWorker.unregister();
 
 // add information on version on startup
-console.info('version', 
-  process.env.REACT_APP_GIT_TAG, 
+console.info('version',
+  process.env.REACT_APP_GIT_TAG,
   process.env.REACT_APP_GIT_BRANCH,
   `\nhttps://github.com/C2DH/journal-of-digital-history/commit/${process.env.REACT_APP_GIT_REVISION}`
 )
