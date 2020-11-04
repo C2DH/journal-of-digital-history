@@ -3,7 +3,6 @@
 
 // Boostrap scss
 @import '~bootstrap/scss/bootstrap';
-
 :root {
   --transition: 0.3s ease-in-out;
   --border-color: rgba(255, 255, 255, 0.5);
@@ -26,6 +25,7 @@
   @each $bp, $value in $container-max-widths {
     --#{$bp}: #{$value};
   }
+  --font-family-serif: #{$font-family-serif};
 }
 
 body,
@@ -38,7 +38,7 @@ html,
 }
 
 .navbar-light .navbar-brand{
-  font-family: 'Fira Mono', monospace;
+  font-family: var(--font-family-sans-serif);
   font-size: .9rem;
   font-weight: bold;
   color: black;
@@ -64,6 +64,15 @@ body{
 main{
   // padding-top: 10rem;
 }
+.serif{
+  font-family: var(--font-family-serif);
+}
+
+// h1{
+//   font-family: var(--font-family-serif);
+// }
+
+
 .main-background{
   background-color: var(--primary);
   transition: background-color 1s ease-in-out;
@@ -78,3 +87,34 @@ main{
   will-change: transform, height, opacity;
   width: 100%;
 }
+.animate-height{
+  will-change: height;
+  transition: height .5s ease-in-out;
+  overflow: hidden;
+}
+.animate-transform{
+  will-change: transform;
+  transition: transform 0.6s cubic-bezier(0.83, 0, 0.17, 1);
+}
+//
+// html {
+//   font-size: 1rem;
+// }
+//
+// @include media-breakpoint-up(sm) {
+//   html {
+//     font-size: 1.2rem;
+//   }
+// }
+//
+// @include media-breakpoint-up(md) {
+//   html {
+//     font-size: 1.4rem;
+//   }
+// }
+//
+// @include media-breakpoint-up(lg) {
+//   html {
+//     font-size: 1.6rem;
+//   }
+// }
