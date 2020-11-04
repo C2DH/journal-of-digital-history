@@ -20,6 +20,8 @@ const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
 const AbstractSubmission = lazy(() => import('./pages/AbstractSubmission'))
 const Article = lazy(() => import('./pages/Article'))
+const Abstract = lazy(() => import('./pages/Abstract'))
+
 const NotFound = () => {
   return (<div>
     <h1>Not found</h1>
@@ -53,6 +55,9 @@ function LangRoutes() {
       </Route>
       <Route exact path={`${path}/article`}>
         <Article />
+      </Route>
+      <Route exact path={`${path}/abstract`}>
+        <Abstract />
       </Route>
       <Route exact path={`${path}/submit`}>
         <AbstractSubmission />
