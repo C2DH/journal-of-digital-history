@@ -68,25 +68,20 @@ const NavPrimaryRoutes = ({ routes, ...props}) => {
 const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
   const { t } = useTranslation()
   return (
-    <Navbar className={styles.Navbar}  variant="light" expand="md">
+    <Navbar className={`${styles.Navbar} pt-3`}  variant="light" expand="md">
+    <Navbar.Brand href="#home" className="position-absolute d-flex align-items-center">
+      <div className={`${styles.BrandImage}`} style={{
+        backgroundImage: `url(${logo})`,
+      }}></div>
+      <span className="d-md-block d-none">Journal of <br/>Digital History</span>
+    </Navbar.Brand>
     <Container>
       <Row className="w-100">
-        <Col md={3}>
-        <Navbar.Brand href="#home" className="d-flex align-items-center">
-          <div className={`${styles.BrandImage}`} style={{
-            backgroundImage: `url(${logo})`,
-          }}></div>
-          <span className="d-md-block d-none">Journal of <br/>Digital History</span>
-        </Navbar.Brand>
+        <Col md={{offset: 2, span: 7}} className="pb-3">
+          <NavPrimaryRoutes routes={PrimaryRoutes} />
         </Col>
-        <Col md={3}>
-          <NavPrimaryRoutes className="flex-column" routes={[PrimaryRoutes[0], PrimaryRoutes[1]]} />
-        </Col>
-        <Col md={3}>
-          <NavPrimaryRoutes className="flex-column" routes={[PrimaryRoutes[2], PrimaryRoutes[3], PrimaryRoutes[4]]} />
-        </Col>
-        <Col md={3}>
-          <Nav className="flex-column">
+        <Col md={2}>
+          <Nav className="pb-3">
             <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>
             {!isAuthDisabled && <UserProfile/>}
           </Nav>
