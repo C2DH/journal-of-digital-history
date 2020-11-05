@@ -48,7 +48,7 @@
       "navigation": {
         "about": "about",
         "datasets": "datasets",
-        "home": "/",
+        "home": "index",
         "references": "references",
         "submit": "Submit an article"
       },
@@ -76,7 +76,10 @@
         },
         "home": {
           "latestIssues": "Latest issues",
-          "latestArticles": "Latest articles"
+          "latestArticles": "Latest articles",
+          "editorialBoardMembers": "Editorial Board members",
+          "journalRoadmap": "Milestones",
+          "callForPaper": "Open Call for Papers"
         }
       },
       "actions": {
