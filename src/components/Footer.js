@@ -16,14 +16,12 @@ const Footer = () => {
   const { t } = useTranslation()
 
   return (<Navbar variant="light" expand="md">
-      <Container className="py-5" style={{
-        borderTop: '1px solid var(--secondary)'
-      }}>
-        <Row className=" w-100">
-          <Col md={3}>
-          Dislaimer @University {now.getFullYear()}
+      <Container className="py-5">
+        <Row className="w-100">
+          <Col md={{span: 2, offset:2}}>
+          Disclaimer @University {now.getFullYear()}
           </Col>
-          <Col md={3}>
+          <Col md={2}>
             <Nav className="flex-column">
               <Nav.Item><LangNavLink to={HomeRoute.to} exact>{t(HomeRoute.label)}</LangNavLink></Nav.Item>
             </Nav>
