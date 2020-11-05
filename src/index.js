@@ -9,7 +9,7 @@ WebFontLoader.load({
   google: {
     families: [
       'Source+Serif+Pro:400,700',
-      'Fira+Mono:400,700:latin-ext',
+      'Fira+Code:400,700:latin-ext',
       'Fira+Sans:400,700:latin-ext'
     ]
   }
