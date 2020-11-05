@@ -68,10 +68,16 @@ main{
   font-family: var(--font-family-serif);
 }
 
-// h1{
-//   font-family: var(--font-family-serif);
-// }
-
+.page{
+  h1, h2, h3{
+    font-family: var(--font-family-monospace);
+    font-weight: bold;
+  }
+  h3{
+    font-size: inherit;
+    text-decoration: underline;
+  }
+}
 
 .main-background{
   background-color: var(--primary);
@@ -79,9 +85,6 @@ main{
   z-index: -1;
 }
 
-.page{
-  padding-top: 200px;
-}
 .generic-list-item{
   position: absolute;
   will-change: transform, height, opacity;
