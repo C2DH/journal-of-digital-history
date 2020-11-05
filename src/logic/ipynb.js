@@ -13,6 +13,7 @@ const markdownParser = MarkdownIt({
 })
 
 const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
+  console.info('getArticleTreeFromIpynb', cells)
   const headings = [];
   const paragraphs = [];
   let bibliography = null;
@@ -38,12 +39,16 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
        paragraphs.push(new ArticleCell({
          type: 'markdown',
          content,
+         source: cell.source,
+         metadata: cell.metadata,
          idx,
        }))
     } else if (cell.cell_type === 'code') {
       paragraphs.push(new ArticleCell({
         type: 'code',
         content: cell.source.join(''),
+        source: cell.source,
+        metadata: cell.metadata,
         idx,
         outputs: cell.outputs,
       }))

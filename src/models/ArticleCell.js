@@ -4,10 +4,14 @@ export default class ArticleCell {
     content = '',
     idx = '-1',
     outputs = [],
+    source = [],
+    metadata = {}
   }) {
     this.type = type
     this.content = content
     this.idx = idx
     this.outputs = outputs
+    this.source = source
+    this.metadata = metadata
   }
 }
