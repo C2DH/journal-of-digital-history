@@ -79,21 +79,24 @@ export default function AbstractSubmission(props) {
   }
   return (
     <Container className="page mb-5">
-      <h1>{t('pages.abstractSubmission.title')}</h1>
-      <hr />
-      <Jumbotron className="pt-4 pb-2 px-4">
-        <h3>Call for paper: <b>The Digital Dilemma under the lens of history and historians</b></h3>
-        <p>
-        This is a simple hero unit, a simple jumbotron-style component for calling
-          extra attention to featured content or information.
-          <br />
-          <Badge pill variant="secondary">Due date: Dec. 2020</Badge>
-        </p>
-      </Jumbotron>
-      <hr />
+      <Row>
+        <Col md={{span: 6, offset:2}}>
+          <h1>{t('pages.abstractSubmission.title')}</h1>
+          <Jumbotron className="pt-4 pb-2 px-4">
+            <h3>Call for paper: <b>The Digital Dilemma under the lens of history and historians</b></h3>
+            <p>
+            This is a simple hero unit, a simple jumbotron-style component for calling
+              extra attention to featured content or information.
+              <br />
+              <Badge pill variant="secondary">Due date: Dec. 2020</Badge>
+            </p>
+          </Jumbotron>
+          <hr className="border-dark mb-5"/>
+        </Col>
+      </Row>
       <Form noValidate onSubmit={handleSubmit}>
         <Row>
-          <Col md={8}>
+          <Col md={{span: 6, offset:2}}>
             <h3>A title and an abstract</h3>
             <FormGroupWrapper as='textarea' schemaId='#/definitions/title' rows={3}
               label='pages.abstractSubmission.articleTitle'
@@ -115,7 +118,7 @@ export default function AbstractSubmission(props) {
 
             <hr />
 
-            <h2>{t('pages.abstractSubmission.AuthorsSectionTitle')}</h2>
+            <h3>{t('pages.abstractSubmission.AuthorsSectionTitle')}</h3>
             <FormAbstractGenericSortableList
               onChange={({ items, isValid }) => handleChange({
                 id: 'authors',
@@ -127,7 +130,7 @@ export default function AbstractSubmission(props) {
 
             <hr />
 
-            <h2>{t('pages.abstractSubmission.DataSectionTitle')}</h2>
+            <h3>{t('pages.abstractSubmission.DataSectionTitle')}</h3>
             <FormAbstractGenericSortableList
               onChange={({ items, isValid }) => handleChange({
                 id: 'datasets',
@@ -138,7 +141,7 @@ export default function AbstractSubmission(props) {
               listItemComponentTagName='FormAbstractDatasetsListItem' />
             <hr />
           </Col>
-          <Col md={4}>
+          <Col md={3}>
             <div style={{
               position: 'sticky',
               top: '120px'
@@ -147,11 +150,14 @@ export default function AbstractSubmission(props) {
             </div>
           </Col>
         </Row>
-
-        <Button variant="primary" size="lg" className="px-4" type="submit">
-          Submit
-        </Button>
-        <pre>{JSON.stringify(errors, null, 2)}</pre>
+        <Row>
+          <Col md={{span: 6, offset:2}} className="">
+            <Button variant="primary" size="lg" className="px-4" type="submit">
+              Submit
+            </Button>
+            <pre>{JSON.stringify(errors, null, 2)}</pre>
+          </Col>
+        </Row>
       </Form>
     </Container>
   )
