@@ -10,7 +10,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "journal"
+        "jdh": {
+          "section": "journal"
+        }
       },
       "source": [
         "### Highlight your digital method",
@@ -20,7 +22,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "journal"
+        "jdh": {
+          "section": "journal"
+        }
       },
       "source": [
         "### Show your data",
@@ -30,7 +34,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "journal"
+        "jdh": {
+          "section": "journal"
+        }
       },
       "source": [
         "### Tell the (hi)story",
@@ -40,7 +46,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "journal"
+        "jdh": {
+          "section": "journal"
+        }
       },
       "source": [
         "### Rigour of a Peer Review process",
@@ -50,7 +58,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "call-for-papers"
+        "jdh": {
+          "section": "call-for-papers"
+        }
       },
       "source": [
         "### Looking for Early Bird Contributors",
@@ -60,7 +70,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "editorial-board"
+        "jdh": {
+          "section": "editorial-board"
+        }
       },
       "source": [
         "### Andreas Fickers",
@@ -70,7 +82,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "editorial-board"
+        "jdh": {
+          "section": "editorial-board"
+        }
       },
       "source": [
         "### Frédéric Clavert",
@@ -80,7 +94,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "editorial-board"
+        "jdh": {
+          "section": "editorial-board"
+        }
       },
       "source": [
         "### Sean Takats",
@@ -90,7 +106,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "editorial-board"
+        "jdh": {
+          "section": "editorial-board"
+        }
       },
       "source": [
         "### Jane Winters",
@@ -100,7 +118,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "editorial-board"
+        "jdh": {
+          "section": "editorial-board"
+        }
       },
       "source": [
         "### Ian Milligan",
@@ -110,7 +130,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "editorial-board"
+        "jdh": {
+          "section": "editorial-board"
+        }
       },
       "source": [
         "### Tim Hitchcock",
@@ -120,7 +142,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "editorial-board"
+        "jdh": {
+          "section": "editorial-board"
+        }
       },
       "source": [
         "### Edward Ayers ",
@@ -130,7 +154,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "editorial-board"
+        "jdh": {
+          "section": "editorial-board"
+        }
       },
       "source": [
         "### Pelle Snickars ",
@@ -140,7 +166,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "editorial-board"
+        "jdh": {
+          "section": "editorial-board"
+        }
       },
       "source": [
         "### Dilton Maynard ",
@@ -150,7 +178,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "editorial-board"
+        "jdh": {
+          "section": "editorial-board"
+        }
       },
       "source": [
         "### Nadezhda Povroznik",
@@ -160,7 +190,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "editorial-board"
+        "jdh": {
+          "section": "editorial-board"
+        }
       },
       "source": [
         "### Stefano Dall’Algio ",
@@ -170,7 +202,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "editorial-board"
+        "jdh": {
+          "section": "editorial-board"
+        }
       },
       "source": [
         "### Mareike König ",
@@ -180,7 +214,9 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "editorial-board"
+        "jdh": {
+          "section": "editorial-board"
+        }
       },
       "source": [
         "### Will Thomas",
@@ -190,12 +226,65 @@
     {
       "cell_type": "markdown",
       "metadata" : {
-        "jdh.section": "editorial-board"
+        "jdh": {
+          "section": "editorial-board"
+        }
       },
       "source": [
         "### Anat Ben-David  ",
         "Professor"
       ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata" : {
+        "jdh": {
+          "section": "milestones",
+          "dataset": [
+            {
+              "level": "top",
+              "offsetTop": "60",
+              "date": "2020-11-30",
+              "title": "open call for paper",
+              "description": "start submitting!"
+            },
+            {
+              "level": "top",
+              "offsetTop": "10",
+              "date": "2020-12-30",
+              "title": "review first round of abstract",
+              "description": "start submitting!"
+            },
+            {
+              "level": "top",
+              "offsetTop": "10",
+              "date": "2021-04-01",
+              "title": "review first round of abstract",
+              "description": "start submitting!"
+            },
+            {
+              "level": "top",
+              "offsetTop": "40",
+              "date": "2022-01-10",
+              "title": "review first round of abstract",
+              "description": "start submitting!"
+            },
+            {
+              "offsetTop": "80",
+              "date": "2020-11-20",
+              "title": "public alpha version",
+              "description": "start submitting!"
+            },
+            {
+              "offsetTop": "10",
+              "date": "2020-12-20",
+              "title": "first version of notebook integration",
+              "description": "python notebook"
+            }
+          ]
+        }
+      }
     }
   ]
 }

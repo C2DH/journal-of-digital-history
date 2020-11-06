@@ -1,0 +1,48 @@
+$labelWidth: 100px;
+$labelFontSize: 11px;
+$labelLineHeight: 10px;
+$milestoneRadius: 5px;
+
+
+
+.AxisEdge{
+  position: absolute;
+  top: 50%;
+  border-color: var(--secondary);
+  line-height: $labelLineHeight;
+  margin-top: -$labelLineHeight/2;
+  width: $labelWidth;
+  font-family: var(--font-family-monospace);
+  font-size: $labelFontSize;
+}
+.left{
+  left: -$labelWidth;
+  padding-right: var(--spacer-2);
+  text-align: right;
+  border-right: 1px solid;
+}
+.right{
+  right: -$labelWidth;
+  padding-left: var(--spacer-2);
+  text-align: left;
+  border-left: 1px solid;
+}
+
+.MilestoneCircle{
+  position: absolute;
+  width: $milestoneRadius*2;
+  height: $milestoneRadius*2;
+  margin-left: -$milestoneRadius;
+  border-radius: $milestoneRadius;
+  background-color: var(--primary);
+}
+
+.MilestoneLabel{
+  position: absolute;
+  left: $milestoneRadius;
+  width: $labelWidth;
+  padding-left: var(--spacer-2);
+  line-height: $labelFontSize * 1.5;
+  font-size: $labelFontSize;
+  border-left: 1px solid var(--primary);
+}
