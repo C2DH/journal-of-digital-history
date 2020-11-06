@@ -17,7 +17,7 @@ const journalCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.j
 const editorialBoardCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'editorial-board')
 const callForPapers = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'call-for-papers')
 const milestones = articleTree.paragraphs
-  .find(({ metadata }) => metadata?.jdh?.section === 'milestones').metadata.jdh.dataset
+  .find(({ metadata }) => metadata?.jdh?.section === 'milestones')
 
 console.info(articleTree, homePageContents)
 
@@ -65,9 +65,13 @@ const Home = () => {
       <Row>
         <Col md={{offset:2, span:8}}>
           <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
-          <h4 className="mb-2" >{t('pages.home.editorialRoadmap')} ⤵</h4>
-          <MilestoneTimeline milestones={milestones}/>
-            <h4 className="mt-4">{t('pages.home.technicalRoadmap')} ⤴</h4>
+          <h4 className="mb-3" >{t('pages.home.editorialRoadmap')} ⤵</h4>
+          <MilestoneTimeline
+            milestones={milestones?.metadata?.jdh?.dataset}
+            extent={milestones?.metadata?.jdh?.extent?.date}
+            showToday
+          />
+            <h4 className="mt-3">{t('pages.home.technicalRoadmap')} ⤴</h4>
         </Col>
       </Row>
     </Container>

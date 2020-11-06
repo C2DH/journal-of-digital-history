@@ -28,10 +28,19 @@ $milestoneRadius: 5px;
   border-left: 1px solid;
 }
 
+.MilestonePointer{
+  position: absolute;
+  height: 100%;
+  background-color:  var(--dark);
+  width: 1px;
+  opacity: .5;
+}
+
 .MilestoneCircle{
   position: absolute;
   width: $milestoneRadius*2;
   height: $milestoneRadius*2;
+  margin-top: -$milestoneRadius;
   margin-left: -$milestoneRadius;
   border-radius: $milestoneRadius;
   background-color: var(--primary);

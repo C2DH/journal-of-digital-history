@@ -1,23 +1,25 @@
 import React from 'react'
 import { scaleTime } from 'd3-scale'
-import { extent, max as d3max } from 'd3-array'
+import { extent as d3extent, max as d3max } from 'd3-array'
 import { useTranslation } from 'react-i18next'
 import styles from './MilestoneTimeline.module.scss'
 
-
+const now = new Date()
 let height = 200
 
-const MilestoneTimeline = ({ milestones=[] }) => {
+const MilestoneTimeline = ({ milestones=[], extent=[], showToday }) => {
   const { t } = useTranslation()
   const values = milestones.map((d) => ({
     ...d,
     date: new Date(d.date)
   }))
-  const [ minDate, maxDate ] = extent(values, (d) => d.date)
+  const [ minDate, maxDate ] = extent.length
+    ? extent.map(d => new Date(d))
+    : d3extent(values, (d) => d.date)
   const scaleX = scaleTime()
       .domain([minDate, maxDate]).range([0, 100])
   // update hegiht based on data stored, plus padding
-  height = d3max(values, (d) => d.offsetTop) * 2 + 100
+  height = d3max(values, (d) => d.offsetTop) * 2 + 120
 
   return (
     <div className="position-relative" style={{
@@ -25,11 +27,13 @@ const MilestoneTimeline = ({ milestones=[] }) => {
     }}>
       <div className={`${styles.AxisEdge} ${styles.left}`} >{t('dates.short', {date: minDate })}</div>
       <div className={`${styles.AxisEdge} ${styles.right}`}>{t('dates.short', {date: maxDate })}</div>
-
+      <div className={`${styles.MilestonePointer} blink`} style={{
+        left: `${scaleX(now)}%`,
+      }}> </div>
       {values.map((d, i) => (
         <div className={styles.MilestoneCircle} key={i} style={{
           left: `${scaleX(d.date)}%`,
-          top: d.level === 'top' ? height/2 - 20 : height/2 + 10,
+          top: d.level === 'top' ? height/2 - 10 : height/2 + 10,
         }}>
           <div className={styles.MilestoneLabel} style={{
             top: d.level === 'top' ? 'auto': 0,
