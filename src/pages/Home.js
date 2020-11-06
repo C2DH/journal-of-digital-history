@@ -3,18 +3,21 @@ import React from 'react'
 // import LangLink from '../components/LangLink'
 import { useTranslation } from 'react-i18next'
 import { Container, Row, Col } from 'react-bootstrap'
+import LangLink from '../components/LangLink'
 // import { useStore } from '../store'
 import homePageContents from '../data/mock-api/mock-home-ipynb.json'
 import {getArticleTreeFromIpynb} from '../logic/ipynb'
 import ArticleCell from '../components/ArticleText/ArticleCell'
-
+import MilestoneTimeline from '../components/MilestoneTimeline'
 
 
 
 const articleTree = getArticleTreeFromIpynb(homePageContents)
-const journalCells = articleTree.paragraphs.filter(({ metadata }) => metadata['jdh.section'] === 'journal')
-const editorialBoardCells = articleTree.paragraphs.filter(({ metadata }) => metadata['jdh.section'] === 'editorial-board')
-const callForPapers = articleTree.paragraphs.filter(({ metadata }) => metadata['jdh.section'] === 'call-for-papers')
+const journalCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'journal')
+const editorialBoardCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'editorial-board')
+const callForPapers = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'call-for-papers')
+const milestones = articleTree.paragraphs
+  .find(({ metadata }) => metadata?.jdh?.section === 'milestones').metadata.jdh.dataset
 
 console.info(articleTree, homePageContents)
 
@@ -43,6 +46,7 @@ const Home = () => {
         {callForPapers.map((props, i) => (
           <ArticleCell key={i} {...props} idx={i+1} hideIdx />
         ))}
+        <LangLink to='/submit' className="btn btn-block btn-primary btn-lg">{t('pages.home.submitArticle')}</LangLink>
         </div>
         </Col>
       </Row>
@@ -59,8 +63,11 @@ const Home = () => {
         ))}
       </Row>
       <Row>
-        <Col md={{offset:2}}>
+        <Col md={{offset:2, span:8}}>
           <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
+          <h4 className="mb-2" >{t('pages.home.editorialRoadmap')} ⤵</h4>
+          <MilestoneTimeline milestones={milestones}/>
+            <h4 className="mt-4">{t('pages.home.technicalRoadmap')} ⤴</h4>
         </Col>
       </Row>
     </Container>

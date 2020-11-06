@@ -54,6 +54,9 @@ html,
 .rounded{
   border-radius: .25rem !important;
 }
+.pill{
+  border-radius: 50% !important;
+}
 .navbar .nav-link{
   font-size: .9rem;
   color: white;
@@ -67,15 +70,20 @@ main{
 .serif{
   font-family: var(--font-family-serif);
 }
+.monospace{
+  font-family: var(--font-family-monospace);
+}
 
 .page{
   h1, h2, h3{
     font-family: var(--font-family-monospace);
     font-weight: bold;
   }
-  h3{
+  h3, h4{
     font-size: inherit;
-    text-decoration: underline;
+    display: inline-block;
+    // text-decoration: underline;
+    border-bottom: 1px solid;
   }
 }
 
