@@ -79,7 +79,10 @@
           "latestArticles": "Latest articles",
           "editorialBoardMembers": "Editorial Board members",
           "journalRoadmap": "Milestones",
-          "callForPaper": "Open Call for Papers"
+          "callForPaper": "Open Call for Papers",
+          "submitArticle": "Submit an article",
+          "editorialRoadmap": "main dates for authors and editors",
+          "technicalRoadmap": "main events for our web interface"
         }
       },
       "actions": {
@@ -89,6 +92,9 @@
       "numbers": {
         "maxAllowedCharactersWithCount": "Maximum {{count}} characters allowed",
         "currentCharactersWithCount": "(now: <b>{{count}}</b> characters counted)"
+      },
+      "dates": {
+        "short": "{{date, ll}}"
       }
     }
   }
