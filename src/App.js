@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy } from 'react'
 import {
   BrowserRouter,
   Switch,
@@ -6,10 +6,11 @@ import {
   // Link,
   Redirect,
   useRouteMatch,
-} from "react-router-dom";
-import i18n from 'i18next';
+} from "react-router-dom"
+import i18n from 'i18next'
+import moment from 'moment'
 import { initReactI18next } from 'react-i18next'
-import { getStartLang, LANGUAGE_PATH, LANGUAGES } from './logic/language';
+import { getStartLang, LANGUAGE_PATH, LANGUAGES } from './logic/language'
 import translations from './translations'
 import {useStore} from './store'
 import Header from './components/Header'
@@ -37,7 +38,11 @@ i18n
     lng: lang,
     interpolation: {
       escapeValue: false, // react already safes from xss
-    },
+      format: function(value, format, lng) {
+          if(value instanceof Date) return moment(value).format(format);
+          return value;
+      }
+    }
   })
 
 const isUnsafeEnvironment = process.env.NODE_ENV !== 'development' && window.location.protocol === 'http:'
