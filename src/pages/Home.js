@@ -9,7 +9,7 @@ import homePageContents from '../data/mock-api/mock-home-ipynb.json'
 import {getArticleTreeFromIpynb} from '../logic/ipynb'
 import ArticleCell from '../components/ArticleText/ArticleCell'
 import MilestoneTimeline from '../components/MilestoneTimeline'
-
+import { IsPortrait } from '../constants'
 
 
 const articleTree = getArticleTreeFromIpynb(homePageContents)
@@ -67,6 +67,7 @@ const Home = () => {
           <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
           <h4 className="mb-3" >{t('pages.home.editorialRoadmap')} ⤵</h4>
           <MilestoneTimeline
+            isPortrait={IsPortrait}
             milestones={milestones?.metadata?.jdh?.dataset}
             extent={milestones?.metadata?.jdh?.extent?.date}
             showToday

@@ -1,26 +1,18 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { scaleTime } from 'd3-scale'
 import { extent as d3extent, max as d3max } from 'd3-array'
 import { useTranslation } from 'react-i18next'
 import styles from './MilestoneTimeline.module.scss'
+import MilestoneVerticalTimeline from './MilestoneVerticalTimeline'
 
 const now = new Date()
-let height = 200
+let size = 200
 
-const MilestoneTimeline = ({ milestones=[], extent=[], showToday }) => {
+
+
+const HorizontalTimeline = ({ values=[], size=0, scale, minDate, maxDate }) => {
   const { t } = useTranslation()
-  const values = milestones.map((d) => ({
-    ...d,
-    date: new Date(d.date)
-  }))
-  const [ minDate, maxDate ] = extent.length
-    ? extent.map(d => new Date(d))
-    : d3extent(values, (d) => d.date)
-  const scaleX = scaleTime()
-      .domain([minDate, maxDate]).range([0, 100])
-  // update hegiht based on data stored, plus padding
-  height = d3max(values, (d) => d.offsetTop) * 2 + 120
-
+  const height = size;
   return (
     <div className="position-relative" style={{
       height,
@@ -28,11 +20,11 @@ const MilestoneTimeline = ({ milestones=[], extent=[], showToday }) => {
       <div className={`${styles.AxisEdge} ${styles.left}`} >{t('dates.short', {date: minDate })}</div>
       <div className={`${styles.AxisEdge} ${styles.right}`}>{t('dates.short', {date: maxDate })}</div>
       <div className={`${styles.MilestonePointer} blink`} style={{
-        left: `${scaleX(now)}%`,
+        left: `${scale(now)}%`,
       }}> </div>
       {values.map((d, i) => (
         <div className={styles.MilestoneCircle} key={i} style={{
-          left: `${scaleX(d.date)}%`,
+          left: `${scale(d.date)}%`,
           top: d.level === 'top' ? height/2 - 10 : height/2 + 10,
         }}>
           <div className={styles.MilestoneLabel} style={{
@@ -50,6 +42,38 @@ const MilestoneTimeline = ({ milestones=[], extent=[], showToday }) => {
       }}/>
     </div>
   )
+}
+
+const MilestoneTimeline = ({ milestones=[], extent=[], showToday, isPortrait }) => {
+
+  const values = milestones.map((d) => ({
+    ...d,
+    date: new Date(d.date)
+  }))
+  console.info('MilestoneTimeline IsPortrait: ', isPortrait)
+  const [ minDate, maxDate ] = extent.length
+    ? extent.map(d => new Date(d))
+    : d3extent(values, (d) => d.date)
+  const scale = scaleTime()
+      .domain([minDate, maxDate]).range([0, 100])
+  // update hegiht based on data stored, plus padding
+  size = d3max(values, (d) => d.offsetTop) * 2 + 120
+  const props = { values, scale, size, maxDate, minDate }
+
+  const [isChangedPortrait, setIsChangedPortrait] = useState(isPortrait);
+
+  useEffect(() => {
+    window.onresize = () => {
+      console.info('resized...')
+      setIsChangedPortrait(window.innerHeight > window.innerWidth)
+    }
+  }, []);
+
+
+  if (isChangedPortrait) {
+    return (<MilestoneVerticalTimeline {...props} />)
+  }
+  return (<HorizontalTimeline {...props} />)
 }
 
 
