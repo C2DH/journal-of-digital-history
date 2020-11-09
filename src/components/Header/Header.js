@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Nav, Navbar, Container, Row, Col, Form } from 'react-bootstrap'
+import { Nav, Navbar, Container, Row, Col } from 'react-bootstrap'
 import SwitchLanguage from '../SwitchLanguage'
 import SwitchLanguageLink from '../SwitchLanguage/SwitchLanguageLink'
 import LangNavLink from '../LangNavLink'
@@ -10,7 +10,7 @@ import deGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo.svg
 import uniluLogo from '../../assets/images/unilu-c2dh-logo.png'
 import styles from './Header.module.scss'
 import { PrimaryRoutes } from '../../constants'
-import { useStore } from '../../store';
+import SwitchNightMode from '../SwitchNightMode'
 
 
 const MobileHeader = ({ langs }) => {
@@ -66,35 +66,20 @@ const NavPrimaryRoutes = ({ routes, ...props}) => {
   )
 }
 
-const NightSwitcher = () => {
-  const mode =  useStore((state) => state.mode);
-  console.info('NightSwitcher initial mode:', mode)
-  const handleChange = (event) => {
-    console.log(event.target.checked)
-  }
-  return (
-    <Form>
-      <Form.Check
-        type="switch"
-        id="custom-switch"
-        label="dark"
-        onChange={handleChange}
-      />
-    </Form>)
-}
+
 
 const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
   const { t } = useTranslation()
   return (
-    <Navbar className={`${styles.Navbar} pt-3`}  variant="light" expand="md">
+    <Navbar className={`${styles.Navbar} pt-3`} variant="light" expand="md">
     <Navbar.Brand href="#home" className="position-absolute d-flex align-items-center">
       <div className={`${styles.BrandImage}`} style={{
         backgroundImage: `url(${logo})`,
       }}></div>
-      <span className="d-md-block d-none">Journal of <br/>Digital History</span>
+      <span className="d-md-block d-none">Journal of Digital History</span>
     </Navbar.Brand>
     <Container>
-      <Row className="w-100">
+      <Row className="w-100 ml-auto d-md-flex d-none">
         <Col md={{offset: 2, span: 6}} className="pb-3">
           <NavPrimaryRoutes routes={PrimaryRoutes} />
         </Col>
@@ -102,9 +87,10 @@ const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
           <Nav className="pb-3 mr-auto">
             <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>
             {!isAuthDisabled && <UserProfile/>}
-            <Nav.Item><NightSwitcher /></Nav.Item>
+            <Nav.Item><SwitchNightMode /></Nav.Item>
           </Nav>
         </Col>
+        <MobileHeader langs={availableLanguages}/>
       </Row>
     </Container>
     </Navbar>
