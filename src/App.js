@@ -1,22 +1,17 @@
 import React, { Suspense, lazy } from 'react'
-import {
-  BrowserRouter,
-  Switch,
-  Route,
-  // Link,
-  Redirect,
-  useRouteMatch,
-} from "react-router-dom"
+import { BrowserRouter, Switch, Route, Redirect, useRouteMatch } from "react-router-dom"
 import i18n from 'i18next'
 import moment from 'moment'
 import { initReactI18next } from 'react-i18next'
 import { getStartLang, LANGUAGE_PATH, LANGUAGES } from './logic/language'
 import translations from './translations'
 import {useStore} from './store'
+import { IsMobile } from './constants'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
 
+/* Pages */
 const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
 const AbstractSubmission = lazy(() => import('./pages/AbstractSubmission'))
@@ -47,6 +42,7 @@ i18n
 
 const isUnsafeEnvironment = process.env.NODE_ENV !== 'development' && window.location.protocol === 'http:'
 console.info('Auth0Provider:', isUnsafeEnvironment ? 'disabled' : 'enabled')
+console.info('IsMobile:', IsMobile)
 
 function LangRoutes() {
   const { path } = useRouteMatch()
