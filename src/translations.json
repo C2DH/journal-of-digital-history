@@ -107,7 +107,9 @@
       },
       "actions": {
         "logout": "(log out)",
-        "addLink": "Add link"
+        "addLink": "Add link",
+        "addAuthor": "Add contributor",
+        "addDataset": "Add dataset"
       },
       "numbers": {
         "maxAllowedCharactersWithCount": "Maximum {{count}} characters allowed",
