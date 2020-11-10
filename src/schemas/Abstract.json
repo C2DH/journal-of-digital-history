@@ -6,6 +6,15 @@
     "description": "Abstracts are stored as JSON",
     "default": {},
     "definitions": {
+      "id": {
+          "$id": "#/definitions/id",
+          "type": "string|number",
+          "title": "An usual ID string",
+          "default": "",
+          "examples": [ "ieoryY78", 1 ],
+          "minLength": 10,
+          "maxLength": 250
+      },
       "title": {
           "$id": "#/definitions/title",
           "type": "string",
@@ -170,7 +179,9 @@
             "firstname":  { "$ref": "#/definitions/firstname" },
             "lastname":  { "$ref": "#/definitions/lastname" },
             "email":  { "$ref": "#/definitions/email" },
-            "affiliation":  { "$ref": "#/definitions/affiliation" }
+            "affiliation":  { "$ref": "#/definitions/affiliation" },
+            "orcid":  { "$ref": "#/definitions/orcid" },
+            "id":  { "$ref": "#/definitions/id" }
           }
         },
         "authors": {
@@ -218,7 +229,9 @@
                             "firstname": { "$ref": "#/definitions/firstname" },
                             "lastname": { "$ref": "#/definitions/lastname" },
                             "email": { "$ref": "#/definitions/email" },
-                            "affiliation": { "$ref": "#/definitions/affiliation" }
+                            "affiliation": { "$ref": "#/definitions/affiliation" },
+                            "orcid":  { "$ref": "#/definitions/orcid" },
+                            "id":  { "$ref": "#/definitions/id" }
                         }
                     }
                 ]
