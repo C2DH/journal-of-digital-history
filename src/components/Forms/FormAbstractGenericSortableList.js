@@ -1,7 +1,6 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import arrayMove from 'array-move'
 import { Button } from 'react-bootstrap'
-import { useTranslation } from 'react-i18next'
 import FormAbstractAuthorsListItem from './FormAbstractAuthorsListItem'
 import FormAbstractDatasetsListItem from './FormAbstractDatasetsListItem'
 import { useTransition, animated } from 'react-spring'
@@ -12,12 +11,20 @@ const components = {
   'FormAbstractDatasetsListItem': FormAbstractDatasetsListItem
 }
 
-const FormAbstractGenericSortableList = ({ onChange, ItemClass, listItemComponentTagName }) => {
-  const { t } = useTranslation()
-  const [ items, setItems ] = useState([
-    new ItemClass({ id: 0 })
-  ])
-
+const FormAbstractGenericSortableList = ({
+  onChange, ItemClass, listItemComponentTagName, 
+  initialItems,
+  addNewItemLabel,
+  debug=false
+}) => {
+  const [ items, setItems ] = useState(initialItems || [])
+  console.info('items updated', items, initialItems)
+  useEffect(() => {
+    if(initialItems) {
+      setItems(initialItems.map(d => new ItemClass({...d})));
+    }
+  }, [initialItems, ItemClass]);
+  
   const handleChange = ({item}) => {
     const _items = items.map((d, i) => {
       if (d.id === item.id) {
@@ -46,7 +53,7 @@ const FormAbstractGenericSortableList = ({ onChange, ItemClass, listItemComponen
   const transitions = useTransition(
     items.map((data, i) => {
       const y = +height
-      height += 300
+      height += 380
 
       // console.info(data, i, height)
       return { ...data, y, keykey: 'aaaaaa-' + data.id }
@@ -59,7 +66,6 @@ const FormAbstractGenericSortableList = ({ onChange, ItemClass, listItemComponen
       update: ({ y }) => ({ y })
     }
   )
-  console.info(transitions)
 
   return (
     <div>
@@ -67,11 +73,12 @@ const FormAbstractGenericSortableList = ({ onChange, ItemClass, listItemComponen
       {transitions.map(({ item, props: { y, ...rest }}, index) => (
         <animated.div
           key={item.id} className="generic-list-item bg-light"
-          style={{ zIndex: index, height: 300, transform: y.interpolate(y => `translate3d(0,${y}px,0)`), ...rest }}
+          style={{ zIndex: index, height: 350, transform: y.interpolate(y => `translate3d(0,${y}px,0)`), ...rest }}
         >
         <div className="d-flex align-items-top mb-2 pl-2 pr-1 pb-2 pt-0 border rounded shadow-sm">
           <ListItemComponent className="w-100 mt-2"  item={item} onChange={handleChange} />
           <div className="flex-shrink-1">
+          {item.id}
             <Button size="sm" className="d-block rounded-circle p-0 m-3" style={{height: '25px', width:'25px', lineHeight: '25px'}} variant="warning"
               onClick={() => removeItem(item)}>✕</Button>
             { index > 0 && (
@@ -87,9 +94,9 @@ const FormAbstractGenericSortableList = ({ onChange, ItemClass, listItemComponen
         </animated.div>
       ))}
     </div>
-    <pre>{JSON.stringify(items)}</pre>
-    <div className="text-center">
-      <Button size="sm" variant="secondary" onClick={addNewItem}>{t('actions.addLink')}</Button>
+    {debug && <pre>{JSON.stringify(items)}</pre>}
+    <div className="text-right">
+      <Button size="sm" variant="outline-dark" onClick={addNewItem}>{addNewItemLabel} ＋</Button>
     </div>
     </div>
   )
