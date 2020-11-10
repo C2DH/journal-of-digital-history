@@ -92,7 +92,7 @@ const AbstractSubmission = (props) => {
     <Container className="page mb-5">
       <Row>
         <Col md={{span: 6, offset:2}}>
-          <h1>{t('pages.abstractSubmission.title')}</h1>
+          <h1 className="my-5">{t('pages.abstractSubmission.title')}</h1>
           <Jumbotron className="pt-4 pb-2 px-4">
             <h3>Call for paper: <b>The Digital Dilemma under the lens of history and historians</b></h3>
             <p>
@@ -102,7 +102,6 @@ const AbstractSubmission = (props) => {
               <Badge pill variant="secondary">Due date: Dec. 2020</Badge>
             </p>
           </Jumbotron>
-          <hr className="border-dark mb-5"/>
         </Col>
       </Row>
       <Form noValidate onSubmit={handleSubmit}>
