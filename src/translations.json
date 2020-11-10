@@ -27,11 +27,17 @@
           "DataSectionTitle": "Tools, Code & Data",
           "AuthorsSectionTitle": "Contributors",
           "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias",
-          "datasetDetailsUrl": "URL"
+          "datasetDetailsUrl": "URL",
+          "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply."
         },
         "home": {
           "latestIssues": "Latest issues",
           "latestArticles": "latest articles"
+        }
+      },
+      "forms": {
+        "formAuthorContact": {
+          "selectAsAuthor": "Use this contact info as contributor"
         }
       },
       "actions": {
@@ -72,7 +78,8 @@
           "AuthorsSectionTitle": "Contributors",
           "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias",
           "datasetDetailsUrl": "Link URL",
-          "datasetDetailsLabel": "Link description, license (where applicable)"
+          "datasetDetailsLabel": "Link description, license (where applicable)",
+          "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply."
         },
         "home": {
           "latestIssues": "Latest issues",
@@ -83,6 +90,11 @@
           "submitArticle": "Submit an article",
           "editorialRoadmap": "main dates for authors and editors",
           "technicalRoadmap": "main events for our web interface"
+        }
+      },
+      "forms": {
+        "formAuthorContact": {
+          "selectAsAuthor": "Use this contact info as contributor"
         }
       },
       "actions": {

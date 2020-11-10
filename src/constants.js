@@ -16,3 +16,5 @@ export const PrimaryRoutes = [
   AbstractSubmissionRoute,
   AboutRoute
 ]
+
+export const ReCaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
