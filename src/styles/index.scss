@@ -63,6 +63,10 @@ html,
 .navbar .nav-link{
   font-size: .9rem;
   color: white;
+    box-shadow: none;
+}
+.navbar-brand{
+  box-shadow: none;
 }
 .navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active{
   box-shadow: 0px 1px 0px var(--dark);
@@ -72,6 +76,14 @@ body{
 }
 main{
   // padding-top: 10rem;
+}
+a{
+  color: inherit;
+  box-shadow: 0px 1px 0px var(--secondary);
+  &:hover{
+    text-decoration: none;
+    box-shadow: 0px 1px 0px var(--primary);
+  }
 }
 .serif{
   font-family: var(--font-family-serif);
