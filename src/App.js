@@ -17,13 +17,7 @@ const About = lazy(() => import('./pages/About'))
 const AbstractSubmission = lazy(() => import('./pages/AbstractSubmission'))
 const Article = lazy(() => import('./pages/Article'))
 const Abstract = lazy(() => import('./pages/Abstract'))
-
-const NotFound = () => {
-  return (<div>
-    <h1>Not found</h1>
-    <p>sorry your page was not found</p>
-  </div>);
-}
+const NotFound = lazy(() => import('./pages/NotFound'))
 const { startLangShort, lang } = getStartLang()
 console.info('start language:', lang, startLangShort)
 i18n
