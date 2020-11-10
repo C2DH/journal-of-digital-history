@@ -13,7 +13,8 @@ const SwitchNightMode = () => {
       <Form.Check
         type="switch"
         id="custom-switch"
-        label="dark"
+        label=""
+        className="pt-2"
         defaultChecked={mode === 'dark'}
         onChange={handleChange}
       />

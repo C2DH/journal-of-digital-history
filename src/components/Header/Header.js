@@ -78,13 +78,13 @@ const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
       }}></div>
       <span className="d-md-block d-none">Journal of Digital History</span>
     </Navbar.Brand>
-    <Container>
-      <Row className="w-100 ml-auto d-md-flex d-none">
-        <Col md={{offset: 2, span: 6}} className="pb-3">
-          <NavPrimaryRoutes routes={PrimaryRoutes} />
+    <Container className="d-block" style={{height:80}}>
+      <Row className="d-md-flex d-none align-items-center h-100">
+        <Col md={{offset: 2, span: 6}}>
+          <NavPrimaryRoutes className="" routes={PrimaryRoutes} />
         </Col>
         <Col md={3}>
-          <Nav className="pb-3 mr-auto">
+          <Nav className="justify-content-end">
             <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>
             {!isAuthDisabled && <UserProfile/>}
             <Nav.Item><SwitchNightMode /></Nav.Item>
@@ -97,27 +97,27 @@ const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
   )
 }
 
-const Header = ({ availableLanguages, isAuthDisabled }) => {
-  const { t } = useTranslation()
-
-  // console.info('header render with lang:', lang);
-  return (
-    <Navbar className={styles.Navbar} fixed="top" variant="light" expand="md">
-    <Container>
-      <Navbar.Brand href="#home" className="d-flex align-items-center">
-        <div className={`${styles.BrandImage} brand-image flex-grow-1 mr-1`} style={{
-          backgroundImage: `url(${logo})`,
-        }}></div>
-        <span className="d-md-block d-none">Journal of <br/>Digital History</span>
-      </Navbar.Brand>
-      <NavPrimaryRoutes className="ml-auto d-md-flex d-none" routes={PrimaryRoutes}>
-        <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>
-        {!isAuthDisabled && <UserProfile/>}
-
-      </NavPrimaryRoutes>
-      <MobileHeader langs={availableLanguages}/>
-    </Container>
-  </Navbar>)
-}
+// const Header = ({ availableLanguages, isAuthDisabled }) => {
+//   const { t } = useTranslation()
+// 
+//   // console.info('header render with lang:', lang);
+//   return (
+//     <Navbar className={styles.Navbar} fixed="top" variant="light" expand="md">
+//     <Container>
+//       <Navbar.Brand href="#home" className="d-flex align-items-center">
+//         <div className={`${styles.BrandImage} brand-image flex-grow-1 mr-1`} style={{
+//           backgroundImage: `url(${logo})`,
+//         }}></div>
+//         <span className="d-md-block d-none">Journal of <br/>Digital History</span>
+//       </Navbar.Brand>
+//       <NavPrimaryRoutes className="ml-auto d-md-flex d-none" routes={PrimaryRoutes}>
+//         <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>
+//         {!isAuthDisabled && <UserProfile/>}
+// 
+//       </NavPrimaryRoutes>
+//       <MobileHeader langs={availableLanguages}/>
+//     </Container>
+//   </Navbar>)
+// }
 
 export default RowHeader
