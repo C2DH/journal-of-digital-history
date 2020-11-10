@@ -64,6 +64,9 @@ html,
   font-size: .9rem;
   color: white;
 }
+.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active{
+  box-shadow: 0px 1px 0px var(--dark);
+}
 body{
   background-color: var(--gray-100);
 }
@@ -79,14 +82,14 @@ main{
 
 .page{
   h1, h2, h3{
-    font-family: var(--font-family-monospace);
+    // font-family: var(--font-family-monospace);
     font-weight: bold;
   }
   h3, h4{
     font-size: inherit;
     display: inline-block;
     // text-decoration: underline;
-    border-bottom: 1px solid;
+    // border-bottom: 1px solid;
   }
 }
 
