@@ -1,16 +1,29 @@
-import React, { Suspense, lazy } from 'react'
-import { BrowserRouter, Switch, Route, Redirect, useRouteMatch } from "react-router-dom"
+import React, { Suspense, lazy, useEffect } from 'react'
+import { BrowserRouter, Switch, Route, Redirect, useRouteMatch, useLocation } from "react-router-dom"
 import i18n from 'i18next'
 import moment from 'moment'
 import { initReactI18next } from 'react-i18next'
 import { getStartLang, LANGUAGE_PATH, LANGUAGES } from './logic/language'
 import translations from './translations'
 import {useStore} from './store'
-import { IsMobile } from './constants'
+import { IsMobile, GaTrackingId } from './constants'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
 import AppRouteLoading from './pages/AppRouteLoading'
+import ReactGA from 'react-ga';
+// integrate history \w Google Analytics
+if (GaTrackingId) {
+  ReactGA.initialize(GaTrackingId);
+  // ReactGA.pageview(history.location.pathname + history.location.search);
+  // history.listen((location, action) => {
+  //   console.info('ReactGA.pageview', location)
+  //   ReactGA.pageview(location.pathname + location.search);
+  // });
+  console.info('%cGA:', 'font-weight: bold', GaTrackingId)
+} else {
+  console.info('%cGA:', 'font-weight: bold', 'disabled by config.')
+}
 
 /* Pages */
 const Home = lazy(() => import('./pages/Home'))
@@ -66,7 +79,21 @@ function LangRoutes() {
   )
 }
 
+function usePageViews() {
+  let location = useLocation()
+
+  useEffect(
+    () => {
+      const url = [location.pathname, location.search].join('')
+      console.info('pageview', url)
+      ReactGA.pageview(url)
+    },
+    [location]
+  )
+}
+
 function AppRoutes() {
+  usePageViews()
   // <Redirect from="/" exact to={startLangShort} />
   return (
     <Switch>
