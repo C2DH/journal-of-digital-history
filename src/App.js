@@ -10,6 +10,7 @@ import { IsMobile } from './constants'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
+import AppRouteLoading from './pages/AppRouteLoading'
 
 /* Pages */
 const Home = lazy(() => import('./pages/Home'))
@@ -18,6 +19,7 @@ const AbstractSubmission = lazy(() => import('./pages/AbstractSubmission'))
 const Article = lazy(() => import('./pages/Article'))
 const Abstract = lazy(() => import('./pages/Abstract'))
 const NotFound = lazy(() => import('./pages/NotFound'))
+
 const { startLangShort, lang } = getStartLang()
 console.info('start language:', lang, startLangShort)
 i18n
@@ -103,7 +105,7 @@ export default function App() {
         <Header availableLanguages={LANGUAGES} isAuthDisabled={isUnsafeEnvironment}/>
         <main>
           <MainBackground />
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={AppRouteLoading}>
             <AppRoutes />
           </Suspense>
         </main>
