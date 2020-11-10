@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Container, Form, Button, Col, Row, Jumbotron,Badge } from 'react-bootstrap'
+import ReCAPTCHA from 'react-google-recaptcha'
+
 import { useStore } from '../store'
 import { getValidatorResultWithAbstractSchema } from '../logic/validation'
 import Author from '../models/Author'
@@ -8,33 +10,25 @@ import Dataset from '../models/Dataset'
 import FormGroupWrapper from '../components/Forms/FormGroupWrapper'
 import FormAuthorContact from '../components/Forms/FormAuthorContact'
 import FormAbstractGenericSortableList from '../components/Forms/FormAbstractGenericSortableList'
+import { ReCaptchaSiteKey } from '../constants'
 
+console.info('%cRecaptcha', 'font-weight:bold', ReCaptchaSiteKey)
 
 const AbstractSubmissionPreview = ({ results }) => {
   const { t } = useTranslation()
   return (
-    <div>
+    <div className="p-3 border-dark">
       <h3>{t('pages.abstractSubmission.preview')}</h3>
-      <div className="p-3 border rounded shadow" style={{
-        backgroundColor: 'var(--gray-100)',
+      <div  style={{
         maxHeight: '50vh',
         overflow: 'scroll'
       }}>
       {results.map(({ value, isValid, label }, i) => (
         <div key={`result-${i}`} >
-          <Badge variant={ isValid ? 'success': 'transparent' } pill>{t(label)}
+          <Badge variant={ isValid ? 'success': 'transparent' } pill>
             {value === null && ' (empty)'}
             {isValid === 'false' && ' (error)'}
-          </Badge>
-          <p style={{
-            height: '25px',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-          }}>
-          {typeof value === 'string' && value}
-          {typeof value === 'object' && value && JSON.stringify(value)}
-          </p>
+          </Badge>{t(label)}
         </div>
       ))}
       </div>
@@ -43,7 +37,7 @@ const AbstractSubmissionPreview = ({ results }) => {
 }
 
 
-export default function AbstractSubmission(props) {
+const AbstractSubmission = (props) => {
   const { t } = useTranslation()
   const [errors, setErrors] = useState([])
   const [ results, setResults ] = useState([
@@ -53,12 +47,14 @@ export default function AbstractSubmission(props) {
     { id: 'authors', value: null, label: 'pages.abstractSubmission.AuthorsSectionTitle' },
     { id: 'datasets', value: null, label: 'pages.abstractSubmission.DataSectionTitle' }
   ])
+  const [authors, setAuthors] = useState([])
+  const recaptchaRef = React.useRef();
 
   useEffect(() => {
     // Update the document title using the browser API
     useStore.setState({ backgroundColor: 'var(--light)' });
   });
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
     const submission = results.reduce((acc, el) => {
       acc[el.id] = el.value
@@ -66,10 +62,18 @@ export default function AbstractSubmission(props) {
     } , {})
     const result = getValidatorResultWithAbstractSchema(submission)
     setErrors(result.errors)
-    console.info('handleSubmit', submission, result.valid)
+    // console.info('handleSubmit', submission, result.valid)
+    if (result.valid) {
+      const token = await recaptchaRef.current.executeAsync()
+      console.info('%cRecaptcha', 'font-weight:bold', 'token:', token)
+    }
   }
 
   const handleChange = ({ id, value, isValid }) => {
+    console.info('changed', id)
+    if (id === 'authors') {
+      setAuthors(value)
+    }
     setResults(results.map((d) => {
       if (d.id === id) {
         return { ...d, value, isValid }
@@ -77,6 +81,13 @@ export default function AbstractSubmission(props) {
       return { ...d }
     }))
   }
+  const handleAddContactAsAuthor = (author) => {
+    setAuthors(authors.filter(d => d.id !== author.id).concat([author]))
+  }
+  const handleRecaptchaChange = (e) => {
+    console.info(e)
+  }
+  
   return (
     <Container className="page mb-5">
       <Row>
@@ -114,6 +125,7 @@ export default function AbstractSubmission(props) {
             <h3>{t('pages.abstractSubmission.ContactPointSectionTitle')}</h3>
             <FormAuthorContact
               onChange={({ value, isValid }) => handleChange({ id: 'contact', value, isValid })}
+              onSelectAsAuthor={handleAddContactAsAuthor}
             />
 
             <hr />
@@ -126,6 +138,8 @@ export default function AbstractSubmission(props) {
                 isValid
               })}
               ItemClass={Author}
+              initialItems={authors}
+              addNewItemLabel={t('actions.addAuthor')}
               listItemComponentTagName='FormAbstractAuthorsListItem' />
 
             <hr />
@@ -138,6 +152,7 @@ export default function AbstractSubmission(props) {
                 isValid
               })}
               ItemClass={Dataset}
+              addNewItemLabel={t('actions.addDataset')}
               listItemComponentTagName='FormAbstractDatasetsListItem' />
             <hr />
           </Col>
@@ -155,6 +170,12 @@ export default function AbstractSubmission(props) {
             <Button variant="primary" size="lg" className="px-4" type="submit">
               Submit
             </Button>
+            <p dangerouslySetInnerHTML={{__html: t('pages.abstractSubmission.recaptchaDisclaimer')}}/><ReCAPTCHA
+              ref={recaptchaRef}
+              size="invisible"
+              sitekey={ReCaptchaSiteKey}
+              onChange={handleRecaptchaChange}
+            />
             <pre>{JSON.stringify(errors, null, 2)}</pre>
           </Col>
         </Row>
@@ -162,3 +183,5 @@ export default function AbstractSubmission(props) {
     </Container>
   )
 }
+
+export default AbstractSubmission

@@ -5,6 +5,7 @@ import { getValidatorResult, getPartialSchema } from '../../logic/validation'
 
 
 const FormGroupWrapper = ({
+  controlId,
   schemaId, as, type, placeholder, label, children,
   ignoreWhenLengthIslessThan = 1, rows, setFormErrors,
   initialValue,
@@ -45,7 +46,7 @@ const FormGroupWrapper = ({
     onChange({ value: event.target.value, isValid: result.valid })
   }
   return (
-    <Form.Group controlId={schemaId}>
+    <Form.Group controlId={controlId ?? schemaId.replace(/[#/]/g, '-')}>
       <Form.Label>{t(label)} </Form.Label>
       <Form.Control as={as} type={type} rows={rows} placeholder={placeholder}
         onChange={handleChange}

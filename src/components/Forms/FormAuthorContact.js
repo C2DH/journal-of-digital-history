@@ -1,16 +1,16 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Form, Col, Row } from 'react-bootstrap'
+import { Form, Col, Row, Button } from 'react-bootstrap'
 import FormGroupWrapper from './FormGroupWrapper'
 import Author from '../../models/Author'
 
 
-const FormAuthorContact = ({ onChange }) => {
+const FormAuthorContact = ({ onChange, onSelectAsAuthor }) => {
   const { t } = useTranslation()
   const [parts, setParts] = useState([
     { id: 'firstname', isValid: null },
     { id: 'lastname', isValid: null },
-    { id: 'email', isValid: null }
+    { id: 'email', isValid: null },
   ])
   const [author, setAuthor] = useState(new Author())
   const [isAuthorValid, setAuthorIsValid] = useState(null)
@@ -24,6 +24,15 @@ const FormAuthorContact = ({ onChange }) => {
       value: author,
       isValid: isAuthorValid && author.email === value,
     })
+  }
+
+  const handleContactIsAuthorClick = () => {
+    const isValid = !parts.some(d => !d.isValid);
+    onSelectAsAuthor(new Author({
+      ...author,
+      id: 'contact',
+      isValid,
+    }))
   }
 
   const handleChange = ({ id, isValid, value }) => {
@@ -95,6 +104,13 @@ const FormAuthorContact = ({ onChange }) => {
           Note: copy paste is disabled
         </Form.Text>
       </Form.Group>
+      <div className="text-right">
+      <Button 
+        variant="outline-dark"
+        size="sm"
+        onClick={handleContactIsAuthorClick}>{t('forms.formAuthorContact.selectAsAuthor')} ＋
+        </Button>
+      </div>
       <pre>{JSON.stringify(author)}</pre>
     </div>
   )
