@@ -1,10 +1,29 @@
 import React from 'react'
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from 'react-bootstrap'
+import { getArticleTreeFromIpynb } from '../logic/ipynb'
 
-export default function About(){
+import pageContents from '../data/mock-api/mock-about-ipynb.json'
+import ArticleCell from '../components/ArticleText/ArticleCell'
+
+const articleTree = getArticleTreeFromIpynb(pageContents)
+// const sectionsCells = articleTree.paragraphs.reduce((acc, d) => {
+// 
+// }, {})
+
+const TermsOfUse = ({ results }) => {
   return (
-    <Container>
-      <h1>about</h1>
-    </Container>
-  );
+    <>
+      <Container className="page">
+        <Row>
+          <Col md={{offset: 2, span:6}}>
+          {articleTree.paragraphs.map((props, i) => (
+            <ArticleCell {...props} idx=""/>
+          ))}
+          </Col>
+        </Row>
+      </Container>
+    </>
+  )
 }
+
+export default TermsOfUse

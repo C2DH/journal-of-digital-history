@@ -7,7 +7,8 @@ import {
   ReferencesRoute,
   DatasetsRoute,
   AbstractSubmissionRoute,
-  AboutRoute
+  AboutRoute,
+  TermsOfUseRoute
 } from '../constants'
 const now = new Date()
 
@@ -37,6 +38,7 @@ const Footer = () => {
           <Col md={3}>
             <Nav className="flex-column">
               <Nav.Item><LangNavLink to={AboutRoute.to} exact>{t(AboutRoute.label)}</LangNavLink></Nav.Item>
+              <Nav.Item><LangNavLink to={TermsOfUseRoute.to} exact>{t(TermsOfUseRoute.label)}</LangNavLink></Nav.Item>
             </Nav>
           </Col>
         </Row>

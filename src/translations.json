@@ -6,9 +6,13 @@
         "datasets": "datasets",
         "home": "index",
         "references": "references",
-        "submit": "Submit an article"
+        "submit": "Submit an article",
+        "termsOfUse": "Terms of Use"
       },
       "pages": {
+        "loading": {
+          "title": "loading..."
+        },
         "abstractSubmission": {
           "title": "Abstract submission",
           "subheading": "...",
@@ -77,9 +81,13 @@
         "datasets": "datasets",
         "home": "index",
         "references": "references",
-        "submit": "Submit an article"
+        "submit": "Submit an article",
+        "termsOfUse": "Terms of Use"
       },
       "pages": {
+        "loading": {
+          "title": "loading..."
+        },
         "abstractSubmission": {
           "title": "Abstract submission",
           "subheading": "...",

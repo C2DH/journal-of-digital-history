@@ -31,7 +31,7 @@ const AbstractSubmission = (props) => {
     { id: 'authors', value: temporaryAbstractSubmission.authors, label: 'pages.abstractSubmission.AuthorsSectionTitle' },
     { id: 'datasets', value: temporaryAbstractSubmission.datasets, label: 'pages.abstractSubmission.DataSectionTitle' }
   ])
-  console.info('temporaryAbstractSubmission', temporaryAbstractSubmission)
+  // console.info('temporaryAbstractSubmission', temporaryAbstractSubmission)
   useEffect(() => {
     // Update the document title using the browser API
     useStore.setState({ backgroundColor: 'var(--light)' });
