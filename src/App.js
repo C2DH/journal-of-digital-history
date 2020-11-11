@@ -31,6 +31,7 @@ const About = lazy(() => import('./pages/About'))
 const AbstractSubmission = lazy(() => import('./pages/AbstractSubmission'))
 const Article = lazy(() => import('./pages/Article'))
 const Abstract = lazy(() => import('./pages/Abstract'))
+const TermsOfUse = lazy(() => import('./pages/TermsOfUse'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 const { startLangShort, lang } = getStartLang()
@@ -73,6 +74,9 @@ function LangRoutes() {
       </Route>
       <Route exact path={`${path}/abstract`}>
         <Abstract />
+      </Route>
+      <Route exact path={`${path}/terms`}>
+        <TermsOfUse />
       </Route>
       <Route exact path={`${path}/submit`}>
         <AbstractSubmission />
