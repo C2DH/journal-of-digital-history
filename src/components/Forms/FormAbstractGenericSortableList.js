@@ -18,7 +18,7 @@ const FormAbstractGenericSortableList = ({
   debug=false
 }) => {
   const [ items, setItems ] = useState(initialItems || [])
-  console.info('items updated', items, initialItems)
+  // console.info('items updated', items, initialItems)
   useEffect(() => {
     if(initialItems) {
       setItems(initialItems.map(d => new ItemClass({...d})));
@@ -75,7 +75,7 @@ const FormAbstractGenericSortableList = ({
           key={item.id} className="generic-list-item bg-light"
           style={{ zIndex: index, height: 350, transform: y.interpolate(y => `translate3d(0,${y}px,0)`), ...rest }}
         >
-        <div className="d-flex align-items-top mb-2 pl-2 pr-1 pb-2 pt-0 border rounded shadow-sm">
+        <div className="d-flex align-items-top mb-2 pl-2 pr-1 pb-2 pt-0 border border-dark rounded shadow-sm">
           <ListItemComponent className="w-100 mt-2"  item={item} onChange={handleChange} />
           <div className="flex-shrink-1">
           {item.id}
