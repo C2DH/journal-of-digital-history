@@ -5,12 +5,20 @@ import ArticleTree from '../models/ArticleTree'
 import ArticleHeading from '../models/ArticleHeading'
 import ArticleCell from '../models/ArticleCell'
 
+import MarkdownItAttrs from '@gerhobbelt/markdown-it-attrs'
 
 const markdownParser = MarkdownIt({
   html: false,
   linkify: true,
   typographer: true
 })
+
+markdownParser.use(MarkdownItAttrs, {
+  // optional, these are default options
+  leftDelimiter: '{',
+  rightDelimiter: '}',
+  allowedAttributes: ['class']  // empty array = all attributes are allowed
+});
 
 const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
   console.info('getArticleTreeFromIpynb', cells)
