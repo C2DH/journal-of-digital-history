@@ -9,6 +9,7 @@ export const ReferencesRoute = { to: '/references', label: 'navigation.reference
 export const DatasetsRoute = { to: '/datasets', label: 'navigation.datasets' }
 export const AbstractSubmissionRoute = { to: '/submit', label: 'navigation.submit' }
 export const AboutRoute = { to: '/about', label: 'navigation.about' }
+export const AbstractSubmissionPreviewRoute = { to:'/abstract', label: 'navigation.abstract'}
 export const PrimaryRoutes = [
   HomeRoute,
   ReferencesRoute,
