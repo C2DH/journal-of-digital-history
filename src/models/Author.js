@@ -8,4 +8,13 @@ export default class Author {
     this.orcid = orcid
     this.isValid = isValid
   }
+  
+  asText() {
+    return [
+      `${this.lastname}, ${this.firstname}`,
+      this.email ? `(${this.email})` : null,
+      this.affiliation ? `- ✉ ${this.affiliation}` : null,
+      this.orcid ? `- 🆔 orcid:${this.orcid}` : null,
+    ].filter(d => d).join(' ')
+  }
 }

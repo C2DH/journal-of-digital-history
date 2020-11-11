@@ -7,4 +7,11 @@ export default class Dataset {
     this.type = type
     this.isValid = isValid
   }
+  asText() {
+    return [
+      `url: ${this.url} - `,
+      this.description,
+      this.license,
+    ].filter(d => d).join(' ')
+  }
 }
