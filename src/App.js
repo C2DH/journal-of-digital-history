@@ -43,7 +43,12 @@ i18n
     interpolation: {
       escapeValue: false, // react already safes from xss
       format: function(value, format, lng) {
-          if(value instanceof Date) return moment(value).format(format);
+          if(value instanceof Date) {
+            if (format === 'fromNow') {
+              return moment(value).fromNow()
+            }
+            return moment(value).format(format)
+          }
           return value;
       }
     }
@@ -132,7 +137,7 @@ export default function App() {
         <Header availableLanguages={LANGUAGES} isAuthDisabled={isUnsafeEnvironment}/>
         <main>
           <MainBackground />
-          <Suspense fallback={AppRouteLoading}>
+          <Suspense fallback={<AppRouteLoading/>}>
             <AppRoutes />
           </Suspense>
         </main>

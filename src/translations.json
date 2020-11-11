@@ -2,20 +2,20 @@
   "fr_FR": {
     "translation": {
       "navigation": {
-        "about": "le journal",
+        "about": "about",
         "datasets": "datasets",
-        "home": "accueil",
-        "references": "références",
-        "submit": "envoyez-nous un article"
+        "home": "index",
+        "references": "references",
+        "submit": "Submit an article"
       },
       "pages": {
         "abstractSubmission": {
-          "title": "Envoyez-nous un article",
+          "title": "Abstract submission",
           "subheading": "...",
-          "authorEmail": "addresse email",
-          "authorEmailCheck": "Repeter adresse email",
-          "authorFirstName": "Prènom",
-          "authorLastName": "Nom",
+          "authorEmail": "email address",
+          "authorEmailCheck": "email address, again",
+          "authorFirstName": "First name",
+          "authorLastName": "Last name",
           "authorUsername": "nom utilisateur",
           "articleContact": "Contact info",
           "articleTitle": "Title",
@@ -27,16 +27,23 @@
           "DataSectionTitle": "Tools, Code & Data",
           "AuthorsSectionTitle": "Contributors",
           "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias",
-          "datasetDetailsUrl": "URL",
+          "datasetDetailsUrl": "Link URL",
+          "datasetDetailsLabel": "Link description, license (where applicable)",
           "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply."
+        },
+        "home": {
+          "latestIssues": "Latest issues",
+          "latestArticles": "Latest articles",
+          "editorialBoardMembers": "Editorial Board members",
+          "journalRoadmap": "Milestones",
+          "callForPaper": "Open Call for Papers",
+          "submitArticle": "Submit an article",
+          "editorialRoadmap": "main dates for authors and editors",
+          "technicalRoadmap": "main events for our web interface"
         },
         "notFound": {
           "title": "not Found",
           "subheading": "..."
-        },
-        "home": {
-          "latestIssues": "Latest issues",
-          "latestArticles": "latest articles"
         }
       },
       "forms": {
@@ -45,11 +52,21 @@
         }
       },
       "actions": {
-        "logout": "(se deconnecter)"
+        "logout": "(log out)",
+        "addLink": "Add link",
+        "addAuthor": "Add contributor",
+        "addDataset": "Add dataset",
+        "downloadAsJSON": "download as JSON"
       },
       "numbers": {
         "maxAllowedCharactersWithCount": "Maximum {{count}} characters allowed",
         "currentCharactersWithCount": "(now: <b>{{count}}</b> characters counted)"
+      },
+      "dates": {
+        "short": "{{date, ll}}",
+        "fromNow": "{{date, fromNow}}",
+        "LLLL": "{{date, LLLL}}",
+        "LLL": "{{date, LLL}}"
       }
     }
   },
@@ -109,7 +126,8 @@
         "logout": "(log out)",
         "addLink": "Add link",
         "addAuthor": "Add contributor",
-        "addDataset": "Add dataset"
+        "addDataset": "Add dataset",
+        "downloadAsJSON": "download as JSON"
       },
       "numbers": {
         "maxAllowedCharactersWithCount": "Maximum {{count}} characters allowed",
