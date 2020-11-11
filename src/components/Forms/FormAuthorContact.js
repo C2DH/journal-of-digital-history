@@ -5,14 +5,14 @@ import FormGroupWrapper from './FormGroupWrapper'
 import Author from '../../models/Author'
 
 
-const FormAuthorContact = ({ onChange, onSelectAsAuthor }) => {
+const FormAuthorContact = ({ onChange, onSelectAsAuthor, initialValue }) => {
   const { t } = useTranslation()
   const [parts, setParts] = useState([
     { id: 'firstname', isValid: null },
     { id: 'lastname', isValid: null },
     { id: 'email', isValid: null },
   ])
-  const [author, setAuthor] = useState(new Author())
+  const [author, setAuthor] = useState(new Author({...initialValue}))
   const [isAuthorValid, setAuthorIsValid] = useState(null)
   const [repeatEmail, setRepeatEmail] = useState('')
   const [repeatEmailIsValid, setRepeatEmailIsValid] = useState(null)
@@ -69,6 +69,7 @@ const FormAuthorContact = ({ onChange, onSelectAsAuthor }) => {
       <Col>
       <FormGroupWrapper
         schemaId='#/definitions/firstname'
+        initialValue={author.firstname}
         label='pages.abstractSubmission.authorFirstName' ignoreWhenLengthIslessThan={5}
         onChange={(field) => handleChange({ id: 'firstname', ...field })}
       />
@@ -76,6 +77,7 @@ const FormAuthorContact = ({ onChange, onSelectAsAuthor }) => {
       <Col>
       <FormGroupWrapper
         id='contactLastName'
+        initialValue={author.lastname}
         schemaId='#/definitions/lastname'
         label='pages.abstractSubmission.authorLastName' ignoreWhenLengthIslessThan={5}
         onChange={(field) => handleChange({ id: 'lastname', ...field })}
@@ -84,6 +86,7 @@ const FormAuthorContact = ({ onChange, onSelectAsAuthor }) => {
       </Row>
       <FormGroupWrapper
         id='contactEmail'
+        initialValue={author.email}
         placeholder='your email' type='email'
         schemaId='#/definitions/email'
         label='pages.abstractSubmission.authorEmail' ignoreWhenLengthIslessThan={5}

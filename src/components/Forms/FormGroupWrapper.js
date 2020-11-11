@@ -52,7 +52,7 @@ const FormGroupWrapper = ({
         onChange={handleChange}
         isInvalid={isValid === false}
         isValid={isValid === true}
-        value={initialValue}
+        value={initialValue || ''}
       />
       {schema.maxLength && (
         <Form.Text className="text-muted">
