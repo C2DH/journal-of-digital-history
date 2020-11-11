@@ -142,7 +142,10 @@
         "currentCharactersWithCount": "(now: <b>{{count}}</b> characters counted)"
       },
       "dates": {
-        "short": "{{date, ll}}"
+        "short": "{{date, ll}}",
+        "fromNow": "{{date, fromNow}}",
+        "LLLL": "{{date, LLLL}}",
+        "LLL": "{{date, LLL}}"
       }
     }
   }
