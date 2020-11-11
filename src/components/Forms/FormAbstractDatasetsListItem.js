@@ -25,7 +25,7 @@ const FormAbstractDatasetsListItem = ({ item, onChange, className }) => {
       <FormGroupWrapper as="textarea"
         schemaId="#/definitions/text500"
         label="pages.abstractSubmission.datasetDetailsLabel"
-        initialValue={item.label}
+        initialValue={item.description}
         onChange={(field) => handleChange({ id: 'description', ...field})}
       />
     </div>
