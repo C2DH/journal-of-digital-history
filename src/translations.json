@@ -20,6 +20,7 @@
           "authorEmailCheck": "email address, again",
           "authorFirstName": "First name",
           "authorLastName": "Last name",
+          "authorOrcid": "ORCID url",
           "authorUsername": "nom utilisateur",
           "articleContact": "Contact info",
           "articleTitle": "Title",
@@ -64,7 +65,7 @@
       },
       "numbers": {
         "maxAllowedCharactersWithCount": "Maximum {{count}} characters allowed",
-        "currentCharactersWithCount": "(now: <b>{{count}}</b> characters counted)"
+        "currentCharactersWithCount": "(now: <b>{{count}}</b>)"
       },
       "dates": {
         "short": "{{date, ll}}",
@@ -95,6 +96,7 @@
           "authorEmailCheck": "email address, again",
           "authorFirstName": "First name",
           "authorLastName": "Last name",
+          "authorOrcid": "ORCID url",
           "authorUsername": "nom utilisateur",
           "articleContact": "Contact info",
           "articleTitle": "Title",
@@ -139,7 +141,7 @@
       },
       "numbers": {
         "maxAllowedCharactersWithCount": "Maximum {{count}} characters allowed",
-        "currentCharactersWithCount": "(now: <b>{{count}}</b> characters counted)"
+        "currentCharactersWithCount": "(now: <b>{{count}}</b>)"
       },
       "dates": {
         "short": "{{date, ll}}",
