@@ -59,7 +59,7 @@ const FormAuthorContact = ({ onChange, onSelectAsAuthor, initialValue }) => {
     }
     // try to send out the value
     onChange({
-      value: author,
+      value: temporaryAuthor,
       isValid: temporaryAuthorIsValid && temporaryAuthor.email === repeatEmail,
     })
   }

@@ -58,7 +58,7 @@ const FormAbstractAuthorsListItem = ({ item, onChange, className }) => {
             controlId={['author', item.id, 'orcid'].join('-')}
             schemaId='#/definitions/orcid'
             initialValue={item.orcid}
-            label='pages.abstractSubmission.authorEmail' ignoreWhenLengthIslessThan={1}
+            label='pages.abstractSubmission.authorOrcid' ignoreWhenLengthIslessThan={1}
             onChange={(field) => handleChange({id: 'orcid', ...field})}
           />
         </Col>

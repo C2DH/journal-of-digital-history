@@ -7,41 +7,27 @@ import { getValidatorResult, getPartialSchema } from '../../logic/validation'
 const FormGroupWrapper = ({
   controlId,
   schemaId, as, type, placeholder, label, children,
-  ignoreWhenLengthIslessThan = 1, rows, setFormErrors,
+  ignoreWhenLengthIslessThan = 1, rows,
   initialValue,
   onChange,
 }= {}) => {
   const { t } = useTranslation()
   const schema = getPartialSchema(schemaId)
   const [isValid, setIsValid] = useState(null)
-  const [value, setValue] = useState('')
+  const [valueLength, setValueLength] = useState(initialValue?.length || 0)
   const [errors, setErrors] = useState([])
-  if (setFormErrors) {
-    setFormErrors({ schemaId, label, pristine: true, errors: []})
-  }
-  const setPristine = () => {
-    if (setFormErrors) {
-      setFormErrors({ schemaId, label, pristine: true, errors: []})
-    }
-    onChange({ value: null })
-    setIsValid(null)
-    setErrors([])
-  }
 
   const handleChange = (event) => {
-    setValue(event.target.value)
-    if (!isNaN(ignoreWhenLengthIslessThan) && event.target.value.length < ignoreWhenLengthIslessThan) {
-      setPristine()
-      return
-    }
+    setValueLength(event.target.value)
     const result = getValidatorResult({
       value: event.target.value,
       schema,
     })
-    if (setFormErrors) {
-      setFormErrors({ schemaId, label, errors: result.errors })
+    if (!isNaN(ignoreWhenLengthIslessThan) && event.target.value.length < ignoreWhenLengthIslessThan) {
+      setIsValid(null)
+    } else {
+      setIsValid(result.valid)
     }
-    setIsValid(result.valid)
     setErrors(result.errors)
     onChange({ value: event.target.value, isValid: result.valid })
   }
@@ -57,9 +43,9 @@ const FormGroupWrapper = ({
       {schema.maxLength && (
         <Form.Text className="text-muted">
           <span>{t('numbers.maxAllowedCharactersWithCount', { count: schema.maxLength })}&nbsp;</span>
-          { value.length ? (
+          { valueLength.length ? (
             <span dangerouslySetInnerHTML={{
-              __html: t('numbers.currentCharactersWithCount', { count: value.length })
+              __html: t('numbers.currentCharactersWithCount', { count: valueLength.length })
             }}/>
           ) : null}
         </Form.Text>
