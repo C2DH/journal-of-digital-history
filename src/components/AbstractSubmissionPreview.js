@@ -38,7 +38,7 @@ const AbstractSubmissionPreview = ({
       <Badge variant='transparent'>edited</Badge>&nbsp;
       {t('dates.LLL', {date: temporaryAbstractSubmission.getDateLastModified()})}
       <br/>
-      <div class="ml-2">({t('dates.fromNow', {date: temporaryAbstractSubmission.getDateLastModified()})})</div>
+      <div className="ml-2">({t('dates.fromNow', {date: temporaryAbstractSubmission.getDateLastModified()})})</div>
       <div>
       <ButtonGroup size="sm" className="my-3">
         <Button variant="outline-dark"

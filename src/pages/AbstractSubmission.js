@@ -53,16 +53,12 @@ const AbstractSubmission = (props) => {
   }
 
   const handleChange = ({ id, value, isValid }) => {
-    // if (id === 'authors') {
-    //   setAuthors(value)
-    // }
     const _results = results.map((d) => {
       if (d.id === id) {
         return { ...d, value, isValid }
       }
       return { ...d }
     })
-    // console.info('changed', _results)
     const submission = _results.reduce((acc, el) => {
       acc[el.id] = el.value
       return acc
