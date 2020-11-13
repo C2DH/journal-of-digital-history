@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import AbstractSubmission from '../models/AbstractSubmission'
+import AbstractSubmission from '../../models/AbstractSubmission'
 
-const useCreateAbstractSubmission = (payload) => {
-  console.info('useCreateAbstractSubmission', payload)
-}
 
 const useGetAbstractSubmission = (id) => {
   const cache = useRef({});
@@ -40,4 +37,4 @@ const useGetAbstractSubmission = (id) => {
   return { status, item };
 }
 
-export { useGetAbstractSubmission, useCreateAbstractSubmission }
+export { useGetAbstractSubmission }
