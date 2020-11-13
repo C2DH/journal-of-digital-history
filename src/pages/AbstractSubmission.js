@@ -61,6 +61,7 @@ const AbstractSubmission = (props) => {
       }).then((res) => {
         console.log('received', res)
         if(res.status === 201) {
+          setTemporaryAbstractSubmission({})
           history.push(`/en/abstract/${res.data.id}`);
         }
       })
