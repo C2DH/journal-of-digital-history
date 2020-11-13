@@ -13,7 +13,7 @@ export default class Author {
     return [
       `${this.lastname}, ${this.firstname}`,
       this.email ? `(${this.email})` : null,
-      this.affiliation ? `- ✉ ${this.affiliation}` : null,
+      this.affiliation ? `- ${this.affiliation}` : null,
       this.orcid ? `- 🆔 orcid:${this.orcid}` : null,
     ].filter(d => d).join(' ')
   }
