@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useHistory } from "react-router-dom";
 import { Container, Form, Button, Col, Row, Jumbotron,Badge } from 'react-bootstrap'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { useStore } from '../store'
@@ -12,14 +13,17 @@ import FormAuthorContact from '../components/Forms/FormAuthorContact'
 import FormAbstractGenericSortableList from '../components/Forms/FormAbstractGenericSortableList'
 import AbstractSubmissionPreview from '../components/AbstractSubmissionPreview'
 import { ReCaptchaSiteKey } from '../constants'
+import { createAbstractSubmission } from '../logic/api/postData'
 
 console.info('%cRecaptcha', 'font-weight:bold', ReCaptchaSiteKey)
 
 
 const AbstractSubmission = (props) => {
   const { t } = useTranslation()
+  const history = useHistory();
   const [errors, setErrors] = useState([])
   const [isPreviewMode, setPreviewMode] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const temporaryAbstractSubmission = useStore((state) => state.temporaryAbstractSubmission);
   const setTemporaryAbstractSubmission = useStore((state) => state.setTemporaryAbstractSubmission);
   // const [authors, setAuthors] = useState([])
@@ -38,17 +42,31 @@ const AbstractSubmission = (props) => {
   });
   const handleSubmit = async(event) => {
     event.preventDefault();
+    if (isSubmitting) {
+      console.warn('already busy submitting the form!')
+      return
+    }
     const submission = results.reduce((acc, el) => {
       acc[el.id] = el.value
       return acc
     } , {})
     const result = getValidatorResultWithAbstractSchema(submission)
-    setErrors(result.errors)
-    setTemporaryAbstractSubmission(submission)
-    console.info('handleSubmit', submission, result.valid)
     if (result.valid) {
+      setIsSubmitting(true)
       const token = await recaptchaRef.current.executeAsync()
       console.info('%cRecaptcha', 'font-weight:bold', 'token:', token)
+      createAbstractSubmission({
+        item: submission,
+        token,
+      }).then((res) => {
+        console.log('received', res)
+        if(res.status === 201) {
+          setTemporaryAbstractSubmission({})
+          history.push(`/en/abstract/${res.data.id}`);
+        }
+      })
+    } else {
+      setErrors(result.errors)
     }
   }
 
@@ -63,6 +81,7 @@ const AbstractSubmission = (props) => {
       acc[el.id] = el.value
       return acc
     } , {})
+    // todo add creation date if a temporaryAbstractSubmission object is available.
     setTemporaryAbstractSubmission(submission)
     setResults(_results)
   }
@@ -70,10 +89,6 @@ const AbstractSubmission = (props) => {
   const handleAddContactAsAuthor = (author) => {
     console.info('@todo', author)
     // setAuthors(authors.filter(d => d.id !== author.id).concat([author]))
-  }
-
-  const handleRecaptchaChange = (e) => {
-    console.info(e)
   }
   
   const handleToggleMode = (mode) => {
@@ -202,7 +217,6 @@ const AbstractSubmission = (props) => {
               ref={recaptchaRef}
               size="invisible"
               sitekey={ReCaptchaSiteKey}
-              onChange={handleRecaptchaChange}
             />
             <pre>{JSON.stringify(errors, null, 2)}</pre>
           </Col>

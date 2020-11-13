@@ -13,7 +13,9 @@ Makefile contains a couple of useful commands that inject local environmental va
 	     REACT_APP_GIT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD) \
 	     REACT_APP_GIT_REVISION=$(shell git rev-parse --short HEAD) \
 	     yarn start
-       
+
+In development environment, to add a PROXY api different than `http://localhost` add the REACT_APP_PROXY as env variable (it can be stored in a local `.env.development` file)
+
 ## Production environment
 We use docker [c2dhunilu/journal-of-digital-history](https://hub.docker.com/repository/docker/c2dhunilu/journal-of-digital-history)
 The repo contains the built files and it is shipped automatically to docker hub with the github actions.
