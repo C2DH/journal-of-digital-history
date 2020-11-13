@@ -13,6 +13,10 @@
         "loading": {
           "title": "loading..."
         },
+        "abstract": {
+          "authors": "contributors",
+          "contact": "contact point"
+        },
         "abstractSubmission": {
           "title": "Abstract submission",
           "subheading": "...",
@@ -87,6 +91,10 @@
       "pages": {
         "loading": {
           "title": "loading..."
+        },
+        "abstract": {
+          "authors": "contributors",
+          "contact": "contact point"
         },
         "abstractSubmission": {
           "title": "Abstract submission",
