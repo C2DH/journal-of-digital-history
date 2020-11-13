@@ -9,9 +9,14 @@ const ArticleAuthor = ({ author }) => {
       <br/>
       {author.affiliation}
       <br/>
-      <Badge variant="dark">orcid</Badge> <a href={author.orcid}>
-        {author.orcid.replace('https://orcid.org/','')}
-      </a>
+      {author.orcid?.length && (
+        <p>
+          <Badge variant="dark">orcid</Badge>
+          <a href={author.orcid}>
+            {author.orcid.replace('https://orcid.org/','')}
+          </a>
+        </p>
+      )}
     </>
   )
 }
