@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import mockAbstract from '../data/mock-api/mock-abstract.json'
 import ArticleAuthor from '../components/ArticleText/ArticleAuthor'
 import Author from '../models/Author'
-import { useGetAbstractSubmission } from '../logic/api'
+import { useGetAbstractSubmission } from '../logic/api/fetchData'
 import LangLink from '../components/LangLink'
 
 
@@ -22,17 +22,15 @@ const Abstract = ({ results }) => {
             <h3>{item.id}</h3>
             <h1 className="my-5">{item.title}</h1>
             <h2 style={{fontWeight: 'normal'}}>{item.abstract}</h2>
-            <pre>{status}
-            {JSON.stringify(item, null, 2)}</pre>
           </Col>
         </Row>
         <Row className="pt-4">
           <Col md={{offset: 2, span:6}}>
             <h3>{t('pages.abstract.authors')}</h3>
           </Col>
-          {mockAbstract.authors.map((author,i) => (
+          {item.authors.map((author,i) => (
             <Col key={i} md={{offset: 2, span: 3}}>
-              <ArticleAuthor author={new Author(author)} />
+              {(new Author(author)).asText()}
             </Col>
           ))}
         </Row>
@@ -43,7 +41,7 @@ const Abstract = ({ results }) => {
         </Row>
         <Row>
           <Col md={{offset: 2, span:6}}>
-            <ArticleAuthor author={new Author(mockAbstract.contact)} />
+            {(new Author(item.contact)).asText()}
           </Col>
         </Row>
         <LangLink to='abstract/24'> to 24 </LangLink>
