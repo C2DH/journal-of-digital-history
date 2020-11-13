@@ -35,7 +35,7 @@
         "article abstract"
       ],
       "minLength": 100,
-      "maxLength": 1000
+      "maxLength": 10000
     },
     "text250": {
       "$id": "#/definitions/text250",
@@ -189,6 +189,12 @@
           },
           "description": {
             "$ref": "#/definitions/text500"
+          },
+          "type": {
+            "$ref": "#/definitions/text250"
+          },
+          "license": {
+            "$ref": "#/definitions/text250"
           },
           "isValid": {
             "$ref": "#/definitions/isValid"
