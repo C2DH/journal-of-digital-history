@@ -9,6 +9,7 @@
         "submit": "Submit an article",
         "termsOfUse": "Terms of Use"
       },
+      "title": "Journal of Digital History",
       "pages": {
         "loading": {
           "title": "loading..."
@@ -89,6 +90,7 @@
         "submit": "Submit an article",
         "termsOfUse": "Terms of Use"
       },
+      "title": "Journal of Digital History",
       "pages": {
         "loading": {
           "title": "loading..."
@@ -146,6 +148,11 @@
         "addAuthor": "Add contributor",
         "addDataset": "Add dataset",
         "downloadAsJSON": "download as JSON"
+      },
+      "badge": {
+        "warning": "∅",
+        "danger": "⚠",
+        "success": "✓"
       },
       "numbers": {
         "maxAllowedCharactersWithCount": "Maximum {{count}} characters allowed",
