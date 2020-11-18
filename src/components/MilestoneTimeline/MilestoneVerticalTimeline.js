@@ -43,13 +43,7 @@ const MilestoneVerticalTimeline = ({ values=[], size=0, scale, minDate, maxDate 
   }
   return (
     <div>
-      <div className="my-4" style={{
-        position: 'sticky',
-        left: 0,
-        top: window.innerHeight / 4,
-        width: 60,
-        height: window.innerHeight / 2,
-      }}>
+      <div className={`${styles.MilestoneVerticalWrapper} my-4`}>
         <div className="position-absolute h-100" style={{
           left: 20,
           width: 1,

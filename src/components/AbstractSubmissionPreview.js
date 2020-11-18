@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import AbstractSubmission from '../models/AbstractSubmission'
 
 const AbstractSubmissionPreview = ({
-  results,
   submission,
   onChangeMode,
   isPreviewMode
@@ -13,7 +12,16 @@ const AbstractSubmissionPreview = ({
   const temporaryAbstractSubmission = submission instanceof AbstractSubmission
     ? submission
     : new AbstractSubmission(submission)
-  
+
+  const results = Object.entries(temporaryAbstractSubmission).map(([label, value]) => {
+    const isValid = Array.isArray(value) ? value.reduce((acc, d) => acc && d.isValid, true): true
+    return {
+      isValid,
+      label,
+      value
+    }
+  });
+  console.info('AbstractSubmissionPreview', temporaryAbstractSubmission)
   const downloadableSubmissionFilename = [
     (new Date()).toISOString().split('T').shift(),
     'submission.json'
@@ -25,14 +33,19 @@ const AbstractSubmissionPreview = ({
         maxHeight: '50vh',
         overflow: 'scroll'
       }}>
-      {results.map(({ value, isValid, label }, i) => (
-        <div key={`result-${i}`} >
-          <Badge variant={ isValid ? 'success': 'transparent' } pill>
-            {value === null && ' (empty)'}
-            {isValid === 'false' && ' (error)'}
-          </Badge>{t(label)}
-        </div>
-      ))}
+      {results.map(({ value, isValid, label }, i) => {
+        const variant = isValid ? 'success': (
+          value?.length
+            ? 'danger'
+            : 'warning'
+          )
+        return (
+          <div key={`result-${i}`} >
+            <Badge variant={variant} pill>{t(`badge.${variant}`)}
+            </Badge> {t(label)}
+          </div>
+        )
+      })}
       </div>
       <br/>
       <Badge variant='transparent'>edited</Badge>&nbsp;
@@ -51,7 +64,7 @@ const AbstractSubmissionPreview = ({
         >preview ⚆</Button>
       </ButtonGroup>
       </div>
-      
+
       <Button variant="outline-dark"
         size="sm"
         href={`data:text/json;charset=utf-8,${encodeURIComponent(

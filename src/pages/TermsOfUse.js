@@ -6,9 +6,6 @@ import pageContents from '../data/mock-api/mock-terms-of-use-ipynb.json'
 import ArticleCell from '../components/ArticleText/ArticleCell'
 
 const articleTree = getArticleTreeFromIpynb(pageContents)
-// const sectionsCells = articleTree.paragraphs.reduce((acc, d) => {
-// 
-// }, {})
 
 const TermsOfUse = ({ results }) => {
   return (
@@ -17,7 +14,7 @@ const TermsOfUse = ({ results }) => {
         <Row>
           <Col md={{offset: 2, span:6}}>
           {articleTree.paragraphs.map((props, i) => (
-            <ArticleCell {...props} idx=""/>
+            <ArticleCell {...props} idx="" key={i}/>
           ))}
           </Col>
         </Row>

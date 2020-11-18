@@ -121,7 +121,7 @@
       ],
       "minLength": 7,
       "maxLength": 500,
-      "pattern": "^https://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}$"
+      "pattern": "^https://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$"
     },
     "isValid": {
       "$id": "#/definitions/isValid",

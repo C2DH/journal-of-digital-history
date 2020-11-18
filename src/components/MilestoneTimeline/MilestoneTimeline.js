@@ -44,13 +44,11 @@ const HorizontalTimeline = ({ values=[], size=0, scale, minDate, maxDate }) => {
   )
 }
 
-const MilestoneTimeline = ({ milestones=[], extent=[], showToday, isPortrait }) => {
-
+const MilestoneTimeline = ({ milestones=[], extent=[], showToday }) => {
   const values = milestones.map((d) => ({
     ...d,
     date: new Date(d.date)
   }))
-  console.info('MilestoneTimeline IsPortrait: ', isPortrait)
   const [ minDate, maxDate ] = extent.length
     ? extent.map(d => new Date(d))
     : d3extent(values, (d) => d.date)
@@ -60,17 +58,28 @@ const MilestoneTimeline = ({ milestones=[], extent=[], showToday, isPortrait }) 
   size = d3max(values, (d) => d.offsetTop) * 2 + 120
   const props = { values, scale, size, maxDate, minDate }
 
-  const [isChangedPortrait, setIsChangedPortrait] = useState(isPortrait);
+  const [dims, setDims] = useState(null);
 
   useEffect(() => {
-    window.onresize = () => {
-      console.info('resized...')
-      setIsChangedPortrait(window.innerHeight > window.innerWidth)
+    const handleResize = () => {
+      setDims({
+        h: window.innerHeight,
+        w: window.innerWidth,
+        isPortrait: window.innerHeight > window.innerWidth
+      })
+    }
+    window.addEventListener('resize', handleResize)
+    handleResize()
+    return _ => {
+      window.removeEventListener('resize', handleResize)
     }
   }, []);
 
+  if (!dims) {
+    return null
+  }
 
-  if (isChangedPortrait) {
+  if (dims.isPortrait) {
     return (<MilestoneVerticalTimeline {...props} />)
   }
   return (<HorizontalTimeline {...props} />)

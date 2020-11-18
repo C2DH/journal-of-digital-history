@@ -93,6 +93,7 @@ a{
 }
 
 .page{
+  padding-top: var(--spacer-5);
   h1, h2, h3{
     font-family: var(--font-family-monospace);
     font-weight: bold;
@@ -102,6 +103,12 @@ a{
     display: inline-block;
     // text-decoration: underline;
     // border-bottom: 1px solid;
+  }
+}
+
+@media (min-width: 768px) {
+  .page{
+    padding-top: 0;
   }
 }
 

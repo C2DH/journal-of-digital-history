@@ -60,12 +60,27 @@ $milestoneRadius: 5px;
   opacity: .5;
 }
 
+.MilestoneVerticalWrapper{
+  position: sticky;
+  left: 0;
+  top: 100px;
+  width: 60px;
+  height: 200px;
+}
+
 .MilestoneVerticalPointer{
   position: absolute;
   height: 1px;
   background-color: var(--dark);
   width: $labelWidth;
   opacity: .5;
+}
+
+@media (min-height: 600px) {
+  .MilestoneVerticalWrapper{
+    top: 100px;
+    height: 400px;
+  }
 }
 
 .MilestoneCircle{

@@ -11,6 +11,8 @@ import FormGroupWrapper from '../components/Forms/FormGroupWrapper'
 import FormGroupWrapperPreview from '../components/Forms/FormGroupWrapperPreview'
 import FormAuthorContact from '../components/Forms/FormAuthorContact'
 import FormAbstractGenericSortableList from '../components/Forms/FormAbstractGenericSortableList'
+import FormAbstractResultModal from '../components/Forms/FormAbstractResultModal'
+import FormJSONSchemaErrorListItem from '../components/Forms/FormJSONSchemaErrorListItem'
 import AbstractSubmissionPreview from '../components/AbstractSubmissionPreview'
 import { ReCaptchaSiteKey } from '../constants'
 import { createAbstractSubmission } from '../logic/api/postData'
@@ -24,12 +26,16 @@ const AbstractSubmission = (props) => {
   const [errors, setErrors] = useState([])
   const [isPreviewMode, setPreviewMode] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [confirmModalShow, setConfirmModalShow] = useState(false);
   const temporaryAbstractSubmission = useStore((state) => state.temporaryAbstractSubmission);
   const setTemporaryAbstractSubmission = useStore((state) => state.setTemporaryAbstractSubmission);
   // const [authors, setAuthors] = useState([])
   const recaptchaRef = React.useRef();
   const [ results, setResults ] = useState([
-    { id: 'title', value: temporaryAbstractSubmission.title, label: 'pages.abstractSubmission.articleTitle' },
+    {
+      id: 'title',
+      value: temporaryAbstractSubmission.title,
+      label: 'pages.abstractSubmission.articleTitle' },
     { id: 'abstract', value: temporaryAbstractSubmission.abstract, label: 'pages.abstractSubmission.articleAbstract' },
     { id: 'contact', value: temporaryAbstractSubmission.contact, label: 'pages.abstractSubmission.articleContact' },
     { id: 'authors', value: temporaryAbstractSubmission.authors, label: 'pages.abstractSubmission.AuthorsSectionTitle' },
@@ -38,8 +44,9 @@ const AbstractSubmission = (props) => {
   // console.info('temporaryAbstractSubmission', temporaryAbstractSubmission)
   useEffect(() => {
     // Update the document title using the browser API
-    useStore.setState({ backgroundColor: 'var(--light)' });
+    useStore.setState({ backgroundColor: 'var(--white)' });
   });
+
   const handleSubmit = async(event) => {
     event.preventDefault();
     if (isSubmitting) {
@@ -51,23 +58,30 @@ const AbstractSubmission = (props) => {
       return acc
     } , {})
     const result = getValidatorResultWithAbstractSchema(submission)
+    setTemporaryAbstractSubmission(submission)
     if (result.valid) {
       setIsSubmitting(true)
-      const token = await recaptchaRef.current.executeAsync()
-      console.info('%cRecaptcha', 'font-weight:bold', 'token:', token)
-      createAbstractSubmission({
-        item: submission,
-        token,
-      }).then((res) => {
-        console.log('received', res)
-        if(res.status === 201) {
-          setTemporaryAbstractSubmission({})
-          history.push(`/en/abstract/${res.data.id}`);
-        }
-      })
+      setConfirmModalShow(true)
     } else {
       setErrors(result.errors)
     }
+  }
+
+  console.info('RENDER')
+  const handleConfirmCreateAbstractSubmission = async() => {
+    console.info('handleConfirmCreateAbstractSubmission', temporaryAbstractSubmission)
+    const token = await recaptchaRef.current.executeAsync()
+    console.info('%cRecaptcha', 'font-weight:bold', 'token:', token)
+    createAbstractSubmission({
+      item: temporaryAbstractSubmission,
+      token,
+    }).then((res) => {
+      console.log('received', res)
+      if(res.status === 201) {
+        setTemporaryAbstractSubmission({})
+        history.push(`/en/abstract/${res.data.id}`);
+      }
+    })
   }
 
   const handleChange = ({ id, value, isValid }) => {
@@ -90,11 +104,11 @@ const AbstractSubmission = (props) => {
     console.info('@todo', author)
     // setAuthors(authors.filter(d => d.id !== author.id).concat([author]))
   }
-  
+
   const handleToggleMode = (mode) => {
     setPreviewMode(mode)
   }
-  
+
   return (
     <Container className="page mb-5">
       <Row>
@@ -136,7 +150,7 @@ const AbstractSubmission = (props) => {
                 onChange={({ value, isValid }) => handleChange({ id: 'abstract', value, isValid })}
               />
             )}
-            {isPreviewMode && 
+            {isPreviewMode &&
               <FormGroupWrapperPreview
               label='pages.abstractSubmission.articleAbstract'
               >{temporaryAbstractSubmission.abstract}
@@ -151,7 +165,7 @@ const AbstractSubmission = (props) => {
                 onSelectAsAuthor={handleAddContactAsAuthor}
               />
             )}
-            {isPreviewMode && 
+            {isPreviewMode &&
               <FormGroupWrapperPreview>
                 {(new Author({...temporaryAbstractSubmission.contact }).asText())}
               </FormGroupWrapperPreview>}
@@ -218,10 +232,19 @@ const AbstractSubmission = (props) => {
               size="invisible"
               sitekey={ReCaptchaSiteKey}
             />
-            <pre>{JSON.stringify(errors, null, 2)}</pre>
+            {errors.map((error,i) => <FormJSONSchemaErrorListItem error={error} />)}
           </Col>
         </Row>
       </Form>
+      <FormAbstractResultModal
+        show={confirmModalShow}
+        onHide={() => {
+          setIsSubmitting(true)
+          setConfirmModalShow(false)
+        }}
+        onConfirm={handleConfirmCreateAbstractSubmission}
+        errors={errors}
+      />
     </Container>
   )
 }

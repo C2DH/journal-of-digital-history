@@ -17,29 +17,34 @@ const MobileHeader = ({ langs }) => {
   const { t, i18n } = useTranslation()
   const [isVisible, setIsVisible] = useState(false)
   return (
+    <>
+    <LangNavLink to="/" className={styles.MobileHeaderBrand} >{t('title')}</LangNavLink>
     <Nav className={`${styles.MobileHeaderNav} d-block d-sm-none`}>
       <div className={styles.MobileHeaderToggler}
         onClick={() => setIsVisible(!isVisible)}
-      >menu</div>
+      >☰</div>
       <div className={styles.MobileHeaderMenu} style={{
         transform: isVisible ? 'translateY(0)' : 'translateY(-100vh)'
       }}>
-        <div className="m-4 pb-4 border-bottom">
+        <div className="mx-3 mt-4 pb-4">
+        <h1>{t('title')}</h1>
         {PrimaryRoutes.map(({to, label},i) => (
-          <Nav.Item key={`primary-route-${i}`}>
-            <LangNavLink className={styles.MobileHeaderNavLink} to={to} exact>{t(label)}</LangNavLink>
+          <Nav.Item className={styles.MobileHeaderNavItem} key={`primary-route-${i}`}>
+            <LangNavLink to={to} exact onClick={() => setIsVisible(false)}>{t(label)}</LangNavLink>
           </Nav.Item>
         ))}
         </div>
-        <div className="m-4 pb-4">
+        <div className="mx-3 pb-4">
         {langs.map((lang, i) => (
-          <Nav.Item key={`lang-switch-${i}`}>
+          <Nav.Item key={`lang-switch-${i}`} className={styles.MobileHeaderNavItem}>
             <SwitchLanguageLink
+            style={{
+              padding: '0.5rem 1rem'
+            }}
               lang={lang}
               onClick={() => {
                 i18n.changeLanguage(lang)
-              }}
-              className={styles.MobileHeaderNavLink}>{lang.split('_')[0]}</SwitchLanguageLink>
+              }}>{lang.split('_')[0]}</SwitchLanguageLink>
           </Nav.Item>
         ))}
         </div>
@@ -49,6 +54,7 @@ const MobileHeader = ({ langs }) => {
         </div>
       </div>
     </Nav>
+    </>
   )
 }
 
@@ -71,12 +77,13 @@ const NavPrimaryRoutes = ({ routes, ...props}) => {
 const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
   const { t } = useTranslation()
   return (
-    <Navbar className={`${styles.Navbar} pt-3`} variant="light" expand="md">
+    <>
+    <Navbar className={`d-md-block d-none ${styles.Navbar}`} variant="light" expand="md">
     <Navbar.Brand href="#home" className="position-absolute d-flex align-items-center">
       <div className={`${styles.BrandImage}`} style={{
         backgroundImage: `url(${logo})`,
       }}></div>
-      <span className="d-md-block d-none">Journal of Digital History</span>
+      <span>Journal of Digital History</span>
     </Navbar.Brand>
     <Container className="d-block" style={{height:80}}>
       <Row className="d-md-flex d-none align-items-center h-100">
@@ -90,16 +97,18 @@ const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
             <Nav.Item><SwitchNightMode /></Nav.Item>
           </Nav>
         </Col>
-        <MobileHeader langs={availableLanguages}/>
+
       </Row>
     </Container>
     </Navbar>
+    <MobileHeader langs={availableLanguages}/>
+    </>
   )
 }
 
 // const Header = ({ availableLanguages, isAuthDisabled }) => {
 //   const { t } = useTranslation()
-// 
+//
 //   // console.info('header render with lang:', lang);
 //   return (
 //     <Navbar className={styles.Navbar} fixed="top" variant="light" expand="md">
@@ -113,7 +122,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
 //       <NavPrimaryRoutes className="ml-auto d-md-flex d-none" routes={PrimaryRoutes}>
 //         <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>
 //         {!isAuthDisabled && <UserProfile/>}
-// 
+//
 //       </NavPrimaryRoutes>
 //       <MobileHeader langs={availableLanguages}/>
 //     </Container>
