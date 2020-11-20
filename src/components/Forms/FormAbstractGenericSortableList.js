@@ -12,7 +12,7 @@ const components = {
 }
 
 const FormAbstractGenericSortableList = ({
-  onChange, ItemClass, listItemComponentTagName, 
+  onChange, ItemClass, listItemComponentTagName,
   initialItems,
   addNewItemLabel,
   debug=false
@@ -24,7 +24,7 @@ const FormAbstractGenericSortableList = ({
       setItems(initialItems.map(d => new ItemClass({...d})));
     }
   }, [initialItems, ItemClass]);
-  
+
   const handleChange = ({item}) => {
     const _items = items.map((d, i) => {
       if (d.id === item.id) {
@@ -37,11 +37,15 @@ const FormAbstractGenericSortableList = ({
   }
 
   const addNewItem = () => {
-    setItems(items.concat([ new ItemClass({ id: items.length }) ]))
+    const _items = items.concat([ new ItemClass({ id: items.length }) ])
+    setItems(_items)
+    onChange({ items: _items})
   }
 
   const removeItem = (item) => {
-    setItems(items.filter(d => d.id !== item.id))
+    const _items = items.filter(d => d.id !== item.id)
+    setItems(_items)
+    onChange({ items: _items})
   }
 
   const moveItem = (fromIdx, toIdx) => {
@@ -72,7 +76,7 @@ const FormAbstractGenericSortableList = ({
     <div className="position-relative w-100 animate-height" style={{ height }}>
       {transitions.map(({ item, props: { y, ...rest }}, index) => (
         <animated.div
-          key={item.id} className="generic-list-item bg-light"
+          key={item.id} className="generic-list-item"
           style={{ zIndex: index, height: 350, transform: y.interpolate(y => `translate3d(0,${y}px,0)`), ...rest }}
         >
         <div className="d-flex align-items-top mb-2 pl-2 pr-1 pb-2 pt-0 border border-dark rounded shadow-sm">
