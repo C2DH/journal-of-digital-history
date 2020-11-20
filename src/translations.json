@@ -68,8 +68,13 @@
         "addDataset": "Add dataset",
         "downloadAsJSON": "download as JSON"
       },
+      "badge": {
+        "warning": "∅",
+        "danger": "⚠",
+        "success": "✓"
+      },
       "numbers": {
-        "maxAllowedCharactersWithCount": "Maximum {{count}} characters allowed",
+        "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",
         "currentCharactersWithCount": "(now: <b>{{count}}</b>)"
       },
       "dates": {
@@ -144,6 +149,7 @@
       },
       "actions": {
         "logout": "(log out)",
+        "submit": "submit your contribution",
         "addLink": "Add link",
         "addAuthor": "Add contributor",
         "addDataset": "Add dataset",
@@ -154,8 +160,29 @@
         "danger": "⚠",
         "success": "✓"
       },
+      "labels": {
+        "acceptConditions": "I have read and I accept the terms and conditions available at",
+        "formSubmissionIncomplete": "incomplete",
+        "formSubmissionReady": "ready to be submitted!",
+        "dateCreated": "started:",
+        "dateLastModified": "last edit",
+        "instance": {
+          "contact": "contact info",
+          "authors": "contributors",
+          "abstract": "abstract",
+          "title": "title",
+          "datasets": "datasets"
+        }
+      },
+      "errors": {
+        "none": "",
+        "required": "missing",
+        "minItems": "not enough",
+        "minLength": "incomplete"
+      },
       "numbers": {
-        "maxAllowedCharactersWithCount": "Maximum {{count}} characters allowed",
+        "errors": "{{count}} errors",
+        "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",
         "currentCharactersWithCount": "(now: <b>{{count}}</b>)"
       },
       "dates": {
