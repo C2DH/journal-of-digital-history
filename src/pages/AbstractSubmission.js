@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from "react-router-dom";
 import { Container, Form, Button, Col, Row, Jumbotron,Badge } from 'react-bootstrap'
+import LangLink from '../components/LangLink'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { useStore } from '../store'
 import { getValidatorResultWithAbstractSchema } from '../logic/validation'
@@ -35,17 +36,31 @@ const AbstractSubmission = (props) => {
     {
       id: 'title',
       value: temporaryAbstractSubmission.title,
+      isValid: null,
       label: 'pages.abstractSubmission.articleTitle' },
     { id: 'abstract', value: temporaryAbstractSubmission.abstract, label: 'pages.abstractSubmission.articleAbstract' },
     { id: 'contact', value: temporaryAbstractSubmission.contact, label: 'pages.abstractSubmission.articleContact' },
     { id: 'authors', value: temporaryAbstractSubmission.authors, label: 'pages.abstractSubmission.AuthorsSectionTitle' },
-    { id: 'datasets', value: temporaryAbstractSubmission.datasets, label: 'pages.abstractSubmission.DataSectionTitle' }
+    { id: 'datasets', value: temporaryAbstractSubmission.datasets, label: 'pages.abstractSubmission.DataSectionTitle' },
+    {
+      id: 'acceptConditions', value: temporaryAbstractSubmission.acceptConditions
+    }
   ])
-  // console.info('temporaryAbstractSubmission', temporaryAbstractSubmission)
+  const [ validatorResult, setValidatorResult ] = useState(null)
   useEffect(() => {
-    // Update the document title using the browser API
-    useStore.setState({ backgroundColor: 'var(--white)' });
-  });
+    const { title, abstract, contact, authors, datasets, acceptConditions } = temporaryAbstractSubmission
+    setValidatorResult(getValidatorResultWithAbstractSchema({
+      title,
+      abstract,
+      contact,
+      authors,
+      datasets,
+      acceptConditions
+    }))
+  }, [temporaryAbstractSubmission]);
+  useEffect(() => {
+    useStore.setState({ backgroundColor: 'var(--gray-100)' });
+  })
 
   const handleSubmit = async(event) => {
     event.preventDefault();
@@ -57,17 +72,19 @@ const AbstractSubmission = (props) => {
       acc[el.id] = el.value
       return acc
     } , {})
-    const result = getValidatorResultWithAbstractSchema(submission)
-    setTemporaryAbstractSubmission(submission)
-    if (result.valid) {
-      setIsSubmitting(true)
-      setConfirmModalShow(true)
-    } else {
-      setErrors(result.errors)
-    }
+    // const result = getValidatorResultWithAbstractSchema(submission)
+    setTemporaryAbstractSubmission({
+      ...submission,
+      dateCreated: temporaryAbstractSubmission.dateCreated
+    })
+    // if (result.valid) {
+    //   setIsSubmitting(true)
+    //   setConfirmModalShow(true)
+    // } else {
+    //   setErrors(result.errors)
+    // }
   }
 
-  console.info('RENDER')
   const handleConfirmCreateAbstractSubmission = async() => {
     console.info('handleConfirmCreateAbstractSubmission', temporaryAbstractSubmission)
     const token = await recaptchaRef.current.executeAsync()
@@ -95,8 +112,12 @@ const AbstractSubmission = (props) => {
       acc[el.id] = el.value
       return acc
     } , {})
+    console.info('@change', submission)
     // todo add creation date if a temporaryAbstractSubmission object is available.
-    setTemporaryAbstractSubmission(submission)
+    setTemporaryAbstractSubmission({
+      ...submission,
+      dateCreated: temporaryAbstractSubmission.dateCreated,
+    })
     setResults(_results)
   }
 
@@ -208,31 +229,45 @@ const AbstractSubmission = (props) => {
               ))}
             <hr />
           </Col>
-          <Col md={3}>
+          <Col md={4} lg={3}>
             <div style={{
               position: 'sticky',
-              top: '120px'
+              top: 50
             }}>
-            <AbstractSubmissionPreview
-              results={results}
+            {validatorResult && <AbstractSubmissionPreview
+              validatorResult={validatorResult}
               submission={temporaryAbstractSubmission}
               isPreviewMode={isPreviewMode}
               onChangeMode={handleToggleMode}
-            />
+            />}
             </div>
           </Col>
         </Row>
+
         <Row>
           <Col md={{span: 6, offset:2}} className="">
-            <Button variant="primary" size="lg" className="px-4" type="submit">
-              Submit
-            </Button>
-            <p dangerouslySetInnerHTML={{__html: t('pages.abstractSubmission.recaptchaDisclaimer')}}/><ReCAPTCHA
+            <Form.Group size="md"  onChange={(e) => handleChange({
+              id: 'acceptConditions',
+              value: e.target.checked,
+              isValid: e.target.checked
+            })} controlId="formBasicCheckbox">
+              <Form.Check size="md" >
+              <Form.Check.Input type="checkbox" defaultChecked={temporaryAbstractSubmission.acceptConditions}/>
+              <Form.Check.Label>
+                <span dangerouslySetInnerHTML={{__html: t('labels.acceptConditions') }} />&nbsp;
+                <LangLink to="/terms" target="_blank">Terms of Use</LangLink>
+              </Form.Check.Label>
+              </Form.Check>
+            </Form.Group>
+            <p className="my-3" dangerouslySetInnerHTML={{__html: t('pages.abstractSubmission.recaptchaDisclaimer')}}/><ReCAPTCHA
               ref={recaptchaRef}
               size="invisible"
               sitekey={ReCaptchaSiteKey}
             />
             {errors.map((error,i) => <FormJSONSchemaErrorListItem error={error} />)}
+            <Button variant="secondary" size="lg" className="px-4" type="submit" style={{color: 'var(--primary)'}}>
+              {t('actions.submit')}
+            </Button>
           </Col>
         </Row>
       </Form>

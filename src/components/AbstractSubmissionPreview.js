@@ -4,56 +4,69 @@ import { useTranslation } from 'react-i18next'
 import AbstractSubmission from '../models/AbstractSubmission'
 
 const AbstractSubmissionPreview = ({
+  validatorResult,
   submission,
   onChangeMode,
-  isPreviewMode
+  isPreviewMode,
+  showPreviewSwitch
 }) => {
   const { t } = useTranslation()
+
   const temporaryAbstractSubmission = submission instanceof AbstractSubmission
     ? submission
     : new AbstractSubmission(submission)
 
-  const results = Object.entries(temporaryAbstractSubmission).map(([label, value]) => {
-    const isValid = Array.isArray(value) ? value.reduce((acc, d) => acc && d.isValid, true): true
-    return {
-      isValid,
-      label,
-      value
-    }
-  });
-  console.info('AbstractSubmissionPreview', temporaryAbstractSubmission)
+  const checkList = (validatorResult.errors ?? []).map((d) => ({
+    path: d.path[0],
+    message: d.message,
+  }))
+  console.info('results', validatorResult)
+
+  const isEmpty = temporaryAbstractSubmission.isEmpty()
+
   const downloadableSubmissionFilename = [
     (new Date()).toISOString().split('T').shift(),
     'submission.json'
   ].join('-')
+
   return (
-    <div className="p-3 border-dark">
+    <div className="border border-dark p-3">
       <h3>{t('pages.abstractSubmission.preview')}</h3>
-      <div  style={{
+      <p>{isEmpty && (<>
+          <Badge variant="warning" pill>{t('badge.warning')}</Badge>&nbsp;
+          {t('labels.formSubmissionIncomplete')}
+      </>)}
+      {!isEmpty && !validatorResult.valid && (<>
+            <Badge variant="danger" pill>{t('badge.danger')}</Badge>&nbsp;
+            {t('numbers.errors', { count: validatorResult.errors.length})}
+      </>)}
+      {validatorResult.valid && (
+        <>
+          <Badge variant="success" pill>{t('badge.success')}</Badge>&nbsp;
+          {t('labels.formSubmissionReady')}
+        </>
+      )}
+      </p>
+      <div className="p-1" style={{
+        backgroundColor: 'var(--gray-100)',
         maxHeight: '50vh',
         overflow: 'scroll'
       }}>
-      {results.map(({ value, isValid, label }, i) => {
-        const variant = isValid ? 'success': (
-          value?.length
-            ? 'danger'
-            : 'warning'
-          )
-        return (
-          <div key={`result-${i}`} >
-            <Badge variant={variant} pill>{t(`badge.${variant}`)}
-            </Badge> {t(label)}
-          </div>
-        )
-      })}
+
+      {!isEmpty && checkList.map((d, i) => (
+        <blockquote className="border-left border-dark mt-2 pl-2" key={i}>
+        <b>{d.path}</b> {d.message}</blockquote>
+      ))}
       </div>
       <br/>
-      <Badge variant='transparent'>edited</Badge>&nbsp;
-      {t('dates.LLL', {date: temporaryAbstractSubmission.getDateLastModified()})}
+      <Badge variant='info'>{t('labels.dateCreated')}</Badge>&nbsp;
+      {t('dates.LLL', {date: temporaryAbstractSubmission.getDateCreated()})}
       <br/>
-      <div className="ml-2">({t('dates.fromNow', {date: temporaryAbstractSubmission.getDateLastModified()})})</div>
-      <div>
-      <ButtonGroup size="sm" className="my-3">
+      <Badge variant='info'>{t('labels.dateLastModified')}</Badge>&nbsp;
+      <span> ({t('dates.fromNow', {date: temporaryAbstractSubmission.getDateLastModified()})})</span>
+      <br/>
+      <div className="my-3">
+      {showPreviewSwitch && <ButtonGroup size="sm" >
         <Button variant="outline-dark"
           onClick={() => onChangeMode(false)}
           className={isPreviewMode ? null : 'active'}
@@ -62,7 +75,7 @@ const AbstractSubmissionPreview = ({
           onClick={() => onChangeMode(true)}
           className={isPreviewMode ? 'active' : null}
         >preview ⚆</Button>
-      </ButtonGroup>
+      </ButtonGroup>}
       </div>
 
       <Button variant="outline-dark"

@@ -126,6 +126,11 @@
     "isValid": {
       "$id": "#/definitions/isValid",
       "type": "boolean"
+    },
+    "acceptConditions": {
+      "$id": "#/definitions/acceptConditions",
+      "type": "boolean",
+      "enum": [ true ]
     }
   },
   "examples": [{
@@ -147,10 +152,15 @@
     "title",
     "abstract",
     "contact",
-    "authors"
+    "authors",
+    "datasets",
+    "acceptConditions"
   ],
   "additionalProperties": false,
   "properties": {
+    "id": {
+      "$ref": "#/definitions/id"
+    },
     "title": {
       "$ref": "#/definitions/title"
     },
@@ -162,7 +172,7 @@
       "type": "array",
       "title": "a list of datasets",
       "default": [],
-      "minItems": 0,
+      "minItems": 1,
       "maxItems": 10,
       "additionalItems": true,
       "items": {
@@ -295,6 +305,9 @@
           }
         }
       }
+    },
+    "acceptConditions": {
+      "$ref": "#/definitions/acceptConditions"
     }
   }
 }
