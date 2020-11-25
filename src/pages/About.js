@@ -1,23 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { getArticleTreeFromIpynb } from '../logic/ipynb'
-
+import { useStore } from '../store'
 import pageContents from '../data/mock-api/mock-about-ipynb.json'
 import ArticleCell from '../components/ArticleText/ArticleCell'
 
 const articleTree = getArticleTreeFromIpynb(pageContents)
-// const sectionsCells = articleTree.paragraphs.reduce((acc, d) => {
-// 
-// }, {})
 
 const TermsOfUse = ({ results }) => {
+  useEffect(() => {
+    useStore.setState({ backgroundColor: 'var(--pink)' });
+  })
   return (
     <>
       <Container className="page">
         <Row>
           <Col md={{offset: 2, span:6}}>
           {articleTree.paragraphs.map((props, i) => (
-            <ArticleCell {...props} idx=""/>
+            <ArticleCell {...props} key={i} idx=""/>
           ))}
           </Col>
         </Row>

@@ -1,10 +1,9 @@
-// import React, { useEffect, useState } from 'react'
-import React from 'react'
+import React, { useEffect } from 'react'
 // import LangLink from '../components/LangLink'
 import { useTranslation } from 'react-i18next'
 import { Container, Row, Col } from 'react-bootstrap'
 import LangLink from '../components/LangLink'
-// import { useStore } from '../store'
+import { useStore } from '../store'
 import homePageContents from '../data/mock-api/mock-home-ipynb.json'
 import {getArticleTreeFromIpynb} from '../logic/ipynb'
 import ArticleCell from '../components/ArticleText/ArticleCell'
@@ -23,6 +22,9 @@ console.info(articleTree, homePageContents)
 
 const Home = () => {
   const { t } = useTranslation()
+  useEffect(() => {
+    useStore.setState({ backgroundColor: 'white' });
+  })
   return (
     <>
     <Container className="page">
