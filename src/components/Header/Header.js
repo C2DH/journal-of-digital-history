@@ -83,7 +83,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
       <div className={`${styles.BrandImage}`} style={{
         backgroundImage: `url(${logo})`,
       }}></div>
-      <span>Journal of Digital History</span>
+      <span className={`d-lg-block d-none`}>Journal of Digital History</span>
     </Navbar.Brand>
     <Container className="d-block" style={{height:80}}>
       <Row className="d-md-flex d-none align-items-center h-100">
@@ -94,7 +94,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
           <Nav className="justify-content-end">
             <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>
             {!isAuthDisabled && <UserProfile/>}
-            <Nav.Item><SwitchNightMode /></Nav.Item>
+            <Nav.Item className='d-none'><SwitchNightMode /></Nav.Item>
           </Nav>
         </Col>
 

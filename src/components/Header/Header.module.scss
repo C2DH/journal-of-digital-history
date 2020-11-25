@@ -27,7 +27,7 @@ $breakpoint-tablet: 768px;
   .Navbar{
     position: relative;
     padding: var(--spacer-3);
-    background: linear-gradient(180deg, rgba(255,255,255,1) -100%, rgba(255,255,255,0) 100%);
+    // background: linear-gradient(180deg, rgba(255,255,255,1) -100%, rgba(255,255,255,0) 100%);
   }
   .MobileHeaderNav, .MobileHeaderBrand{
     display: none;
