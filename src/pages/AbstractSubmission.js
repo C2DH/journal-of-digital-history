@@ -97,6 +97,9 @@ const AbstractSubmission = (props) => {
     createAbstractSubmission({
       item: temporaryAbstractSubmission,
       token,
+    }).catch((err) => {
+      console.info(err.message, 'status=', err.response.status)
+      setIsSubmitting(false)
     }).then((res) => {
       console.log('received', res)
       if(res?.status === 201) {
@@ -128,6 +131,22 @@ const AbstractSubmission = (props) => {
 
   const handleAddContactAsAuthor = (author) => {
     console.info('@todo', author)
+    const authors = temporaryAbstractSubmission.authors
+      .filter(d => d.id !== author.id)
+      .concat([{...author }])
+    setTemporaryAbstractSubmission({
+      ...temporaryAbstractSubmission,
+      authors,
+    })
+    setResults(results.map(d => {
+      if(d.id === 'authors') {
+        return {
+          ...d,
+          value: authors
+        }
+      }
+      return d;
+    }))
     // setAuthors(authors.filter(d => d.id !== author.id).concat([author]))
   }
 
@@ -270,14 +289,14 @@ const AbstractSubmission = (props) => {
               sitekey={ReCaptchaSiteKey}
             />
             {validatorResult?.errors.map((error,i) => <FormJSONSchemaErrorListItem error={error} />)}
-            <Button disabled={validatorResult?.errors.length}
-              variant="secondary" size="lg"
-              type="submit" style={{color: 'var(--primary)'}}>
+            <div className="text-center mt-5"><Button disabled={validatorResult?.errors.length}
+              variant="outline-secondary" size="lg"
+              type="submit" style={{color: 'var(--secondary)'}}>
               {validatorResult?.errors.length
-                ? <Badge variant="danger" className="mr-3">- {validatorResult?.errors.length}</Badge>
+                ? <Badge variant="danger" className="mr-3">{validatorResult?.errors.length} errors</Badge>
                 : null
               } {t('actions.submit')}
-            </Button>
+            </Button></div>
           </Col>
         </Row>
       </Form>

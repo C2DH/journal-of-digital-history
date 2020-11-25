@@ -1,9 +1,10 @@
 import axios from 'axios'
 
-const createAbstractSubmission = async ({ item, ...rest}) => {
+const createAbstractSubmission = async ({ item, token, ...rest}) => {
   console.info('createAbstractSubmission', item, rest)
-  return axios.post('/api/abstracts', item).catch((err) => {
+  return axios.post('/api/abstracts/', { ...item, token }).catch((err) => {
     console.error(err)
+    throw err
   }).then(res => {
     console.log(res)
     return res
