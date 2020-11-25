@@ -4,10 +4,10 @@ import { matchPath } from "react-router";
 import intersection from 'lodash/intersection'
 import find from 'lodash/find'
 
-const LANGUAGES = (process.env.REACT_APP_LANGUAGES ?? 'en_US,fr_FR').split(',');
-const LANGUAGES_SHORTS = LANGUAGES.map((l) => l.split('_')[0])
-const DEFAULT_LANGUAGE = process.env.REACT_APP_DEFAULT_LANGUAGE ?? 'en_US';
-const DEFAULT_LANGUAGE_SHORT = DEFAULT_LANGUAGE.split('_')[0]
+const LANGUAGES = (process.env.REACT_APP_LANGUAGES ?? 'en-US,fr-FR').split(',');
+const LANGUAGES_SHORTS = LANGUAGES.map((l) => l.split('-')[0])
+const DEFAULT_LANGUAGE = process.env.REACT_APP_DEFAULT_LANGUAGE ?? 'en-US';
+const DEFAULT_LANGUAGE_SHORT = DEFAULT_LANGUAGE.split('-')[0]
 const LANGUAGE_PATH = `/:lang(${LANGUAGES_SHORTS.join('|')})`
 
 const getStartLang = () => {
@@ -48,7 +48,7 @@ const useToWithLang = (to) => {
   if (!lang) {
     // NOTE: Workaround when no lang in current path
     // fallback to current i81n language ...
-    lang = i18n.language.split('_')[0]
+    lang = i18n.language.split('-')[0]
   }
 
   if (typeof to === 'string') {

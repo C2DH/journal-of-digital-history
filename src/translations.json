@@ -1,5 +1,5 @@
 {
-  "fr_FR": {
+  "fr-FR": {
     "translation": {
       "navigation": {
         "about": "about",
@@ -85,7 +85,7 @@
       }
     }
   },
-  "en_US": {
+  "en-US": {
     "translation": {
       "navigation": {
         "about": "about",
