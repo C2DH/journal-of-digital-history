@@ -20,7 +20,7 @@ const AbstractSubmissionPreview = ({
     path: d.path[0],
     message: d.message,
   }))
-  console.info('results', validatorResult)
+  console.info('AbstractSubmissionPreview rendering, result:', validatorResult)
 
   const isEmpty = temporaryAbstractSubmission.isEmpty()
 

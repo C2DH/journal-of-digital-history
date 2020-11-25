@@ -4,7 +4,6 @@ import FormJSONSchemaErrorListItem from './FormJSONSchemaErrorListItem'
 
 
 const FormAbstractResultModal = ({errors, onConfirm, ...props}) => {
-  console.info('errors')
   return (
     <Modal
       {...props}

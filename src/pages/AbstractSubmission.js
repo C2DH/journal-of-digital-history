@@ -18,7 +18,7 @@ import AbstractSubmissionPreview from '../components/AbstractSubmissionPreview'
 import { ReCaptchaSiteKey } from '../constants'
 import { createAbstractSubmission } from '../logic/api/postData'
 
-console.info('%cRecaptcha', 'font-weight:bold', ReCaptchaSiteKey)
+console.info('%cRecaptcha site key', 'font-weight:bold', ReCaptchaSiteKey)
 
 
 const AbstractSubmission = (props) => {
@@ -77,7 +77,12 @@ const AbstractSubmission = (props) => {
       ...submission,
       dateCreated: temporaryAbstractSubmission.dateCreated
     })
-    // if (result.valid) {
+    console.info('handleSubmit: validatorResult', validatorResult)
+    if (validatorResult.valid) {
+      // setConfirmModalShow(true)
+      setIsSubmitting(true)
+      await handleConfirmCreateAbstractSubmission()
+    }
     //   setIsSubmitting(true)
     //   setConfirmModalShow(true)
     // } else {
@@ -94,7 +99,7 @@ const AbstractSubmission = (props) => {
       token,
     }).then((res) => {
       console.log('received', res)
-      if(res.status === 201) {
+      if(res?.status === 201) {
         setTemporaryAbstractSubmission({})
         history.push(`/en/abstract/${res.data.id}`);
       }
