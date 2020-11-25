@@ -10,6 +10,8 @@
   --modal-close-z-index: 91;
   --accent: #{map-get($theme-colors, 'accent')};
   --secondary-rgb: #{map-get($theme-colors, 'secondary')};
+  --yellow: #FFEE88;
+  --pink: #FFCAD4;
   @each $bp, $value in $grays {
     --gray-#{$bp}: #{$value};
   }
