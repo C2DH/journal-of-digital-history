@@ -15,7 +15,7 @@ const TermsOfUse = ({ results }) => {
     <>
       <Container className="page">
         <Row>
-          <Col md={{offset: 2, span:6}}>
+          <Col md={{offset: 2, span:8}}>
           {articleTree.paragraphs.map((props, i) => (
             <ArticleCell {...props} idx="" key={i}/>
           ))}

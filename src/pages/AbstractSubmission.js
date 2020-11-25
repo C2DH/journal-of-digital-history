@@ -269,9 +269,14 @@ const AbstractSubmission = (props) => {
               size="invisible"
               sitekey={ReCaptchaSiteKey}
             />
-            {errors.map((error,i) => <FormJSONSchemaErrorListItem error={error} />)}
-            <Button variant="secondary" size="lg" className="px-4" type="submit" style={{color: 'var(--primary)'}}>
-              {t('actions.submit')}
+            {validatorResult?.errors.map((error,i) => <FormJSONSchemaErrorListItem error={error} />)}
+            <Button disabled={validatorResult?.errors.length}
+              variant="secondary" size="lg"
+              type="submit" style={{color: 'var(--primary)'}}>
+              {validatorResult?.errors.length
+                ? <Badge variant="danger" className="mr-3">- {validatorResult?.errors.length}</Badge>
+                : null
+              } {t('actions.submit')}
             </Button>
           </Col>
         </Row>

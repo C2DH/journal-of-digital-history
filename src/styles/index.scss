@@ -12,6 +12,7 @@
   --secondary-rgb: #{map-get($theme-colors, 'secondary')};
   --yellow: #FFEE88;
   --pink: #FFCAD4;
+  --snow: #FFF3F0;
   @each $bp, $value in $grays {
     --gray-#{$bp}: #{$value};
   }

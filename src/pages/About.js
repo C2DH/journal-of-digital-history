@@ -9,7 +9,7 @@ const articleTree = getArticleTreeFromIpynb(pageContents)
 
 const TermsOfUse = ({ results }) => {
   useEffect(() => {
-    useStore.setState({ backgroundColor: 'var(--pink)' });
+    useStore.setState({ backgroundColor: 'var(--snow)' });
   })
   return (
     <>

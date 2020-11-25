@@ -39,7 +39,7 @@ const Home = () => {
           <ArticleCell key={i} {...props} idx={i+1}/>
         ))}
         </Col>
-        <Col md={{span:4, offset:1}}>
+        <Col md={{span:4, offset:0}}>
         <div className="border border-dark p-4" style={{
           position: 'sticky',
           top: '120px'
@@ -59,7 +59,7 @@ const Home = () => {
       </Row>
       <Row>
         {editorialBoardCells.map((props, i) => (
-          <Col key={i} md={{span:4, offset: i % 2 === 0 ? 2 : 1}}>
+          <Col key={i} md={{span:4, offset: i % 2 === 0 ? 2 : 0}}>
           <ArticleCell {...props} idx="▲"/>
           </Col>
         ))}
