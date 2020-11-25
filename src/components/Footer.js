@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { Container, Row, Col, Nav, Navbar } from 'react-bootstrap'
 import {
   HomeRoute,
-  ReferencesRoute,
-  DatasetsRoute,
+  // ReferencesRoute,
+  // DatasetsRoute,
   AbstractSubmissionRoute,
   AboutRoute,
   TermsOfUseRoute
@@ -30,9 +30,10 @@ const Footer = () => {
           <Col md={3}>
             <Nav className="flex-column">
               <Nav.Item><LangNavLink to={AbstractSubmissionRoute.to} exact>{t(AbstractSubmissionRoute.label)}</LangNavLink></Nav.Item>
-              <Nav.Item><LangNavLink to={ReferencesRoute.to} exact>{t(ReferencesRoute.label)}</LangNavLink></Nav.Item>
-              <Nav.Item><LangNavLink to={DatasetsRoute.to} exact>{t(DatasetsRoute.label)}</LangNavLink></Nav.Item>
-
+              {/*
+                <Nav.Item><LangNavLink to={ReferencesRoute.to} exact>{t(ReferencesRoute.label)}</LangNavLink></Nav.Item>
+                <Nav.Item><LangNavLink to={DatasetsRoute.to} exact>{t(DatasetsRoute.label)}</LangNavLink></Nav.Item>
+              */}
             </Nav>
           </Col>
           <Col md={3}>

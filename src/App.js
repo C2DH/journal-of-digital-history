@@ -9,6 +9,7 @@ import {useStore} from './store'
 import { IsMobile, GaTrackingId } from './constants'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import ScrollToTop from './components/ScrollToTop'
 import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
 import AppRouteLoading from './pages/AppRouteLoading'
 import ReactGA from 'react-ga';
@@ -33,6 +34,7 @@ const Article = lazy(() => import('./pages/Article'))
 const Abstract = lazy(() => import('./pages/Abstract'))
 const MockAbstract = lazy(() => import('./pages/MockAbstract'))
 const TermsOfUse = lazy(() => import('./pages/TermsOfUse'))
+const Playground = lazy(() => import('./pages/Playground'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 const { startLangShort, lang } = getStartLang()
@@ -84,6 +86,9 @@ function LangRoutes() {
       </Route>
       <Route exact path={`${path}/submit`}>
         <AbstractSubmission />
+      </Route>
+      <Route exact path={`${path}/playground`}>
+        <Playground />
       </Route>
       <Route path={`${path}*`}>
         <NotFound />
@@ -150,6 +155,7 @@ export default function App() {
           </Suspense>
         </main>
         <Footer ></Footer>
+        <ScrollToTop />
       </Auth0ProviderWithHistory>
     </BrowserRouter>
   )
