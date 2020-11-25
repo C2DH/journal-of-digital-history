@@ -78,7 +78,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
   const { t } = useTranslation()
   return (
     <>
-    <Navbar className={`d-md-block d-none ${styles.Navbar}`} variant="light" expand="md">
+    <Navbar className={`d-md-flex d-none ${styles.Navbar}`} variant="light" expand="md">
     <Navbar.Brand href="#home" className="position-absolute d-flex align-items-center">
       <div className={`${styles.BrandImage}`} style={{
         backgroundImage: `url(${logo})`,
