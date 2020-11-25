@@ -9,6 +9,7 @@ import {useStore} from './store'
 import { IsMobile, GaTrackingId } from './constants'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import ScrollToTop from './components/ScrollToTop'
 import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
 import AppRouteLoading from './pages/AppRouteLoading'
 import ReactGA from 'react-ga';
@@ -154,6 +155,7 @@ export default function App() {
           </Suspense>
         </main>
         <Footer ></Footer>
+        <ScrollToTop />
       </Auth0ProviderWithHistory>
     </BrowserRouter>
   )

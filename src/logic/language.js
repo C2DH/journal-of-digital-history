@@ -4,7 +4,7 @@ import { matchPath } from "react-router";
 import intersection from 'lodash/intersection'
 import find from 'lodash/find'
 
-const LANGUAGES = process.env.REACT_APP_LANGUAGES ?? ['en_US', 'fr_FR'];
+const LANGUAGES = (process.env.REACT_APP_LANGUAGES ?? 'en_US,fr_FR').split(',');
 const LANGUAGES_SHORTS = LANGUAGES.map((l) => l.split('_')[0])
 const DEFAULT_LANGUAGE = process.env.REACT_APP_DEFAULT_LANGUAGE ?? 'en_US';
 const DEFAULT_LANGUAGE_SHORT = DEFAULT_LANGUAGE.split('_')[0]
