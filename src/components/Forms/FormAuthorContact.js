@@ -84,6 +84,13 @@ const FormAuthorContact = ({ onChange, onSelectAsAuthor, initialValue }) => {
       />
       </Col>
       </Row>
+      <FormGroupWrapper placeholder='orcid identifier' type='url'
+        controlId='contact-orcid'
+        schemaId='#/definitions/orcid'
+        initialValue={author.orcid}
+        label='pages.abstractSubmission.authorOrcid' ignoreWhenLengthIslessThan={1}
+        onChange={(field) => handleChange({id: 'orcid', ...field})}
+      />
       <FormGroupWrapper
         id='contactEmail'
         initialValue={author.email}
@@ -108,13 +115,13 @@ const FormAuthorContact = ({ onChange, onSelectAsAuthor, initialValue }) => {
         </Form.Text>
       </Form.Group>
       <div className="text-right">
-      <Button 
+      <Button
         variant="outline-dark"
         size="sm"
         onClick={handleContactIsAuthorClick}>{t('forms.formAuthorContact.selectAsAuthor')} ＋
         </Button>
       </div>
-      <pre>{JSON.stringify(author)}</pre>
+      {/* <pre>{JSON.stringify(author)}</pre> */}
     </div>
   )
 }
