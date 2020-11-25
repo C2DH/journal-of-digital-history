@@ -12,7 +12,7 @@
       "title": "An usual ID string",
       "default": "",
       "examples": ["ieoryY78", 1],
-      "minLength": 10,
+      "minLength": 1,
       "maxLength": 250
     },
     "title": {
@@ -119,8 +119,6 @@
       "examples": [
         "https://orcid.org/0000-0002-0237-2532"
       ],
-      "minLength": 7,
-      "maxLength": 500,
       "pattern": "^https://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$"
     },
     "isValid": {
@@ -172,7 +170,7 @@
       "type": "array",
       "title": "a list of datasets",
       "default": [],
-      "minItems": 1,
+      "minItems": 0,
       "maxItems": 10,
       "additionalItems": true,
       "items": {
@@ -219,7 +217,8 @@
       "required": [
         "firstname",
         "lastname",
-        "email"
+        "email",
+        "orcid"
       ],
       "additionalProperties": false,
       "properties": {
