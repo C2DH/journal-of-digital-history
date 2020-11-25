@@ -13,8 +13,8 @@ export const AbstractSubmissionPreviewRoute = { to:'/abstract', label: 'navigati
 export const TermsOfUseRoute = { to:'/terms', label: 'navigation.termsOfUse'}
 export const PrimaryRoutes = [
   HomeRoute,
-  ReferencesRoute,
-  DatasetsRoute,
+  // ReferencesRoute,
+  // DatasetsRoute,
   AbstractSubmissionRoute,
   AboutRoute
 ]
