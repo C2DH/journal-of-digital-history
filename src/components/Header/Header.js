@@ -90,7 +90,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
         <Col md={{offset: 2, span: 6}}>
           <NavPrimaryRoutes className="" routes={PrimaryRoutes} />
         </Col>
-        <Col md={3}>
+        <Col md={2}>
           <Nav className="justify-content-end">
             <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>
             {!isAuthDisabled && <UserProfile/>}
