@@ -9,7 +9,7 @@ import logo from '../../assets/images/jdh-logo.svg'
 import deGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo.svg'
 import uniluLogo from '../../assets/images/unilu-c2dh-logo.png'
 import styles from './Header.module.scss'
-import { PrimaryRoutes } from '../../constants'
+import { PrimaryRoutes, TermsOfUseRoute } from '../../constants'
 import SwitchNightMode from '../SwitchNightMode'
 
 
@@ -28,13 +28,14 @@ const MobileHeader = ({ langs }) => {
       }}>
         <div className="mx-3 mt-4 pb-4">
         <h1>{t('title')}</h1>
-        {PrimaryRoutes.map(({to, label},i) => (
+        {PrimaryRoutes.concat([TermsOfUseRoute]).map(({to, label},i) => (
           <Nav.Item className={styles.MobileHeaderNavItem} key={`primary-route-${i}`}>
             <LangNavLink to={to} exact onClick={() => setIsVisible(false)}>{t(label)}</LangNavLink>
           </Nav.Item>
         ))}
         </div>
         <div className="mx-3 pb-4">
+        <h4 className="text-white monospace font-weight-bold" style={{textTransform: 'uppercase', fontSize: 'inherit'}}>change language</h4>
         {langs.map((lang, i) => (
           <Nav.Item key={`lang-switch-${i}`} className={styles.MobileHeaderNavItem}>
             <SwitchLanguageLink
@@ -44,7 +45,7 @@ const MobileHeader = ({ langs }) => {
               lang={lang}
               onClick={() => {
                 i18n.changeLanguage(lang)
-              }}>{lang.split('_')[0]}</SwitchLanguageLink>
+              }}>{lang.split('-')[0]}</SwitchLanguageLink>
           </Nav.Item>
         ))}
         </div>
