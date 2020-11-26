@@ -4,7 +4,7 @@ import { Dropdown } from "react-bootstrap"
 import SwitchLanguageLink from './SwitchLanguageLink'
 
 
-export default function SwitchLanguage({ 
+export default function SwitchLanguage({
   title='untitled',
   className,
   size='sm',
@@ -12,7 +12,6 @@ export default function SwitchLanguage({
   langs=[]
 }) {
   const { i18n } = useTranslation()
-
   return(
     <Dropdown id="dropdown-basic-button" className={className} drop='down'>
       <Dropdown.Toggle as='a' className='nav-link'>{title}</Dropdown.Toggle>

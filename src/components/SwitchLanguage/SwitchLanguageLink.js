@@ -9,7 +9,7 @@ function makeLangLink(location, lang) {
     exact: false,
     strict: false
   })
-  let url = `/${lang.split('_')[0]}`
+  let url = `/${lang.split('-')[0]}`
   if (match && match.params.where) {
     url += '/' + match.params.where
   }
