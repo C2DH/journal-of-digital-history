@@ -12,6 +12,8 @@ import {
 } from '../../constants'
 import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo.svg'
 import UniluLogo from '../../assets/images/unilu-c2dh-logo.svg'
+import styles from './Footer.module.scss'
+
 
 const now = new Date()
 
@@ -53,20 +55,15 @@ const Footer = () => {
         </Row>
         <Row>
           <Col md={{span: 8, offset:2}}>
-            <div className="position-relative border-top border-dark pt-5 mt-5" style={{height:200}}>
-              <a href="https://www.uni.lu" target="_blank" rel="noopener noreferrer" className="position-absolute" style={{
+            <div className="position-relative border-top border-dark pt-5 my-5" style={{minHeight:200}}>
+              <a className={styles.LogoLink} href="https://www.uni.lu" target="_blank" rel="noopener noreferrer" style={{
                 left: 0,
-                marginLeft: -20,
-                textDecoration: 'none',
-                boxShadow: 'none'
+                marginLeft: -20
               }}>
                 <img alt='C2DH - University of Luxembourg' src={UniluLogo} style={{width: 300}}/>
               </a>
-              <a href="https://www.degruyter.com" target="_blank" className="position-absolute" rel="noopener noreferrer"  style={{
-                left:'50%',
-                marginLeft: 20,
-                textDecoration: 'none',
-                boxShadow: 'none'
+              <a className={`${styles.LogoLinkDeGruyter} ${styles.LogoLink}`} href="https://www.degruyter.com" target="_blank" rel="noopener noreferrer"  style={{
+                left:'50%'
               }}><img className="ml-2" alt='De Gruyter Publisher' src={DeGruyterLogo} style={{width: 200}}/>
               </a>
             </div>

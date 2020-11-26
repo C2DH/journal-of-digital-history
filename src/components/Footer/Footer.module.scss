@@ -1,0 +1,21 @@
+.LogoLink {
+  text-decoration: none;
+  box-shadow: none;
+  display: block;
+}
+
+.LogoLinkDeGruyter{
+  margin-top: 20px;
+  margin-left: -10px;
+}
+
+$breakpoint-tablet: 768px;
+@media (min-width: $breakpoint-tablet) {
+  .LogoLink {
+    position: absolute;
+  }
+  .LogoLinkDeGruyter{
+    margin-top: 0;
+    margin-left: 20px;
+  }
+}
