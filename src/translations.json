@@ -45,12 +45,12 @@
         "home": {
           "latestIssues": "Latest issues",
           "latestArticles": "Latest articles",
-          "editorialBoardMembers": "Editorial Board members",
+          "editorialBoardMembers": "Editorial Board Members",
           "journalRoadmap": "Milestones",
           "callForPaper": "Open Call for Papers",
           "submitArticle": "Submit an article",
-          "editorialRoadmap": "main dates for authors and editors",
-          "technicalRoadmap": "main events for our web interface"
+          "editorialRoadmap": "Main Dates for Authors and Editors",
+          "technicalRoadmap": "Main Dates Related to our Website and Digital Tools"
         },
         "notFound": {
           "title": "not Found",
@@ -131,12 +131,13 @@
         "home": {
           "latestIssues": "Latest issues",
           "latestArticles": "Latest articles",
-          "editorialBoardMembers": "Editorial Board members",
+          "editorialBoardMembers": "Editorial Board Members",
           "journalRoadmap": "Milestones",
           "callForPaper": "Open Call for Papers",
           "submitArticle": "Submit an article",
-          "editorialRoadmap": "main dates for authors and editors",
-          "technicalRoadmap": "main events for our web interface"
+          "submitAbstract": "Submit an Abstract",
+          "editorialRoadmap": "Main Dates for Authors and Editors",
+          "technicalRoadmap": "Main Dates Related to our Website and Digital Tools"
         },
         "notFound": {
           "title": "not Found",

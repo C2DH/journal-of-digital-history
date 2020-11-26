@@ -19,7 +19,7 @@ const MilestoneVerticalScrollama = ({ values, onStepChange }) => {
             willChange: 'opacity',
             transition: 'opacity var(--transition)',
             opacity: currentStepIndex === stepIndex ? 1 : 0.5,
-          marginTop: window.innerHeight / 4}}>{stepIndex}
+          marginTop: window.innerHeight / 4}}>
             <b className="monospace">{t('dates.short', {date: d.date})}</b>
             <h3 className="d-block">{d.title}</h3>
             <p>{d.description}</p>

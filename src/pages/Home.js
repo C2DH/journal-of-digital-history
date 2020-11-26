@@ -29,8 +29,28 @@ const Home = () => {
     <>
     <Container className="page">
       <Row>
-        <Col md={{offset:2}}>
-          <h1 className="my-5">Write (digital) history</h1>
+        <Col md={{span:8, offset:2}}>
+          <h1 className="my-5">Write (Digital) History</h1>
+          <h2 className="my-5">
+            As international, academic, peer-reviewed and open access journal,
+            the JDH will be setting new standards in history publishing
+            based on the principle of multi-layered articles.
+          </h2>
+          <h2 className="sans" style={{
+            fontFamily: 'Fira Sans',
+            lineHeight: '1.75',
+            marginBottom: '2rem',
+            fontSize: 'inherit',
+            fontWeight: 'normal',
+
+          }}>
+            The Journal of Digital History (JDH) aims at becoming the central
+            hub of critical debate and discussion in
+            the field of digital history by offering an innovative
+            publication platform, promoting a new form of data-driven scholarship
+            and of <span style={{background:'var(--primary)'}}>transmedia storytelling</span>&nbsp;
+            in the historical sciences. <LangLink to="/about">Read more</LangLink>
+          </h2>
         </Col>
       </Row>
       <Row>
@@ -46,9 +66,9 @@ const Home = () => {
         }}>
         <h2 className="mb-4">{t('pages.home.callForPaper')}</h2>
         {callForPapers.map((props, i) => (
-          <ArticleCell key={i} {...props} idx={i+1} hideIdx />
+          <ArticleCell key={i} {...props} idx={i+1} hideIdx style={{lineHeight: 1.75}}/>
         ))}
-        <LangLink to='/submit' className="btn btn-block btn-primary btn-lg">{t('pages.home.submitArticle')}</LangLink>
+        <LangLink to='/submit' className="btn btn-block btn-primary btn-lg">{t('pages.home.submitAbstract')}</LangLink>
         </div>
         </Col>
       </Row>
@@ -67,14 +87,14 @@ const Home = () => {
       <Row>
         <Col md={{offset:2, span:8}}>
           <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
-          <h4 className="mb-3" >{t('pages.home.editorialRoadmap')} ⤵</h4>
+          <h4 className="mb-3 d-none d-md-block" >{t('pages.home.editorialRoadmap')} ⤵</h4>
           <MilestoneTimeline
             isPortrait={IsPortrait}
             milestones={milestones?.metadata?.jdh?.dataset}
             extent={milestones?.metadata?.jdh?.extent?.date}
             showToday
           />
-            <h4 className="mt-3">{t('pages.home.technicalRoadmap')} ⤴</h4>
+            <h4 className="mt-3 d-none d-md-block">{t('pages.home.technicalRoadmap')} ⤴</h4>
         </Col>
       </Row>
     </Container>
