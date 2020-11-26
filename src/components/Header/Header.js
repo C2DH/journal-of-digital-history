@@ -6,8 +6,8 @@ import SwitchLanguageLink from '../SwitchLanguage/SwitchLanguageLink'
 import LangNavLink from '../LangNavLink'
 import UserProfile from './UserProfile'
 import logo from '../../assets/images/jdh-logo.svg'
-import deGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo.svg'
-import uniluLogo from '../../assets/images/unilu-c2dh-logo.png'
+import deGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_white.svg'
+import uniluLogo from '../../assets/images/unilu-c2dh-logo-white.svg'
 import styles from './Header.module.scss'
 import { PrimaryRoutes, TermsOfUseRoute } from '../../constants'
 import SwitchNightMode from '../SwitchNightMode'
@@ -50,8 +50,8 @@ const MobileHeader = ({ langs }) => {
         ))}
         </div>
         <div className="m-4 pb-4 d-flex align-items-center">
-          <div className="w-50"><img alt='C2DH - University of Luxembourg' src={uniluLogo} style={{width:'200px'}}/></div>
-          <div className="w-50"><img alt='De Gruyter Publisher' src={deGruyterLogo} style={{width:'150px'}}/></div>
+          <a className="w-50 d-block" href="https://www.uni.lu" target="_blank" rel="noopener noreferrer"><img alt='C2DH - University of Luxembourg' src={uniluLogo} style={{width:180, marginLeft: -10}}/></a>
+          <a className="w-50 d-block" href="https://www.degruyter.com" target="_blank" rel="noopener noreferrer"><img alt='De Gruyter Publisher' src={deGruyterLogo} style={{width:'100%'}}/></a>
         </div>
       </div>
     </Nav>
