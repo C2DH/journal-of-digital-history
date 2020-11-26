@@ -54,17 +54,17 @@ const Footer = () => {
         <Row>
           <Col md={{span: 8, offset:2}}>
             <div className="position-relative border-top border-dark pt-5 mt-5" style={{height:200}}>
-              <div className="position-absolute" style={{
+              <a href="https://www.uni.lu" target="_blank" rel="noopener noreferrer" className="position-absolute" style={{
                 left: 0,
                 marginLeft: -20,
               }}>
                 <img alt='C2DH - University of Luxembourg' src={UniluLogo} style={{width: 300}}/>
-              </div>
-              <div className="position-absolute" style={{
+              </a>
+              <a href="https://www.degruyter.com" target="_blank" className="position-absolute" rel="noopener noreferrer"  style={{
                 left:'50%',
                 marginLeft: 20,
               }}><img className="ml-2" alt='De Gruyter Publisher' src={DeGruyterLogo} style={{width: 200}}/>
-              </div>
+              </a>
             </div>
           </Col>
         </Row>
