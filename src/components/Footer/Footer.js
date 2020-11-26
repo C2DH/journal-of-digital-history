@@ -57,12 +57,16 @@ const Footer = () => {
               <a href="https://www.uni.lu" target="_blank" rel="noopener noreferrer" className="position-absolute" style={{
                 left: 0,
                 marginLeft: -20,
+                textDecoration: 'none',
+                boxShadow: 'none'
               }}>
                 <img alt='C2DH - University of Luxembourg' src={UniluLogo} style={{width: 300}}/>
               </a>
               <a href="https://www.degruyter.com" target="_blank" className="position-absolute" rel="noopener noreferrer"  style={{
                 left:'50%',
                 marginLeft: 20,
+                textDecoration: 'none',
+                boxShadow: 'none'
               }}><img className="ml-2" alt='De Gruyter Publisher' src={DeGruyterLogo} style={{width: 200}}/>
               </a>
             </div>

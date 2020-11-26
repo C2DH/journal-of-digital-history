@@ -12,7 +12,8 @@
       "title": "Journal of Digital History",
       "pages": {
         "loading": {
-          "title": "loading..."
+          "title": "loading...",
+          "subheading": ""
         },
         "abstract": {
           "authors": "contributors",
