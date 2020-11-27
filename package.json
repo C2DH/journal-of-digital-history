@@ -46,6 +46,7 @@
     "react-window": "^1.8.5",
     "source-map-explorer": "^2.4.2",
     "typescript": "^3.9.7",
+    "universal-cookie": "^4.0.4",
     "webfontloader": "^1.6.28",
     "zustand": "^3.1.4"
   },

@@ -9,21 +9,40 @@ import {useStore} from './store'
 import { IsMobile, GaTrackingId } from './constants'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import Cookies from './components/Cookies'
 import ScrollToTop from './components/ScrollToTop'
 import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
 import AppRouteLoading from './pages/AppRouteLoading'
 import ReactGA from 'react-ga';
+// Getting non-reactive fresh state
+let persistentState = useStore.getState()
+
+try {
+  const localStorageState = JSON.parse(localStorage.getItem('JournalOfDigitalHistory'));
+  if (localStorageState) {
+    persistentState = localStorageState
+  }
+} catch(e) {
+  console.warn(e)
+}
+
+const acceptAnalyticsCookies = persistentState.acceptAnalyticsCookies
+const acceptCookies = persistentState.acceptCookies
+console.info('initial saved state', persistentState)
+console.info('%cacceptAnalyticsCookies', 'font-weight: bold', acceptAnalyticsCookies)
+console.info('%cacceptCookies', 'font-weight: bold', acceptCookies)
+
 // integrate history \w Google Analytics
-if (GaTrackingId) {
+if (GaTrackingId && acceptAnalyticsCookies) {
   ReactGA.initialize(GaTrackingId);
-  // ReactGA.pageview(history.location.pathname + history.location.search);
-  // history.listen((location, action) => {
-  //   console.info('ReactGA.pageview', location)
-  //   ReactGA.pageview(location.pathname + location.search);
-  // });
-  console.info('%cGA:', 'font-weight: bold', GaTrackingId)
+  console.info('%cGA enabled by user choice', 'font-weight: bold', GaTrackingId)
+} else if(GaTrackingId) {
+  console.info(
+    '%cGA disabled by user choice:', 'font-weight: bold',
+    'acceptAnalyticsCookies:', acceptAnalyticsCookies
+  )
 } else {
-  console.info('%cGA:', 'font-weight: bold', 'disabled by config.')
+  console.info('%cGA GaTrackingId not set', 'font-weight: bold', 'disabled by config.')
 }
 
 /* Pages */
@@ -148,6 +167,7 @@ export default function App() {
         redirectUri={`${window.location.origin}/authorized`}
       >
         <Header availableLanguages={LANGUAGES} isAuthDisabled={isUnsafeEnvironment}/>
+        <Cookies defaultAcceptCookies={acceptCookies}/>
         <main>
           <MainBackground />
           <Suspense fallback={<AppRouteLoading/>}>
