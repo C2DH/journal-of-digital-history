@@ -30,10 +30,10 @@ const Home = () => {
     <Container className="page">
       <Row>
         <Col md={{span:8, offset:2}}>
-          <h1 className="my-5">Write (Digital) History</h1>
+          <h1 className="my-5">Write (Digital) History.</h1>
           <h2 className="my-5">
             As international, academic, peer-reviewed and open access journal,
-            the JDH will be setting new standards in history publishing
+            the Journal of Digital History (JDH) will be setting new standards in history publishing
             based on the principle of multi-layered articles.
           </h2>
           <h2 className="sans" style={{
@@ -44,7 +44,7 @@ const Home = () => {
             fontWeight: 'normal',
 
           }}>
-            The Journal of Digital History (JDH) aims at becoming the central
+            Our journal aims to become the central
             hub of critical debate and discussion in
             the field of digital history by offering an innovative
             publication platform, promoting a new form of data-driven scholarship
