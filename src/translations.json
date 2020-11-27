@@ -6,7 +6,7 @@
         "datasets": "datasets",
         "home": "index",
         "references": "references",
-        "submit": "Submit an article",
+        "submit": "Submit an Article",
         "termsOfUse": "Terms of Use"
       },
       "title": "Journal of Digital History",
@@ -20,9 +20,9 @@
           "contact": "contact point"
         },
         "abstractSubmission": {
-          "title": "Abstract submission",
+          "title": "Abstract Submission",
           "subheading": "...",
-          "authorEmail": "email address",
+          "authorEmail": "Email address",
           "authorEmailCheck": "email address, again",
           "authorFirstName": "First name",
           "authorLastName": "Last name",
@@ -110,8 +110,8 @@
           "subheading": "...",
           "authorEmail": "email address",
           "authorEmailCheck": "email address, again",
-          "authorFirstName": "First name",
-          "authorLastName": "Last name",
+          "authorFirstName": "First Name",
+          "authorLastName": "Last Name",
           "authorOrcid": "ORCID url",
           "authorUsername": "nom utilisateur",
           "articleContact": "Contact info",

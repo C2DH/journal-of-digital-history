@@ -160,7 +160,7 @@ const AbstractSubmission = (props) => {
         <Col md={{span: 6, offset:2}}>
           <h1 className="my-5">{t('pages.abstractSubmission.title')}</h1>
           <Jumbotron className="pt-4 pb-2 px-4">
-            <h3>Call for paper: <b>The Digital Dilemma under the lens of history and historians</b></h3>
+            <h3>Call for Paper: <b>The Digital Dilemma under the Lens of History and Historians</b></h3>
             <p>
             This is a simple hero unit, a simple jumbotron-style component for calling
               extra attention to featured content or information.
@@ -173,7 +173,7 @@ const AbstractSubmission = (props) => {
       <Form noValidate onSubmit={handleSubmit}>
         <Row>
           <Col md={{span: 6, offset:2}}>
-            <h3>A title and an abstract</h3>
+            <h3>Title and Abstract</h3>
             {!isPreviewMode && <FormGroupWrapper as='textarea' schemaId='#/definitions/title' rows={3}
               initialValue={temporaryAbstractSubmission.title}
               label='pages.abstractSubmission.articleTitle'
