@@ -50,7 +50,7 @@ export default class AbstractSubmission {
       this.title.length +
       this.abstract.length +
       Object.keys(this.contact).length +
-      this.authors.lenght +
+      this.authors.length +
       this.datasets.length
     ) === 0
   }

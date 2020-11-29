@@ -1,0 +1,11 @@
+.AgreeButton {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .AgreeButton {
+    width: auto;
+    padding-left: var(--spacer-4);
+    padding-right: var(--spacer-4);
+  }
+}

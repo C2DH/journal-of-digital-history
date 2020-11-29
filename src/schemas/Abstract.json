@@ -8,7 +8,7 @@
   "definitions": {
     "id": {
       "$id": "#/definitions/id",
-      "type": "string|number",
+      "type": ["string","number"],
       "title": "An usual ID string",
       "default": "",
       "examples": ["ieoryY78", 1],
@@ -54,6 +54,21 @@
       "default": "",
       "examples": ["Once Upon a Time in Belval, theere was a little house on a little hill"],
       "maxLength": 500
+    },
+    "token": {
+      "$id": "#/definitions/token",
+      "type": "string",
+      "title": "A recaptcha token",
+      "description": "Max 1000 characters",
+      "default": "",
+      "examples": ["03AGdBq25p8daIHp8-V7dvO3MEOshLJphGtGIEfymURe1Sq2VSgmL87MYi..."],
+      "maxLength": 1000
+    },
+    "datetime": {
+      "$id": "#/definitions/datetime",
+      "type": "string",
+      "format": "date-time",
+      "title": "datetime"
     },
     "firstname": {
       "$id": "#/definitions/firstname",
@@ -276,8 +291,7 @@
         "required": [
           "firstname",
           "lastname",
-          "affiliation",
-          "email"
+          "affiliation"
         ],
         "additionalProperties": false,
         "properties": {
@@ -288,13 +302,29 @@
             "$ref": "#/definitions/lastname"
           },
           "email": {
-            "$ref": "#/definitions/email"
+            "anyOf": [
+              {
+                "$ref": "#/definitions/email"
+              },
+              {
+                "type": "string",
+                "maxLength": 0
+              }
+            ]
           },
           "affiliation": {
             "$ref": "#/definitions/affiliation"
           },
           "orcid": {
-            "$ref": "#/definitions/orcid"
+            "anyOf": [
+              {
+                "$ref": "#/definitions/orcid"
+              },
+              {
+                "type": "string",
+                "maxLength": 0
+              }
+            ]
           },
           "id": {
             "$ref": "#/definitions/id"

@@ -49,6 +49,7 @@ if (GaTrackingId && acceptAnalyticsCookies) {
 const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
 const AbstractSubmission = lazy(() => import('./pages/AbstractSubmission'))
+const AbstractSubmitted = lazy(() => import('./pages/AbstractSubmitted'))
 const Article = lazy(() => import('./pages/Article'))
 const Abstract = lazy(() => import('./pages/Abstract'))
 const MockAbstract = lazy(() => import('./pages/MockAbstract'))
@@ -99,6 +100,9 @@ function LangRoutes() {
       </Route>
       <Route path={`${path}/abstract/:id`}>
         <Abstract />
+      </Route>
+      <Route path={`${path}/abstract-submitted`}>
+        <AbstractSubmitted />
       </Route>
       <Route exact path={`${path}/terms`}>
         <TermsOfUse />

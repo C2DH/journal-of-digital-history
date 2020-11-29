@@ -97,15 +97,14 @@ const AbstractSubmission = (props) => {
     createAbstractSubmission({
       item: temporaryAbstractSubmission,
       token,
+    }).then((res) => {
+      // console.log('received', res)
+      if(res?.status === 200 || res?.status ===201) {
+        history.push('/en/abstract-submitted');
+      }
     }).catch((err) => {
       console.info(err.message, 'status=', err.response.status)
       setIsSubmitting(false)
-    }).then((res) => {
-      console.log('received', res)
-      if(res?.status === 201) {
-        setTemporaryAbstractSubmission({})
-        history.push(`/en/abstract/${res.data.id}`);
-      }
     })
   }
 
@@ -154,6 +153,15 @@ const AbstractSubmission = (props) => {
     setPreviewMode(mode)
   }
 
+  const isEmpty = (
+    temporaryAbstractSubmission.title.length +
+    temporaryAbstractSubmission.abstract.length +
+    Object.keys(temporaryAbstractSubmission.contact).length +
+    temporaryAbstractSubmission.authors.length +
+    temporaryAbstractSubmission.datasets.length
+  ) === 0
+
+
   return (
     <Container className="page mb-5">
       <Row>
@@ -173,7 +181,7 @@ const AbstractSubmission = (props) => {
       <Form noValidate onSubmit={handleSubmit}>
         <Row>
           <Col md={{span: 6, offset:2}}>
-            <h3>Title and Abstract</h3>
+            <h3 className="progressiveHeading">Title and Abstract</h3>
             {!isPreviewMode && <FormGroupWrapper as='textarea' schemaId='#/definitions/title' rows={3}
               initialValue={temporaryAbstractSubmission.title}
               label='pages.abstractSubmission.articleTitle'
@@ -202,7 +210,7 @@ const AbstractSubmission = (props) => {
               </FormGroupWrapperPreview>}
             <hr />
 
-            <h3>{t('pages.abstractSubmission.ContactPointSectionTitle')}</h3>
+            <h3 className="progressiveHeading">{t('pages.abstractSubmission.ContactPointSectionTitle')}</h3>
             {!isPreviewMode && (
               <FormAuthorContact
                 initialValue={temporaryAbstractSubmission.contact}
@@ -217,7 +225,7 @@ const AbstractSubmission = (props) => {
 
             <hr />
 
-            <h3>{t('pages.abstractSubmission.AuthorsSectionTitle')}</h3>
+            <h3 className="progressiveHeading">{t('pages.abstractSubmission.AuthorsSectionTitle')}</h3>
             {!isPreviewMode && <FormAbstractGenericSortableList
               onChange={({ items, isValid }) => handleChange({
                 id: 'authors',
@@ -235,7 +243,7 @@ const AbstractSubmission = (props) => {
             ))}
             <hr />
 
-            <h3>{t('pages.abstractSubmission.DataSectionTitle')}</h3>
+            <h3 className="progressiveHeading">{t('pages.abstractSubmission.DataSectionTitle')}</h3>
             {!isPreviewMode && <FormAbstractGenericSortableList
               onChange={({ items, isValid }) => handleChange({
                 id: 'datasets',
@@ -288,15 +296,29 @@ const AbstractSubmission = (props) => {
               size="invisible"
               sitekey={ReCaptchaSiteKey}
             />
-            {validatorResult?.errors.map((error,i) => <FormJSONSchemaErrorListItem error={error} />)}
-            <div className="text-center mt-5"><Button disabled={validatorResult?.errors.length}
-              variant="outline-secondary" size="lg"
-              type="submit" style={{color: 'var(--secondary)'}}>
-              {validatorResult?.errors.length
-                ? <Badge variant="danger" className="mr-3">{validatorResult?.errors.length} errors</Badge>
-                : null
-              } {t('actions.submit')}
-            </Button></div>
+
+            {!isEmpty && validatorResult?.errors.length > 0 && (
+              <ol className="m-0 pr-2 py-2 pl-4 border border-danger">
+              {validatorResult?.errors.map((error,i) =>
+                <li><FormJSONSchemaErrorListItem error={error} debug={true}/></li>
+              )}
+              </ol>
+            )}
+            <div className="text-center mt-5">
+            {isEmpty
+              ? (<Button disabled
+                  variant="outline-secondary" size="lg"
+                  type="submit">{t('actions.submit')}</Button>)
+              : <Button disabled={validatorResult?.errors.length}
+                  variant="outline-secondary" size="lg"
+                  type="submit">
+                  {validatorResult?.errors.length
+                    ? <Badge variant="danger" className="mr-3">{validatorResult?.errors.length} errors</Badge>
+                    : null
+                  } {t('actions.submit')}
+                </Button>
+            }
+            </div>
           </Col>
         </Row>
       </Form>
