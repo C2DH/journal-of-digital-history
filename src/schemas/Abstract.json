@@ -8,7 +8,7 @@
   "definitions": {
     "id": {
       "$id": "#/definitions/id",
-      "type": "string|number",
+      "type": ["string","number"],
       "title": "An usual ID string",
       "default": "",
       "examples": ["ieoryY78", 1],
