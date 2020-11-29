@@ -2,6 +2,8 @@ import React from 'react'
 import { Badge, Button, ButtonGroup } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import AbstractSubmission from '../models/AbstractSubmission'
+import FormJSONSchemaErrorListItem from './Forms/FormJSONSchemaErrorListItem'
+
 
 const AbstractSubmissionPreview = ({
   validatorResult,
@@ -16,10 +18,10 @@ const AbstractSubmissionPreview = ({
     ? submission
     : new AbstractSubmission(submission)
 
-  const checkList = (validatorResult.errors ?? []).map((d) => ({
-    path: d.path[0],
-    message: d.message,
-  }))
+  // const checkList = (validatorResult.errors ?? []).map((d) => ({
+  //   path: d.path[0],
+  //   message: d.message,
+  // }))
   console.info('AbstractSubmissionPreview rendering, result:', validatorResult)
 
   const isEmpty = temporaryAbstractSubmission.isEmpty()
@@ -52,10 +54,10 @@ const AbstractSubmissionPreview = ({
         maxHeight: '50vh',
         overflow: 'scroll'
       }}>
-
-      {!isEmpty && checkList.map((d, i) => (
+      {!isEmpty && validatorResult?.errors.map((error, i) => (
         <blockquote className="border-left border-dark mt-2 pl-2" key={i}>
-        <b>{d.path}</b> {d.message}</blockquote>
+          <FormJSONSchemaErrorListItem error={error} />
+        </blockquote>
       ))}
       </div>
       <br/>

@@ -101,10 +101,23 @@
         "minItems": "not enough",
         "minLength": "incomplete"
       },
+      "schemaErrors": {
+        "instance-acceptConditions": "Please accept <b>terms and conditions</b>",
+        "instance-contact-email": "A valid <b>email address</b> is required for the contact point",
+        "instance-contact-orcid": "An <b>ORCID url</b> is required for the contact point",
+        "instance-authors": "At least <b>one author</b> is required",
+        "instance-authors-orcid": "One <b>author ORCID</b> url provided is not valid, please provide either an empty value or a valid ORCID",
+        "instance-authors-email": "One <b>author email</b> address is not valid, please provide either an empty value or a valid email address",
+        "instance-datasets": "A <b>description</b> is required to add a valid \"Tools, Code & Data\" item",
+        "instance-datasets-url": "One <b>url</b> in <b> \"Tools, Code & Data\"</b> is not valid, make sure it starts with <code>http</code>",
+        "instance-title": "Check <b>Title</b>",
+        "instance-abstract": "Check <b>Abstract</b>"
+      },
       "numbers": {
         "errors": "{{count}} errors",
         "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",
-        "currentCharactersWithCount": "(now: <b>{{count}}</b>)"
+        "currentCharactersWithCount": "(now: <b>{{count}}</b>)",
+        "itemIdx": "(item #{{idx}})"
       },
       "dates": {
         "short": "{{date, ll}}",

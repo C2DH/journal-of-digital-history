@@ -298,8 +298,12 @@ const AbstractSubmission = (props) => {
               sitekey={ReCaptchaSiteKey}
             />
 
-            {!isEmpty && validatorResult?.errors.map((error,i) =>
-              <FormJSONSchemaErrorListItem error={error} />
+            {!isEmpty && validatorResult?.errors.length > 0 && (
+              <ol className="m-0 pr-2 py-2 pl-4 border border-danger">
+              {validatorResult?.errors.map((error,i) =>
+                <li><FormJSONSchemaErrorListItem error={error}/></li>
+              )}
+              </ol>
             )}
             <div className="text-center mt-5">
             {isEmpty
