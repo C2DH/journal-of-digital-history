@@ -1,91 +1,4 @@
 {
-  "fr-FR": {
-    "translation": {
-      "navigation": {
-        "about": "about",
-        "datasets": "datasets",
-        "home": "index",
-        "references": "references",
-        "submit": "Submit an Article",
-        "termsOfUse": "Terms of Use"
-      },
-      "title": "Journal of Digital History",
-      "pages": {
-        "loading": {
-          "title": "loading...",
-          "subheading": ""
-        },
-        "abstract": {
-          "authors": "contributors",
-          "contact": "contact point"
-        },
-        "abstractSubmission": {
-          "title": "Abstract Submission",
-          "subheading": "...",
-          "authorEmail": "Email address",
-          "authorEmailCheck": "email address, again",
-          "authorFirstName": "First name",
-          "authorLastName": "Last name",
-          "authorOrcid": "ORCID url",
-          "authorUsername": "nom utilisateur",
-          "articleContact": "Contact info",
-          "articleTitle": "Title",
-          "articleAbstract": "Abstract",
-          "articleDataset": "Davaverse url",
-          "authorAffiliation": "Affiliation",
-          "preview": "Submission status",
-          "ContactPointSectionTitle": "Contact",
-          "DataSectionTitle": "Tools, Code & Data",
-          "AuthorsSectionTitle": "Contributors",
-          "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias",
-          "datasetDetailsUrl": "Link URL",
-          "datasetDetailsLabel": "Link description, license (where applicable)",
-          "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply."
-        },
-        "home": {
-          "latestIssues": "Latest issues",
-          "latestArticles": "Latest articles",
-          "editorialBoardMembers": "Editorial Board Members",
-          "journalRoadmap": "Milestones",
-          "callForPaper": "Open Call for Papers",
-          "submitArticle": "Submit an article",
-          "editorialRoadmap": "Main Dates for Authors and Editors",
-          "technicalRoadmap": "Main Dates Related to our Website and Digital Tools"
-        },
-        "notFound": {
-          "title": "not Found",
-          "subheading": "..."
-        }
-      },
-      "forms": {
-        "formAuthorContact": {
-          "selectAsAuthor": "Use this contact info as contributor"
-        }
-      },
-      "actions": {
-        "logout": "(log out)",
-        "addLink": "Add link",
-        "addAuthor": "Add contributor",
-        "addDataset": "Add dataset",
-        "downloadAsJSON": "download as JSON"
-      },
-      "badge": {
-        "warning": "∅",
-        "danger": "⚠",
-        "success": "✓"
-      },
-      "numbers": {
-        "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",
-        "currentCharactersWithCount": "(now: <b>{{count}}</b>)"
-      },
-      "dates": {
-        "short": "{{date, ll}}",
-        "fromNow": "{{date, fromNow}}",
-        "LLLL": "{{date, LLLL}}",
-        "LLL": "{{date, LLL}}"
-      }
-    }
-  },
   "en-US": {
     "translation": {
       "navigation": {
@@ -97,6 +10,7 @@
         "termsOfUse": "Terms of Use"
       },
       "title": "Journal of Digital History",
+      "visibleOnlyByYou": "(visible only by you)",
       "pages": {
         "loading": {
           "title": "loading..."
@@ -104,6 +18,11 @@
         "abstract": {
           "authors": "contributors",
           "contact": "contact point"
+        },
+        "abstractSubmitted": {
+          "title": "Your Abstract has been received",
+          "subheading": "You will soon be contacted by our editors at the email you indicated in the contact email.",
+          "moreInfo": "If any information needs to be changed, please contact us via email at <a href='mailto:jdhadmin@uni.lu'>jdhadmin@uni.lu</a>"
         },
         "abstractSubmission": {
           "title": "Abstract submission",
