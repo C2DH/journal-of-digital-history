@@ -4,7 +4,7 @@ import { Button, Form, Container } from 'react-bootstrap'
 import { useStore } from '../../store'
 import { TermsOfUseRoute } from '../../constants'
 import LangLink from '../LangLink'
-
+import styles from './Cookies.module.scss'
 
 const Cookies = ({ defaultAcceptCookies }) => {
     const acceptCookies =  useStore((state) => state.acceptCookies);
@@ -42,7 +42,7 @@ const Cookies = ({ defaultAcceptCookies }) => {
             By browsing this website you agree to our cookie policy.
             Visit <LangLink to={TermsOfUseRoute.to}>{t(TermsOfUseRoute.label)}</LangLink> to review your options later.
             <div className="mx-3 my-3">
-            <Button className="btn-block" onClick={handleClickAgree}>Agree</Button>
+            <Button className={styles.AgreeButton} onClick={handleClickAgree}>Agree</Button>
             </div>
         </Container>
       </div>
