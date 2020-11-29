@@ -82,8 +82,7 @@ const FormAbstractGenericSortableList = ({
         <div className="d-flex align-items-top mb-2 pl-2 pr-1 pb-2 pt-0 border border-dark rounded shadow-sm">
           <ListItemComponent className="w-100 mt-2"  item={item} onChange={handleChange} />
           <div className="flex-shrink-1">
-          {item.id}
-            <Button size="sm" className="d-block rounded-circle p-0 m-3" style={{height: '25px', width:'25px', lineHeight: '25px'}} variant="warning"
+            <Button size="sm" className="d-block rounded-circle border-dark border p-0 m-3" style={{height: '25px', width:'25px', lineHeight: '23px'}} variant="warning"
               onClick={() => removeItem(item)}>✕</Button>
             { index > 0 && (
               <Button size="sm" className="d-block rounded-circle p-0 m-3" style={{height: '25px', width:'25px', lineHeight: '25px'}} variant="secondary"
