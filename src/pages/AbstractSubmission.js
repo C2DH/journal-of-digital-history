@@ -97,15 +97,14 @@ const AbstractSubmission = (props) => {
     createAbstractSubmission({
       item: temporaryAbstractSubmission,
       token,
+    }).then((res) => {
+      // console.log('received', res)
+      if(res?.status === 200 || res?.status ===201) {
+        history.push('/en/abstract-submitted');
+      }
     }).catch((err) => {
       console.info(err.message, 'status=', err.response.status)
       setIsSubmitting(false)
-    }).then((res) => {
-      console.log('received', res)
-      if(res?.status === 201) {
-        setTemporaryAbstractSubmission({})
-        history.push(`/en/abstract/${res.data.id}`);
-      }
     })
   }
 
@@ -301,7 +300,7 @@ const AbstractSubmission = (props) => {
             {!isEmpty && validatorResult?.errors.length > 0 && (
               <ol className="m-0 pr-2 py-2 pl-4 border border-danger">
               {validatorResult?.errors.map((error,i) =>
-                <li><FormJSONSchemaErrorListItem error={error}/></li>
+                <li><FormJSONSchemaErrorListItem error={error} debug={true}/></li>
               )}
               </ol>
             )}

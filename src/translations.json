@@ -103,6 +103,7 @@
       },
       "schemaErrors": {
         "instance-acceptConditions": "Please accept <b>terms and conditions</b>",
+        "instance-contact": "Please fill the \"Contact\" section with your <b>email</b> and <b>ORCID url</b>",
         "instance-contact-email": "A valid <b>email address</b> is required for the contact point",
         "instance-contact-orcid": "An <b>ORCID url</b> is required for the contact point",
         "instance-authors": "At least <b>one author</b> is required",
