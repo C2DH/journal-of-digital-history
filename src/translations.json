@@ -13,7 +13,8 @@
       "visibleOnlyByYou": "(visible only by you)",
       "pages": {
         "loading": {
-          "title": "loading..."
+          "title": "loading...",
+          "subheading": "..."
         },
         "abstract": {
           "authors": "contributors",
