@@ -9,9 +9,18 @@ export const useStore = create(persist(
     acceptCookies: false, // cookies should be accepted, session is stored locally
     mode: 'dark', // or light
     temporaryAbstractSubmission: new AbstractSubmission(),
+    abstractSubmitted: new AbstractSubmission(),
     setTemporaryAbstractSubmission: (payload) => {
       const state = get();
       set({ ...state, temporaryAbstractSubmission: new AbstractSubmission(payload) });
+    },
+    setAbstractSubmitted: (payload) => {
+      const state = get();
+      set({
+        ...state,
+        temporaryAbstractSubmission: new AbstractSubmission(),
+        abstractSubmitted: new AbstractSubmission(payload)
+      });
     },
     setAcceptCookies: () => {
       const state = get();
