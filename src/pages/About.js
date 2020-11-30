@@ -7,7 +7,7 @@ import ArticleCell from '../components/ArticleText/ArticleCell'
 
 const articleTree = getArticleTreeFromIpynb(pageContents)
 
-const TermsOfUse = ({ results }) => {
+const About = ({ results }) => {
   useEffect(() => {
     useStore.setState({ backgroundColor: 'var(--snow)' });
   })
@@ -15,7 +15,7 @@ const TermsOfUse = ({ results }) => {
     <>
       <Container className="page">
         <Row>
-          <Col md={{offset: 2, span:6}}>
+          <Col md={{offset: 2, span:8}}>
           {articleTree.paragraphs.map((props, i) => (
             <ArticleCell {...props} key={i} idx=""/>
           ))}
@@ -26,4 +26,4 @@ const TermsOfUse = ({ results }) => {
   )
 }
 
-export default TermsOfUse
+export default About
