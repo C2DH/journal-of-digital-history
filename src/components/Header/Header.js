@@ -19,7 +19,7 @@ const MobileHeader = ({ langs, displayLangs }) => {
   return (
     <>
     <LangNavLink to="/" className={styles.MobileHeaderBrand} >{t('titleInline')}</LangNavLink>
-    <Nav className={`${styles.MobileHeaderNav} d-block d-sm-none`}>
+    <Nav className={`${styles.MobileHeaderNav} d-block d-md-none`}>
       <div className={styles.MobileHeaderToggler}
         onClick={() => setIsVisible(!isVisible)}
       >menu ☰</div>
@@ -88,7 +88,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs }) => {
       <div className={`${styles.BrandImage}`} style={{
         backgroundImage: `url(${logo})`,
       }}></div>
-      <span className={`d-lg-block d-none`} dangerouslySetInnerHTML={{
+      <span className={`d-md-block d-none`} dangerouslySetInnerHTML={{
         __html: t('title')
       }}></span>
     </Navbar.Brand>
