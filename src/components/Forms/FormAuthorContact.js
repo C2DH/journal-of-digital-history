@@ -84,6 +84,13 @@ const FormAuthorContact = ({ onChange, onSelectAsAuthor, initialValue }) => {
       />
       </Col>
       </Row>
+      <FormGroupWrapper placeholder='affiliation'
+        controlId='contact-affiliation'
+        schemaId='#/definitions/affiliation'
+        initialValue={author.affiliation}
+        label='pages.abstractSubmission.authorAffiliation' ignoreWhenLengthIslessThan={1}
+        onChange={(field) => handleChange({id: 'affiliation', ...field})}
+      />
       <FormGroupWrapper placeholder='orcid identifier' type='url'
         controlId='contact-orcid'
         schemaId='#/definitions/orcid'
@@ -110,9 +117,6 @@ const FormAuthorContact = ({ onChange, onSelectAsAuthor, initialValue }) => {
           isInvalid={repeatEmailIsValid === false}
           isValid={repeatEmailIsValid === true}
         />
-        <Form.Text className="text-muted">
-          Note: copy paste is disabled
-        </Form.Text>
       </Form.Group>
       <div className="text-right">
       <Button
