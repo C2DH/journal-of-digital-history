@@ -15,18 +15,53 @@
         }
       },
       "source": [
-        "# About {.my-5}"
+        "# About the *Journal of Digital History* {.my-5}"
       ]
     },
     {
       "cell_type": "markdown",
       "metadata" : {
         "jdh": {
-          "section": "title"
+          "section": "content"
         }
       },
       "source": [
-        "### Thank you for visiting this website."
+        "## The Journal of Digital History (JDH) is a joint initiative of the Luxembourg Centre for Contemporary and Digital History and the De Gruyter publishing group. {.my-5}",
+        "The Journal of Digital History (JDH) aims at becoming the central hub of critical debate and discussion in the field of digital history by offering an innovative publication platform, promoting a new form of data-driven scholarship and of transmedia storytelling in the historical sciences. International, academic, peer-reviewed and open access, the JDH will be setting new standards in history publishing based on the principle of multi-layered articles:",
+        "- the **first layer** will enable to produce transmedia narratives (narration layer);",
+        "- the **second layer** will explore the authors' reflection on the methodological implications of using digital tools / data (hermeneutic layer);",
+        "- the **third layer** will give access to data and code through a professional infrastructure (data layer). One the main tools of this layer will be code notebooks."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "content"
+        }
+      },
+      "source": [
+        "### The team at the C²DH",
+        "The development and maintaining of the Journal relies on a team that brings together a wide range of competences (in alphabetical order):",
+        "[Robert Beta](https://c2dh.uni.lu/people/robert-beta), system administrator",
+        "[Frédéric Clavert](https://c2dh.uni.lu/people/frederic-clavert) Assistant Professor in contemporary history and JDH managing editor",
+        "[Ori Elisar](https://c2dh.uni.lu/people/ori-elisar), user experience designer",
+        "[Andreas Fickers](https://c2dh.uni.lu/people/andreas-fickers), Director of the C²DH and editor in chief for the Journal",
+        "[Elisabeth Guerard](https://c2dh.uni.lu/people/elisabeth-guerard), developer",
+        "[Daniele Guido](https://c2dh.uni.lu/people/daniele-guido), lead designer and developer",
+        "[Mirjam Pfeiffer](https://c2dh.uni.lu/people/mirjam-pfeiffer), user experience and user interaction designer",
+        "[Lars Weineke](https://c2dh.uni.lu/people/lars-wieneke), Head of Digital Research infrastructure"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "content"
+        }
+      },
+      "source": [
+        "### The team at De Gruyter"
       ]
     }
   ]
