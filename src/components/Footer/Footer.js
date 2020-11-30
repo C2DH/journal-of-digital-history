@@ -56,7 +56,7 @@ const Footer = () => {
         <Row>
           <Col md={{span: 8, offset:2}}>
             <div className="position-relative border-top border-dark pt-5 my-5" style={{minHeight:200}}>
-              <a className={styles.LogoLink} href="https://www.uni.lu" target="_blank" rel="noopener noreferrer" style={{
+              <a className={styles.LogoLink} href="https://c2dh.uni.lu" target="_blank" rel="noopener noreferrer" style={{
                 left: 0,
                 marginLeft: -20
               }}>
