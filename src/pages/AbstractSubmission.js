@@ -168,12 +168,14 @@ const AbstractSubmission = (props) => {
         <Col md={{span: 6, offset:2}}>
           <h1 className="my-5">{t('pages.abstractSubmission.title')}</h1>
           <Jumbotron className="pt-4 pb-2 px-4">
-            <h3>Call for Paper: <b>The Digital Dilemma under the Lens of History and Historians</b></h3>
+            <h3>First issue call for papers</h3>
             <p>
-            This is a simple hero unit, a simple jumbotron-style component for calling
-              extra attention to featured content or information.
-              <br />
-              <Badge pill variant="secondary">Due date: Dec. 2020</Badge>
+            The first issue of the <em>Journal of Digital History</em> will not target any particular topic:
+            contributions from all subfields of (digital) history are welcome!
+            <br />
+            We will rather seek articles which structure and argument will
+            demonstrate the interest of our approach, based on the interconnexion
+            of the narrative, hermeneutics and data layers.
             </p>
           </Jumbotron>
         </Col>
@@ -300,7 +302,7 @@ const AbstractSubmission = (props) => {
             {!isEmpty && validatorResult?.errors.length > 0 && (
               <ol className="m-0 pr-2 py-2 pl-4 border border-danger">
               {validatorResult?.errors.map((error,i) =>
-                <li><FormJSONSchemaErrorListItem error={error} debug={true}/></li>
+                <li><FormJSONSchemaErrorListItem error={error} debug={false}/></li>
               )}
               </ol>
             )}
