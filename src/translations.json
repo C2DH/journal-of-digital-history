@@ -122,7 +122,7 @@
         "itemIdx": "(item #{{idx}})"
       },
       "dates": {
-        "short": "{{date, ll}}",
+        "short": "{{date, DD MMM YYYY}}",
         "fromNow": "{{date, fromNow}}",
         "LLLL": "{{date, LLLL}}",
         "LLL": "{{date, LLL}}"
