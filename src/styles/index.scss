@@ -104,6 +104,10 @@ a.btn{
     font-family: var(--font-family-monospace);
     font-weight: bold;
   }
+  h2{
+    font-size: 1.2rem;
+    line-height: 1.75;
+  }
   h3, h4{
     font-size: inherit;
     display: inline-block;
@@ -111,6 +115,8 @@ a.btn{
     // border-bottom: 1px solid;
   }
 }
+
+
 
 blockquote.code{
   padding: var(--spacer-2);
@@ -143,7 +149,11 @@ blockquote.code{
   .page{
     padding-top: 0;
     padding-bottom: var(--spacer-5);
+    h2 {
+      font-size: 1.8rem
+    }
   }
+
   .progressiveHeading:before{
     position: absolute;
     left: -1.5rem;
