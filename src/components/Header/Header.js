@@ -84,7 +84,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs }) => {
   return (
     <>
     <Navbar className={`d-md-flex d-none ${styles.Navbar}`} variant="light" expand="md">
-    <Navbar.Brand href="#home" className="position-absolute d-flex align-items-center">
+    <Navbar.Brand href="/en" className="position-absolute d-flex align-items-center">
       <div className={`${styles.BrandImage}`} style={{
         backgroundImage: `url(${logo})`,
       }}></div>
