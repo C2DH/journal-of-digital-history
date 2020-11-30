@@ -13,12 +13,12 @@ import { PrimaryRoutes, TermsOfUseRoute } from '../../constants'
 import SwitchNightMode from '../SwitchNightMode'
 
 
-const MobileHeader = ({ langs }) => {
+const MobileHeader = ({ langs, displayLangs }) => {
   const { t, i18n } = useTranslation()
   const [isVisible, setIsVisible] = useState(false)
   return (
     <>
-    <LangNavLink to="/" className={styles.MobileHeaderBrand} >{t('title')}</LangNavLink>
+    <LangNavLink to="/" className={styles.MobileHeaderBrand} >{t('titleInline')}</LangNavLink>
     <Nav className={`${styles.MobileHeaderNav} d-block d-sm-none`}>
       <div className={styles.MobileHeaderToggler}
         onClick={() => setIsVisible(!isVisible)}
@@ -27,7 +27,7 @@ const MobileHeader = ({ langs }) => {
         transform: isVisible ? 'translateY(0)' : 'translateY(-100vh)'
       }}>
         <div className="mx-3 mt-4 pb-4">
-        <h1>{t('title')}</h1>
+        <h1>{t('titleInline')}</h1>
         {PrimaryRoutes.concat([TermsOfUseRoute]).map(({to, label},i) => (
           <Nav.Item className={styles.MobileHeaderNavItem} key={`primary-route-${i}`}>
             <LangNavLink to={to} exact onClick={() => setIsVisible(false)}>{t(label)}</LangNavLink>
@@ -35,8 +35,12 @@ const MobileHeader = ({ langs }) => {
         ))}
         </div>
         <div className="mx-3 pb-4">
-        <h4 className="text-white monospace font-weight-bold" style={{textTransform: 'uppercase', fontSize: 'inherit'}}>change language</h4>
-        {langs.map((lang, i) => (
+        {!!displayLangs && (
+          <h4 className="text-white monospace font-weight-bold" style={{textTransform: 'uppercase', fontSize: 'inherit'}}>
+          change language
+          </h4>
+        )}
+        {!!displayLangs && langs.map((lang, i) => (
           <Nav.Item key={`lang-switch-${i}`} className={styles.MobileHeaderNavItem}>
             <SwitchLanguageLink
             style={{
@@ -50,8 +54,8 @@ const MobileHeader = ({ langs }) => {
         ))}
         </div>
         <div className="m-4 pb-4 d-flex align-items-center">
-          <a className="w-50 d-block" href="https://www.uni.lu" target="_blank" rel="noopener noreferrer"><img alt='C2DH - University of Luxembourg' src={uniluLogo} style={{width:180, marginLeft: -10}}/></a>
-          <a className="w-50 d-block" href="https://www.degruyter.com" target="_blank" rel="noopener noreferrer"><img alt='De Gruyter Publisher' src={deGruyterLogo} style={{width:'100%'}}/></a>
+          <a className="w-50 d-block" href="https://c2dh.uni.lu" target="_blank" rel="noopener noreferrer"><img alt='C2DH - University of Luxembourg' src={uniluLogo} style={{width:170, marginLeft: -10}}/></a>
+          <a className="w-50 d-block" href="https://www.degruyter.com" target="_blank" rel="noopener noreferrer"><img alt='De Gruyter Publisher' src={deGruyterLogo} style={{ width: 170}}/></a>
         </div>
       </div>
     </Nav>
@@ -75,7 +79,7 @@ const NavPrimaryRoutes = ({ routes, ...props}) => {
 
 
 
-const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
+const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -84,7 +88,9 @@ const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
       <div className={`${styles.BrandImage}`} style={{
         backgroundImage: `url(${logo})`,
       }}></div>
-      <span className={`d-lg-block d-none`}>Journal of Digital History</span>
+      <span className={`d-lg-block d-none`} dangerouslySetInnerHTML={{
+        __html: t('title')
+      }}></span>
     </Navbar.Brand>
     <Container className="d-block" style={{height:80}}>
       <Row className="d-md-flex d-none align-items-center h-100">
@@ -93,7 +99,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled }) => {
         </Col>
         <Col md={2}>
           <Nav className="justify-content-end">
-            <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>
+            {!!displayLangs && <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>}
             {!isAuthDisabled && <UserProfile/>}
             <Nav.Item className='d-none'><SwitchNightMode /></Nav.Item>
           </Nav>
