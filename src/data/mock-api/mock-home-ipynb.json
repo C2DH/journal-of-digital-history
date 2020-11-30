@@ -247,43 +247,30 @@
           "dataset": [
             {
               "level": "top",
-              "offsetTop": "60",
-              "date": "2020-11-30",
-              "title": "Call for Paper",
-              "description": "start submitting!"
+              "offsetTop": "80",
+              "date": "2020-12-01",
+              "title": "Publication of the first Call for Paper",
+              "description": ""
             },
             {
               "level": "top",
               "offsetTop": "10",
               "date": "2020-12-30",
-              "title": "review first round of abstract",
-              "description": "start submitting!"
+              "title": "Review of first round of abstract received",
+              "description": ""
             },
             {
               "level": "top",
               "offsetTop": "10",
-              "date": "2021-04-01",
-              "title": "review first round of abstract",
-              "description": "start submitting!"
-            },
-            {
-              "level": "top",
-              "offsetTop": "40",
-              "date": "2022-01-10",
-              "title": "review first round of abstract",
-              "description": "start submitting!"
+              "date": "2021-09-27",
+              "title": "Publication of the first Issue",
+              "description": ""
             },
             {
               "offsetTop": "80",
-              "date": "2020-11-20",
-              "title": "public alpha version",
-              "description": "start submitting!"
-            },
-            {
-              "offsetTop": "10",
-              "date": "2020-12-20",
-              "title": "first version of notebook integration",
-              "description": "python notebook"
+              "date": "2020-11-30",
+              "title": "Release of first public version of the platform",
+              "description": ""
             }
           ]
         }
