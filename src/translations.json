@@ -2,10 +2,10 @@
   "en-US": {
     "translation": {
       "navigation": {
-        "about": "about",
-        "datasets": "datasets",
-        "home": "index",
-        "references": "references",
+        "about": "About",
+        "datasets": "Datasets",
+        "home": "Journal",
+        "references": "References",
         "submit": "Submit an Abstract",
         "termsOfUse": "Terms of Use"
       },
