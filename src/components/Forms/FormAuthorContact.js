@@ -107,7 +107,7 @@ const FormAuthorContact = ({ onChange, onSelectAsAuthor, initialValue }) => {
         onChange={(field) => handleChange({ id: 'email', ...field })}
       >
         <Form.Text className="text-muted">
-          We'll never share your email with anyone else
+          We'll never share your email with anyone else.
         </Form.Text>
       </FormGroupWrapper>
       <Form.Group>

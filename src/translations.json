@@ -11,7 +11,7 @@
       },
       "title": "Journal of <br/>Digital History",
       "titleInline": "Journal of Digital History",
-      "visibleOnlyByYou": "(visible only by you)",
+      "visibleOnlyByYou": "(only visible to you)",
       "pages": {
         "loading": {
           "title": "loading...",
@@ -22,8 +22,8 @@
           "contact": "contact point"
         },
         "abstractSubmitted": {
-          "title": "Your Abstract has been received",
-          "subheading": "You will soon be contacted by our editors at the email you indicated in the contact email.",
+          "title": "Your Abstract has been submitted!",
+          "subheading": "You will soon be contacted by our editors via the email you have indicated in the contact form.",
           "moreInfo": "If any information needs to be changed, please contact us via email at <a href='mailto:jdhadmin@uni.lu'>jdhadmin@uni.lu</a>"
         },
         "abstractSubmission": {
@@ -33,12 +33,12 @@
           "authorEmailCheck": "Email Address, again",
           "authorFirstName": "First Name",
           "authorLastName": "Last Name",
-          "authorOrcid": "ORCID url",
+          "authorOrcid": "ORCID URL",
           "authorUsername": "nom utilisateur",
-          "articleContact": "Contact info",
+          "articleContact": "Contact Info",
           "articleTitle": "Title",
           "articleAbstract": "Abstract",
-          "articleDataset": "Davaverse url",
+          "articleDataset": "Davaverse URL",
           "authorAffiliation": "Affiliation",
           "preview": "Submission Status",
           "ContactPointSectionTitle": "Contact",
@@ -46,12 +46,12 @@
           "AuthorsSectionTitle": "Contributors",
           "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias",
           "datasetDetailsUrl": "Link URL",
-          "datasetDetailsLabel": "Link description, license (where applicable)",
+          "datasetDetailsLabel": "Link Description, License (where applicable)",
           "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply."
         },
         "home": {
-          "latestIssues": "Latest issues",
-          "latestArticles": "Latest articles",
+          "latestIssues": "Latest Issues",
+          "latestArticles": "Latest Articles",
           "editorialBoardMembers": "Editorial Board Members",
           "journalRoadmap": "Milestones",
           "callForPaper": "Open Call for Papers",
@@ -67,16 +67,16 @@
       },
       "forms": {
         "formAuthorContact": {
-          "selectAsAuthor": "Use this contact info as contributor"
+          "selectAsAuthor": "Use this Contact Info as Contributor"
         }
       },
       "actions": {
         "logout": "(log out)",
-        "submit": "submit your contribution",
-        "addLink": "Add link",
-        "addAuthor": "Add contributor",
-        "addDataset": "Add dataset",
-        "downloadAsJSON": "download as JSON"
+        "submit": "Submit your Contribution",
+        "addLink": "Add Link",
+        "addAuthor": "Add Contributor",
+        "addDataset": "Add Dataset",
+        "downloadAsJSON": "Download as JSON"
       },
       "badge": {
         "warning": "∅",
@@ -104,15 +104,15 @@
         "minLength": "incomplete"
       },
       "schemaErrors": {
-        "instance-acceptConditions": "Please accept <b>terms and conditions</b>",
-        "instance-contact": "Please fill the \"Contact\" section with your <b>email</b> and <b>ORCID url</b>",
+        "instance-acceptConditions": "Please accept the <b>terms and conditions</b>",
+        "instance-contact": "Please fill the \"Contact\" section with your <b>email</b> and <b>ORCID URL</b>",
         "instance-contact-email": "A valid <b>email address</b> is required for the contact point",
-        "instance-contact-orcid": "An <b>ORCID url</b> is required for the contact point",
+        "instance-contact-orcid": "An <b>ORCID URL</b> is required for the contact point",
         "instance-authors": "At least <b>one contributor</b> is required",
-        "instance-authors-orcid": "One <b>contributor ORCID</b> url provided is not valid, please provide either an empty value or a valid ORCID",
+        "instance-authors-orcid": "One <b>contributor ORCID</b> URL provided is not valid, please provide either an empty value or a valid ORCID",
         "instance-authors-email": "One <b>contributor email</b> address is not valid, please provide either an empty value or a valid email address",
         "instance-datasets": "A <b>description</b> is required to add a valid \"Tools, Code & Data\" item",
-        "instance-datasets-url": "One <b>url</b> in <b> \"Tools, Code & Data\"</b> is not valid, make sure it starts with <code>http</code>",
+        "instance-datasets-url": "One <b>URL</b> in <b> \"Tools, Code & Data\"</b> is not valid, make sure it starts with <code>http</code>",
         "instance-title": "Check <b>Title</b>",
         "instance-abstract": "Check <b>Abstract</b>"
       },
