@@ -22,7 +22,7 @@ const MobileHeader = ({ langs, displayLangs }) => {
     <Nav className={`${styles.MobileHeaderNav} d-block d-sm-none`}>
       <div className={styles.MobileHeaderToggler}
         onClick={() => setIsVisible(!isVisible)}
-      >☰</div>
+      >menu ☰</div>
       <div className={styles.MobileHeaderMenu} style={{
         transform: isVisible ? 'translateY(0)' : 'translateY(-100vh)'
       }}>

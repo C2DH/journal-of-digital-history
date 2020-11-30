@@ -27,10 +27,10 @@
           "moreInfo": "If any information needs to be changed, please contact us via email at <a href='mailto:jdhadmin@uni.lu'>jdhadmin@uni.lu</a>"
         },
         "abstractSubmission": {
-          "title": "Abstract submission",
+          "title": "Abstract Submission",
           "subheading": "...",
-          "authorEmail": "email address",
-          "authorEmailCheck": "email address, again",
+          "authorEmail": "Email Address",
+          "authorEmailCheck": "Email Address, again",
           "authorFirstName": "First Name",
           "authorLastName": "Last Name",
           "authorOrcid": "ORCID url",
@@ -40,7 +40,7 @@
           "articleAbstract": "Abstract",
           "articleDataset": "Davaverse url",
           "authorAffiliation": "Affiliation",
-          "preview": "Submission status",
+          "preview": "Submission Status",
           "ContactPointSectionTitle": "Contact",
           "DataSectionTitle": "Tools, Code & Data",
           "AuthorsSectionTitle": "Contributors",
