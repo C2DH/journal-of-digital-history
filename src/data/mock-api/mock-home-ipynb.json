@@ -104,6 +104,30 @@
       ]
     },
     {
+    "cell_type": "markdown",
+    "metadata" : {
+      "jdh": {
+        "section": "editorial-board"
+      }
+    },
+    "source": [
+      "### Valérie Schafer",
+      "[Valérie Schafer](https://www.c2dh.uni.lu/people/valerie-schafer) is a Professor at the C2DH, University of Luxembourg."
+    ]
+  },
+  {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+          }
+        },
+      "source": [
+        "### Gerben Zaagsma",
+        "[Gerben Zaagsma](https://www.c2dh.uni.lu/people/gerben-zaagsma) is an Assitant Professor at the C2DH, University of Luxembourg."
+        ]
+      },
+    {
       "cell_type": "markdown",
       "metadata" : {
         "jdh": {
