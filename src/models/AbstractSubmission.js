@@ -1,9 +1,12 @@
+import Author from './Author'
+
+
 export default class AbstractSubmission {
   constructor({
     id,
     title = '',
     abstract = '',
-    contact = {},
+    contact = new Author(),
     authors = [],
     datasets = [],
     dateLastModified,
@@ -30,6 +33,9 @@ export default class AbstractSubmission {
     } else {
       this.dateCreated = new Date()
     }
+    if (!Object.keys(contact).length) {
+      this.contact = new Author()
+    }
     this.acceptConditions = Boolean(acceptConditions)
   }
 
@@ -49,9 +55,18 @@ export default class AbstractSubmission {
     return (
       this.title.length +
       this.abstract.length +
-      Object.keys(this.contact).length +
+      this.contact.firstname.length +
+      this.contact.lastname.length +
+      this.contact.email.length +
+      this.contact.affiliation.length +
+      this.contact.orcid.length +
       this.authors.length +
       this.datasets.length
     ) === 0
+  }
+
+  static isPayloadEmpty(payload) {
+    const abstractSubmission = new AbstractSubmission({...payload})
+    return abstractSubmission.isEmpty()
   }
 }
