@@ -79,7 +79,7 @@
       "examples": [
         "Joe"
       ],
-      "maxLength": 50
+      "maxLength": 100
     },
     "lastname": {
       "$id": "#/definitions/lastname",
@@ -90,7 +90,7 @@
       "examples": [
         "De Filippo"
       ],
-      "maxLength": 50
+      "maxLength": 100
     },
     "email": {
       "$id": "#/definitions/email",
@@ -110,7 +110,7 @@
       "examples": [
         "University of Minnesota, LUxembourg"
       ],
-      "maxLength": 100
+      "maxLength": 250
     },
     "url": {
       "$id": "#/definitions/url",
