@@ -61,7 +61,7 @@ const Footer = () => {
                 left: 0,
                 marginLeft: -20
               }}>
-                <img alt='C2DH - University of Luxembourg' src={UniluLogo} style={{width: 300}}/>
+                <img alt='C²DH - University of Luxembourg' src={UniluLogo} style={{width: 300}}/>
               </a>
               <a className={`${styles.LogoLinkDeGruyter} ${styles.LogoLink}`} href="https://www.degruyter.com" target="_blank" rel="noopener noreferrer"  style={{
                 left:'50%'
