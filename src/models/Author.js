@@ -1,5 +1,5 @@
 export default class Author {
-  constructor({ firstname = '', lastname = '', email = '', affiliation = '', orcid, id, isValid } = {}) {
+  constructor({ firstname = '', lastname = '', email = '', affiliation = '', orcid = '', id, isValid } = {}) {
     this.id = id
     this.firstname = firstname
     this.lastname = lastname
@@ -8,7 +8,7 @@ export default class Author {
     this.orcid = orcid
     this.isValid = isValid
   }
-  
+
   asText() {
     return [
       `${this.lastname}, ${this.firstname}`,
