@@ -3,7 +3,7 @@ import { Badge } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
 
-const FormJSONSchemaErrorListItem = ({ error, debug, variant="warning" }) => {
+const FormJSONSchemaErrorListItem = ({ error, debug, displayErrors=[], variant="warning" }) => {
   const { t } = useTranslation()
   const {property, message, name } = error
   const translatableProperty = property.split(/\[\d+\]/).join('').split('.').join('-')
@@ -17,7 +17,7 @@ const FormJSONSchemaErrorListItem = ({ error, debug, variant="warning" }) => {
       &nbsp;
       {idx?.length > 0 && t('numbers.itemIdx', {idx: idx[1]})}
       &nbsp;
-      <Badge variant={variant}>{t(`errors.${name}`)}</Badge>
+      {displayErrors.includes(name) && <Badge variant={variant}>{t(`errors.${name}`)}</Badge>}
     </h4>
     {!!debug && (<code>{property}: {message} ({name})</code>)}
     </>
