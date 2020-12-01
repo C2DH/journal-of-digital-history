@@ -27,6 +27,7 @@ const Footer = () => {
         <Row>
           <Col md={{span: 3, offset:2}}>
           © <a href="https://www.uni.lu/">University of Luxembourg</a><br/> © De Gruyter {now.getFullYear()}
+          <p className="mt-2" dangerouslySetInnerHTML={{__html: t('contactUsingEmail')}}></p>
           </Col>
           <Col md={3}>
             <Nav className="flex-column">
