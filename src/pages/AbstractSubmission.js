@@ -8,6 +8,7 @@ import { useStore } from '../store'
 import { getValidatorResultWithAbstractSchema } from '../logic/validation'
 import Author from '../models/Author'
 import Dataset from '../models/Dataset'
+import {default as AbstractSubmissionModel} from '../models/AbstractSubmission'
 import FormGroupWrapper from '../components/Forms/FormGroupWrapper'
 import FormGroupWrapperPreview from '../components/Forms/FormGroupWrapperPreview'
 import FormAuthorContact from '../components/Forms/FormAuthorContact'
@@ -48,6 +49,7 @@ const AbstractSubmission = (props) => {
   ])
   const [ validatorResult, setValidatorResult ] = useState(null)
   useEffect(() => {
+    console.info("useEffect setValidatorResult")
     const { title, abstract, contact, authors, datasets, acceptConditions } = temporaryAbstractSubmission
     setValidatorResult(getValidatorResultWithAbstractSchema({
       title,
@@ -153,13 +155,7 @@ const AbstractSubmission = (props) => {
     setPreviewMode(mode)
   }
 
-  const isEmpty = (
-    temporaryAbstractSubmission.title.length +
-    temporaryAbstractSubmission.abstract.length +
-    Object.keys(temporaryAbstractSubmission.contact).length +
-    temporaryAbstractSubmission.authors.length +
-    temporaryAbstractSubmission.datasets.length
-  ) === 0
+  const isEmpty = AbstractSubmissionModel.isPayloadEmpty(temporaryAbstractSubmission)
 
 
   return (
@@ -315,7 +311,11 @@ const AbstractSubmission = (props) => {
                   variant="outline-secondary" size="lg"
                   type="submit">
                   {validatorResult?.errors.length
-                    ? <Badge variant="danger" className="mr-3">{validatorResult?.errors.length} errors</Badge>
+                    ? <Badge variant="danger" className="mr-3">
+                        <span dangerouslySetInnerHTML={{
+                          __html: t('errorsWithCount_plural', { count: validatorResult?.errors.length })}}
+                        />
+                      </Badge>
                     : null
                   } {t('actions.submit')}
                 </Button>

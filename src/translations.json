@@ -35,6 +35,7 @@
           "authorFirstName": "First Name",
           "authorLastName": "Last Name",
           "authorOrcid": "ORCID URL",
+          "authorOrcidHelpText": "* ORCID is is required. Don't have an ORCID ID yet? Create one at <a href=\"https://orcid.org/\" target=\"_blank\" rel=\"noopener noreferrer\">orcid.org</a> for free!",
           "authorUsername": "nom utilisateur",
           "articleContact": "Contact Info",
           "articleTitle": "Title",
@@ -123,6 +124,8 @@
         "currentCharactersWithCount": "(now: <b>{{count}}</b>)",
         "itemIdx": "(item #{{idx}})"
       },
+      "errorsWithCount": "<b>1</b> error",
+      "errorsWithCount_plural": "<b>{{count}}</b> errors",
       "dates": {
         "short": "{{date, DD MMM YYYY}}",
         "fromNow": "{{date, fromNow}}",
