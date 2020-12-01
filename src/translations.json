@@ -12,6 +12,7 @@
       "title": "Journal of <br/>Digital History",
       "titleInline": "Journal of Digital History",
       "visibleOnlyByYou": "(only visible to you)",
+      "contactUsingEmail": "Contact us at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>",
       "pages": {
         "loading": {
           "title": "loading...",
@@ -24,7 +25,7 @@
         "abstractSubmitted": {
           "title": "Your Abstract has been submitted!",
           "subheading": "You will soon be contacted by our editors via the email you have indicated in the contact form.",
-          "moreInfo": "If any information needs to be changed, please contact us via email at <a href='mailto:jdhadmin@uni.lu'>jdhadmin@uni.lu</a>"
+          "moreInfo": "If any information needs to be changed, please contact us via email at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>"
         },
         "abstractSubmission": {
           "title": "Abstract Submission",
