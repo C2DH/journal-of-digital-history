@@ -55,11 +55,11 @@ export default class AbstractSubmission {
     return (
       this.title.length +
       this.abstract.length +
-      this.contact.firstname.length +
-      this.contact.lastname.length +
-      this.contact.email.length +
-      this.contact.affiliation.length +
-      this.contact.orcid.length +
+      this.contact.firstname?.length +
+      this.contact.lastname?.length +
+      this.contact.email?.length +
+      this.contact.affiliation?.length +
+      this.contact.orcid?.length +
       this.authors.length +
       this.datasets.length
     ) === 0
