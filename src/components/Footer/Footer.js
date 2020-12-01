@@ -26,7 +26,7 @@ const Footer = () => {
       <Container className="py-5">
         <Row>
           <Col md={{span: 3, offset:2}}>
-          © <a href="https://www.uni.lu/">Université du Luxembourg</a><br/> © De Gruyter {now.getFullYear()}
+          © <a href="https://www.uni.lu/">University of Luxembourg</a><br/> © De Gruyter {now.getFullYear()}
           </Col>
           <Col md={3}>
             <Nav className="flex-column">
