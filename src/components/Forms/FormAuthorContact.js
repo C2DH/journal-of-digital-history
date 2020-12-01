@@ -96,8 +96,11 @@ const FormAuthorContact = ({ onChange, onSelectAsAuthor, initialValue }) => {
         schemaId='#/definitions/orcid'
         initialValue={author.orcid}
         label='pages.abstractSubmission.authorOrcid' ignoreWhenLengthIslessThan={1}
-        onChange={(field) => handleChange({id: 'orcid', ...field})}
-      />
+        onChange={(field) => handleChange({id: 'orcid', ...field})}>
+        <Form.Text className="text-muted" dangerouslySetInnerHTML={{
+          __html: t('pages.abstractSubmission.authorOrcidHelpText')
+        }}/>
+      </FormGroupWrapper>
       <FormGroupWrapper
         id='contactEmail'
         initialValue={author.email}
