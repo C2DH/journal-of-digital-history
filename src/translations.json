@@ -35,7 +35,7 @@
           "authorFirstName": "First Name",
           "authorLastName": "Last Name",
           "authorOrcid": "ORCID URL",
-          "authorOrcidHelpText": "* ORCID is is required. Don't have an ORCID ID yet? Create one at <a href=\"https://orcid.org/\" target=\"_blank\" rel=\"noopener noreferrer\">orcid.org</a> for free!",
+          "authorOrcidHelpText": "* ORCID is required. Don't have an ORCID yet? Create one at <a href=\"https://orcid.org/\" target=\"_blank\" rel=\"noopener noreferrer\">orcid.org</a> for free!",
           "authorUsername": "nom utilisateur",
           "articleContact": "Contact Info",
           "articleTitle": "Title",
@@ -103,20 +103,22 @@
         "none": "",
         "required": "missing",
         "minItems": "not enough",
-        "minLength": "incomplete"
+        "minLength": "...not long enough",
+        "pattern": "not valid",
+        "enum": "not valid"
       },
       "schemaErrors": {
-        "instance-acceptConditions": "Please accept the <b>terms and conditions</b>",
+        "instance-acceptConditions": "... and don't forget to check the <b>terms and conditions</b>",
         "instance-contact": "Please fill the \"Contact\" section with your <b>email</b> and <b>ORCID URL</b>",
-        "instance-contact-email": "A valid <b>email address</b> is required for the contact point",
-        "instance-contact-orcid": "An <b>ORCID URL</b> is required for the contact point",
+        "instance-contact-email": "A valid <em>email address</em> is required for the <b>Contact</b> section",
+        "instance-contact-orcid": "An <em>ORCID</em> url is required for the <b>Contact</b> section",
         "instance-authors": "At least <b>one contributor</b> is required",
         "instance-authors-orcid": "One <b>contributor ORCID</b> URL provided is not valid, please provide either an empty value or a valid ORCID",
         "instance-authors-email": "One <b>contributor email</b> address is not valid, please provide either an empty value or a valid email address",
         "instance-datasets": "A <b>description</b> is required to add a valid \"Tools, Code & Data\" item",
         "instance-datasets-url": "One <b>URL</b> in <b> \"Tools, Code & Data\"</b> is not valid, make sure it starts with <code>http</code>",
-        "instance-title": "Check <b>Title</b>",
-        "instance-abstract": "Check <b>Abstract</b>"
+        "instance-title": "<b>Title</b>",
+        "instance-abstract": "<b>Abstract</b>"
       },
       "numbers": {
         "errors": "{{count}} errors",
@@ -124,6 +126,8 @@
         "currentCharactersWithCount": "(now: <b>{{count}}</b>)",
         "itemIdx": "(item #{{idx}})"
       },
+      "missingStepsWithCount": "<b>1</b> step missing",
+      "missingStepsWithCount_plural": "<b>{{count}}</b> steps missing",
       "errorsWithCount": "<b>1</b> error",
       "errorsWithCount_plural": "<b>{{count}}</b> errors",
       "dates": {

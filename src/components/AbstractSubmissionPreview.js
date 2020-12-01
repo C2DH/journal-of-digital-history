@@ -35,17 +35,21 @@ const AbstractSubmissionPreview = ({
     <div className="border border-dark p-3">
       <h3>{t('pages.abstractSubmission.preview')}</h3>
       <p>{isEmpty && (<>
-          <Badge variant="warning" pill>{t('badge.warning')}</Badge>&nbsp;
+          <Badge variant="info" pill>{t('badge.warning')}</Badge>&nbsp;
           {t('labels.formSubmissionIncomplete')}
       </>)}
       {!isEmpty && !validatorResult.valid && (<>
-            <Badge variant="danger" pill>{t('badge.danger')}</Badge>&nbsp;
-            {t('numbers.errors', { count: validatorResult.errors.length})}
+            <Badge variant="warning" pill>{t('badge.danger')}</Badge>&nbsp;
+            <span dangerouslySetInnerHTML={{
+              __html: t('missingStepsWithCount', { count: validatorResult.errors.length})
+            }} />
       </>)}
       {validatorResult.valid && (
         <>
           <Badge variant="success" pill>{t('badge.success')}</Badge>&nbsp;
-          {t('labels.formSubmissionReady')}
+          <span dangerouslySetInnerHTML={{
+            __html: t('labels.formSubmissionReady')
+          }} />
         </>
       )}
       </p>

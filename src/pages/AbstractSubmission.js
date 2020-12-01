@@ -296,19 +296,19 @@ const AbstractSubmission = (props) => {
             />
 
             {!isEmpty && validatorResult?.errors.length > 0 && (
-              <ol className="m-0 pr-2 py-2 pl-4 border border-danger">
+              <ol className="m-0 pr-2 py-2 pl-4 border border-dark rounded">
               {validatorResult?.errors.map((error,i) =>
                 <li><FormJSONSchemaErrorListItem error={error} debug={false}/></li>
               )}
               </ol>
             )}
             <div className="text-center mt-5">
-            {isEmpty
+            {/* isEmpty
               ? (<Button disabled
-                  variant="outline-secondary" size="lg"
+                  variant="primary" size="lg"
                   type="submit">{t('actions.submit')}</Button>)
               : <Button disabled={validatorResult?.errors.length}
-                  variant="outline-secondary" size="lg"
+                  variant="primary" size="lg"
                   type="submit">
                   {validatorResult?.errors.length
                     ? <Badge variant="danger" className="mr-3">
@@ -319,7 +319,10 @@ const AbstractSubmission = (props) => {
                     : null
                   } {t('actions.submit')}
                 </Button>
-            }
+            */}
+            <Button disabled={isEmpty || validatorResult?.errors.length > 0}
+                variant="primary" size="lg"
+                type="submit">{t('actions.submit')}</Button>
             </div>
           </Col>
         </Row>
