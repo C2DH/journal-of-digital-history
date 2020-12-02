@@ -91,16 +91,6 @@ const FormAuthorContact = ({ onChange, onSelectAsAuthor, initialValue }) => {
         label='pages.abstractSubmission.authorAffiliation' ignoreWhenLengthIslessThan={1}
         onChange={(field) => handleChange({id: 'affiliation', ...field})}
       />
-      <FormGroupWrapper placeholder='orcid identifier' type='url'
-        controlId='contact-orcid'
-        schemaId='#/definitions/orcid'
-        initialValue={author.orcid}
-        label='pages.abstractSubmission.authorOrcid' ignoreWhenLengthIslessThan={1}
-        onChange={(field) => handleChange({id: 'orcid', ...field})}>
-        <Form.Text className="text-muted" dangerouslySetInnerHTML={{
-          __html: t('pages.abstractSubmission.authorOrcidHelpText')
-        }}/>
-      </FormGroupWrapper>
       <FormGroupWrapper
         id='contactEmail'
         initialValue={author.email}
@@ -121,6 +111,16 @@ const FormAuthorContact = ({ onChange, onSelectAsAuthor, initialValue }) => {
           isValid={repeatEmailIsValid === true}
         />
       </Form.Group>
+      <FormGroupWrapper placeholder='orcid identifier' type='url'
+        controlId='contact-orcid'
+        schemaId='#/definitions/orcid'
+        initialValue={author.orcid}
+        label='pages.abstractSubmission.authorOrcid' ignoreWhenLengthIslessThan={1}
+        onChange={(field) => handleChange({id: 'orcid', ...field})}>
+        <Form.Text className="text-muted" dangerouslySetInnerHTML={{
+          __html: t('pages.abstractSubmission.authorOrcidHelpText')
+        }}/>
+      </FormGroupWrapper>
       <div className="text-right">
       <Button
         variant="outline-dark"

@@ -43,9 +43,9 @@ const FormAbstractAuthorsListItem = ({ item, onChange, className }) => {
           />
         </Col>
       </Row>
-      <Row>  
+      <Row>
         <Col>
-          <FormGroupWrapper placeholder='your email' type='email'
+          <FormGroupWrapper placeholder='email' type='email'
             controlId={['author', item.id, 'email'].join('-')}
             schemaId='#/definitions/email'
             initialValue={item.email}
