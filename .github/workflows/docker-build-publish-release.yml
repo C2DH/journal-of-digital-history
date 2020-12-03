@@ -3,8 +3,9 @@ on:
   # Trigger the workflow on push or pull request,
   # for the develop branch and all new tags
   push:
-    branches:
-      - develop
+    tags:
+      - v*
+      - preview-*
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,4 +34,4 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
         buildargs: GIT_BRANCH,GIT_REVISION
-        tags: "latest"
+        tags: "${{ env.RELEASE_VERSION }}"
