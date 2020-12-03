@@ -27,3 +27,14 @@ See the docker-stack repo on how we do use the frontend app in production:
 The frontend app uses bootstrap with [Reactbootstrap](https://react-bootstrap.github.io/getting-started/introduction). The main stylesheet is at `./src/styles/index.scss` and import all variables defined in the `./src/styles/_variables.scss` as [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties).
 Then every component has its own module.scss (read the [documentation on react scss module](https://create-react-app.dev/docs/adding-a-css-modules-stylesheet/)) that has access to the css variables e.g. `var(--gray-100)`;
 Fonts are loaded with WebFontLoader in ./src/index.js: Fira sans and Fira Mono
+
+
+## Release procedure
+
+1. Pull `develop` branch, increment version in `package.json` using [semver format](https://semver.org/)
+2. Perform `yarn install`, commit and push to `develop` branch.
+3. Create a pull request `develop -> master`. Name it with the new version in the semver format prefixed by `v`, e.g; `v2.1.0`.
+4. Merge it **without squashing**
+5. Check out and pull master, tag it with new version, e.g. git tag `v2.1.0`
+6. Push tags to GitHub: `git push origin --tags`
+7. Github Actions will build and push new images to docker hub. It may take up to 10 minutes.
