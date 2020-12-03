@@ -41,6 +41,8 @@
           "articleTitle": "Title",
           "articleAbstract": "Abstract",
           "articleDataset": "Davaverse URL",
+          "articleAbstractHelpText": "<i>Please take the multi-layered principle of the JDH articles into account. In particular, we would like you to describe the narrative layer, the hermeneutic layer and the data layer.</i>",
+          "articleAbstractPlaceholder": "...",
           "authorAffiliation": "Affiliation",
           "preview": "Submission Status",
           "ContactPointSectionTitle": "Contact",
@@ -77,9 +79,10 @@
         "submit": "Submit your Contribution",
         "addLink": "Add Link",
         "addAuthor": "Add Contributor",
-        "addDataset": "Add Dataset",
+        "addDataset": "Add Dataset / Tools / Code",
         "downloadAsJSON": "Download as JSON",
         "resetForm": "Start over ↻"
+
       },
       "badge": {
         "warning": "∅",
