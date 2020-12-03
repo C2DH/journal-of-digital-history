@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from "react-router-dom";
-import { Container, Form, Button, Col, Row, Jumbotron,Badge } from 'react-bootstrap'
+import { Container, Form, Button, Col, Row, Jumbotron } from 'react-bootstrap'
 import LangLink from '../components/LangLink'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { useStore } from '../store'
@@ -157,6 +157,10 @@ const AbstractSubmission = (props) => {
 
   const isEmpty = AbstractSubmissionModel.isPayloadEmpty(temporaryAbstractSubmission)
 
+  const handleReset = () => {
+    console.info('@handleReset called')
+    setTemporaryAbstractSubmission({})
+  }
 
   return (
     <Container className="page mb-5">
@@ -176,6 +180,7 @@ const AbstractSubmission = (props) => {
           </Jumbotron>
         </Col>
       </Row>
+      <br />
       <Form noValidate onSubmit={handleSubmit}>
         <Row>
           <Col md={{span: 6, offset:2}}>
@@ -269,6 +274,7 @@ const AbstractSubmission = (props) => {
               submission={temporaryAbstractSubmission}
               isPreviewMode={isPreviewMode}
               onChangeMode={handleToggleMode}
+              onReset={handleReset}
             />}
             </div>
           </Col>
@@ -298,7 +304,7 @@ const AbstractSubmission = (props) => {
             {!isEmpty && validatorResult?.errors.length > 0 && (
               <ol className="m-0 pr-2 py-2 pl-4 border border-dark rounded">
               {validatorResult?.errors.map((error,i) =>
-                <li><FormJSONSchemaErrorListItem error={error} debug={false}/></li>
+                <li key={i}><FormJSONSchemaErrorListItem error={error} debug={false}/></li>
               )}
               </ol>
             )}
