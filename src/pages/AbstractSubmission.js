@@ -158,7 +158,6 @@ const AbstractSubmission = (props) => {
   const isEmpty = AbstractSubmissionModel.isPayloadEmpty(temporaryAbstractSubmission)
 
   const handleReset = () => {
-    console.info('@handleReset called')
     setTemporaryAbstractSubmission({})
   }
 
@@ -198,8 +197,11 @@ const AbstractSubmission = (props) => {
                 {temporaryAbstractSubmission.title}
               </FormGroupWrapperPreview>
             )}
+            <p dangerouslySetInnerHTML={{
+              __html: t('pages.abstractSubmission.articleAbstractHelpText')
+            }}></p>
             {!isPreviewMode && (
-              <FormGroupWrapper as='textarea' schemaId='#/definitions/abstract' rows={5} placeholder='Please take into account the multi-layered principle of the JDH articles and in particular, we would like you to describe the narrative layer, the hermeneutic layer and the data layer.'
+              <FormGroupWrapper as='textarea' schemaId='#/definitions/abstract' rows={5} placeholder={t('pages.abstractSubmission.articleAbstractPlaceholder')}
                 initialValue={temporaryAbstractSubmission.abstract}
                 label='pages.abstractSubmission.articleAbstract'
                 ignoreWhenLengthIslessThan={1}
