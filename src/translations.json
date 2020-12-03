@@ -78,7 +78,8 @@
         "addLink": "Add Link",
         "addAuthor": "Add Contributor",
         "addDataset": "Add Dataset",
-        "downloadAsJSON": "Download as JSON"
+        "downloadAsJSON": "Download as JSON",
+        "resetForm": "Start over ↻"
       },
       "badge": {
         "warning": "∅",
