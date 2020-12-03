@@ -10,7 +10,8 @@ const AbstractSubmissionPreview = ({
   submission,
   onChangeMode,
   isPreviewMode,
-  showPreviewSwitch
+  showPreviewSwitch,
+  onReset,
 }) => {
   const { t } = useTranslation()
 
@@ -72,6 +73,12 @@ const AbstractSubmissionPreview = ({
       <span> ({t('dates.fromNow', {date: temporaryAbstractSubmission.getDateLastModified()})})</span>
       <br/>
       <div className="my-3">
+      <Button variant="outline-danger" block
+        size="sm"
+        onClick={onReset}
+      >
+        {t('actions.resetForm')}
+      </Button>
       {showPreviewSwitch && <ButtonGroup size="sm" >
         <Button variant="outline-dark"
           onClick={() => onChangeMode(false)}
@@ -84,7 +91,7 @@ const AbstractSubmissionPreview = ({
       </ButtonGroup>}
       </div>
 
-      <Button variant="outline-dark"
+      <Button block variant="outline-dark"
         size="sm"
         href={`data:text/json;charset=utf-8,${encodeURIComponent(
           JSON.stringify(temporaryAbstractSubmission, null, 2)
