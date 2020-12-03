@@ -41,7 +41,7 @@
           "articleTitle": "Title",
           "articleAbstract": "Abstract",
           "articleDataset": "Davaverse URL",
-          "articleAbstractHelpText": "Please take into account the multi-layered principle of the JDH articles and in particular, we would like you to describe the narrative layer, the hermeneutic layer and the data layer.",
+          "articleAbstractHelpText": "<i>Please take the multi-layered principle of the JDH articles into account. In particular, we would like you to describe the narrative layer, the hermeneutic layer and the data layer.</i>",
           "articleAbstractPlaceholder": "...",
           "authorAffiliation": "Affiliation",
           "preview": "Submission Status",

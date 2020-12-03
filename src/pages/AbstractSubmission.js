@@ -184,22 +184,23 @@ const AbstractSubmission = (props) => {
         <Row>
           <Col md={{span: 6, offset:2}}>
             <h3 className="progressiveHeading">Title and Abstract</h3>
+            <p dangerouslySetInnerHTML={{
+              __html: t('pages.abstractSubmission.articleAbstractHelpText')
+            }}></p>
             {!isPreviewMode && <FormGroupWrapper as='textarea' schemaId='#/definitions/title' rows={3}
               initialValue={temporaryAbstractSubmission.title}
               label='pages.abstractSubmission.articleTitle'
               ignoreWhenLengthIslessThan={1}
               onChange={({ value, isValid }) => handleChange({ id: 'title', value, isValid })}
             />}
+
             {isPreviewMode && (
               <FormGroupWrapperPreview
-                label='pages.abstractSubmission.articleTitle'
-              >
+                label='pages.abstractSubmission.articleTitle'>
                 {temporaryAbstractSubmission.title}
               </FormGroupWrapperPreview>
             )}
-            <p dangerouslySetInnerHTML={{
-              __html: t('pages.abstractSubmission.articleAbstractHelpText')
-            }}></p>
+
             {!isPreviewMode && (
               <FormGroupWrapper as='textarea' schemaId='#/definitions/abstract' rows={5} placeholder={t('pages.abstractSubmission.articleAbstractPlaceholder')}
                 initialValue={temporaryAbstractSubmission.abstract}
