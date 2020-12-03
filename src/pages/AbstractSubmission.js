@@ -158,7 +158,6 @@ const AbstractSubmission = (props) => {
   const isEmpty = AbstractSubmissionModel.isPayloadEmpty(temporaryAbstractSubmission)
 
   const handleReset = () => {
-    console.info('@handleReset called')
     setTemporaryAbstractSubmission({})
   }
 
@@ -185,21 +184,25 @@ const AbstractSubmission = (props) => {
         <Row>
           <Col md={{span: 6, offset:2}}>
             <h3 className="progressiveHeading">Title and Abstract</h3>
+            <p dangerouslySetInnerHTML={{
+              __html: t('pages.abstractSubmission.articleAbstractHelpText')
+            }}></p>
             {!isPreviewMode && <FormGroupWrapper as='textarea' schemaId='#/definitions/title' rows={3}
               initialValue={temporaryAbstractSubmission.title}
               label='pages.abstractSubmission.articleTitle'
               ignoreWhenLengthIslessThan={1}
               onChange={({ value, isValid }) => handleChange({ id: 'title', value, isValid })}
             />}
+
             {isPreviewMode && (
               <FormGroupWrapperPreview
-                label='pages.abstractSubmission.articleTitle'
-              >
+                label='pages.abstractSubmission.articleTitle'>
                 {temporaryAbstractSubmission.title}
               </FormGroupWrapperPreview>
             )}
+
             {!isPreviewMode && (
-              <FormGroupWrapper as='textarea' schemaId='#/definitions/abstract' rows={5}
+              <FormGroupWrapper as='textarea' schemaId='#/definitions/abstract' rows={5} placeholder={t('pages.abstractSubmission.articleAbstractPlaceholder')}
                 initialValue={temporaryAbstractSubmission.abstract}
                 label='pages.abstractSubmission.articleAbstract'
                 ignoreWhenLengthIslessThan={1}
@@ -212,7 +215,23 @@ const AbstractSubmission = (props) => {
               >{temporaryAbstractSubmission.abstract}
               </FormGroupWrapperPreview>}
             <hr />
-
+            <h3 className="progressiveHeading">{t('pages.abstractSubmission.DataSectionTitle')}</h3>
+            {!isPreviewMode && <FormAbstractGenericSortableList
+              onChange={({ items, isValid }) => handleChange({
+                id: 'datasets',
+                value: items,
+                isValid
+              })}
+              initialItems={temporaryAbstractSubmission.datasets}
+              ItemClass={Dataset}
+              addNewItemLabel={t('actions.addDataset')}
+              listItemComponentTagName='FormAbstractDatasetsListItem' />}
+              {isPreviewMode && temporaryAbstractSubmission.datasets.map((d, i) => (
+                <FormGroupWrapperPreview key={i}>
+                  {(new Dataset({...d }).asText())}
+                </FormGroupWrapperPreview>
+              ))}
+            <hr />
             <h3 className="progressiveHeading">{t('pages.abstractSubmission.ContactPointSectionTitle')}</h3>
             {!isPreviewMode && (
               <FormAuthorContact
@@ -244,24 +263,7 @@ const AbstractSubmission = (props) => {
                 {(new Author({...d }).asText())}
               </FormGroupWrapperPreview>
             ))}
-            <hr />
 
-            <h3 className="progressiveHeading">{t('pages.abstractSubmission.DataSectionTitle')}</h3>
-            {!isPreviewMode && <FormAbstractGenericSortableList
-              onChange={({ items, isValid }) => handleChange({
-                id: 'datasets',
-                value: items,
-                isValid
-              })}
-              initialItems={temporaryAbstractSubmission.datasets}
-              ItemClass={Dataset}
-              addNewItemLabel={t('actions.addDataset')}
-              listItemComponentTagName='FormAbstractDatasetsListItem' />}
-              {isPreviewMode && temporaryAbstractSubmission.datasets.map((d, i) => (
-                <FormGroupWrapperPreview key={i}>
-                  {(new Dataset({...d }).asText())}
-                </FormGroupWrapperPreview>
-              ))}
             <hr />
           </Col>
           <Col md={4} lg={3}>
