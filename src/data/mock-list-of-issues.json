@@ -1,0 +1,116 @@
+{
+  "count": 82,
+  "next": "",
+  "previous": null,
+  "results": [
+    {
+      "id": 1,
+      "slug": "wie-ist-ostbelgien-entstanden",
+      "short_url": "SGpEh6m",
+      "date": null,
+      "date_created": "2020-06-09T08:20:53.152568Z",
+      "date_last_modified": "2020-10-09T13:23:17.089948Z",
+      "status": "public",
+      "covers": [],
+      "authors": [],
+      "tags": [
+        {
+          "id": 1,
+          "category": "publishing",
+          "slug": "issue",
+          "name": "issue",
+          "status": "public",
+          "data": {}
+        }
+      ],
+      "owner": {
+        "username": "daniele.guido",
+        "is_staff": true
+      },
+      "data": {
+        "color": "#fff",
+        "title": {
+          "de_DE": "Wie ist ‚Ostbelgien‘ entstanden?",
+          "en_US": "How did ‘East Belgium’ come into being? ",
+          "fr_FR": "Comment les « cantons de l’Est » ont-ils vu le jour ?",
+          "nl_BE": "Hoe is Oost-België ontstaan?"
+        },
+        "abstract": {
+          "de_DE": "Nach dem Ersten Weltkrieg wurde die Karte Europas neu geordnet. Dabei standen sich verschiedene nationale Interessen gegenüber. \nDer Großteil der europäischen Siegermächte \nwollte Deutschland durch Gebietsabtretungen und Reparationszahlungen schwächen. Die USA hingegen setzten auf mäßigere Forderungen und vor allem, mit Blick auf Osteuropa, auf ein Selbstbestimmungsrecht der Völker. \n\nWie kam in diesem Kontext die Angliederung der 1815 geschaffenen preußischen Kreise \nEupen und Malmedy an Belgien zustande? \n",
+          "en_US": "The map of Europe was redrawn after World War I. \nVarious national interests were opposed in that process. \nThe majority of the European victorious powers wanted to weaken Germany by having it cede territory and pay reparations. \nThe USA on the other hand opted for claims that are more moderate and above all for the right to self-determination for peoples in Eastern Europe. \n\nAgainst this background, how were the Prussian districts of Eupen and Malmedy, which had been created in 1815, incorporated in Belgium? ",
+          "fr_FR": "Au lendemain de la Première Guerre mondiale, la carte de l’Europe se trouve redessinée. \nÀ cette occasion, différents intérêts nationaux s’opposent les uns aux autres. \nLa plupart des puissances européennes victorieuses veulent affaiblir l’Allemagne en la forçant à céder des territoires et à payer des réparations. \nDe leur côté, les États-Unis nourrissent des revendications plus modérées et misent plutôt sur le droit à l’autodétermination des peuples, surtout pour l’Europe de l’Est. \n\nDans ce contexte, comment se fait-il que les cantons prussiens d’Eupen et de Malmedy, créés en 1815, aient été annexés à la Belgique ?",
+          "nl_BE": "Na de Eerste Wereldoorlog werd de kaart van Europa hertekend.\nVerschillende nationale belangen moesten daarbij tegenover elkaar worden afgewogen.\nHet merendeel van de Europese zegevierende mogendheden wilde Duitsland verzwakken door gebiedsafstand en herstelbetalingen.\n\nDe VS daarentegen opteerde voor gematigde eisen en, vooral met het oog op Oost-Europa, voor zelfbeschikkingsrecht van de volkeren.\n\n\nHoe kwam in deze context de aansluiting tot stand van de Pruisische districten (Kreise ) Eupen en Malmedy, die in 1815 waren ontstaan?"
+        },
+        "chapters": [
+          7,
+          6,
+          11,
+          18,
+          19
+        ],
+        "background": {
+          "bbox": [
+            
+          ],
+          "overlay": "#1e1e1e",
+          "backgroundColor": "#1e1e1e"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "slug": "deutschland-und-die-forderung-der-deutschen-kultur-in-ostbelgien",
+      "short_url": "QczovxE",
+      "date": null,
+      "date_created": "2020-06-19T11:38:49.199502Z",
+      "date_last_modified": "2020-09-15T06:51:18.441799Z",
+      "status": "public",
+      "covers": [],
+      "authors": [],
+      "tags": [
+        {
+          "id": 1,
+          "category": "publishing",
+          "slug": "theme",
+          "name": "theme",
+          "status": "public",
+          "data": {}
+        }
+      ],
+      "owner": {
+        "username": "philippe.beck",
+        "is_staff": true
+      },
+      "data": {
+        "color": "#fff",
+        "title": {
+          "de_DE": "Propaganda, Einflussnahme oder harmlose Unterstützung?",
+          "en_US": "Propaganda, exertion of influence or harmless support? ",
+          "fr_FR": "Propagande, influence ou soutien anodin ?",
+          "nl_BE": "Propaganda, beïnvloeding of onschuldige steun?"
+        },
+        "abstract": {
+          "de_DE": "Deutschland bemühte sich zeitweise sehr stark,\nden Kontakt zu den deutschsprechenden Bevölkerungen\naußerhalb seiner politischen Grenzen aufrecht zu erhalten. \nDies geschah unter anderem durch finanzielle Hilfen und kulturelle Veranstaltungen. \n\nIn Eupen-Malmedy fielen diese Angebote oft auf fruchtbarem Boden, \nweil die deutsche Sprache und Kultur im belgischen Staat \nüber einen langen Zeitraum hinweg nur wenig Unterstützung erfuhren. \n\nWie veränderte sich im Laufe des 20. Jahrhunderts das deutsche Interesse?\nUnd wie veränderte sich die Haltung der ostbelgischen Bevölkerung angesichts der deutschen Angebote? ",
+          "en_US": "Germany has at times made great efforts to maintain contact with the German-speaking population outside its political borders. \nThis has been done in particular through financial aid and cultural events. \n\nThese efforts often fell on fertile ground in Eupen-Malmedy, because the German language and culture have received little support over a long period in the Belgian State.\n\nHow did German interest change in the course of the 20th century? \nMoreover, how did the attitude of the East Belgian population change in the face of German offers?\n",
+          "fr_FR": "L’Allemagne et la promotion de la culture allemande dans les cantons de l’Est.\n\nL’Allemagne a parfois fait de grands efforts pour maintenir le contact avec les populations germanophones au-delà de ses frontières politiques. \nNotamment par le biais de subventions et de manifestations culturelles. \n\nÀ Eupen-Malmedy, celles-ci recevaient souvent un accueil favorable,  du fait que la langue et la culture allemandes dans l’État belge  n’avaient reçu que peu de soutien pendant toute une période. \n\nComment l’intérêt allemand a-t-il évolué au cours du XXe siècle ?\nEt comment l’attitude des habitants des cantons de l’Est a-t-elle changé face aux propositions allemandes ?\n",
+          "nl_BE": "Duitsland en de bevordering van de Duitse cultuur in Oost-België.\n\nDuitsland heeft een tijd lang heel veel moeite gedaan om het contact in stand te houden met de Duits sprekende bevolking buiten zijn politieke grenzen.\n\nDit gebeurde onder andere door financiële steun en culturele evenementen.\n\nIn Eupen-Malmedy vond dit aanbod vaak vruchtbare bodem, omdat de Duitse taal en cultuur binnen de Belgische staat lange tijd maar weinig werd ondersteund.\n\nHoe veranderde de Duitse belangstellingin de loop van de 20e eeuw?\nEn hoe veranderde de houding van de Oost-Belgische bevolking ten opzichte van het Duitse aanbod?\n"
+        },
+        "chapters": [
+          21,
+          22,
+          59,
+          60,
+          61,
+          62
+        ],
+        "background": {
+          "bbox": [
+            
+          ],
+          "overlay": "#1e1e1e",
+          "backgroundColor": "#1E1E1E"
+        }
+      }
+    }
+  ]
+}

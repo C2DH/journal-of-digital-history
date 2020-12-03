@@ -1,190 +1,186 @@
-import React from 'react';
-import logo from './assets/images/jdh-logo.svg';
-import './App.scss';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Link,
-  Outlet,
-  useParams,
-} from "react-router-dom";
-import { Nav, Navbar, Container } from "react-bootstrap";
+import React, { Suspense, lazy, useEffect } from 'react'
+import { BrowserRouter, Switch, Route, Redirect, useRouteMatch, useLocation } from "react-router-dom"
+import i18n from 'i18next'
+import moment from 'moment'
+import { initReactI18next } from 'react-i18next'
+import { getStartLang, LANGUAGE_PATH, LANGUAGES } from './logic/language'
+import translations from './translations'
+import {useStore} from './store'
+import { IsMobile, GaTrackingId } from './constants'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import Cookies from './components/Cookies'
+import ScrollToTop from './components/ScrollToTop'
+import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
+import AppRouteLoading from './pages/AppRouteLoading'
+import ReactGA from 'react-ga';
+// Getting non-reactive fresh state
+let persistentState = useStore.getState()
 
-export default function App(){
+try {
+  const localStorageState = JSON.parse(localStorage.getItem('JournalOfDigitalHistory'));
+  if (localStorageState) {
+    persistentState = localStorageState
+  }
+} catch(e) {
+  console.warn(e)
+}
+
+const acceptAnalyticsCookies = persistentState.acceptAnalyticsCookies
+const acceptCookies = persistentState.acceptCookies
+console.info('initial saved state', persistentState)
+console.info('%cacceptAnalyticsCookies', 'font-weight: bold', acceptAnalyticsCookies)
+console.info('%cacceptCookies', 'font-weight: bold', acceptCookies)
+
+// integrate history \w Google Analytics
+if (GaTrackingId && acceptAnalyticsCookies) {
+  ReactGA.initialize(GaTrackingId);
+  console.info('%cGA enabled by user choice', 'font-weight: bold', GaTrackingId)
+} else if(GaTrackingId) {
+  console.info(
+    '%cGA disabled by user choice:', 'font-weight: bold',
+    'acceptAnalyticsCookies:', acceptAnalyticsCookies
+  )
+} else {
+  console.info('%cGA GaTrackingId not set', 'font-weight: bold', 'disabled by config.')
+}
+
+/* Pages */
+const Home = lazy(() => import('./pages/Home'))
+const About = lazy(() => import('./pages/About'))
+const AbstractSubmission = lazy(() => import('./pages/AbstractSubmission'))
+const AbstractSubmitted = lazy(() => import('./pages/AbstractSubmitted'))
+const Article = lazy(() => import('./pages/Article'))
+const Abstract = lazy(() => import('./pages/Abstract'))
+const MockAbstract = lazy(() => import('./pages/MockAbstract'))
+const TermsOfUse = lazy(() => import('./pages/TermsOfUse'))
+const Playground = lazy(() => import('./pages/Playground'))
+const NotFound = lazy(() => import('./pages/NotFound'))
+
+const { startLangShort, lang } = getStartLang()
+console.info('start language:', lang, startLangShort)
+i18n
+  .use(initReactI18next) // passes i18n down to react-i18next
+  .init({
+    resources: translations,
+    lng: lang,
+    interpolation: {
+      escapeValue: false, // react already safes from xss
+      format: function(value, format, lng) {
+          if(value instanceof Date) {
+            if (format === 'fromNow') {
+              return moment(value).fromNow()
+            }
+            return moment(value).format(format)
+          }
+          return value;
+      }
+    }
+  })
+
+const isUnsafeEnvironment = process.env.NODE_ENV !== 'development' && window.location.protocol === 'http:'
+console.info('Auth0Provider:', isUnsafeEnvironment ? 'disabled' : 'enabled')
+console.info('IsMobile:', IsMobile)
+
+function LangRoutes() {
+  const { path } = useRouteMatch()
+  return (
+    <Switch>
+      <Route exact path={`${path}`}>
+        <Home />
+      </Route>
+      <Route exact path={`${path}/about`}>
+        <About />
+      </Route>
+      <Route exact path={`${path}/article`}>
+        <Article />
+      </Route>
+      <Route exact path={`${path}/abstract`}>
+        <MockAbstract />
+      </Route>
+      <Route path={`${path}/abstract/:id`}>
+        <Abstract />
+      </Route>
+      <Route path={`${path}/abstract-submitted`}>
+        <AbstractSubmitted />
+      </Route>
+      <Route exact path={`${path}/terms`}>
+        <TermsOfUse />
+      </Route>
+      <Route exact path={`${path}/submit`}>
+        <AbstractSubmission />
+      </Route>
+      <Route exact path={`${path}/playground`}>
+        <Playground />
+      </Route>
+      <Route path={`${path}*`}>
+        <NotFound />
+      </Route>
+    </Switch>
+  )
+}
+
+function usePageViews() {
+  let location = useLocation()
+
+  useEffect(
+    () => {
+      const url = [location.pathname, location.search].join('')
+      console.info('pageview', url)
+      ReactGA.pageview(url)
+    },
+    [location]
+  )
+}
+
+function AppRoutes() {
+  usePageViews()
+  // <Redirect from="/" exact to={startLangShort} />
+  return (
+    <Switch>
+      <Redirect from="/" exact to={startLangShort} />
+      <Route path="/authorized">
+        <div>authorized</div>
+      </Route>
+      <Route path={LANGUAGE_PATH}>
+        <LangRoutes />
+      </Route>
+      <Route path="*">
+        <NotFound />
+      </Route>
+    </Switch>
+  )
+}
+
+const MainBackground = () => {
+  const backgroundColor =  useStore((state) => state.backgroundColor);
+  return (
+    <div className="vh-100 vw-100 position-fixed main-background" style={{top: 0, backgroundColor}}></div>
+  )
+}
+
+
+export default function App() {
+
   return (
     <BrowserRouter>
-      <Navbar fixed="top" bg="light" variant="light">
-        <Container>
-          <Navbar.Brand href="#home" className="d-flex align-items-center">
-            <img
-              alt=""
-              src={logo}
-              height="50px"
-              className="flex-grow-1 mr-1"
-            />
-            <span>Journal of<br/>Digital<br/>history</span>
-          </Navbar.Brand>
-          <Nav className="ml-auto">
-            <Nav.Link href="/" exact activeClassName="activeLink">Home</Nav.Link>
-            <Nav.Link href="#pricing">references</Nav.Link>
-            <Nav.Link href="#pricing">datasets</Nav.Link>
-            <Nav.Link href="/about">about</Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-      <main>
-        {
-          // <nav>
-          //   <Link to="/">Issues</Link>
-          //   <Link to="/about">About</Link>
-          // </nav>
-        }
-        <Routes>
-          <Route path="/" element={<Issues />} >
-            <Route path="/" element={<IssueIndex />}/>
-            <Route path="/issue/:slug" element={<Issue />} /*slug the placeholder matching any value find*//>
-          </Route>
-          <Route path="/article/:slug" element={<Article />}/>
-          <Route path="/about" element={<About />} />
-          <Route path="*" element={<NotFound />} /* page not found *//>
-        </Routes>
-      </main>
+      <Auth0ProviderWithHistory
+        disabled={isUnsafeEnvironment}
+        domain="dev-cy19cq3w.eu.auth0.com"
+        clientId="NSxE7D46GRk9nh32wdvbtBUy7bLLQnZL"
+        redirectUri={`${window.location.origin}/authorized`}
+      >
+        <Header availableLanguages={LANGUAGES} isAuthDisabled={isUnsafeEnvironment}/>
+        <Cookies defaultAcceptCookies={acceptCookies}/>
+        <main>
+          <MainBackground />
+          <Suspense fallback={<AppRouteLoading/>}>
+            <AppRoutes />
+          </Suspense>
+        </main>
+        <Footer ></Footer>
+        <ScrollToTop />
+      </Auth0ProviderWithHistory>
     </BrowserRouter>
-  );
+  )
 }
-
-
-function NotFound(){
-  return (<div>
-    <h1>Not found</h1>
-    <p>sorry your page was not found</p>
-  </div>);
-}
-
-
-function Home(){
-  return (
-    <div>
-      <h1>Welcome home</h1>
-    </div>
-  );
-}
-
-function About(){
-  return (
-    <div>
-      <h1>Welcome about</h1>
-    </div>
-  );
-}
-
-function Issues() {
-  return (
-    <div>
-      <h1>Issues</h1>
-
-      <Outlet />
-    </div>
-  );
-}
-
-function IssueIndex() {
-  return (
-    <ul>
-      {Object.entries(issues).map(([slug, { name, img }]) => (
-        <li key={slug}>
-          <Link to={`/issue/${slug}`}>
-            <h2>{name}</h2>
-            <img src={img} alt={name} />
-          </Link>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-
-function Issue(){
-  const {slug} = useParams();
-  const issue = issues[slug];
-  if (!issue){
-    return <h2>issue not found</h2>
-  }
-  const { name, img} = issue;
-  return (
-    <div>
-      <div>
-        <h2>{name}</h2>
-        <img src={img} alt={name} />
-      </div>
-      <div>
-        <ul>
-        {Object.entries(articles).map(([slug, { name, img }]) => (
-          <li key={slug}>
-             <Link to={`/article/${slug}`}>
-              <h2>{name}</h2>
-              <img src={img} alt={name} />
-            </Link>
-          </li>
-        ))}
-        </ul>
-      </div>
-   </div>
-
-  );
-}
-
-
-function Article(){
-  const {slug} = useParams();
-  const article = articles[slug];
-  if (!article){
-    return <h2>article not found</h2>
-  }
-  const { name, img} = article;
-  return (
-      <div>
-        <h2>{name}</h2>
-        <img src={img} alt={name} />
-      </div>
-  );
-}
-
-
-const issues = {
-  "twitter-volume": {
-    name: "the twitter volume",
-    img:
-      "/img/JODI_twitter_volume.png?$SNKRS_COVER_WD$&align=0,1"
-  },
-  "digital-advances": {
-    name: "digital adv@nces",
-    img:
-      "/img/JODI_digital_advance.png?$SNKRS_COVER_WD$&align=0,1"
-  },
-  "network-analysis": {
-    name: "network analysis",
-    img:
-      "/img/JODI_network_analysis.png?$SNKRS_COVER_WD$&align=0,1"
-  }
-};
-
-
-const articles = {
-  "twitter-volume-article-1": {
-    name: "Le Centenaire de la bataille de Verdun sur Twitter",
-    img:
-      "/img/JODI_article_1_twitter_volume.png?$SNKRS_COVER_WD$&align=0,1"
-  },
-  "twitter-volume-article-2": {
-    name: "The history of the automobile industry is filled with partnerships",
-    img:
-      "/img/JODI_article_2_twitter_volume.png?$SNKRS_COVER_WD$&align=0,1"
-  },
-  "twitter-volume-article-3": {
-    name: "The protesters need a voice: “When we unite, we win.”",
-    img:
-      "/img/JODI_article_3_twitter_volume.png?$SNKRS_COVER_WD$&align=0,1"
-  }
-};

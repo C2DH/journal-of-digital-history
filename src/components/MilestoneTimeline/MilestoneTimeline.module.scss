@@ -1,0 +1,104 @@
+$labelWidth: 100px;
+$labelFontSize: 11px;
+$labelLineHeight: 10px;
+$milestoneRadius: 5px;
+
+
+
+.AxisEdge{
+  position: absolute;
+  border-color: var(--secondary);
+  line-height: $labelLineHeight;
+  margin-top: -$labelLineHeight/2;
+
+  font-family: var(--font-family-monospace);
+  font-size: $labelFontSize;
+}
+.left{
+  left: -$labelWidth;
+  width: $labelWidth;
+  top: 50%;
+  padding-right: var(--spacer-2);
+  text-align: right;
+  border-right: 1px solid;
+}
+.right{
+  right: -$labelWidth;
+  width: $labelWidth;
+  top: 50%;
+  padding-left: var(--spacer-2);
+  text-align: left;
+  border-left: 1px solid;
+}
+.top{
+  top: -$labelLineHeight*2;
+  height: $labelLineHeight*2.5;
+  overflow: hidden;
+  left: 0;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  text-align: left;
+  border-bottom: 1px solid;
+}
+.bottom{
+  bottom: -$labelLineHeight*2;
+  height: $labelLineHeight*2;
+  left: 0;
+  padding-right: 0;
+  padding-left: 0;
+  padding-top: var(--spacer-2);
+  text-align: left;
+  border-top: 1px solid;
+}
+
+.MilestonePointer{
+  position: absolute;
+  height: 100%;
+  background-color:  var(--dark);
+  width: 1px;
+  opacity: .5;
+}
+
+.MilestoneVerticalWrapper{
+  position: sticky;
+  left: 0;
+  top: 100px;
+  width: 60px;
+  height: 200px;
+}
+
+.MilestoneVerticalPointer{
+  position: absolute;
+  height: 1px;
+  background-color: var(--dark);
+  width: $labelWidth;
+  opacity: .5;
+}
+
+@media (min-height: 600px) {
+  .MilestoneVerticalWrapper{
+    top: 100px;
+    height: 400px;
+  }
+}
+
+.MilestoneCircle{
+  position: absolute;
+  width: $milestoneRadius*2;
+  height: $milestoneRadius*2;
+  margin-top: -$milestoneRadius;
+  margin-left: -$milestoneRadius;
+  border-radius: $milestoneRadius;
+  background-color: var(--primary);
+}
+
+.MilestoneLabel{
+  position: absolute;
+  left: $milestoneRadius;
+  width: $labelWidth;
+  padding-left: var(--spacer-2);
+  line-height: $labelFontSize * 1.5;
+  font-size: $labelFontSize;
+  border-left: 1px solid var(--primary);
+}

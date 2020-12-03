@@ -1,0 +1,304 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 4,
+  "metadata": {
+    "jdh": {
+      "id": "JKRhJsT"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "journal"
+        }
+      },
+      "source": [
+        "### Highlight your Digital Method",
+        "Tired of journals asking you to cut down your methodological developments? JDH introduces a **hermeneutics layer** where you will be able to fully go into detail."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "journal"
+        }
+      },
+      "source": [
+        "### Show your Data",
+        "Gathering data and preparing/structuring your corpus is 90% of the job. Show it, thanks to JDH’s **data layer**."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "journal"
+        }
+      },
+      "source": [
+        "### Tell the (Hi)story",
+        "JDH will allow you to elaborate a **narrative layer** that goes beyond the traditional scope of academic journals."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "journal"
+        }
+      },
+      "source": [
+        "### Rigour of a Peer Review Process",
+        "But don’t give up on rigour. JDH is based on a double blind peer review process."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "call-for-papers"
+        }
+      },
+      "source": [
+        "### Looking for Early Bird Contributors",
+        "The first issue of the Journal of Digital History will not focus on a specific topic; contributions from all subfields of (digital) history are welcome! We are looking for articles whose structure and argument demonstrate the value of our approach based on the principle of interconnected narrative, hermeneutic and data layers."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Andreas Fickers",
+        "[Andreas Fickers](https://www.c2dh.uni.lu/people/andreas-fickers) is the Professor Director at the C²DH, University of Luxembourg."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Frédéric Clavert",
+        "[Frédéric Clavert](https://www.c2dh.uni.lu/people/frederic-clavert) is an Assistant Professor at the C²DH, University of Luxembourg."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Sean Takats",
+        "[Sean Takats](https://www.c2dh.uni.lu/people/sean-takats) is a Professor at the C²DH, University of Luxembourg."
+      ]
+    },
+    {
+    "cell_type": "markdown",
+    "metadata" : {
+      "jdh": {
+        "section": "editorial-board"
+      }
+    },
+    "source": [
+      "### Valérie Schafer",
+      "[Valérie Schafer](https://www.c2dh.uni.lu/people/valerie-schafer) is a Professor at the C²DH, University of Luxembourg."
+    ]
+  },
+  {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+          }
+        },
+      "source": [
+        "### Gerben Zaagsma",
+        "[Gerben Zaagsma](https://www.c2dh.uni.lu/people/gerben-zaagsma) is an Assitant Professor at the C²DH, University of Luxembourg."
+        ]
+      },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Jane Winters",
+        "[Jane Winters](https://research.sas.ac.uk/search/staff/126/dr-jane-winters/) is a Professor of Digital Humanities at the School of Advanced Study, University of London."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Ian Milligan",
+        "[Ian Milligan](https://www.ianmilligan.ca/) is an Associate Professor of History at the University of Waterloo."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Tim Hitchcock",
+        "[Tim Hitchcock](https://profiles.sussex.ac.uk/p336034-tim-hitchcock) is a Professor of Digital History, School of Media, Arts and Humanities at the University of Sussex."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Edward Ayers ",
+        "[Edward Ayers](https://www.edwardayers.com/) is a Tucker-Boatwright Professor of the Humanities and President Emeritus at the University of Richmond."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Pelle Snickars ",
+        "[Pelle Snickars](https://www.umu.se/en/staff/pelle-snickars/) is a Professor of Media Studies at the Department of Cultural and Media Studies at the Umeå University."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Dilton Maynard ",
+        "[Dilton Maynard](https://ufs-br.academia.edu/DiltonMaynard) is an Associate Professor in the Department of History at the Federal University of Sergipe."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Nadezhda Povroznik",
+        "[Nadezhda Povroznik](http://povroznik.com/eng/) is an Associate Professor at the Perm State University."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Stefano Dall'Aglio ",
+        "[Stefano Dall'Aglio](https://www.unive.it/data/people/20962884) is Political and Religious Historian of early Modern Italy at the Univerity Ca'Foscary, Venezia."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Mareike König ",
+        "[Mareike König](https://hcommons.org/members/mareike2405/) is a Research Fellow and Head Librarian at the German Historical Institute in Paris."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### William Thomas",
+        "[William Thomas](https://cdrh.unl.edu/about/faculty/thomas) is a Professor of History and John and Catherine Angle Chair in the Humanities, University of Nebraska."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Anat Ben-David",
+        "[Anat Ben-David](https://www.anatbendavid.info/) is a Senior Lecturer in the Department of Sociology, Political Science and Communication at the Open University of Israel."
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata" : {
+        "jdh": {
+          "section": "milestones",
+          "extent": {
+            "date": [ "2020-09-30", "2022-11-30" ]
+          },
+          "dataset": [
+            {
+              "level": "top",
+              "offsetTop": "80",
+              "date": "2020-12-01",
+              "title": "Publication of the first Call for Paper",
+              "description": ""
+            },
+            {
+              "level": "top",
+              "offsetTop": "10",
+              "date": "2020-12-30",
+              "title": "Review of submitted abstracts",
+              "description": ""
+            },
+            {
+              "level": "top",
+              "offsetTop": "10",
+              "date": "2021-09-27",
+              "title": "Publication of the first Issue",
+              "description": ""
+            },
+            {
+              "offsetTop": "80",
+              "date": "2020-11-30",
+              "title": "Release of first public version of the platform",
+              "description": ""
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

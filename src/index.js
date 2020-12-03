@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './styles/index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import WebFontLoader from 'webfontloader'
@@ -8,7 +8,8 @@ import WebFontLoader from 'webfontloader'
 WebFontLoader.load({
   google: {
     families: [
-      'Fira+Mono:400,700:latin-ext',
+      'Source+Serif+Pro:400,700',
+      'Fira+Code:400,700:latin-ext',
       'Fira+Sans:400,700:latin-ext'
     ]
   }
@@ -27,4 +28,8 @@ ReactDOM.render(
 serviceWorker.unregister();
 
 // add information on version on startup
-console.info('version', process.env.REACT_APP_GIT_TAG, process.env.REACT_APP_GIT_BRANCH, process.env.REACT_APP_GIT_REVISION)
+console.info('version',
+  process.env.REACT_APP_GIT_TAG,
+  process.env.REACT_APP_GIT_BRANCH,
+  `\nhttps://github.com/C2DH/journal-of-digital-history/commit/${process.env.REACT_APP_GIT_REVISION}`
+)

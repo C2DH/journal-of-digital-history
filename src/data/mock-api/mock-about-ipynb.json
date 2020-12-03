@@ -1,0 +1,86 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 4,
+  "metadata": {
+    "jdh": {
+      "id": "JKRhJsU"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "title"
+        }
+      },
+      "source": [
+        "# About the *Journal of Digital History* {.my-5}"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "content"
+        }
+      },
+      "source": [
+        "## The Journal of Digital History (JDH) is a joint initiative of the Luxembourg Centre for Contemporary and Digital History (C²DH) at the University of Luxembourg and the De Gruyter publishing group. {.my-5}",
+        "The journal is intended to serve as a forum for critical debate and discussion in the field of digital history by offering an innovative publication platform and promoting a new form of data-driven scholarship and of transmedia storytelling in the historical sciences. As an international peer-reviewed open access journal, the JDH will set new standards in history publishing based on a novel multi-layered approach. Each article will include:",
+        "- a **narration layer** involving transmedia storytelling;",
+        "- a **hermeneutic layer** exploring the methodological implications of using digital tools and data;",
+        "- a **data layer** providing access to data and code by means of a professional infrastructure. A key tool for this layer will be code notebooks."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "content"
+        }
+      },
+      "source": [
+        "### Peer Review and Submission Policy",
+        "The JDH is a double-blind peer-reviewed journal. It publishes research on all aspects of digital history. Abstracts must first be submitted via the journal website before full papers can be submitted. The managing editor will contact the author(s) to assess the feasibility of the paper.",
+        "Once the *managing editor* has approved the paper, it should be submitted in full. Papers must contain the three layers that are characteristic of the JDH. Each layer is evaluated by means of a double-blind peer-review procedure. If you have any editorial questions, you can contact the [managing editor](mailto:frederic.clavert@uni.lu)."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "content"
+        }
+      },
+      "source": [
+        "### The Team at the C²DH",
+        "The JDH will be developed and supported by the C²DH team with wide-ranging expertise (in alphabetical order):",
+        "[Robert Beta](https://c2dh.uni.lu/people/robert-beta) is a System Administrator at the C²DH.",
+        "[Frédéric Clavert](https://c2dh.uni.lu/people/frederic-clavert) is an Assistant Professor in Contemporary History and JDH Managing Editor at the C²DH.",
+        "[Ori Elisar](https://c2dh.uni.lu/people/ori-elisar) is an User Experience Designer at C²DH.",
+        "[Andreas Fickers](https://c2dh.uni.lu/people/andreas-fickers) is the Director of the C²DH and Editor in Chief for the Journal",
+        "[Elisabeth Guerard](https://c2dh.uni.lu/people/elisabeth-guerard) is a Developer at the C²DH.",
+        "[Daniele Guido](https://c2dh.uni.lu/people/daniele-guido) is a Developer and the Lead Designer at the C²DH.",
+        "[Mirjam Pfeiffer](https://c2dh.uni.lu/people/mirjam-pfeiffer) is an User Experience and User Interaction Designer at the C²DH.",
+        "[Lars Wieneke](https://c2dh.uni.lu/people/lars-wieneke) is the Head of Digital Research Infrastructure at the C²DH."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "content"
+        }
+      },
+      "source": [
+        "### The Team at De Gruyter",
+        "*Bettina de Keijzer* is a Senior Product Manager for Digital at De Gruyter.",
+        "[Florian Hoppe](mailto:Florian.Hoppe@degruyter.com) is a Journals Manager in Humanities and Law at De Gruyter.",
+        "[Rabea Rittgerodt](https://www.linkedin.com/in/rabea-rittgerodt-533712168) is an Acquisitions Editor in History at De Gruyter.",
+        "[Charlott Schönwetter](mailto:Charlott.Schoenwetter@degruyter.com) is an Journals Editor at De Gruyter.",
+        "[Katharina Zühlke](mailto:Katharina.Zuehlke@degruyter.com) is a Product Marketing Manager at De Gruyter."
+      ]
+    }
+  ]
+}

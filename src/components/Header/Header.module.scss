@@ -1,0 +1,103 @@
+.Navbar{
+  padding: 0 var(--spacer-3);
+  background: transparent;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+.BrandImage{
+  background: var(--primary);
+  height: 70px;
+  width: 70px;
+  background-repeat: no-repeat;
+  background-size: 65%;
+  background-position: center;
+  border-radius:5px;
+}
+
+$breakpoint-tablet: 768px;
+@media (min-width: $breakpoint-tablet) {
+  .BrandImage{
+    // border-left: 2px solid var(--primary);
+    background-color: transparent;
+  }
+  .Navbar{
+    position: relative;
+    padding: var(--spacer-3);
+    // background: linear-gradient(180deg, rgba(255,255,255,1) -100%, rgba(255,255,255,0) 100%);
+  }
+  .MobileHeaderNav, .MobileHeaderBrand{
+    display: none;
+  }
+}
+
+.MobileHeaderNav{
+  width: 50px;
+  height: 25px;
+  position: fixed;
+  width: 100%;
+  z-index: 1030;
+}
+
+.MobileHeaderBrand{
+  position: absolute;
+  left: var(--spacer-3);
+  top: var(--spacer-3);
+  right: var(--spacer-3);
+  line-height: 40px;
+  font-family: var(--font-family-monospace);
+  font-weight: bold;
+  box-shadow: none;
+  padding: 0;
+  color: var(--secondary);
+  padding-bottom:  var(--spacer-3);
+}
+
+.MobileHeaderToggler{
+  position: absolute;
+  z-index: 100;
+  width: auto;
+  height: 40px;
+  width: 85px;
+  margin-left: -15px;
+  top: var(--spacer-3);
+  right: var(--spacer-3);
+  background-color: var(--secondary);
+  border-radius: 40px;
+  color: white;
+  /* font-weight: bold; */
+  padding-left: 13px;
+  line-height: 40px;
+  padding-right: 13px;
+}
+.MobileHeaderMenu{
+  position: absolute;
+  z-index:99;
+  height: 100vh;
+  width: 100%;
+  will-change: transform;
+  left:0;
+  top: 0;
+  color: var('--white');
+  background-color: var(--secondary);
+  transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1);
+
+  h1{
+    font-size: inherit;
+    font-family: var(--font-family-monospace);
+    font-weight: bold;
+    color: var(--primary);
+  }
+
+  .nav-link.active {
+    color: var(--primary);
+  }
+}
+
+.MobileHeaderNavItem{
+  color: var(--white);
+  border-left: 1px solid var(--white);
+}

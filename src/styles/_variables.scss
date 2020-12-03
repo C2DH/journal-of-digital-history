@@ -1,0 +1,51 @@
+// Override variables:
+// https://github.com/twbs/bootstrap/blob/main/scss/_variables.scss
+// following doc
+// https://getbootstrap.com/docs/4.5/getting-started/theming/
+$theme-colors: (
+  'primary': #00f5d4,
+  'secondary': #222322,
+  'gray': #ececec,
+  'accent': #9b5de5,
+);
+// 9b5de5
+// f15bb5
+// fee440
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 567px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1320px,
+);
+
+$body-color: #000; // #003325; // #00b37f;
+
+$font-family-sans-serif: 'Fira Sans', system-ui, -apple-system, 'Segoe UI', Roboto,
+  'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+  'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji' !default;
+$font-family-serif: 'Source Serif Pro', Georgia, serif;
+$font-family-monospace: 'Fira Code', monospace;
+
+$font-size-base: .9rem;
+$line-height-base: 1.75;
+$border-radius: .1rem;
+
+$navbar-dark-color: white;
+$navbar-dark-hover-color: map-get($theme-colors, 'primary');
+$navbar-dark-active-color: map-get($theme-colors, 'primary');
+$navbar-padding-y: 1rem;
+$navbar-nav-link-padding-x: 1rem;
+
+$nav-link-margin-y: 1rem;
+$nav-link-margin-x: 1rem;

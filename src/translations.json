@@ -1,0 +1,142 @@
+{
+  "en-US": {
+    "translation": {
+      "navigation": {
+        "about": "About",
+        "datasets": "Datasets",
+        "home": "Journal",
+        "references": "References",
+        "submit": "Abstract Submission",
+        "termsOfUse": "Terms of Use"
+      },
+      "title": "Journal of <br/>Digital History",
+      "titleInline": "Journal of Digital History",
+      "visibleOnlyByYou": "(only visible to you)",
+      "contactUsingEmail": "Contact us at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>",
+      "pages": {
+        "loading": {
+          "title": "loading...",
+          "subheading": "..."
+        },
+        "abstract": {
+          "authors": "contributors",
+          "contact": "contact point"
+        },
+        "abstractSubmitted": {
+          "title": "Your Abstract has been submitted!",
+          "subheading": "You will soon be contacted by our editors via the email you have indicated in the contact form.",
+          "moreInfo": "If any information needs to be changed, please contact us via email at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>"
+        },
+        "abstractSubmission": {
+          "title": "Abstract Submission",
+          "subheading": "...",
+          "authorEmail": "Email Address",
+          "authorEmailCheck": "Email Address, again",
+          "authorFirstName": "First Name",
+          "authorLastName": "Last Name",
+          "authorOrcid": "ORCID URL",
+          "authorOrcidHelpText": "* ORCID is required. Don't have an ORCID yet? Create one at <a href=\"https://orcid.org/\" target=\"_blank\" rel=\"noopener noreferrer\">orcid.org</a> for free!",
+          "authorUsername": "nom utilisateur",
+          "articleContact": "Contact Info",
+          "articleTitle": "Title",
+          "articleAbstract": "Abstract",
+          "articleDataset": "Davaverse URL",
+          "authorAffiliation": "Affiliation",
+          "preview": "Submission Status",
+          "ContactPointSectionTitle": "Contact",
+          "DataSectionTitle": "Tools, Code & Data",
+          "AuthorsSectionTitle": "Contributors",
+          "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias",
+          "datasetDetailsUrl": "Link URL",
+          "datasetDetailsLabel": "Link Description, License (where applicable)",
+          "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply."
+        },
+        "home": {
+          "latestIssues": "Latest Issues",
+          "latestArticles": "Latest Articles",
+          "editorialBoardMembers": "Editorial Board Members",
+          "journalRoadmap": "Milestones",
+          "callForPaper": "Open Call for Papers",
+          "submitArticle": "Submit an article",
+          "submitAbstract": "Submit an Abstract",
+          "editorialRoadmap": "Main Dates for Authors and Editors",
+          "technicalRoadmap": "Main Dates Related to our Website and Digital Tools"
+        },
+        "notFound": {
+          "title": "not Found",
+          "subheading": "..."
+        }
+      },
+      "forms": {
+        "formAuthorContact": {
+          "selectAsAuthor": "Use this Contact Info as Contributor"
+        }
+      },
+      "actions": {
+        "logout": "(log out)",
+        "submit": "Submit your Contribution",
+        "addLink": "Add Link",
+        "addAuthor": "Add Contributor",
+        "addDataset": "Add Dataset",
+        "downloadAsJSON": "Download as JSON",
+        "resetForm": "Start over ↻"
+      },
+      "badge": {
+        "warning": "∅",
+        "danger": "⚠",
+        "success": "✓"
+      },
+      "labels": {
+        "acceptConditions": "I have read and I accept the terms and conditions available at",
+        "formSubmissionIncomplete": "incomplete",
+        "formSubmissionReady": "ready to be submitted!",
+        "dateCreated": "started:",
+        "dateLastModified": "last edit",
+        "instance": {
+          "contact": "contact info",
+          "authors": "contributors",
+          "abstract": "abstract",
+          "title": "title",
+          "datasets": "datasets"
+        }
+      },
+      "errors": {
+        "none": "",
+        "required": "missing",
+        "minItems": "not enough",
+        "minLength": "...not long enough",
+        "pattern": "not valid",
+        "enum": "not valid"
+      },
+      "schemaErrors": {
+        "instance-acceptConditions": "... and don't forget to check the <b>terms and conditions</b>",
+        "instance-contact": "Please fill the \"Contact\" section with your <b>email</b> and <b>ORCID URL</b>",
+        "instance-contact-email": "A valid <em>email address</em> is required for the <b>Contact</b> section",
+        "instance-contact-orcid": "An <em>ORCID</em> url is required for the <b>Contact</b> section",
+        "instance-authors": "At least <b>one contributor</b> is required",
+        "instance-authors-orcid": "One <b>contributor ORCID</b> URL provided is not valid, please provide either an empty value or a valid ORCID",
+        "instance-authors-email": "One <b>contributor email</b> address is not valid, please provide either an empty value or a valid email address",
+        "instance-datasets": "A <b>description</b> is required to add a valid \"Tools, Code & Data\" item",
+        "instance-datasets-url": "One <b>URL</b> in <b> \"Tools, Code & Data\"</b> is not valid, make sure it starts with <code>http</code>",
+        "instance-title": "<b>Title</b>",
+        "instance-abstract": "<b>Abstract</b>"
+      },
+      "numbers": {
+        "errors": "{{count}} errors",
+        "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",
+        "currentCharactersWithCount": "(now: <b>{{count}}</b>)",
+        "itemIdx": "(item #{{idx}})"
+      },
+      "missingStepsWithCount": "<b>1</b> step missing",
+      "missingStepsWithCount_plural": "<b>{{count}}</b> steps missing",
+      "errorsWithCount": "<b>1</b> error",
+      "errorsWithCount_plural": "<b>{{count}}</b> errors",
+      "dates": {
+        "short": "{{date, DD MMM YYYY}}",
+        "fromNow": "{{date, fromNow}}",
+        "LLLL": "{{date, LLLL}}",
+        "LLL": "{{date, LLL}}"
+      }
+    }
+  }
+}
