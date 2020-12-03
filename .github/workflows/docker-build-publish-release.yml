@@ -1,4 +1,4 @@
-name: Build and publish Docker image
+name: Build and publish Docker release image 
 on:
   # Trigger the workflow on push or pull request,
   # for the develop branch and all new tags
