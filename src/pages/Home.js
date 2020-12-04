@@ -32,8 +32,8 @@ const Home = () => {
         <Col md={{span:8, offset:2}}>
           <h1 className="my-5">Write (Digital) History.</h1>
           <h2 className="my-5">
-            As an international, academic, peer-reviewed and open access journal,
-            the Journal of Digital History (JDH) will be setting new standards in history publishing
+            As an international, academic, peer-reviewed and open-access journal,
+            the Journal of Digital History (JDH) will set new standards in history publishing
             based on the principle of multi-layered articles.
           </h2>
           <h2 className="sans" style={{
