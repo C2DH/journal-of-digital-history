@@ -71,96 +71,24 @@
       "cell_type": "markdown",
       "metadata" : {
         "jdh": {
-          "section": "editorial-board"
-        }
-      },
-      "source": [
-        "### Andreas Fickers",
-        "[Andreas Fickers](https://www.c2dh.uni.lu/people/andreas-fickers) is Professor and Director of the C²DH, University of Luxembourg."
-      ]
-    },
-    {
-      "cell_type": "markdown",
-      "metadata" : {
-        "jdh": {
-          "section": "editorial-board"
+          "section": "editorial-team"
         }
       },
       "source": [
         "### Frédéric Clavert",
-        "[Frédéric Clavert](https://www.c2dh.uni.lu/people/frederic-clavert) is Assistant Professor at the C²DH, University of Luxembourg."
+        "[Frédéric Clavert](https://www.c2dh.uni.lu/people/frederic-clavert) is the **Managing Editor** of the journal. He is Assistant Professor at the C²DH, University of Luxembourg."
       ]
     },
     {
       "cell_type": "markdown",
       "metadata" : {
         "jdh": {
-          "section": "editorial-board"
+          "section": "editorial-team"
         }
       },
       "source": [
-        "### Sean Takats",
-        "[Sean Takats](https://www.c2dh.uni.lu/people/sean-takats) is Professor at the C²DH, University of Luxembourg."
-      ]
-    },
-    {
-    "cell_type": "markdown",
-    "metadata" : {
-      "jdh": {
-        "section": "editorial-board"
-      }
-    },
-    "source": [
-      "### Valérie Schafer",
-      "[Valérie Schafer](https://www.c2dh.uni.lu/people/valerie-schafer) is Professor at the C²DH, University of Luxembourg."
-    ]
-  },
-  {
-      "cell_type": "markdown",
-      "metadata" : {
-        "jdh": {
-          "section": "editorial-board"
-          }
-        },
-      "source": [
-        "### Gerben Zaagsma",
-        "[Gerben Zaagsma](https://www.c2dh.uni.lu/people/gerben-zaagsma) is Assistant Professor at the C²DH, University of Luxembourg."
-        ]
-      },
-    {
-      "cell_type": "markdown",
-      "metadata" : {
-        "jdh": {
-          "section": "editorial-board"
-        }
-      },
-      "source": [
-        "### Jane Winters",
-        "[Jane Winters](https://research.sas.ac.uk/search/staff/126/dr-jane-winters/) is Professor of Digital Humanities at the School of Advanced Study, University of London."
-      ]
-    },
-    {
-      "cell_type": "markdown",
-      "metadata" : {
-        "jdh": {
-          "section": "editorial-board"
-        }
-      },
-      "source": [
-        "### Ian Milligan",
-        "[Ian Milligan](https://www.ianmilligan.ca/) is Associate Professor of History at the University of Waterloo."
-      ]
-    },
-    {
-      "cell_type": "markdown",
-      "metadata" : {
-        "jdh": {
-          "section": "editorial-board"
-        }
-      },
-      "source": [
-        "### Tim Hitchcock",
-        "[Tim Hitchcock](https://profiles.sussex.ac.uk/p336034-tim-hitchcock) is Professor of Digital History, School of Media, Arts and Humanities at the University of Sussex."
+        "### Andreas Fickers",
+        "[Andreas Fickers](https://www.c2dh.uni.lu/people/andreas-fickers) is the **Editor in Chief** of the journal. He is Professor and Director of the C²DH, University of Luxembourg."
       ]
     },
     {
@@ -183,32 +111,8 @@
         }
       },
       "source": [
-        "### Pelle Snickars ",
-        "[Pelle Snickars](https://www.umu.se/en/staff/pelle-snickars/) is Professor of Media Studies at the Department of Cultural and Media Studies at the Umeå University."
-      ]
-    },
-    {
-      "cell_type": "markdown",
-      "metadata" : {
-        "jdh": {
-          "section": "editorial-board"
-        }
-      },
-      "source": [
-        "### Dilton Maynard ",
-        "[Dilton Maynard](https://ufs-br.academia.edu/DiltonMaynard) is Associate Professor in the Department of History at the Federal University of Sergipe."
-      ]
-    },
-    {
-      "cell_type": "markdown",
-      "metadata" : {
-        "jdh": {
-          "section": "editorial-board"
-        }
-      },
-      "source": [
-        "### Nadezhda Povroznik",
-        "[Nadezhda Povroznik](http://povroznik.com/eng/) is Associate Professor at the Perm State University."
+        "### Anat Ben-David",
+        "[Anat Ben-David](https://www.anatbendavid.info/) is Senior Lecturer in the Department of Sociology, Political Science and Communication at the Open University of Israel."
       ]
     },
     {
@@ -231,8 +135,93 @@
         }
       },
       "source": [
+        "### Tim Hitchcock",
+        "[Tim Hitchcock](https://profiles.sussex.ac.uk/p336034-tim-hitchcock) is Professor of Digital History, School of Media, Arts and Humanities at the University of Sussex."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
         "### Mareike König ",
         "[Mareike König](https://hcommons.org/members/mareike2405/) is Research Fellow and Head Librarian at the German Historical Institute in Paris."
+      ]
+    },
+
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Dilton Maynard ",
+        "[Dilton Maynard](https://ufs-br.academia.edu/DiltonMaynard) is Associate Professor in the Department of History at the Federal University of Sergipe."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Ian Milligan",
+        "[Ian Milligan](https://www.ianmilligan.ca/) is Associate Professor of History at the University of Waterloo."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Nadezhda Povroznik",
+        "[Nadezhda Povroznik](http://povroznik.com/eng/) is Associate Professor at the Perm State University."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Valérie Schafer",
+        "[Valérie Schafer](https://www.c2dh.uni.lu/people/valerie-schafer) is Professor at the C²DH, University of Luxembourg."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Pelle Snickars ",
+        "[Pelle Snickars](https://www.umu.se/en/staff/pelle-snickars/) is Professor of Media Studies at the Department of Cultural and Media Studies at the Umeå University."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Sean Takats",
+        "[Sean Takats](https://www.c2dh.uni.lu/people/sean-takats) is Professor at the C²DH, University of Luxembourg."
       ]
     },
     {
@@ -255,8 +244,20 @@
         }
       },
       "source": [
-        "### Anat Ben-David",
-        "[Anat Ben-David](https://www.anatbendavid.info/) is Senior Lecturer in the Department of Sociology, Political Science and Communication at the Open University of Israel."
+        "### Jane Winters",
+        "[Jane Winters](https://research.sas.ac.uk/search/staff/126/dr-jane-winters/) is Professor of Digital Humanities at the School of Advanced Study, University of London."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+          }
+        },
+      "source": [
+        "### Gerben Zaagsma",
+        "[Gerben Zaagsma](https://www.c2dh.uni.lu/people/gerben-zaagsma) is Assistant Professor at the C²DH, University of Luxembourg."
       ]
     },
     {
