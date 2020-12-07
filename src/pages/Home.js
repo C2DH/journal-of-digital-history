@@ -86,10 +86,10 @@ const Home = () => {
           </Col>
         ))}
       </Row>
-      <Row>
-        <Col md={{ offset: 2, span:10 }}>
+      <Row className="mt-5">
+        {/* }<Col md={{ offset: 2, span:10 }}>
           <h4 className="mt-5 mb-3 font-italic">{t('pages.home.editorialBoardMembersAlphabeticList')}</h4>
-        </Col>
+        </Col>*/}
         {editorialBoardCells.map((props, i) => (
           <Col key={i} md={{span:4, offset: i % 2 === 0 ? 2 : 0}}>
           <ArticleCell {...props} idx="▲"/>
