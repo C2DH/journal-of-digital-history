@@ -56,7 +56,8 @@
         "home": {
           "latestIssues": "Latest Issues",
           "latestArticles": "Latest Articles",
-          "editorialBoardMembers": "Editorial Board Members",
+          "editorialBoardMembers": "Editorial Board",
+          "editorialBoardMembersAlphabeticList": "Other members of the Editorial Board, sorted alphabetically:",
           "journalRoadmap": "Milestones",
           "callForPaper": "Open Call for Papers",
           "submitArticle": "Submit an article",
