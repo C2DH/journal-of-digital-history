@@ -10,7 +10,7 @@ import {
   AboutRoute,
   TermsOfUseRoute
 } from '../../constants'
-import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo.svg'
+import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_Oldenbourg.svg'
 import UniluLogo from '../../assets/images/unilu-c2dh-logo.svg'
 import styles from './Footer.module.scss'
 

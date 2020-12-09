@@ -124,7 +124,7 @@
       },
       "source": [
         "### Stefano Dall'Aglio ",
-        "[Stefano Dall'Aglio](https://www.unive.it/data/people/20962884) is a Political and Religious Historian of early Modern Italy at the Univerity Ca'Foscary, Venezia."
+        "[Stefano Dall'Aglio](https://www.unive.it/data/people/20962884) is Assistant Professor of Early Modern History at the Venice Centre for Digital and Public Humanities at Ca' Foscari University of Venice."
       ]
     },
     {
@@ -135,8 +135,8 @@
         }
       },
       "source": [
-        "### Helle Strandgaard Jensen ",
-        "[Helle Strandgaard Jensen](https://pure.au.dk/portal/en/persons/helle-strandgaard-jensen(485aac19-3feb-4690-9534-ec38dae852d6).html) is Associate Professor and Co-director of the Center for Digital History Aarhus, CEDHAR at Aarhus University."
+        "### Torsten Hiltmann",
+        "[Torsten Hiltmann](https://www.geschichte.hu-berlin.de/de/bereiche-und-lehrstuehle/digital-history/personen/torsten-hiltmann) Torsten Hiltmann is Professor of Digital History at the University of Humboldt in Berlin."
       ]
     },
     {
@@ -149,6 +149,18 @@
       "source": [
         "### Tim Hitchcock",
         "[Tim Hitchcock](https://profiles.sussex.ac.uk/p336034-tim-hitchcock) is Professor of Digital History, School of Media, Arts and Humanities at the University of Sussex."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Helle Strandgaard Jensen ",
+        "[Helle Strandgaard Jensen](https://pure.au.dk/portal/en/persons/helle-strandgaard-jensen(485aac19-3feb-4690-9534-ec38dae852d6).html) is Associate Professor and Co-director of the Center for Digital History Aarhus, CEDHAR at Aarhus University."
       ]
     },
     {
@@ -186,6 +198,18 @@
       "source": [
         "### Ian Milligan",
         "[Ian Milligan](https://www.ianmilligan.ca/) is Associate Professor of History at the University of Waterloo."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Julia Noordegraaf",
+        "[Julia Noordegraaf](https://www.uva.nl/profiel/n/o/j.j.noordegraaf/j.j.noordegraaf.html) is Professor of Digital Heritage in the Department of Media Studies at the University of Amsterdam."
       ]
     },
     {
