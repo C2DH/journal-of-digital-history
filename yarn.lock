@@ -7460,6 +7460,11 @@ lodash.find@^4.6.0:
   resolved "https://registry.yarnpkg.com/lodash.find/-/lodash.find-4.6.0.tgz#cb0704d47ab71789ffa0de8b97dd926fb88b13b1"
   integrity sha1-ywcE1Hq3F4n/oN6Ll92Sb7iLE7E=
 
+lodash.groupby@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.groupby/-/lodash.groupby-4.6.0.tgz#0b08a1dcf68397c397855c3239783832df7403d1"
+  integrity sha1-Cwih3PaDl8OXhVwyOXg4Mt90A9E=
+
 lodash.intersection@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.intersection/-/lodash.intersection-4.4.0.tgz#0a11ba631d0e95c23c7f2f4cbb9a692ed178e705"
@@ -10125,10 +10130,10 @@ react-scripts@3.4.1:
   optionalDependencies:
     fsevents "2.1.2"
 
-react-scrollama@^2.2.13:
-  version "2.2.13"
-  resolved "https://registry.yarnpkg.com/react-scrollama/-/react-scrollama-2.2.13.tgz#87079704c930e4ecdaaf37641a61c7bb2d7aa644"
-  integrity sha512-mndwFqgD4NmqCiDOY2K6OBXf3SyMNE3mdEW1DHDdYxM8FBUVcCURJHloml3l/IZzb7cLwemkAAKSGoSvMXiOHw==
+react-scrollama@^2.2.15:
+  version "2.2.15"
+  resolved "https://registry.yarnpkg.com/react-scrollama/-/react-scrollama-2.2.15.tgz#8a40a19bb09350a7e75ee6f9bb589a3f84eeb9ca"
+  integrity sha512-Rp/8v4AtGIf0eEd6Cli9/uoZ9ufXbVhZfrV1yR5tkapV0CCbgdLBWuVNwBhUXPUxSADltC+CSIFvG/uh2drfqA==
 
 react-spring@^8.0.27:
   version "8.0.27"
