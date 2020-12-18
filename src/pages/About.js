@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { getArticleTreeFromIpynb } from '../logic/ipynb'
 import { useStore } from '../store'
 import pageContents from '../data/mock-api/mock-about-ipynb.json'
-import ArticleCell from '../components/ArticleText/ArticleCell'
+import ArticleCell from '../components/Article/ArticleCell'
 
 const articleTree = getArticleTreeFromIpynb(pageContents)
 

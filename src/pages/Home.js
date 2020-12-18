@@ -6,7 +6,7 @@ import LangLink from '../components/LangLink'
 import { useStore } from '../store'
 import homePageContents from '../data/mock-api/mock-home-ipynb.json'
 import {getArticleTreeFromIpynb} from '../logic/ipynb'
-import ArticleCell from '../components/ArticleText/ArticleCell'
+import ArticleCell from '../components/Article/ArticleCell'
 import MilestoneTimeline from '../components/MilestoneTimeline'
 import { IsPortrait } from '../constants'
 

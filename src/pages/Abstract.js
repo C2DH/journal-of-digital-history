@@ -2,8 +2,7 @@ import React from 'react'
 import {useParams} from 'react-router-dom'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import mockAbstract from '../data/mock-api/mock-abstract.json'
-import ArticleAuthor from '../components/ArticleText/ArticleAuthor'
+import ArticleAuthor from '../components/Article/ArticleAuthor'
 import Author from '../models/Author'
 import { useGetAbstractSubmission } from '../logic/api/fetchData'
 
@@ -12,7 +11,7 @@ const Abstract = ({ results }) => {
   const { t } = useTranslation()
   const { id } = useParams()
   const { status, item} = useGetAbstractSubmission(id)
-  
+
   return (
     <>
       <Container className="page">

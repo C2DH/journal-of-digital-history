@@ -94,7 +94,7 @@ const Canvas = ({ visualVariables, ...props }) => {
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
     const { devicePixelRatio:ratio=1 } = window
-    const { width, height } = canvas.getBoundingClientRect()
+    const { width } = canvas.getBoundingClientRect()
     console.info('resizeCanvas', canvas.getBoundingClientRect(), ratio)
     canvas.width = width*ratio
     canvas.height = width*ratio

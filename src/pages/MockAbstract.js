@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import mockAbstract from '../data/mock-api/mock-abstract.json'
-import ArticleAuthor from '../components/ArticleText/ArticleAuthor'
+import ArticleAuthor from '../components/Article/ArticleAuthor'
 import Author from '../models/Author'
 
 const Abstract = ({ results }) => {
