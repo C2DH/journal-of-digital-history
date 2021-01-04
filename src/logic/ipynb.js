@@ -21,7 +21,6 @@ markdownParser.use(MarkdownItAttrs, {
 });
 
 const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
-  console.info('getArticleTreeFromIpynb', cells)
   const headings = [];
   const paragraphs = [];
   let bibliography = null;
@@ -30,6 +29,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
   if (citationsFromMetadata instanceof Object) {
     bibliography = new Cite(Object.values(citationsFromMetadata))
   }
+  console.info('getArticleTreeFromIpynb', cells, citationsFromMetadata)
   cells.forEach((cell, idx) => {
     // console.info(p.cell_type, idx)
     if (cell.cell_type === 'markdown') {
@@ -50,6 +50,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
          source: cell.source,
          metadata: cell.metadata,
          idx,
+         level: headerIdx > -1 ? tokens[headerIdx].tag : 'p'
        }))
     } else if (cell.cell_type === 'code') {
       paragraphs.push(new ArticleCell({
@@ -59,6 +60,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         metadata: cell.metadata,
         idx,
         outputs: cell.outputs,
+        level: 'code'
       }))
     }
   })
