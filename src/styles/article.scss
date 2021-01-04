@@ -1,0 +1,22 @@
+.ArticleText_ArticleParagraph{
+  &.active{
+    border-left: 2px solid var(--primary);
+  }
+}
+
+[class*='ArticleToc_Level_']{
+  width: var(--spacer-2);
+  height: var(--spacer-2);
+  border-radius: var(--spacer-1);
+}
+.ArticleToc_Level_H1{
+  margin-left: var(--negative-spacer-4);
+}
+
+.ArticleToc_Level_H2{
+  margin-left: var(--negative-spacer-3);
+}
+
+.ArticleToc_Level_H3{
+  margin-left: var(--negative-spacer-2);
+}

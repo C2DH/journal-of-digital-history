@@ -1,0 +1,17 @@
+div.ArticleCell {
+  position: relative;
+}
+
+div.ParagraphNumber {
+  position: absolute;
+  left: -35px;
+  width: 20px;
+  text-align: right;
+  font-family: var(--font-family-monospace);
+  font-weight: bold;
+  color: var(--dark)
+}
+
+.AbstractArticleCell{
+  font-size: 1rem;
+}
