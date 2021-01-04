@@ -2,7 +2,11 @@
  "cells": [
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+     "jdh": {
+       "section": "title"
+     }
+   },
    "source": [
     "#  Commémorations, scandale et circulation de l’information"
    ]
@@ -16,14 +20,46 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+     "jdh": {
+       "section": "abstract"
+     }
+   },
    "source": [
     "Le Centenaire de la Grande Guerre fait l’objet de nombreuses commémorations. Sur le réseau social numérique Twitter, des millions de tweets l’évoquent. En analysant des données collectées sur Twitter, cet article, après avoir donné une vision générale des traces du centenaire sur ce réseau, se penche sur le cas des commémorations polémiques de la bataille de Verdun."
    ]
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+     "jdh": {
+       "section": "contributor"
+     }
+   },
+   "source": [
+    "### Frédéric Clavert\n",
+    "University of Luxembourg"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+     "jdh": {
+       "section": "contributor"
+     }
+   },
+   "source": [
+    "### Maria Biryukov\n",
+    "University of Luxembourg"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+     "jdh": {
+       "section": "keywords"
+     }
+   },
    "source": [
     "Centenaire, Twitter, Grande Guerre, Verdun, scandale"
    ]
