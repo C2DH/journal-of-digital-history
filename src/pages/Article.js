@@ -1,15 +1,17 @@
 import React from 'react'
+import {groupBy} from 'lodash'
 import { useTranslation } from 'react-i18next'
-import ArticleText from '../components/ArticleText'
-import ArticleHeader from '../components/ArticleHeader'
+import ArticleText from '../components/Article'
+import ArticleHeader from '../components/Article/ArticleHeader'
 import source from '../data/mock-ipynb.nbconvert.json'
 import { getArticleTreeFromIpynb } from '../logic/ipynb'
 
 import {Container, Col, Row} from 'react-bootstrap'
 
+
 const ArticleBilbiography = ({ articleTree }) => {
   const { t } = useTranslation()
-  
+
   return (
     <Container className="mt-5">
       <Row>
@@ -24,18 +26,21 @@ const ArticleBilbiography = ({ articleTree }) => {
   )
 }
 
-export default function Article(){
+const Article = ({ ipynb }) => {
   // const { t } = useTranslation()
   const articleTree = getArticleTreeFromIpynb({
-    cells: source.cells, 
-    metadata: source.metadata
+    cells: ipynb? ipynb.cells : source.cells,
+    metadata: ipynb? ipynb.metadata : source.metadata
   })
-  console.info(articleTree);
+  const sections = groupBy(articleTree.paragraphs, ({ metadata }) => metadata?.jdh?.section ?? 'contents')
+  const { title, abstract, keywords, contributor, contents } = sections
   return (
-    <div>
-      <ArticleHeader/>
-      <ArticleText articleTree={articleTree}/>
+    <div className="page mt-5">
+      <ArticleHeader {... {title, abstract, keywords, contributor}}/>
+      <ArticleText articleTree={articleTree} contents={contents}/>
       <ArticleBilbiography articleTree={articleTree} />
     </div>
   );
 }
+
+export default Article
