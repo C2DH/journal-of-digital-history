@@ -21,3 +21,8 @@ export const PrimaryRoutes = [
 
 export const ReCaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
 export const GaTrackingId = process.env.REACT_APP_GA_TRACKING_ID
+
+export const BootstrapColumLayout = Object.freeze({
+  md: { span:8, offset:2 },
+  lg: { span:7, offset:2 }
+})
