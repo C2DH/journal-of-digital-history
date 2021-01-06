@@ -1,31 +1,33 @@
+import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
 import AbstractSubmission from '../../models/AbstractSubmission'
-import axios from 'axios'
+import { StatusIdle, StatusFetching, StatusSuccess } from '../../constants'
+
 
 const useGetNotebookFromURL = (url) => {
   const cache = useRef({});
-  const [status, setStatus] = useState('idle');
+  const [status, setStatus] = useState(StatusIdle);
   const [item, setItem] = useState(null);
   console.info('useGetNotebookFromURL', url)
   useEffect(() => {
     let cancelRequest = false;
     if (!url) return;
     const fetchData = async () => {
-      setStatus('fetching');
+      setStatus(StatusFetching);
       if (cache.current[url]) {
           console.log('cached')
           const data = cache.current[url];
           data.cached = true;
           if (cancelRequest) return;
           setItem(data);
-          setStatus('fetched');
+          setStatus(StatusSuccess);
       } else {
           const response = await axios.get(url)
           const {data} = response
           cache.current[url] = data // set response in cache;
           if (cancelRequest) return;
           setItem(data)
-          setStatus('fetched');
+          setStatus(StatusSuccess);
       }
     }
     fetchData()
