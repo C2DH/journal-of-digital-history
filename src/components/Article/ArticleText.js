@@ -1,21 +1,10 @@
 import React from 'react'
 import { Scrollama, Step } from 'react-scrollama'
-import { Container, Row, Col} from 'react-bootstrap'
-import ArticleCell from './ArticleCell'
 import ArticleToC from './ArticleToC'
-import { BootstrapColumLayout } from '../../constants'
+import ArticleParagraph from './ArticleParagraph'
+
 import '../../styles/article.scss'
 
-
-const ArticleParagraph = ({cell, idx}) => (
-  <Container className="mt-5">
-    <Row>
-      <Col {... BootstrapColumLayout}>
-        <ArticleCell {...cell} idx={idx}/>
-      </Col>
-    </Row>
-  </Container>
-)
 
 class ArticleText extends React.PureComponent {
   state = {
@@ -73,7 +62,7 @@ class ArticleText extends React.PureComponent {
           offset={.5}
           threshold={0}
         >
-        {contents.map((cell, i) => {
+        {contents.filter(cell => !cell.hidden).map((cell, i) => {
           return (
             <Step data={i} key={i}>
               <div className={`ArticleText_ArticleParagraph ${data === i? ' active': ''}`}>&nbsp;

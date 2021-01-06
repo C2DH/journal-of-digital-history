@@ -6,6 +6,8 @@ export default class ArticleCell {
     outputs = [],
     source = [],
     metadata = {},
+    references = [],
+    hidden = false,
     level = 'ND' // one of 'CODE', 'P', 'H1', 'H2', 'H3'
   }) {
     this.type = type
@@ -15,5 +17,7 @@ export default class ArticleCell {
     this.source = source
     this.metadata = metadata
     this.level = level.toUpperCase()
+    this.hidden = hidden
+    this.references = references
   }
 }
