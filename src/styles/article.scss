@@ -1,6 +1,7 @@
 .ArticleText_ArticleParagraph{
+  border-left: 2px solid transparent;
   &.active{
-    border-left: 2px solid var(--primary);
+    border-left-color: var(--primary);
   }
 }
 
@@ -19,4 +20,44 @@
 
 .ArticleToc_Level_H3{
   margin-left: var(--negative-spacer-2);
+}
+
+.ArticleToc_Type_code{
+  border-radius: 0;
+  transform: rotate(45deg);
+  border-color: red;
+}
+
+.ArticleToc_References{
+  background-color: var(--secondary);
+  width: var(--spacer-1);
+  height: var(--spacer-1);
+  border-radius: var(--spacer-1);
+}
+
+.ArticleReference_num{
+  display: none;
+}
+
+.ArticleReference{
+  margin-left: var(--spacer-1);
+  margin-right: var(--spacer-2);
+}
+
+.ArticleReference_shortRef{
+  font-weight: bold;
+  font-family: var(--font-family-monospace);
+  display: inline-block;
+}
+.ArticleReference_shortRef::before{
+  content:"(";
+}
+.ArticleReference_shortRef::after{
+  content:")";
+}
+.ArticleReference_pointer{
+  position: absolute;
+  left: var(--negative-spacer-3);
+  border-top: 1px solid var(--secondary);
+  border-bottom: 1px solid var(--secondary);
 }
