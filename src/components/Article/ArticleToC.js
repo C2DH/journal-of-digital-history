@@ -18,10 +18,11 @@ const ArticleToc = ({ steps, progress, step }) => {
       top: 30,
       width: 30,
     }}>
-    {steps.map((d,i) => {
+    {steps.filter(d => !d.hidden).map((d,i) => {
       const levelClassName = `ArticleToc_Level_${d.level}`
+      const typeClassName = `ArticleToc_Type_${d.type}`
       return (
-        <div onClick={() => handleClick(d.idx) }className={`my-1 position-relative ${levelClassName}`} key={i} style={{
+        <div onClick={() => handleClick(d.idx) }className={`my-1 position-relative ${levelClassName} ${typeClassName}`} key={i} style={{
           backgroundColor: i < step
             ? 'var(--secondary)'
             : i === step
@@ -32,6 +33,7 @@ const ArticleToc = ({ steps, progress, step }) => {
         }}>
           <div className="position-absolute" style={{left: -15, top:0, lineHeight: '5px'}}>
             {i===step && <span>&rarr;</span>}
+            {!!d.references.length && <div className="position-absolute ArticleToc_References" style={{left: 25, top:0}} />}
           </div>
         </div>
       )
