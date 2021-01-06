@@ -26,3 +26,8 @@ export const BootstrapColumLayout = Object.freeze({
   md: { span:8, offset:2 },
   lg: { span:7, offset:2 }
 })
+
+export const StatusIdle = 'IDLE'
+export const StatusFetching = 'FETCHING'
+export const StatusSuccess = 'OK'
+export const StatusError = 'ERR'
