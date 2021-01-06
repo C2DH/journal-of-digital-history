@@ -15,7 +15,6 @@ const Notebook = () => {
   const { status, item} = useGetNotebookFromURL(url)
   // fetch url if available.
   const handleClick = () => {
-    console.log('ochhhhhh')
     history.push({
       pathname: window.location.pathname,
       search: '?url=',
@@ -23,9 +22,10 @@ const Notebook = () => {
   }
   return (
     <div>
-    {status}
-    <button onClick={handleClick}></button>
-    <Article ipynb={item}/>
+    {item
+      ? <Article ipynb={item}/>
+      : <button onClick={handleClick}></button>
+    }
   </div>
   )
 }
