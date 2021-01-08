@@ -135,8 +135,20 @@
         }
       },
       "source": [
+        "### Elisabeth Guerard",
+        "[Elisabeth Guerard](https://c2dh.uni.lu/people/elisabeth-guerard) is a Developer at the C²DH, University of Luxembourg."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
         "### Torsten Hiltmann",
-        "[Torsten Hiltmann](https://www.geschichte.hu-berlin.de/de/bereiche-und-lehrstuehle/digital-history/personen/torsten-hiltmann) Torsten Hiltmann is Professor of Digital History at the University of Humboldt in Berlin."
+        "[Torsten Hiltmann](https://www.geschichte.hu-berlin.de/de/bereiche-und-lehrstuehle/digital-history/personen/torsten-hiltmann) is Professor of Digital History at the University of Humboldt in Berlin."
       ]
     },
     {
@@ -210,6 +222,18 @@
       "source": [
         "### Julia Noordegraaf",
         "[Julia Noordegraaf](https://www.uva.nl/profiel/n/o/j.j.noordegraaf/j.j.noordegraaf.html) is Professor of Digital Heritage in the Department of Media Studies at the University of Amsterdam."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Mirjam Pfeiffer",
+        "[Mirjam Pfeiffer](https://c2dh.uni.lu/people/mirjam-pfeiffer) is a User Experience and User Interaction Designer at the C²DH, University of Luxembourg."
       ]
     },
     {
