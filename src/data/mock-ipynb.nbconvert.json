@@ -121,8 +121,25 @@
    ]
   },
   {
+    "cell_type": "markdown",
+    "metadata": {
+      "jdh": {
+        "module": "quote"
+      }
+    },
+    "source": [
+      "Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2)."
+    ]
+  },
+  {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+     "jdh": {
+       "background": {
+         "color": "var(--primary)"
+       }
+     }
+   },
    "source": [
     "<span id=\"fn2\"><cite data-cite=\"7009778/GBFQ2FF7\"></cite></span>"
    ]
@@ -131,7 +148,44 @@
     "cell_type": "markdown",
     "metadata": {
       "jdh": {
-        "scope": "visualisation",
+        "module": "text_object",
+        "background": {
+          "color": "var(--primary)"
+        },
+        "text": {
+          "color": "var(--accent)",
+          "bootstrapColumLayout": {
+            "md": {
+              "offset":0,
+              "span": 6,
+              "order": 12
+            }
+          }
+        },
+        "object": {
+          "type": "image",
+          "ratio": 1.2,
+          "position": "sticky",
+          "offsetTop": 50,
+          "background": {
+            "color": "var(--primary)"
+          },
+          "border": "1px solid transparent"
+        }
+      }
+    },
+    "source": [
+      "Nous allons nous pencher plus spécifiquement sur l’usage de Twitter pendant le Centenaire. Créé en mars 2006, Twitter est un réseau social numérique dit de *microblogging*, permettant de publier sur la plateforme twitter.com de courts messages de 140 caractères à l’origine, 280 depuis novembre 2017. Ces messages peuvent être retweetés, c’est-à-dire cités tel quel ou avec un commentaire. Un utilisateur peut en mentionner un (ou plusieurs) autre(s) en écrivant leurs pseudonymes commencé par « @ » pour, par exemple, entamer une discussion. Il peut également insérer un hashtag ou « mot-dièse », c’est-à-dire un mot-clé précédé d’un croisillon (« # »). L’usage du hashtag, fonctionnalité inventée par les utilisateurs de Twitter, peut correspondre à différentes pratiques : valoriser une idée, ironiser ou rejoindre un sujet plus largement discuté par d’autres comptes Twitter. Ces derniers sont d’une très grande variété : comptes institutionnels, comptes personnels mais aussi comptes automatisés de diverses natures (*bots*).",
+      "Nous allons nous pencher plus spécifiquement sur l’usage de Twitter pendant le Centenaire. Créé en mars 2006, Twitter est un réseau social numérique dit de *microblogging*, permettant de publier sur la plateforme twitter.com de courts messages de 140 caractères à l’origine, 280 depuis novembre 2017. Ces messages peuvent être retweetés, c’est-à-dire cités tel quel ou avec un commentaire. Un utilisateur peut en mentionner un (ou plusieurs) autre(s) en écrivant leurs pseudonymes commencé par « @ » pour, par exemple, entamer une discussion. Il peut également insérer un hashtag ou « mot-dièse », c’est-à-dire un mot-clé précédé d’un croisillon (« # »). L’usage du hashtag, fonctionnalité inventée par les utilisateurs de Twitter, peut correspondre à différentes pratiques : valoriser une idée, ironiser ou rejoindre un sujet plus largement discuté par d’autres comptes Twitter. Ces derniers sont d’une très grande variété : comptes institutionnels, comptes personnels mais aussi comptes automatisés de diverses natures (*bots*).",
+      "Nous allons nous pencher plus spécifiquement sur l’usage de Twitter pendant le Centenaire. Créé en mars 2006, Twitter est un réseau social numérique dit de *microblogging*, permettant de publier sur la plateforme twitter.com de courts messages de 140 caractères à l’origine, 280 depuis novembre 2017. Ces messages peuvent être retweetés, c’est-à-dire cités tel quel ou avec un commentaire. Un utilisateur peut en mentionner un (ou plusieurs) autre(s) en écrivant leurs pseudonymes commencé par « @ » pour, par exemple, entamer une discussion. Il peut également insérer un hashtag ou « mot-dièse », c’est-à-dire un mot-clé précédé d’un croisillon (« # »). L’usage du hashtag, fonctionnalité inventée par les utilisateurs de Twitter, peut correspondre à différentes pratiques : valoriser une idée, ironiser ou rejoindre un sujet plus largement discuté par d’autres comptes Twitter. Ces derniers sont d’une très grande variété : comptes institutionnels, comptes personnels mais aussi comptes automatisés de diverses natures (*bots*).",
+      "Nous allons nous pencher plus spécifiquement sur l’usage de Twitter pendant le Centenaire. Créé en mars 2006, Twitter est un réseau social numérique dit de *microblogging*, permettant de publier sur la plateforme twitter.com de courts messages de 140 caractères à l’origine, 280 depuis novembre 2017. Ces messages peuvent être retweetés, c’est-à-dire cités tel quel ou avec un commentaire. Un utilisateur peut en mentionner un (ou plusieurs) autre(s) en écrivant leurs pseudonymes commencé par « @ » pour, par exemple, entamer une discussion. Il peut également insérer un hashtag ou « mot-dièse », c’est-à-dire un mot-clé précédé d’un croisillon (« # »). L’usage du hashtag, fonctionnalité inventée par les utilisateurs de Twitter, peut correspondre à différentes pratiques : valoriser une idée, ironiser ou rejoindre un sujet plus largement discuté par d’autres comptes Twitter. Ces derniers sont d’une très grande variété : comptes institutionnels, comptes personnels mais aussi comptes automatisés de diverses natures (*bots*)."
+    ]
+  },
+  {
+    "cell_type": "markdown",
+    "metadata": {
+      "jdh": {
+        "module": "stack",
         "object": "svg",
         "visualisation": "Streamgraph",
         "legend": {
@@ -192,12 +246,12 @@
             { "t": "2014-03-19", "layer": "v2", "c": 12 },
             { "t": "2014-03-19", "layer": "v3", "c": 9 },
             { "t": "2014-03-26", "layer": "v0", "c": 3 },
-            { "t": "2014-03-26", "layer": "v1", "c": 15 },
+            { "t": "2014-03-26", "layer": "v1", "c": 25 },
             { "t": "2014-03-26", "layer": "v2", "c": 12 },
             { "t": "2014-03-26", "layer": "v3", "c": 9 },
             { "t": "2014-04-02", "layer": "v0", "c": 3 },
             { "t": "2014-04-02", "layer": "v1", "c": 15 },
-            { "t": "2014-04-02", "layer": "v2", "c": 12 },
+            { "t": "2014-04-02", "layer": "v2", "c": 15 },
             { "t": "2014-04-02", "layer": "v3", "c": 9 }
           ]
         },
@@ -210,7 +264,8 @@
           {
             "source": ["1 first paragraph"],
             "bootstrapColumLayout": {
-              "md": { "span":3, "offset":2 }
+              "md": { "span":3, "offset":2 },
+              "xl": { "span":12, "offset":0 }
             },
             "justifyContent": "start",
             "stackOffset": "diverging"
