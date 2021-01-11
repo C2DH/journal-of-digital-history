@@ -8,6 +8,7 @@
   --border-color: rgba(255, 255, 255, 0.5);
   --modal-z-index: 90;
   --modal-close-z-index: 91;
+  --dark: #{map-get($theme-colors, 'dark')};
   --accent: #{map-get($theme-colors, 'accent')};
   --secondary-rgb: #{map-get($theme-colors, 'secondary')};
   --yellow: #FFEE88;
@@ -47,7 +48,7 @@ html,
   font-family: var(--font-family-sans-serif);
   font-size: .9rem;
   font-weight: bold;
-  color: black;
+  color: var(--dark);
 }
 
 .btn-link{
@@ -76,6 +77,7 @@ html,
 }
 body{
   background-color: var(--gray-100);
+  color: var(--dark);
 }
 main{
   // padding-top: 10rem;
