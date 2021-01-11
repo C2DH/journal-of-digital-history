@@ -1,39 +1,73 @@
 import React, { lazy } from 'react';
-import styles from './ArticleText.module.scss'
+import { Container, Row, Col} from 'react-bootstrap'
 import ArticleCellOutput from './ArticleCellOutput'
+import ArticleCellContent from './ArticleCellContent'
+import {
+  ModuleStack, ModuleTextObject,
+  ModuleQuote, BootstrapColumLayout
+} from '../../constants'
 
 const ArticleCellVisualisation = lazy(() => import('./ArticleCellVisualisation'))
+const ArticleCellTextObject = lazy(() => import('./ArticleCellTextObject'))
 
 
 const ArticleCell = ({
-  type, content='', idx, outputs=[], hideIdx, metadata = {},
+  type, num=1, content='', idx, outputs=[], hideIdx, hideNum, metadata = {},
   progress, active = false,
   ...props
 }) => {
   if (type === 'markdown') {
-    if (metadata.jdh?.scope === 'visualisation') {
+    // according to module
+    const cellModule = metadata.jdh?.module
+    if (cellModule === ModuleStack) {
       return <ArticleCellVisualisation metadata={metadata} progress={progress} active={active}/>
     }
+    if (cellModule === ModuleTextObject) {
+      return (
+        <ArticleCellTextObject metadata={metadata} progress={progress} active={active}>
+          <ArticleCellContent content={content} idx={idx} num={num} hideNum={hideNum}/>
+        </ArticleCellTextObject>
+      )
+    }
+    if (cellModule === ModuleQuote) {
+      return (
+        <Container>
+          <Row>
+            <Col md={{span: 10, offset: 1}}>
+              <div className="ArticleCellQuote">
+                <ArticleCellContent content={content} idx={idx} num={num} hideNum={hideNum} />
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      )
+    }
     return (
-      <>
-      <div className={styles.ArticleCell} id={`P${idx}`}>
-        {!hideIdx && (<div className={styles.ParagraphNumber}>{idx}</div>)}
-        <div dangerouslySetInnerHTML={{__html: content}}></div>
-      </div>
-
-      </>
+      <Container>
+        <Row>
+          <Col {... BootstrapColumLayout}>
+            <ArticleCellContent content={content} idx={idx} num={num} hideNum={hideNum}/>
+          </Col>
+        </Row>
+      </Container>
     )
   }
   if (type === 'code') {
     return (
-      <div className={styles.ArticleCell} id={`P${idx}`}>
-        {!hideIdx && (<div className={styles.ParagraphNumber}>{idx}</div>)}
-        <pre className="bg-dark text-white p-3">{content}</pre>
-        {outputs.length
-          ? outputs.map((output,i) => <ArticleCellOutput output={output} key={i} />)
-          : <div>no output</div>
-        }
-      </div>
+      <Container>
+        <Row>
+          <Col {... BootstrapColumLayout}>
+            <div className="ArticleCellContent" id={`P${idx}`}>
+              <div className="ArticleCellContent_num">{num}</div>
+              <pre className="bg-dark text-white p-3">{content}</pre>
+              {outputs.length
+                ? outputs.map((output,i) => <ArticleCellOutput output={output} key={i} />)
+                : <div>no output</div>
+              }
+            </div>
+          </Col>
+        </Row>
+      </Container>
     )
   }
   return (<div>unknown type: {type}</div>)
