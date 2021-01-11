@@ -1,11 +1,10 @@
-import { ScopeVisualisation } from '../constants'
-
-
 export default class ArticleCell {
   constructor({
     type = 'nd',
     content = '',
     idx = '-1',
+    // paragraph number, only for level=P
+    num = 0,
     outputs = [],
     source = [],
     metadata = {},
@@ -16,15 +15,12 @@ export default class ArticleCell {
     this.type = type
     this.content = content
     this.idx = idx
+    this.num = num
     this.outputs = outputs
     this.source = source
     this.metadata = metadata
     this.level = level.toUpperCase()
     this.hidden = hidden
     this.references = references
-  }
-
-  isFullWidth() {
-    return this.metadata.jdh?.scope === ScopeVisualisation
   }
 }
