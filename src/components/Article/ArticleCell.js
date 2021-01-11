@@ -1,36 +1,27 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import styles from './ArticleText.module.scss'
+import ArticleCellOutput from './ArticleCellOutput'
 
-const ArticleCellOutput = ({ output }) => {
-  const outputTypeClassName= `ArticleCellOutput_${output.output_type}`
-  return (
-    <blockquote className={`${outputTypeClassName}`}>
-      <div>
-        <div className="label">type:{output.output_type} | name:{output.name}</div>
-      </div>
-      {output.output_type === 'stream' && (
-        <pre>{output.text.join('\n')}</pre>
-      )}
-      {output.output_type === 'execute_result' && output.data['text/plain'] && (
-        <pre>{output.data['text/plain'].join('')}</pre>
-      )}
-      {output.output_type === 'display_data' && output.data['text/plain'] && (
-        <pre>{output.data['text/plain'].join('')}</pre>
-      )}
-      {output.output_type === 'display_data' && output.data['image/png'] && (
-        <img src={`data:image/png;base64,${output.data['image/png']}`} alt='display_data output'/>
-      )}
-    </blockquote>
-  )
-}
+const ArticleCellVisualisation = lazy(() => import('./ArticleCellVisualisation'))
 
-const ArticleCell = ({ type, content='', idx, outputs=[], hideIdx, ...props }) => {
+
+const ArticleCell = ({
+  type, content='', idx, outputs=[], hideIdx, metadata = {},
+  progress, active = false,
+  ...props
+}) => {
   if (type === 'markdown') {
+    if (metadata.jdh?.scope === 'visualisation') {
+      return <ArticleCellVisualisation metadata={metadata} progress={progress} active={active}/>
+    }
     return (
+      <>
       <div className={styles.ArticleCell} id={`P${idx}`}>
         {!hideIdx && (<div className={styles.ParagraphNumber}>{idx}</div>)}
         <div dangerouslySetInnerHTML={{__html: content}}></div>
       </div>
+
+      </>
     )
   }
   if (type === 'code') {
