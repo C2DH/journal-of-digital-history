@@ -1,3 +1,6 @@
+import { ScopeVisualisation } from '../constants'
+
+
 export default class ArticleCell {
   constructor({
     type = 'nd',
@@ -19,5 +22,9 @@ export default class ArticleCell {
     this.level = level.toUpperCase()
     this.hidden = hidden
     this.references = references
+  }
+
+  isFullWidth() {
+    return this.metadata.jdh?.scope === ScopeVisualisation
   }
 }
