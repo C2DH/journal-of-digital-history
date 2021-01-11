@@ -12,7 +12,7 @@ const Notebook = () => {
   const url = useMemo(() => atob((new URLSearchParams(search)).get('url')), [ search ])
   console.info('Notebook', url, search)
   // check url...
-  const { status, item} = useGetNotebookFromURL(url)
+  const { item} = useGetNotebookFromURL(url)
   // fetch url if available.
   const handleClick = () => {
     history.push({
