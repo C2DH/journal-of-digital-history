@@ -32,7 +32,8 @@ export const StatusFetching = 'FETCHING'
 export const StatusSuccess = 'OK'
 export const StatusError = 'ERR'
 
-export const ScopeVisualisation = 'visualisation'
-export const CellMetadataScopes = [ ScopeVisualisation ]
+export const ModuleStack = 'stack'
+export const ModuleTextObject = 'text_object'
+export const ModuleQuote = 'quote'
 
 export const ScrollamaThreshold = 0
