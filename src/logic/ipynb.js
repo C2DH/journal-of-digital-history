@@ -20,6 +20,32 @@ markdownParser.use(MarkdownItAttrs, {
   allowedAttributes: ['class']  // empty array = all attributes are allowed
 });
 
+const renderMarkdownWithReferences = ({
+  sources = '',
+  referenceIndex = {},
+  citationsFromMetadata = {}
+}) => {
+  const references = []
+  const content = markdownParser.render(sources)
+    .replace(/&lt;sup&gt;(\d+)&lt;\/sup&gt;/, (m, num) => {
+      // add footnote nuber and optionally the Author, year
+      const reference = new ArticleReference({
+        num,
+        id: referenceIndex[num],
+        ref: citationsFromMetadata[referenceIndex[num]],
+      })
+      references.push(reference)
+      return `
+        <span class="ArticleReference d-inline-block">
+        <sup class="font-weight-bold">${num}</sup>
+        <span class=" d-inline-block">
+          <span class="ArticleReference_pointer"></span>
+          <span class="ArticleReference_shortRef">${reference.shortRef}</span>
+        </span>`
+    })
+  return {content, references}
+}
+
 const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
   const headings = [];
   const paragraphs = [];
@@ -44,29 +70,14 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
     if (cell.cell_type === 'markdown') {
       const sources = cell.source.join('\n\n')
       // exclude rendering of reference references
-      const references = []
-      const tokens = markdownParser.parse(sources);
-      const content = markdownParser.render(sources)
-        .replace(/&lt;sup&gt;(\d+)&lt;\/sup&gt;/, (m, num) => {
-          // add footnote nuber and optionally the Author, year
-          const reference = new ArticleReference({
-            num,
-            id: referenceIndex[num],
-            ref: citationsFromMetadata[referenceIndex[num]],
-          })
-          references.push(reference)
-          return `
-            <span class="ArticleReference d-inline-block">
-            <sup class="font-weight-bold">${num}</sup>
-            <span class=" d-inline-block">
-              <span class="ArticleReference_pointer"></span>
-              <span class="ArticleReference_shortRef">${reference.shortRef}</span>
-            </span>`
-        })
 
-      if ( idx === 36 ) {
-       console.info('id', idx, cell, content)
-      }
+      const tokens = markdownParser.parse(sources);
+      const {content, references} = renderMarkdownWithReferences({
+        sources,
+        referenceIndex,
+        citationsFromMetadata,
+      })
+
       // get tokens 'heading_open' to get all h1,h2,h3 etc...
       const headerIdx = tokens.findIndex(t => t.type === 'heading_open');
       if (headerIdx > -1) {
