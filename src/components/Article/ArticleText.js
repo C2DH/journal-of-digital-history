@@ -1,7 +1,7 @@
 import React from 'react'
 import { Scrollama, Step } from 'react-scrollama'
 import ArticleToC from './ArticleToC'
-import ArticleParagraph from './ArticleParagraph'
+import ArticleCell from './ArticleCell'
 
 import '../../styles/article.scss'
 
@@ -66,7 +66,7 @@ class ArticleText extends React.PureComponent {
           return (
             <Step data={i} key={i}>
               <div className={`ArticleText_ArticleParagraph ${data === i? ' active': ''}`}>&nbsp;
-                <ArticleParagraph cell={cell} idx={cell.idx} progress={progress} active={data === i}/>
+                <ArticleCell {...cell} hideNum={cell.level !== 'P'} idx={cell.idx} progress={progress} active={data === i}/>
               </div>
             </Step>
           )
