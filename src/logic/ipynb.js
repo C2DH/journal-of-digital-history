@@ -58,6 +58,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
   console.info('getArticleTreeFromIpynb', citationsFromMetadata)
   // this contain footnotes => zotero id to remap reference at paragraph level
   const referenceIndex = {}
+  let paragraphNumber = 0
   cells.map((cell, idx) => {
     const citation = cell.source.join('\n\n').match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
     if(citation) {
@@ -70,7 +71,6 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
     if (cell.cell_type === 'markdown') {
       const sources = cell.source.join('\n\n')
       // exclude rendering of reference references
-
       const tokens = markdownParser.parse(sources);
       const {content, references} = renderMarkdownWithReferences({
         sources,
@@ -86,6 +86,8 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
           content: tokens[headerIdx + 1].content,
           idx
         }))
+      } else if (typeof cell.metadata.jdh?.section === "undefined" ){
+        paragraphNumber += 1
       }
       paragraphs.push(new ArticleCell({
         type: 'markdown',
@@ -93,17 +95,20 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         source: cell.source,
         metadata: cell.metadata,
         idx,
+        num: headerIdx > -1 ? -1 : paragraphNumber,
         references,
         hidden: !!cell.hidden,
         level: headerIdx > -1 ? tokens[headerIdx].tag : 'p'
       }))
     } else if (cell.cell_type === 'code') {
+      paragraphNumber += 1
       paragraphs.push(new ArticleCell({
         type: 'code',
         content: cell.source.join(''),
         source: cell.source,
         metadata: cell.metadata,
         idx,
+        num: paragraphNumber,
         outputs: cell.outputs,
         level: 'code'
       }))
