@@ -66,7 +66,7 @@ class ArticleText extends React.PureComponent {
           return (
             <Step data={i} key={i}>
               <div className={`ArticleText_ArticleParagraph ${data === i? ' active': ''}`}>&nbsp;
-                <ArticleParagraph cell={cell} idx={cell.idx}/>
+                <ArticleParagraph cell={cell} idx={cell.idx} progress={progress} active={data === i}/>
               </div>
             </Step>
           )
