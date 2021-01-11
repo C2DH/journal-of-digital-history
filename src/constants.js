@@ -31,3 +31,8 @@ export const StatusIdle = 'IDLE'
 export const StatusFetching = 'FETCHING'
 export const StatusSuccess = 'OK'
 export const StatusError = 'ERR'
+
+export const ScopeVisualisation = 'visualisation'
+export const CellMetadataScopes = [ ScopeVisualisation ]
+
+export const ScrollamaThreshold = 0
