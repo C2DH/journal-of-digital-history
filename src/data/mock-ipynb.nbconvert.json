@@ -128,10 +128,122 @@
    ]
   },
   {
+    "cell_type": "markdown",
+    "metadata": {
+      "jdh": {
+        "scope": "visualisation",
+        "object": "svg",
+        "visualisation": "Streamgraph",
+        "legend": {
+          "t": "week",
+          "v0": "v0",
+          "v1": "v1",
+          "v2": "v2"
+        },
+        "mark": "area",
+        "data": {
+          "values": [
+            { "t": "2014-01-01", "layer": "v0", "c": 20 },
+            { "t": "2014-01-01", "layer": "v1", "c": 30 },
+            { "t": "2014-01-01", "layer": "v2", "c": 30 },
+            { "t": "2014-01-01", "layer": "v3", "c": 3 },
+            { "t": "2014-01-08", "layer": "v0", "c": 10 },
+            { "t": "2014-01-08", "layer": "v1", "c": 30 },
+            { "t": "2014-01-08", "layer": "v2", "c": 5 },
+            { "t": "2014-01-08", "layer": "v3", "c": 5 },
+            { "t": "2014-01-15", "layer": "v0", "c": 40 },
+            { "t": "2014-01-15", "layer": "v1", "c": 10 },
+            { "t": "2014-01-15", "layer": "v2", "c": 5 },
+            { "t": "2014-01-15", "layer": "v3", "c": 8 },
+            { "t": "2014-01-22", "layer": "v0", "c": 40 },
+            { "t": "2014-01-22", "layer": "v1", "c": 10 },
+            { "t": "2014-01-22", "layer": "v2", "c": 20 },
+            { "t": "2014-01-22", "layer": "v3", "c": 11 },
+            { "t": "2014-01-29", "layer": "v0", "c": 20 },
+            { "t": "2014-01-29", "layer": "v1", "c": 30 },
+            { "t": "2014-01-29", "layer": "v2", "c": 30 },
+            { "t": "2014-01-29", "layer": "v3", "c": 14 },
+            { "t": "2014-02-05", "layer": "v0", "c": 10 },
+            { "t": "2014-02-05", "layer": "v1", "c": 7 },
+            { "t": "2014-02-05", "layer": "v2", "c": 9 },
+            { "t": "2014-02-05", "layer": "v3", "c": 14 },
+            { "t": "2014-02-12", "layer": "v0", "c": 14 },
+            { "t": "2014-02-12", "layer": "v1", "c": 21 },
+            { "t": "2014-02-12", "layer": "v2", "c": 11 },
+            { "t": "2014-02-12", "layer": "v3", "c": 17 },
+            { "t": "2014-02-19", "layer": "v0", "c": 10 },
+            { "t": "2014-02-19", "layer": "v1", "c": 25 },
+            { "t": "2014-02-19", "layer": "v2", "c": 13 },
+            { "t": "2014-02-19", "layer": "v3", "c": 10 },
+            { "t": "2014-02-26", "layer": "v0", "c": 3 },
+            { "t": "2014-02-26", "layer": "v1", "c": 15 },
+            { "t": "2014-02-26", "layer": "v2", "c": 12 },
+            { "t": "2014-02-26", "layer": "v3", "c": 9 },
+            { "t": "2014-03-05", "layer": "v0", "c": 3 },
+            { "t": "2014-03-05", "layer": "v1", "c": 15 },
+            { "t": "2014-03-05", "layer": "v2", "c": 12 },
+            { "t": "2014-03-05", "layer": "v3", "c": 9 },
+            { "t": "2014-03-12", "layer": "v0", "c": 3 },
+            { "t": "2014-03-12", "layer": "v1", "c": 15 },
+            { "t": "2014-03-12", "layer": "v2", "c": 12 },
+            { "t": "2014-03-12", "layer": "v3", "c": 9 },
+            { "t": "2014-03-19", "layer": "v0", "c": 3 },
+            { "t": "2014-03-19", "layer": "v1", "c": 15 },
+            { "t": "2014-03-19", "layer": "v2", "c": 12 },
+            { "t": "2014-03-19", "layer": "v3", "c": 9 },
+            { "t": "2014-03-26", "layer": "v0", "c": 3 },
+            { "t": "2014-03-26", "layer": "v1", "c": 15 },
+            { "t": "2014-03-26", "layer": "v2", "c": 12 },
+            { "t": "2014-03-26", "layer": "v3", "c": 9 },
+            { "t": "2014-04-02", "layer": "v0", "c": 3 },
+            { "t": "2014-04-02", "layer": "v1", "c": 15 },
+            { "t": "2014-04-02", "layer": "v2", "c": 12 },
+            { "t": "2014-04-02", "layer": "v3", "c": 9 }
+          ]
+        },
+        "encoding": {
+          "x": { "field": "t", "type": "date", "format": "YYYY-MM-DD" },
+          "y": { "aggregate": "sum", "field": "c", "type": "quantitative" },
+          "color": { "field": "layer", "scale": { "scheme": "category20b" } }
+        },
+        "steps": [
+          {
+            "source": ["1 first paragraph"],
+            "bootstrapColumLayout": {
+              "md": { "span":3, "offset":2 }
+            },
+            "justifyContent": "start",
+            "stackOffset": "diverging"
+          },
+          {
+            "source": ["2 second paragraph"],
+            "focus": [0, 3],
+            "stackOffset": "silhouette"
+          },
+          {
+            "source": ["3 third **paragraph**"],
+            "focus": [15, 22, 5],
+            "stackOffset": "wiggle"
+          },
+          {
+            "source": ["4 fourth [paragraph](https://sep.io)"],
+            "stackOffset": "expand"
+          }
+        ]
+      }
+    },
+    "source": [
+      "first paragraph",
+      "second paragraph",
+      "third **paragraph**",
+      "fourth [paragraph](https://sep.io)"
+    ]
+  },
+  {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "L’un des intérêts de ce projet de recherche est de s’interroger sur les interactions pouvant exister entre les commémorations, les traces de mémoire collective d’un côté, l’usage des réseaux sociaux numériques et plus particulièrement de Twitter d’un autre. Pour ce faire, nous utilisons des procédés dits de lecture distante, notamment tels qu’exposés dans *Graphs, maps and trees* de Franco Moretti [<sup>3</sup>](#fn3). Définie de manière très rapide, la lecture distante consiste à demander à l’ordinateur de lire pour nous, lorsque la masse de données à exploiter est trop importante pour une lecture humaine, proche de nos sources. Concrètement, il s’agit d’utiliser des outils informatiques : visualisation de données (dont celle des réseaux sociaux) ou fouille de texte, c’est-à-dire une approche statistique du texte, par exemple. Nous articulons toutefois cette lecture distante avec une lecture plus proche de nos sources (Clavert, 2014) : nous allons employer une méthode utilisant ainsi une approche macroscopique pour comprendre le contexte large des échos du Centenaire sur Twitter, puis nous passerons progressivement à une approche au microscope permettant de mieux comprendre un ensemble de deux événements, qui, dans le contexte large, apparaissent comme particuliers : l’annulation d’un concert du rappeur français Black M et la commémoration franco-allemande de la bataille de Verdun du 29 mai 2016."
+    "Oh L’un des intérêts de ce projet de recherche est de s’interroger sur les interactions pouvant exister entre les commémorations, les traces de mémoire collective d’un côté, l’usage des réseaux sociaux numériques et plus particulièrement de Twitter d’un autre. Pour ce faire, nous utilisons des procédés dits de lecture distante, notamment tels qu’exposés dans *Graphs, maps and trees* de Franco Moretti [<sup>3</sup>](#fn3). Définie de manière très rapide, la lecture distante consiste à demander à l’ordinateur de lire pour nous, lorsque la masse de données à exploiter est trop importante pour une lecture humaine, proche de nos sources. Concrètement, il s’agit d’utiliser des outils informatiques : visualisation de données (dont celle des réseaux sociaux) ou fouille de texte, c’est-à-dire une approche statistique du texte, par exemple. Nous articulons toutefois cette lecture distante avec une lecture plus proche de nos sources (Clavert, 2014) : nous allons employer une méthode utilisant ainsi une approche macroscopique pour comprendre le contexte large des échos du Centenaire sur Twitter, puis nous passerons progressivement à une approche au microscope permettant de mieux comprendre un ensemble de deux événements, qui, dans le contexte large, apparaissent comme particuliers : l’annulation d’un concert du rappeur français Black M et la commémoration franco-allemande de la bataille de Verdun du 29 mai 2016."
    ]
   },
   {
