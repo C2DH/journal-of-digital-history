@@ -12,8 +12,14 @@
   --accent: #{map-get($theme-colors, 'accent')};
   --secondary-rgb: #{map-get($theme-colors, 'secondary')};
   --yellow: #FFEE88;
+  --yellowcrayola: #FFE787;
   --pink: #FFCAD4;
   --snow: #FFF3F0;
+  --linen: #FEEFE5;
+  --bittersweet: #FF6B6B;
+  --peachpuff: #fee1c7;
+  --capri: #48BEFF;
+  --almond: #F0DCCA;
   @each $bp, $value in $grays {
     --gray-#{$bp}: #{$value};
   }
@@ -78,6 +84,26 @@ html,
 .navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active{
   box-shadow: 0px 1px 0px var(--primary);
 }
+
+.nav.nav-pills {
+  & > .nav-item > .nav-link{
+    box-shadow: none;
+    border-radius: 5rem;
+    background-color: transparent;
+    margin: 0 0.5rem;
+    will-change: background-color;
+    transition: background-color .3s ease-in;
+    &:hover{
+      color: var(--dark);
+    }
+    &.active{
+      color: var(--dark);
+      font-weight: bold;
+      background-color: var(--primary);
+    }
+  }
+}
+
 body{
   background-color: var(--gray-100);
   color: var(--dark);
@@ -234,3 +260,13 @@ blockquote.code{
   -webkit-animation: pulse .6s step-start 0s infinite;
 }
 .grecaptcha-badge { visibility: hidden; }
+
+.pointer-events-none{
+  pointer-events: none;
+}
+.pointer-events-auto{
+  pointer-events: auto;
+}
+// import styles scss named after their folder name in components/
+@import 'article';
+@import 'graphics';
