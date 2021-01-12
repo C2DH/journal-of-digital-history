@@ -55,16 +55,34 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
   if (citationsFromMetadata instanceof Object) {
     bibliography = new Cite(Object.values(citationsFromMetadata))
   }
-  console.info('getArticleTreeFromIpynb', citationsFromMetadata)
   // this contain footnotes => zotero id to remap reference at paragraph level
   const referenceIndex = {}
-  let paragraphNumber = 0
+  const paragraphNumbers = {}
   cells.map((cell, idx) => {
     const citation = cell.source.join('\n\n').match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
-    if(citation) {
+    if (citation) {
       referenceIndex[citation[1]] = citation[2]
       cell.hidden = true
+      cell.layer = 'citation'
+    } else {
+      // add paragraph number and layer information based on "layer", if any provided (default to 'narrative').
+      // section is mostly used to host article metadata, such as authors, title or keywords.
+      // maybe add layer "metadata"? for the moment, we assume sections is layer metadata.
+      // layer can be "hermeneutics", "data" or none (assume "narrative" by default)
+      // this should be enough for multilayered articles.
+      // we exclude hidden cells anyway.
+      if (['hermeneutics', 'data', 'narrative', 'metadata'].includes(cell.metadata.jdh?.layer)) {
+        cell.layer = cell.metadata.jdh.layer
+      } else if (cell.metadata.jdh?.section) {
+        cell.layer = 'metadata'
+      } else {
+        cell.layer = 'narrative'
+      }
     }
+    if (!paragraphNumbers[cell.layer]) {
+      paragraphNumbers[cell.layer] = 0
+    }
+    cell.num = paragraphNumbers[cell.layer] += 1
     return cell
   }).forEach((cell, idx) => {
     // console.info(p.cell_type, idx)
@@ -77,7 +95,6 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         referenceIndex,
         citationsFromMetadata,
       })
-
       // get tokens 'heading_open' to get all h1,h2,h3 etc...
       const headerIdx = tokens.findIndex(t => t.type === 'heading_open');
       if (headerIdx > -1) {
@@ -86,34 +103,34 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
           content: tokens[headerIdx + 1].content,
           idx
         }))
-      } else if (typeof cell.metadata.jdh?.section === "undefined" ){
-        paragraphNumber += 1
       }
       paragraphs.push(new ArticleCell({
         type: 'markdown',
         content,
         source: cell.source,
         metadata: cell.metadata,
+        layer: cell.layer,
         idx,
-        num: headerIdx > -1 ? -1 : paragraphNumber,
+        num: cell.num,
         references,
         hidden: !!cell.hidden,
         level: headerIdx > -1 ? tokens[headerIdx].tag : 'p'
       }))
     } else if (cell.cell_type === 'code') {
-      paragraphNumber += 1
       paragraphs.push(new ArticleCell({
         type: 'code',
         content: cell.source.join(''),
         source: cell.source,
         metadata: cell.metadata,
         idx,
-        num: paragraphNumber,
+        num: cell.num,
         outputs: cell.outputs,
         level: 'code'
       }))
     }
   })
+  // console.info('getArticleTreeFromIpynb', citationsFromMetadata, headings, paragraphs, bibliography)
+  console.info('getArticleTreeFromIpynb paragraphs:', paragraphs, 'numbers:',paragraphNumbers)
   return new ArticleTree({ headings, paragraphs, bibliography })
 }
 

@@ -80,6 +80,28 @@
   },
   {
    "cell_type": "markdown",
+   "metadata": {
+     "jdh": {
+       "layer": "hermeneutics"
+     }
+   },
+   "source": [
+     "## Note on the usage of Topic models in Twitter"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+     "jdh": {
+       "layer": "hermeneutics"
+     }
+   },
+   "source": [
+     "Paragraph 2 This is hermeneutics! avec references and ect"
+   ]
+  },
+  {
+   "cell_type": "markdown",
    "metadata": {},
    "source": [
     "## Introduction"
@@ -94,7 +116,11 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+     "jdh": {
+       "module": "hermeneutics"
+     }
+   },
    "source": [
     "Nous allons nous pencher plus spécifiquement sur l’usage de Twitter pendant le Centenaire. Créé en mars 2006, Twitter est un réseau social numérique dit de *microblogging*, permettant de publier sur la plateforme twitter.com de courts messages de 140 caractères à l’origine, 280 depuis novembre 2017. Ces messages peuvent être retweetés, c’est-à-dire cités tel quel ou avec un commentaire. Un utilisateur peut en mentionner un (ou plusieurs) autre(s) en écrivant leurs pseudonymes commencé par « @ » pour, par exemple, entamer une discussion. Il peut également insérer un hashtag ou « mot-dièse », c’est-à-dire un mot-clé précédé d’un croisillon (« # »). L’usage du hashtag, fonctionnalité inventée par les utilisateurs de Twitter, peut correspondre à différentes pratiques : valoriser une idée, ironiser ou rejoindre un sujet plus largement discuté par d’autres comptes Twitter. Ces derniers sont d’une très grande variété : comptes institutionnels, comptes personnels mais aussi comptes automatisés de diverses natures (*bots*)."
    ]
@@ -185,6 +211,7 @@
     "cell_type": "markdown",
     "metadata": {
       "jdh": {
+        "layer": "data",
         "module": "stack",
         "object": "svg",
         "visualisation": "Streamgraph",
