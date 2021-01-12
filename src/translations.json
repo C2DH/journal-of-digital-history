@@ -7,7 +7,10 @@
         "home": "Journal",
         "references": "References",
         "submit": "Abstract Submission",
-        "termsOfUse": "Terms of Use"
+        "termsOfUse": "Terms of Use",
+        "article": "narrative + data",
+        "articleHermeneutics": "hermeneutic",
+        "articleHermeneuticsData": "hermeneutic + data"
       },
       "title": "Journal of <br/>Digital History",
       "titleInline": "Journal of Digital History",
