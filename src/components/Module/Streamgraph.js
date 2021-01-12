@@ -10,15 +10,16 @@ import { animated, useSpring } from 'react-spring'
 import { useStackProps } from '../../logic/vega'
 import { curveLinear } from '@visx/curve'
 import AxisBottomGraphics from '../Graphics/AxisBottomGraphics'
+import Pointer from '../Graphics/Pointer'
 import { useBoundingClientRect } from '../../hooks/graphics'
 
 const colorScale = scaleOrdinal(['red', 'magenta', 'cyan', '#036ecd', '#9ecadd', '#51666e'])
 
 
-
 const Streamgraph = ({
   stackOffset = 'wiggle',
-  animate = true, className, style, data=[], encoding={}, focus=[] }) => {
+  animate = true, className, style, data=[], encoding={}, focus=[]
+}) => {
   const [{ width, height, windowDimensions }, ref] = useBoundingClientRect()
   const {
     // xMin, xMax, yMin, yMax,
@@ -28,10 +29,15 @@ const Streamgraph = ({
     keys, values
   } = useStackProps({ encoding, data, width, height, stackOffset })
   // console.info('Streamgraph rendering', values, xMin, xMax, yMin, yMax)
-  console.info('render Streamgraph', windowDimensions, width, height, xScale(new Date()))
+  // console.info('render Streamgraph', windowDimensions, width, height, xScale(new Date()))
+  const handleMouseMove = () => {
+    console.info('handleMouseMove!!!!!')
+  }
+
   return (
     <div style={style} className={`${className} h-100 w-100`} ref={ref}>
       {width > 0 && (
+        <>
         <svg width={width} height={height}>
           <g>
             <Stack offset={stackOffset} data={values}
@@ -42,7 +48,7 @@ const Streamgraph = ({
               y1={y1}
               curve={curveLinear}
               order="ascending"
-              >
+            >
               {({ stacks, path }) => stacks.map(stack => {
                 // Alternatively use renderprops <Spring to={{ d }}>{tweened => ...}</Spring>
                 const tweened = animate ? useSpring({ d: path(stack) }) : { d: path(stack) };
@@ -60,6 +66,8 @@ const Streamgraph = ({
             />
           </g>
         </svg>
+        <Pointer availableWidth={width} availableHeight={height} />
+        </>
       )}
     </div>
   );
