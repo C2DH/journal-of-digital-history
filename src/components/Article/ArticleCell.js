@@ -12,7 +12,7 @@ const ArticleCellTextObject = lazy(() => import('./ArticleCellTextObject'))
 
 
 const ArticleCell = ({
-  type, num=1, content='', idx, outputs=[], hideIdx, hideNum, metadata = {},
+  type, layer, num=1, content='', idx, outputs=[], hideIdx, hideNum, metadata = {},
   progress, active = false,
   ...props
 }) => {
@@ -25,7 +25,7 @@ const ArticleCell = ({
     if (cellModule === ModuleTextObject) {
       return (
         <ArticleCellTextObject metadata={metadata} progress={progress} active={active}>
-          <ArticleCellContent content={content} idx={idx} num={num} hideNum={hideNum}/>
+          <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum}/>
         </ArticleCellTextObject>
       )
     }
@@ -35,7 +35,7 @@ const ArticleCell = ({
           <Row>
             <Col md={{span: 10, offset: 1}}>
               <div className="ArticleCellQuote">
-                <ArticleCellContent content={content} idx={idx} num={num} hideNum={hideNum} />
+                <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum} />
               </div>
             </Col>
           </Row>
@@ -46,7 +46,7 @@ const ArticleCell = ({
       <Container>
         <Row>
           <Col {... BootstrapColumLayout}>
-            <ArticleCellContent content={content} idx={idx} num={num} hideNum={hideNum}/>
+            <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum}/>
           </Col>
         </Row>
       </Container>
