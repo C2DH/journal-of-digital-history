@@ -10,6 +10,9 @@ export const DatasetsRoute = { to: '/datasets', label: 'navigation.datasets' }
 export const AbstractSubmissionRoute = { to: '/submit', label: 'navigation.submit' }
 export const AboutRoute = { to: '/about', label: 'navigation.about' }
 export const AbstractSubmissionPreviewRoute = { to:'/abstract', label: 'navigation.abstract'}
+export const ArticleRoute = { to:'/article', label: 'navigation.article'}
+export const ArticleHermeneuticsRoute = { to:'/article/hermeneutics', label: 'navigation.articleHermeneutics'}
+export const ArticleHermeneuticsDataRoute = { to:'/article/hermeneutics,data', label: 'navigation.articleHermeneuticsData'}
 export const TermsOfUseRoute = { to:'/terms', label: 'navigation.termsOfUse'}
 export const PrimaryRoutes = [
   HomeRoute,
@@ -37,3 +40,9 @@ export const ModuleTextObject = 'text_object'
 export const ModuleQuote = 'quote'
 
 export const ScrollamaThreshold = 0
+
+export const LayerHermeneutics = 'hermeneutics'
+export const LayerHermeneuticsData = 'hermeneutics,data'
+export const LayerData = 'data'
+export const LayerNarrative = 'narrative'
+export const LayerNarrativeData = 'narrative,data'
