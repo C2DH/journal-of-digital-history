@@ -93,7 +93,7 @@ function LangRoutes() {
       <Route exact path={`${path}/about`}>
         <About />
       </Route>
-      <Route exact path={`${path}/article`}>
+      <Route exact path={`${path}/article/:layer?`}>
         <Article />
       </Route>
       <Route exact path={`${path}/abstract`}>
