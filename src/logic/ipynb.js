@@ -134,7 +134,15 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
   return new ArticleTree({ headings, paragraphs, bibliography })
 }
 
+const getStepsFromMetadata = ({ metadata }) => {
+  return (metadata.jdh.steps ?? []).map(step => ({
+    ...step,
+    content: markdownParser.render(step.source.join('\n'))
+  }))
+}
+
 export {
   markdownParser,
-  getArticleTreeFromIpynb
+  getArticleTreeFromIpynb,
+  getStepsFromMetadata
 }

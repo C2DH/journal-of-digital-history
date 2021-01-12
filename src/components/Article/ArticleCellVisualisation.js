@@ -1,22 +1,19 @@
 import React, { useMemo } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import Streamgraph from '../Module/Streamgraph'
-import { markdownParser } from '../../logic/ipynb'
+import { getStepsFromMetadata } from '../../logic/ipynb'
+import { getNarrativeProgress } from '../../logic/narrative'
 
-const ArticleCellVisualisation = ({ metadata, progress, active, className }) => {
-  const steps = useMemo(() => (metadata.jdh.steps ?? []).map(step => ({
-    ...step,
-    content: markdownParser.render(step.source.join('\n'))
-  })), [metadata])
+
+const ArticleCellVisualisation = ({ metadata, progress, active, className='' }) => {
+  const steps = useMemo(() => getStepsFromMetadata({ metadata }), [metadata])
+  const { stepProgress, activeStep } = getNarrativeProgress({ steps, progress })
   const height = window.innerHeight
-  const progressWeighted = active
-    ? progress * (steps.length + 1)
-    : 0
-  const ratio = 1 / (steps.length + 1)
-  const activeStep = Math.floor(progressWeighted)
-  const stepProgress = ((progress - activeStep * ratio) / ratio)
   // const currentStep = / steps.length
   // first blank step for presentation.
+  const handleMouseMove = (ev) => {
+    console.info('handleMouseMove', ev.pageX)
+  }
   return (
     <Container fluid
       className={`${className} ArticleCellVisualisation`}
@@ -30,7 +27,7 @@ const ArticleCellVisualisation = ({ metadata, progress, active, className }) => 
         top:0,
         height,
       }}>
-        <div className="h-100 w-100">
+        <div className="h-100 w-100" onMouseMove={handleMouseMove}>
           overall progress: {progress}
           <br/>step {activeStep} - step progress: {stepProgress}
           <br/>stackOffset: {steps[activeStep -1]?.stackOffset ?? 'wiggle'}
@@ -43,7 +40,7 @@ const ArticleCellVisualisation = ({ metadata, progress, active, className }) => 
         </div>
       </div>
       {steps.map((step, i) => (
-        <Row className="text-primary" key={i} style={{ height }}>
+        <Row className="text-primary pointer-events-none" key={i} style={{ height }}>
           <Col {...step.bootstrapColumLayout}>
           <div className={`d-flex justify-content-${step.justifyContent ?? 'center'} align-items-${step.alignItems ?? 'center'} h-100`}>
             <div
