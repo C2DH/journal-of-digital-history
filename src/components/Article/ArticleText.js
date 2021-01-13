@@ -61,10 +61,18 @@ class ArticleText extends React.PureComponent {
           threshold={0}
         >
         {contents.filter(cell => !cell.hidden).map((cell, i) => {
+          const cellStyle = {
+            backgroundColor: cell.metadata.jdh?.backgroundColor ?? 'transparent'
+          }
+          const cellProgress = data > i 
+            ? 1
+            : data < i
+              ? 0
+              : progress
           return (
             <Step data={i} key={i}>
-              <div className={`ArticleText_ArticleParagraph ${data === i? ' active': ''}`}>&nbsp;
-                <ArticleCell {...cell} hideNum={cell.layer === 'metadata'} idx={cell.idx} progress={progress} active={data === i}/>
+              <div className={`ArticleText_ArticleParagraph ${data === i? ' active': ''}`} style={{ ...cellStyle }}>&nbsp;
+                <ArticleCell {...cell} hideNum={cell.layer === 'metadata'} idx={cell.idx} progress={cellProgress} active={data === i}/>
               </div>
             </Step>
           )
