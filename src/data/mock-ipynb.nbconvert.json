@@ -144,9 +144,7 @@
    "metadata": {
      "jdh": {
        "module": "text_object",
-       "background": {
-         "color": "var(--gray-200)"
-       },
+       "backgroundColor": "var(--gray-300)",
        "text": {
          "color": "var(--accent)",
          "bootstrapColumLayout": {
