@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
+import { markdownParser } from '../../logic/ipynb'
 
 
 const ArticleCellTextObject = ({ metadata, children, progress }) => {
@@ -11,10 +12,19 @@ const ArticleCellTextObject = ({ metadata, children, progress }) => {
   const objectColumnLayout = objectMetadata.bootstrapColumLayout ?? {
     md: { offset:0, span: 6, order: 2 }
   }
-
   const objectRatio = isNaN(objectMetadata.ratio)
     ? 1.0
     : objectMetadata.ratio
+
+  const objectContents = useMemo(() => {
+    if (Array.isArray(objectMetadata.source)) {
+      return markdownParser.render(objectMetadata.source.join('\n'))
+    }
+    return null
+  }, [objectMetadata])
+  const objectClassName = Array.isArray(objectMetadata.cssClassName)
+    ? objectMetadata.cssClassName
+    : []
 
   return (
     <Container>
@@ -23,15 +33,22 @@ const ArticleCellTextObject = ({ metadata, children, progress }) => {
           {children}
         </Col>
         <Col {... objectColumnLayout}>
-          <div style={{
-            position: String(objectMetadata.position),
-            top: objectMetadata.offsetTop,
-            paddingTop: `${objectRatio * 100}%`,
-            boxSizing: 'border-box',
-            background: objectMetadata.background?.color,
-            border: objectMetadata.border
-          }}>{progress} </div>
-          (  )
+          {['image', 'video', 'map'].includes(objectMetadata.type) && (
+            <div style={{
+              position: String(objectMetadata.position),
+              top: objectMetadata.offsetTop,
+              paddingTop: `${objectRatio * 100}%`,
+              boxSizing: 'border-box',
+              background: objectMetadata.background?.color,
+              border: objectMetadata.border
+            }}>
+              {progress}
+              <div dangerouslySetInnerHTML={{__html: objectContents}}></div>
+            </div>
+          )}
+          {['text'].includes(objectMetadata.type) && (
+            <div className={objectClassName.join(' ')} dangerouslySetInnerHTML={{__html: objectContents}}></div>
+          )}
         </Col>
       </Row>
     </Container>
