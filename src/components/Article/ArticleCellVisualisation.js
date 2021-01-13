@@ -9,11 +9,7 @@ const ArticleCellVisualisation = ({ metadata, progress, active, className='' }) 
   const steps = useMemo(() => getStepsFromMetadata({ metadata }), [metadata])
   const { stepProgress, activeStep } = getNarrativeProgress({ steps, progress })
   const height = window.innerHeight
-  // const currentStep = / steps.length
-  // first blank step for presentation.
-  const handleMouseMove = (ev) => {
-    console.info('handleMouseMove', ev.pageX)
-  }
+
   return (
     <Container fluid
       className={`${className} ArticleCellVisualisation`}
@@ -27,7 +23,7 @@ const ArticleCellVisualisation = ({ metadata, progress, active, className='' }) 
         top:0,
         height,
       }}>
-        <div className="h-100 w-100" onMouseMove={handleMouseMove}>
+        <div className="h-100 w-100">
           overall progress: {progress}
           <br/>step {activeStep} - step progress: {stepProgress}
           <br/>stackOffset: {steps[activeStep -1]?.stackOffset ?? 'wiggle'}
@@ -36,7 +32,7 @@ const ArticleCellVisualisation = ({ metadata, progress, active, className='' }) 
             focus={steps[activeStep]?.focus}
             data={metadata.jdh?.data}
             encoding={metadata.jdh?.encoding}
-            style={{top:80, zIndex: -1}}/>
+            style={{top:80, zIndex: 0}}/>
         </div>
       </div>
       {steps.map((step, i) => (

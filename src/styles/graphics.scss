@@ -1,3 +1,14 @@
 .Pointer{
   position: absolute;
 }
+
+.Stack_Pointer{
+  span{
+    background: var(--dark);
+    color: var(--white);
+  }
+  margin-top: var(--negative-spacer-3);
+  margin-left: var(--spacer-3);
+  max-width: 200px;
+  white-space: nowrap;
+}

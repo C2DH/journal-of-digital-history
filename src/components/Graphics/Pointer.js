@@ -3,10 +3,18 @@ import React from 'react'
 const Pointer = ({ x, y, width, height, availableWidth, availableHeight, children }) => {
   return (
     <div className="Pointer" style={{
-      transform: `translate(${x}px, ${y}px)`,
-      height
+      top: 0,
+      transform: `translate(${x}px, 0px)`,
+      height,
+      width,
+      background: 'var(--accent)',
+      zIndex:100,
     }}>
-      {children}
+      <div class="position-absolute" style={{
+        transform: `translate(0px, ${y}px)`
+      }}>
+        {children}
+      </div>
     </div>
   )
 }

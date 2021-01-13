@@ -3,7 +3,8 @@
  * Inspired by Mike Bostock's Streamgraph & Lee Byron’s test data generator:
  * https://bl.ocks.org/mbostock/4060954
  */
-import React from 'react'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Stack } from '@visx/shape'
 import { scaleOrdinal } from 'd3-scale'
 import { animated, useSpring } from 'react-spring'
@@ -20,6 +21,7 @@ const Streamgraph = ({
   stackOffset = 'wiggle',
   animate = true, className, style, data=[], encoding={}, focus=[]
 }) => {
+  const { t } = useTranslation()
   const [{ width, height, windowDimensions }, ref] = useBoundingClientRect()
   const {
     // xMin, xMax, yMin, yMax,
@@ -30,12 +32,34 @@ const Streamgraph = ({
   } = useStackProps({ encoding, data, width, height, stackOffset })
   // console.info('Streamgraph rendering', values, xMin, xMax, yMin, yMax)
   // console.info('render Streamgraph', windowDimensions, width, height, xScale(new Date()))
-  const handleMouseMove = () => {
-    console.info('handleMouseMove!!!!!')
+  const [pointer, setPointer] = useState({
+    x: null,
+    y: null,
+    d: null,
+    xInverted: null,
+    key: null
+  })
+
+  const handleMouseMove = (e) => {
+    const boundingRect = e.currentTarget.getBoundingClientRect();
+    console.info('handleMouseMove: ', e.pageX - boundingRect.x, e.clientY)
+    setPointer({
+      ...pointer,
+      x: e.clientX - boundingRect.x,
+      y: e.clientY - boundingRect.y,
+      xInverted: xScale.invert(e.clientX - boundingRect.x)
+    })
+  }
+  const handleMouseEnter = (key) => {
+    // console.info('handleMouseFuu!!!!!', key, pointer)
+    setPointer({
+      ...pointer,
+      key,
+    })
   }
 
   return (
-    <div style={style} className={`${className} h-100 w-100`} ref={ref}>
+    <div style={style} className={`${className} h-100 w-100`} ref={ref} onMouseMove={handleMouseMove}>
       {width > 0 && (
         <>
         <svg width={width} height={height}>
@@ -54,7 +78,7 @@ const Streamgraph = ({
                 const tweened = animate ? useSpring({ d: path(stack) }) : { d: path(stack) };
                 const color = colorScale(stack.key);
                 return (
-                  <g key={`series-${stack.key}`}>
+                  <g className="Stack_layer" onMouseEnter={() => handleMouseEnter(stack.key)} key={`series-${stack.key}`}>
                     <animated.path d={tweened.d || ''} fill={color} />
                   </g>
                 );
@@ -66,7 +90,14 @@ const Streamgraph = ({
             />
           </g>
         </svg>
-        <Pointer availableWidth={width} availableHeight={height} />
+        <Pointer {...pointer} height={height} width={1} availableWidth={width} availableHeight={height}>
+          <div className="Stack_Pointer">
+            <span className="py-1 px-2 rounded">
+              {pointer.key} - {t('dates.precise', {
+                date: pointer.xInverted
+              })}</span>
+          </div>
+        </Pointer>
         </>
       )}
     </div>
