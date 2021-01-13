@@ -141,9 +141,42 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+     "jdh": {
+       "module": "text_object",
+       "background": {
+         "color": "var(--gray-200)"
+       },
+       "text": {
+         "color": "var(--accent)",
+         "bootstrapColumLayout": {
+           "md": {
+             "offset":0,
+             "span": 6,
+             "order": 12
+           }
+         }
+       },
+       "object": {
+         "type": "text",
+         "source": [
+           "## 140.000 tweets",
+           "> A quiet explanation"
+         ],
+         "bootstrapColumLayout": {
+           "md": {
+             "offset":1,
+             "span": 3,
+             "order": 1
+           }
+         },
+         "cssClassName": ["text-right", "text-dark"]
+       }
+     }
+   },
    "source": [
-    "Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2)."
+    "Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2).",
+    "Aussi, Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2)."
    ]
   },
   {
@@ -196,7 +229,13 @@
           "background": {
             "color": "var(--primary)"
           },
-          "border": "1px solid transparent"
+          "border": "1px solid transparent",
+          "source": [
+            "figure caption."
+          ],
+          "data": {
+            "copyright": "CC 2020"
+          }
         }
       }
     },
