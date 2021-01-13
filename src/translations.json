@@ -140,6 +140,7 @@
       "errorsWithCount_plural": "<b>{{count}}</b> errors",
       "dates": {
         "short": "{{date, DD MMM YYYY}}",
+        "precise": "{{date, DD MMM YYYY hh:ss}}",
         "fromNow": "{{date, fromNow}}",
         "LLLL": "{{date, LLLL}}",
         "LLL": "{{date, LLL}}"
