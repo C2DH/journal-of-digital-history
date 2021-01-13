@@ -27,7 +27,7 @@ const renderMarkdownWithReferences = ({
 }) => {
   const references = []
   const content = markdownParser.render(sources)
-    .replace(/&lt;sup&gt;(\d+)&lt;\/sup&gt;/, (m, num) => {
+    .replace(/&lt;sup&gt;(\d+)&lt;\/sup&gt;/g, (m, num) => {
       // add footnote nuber and optionally the Author, year
       const reference = new ArticleReference({
         num,
@@ -95,6 +95,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         referenceIndex,
         citationsFromMetadata,
       })
+      // TODO: render paragraphs in metadata too!
       // get tokens 'heading_open' to get all h1,h2,h3 etc...
       const headerIdx = tokens.findIndex(t => t.type === 'heading_open');
       if (headerIdx > -1) {
