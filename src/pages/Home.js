@@ -57,7 +57,7 @@ const Home = () => {
       <Row>
         <Col md={{span:4, offset:2}}>
         {journalCells.map((props, i) => (
-          <ArticleCellContent key={i} hideIdx={false} {...props} idx={i+1}/>
+          <ArticleCellContent key={i} hideNum hideIdx={false} {...props} idx={i+1}/>
         ))}
         </Col>
         <Col md={{span:4, offset:0}}>
