@@ -16,9 +16,10 @@ const ArticleCell = ({
   progress, active = false,
   ...props
 }) => {
+  const cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout;
+  const cellModule = metadata.jdh?.module
+
   if (type === 'markdown') {
-    // according to module
-    const cellModule = metadata.jdh?.module
     if (cellModule === ModuleStack) {
       return <ArticleCellVisualisation metadata={metadata} progress={progress} active={active}/>
     }
@@ -45,7 +46,7 @@ const ArticleCell = ({
     return (
       <Container>
         <Row>
-          <Col {... BootstrapColumLayout}>
+          <Col {... cellBootstrapColumnLayout}>
             <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum}/>
           </Col>
         </Row>
@@ -56,7 +57,7 @@ const ArticleCell = ({
     return (
       <Container>
         <Row>
-          <Col {... BootstrapColumLayout}>
+          <Col {... cellBootstrapColumnLayout}>
             <div className="ArticleCellContent" id={`P${idx}`}>
               <div className="ArticleCellContent_num">{num}</div>
               <pre className="bg-dark text-white p-3">{content}</pre>
