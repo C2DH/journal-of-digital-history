@@ -32,7 +32,7 @@ const ArticleCell = ({
     }
     if (cellModule === ModuleQuote) {
       return (
-        <Container>
+        <Container >
           <Row>
             <Col md={{span: 10, offset: 1}}>
               <div className="ArticleCellQuote">
