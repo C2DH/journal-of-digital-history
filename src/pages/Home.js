@@ -6,7 +6,7 @@ import LangLink from '../components/LangLink'
 import { useStore } from '../store'
 import homePageContents from '../data/mock-api/mock-home-ipynb.json'
 import {getArticleTreeFromIpynb} from '../logic/ipynb'
-import ArticleCell from '../components/Article/ArticleCell'
+import ArticleCellContent from '../components/Article/ArticleCellContent'
 import MilestoneTimeline from '../components/MilestoneTimeline'
 import { IsPortrait } from '../constants'
 
@@ -38,13 +38,12 @@ const Home = () => {
             the Journal of Digital History (JDH) will set new standards in history publishing
             based on the principle of multi-layered articles.
           </h2>
-          <h2 className="sans" style={{
-            fontFamily: 'Fira Sans',
+          <h2 style={{
+            fontFamily: 'var(--font-family-sans-serif)',
             lineHeight: '1.75',
             marginBottom: '2rem',
             fontSize: 'inherit',
             fontWeight: 'normal',
-
           }}>
             Our journal aims to become the central
             hub of critical debate and discussion in
@@ -58,7 +57,7 @@ const Home = () => {
       <Row>
         <Col md={{span:4, offset:2}}>
         {journalCells.map((props, i) => (
-          <ArticleCell key={i} {...props} idx={i+1}/>
+          <ArticleCellContent key={i} hideIdx={false} {...props} idx={i+1}/>
         ))}
         </Col>
         <Col md={{span:4, offset:0}}>
@@ -68,7 +67,7 @@ const Home = () => {
         }}>
         <h2 className="mb-4">{t('pages.home.callForPaper')}</h2>
         {callForPapers.map((props, i) => (
-          <ArticleCell key={i} {...props} idx={i+1} hideIdx style={{lineHeight: 1.75}}/>
+          <ArticleCellContent key={i} {...props} idx={i+1} hideIdx hideNum style={{lineHeight: 1.75}}/>
         ))}
         <LangLink to='/submit' className="btn btn-block btn-primary btn-lg">{t('pages.home.submitAbstract')}</LangLink>
         </div>
@@ -82,7 +81,7 @@ const Home = () => {
       <Row>
         {editorialTeamCells.map((props, i) => (
           <Col key={i} md={{span:4, offset: i % 2 === 0 ? 2 : 0}}>
-          <ArticleCell {...props} idx="▲"/>
+          <ArticleCellContent hideNum hideIdx={false} {...props} idx="▲"/>
           </Col>
         ))}
       </Row>
@@ -92,7 +91,7 @@ const Home = () => {
         </Col>*/}
         {editorialBoardCells.map((props, i) => (
           <Col key={i} md={{span:4, offset: i % 2 === 0 ? 2 : 0}}>
-          <ArticleCell {...props} idx="▲"/>
+          <ArticleCellContent hideNum hideIdx={false} {...props} idx="▲"/>
           </Col>
         ))}
       </Row>
