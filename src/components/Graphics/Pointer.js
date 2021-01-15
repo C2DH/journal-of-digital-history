@@ -10,7 +10,7 @@ const Pointer = ({ x, y, width, height, availableWidth, availableHeight, childre
       background: 'var(--accent)',
       zIndex:100,
     }}>
-      <div class="position-absolute" style={{
+      <div className="position-absolute" style={{
         transform: `translate(0px, ${y}px)`
       }}>
         {children}
