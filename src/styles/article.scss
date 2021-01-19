@@ -1,0 +1,111 @@
+
+.ArticleCellContent {
+  position: relative;
+}
+
+.ArticleCellContent_num {
+  position: absolute;
+  left: -25px;
+  width: 20px;
+  text-align: right;
+  font-family: var(--font-family-monospace);
+  color: var(--gray-600)
+}
+
+.ArticleCellContent_idx {
+  position: absolute;
+  left: -35px;
+  width: 20px;
+  text-align: right;
+  font-family: var(--font-family-monospace);
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.ArticleCellQuote{
+  font-family: var(--font-family-serif);
+  font-size: var(--font-size-3);
+}
+
+.ArticleHeader_abstract{
+  font-size: var(--font-size-2);
+}
+
+.ArticleText_ArticleParagraph{
+  border-left: 2px solid transparent;
+  &.active{
+    border-left-color: var(--primary);
+  }
+}
+
+[class*='ArticleToc_Level_']{
+  width: var(--spacer-2);
+  height: var(--spacer-2);
+  border-radius: var(--spacer-1);
+}
+.ArticleToc_Level_H1{
+  margin-left: var(--negative-spacer-4);
+}
+
+.ArticleToc_Level_H2{
+  margin-left: var(--negative-spacer-3);
+}
+
+.ArticleToc_Level_H3{
+  margin-left: var(--negative-spacer-2);
+}
+
+.ArticleToc_Type_code{
+  border-radius: 0;
+  transform: rotate(45deg);
+  border: 1px solid var(--accent);
+}
+
+.ArticleToc_References{
+  background-color: var(--secondary);
+  width: var(--spacer-1);
+  height: var(--spacer-1);
+  border-radius: var(--spacer-1);
+}
+
+.ArticleReference_num{
+  display: none;
+}
+
+.ArticleReference{
+  margin-left: var(--spacer-1);
+  margin-right: var(--spacer-2);
+}
+
+.ArticleReference_shortRef{
+  font-weight: bold;
+  font-family: var(--font-family-monospace);
+  display: inline-block;
+}
+.ArticleReference_shortRef::before{
+  content:"(";
+}
+.ArticleReference_shortRef::after{
+  content:")";
+}
+.ArticleReference_pointer{
+  position: absolute;
+  left: var(--negative-spacer-3);
+  border-top: 1px solid var(--secondary);
+  border-bottom: 1px solid var(--secondary);
+}
+
+.ArticleCellVisualisation {
+  will-change: opacity;
+  transition: opacity .6s ease-in-out;
+}
+
+.ArticleCellVisualisation_step {
+  color: var(--dark);
+  will-change: opacity;
+  transition: opacity .6s ease-in-out;
+  opacity: 0;
+  &.active{
+    opacity: 1
+  }
+}

@@ -1,0 +1,7 @@
+.TrendLine_circle {
+  stroke: var(--secondary);
+  fill: transparent;
+  &.active{
+    fill: var(--secondary);
+  }
+}

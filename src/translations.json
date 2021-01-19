@@ -7,7 +7,11 @@
         "home": "Journal",
         "references": "References",
         "submit": "Abstract Submission",
-        "termsOfUse": "Terms of Use"
+        "termsOfUse": "Terms of Use",
+        "article": "narrative layer",
+        "articleHermeneutics": "hermeneutic layer",
+        "articleHermeneuticsData": "hermeneutic layer",
+        "articleData": "data"
       },
       "title": "Journal of <br/>Digital History",
       "titleInline": "Journal of Digital History",
@@ -52,6 +56,10 @@
           "datasetDetailsUrl": "Link URL",
           "datasetDetailsLabel": "Link Description, License (where applicable)",
           "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply."
+        },
+        "article": {
+          "loadedFromRemoteURL": "<b>Note</b>: this ipython notebook has been loaded from: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>",
+          "tryRemoteURL": "Try another notebook"
         },
         "home": {
           "latestIssues": "Latest Issues",
@@ -137,6 +145,7 @@
       "errorsWithCount_plural": "<b>{{count}}</b> errors",
       "dates": {
         "short": "{{date, DD MMM YYYY}}",
+        "precise": "{{date, DD MMM YYYY hh:ss}}",
         "fromNow": "{{date, fromNow}}",
         "LLLL": "{{date, LLLL}}",
         "LLL": "{{date, LLL}}"

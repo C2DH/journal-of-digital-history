@@ -55,6 +55,7 @@ const Abstract = lazy(() => import('./pages/Abstract'))
 const MockAbstract = lazy(() => import('./pages/MockAbstract'))
 const TermsOfUse = lazy(() => import('./pages/TermsOfUse'))
 const Playground = lazy(() => import('./pages/Playground'))
+const Notebook = lazy(() => import('./pages/Notebook'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 const { startLangShort, lang } = getStartLang()
@@ -92,7 +93,7 @@ function LangRoutes() {
       <Route exact path={`${path}/about`}>
         <About />
       </Route>
-      <Route exact path={`${path}/article`}>
+      <Route exact path={`${path}/article/:layer?`}>
         <Article />
       </Route>
       <Route exact path={`${path}/abstract`}>
@@ -110,11 +111,14 @@ function LangRoutes() {
       <Route exact path={`${path}/submit`}>
         <AbstractSubmission />
       </Route>
+      <Route path={`${path}/notebook/:encodedUrl?`}>
+        <Notebook />
+      </Route>
       <Route exact path={`${path}/playground`}>
         <Playground />
       </Route>
       <Route path={`${path}*`}>
-        <NotFound />
+        <NotFound path={path}/>
       </Route>
     </Switch>
   )

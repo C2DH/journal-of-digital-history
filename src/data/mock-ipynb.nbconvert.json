@@ -2,7 +2,11 @@
  "cells": [
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+     "jdh": {
+       "section": "title"
+     }
+   },
    "source": [
     "#  Commémorations, scandale et circulation de l’information"
    ]
@@ -16,14 +20,46 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+     "jdh": {
+       "section": "abstract"
+     }
+   },
    "source": [
     "Le Centenaire de la Grande Guerre fait l’objet de nombreuses commémorations. Sur le réseau social numérique Twitter, des millions de tweets l’évoquent. En analysant des données collectées sur Twitter, cet article, après avoir donné une vision générale des traces du centenaire sur ce réseau, se penche sur le cas des commémorations polémiques de la bataille de Verdun."
    ]
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+     "jdh": {
+       "section": "contributor"
+     }
+   },
+   "source": [
+    "### Frédéric Clavert\n",
+    "University of Luxembourg"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+     "jdh": {
+       "section": "contributor"
+     }
+   },
+   "source": [
+    "### Maria Biryukov\n",
+    "University of Luxembourg"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+     "jdh": {
+       "section": "keywords"
+     }
+   },
    "source": [
     "Centenaire, Twitter, Grande Guerre, Verdun, scandale"
    ]
@@ -44,6 +80,28 @@
   },
   {
    "cell_type": "markdown",
+   "metadata": {
+     "jdh": {
+       "layer": "hermeneutics"
+     }
+   },
+   "source": [
+     "## Note on the usage of Topic models in Twitter"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+     "jdh": {
+       "layer": "hermeneutics"
+     }
+   },
+   "source": [
+     "Paragraph 2 This is hermeneutics! avec references and ect"
+   ]
+  },
+  {
+   "cell_type": "markdown",
    "metadata": {},
    "source": [
     "## Introduction"
@@ -58,14 +116,46 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+     "jdh": {
+       "module": "hermeneutics"
+     }
+   },
    "source": [
     "Nous allons nous pencher plus spécifiquement sur l’usage de Twitter pendant le Centenaire. Créé en mars 2006, Twitter est un réseau social numérique dit de *microblogging*, permettant de publier sur la plateforme twitter.com de courts messages de 140 caractères à l’origine, 280 depuis novembre 2017. Ces messages peuvent être retweetés, c’est-à-dire cités tel quel ou avec un commentaire. Un utilisateur peut en mentionner un (ou plusieurs) autre(s) en écrivant leurs pseudonymes commencé par « @ » pour, par exemple, entamer une discussion. Il peut également insérer un hashtag ou « mot-dièse », c’est-à-dire un mot-clé précédé d’un croisillon (« # »). L’usage du hashtag, fonctionnalité inventée par les utilisateurs de Twitter, peut correspondre à différentes pratiques : valoriser une idée, ironiser ou rejoindre un sujet plus largement discuté par d’autres comptes Twitter. Ces derniers sont d’une très grande variété : comptes institutionnels, comptes personnels mais aussi comptes automatisés de diverses natures (*bots*)."
    ]
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+     "jdh": {
+       "module": "text_object",
+       "text": {
+         "bootstrapColumLayout": {
+           "md": {
+             "offset":0,
+             "span": 7,
+             "order": 12
+           }
+         }
+       },
+       "object": {
+         "type": "text",
+         "source": [
+           "*Une **telle collecte de tweets** n’est pas sans poser d’importantes problématiques*",
+           "> A quiet explanation"
+         ],
+         "bootstrapColumLayout": {
+           "md": {
+             "offset":0,
+             "span": 2,
+             "order": 1
+           }
+         },
+         "cssClassName": ["text-right", "text-dark"]
+       }
+     }
+   },
    "source": [
     "Twitter, au contraire de Facebook par exemple, repose sur un modèle d’ouverture relative de l’accès à ses données. En avril 2014, nous avons ainsi pu démarrer une collecte de données autour du Centenaire de la Grande Guerre : en utilisant l’interface de programmation dite de streaming, nous avons collecté cinq millions de tweets environ jusqu’à aujourd’hui, sur la base de mots clés. La collecte continuera, dans la mesure du possible, jusqu’au centenaire du traité de Versailles signé avec l’Allemagne le 28 juin 1919. Toutefois, la version opérationnelles de la base de données que nous utilisons ici couvre la période allant d’avril 2014 à novembre 2016. Cette version de la base de données contient près de 3,5 millions de tweets, dont 1,1 million sont des tweets originaux et environ 2,4 millions sont des retweets. Ces tweets ont impliqué un peu plus de 840 000 utilisateurs. Ils contiennent en tout plus de 140 000 hashtags ou mots-dièses, dont 120 000 n’ont été utilisés que dix fois ou moins. Environ 85 % des tweets collectés sont en anglais, 10 % des tweets sont en français. Les 5 % restant sont en diverses langues. Peu d’entre eux sont en allemand : malgré des expositions et des publications en nombre important, la Grande Guerre n’est pas un objet mémoriel outre-Rhin.[<sup>1</sup>](#fn1)."
    ]
@@ -79,23 +169,318 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+     "jdh": {
+       "module": "text_object",
+       "backgroundColor-": "var(--gray-300)",
+       "text": {
+         "color": "var(--accent)",
+         "bootstrapColumLayout": {
+           "md": {
+             "offset":0,
+             "span": 7,
+             "order": 12
+           }
+         }
+       },
+       "object": {
+         "type": "text",
+         "source": [
+           "*Une **telle collecte de tweets** n’est pas sans poser d’importantes problématiques*",
+           "> A quiet explanation"
+         ],
+         "bootstrapColumLayout": {
+           "md": {
+             "offset":1,
+             "span": 3,
+             "order": 1
+           }
+         },
+         "cssClassName": ["text-right", "text-dark"]
+       }
+     }
+   },
    "source": [
-    "Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2)."
+    "Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2).",
+    "Aussi, Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2)."
    ]
+  },
+  {
+    "cell_type": "markdown",
+    "metadata": {
+      "jdh": {
+        "module": "text_object",
+        "text": {
+          "color": "var(--accent)",
+          "bootstrapColumLayout": {
+            "md": {
+              "offset":0,
+              "span": 3,
+              "order": 12
+            }
+          }
+        },
+        "object": {
+          "type": "vega",
+          "source": [
+            "## 140.000 tweets",
+            "> A quiet explanation"
+          ],
+          "component": "TrendLine",
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            "data": {
+              "values": [
+                { "t": "2014-01-01", "layer": "v0", "c": 20 },
+                { "t": "2014-01-08", "layer": "v0", "c": 10 },
+                { "t": "2014-01-15", "layer": "v0", "c": 40 },
+                { "t": "2014-01-22", "layer": "v0", "c": 50 },
+                { "t": "2014-01-28", "layer": "v0", "c": 70 },
+                { "t": "2014-04-02", "layer": "v0", "c": 9 }
+              ]
+            },
+            "transform": [{"filter": "datum.symbol==='GOOG'"}],
+            "mark": {
+              "type": "line",
+              "interpolate": "monotone"
+            },
+            "encoding": {
+              "x": {"field": "t", "type": "temporal"},
+              "y": {"field": "c", "type": "quantitative"}
+            }
+          },
+          "bootstrapColumLayout": {
+            "md": {
+              "offset":0,
+              "span": 8,
+              "order": 1
+            }
+          },
+          "cssClassName": ["bg-white"]
+        }
+      }
+    },
+    "source": [
+     "Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2).",
+     "Aussi, Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2)."
+    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
+   "source": [
+    "Twitter, au contraire de Facebook par exemple, repose sur un modèle d’ouverture relative de l’accès à ses données. En avril 2014, nous avons ainsi pu démarrer une collecte de données autour du Centenaire de la Grande Guerre : en utilisant l’interface de programmation dite de streaming, nous avons collecté cinq millions de tweets environ jusqu’à aujourd’hui, sur la base de mots clés. La collecte continuera, dans la mesure du possible, jusqu’au centenaire du traité de Versailles signé avec l’Allemagne le 28 juin 1919. Toutefois, la version opérationnelles de la base de données que nous utilisons ici couvre la période allant d’avril 2014 à novembre 2016. Cette version de la base de données contient près de 3,5 millions de tweets, dont 1,1 million sont des tweets originaux et environ 2,4 millions sont des retweets. Ces tweets ont impliqué un peu plus de 840 000 utilisateurs. Ils contiennent en tout plus de 140 000 hashtags ou mots-dièses, dont 120 000 n’ont été utilisés que dix fois ou moins. Environ 85 % des tweets collectés sont en anglais, 10 % des tweets sont en français. Les 5 % restant sont en diverses langues. Peu d’entre eux sont en allemand : malgré des expositions et des publications en nombre important, la Grande Guerre n’est pas un objet mémoriel outre-Rhin.[<sup>1</sup>](#fn1)."
+   ]
+  },
+  {
+    "cell_type": "markdown",
+    "metadata": {
+      "jdh": {
+        "module": "quote"
+      }
+    },
+    "source": [
+      "Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2)."
+    ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+     "jdh": {
+       "background": {
+         "color": "var(--primary)"
+       }
+     }
+   },
    "source": [
     "<span id=\"fn2\"><cite data-cite=\"7009778/GBFQ2FF7\"></cite></span>"
    ]
   },
   {
+    "cell_type": "markdown",
+    "metadata": {
+      "jdh": {
+        "module": "text_object",
+        "background": {
+          "color": "var(--primary)"
+        },
+        "text": {
+          "color": "var(--accent)",
+          "bootstrapColumLayout": {
+            "md": {
+              "offset":0,
+              "span": 4,
+              "order": 12
+            }
+          }
+        },
+        "object": {
+          "type": "vega",
+          "source": [
+            "## 140.000 tweets",
+            "> A quiet explanation"
+          ],
+          "position": "sticky",
+          "component": "TrendLine",
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            "data": {
+              "values": [
+                { "t": "2014-01-01", "layer": "v0", "c": 20 },
+                { "t": "2014-01-08", "layer": "v0", "c": 10 },
+                { "t": "2014-01-15", "layer": "v0", "c": 40 },
+                { "t": "2014-01-22", "layer": "v0", "c": 50 },
+                { "t": "2014-01-28", "layer": "v0", "c": 70 },
+                { "t": "2014-04-02", "layer": "v0", "c": 9 }
+              ]
+            },
+            "transform": [{"filter": "datum.symbol==='GOOG'"}],
+            "mark": {
+              "type": "line",
+              "interpolate": "monotone"
+            },
+            "encoding": {
+              "x": {"field": "t", "type": "temporal"},
+              "y": {"field": "c", "type": "quantitative"}
+            }
+          },
+          "bootstrapColumLayout": {
+            "md": {
+              "offset":0,
+              "span": 8,
+              "order": 1
+            }
+          },
+          "cssClassName": ["bg-white"]
+        }
+      }
+    },
+    "source": [
+      "Nous allons nous pencher plus spécifiquement sur l’usage de Twitter pendant le Centenaire. Créé en mars 2006, Twitter est un réseau social numérique dit de *microblogging*, permettant de publier sur la plateforme twitter.com de courts messages de 140 caractères à l’origine, 280 depuis novembre 2017. Ces messages peuvent être retweetés, c’est-à-dire cités tel quel ou avec un commentaire. Un utilisateur peut en mentionner un (ou plusieurs) autre(s) en écrivant leurs pseudonymes commencé par « @ » pour, par exemple, entamer une discussion. Il peut également insérer un hashtag ou « mot-dièse », c’est-à-dire un mot-clé précédé d’un croisillon (« # »). L’usage du hashtag, fonctionnalité inventée par les utilisateurs de Twitter, peut correspondre à différentes pratiques : valoriser une idée, ironiser ou rejoindre un sujet plus largement discuté par d’autres comptes Twitter. Ces derniers sont d’une très grande variété : comptes institutionnels, comptes personnels mais aussi comptes automatisés de diverses natures (*bots*).",
+      "Nous allons nous pencher plus spécifiquement sur l’usage de Twitter pendant le Centenaire. Créé en mars 2006, Twitter est un réseau social numérique dit de *microblogging*, permettant de publier sur la plateforme twitter.com de courts messages de 140 caractères à l’origine, 280 depuis novembre 2017. Ces messages peuvent être retweetés, c’est-à-dire cités tel quel ou avec un commentaire. Un utilisateur peut en mentionner un (ou plusieurs) autre(s) en écrivant leurs pseudonymes commencé par « @ » pour, par exemple, entamer une discussion. Il peut également insérer un hashtag ou « mot-dièse », c’est-à-dire un mot-clé précédé d’un croisillon (« # »). L’usage du hashtag, fonctionnalité inventée par les utilisateurs de Twitter, peut correspondre à différentes pratiques : valoriser une idée, ironiser ou rejoindre un sujet plus largement discuté par d’autres comptes Twitter. Ces derniers sont d’une très grande variété : comptes institutionnels, comptes personnels mais aussi comptes automatisés de diverses natures (*bots*).",
+      "Nous allons nous pencher plus spécifiquement sur l’usage de Twitter pendant le Centenaire. Créé en mars 2006, Twitter est un réseau social numérique dit de *microblogging*, permettant de publier sur la plateforme twitter.com de courts messages de 140 caractères à l’origine, 280 depuis novembre 2017. Ces messages peuvent être retweetés, c’est-à-dire cités tel quel ou avec un commentaire. Un utilisateur peut en mentionner un (ou plusieurs) autre(s) en écrivant leurs pseudonymes commencé par « @ » pour, par exemple, entamer une discussion. Il peut également insérer un hashtag ou « mot-dièse », c’est-à-dire un mot-clé précédé d’un croisillon (« # »). L’usage du hashtag, fonctionnalité inventée par les utilisateurs de Twitter, peut correspondre à différentes pratiques : valoriser une idée, ironiser ou rejoindre un sujet plus largement discuté par d’autres comptes Twitter. Ces derniers sont d’une très grande variété : comptes institutionnels, comptes personnels mais aussi comptes automatisés de diverses natures (*bots*).",
+      "Nous allons nous pencher plus spécifiquement sur l’usage de Twitter pendant le Centenaire. Créé en mars 2006, Twitter est un réseau social numérique dit de *microblogging*, permettant de publier sur la plateforme twitter.com de courts messages de 140 caractères à l’origine, 280 depuis novembre 2017. Ces messages peuvent être retweetés, c’est-à-dire cités tel quel ou avec un commentaire. Un utilisateur peut en mentionner un (ou plusieurs) autre(s) en écrivant leurs pseudonymes commencé par « @ » pour, par exemple, entamer une discussion. Il peut également insérer un hashtag ou « mot-dièse », c’est-à-dire un mot-clé précédé d’un croisillon (« # »). L’usage du hashtag, fonctionnalité inventée par les utilisateurs de Twitter, peut correspondre à différentes pratiques : valoriser une idée, ironiser ou rejoindre un sujet plus largement discuté par d’autres comptes Twitter. Ces derniers sont d’une très grande variété : comptes institutionnels, comptes personnels mais aussi comptes automatisés de diverses natures (*bots*)."
+    ]
+  },
+  {
+    "cell_type": "markdown",
+    "metadata": {
+      "jdh": {
+        "layer": "data",
+        "module": "stack",
+        "object": "svg",
+        "visualisation": "Streamgraph",
+        "legend": {
+          "t": "week",
+          "v0": "v0",
+          "v1": "v1",
+          "v2": "v2"
+        },
+        "mark": "area",
+        "data": {
+          "values": [
+            { "t": "2014-01-01", "layer": "v0", "c": 20 },
+            { "t": "2014-01-01", "layer": "v1", "c": 30 },
+            { "t": "2014-01-01", "layer": "v2", "c": 30 },
+            { "t": "2014-01-01", "layer": "v3", "c": 3 },
+            { "t": "2014-01-08", "layer": "v0", "c": 10 },
+            { "t": "2014-01-08", "layer": "v1", "c": 30 },
+            { "t": "2014-01-08", "layer": "v2", "c": 5 },
+            { "t": "2014-01-08", "layer": "v3", "c": 5 },
+            { "t": "2014-01-15", "layer": "v0", "c": 40 },
+            { "t": "2014-01-15", "layer": "v1", "c": 10 },
+            { "t": "2014-01-15", "layer": "v2", "c": 5 },
+            { "t": "2014-01-15", "layer": "v3", "c": 8 },
+            { "t": "2014-01-22", "layer": "v0", "c": 40 },
+            { "t": "2014-01-22", "layer": "v1", "c": 10 },
+            { "t": "2014-01-22", "layer": "v2", "c": 20 },
+            { "t": "2014-01-22", "layer": "v3", "c": 11 },
+            { "t": "2014-01-29", "layer": "v0", "c": 20 },
+            { "t": "2014-01-29", "layer": "v1", "c": 30 },
+            { "t": "2014-01-29", "layer": "v2", "c": 30 },
+            { "t": "2014-01-29", "layer": "v3", "c": 14 },
+            { "t": "2014-02-05", "layer": "v0", "c": 10 },
+            { "t": "2014-02-05", "layer": "v1", "c": 7 },
+            { "t": "2014-02-05", "layer": "v2", "c": 9 },
+            { "t": "2014-02-05", "layer": "v3", "c": 14 },
+            { "t": "2014-02-12", "layer": "v0", "c": 14 },
+            { "t": "2014-02-12", "layer": "v1", "c": 21 },
+            { "t": "2014-02-12", "layer": "v2", "c": 11 },
+            { "t": "2014-02-12", "layer": "v3", "c": 17 },
+            { "t": "2014-02-19", "layer": "v0", "c": 10 },
+            { "t": "2014-02-19", "layer": "v1", "c": 25 },
+            { "t": "2014-02-19", "layer": "v2", "c": 13 },
+            { "t": "2014-02-19", "layer": "v3", "c": 10 },
+            { "t": "2014-02-26", "layer": "v0", "c": 3 },
+            { "t": "2014-02-26", "layer": "v1", "c": 15 },
+            { "t": "2014-02-26", "layer": "v2", "c": 12 },
+            { "t": "2014-02-26", "layer": "v3", "c": 9 },
+            { "t": "2014-03-05", "layer": "v0", "c": 3 },
+            { "t": "2014-03-05", "layer": "v1", "c": 15 },
+            { "t": "2014-03-05", "layer": "v2", "c": 12 },
+            { "t": "2014-03-05", "layer": "v3", "c": 9 },
+            { "t": "2014-03-12", "layer": "v0", "c": 3 },
+            { "t": "2014-03-12", "layer": "v1", "c": 15 },
+            { "t": "2014-03-12", "layer": "v2", "c": 12 },
+            { "t": "2014-03-12", "layer": "v3", "c": 9 },
+            { "t": "2014-03-19", "layer": "v0", "c": 3 },
+            { "t": "2014-03-19", "layer": "v1", "c": 15 },
+            { "t": "2014-03-19", "layer": "v2", "c": 12 },
+            { "t": "2014-03-19", "layer": "v3", "c": 9 },
+            { "t": "2014-03-26", "layer": "v0", "c": 3 },
+            { "t": "2014-03-26", "layer": "v1", "c": 25 },
+            { "t": "2014-03-26", "layer": "v2", "c": 12 },
+            { "t": "2014-03-26", "layer": "v3", "c": 9 },
+            { "t": "2014-04-02", "layer": "v0", "c": 3 },
+            { "t": "2014-04-02", "layer": "v1", "c": 15 },
+            { "t": "2014-04-02", "layer": "v2", "c": 15 },
+            { "t": "2014-04-02", "layer": "v3", "c": 9 }
+          ]
+        },
+        "encoding": {
+          "x": { "field": "t", "type": "date", "format": "YYYY-MM-DD" },
+          "y": { "aggregate": "sum", "field": "c", "type": "quantitative" },
+          "color": { "field": "layer", "scale": { "scheme": "category20b" } }
+        },
+        "steps": [
+          {
+            "source": ["1 first paragraph"],
+            "bootstrapColumLayout": {
+              "md": { "span":3, "offset":2 },
+              "xl": { "span":12, "offset":0 }
+            },
+            "justifyContent": "start",
+            "stackOffset": "diverging"
+          },
+          {
+            "source": ["2 second paragraph"],
+            "focus": [0, 3],
+            "stackOffset": "silhouette"
+          },
+          {
+            "source": ["3 third **paragraph**"],
+            "focus": [15, 22, 5],
+            "stackOffset": "wiggle"
+          },
+          {
+            "source": ["4 fourth [paragraph](https://sep.io)"],
+            "stackOffset": "expand"
+          }
+        ]
+      }
+    },
+    "source": [
+      "first paragraph",
+      "second paragraph",
+      "third **paragraph**",
+      "fourth [paragraph](https://sep.io)"
+    ]
+  },
+  {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "L’un des intérêts de ce projet de recherche est de s’interroger sur les interactions pouvant exister entre les commémorations, les traces de mémoire collective d’un côté, l’usage des réseaux sociaux numériques et plus particulièrement de Twitter d’un autre. Pour ce faire, nous utilisons des procédés dits de lecture distante, notamment tels qu’exposés dans *Graphs, maps and trees* de Franco Moretti [<sup>3</sup>](#fn3). Définie de manière très rapide, la lecture distante consiste à demander à l’ordinateur de lire pour nous, lorsque la masse de données à exploiter est trop importante pour une lecture humaine, proche de nos sources. Concrètement, il s’agit d’utiliser des outils informatiques : visualisation de données (dont celle des réseaux sociaux) ou fouille de texte, c’est-à-dire une approche statistique du texte, par exemple. Nous articulons toutefois cette lecture distante avec une lecture plus proche de nos sources (Clavert, 2014) : nous allons employer une méthode utilisant ainsi une approche macroscopique pour comprendre le contexte large des échos du Centenaire sur Twitter, puis nous passerons progressivement à une approche au microscope permettant de mieux comprendre un ensemble de deux événements, qui, dans le contexte large, apparaissent comme particuliers : l’annulation d’un concert du rappeur français Black M et la commémoration franco-allemande de la bataille de Verdun du 29 mai 2016."
+    "Oh L’un des intérêts de ce projet de recherche est de s’interroger sur les interactions pouvant exister entre les commémorations, les traces de mémoire collective d’un côté, l’usage des réseaux sociaux numériques et plus particulièrement de Twitter d’un autre. Pour ce faire, nous utilisons des procédés dits de lecture distante, notamment tels qu’exposés dans *Graphs, maps and trees* de Franco Moretti [<sup>3</sup>](#fn3). Définie de manière très rapide, la lecture distante consiste à demander à l’ordinateur de lire pour nous, lorsque la masse de données à exploiter est trop importante pour une lecture humaine, proche de nos sources. Concrètement, il s’agit d’utiliser des outils informatiques : visualisation de données (dont celle des réseaux sociaux) ou fouille de texte, c’est-à-dire une approche statistique du texte, par exemple. Nous articulons toutefois cette lecture distante avec une lecture plus proche de nos sources (Clavert, 2014) : nous allons employer une méthode utilisant ainsi une approche macroscopique pour comprendre le contexte large des échos du Centenaire sur Twitter, puis nous passerons progressivement à une approche au microscope permettant de mieux comprendre un ensemble de deux événements, qui, dans le contexte large, apparaissent comme particuliers : l’annulation d’un concert du rappeur français Black M et la commémoration franco-allemande de la bataille de Verdun du 29 mai 2016."
    ]
   },
   {
