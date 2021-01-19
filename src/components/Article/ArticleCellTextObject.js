@@ -7,7 +7,7 @@ const VegaWrapper = lazy(() => import('../Module/VegaWrapper'))
 
 const ArticleCellTextObject = ({ metadata, children, progress }) => {
   const textMetadata = metadata.jdh?.text ?? {}
-  const objectMetadata = metadata.jdh?.object ?? {}
+  const objectMetadata = useMemo(() => metadata.jdh?.object ?? {}, [metadata.jdh])
   const textColumnLayout = textMetadata.bootstrapColumLayout ?? {
     md: { offset:0, span: 6, order: 1 }
   }
