@@ -1,8 +1,65 @@
 import { useMemo } from 'react'
 import moment from 'moment'
 import groupBy from 'lodash/groupBy'
-import { extent } from 'd3-array'
+import { extent, bisectLeft } from 'd3-array'
 import { scaleTime, scaleLinear } from 'd3-scale'
+
+const getFromEncodingPosition = ({ type, field, format} = {}) => {
+  // The type of measurement ("quantitative", "temporal", "ordinal", or "nominal")
+  // for the encoded field or constant value (datum).
+  // It can also be a "geojson" type for encoding ‘geoshape’.
+  if (type === 'temporal') {
+    return [
+      (d) => moment.utc(d[field], d[format]),
+      scaleTime
+    ]
+  }
+  if (type === 'quantitative') {
+    return [
+      (d) => d[field],
+      scaleLinear // or TODO get some other scale rom encoding
+    ]
+  }
+}
+
+export const getClosestDatumIdxFromXY = ({x, y, xValues, yValues}) => {
+  const insertIdx = parseInt(bisectLeft(xValues, x), 10)
+  const closestDatumIdx = insertIdx === 0
+      ? 0
+      : (
+        Math.abs(x - xValues[insertIdx]) >  Math.abs(x - xValues[insertIdx - 1])
+        ? insertIdx - 1
+        : insertIdx
+      )
+  console.info('returning idx', closestDatumIdx)
+  return closestDatumIdx
+}
+
+export const useVegaliteProps = ({ encoding = {}, data, width, height }) => {
+  const { xMin, xMax, yMin, yMax, xScaleFn, yScaleFn, values } = useMemo(() => {
+    const [xFn, xScaleFn] = getFromEncodingPosition(encoding.x)
+    const [yFn, yScaleFn] = getFromEncodingPosition(encoding.y)
+    const xValues = []
+    const yValues = []
+    const values = data.values.map((d, i) => {
+      xValues.push(xFn(d))
+      yValues.push(yFn(d))
+      return {
+        ...d,
+        vx: xValues[i],
+        vy: yValues[i],
+      }
+    })
+
+    const [xMin, xMax] = extent(values, (d) => d.vx)
+    const [yMin, yMax] = extent(values, (d) => d.vy)
+    return { xMin, xMax, yMin, yMax, xValues, yValues, xScaleFn, yScaleFn, values }
+  }, [encoding, data])
+  // scales
+  const xScale = xScaleFn().domain([xMin, xMax]).range([0, width])
+  const yScale = yScaleFn().domain([yMin, yMax]).range([0, height])
+  return { xScale, yScale, xMin, xMax, yMin, yMax, values }
+}
 
 
 export const useStackProps = ({ encoding, data, width, height }) => {
