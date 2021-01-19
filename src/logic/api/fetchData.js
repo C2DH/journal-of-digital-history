@@ -8,10 +8,11 @@ const useGetNotebookFromURL = (url) => {
   const cache = useRef({});
   const [status, setStatus] = useState(StatusIdle);
   const [item, setItem] = useState(null);
-  console.info('useGetNotebookFromURL', url)
+  console.info('useGetNotebookFromURL', url, item)
   useEffect(() => {
     let cancelRequest = false;
     if (!url) {
+      setItem(null);
       setStatus(StatusNone);
       return;
     }
