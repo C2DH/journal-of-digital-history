@@ -127,7 +127,35 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+     "jdh": {
+       "module": "text_object",
+       "text": {
+         "bootstrapColumLayout": {
+           "md": {
+             "offset":0,
+             "span": 7,
+             "order": 12
+           }
+         }
+       },
+       "object": {
+         "type": "text",
+         "source": [
+           "*Une **telle collecte de tweets** n’est pas sans poser d’importantes problématiques*",
+           "> A quiet explanation"
+         ],
+         "bootstrapColumLayout": {
+           "md": {
+             "offset":0,
+             "span": 2,
+             "order": 1
+           }
+         },
+         "cssClassName": ["text-right", "text-dark"]
+       }
+     }
+   },
    "source": [
     "Twitter, au contraire de Facebook par exemple, repose sur un modèle d’ouverture relative de l’accès à ses données. En avril 2014, nous avons ainsi pu démarrer une collecte de données autour du Centenaire de la Grande Guerre : en utilisant l’interface de programmation dite de streaming, nous avons collecté cinq millions de tweets environ jusqu’à aujourd’hui, sur la base de mots clés. La collecte continuera, dans la mesure du possible, jusqu’au centenaire du traité de Versailles signé avec l’Allemagne le 28 juin 1919. Toutefois, la version opérationnelles de la base de données que nous utilisons ici couvre la période allant d’avril 2014 à novembre 2016. Cette version de la base de données contient près de 3,5 millions de tweets, dont 1,1 million sont des tweets originaux et environ 2,4 millions sont des retweets. Ces tweets ont impliqué un peu plus de 840 000 utilisateurs. Ils contiennent en tout plus de 140 000 hashtags ou mots-dièses, dont 120 000 n’ont été utilisés que dix fois ou moins. Environ 85 % des tweets collectés sont en anglais, 10 % des tweets sont en français. Les 5 % restant sont en diverses langues. Peu d’entre eux sont en allemand : malgré des expositions et des publications en nombre important, la Grande Guerre n’est pas un objet mémoriel outre-Rhin.[<sup>1</sup>](#fn1)."
    ]
@@ -144,13 +172,13 @@
    "metadata": {
      "jdh": {
        "module": "text_object",
-       "backgroundColor": "var(--gray-300)",
+       "backgroundColor-": "var(--gray-300)",
        "text": {
          "color": "var(--accent)",
          "bootstrapColumLayout": {
            "md": {
              "offset":0,
-             "span": 6,
+             "span": 7,
              "order": 12
            }
          }
@@ -158,7 +186,7 @@
        "object": {
          "type": "text",
          "source": [
-           "## 140.000 tweets",
+           "*Une **telle collecte de tweets** n’est pas sans poser d’importantes problématiques*",
            "> A quiet explanation"
          ],
          "bootstrapColumLayout": {
@@ -175,6 +203,73 @@
    "source": [
     "Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2).",
     "Aussi, Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2)."
+   ]
+  },
+  {
+    "cell_type": "markdown",
+    "metadata": {
+      "jdh": {
+        "module": "text_object",
+        "text": {
+          "color": "var(--accent)",
+          "bootstrapColumLayout": {
+            "md": {
+              "offset":0,
+              "span": 3,
+              "order": 12
+            }
+          }
+        },
+        "object": {
+          "type": "vega",
+          "source": [
+            "## 140.000 tweets",
+            "> A quiet explanation"
+          ],
+          "component": "TrendLine",
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            "data": {
+              "values": [
+                { "t": "2014-01-01", "layer": "v0", "c": 20 },
+                { "t": "2014-01-08", "layer": "v0", "c": 10 },
+                { "t": "2014-01-15", "layer": "v0", "c": 40 },
+                { "t": "2014-01-22", "layer": "v0", "c": 50 },
+                { "t": "2014-01-28", "layer": "v0", "c": 70 },
+                { "t": "2014-04-02", "layer": "v0", "c": 9 }
+              ]
+            },
+            "transform": [{"filter": "datum.symbol==='GOOG'"}],
+            "mark": {
+              "type": "line",
+              "interpolate": "monotone"
+            },
+            "encoding": {
+              "x": {"field": "t", "type": "temporal"},
+              "y": {"field": "c", "type": "quantitative"}
+            }
+          },
+          "bootstrapColumLayout": {
+            "md": {
+              "offset":0,
+              "span": 8,
+              "order": 1
+            }
+          },
+          "cssClassName": ["bg-white"]
+        }
+      }
+    },
+    "source": [
+     "Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2).",
+     "Aussi, Une telle collecte de tweets n’est pas sans poser d’importantes problématiques méthodologiques. Si nous ne les évoquerons pas, nous renvoyons toutefois sur ces sujets nos lecteurs à nos publications antérieures.[<sup>2</sup>](#fn2)."
+    ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Twitter, au contraire de Facebook par exemple, repose sur un modèle d’ouverture relative de l’accès à ses données. En avril 2014, nous avons ainsi pu démarrer une collecte de données autour du Centenaire de la Grande Guerre : en utilisant l’interface de programmation dite de streaming, nous avons collecté cinq millions de tweets environ jusqu’à aujourd’hui, sur la base de mots clés. La collecte continuera, dans la mesure du possible, jusqu’au centenaire du traité de Versailles signé avec l’Allemagne le 28 juin 1919. Toutefois, la version opérationnelles de la base de données que nous utilisons ici couvre la période allant d’avril 2014 à novembre 2016. Cette version de la base de données contient près de 3,5 millions de tweets, dont 1,1 million sont des tweets originaux et environ 2,4 millions sont des retweets. Ces tweets ont impliqué un peu plus de 840 000 utilisateurs. Ils contiennent en tout plus de 140 000 hashtags ou mots-dièses, dont 120 000 n’ont été utilisés que dix fois ou moins. Environ 85 % des tweets collectés sont en anglais, 10 % des tweets sont en français. Les 5 % restant sont en diverses langues. Peu d’entre eux sont en allemand : malgré des expositions et des publications en nombre important, la Grande Guerre n’est pas un objet mémoriel outre-Rhin.[<sup>1</sup>](#fn1)."
    ]
   },
   {
@@ -214,26 +309,49 @@
           "bootstrapColumLayout": {
             "md": {
               "offset":0,
-              "span": 6,
+              "span": 4,
               "order": 12
             }
           }
         },
         "object": {
-          "type": "image",
-          "ratio": 1.2,
-          "position": "sticky",
-          "offsetTop": 50,
-          "background": {
-            "color": "var(--primary)"
-          },
-          "border": "1px solid transparent",
+          "type": "vega",
           "source": [
-            "figure caption."
+            "## 140.000 tweets",
+            "> A quiet explanation"
           ],
-          "data": {
-            "copyright": "CC 2020"
-          }
+          "position": "sticky",
+          "component": "TrendLine",
+          "spec": {
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            "data": {
+              "values": [
+                { "t": "2014-01-01", "layer": "v0", "c": 20 },
+                { "t": "2014-01-08", "layer": "v0", "c": 10 },
+                { "t": "2014-01-15", "layer": "v0", "c": 40 },
+                { "t": "2014-01-22", "layer": "v0", "c": 50 },
+                { "t": "2014-01-28", "layer": "v0", "c": 70 },
+                { "t": "2014-04-02", "layer": "v0", "c": 9 }
+              ]
+            },
+            "transform": [{"filter": "datum.symbol==='GOOG'"}],
+            "mark": {
+              "type": "line",
+              "interpolate": "monotone"
+            },
+            "encoding": {
+              "x": {"field": "t", "type": "temporal"},
+              "y": {"field": "c", "type": "quantitative"}
+            }
+          },
+          "bootstrapColumLayout": {
+            "md": {
+              "offset":0,
+              "span": 8,
+              "order": 1
+            }
+          },
+          "cssClassName": ["bg-white"]
         }
       }
     },
