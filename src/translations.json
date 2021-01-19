@@ -57,6 +57,10 @@
           "datasetDetailsLabel": "Link Description, License (where applicable)",
           "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply."
         },
+        "article": {
+          "loadedFromRemoteURL": "<b>Note</b>: this ipython notebook has been loaded from: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>",
+          "tryRemoteURL": "Try another notebook"
+        },
         "home": {
           "latestIssues": "Latest Issues",
           "latestArticles": "Latest Articles",

@@ -15,14 +15,13 @@ const Notebook = () => {
   const history = useHistory()
   const [value, setValue] = useState(null)
   const url = useMemo(() => {
-    console.info('get url', encodedUrl)
     try{
       return atob(encodedUrl)
     } catch(e) {
       console.warn(e)
     }
   }, [ encodedUrl ])
-  console.info('Notebook', url)
+  console.info('Notebook render:', url)
   // check url...
   const { status, item } = useGetNotebookFromURL(url)
   // fetch url if available.
@@ -39,7 +38,7 @@ const Notebook = () => {
   }
   return (
     <div>
-    {item !== null && <Article ipynb={item}/>}
+    {item !== null && <Article ipynb={item} url={url}/>}
     {status === StatusNone && (
         <Container className="mt-5">
           <Row>

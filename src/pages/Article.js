@@ -2,9 +2,9 @@ import React, { useMemo, useEffect } from 'react'
 import {useParams} from 'react-router-dom'
 import {groupBy} from 'lodash'
 import { useStore } from '../store'
-import {useTranslation} from 'react-i18next'
-import { Container, Row, Col, Nav } from 'react-bootstrap'
-import LangNavLink from '../components/LangNavLink'
+import { useTranslation } from 'react-i18next'
+import { Container, Row, Col } from 'react-bootstrap'
+import LangLink from '../components/LangLink'
 import ArticleText from '../components/Article'
 import ArticleHeader from '../components/Article/ArticleHeader'
 import ArticleBilbiography from '../components/Article/ArticleBibliography'
@@ -15,12 +15,12 @@ import {
   LayerHermeneutics, LayerHermeneuticsData,
   LayerData,
   BootstrapColumLayout,
-  ArticleRoute,
-  ArticleHermeneuticsDataRoute
+  // ArticleRoute,
+  // ArticleHermeneuticsDataRoute
 } from '../constants'
 
 
-const Article = ({ ipynb}) => {
+const Article = ({ ipynb, url }) => {
   const { layer } = useParams() // hermeneutics, hermeneutics+data, narrative
   const { t } = useTranslation()
   const articleTree = useMemo(() => getArticleTreeFromIpynb({
@@ -54,22 +54,23 @@ const Article = ({ ipynb}) => {
   return (
     <div className="page mt-5">
       <ArticleHeader {... {title, abstract, keywords, contributor}}/>
-      <Container className="mt-5" style={{position: 'sticky', top: 5, zIndex: 100 }}>
-        <Row>
-          <Col {...BootstrapColumLayout} >
-            <Nav variant="pills" className="justify-content-center">
-              <Nav.Item>
-                <LangNavLink to={ArticleRoute.to} exact>{t(ArticleRoute.label)}</LangNavLink>
-              </Nav.Item>
-              <Nav.Item>
-                <LangNavLink to={ArticleHermeneuticsDataRoute.to} exact>{t(ArticleHermeneuticsDataRoute.label)}</LangNavLink>
-              </Nav.Item>
-            </Nav>
-          </Col>
-        </Row>
-      </Container>
+      {url && (
+        <Container>
+          <Row>
+            <Col {...BootstrapColumLayout}>
+              <p className="p-2 bg-gray-300" dangerouslySetInnerHTML={{
+                __html: t('pages.article.loadedFromRemoteURL', { url })
+              }} />
+              <LangLink to='/notebook'>{t('pages.article.tryRemoteURL')}</LangLink>
+            </Col>
+          </Row>
+        </Container>
+      )}
       <ArticleText articleTree={articleTree} contents={contents}/>
-      <ArticleBilbiography articleTree={articleTree} />
+      {articleTree?.bibliography
+        ? (<ArticleBilbiography articleTree={articleTree} />)
+        : null
+      }
     </div>
   );
 }
