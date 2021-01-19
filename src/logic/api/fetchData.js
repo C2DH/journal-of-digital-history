@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
 import AbstractSubmission from '../../models/AbstractSubmission'
-import { StatusIdle, StatusFetching, StatusSuccess } from '../../constants'
+import { StatusIdle, StatusFetching, StatusSuccess, StatusNone } from '../../constants'
 
 
 const useGetNotebookFromURL = (url) => {
@@ -11,7 +11,10 @@ const useGetNotebookFromURL = (url) => {
   console.info('useGetNotebookFromURL', url)
   useEffect(() => {
     let cancelRequest = false;
-    if (!url) return;
+    if (!url) {
+      setStatus(StatusNone);
+      return;
+    }
     const fetchData = async () => {
       setStatus(StatusFetching);
       if (cache.current[url]) {
