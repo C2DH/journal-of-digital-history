@@ -34,6 +34,7 @@ export const StatusIdle = 'IDLE'
 export const StatusFetching = 'FETCHING'
 export const StatusSuccess = 'OK'
 export const StatusError = 'ERR'
+export const StatusNone = 'NONE'
 
 export const ModuleStack = 'stack'
 export const ModuleTextObject = 'text_object'

@@ -111,7 +111,7 @@ function LangRoutes() {
       <Route exact path={`${path}/submit`}>
         <AbstractSubmission />
       </Route>
-      <Route path={`${path}/notebook`}>
+      <Route path={`${path}/notebook/:encodedUrl?`}>
         <Notebook />
       </Route>
       <Route exact path={`${path}/playground`}>
