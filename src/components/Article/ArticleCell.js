@@ -19,30 +19,31 @@ const ArticleCell = ({
   const cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout;
   const cellModule = metadata.jdh?.module
 
+  if (cellModule === ModuleStack) {
+    return <ArticleCellVisualisation metadata={metadata} progress={progress} active={active}/>
+  }
+  if (cellModule === ModuleTextObject) {
+    return (
+      <ArticleCellTextObject metadata={metadata} progress={progress} active={active}>
+        <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum}/>
+      </ArticleCellTextObject>
+    )
+  }
+  if (cellModule === ModuleQuote) {
+    return (
+      <Container >
+        <Row>
+          <Col md={{span: 10, offset: 1}}>
+            <div className="ArticleCellQuote">
+              <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum} />
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    )
+  }
+
   if (type === 'markdown') {
-    if (cellModule === ModuleStack) {
-      return <ArticleCellVisualisation metadata={metadata} progress={progress} active={active}/>
-    }
-    if (cellModule === ModuleTextObject) {
-      return (
-        <ArticleCellTextObject metadata={metadata} progress={progress} active={active}>
-          <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum}/>
-        </ArticleCellTextObject>
-      )
-    }
-    if (cellModule === ModuleQuote) {
-      return (
-        <Container >
-          <Row>
-            <Col md={{span: 10, offset: 1}}>
-              <div className="ArticleCellQuote">
-                <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum} />
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      )
-    }
     return (
       <Container>
         <Row>

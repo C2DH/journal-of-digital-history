@@ -1,6 +1,8 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, lazy } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { markdownParser } from '../../logic/ipynb'
+
+const VegaWrapper = lazy(() => import('../Module/VegaWrapper'))
 
 
 const ArticleCellTextObject = ({ metadata, children, progress }) => {
@@ -12,10 +14,6 @@ const ArticleCellTextObject = ({ metadata, children, progress }) => {
   const objectColumnLayout = objectMetadata.bootstrapColumLayout ?? {
     md: { offset:0, span: 6, order: 2 }
   }
-  const objectRatio = isNaN(objectMetadata.ratio)
-    ? 1.0
-    : objectMetadata.ratio
-
   const objectContents = useMemo(() => {
     if (Array.isArray(objectMetadata.source)) {
       return markdownParser.render(objectMetadata.source.join('\n'))
@@ -26,6 +24,30 @@ const ArticleCellTextObject = ({ metadata, children, progress }) => {
     ? objectMetadata.cssClassName
     : []
 
+  let objectWrapperStyle = {
+    backgroundColor: objectMetadata.background?.color,
+    border: objectMetadata.border,
+    height: '100%',
+    width: '100%'
+  }
+
+  if (objectMetadata.position === 'sticky') {
+    objectWrapperStyle = {
+      ...objectWrapperStyle,
+      position: 'sticky',
+      top: window.innerHeight *.1,
+      height: window.innerHeight *.8
+    }
+  }
+
+  if(!isNaN(objectMetadata.ratio)) {
+    objectWrapperStyle = {
+      ...objectWrapperStyle,
+      paddingTop: `${objectMetadata.ratio * 100}%`,
+      boxSizing: 'border-box',
+    }
+  }
+
   return (
     <Container>
       <Row>
@@ -33,22 +55,21 @@ const ArticleCellTextObject = ({ metadata, children, progress }) => {
           {children}
         </Col>
         <Col {... objectColumnLayout}>
+          <div style={objectWrapperStyle} className={objectClassName.join(' ')}>
           {['image', 'video', 'map'].includes(objectMetadata.type) && (
-            <div style={{
-              position: String(objectMetadata.position),
-              top: objectMetadata.offsetTop,
-              paddingTop: `${objectRatio * 100}%`,
-              boxSizing: 'border-box',
-              background: objectMetadata.background?.color,
-              border: objectMetadata.border
-            }}>
+            <>
               {progress}
               <div dangerouslySetInnerHTML={{__html: objectContents}}></div>
-            </div>
+            </>
+          )}
+          {['vega'].includes(objectMetadata.type) && (
+            <VegaWrapper metadata={objectMetadata}
+            />
           )}
           {['text'].includes(objectMetadata.type) && (
-            <div className={objectClassName.join(' ')} dangerouslySetInnerHTML={{__html: objectContents}}></div>
+            <div dangerouslySetInnerHTML={{__html: objectContents}}></div>
           )}
+          </div>
         </Col>
       </Row>
     </Container>
