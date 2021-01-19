@@ -53,6 +53,12 @@ html,
   text-rendering: optimizeLegibility;
 }
 
+@each $bp, $value in $grays {
+  .bg-gray-#{$bp} {
+    background-color: #{$value};
+  }
+}
+
 .navbar-light .navbar-brand{
   font-family: var(--font-family-sans-serif);
   font-size: .9rem;
@@ -266,6 +272,17 @@ blockquote.code{
 }
 .pointer-events-auto{
   pointer-events: auto;
+}
+
+// override background only
+.hljs {
+  background-color: var(--dark) !important;
+}
+.hljs-string, .hljs-title, .hljs-name, .hljs-type, .hljs-attribute, .hljs-symbol, .hljs-bullet, .hljs-addition, .hljs-variable, .hljs-template-tag, .hljs-template-variable{
+  color: var(--yellowcrayola) !important;
+}
+.hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-section, .hljs-link{
+  color: var(--capri) !important;
 }
 // import styles scss named after their folder name in components/
 @import 'article';

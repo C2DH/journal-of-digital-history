@@ -2,6 +2,8 @@ import React, { lazy } from 'react';
 import { Container, Row, Col} from 'react-bootstrap'
 import ArticleCellOutput from './ArticleCellOutput'
 import ArticleCellContent from './ArticleCellContent'
+import ArticleCellSourceCode from './ArticleCellSourceCode'
+
 import {
   ModuleStack, ModuleTextObject,
   ModuleQuote, BootstrapColumLayout
@@ -61,7 +63,7 @@ const ArticleCell = ({
           <Col {... cellBootstrapColumnLayout}>
             <div className="ArticleCellContent" id={`P${idx}`}>
               <div className="ArticleCellContent_num">{num}</div>
-              <pre className="bg-dark text-white p-3">{content}</pre>
+              <ArticleCellSourceCode content={content} language="python" />
               {outputs.length
                 ? outputs.map((output,i) => <ArticleCellOutput output={output} key={i} />)
                 : <div>no output</div>
