@@ -64,6 +64,24 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       referenceIndex[citation[1]] = citation[2]
       cell.hidden = true
       cell.layer = 'citation'
+    } else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs)) {
+        // check whether ths cell outputs JDH metadata;
+        const cellOutputJdhMetadata = cell.outputs.find(d => d.metadata?.jdh?.module)
+        if (cellOutputJdhMetadata) {
+          // if yes, these metadata will be added to next cell.
+          cells[idx + 1].metadata = {
+            ...cells[idx + 1].metadata,
+            jdh: {
+              ...cells[idx + 1].metadata.jdh,
+              ...cellOutputJdhMetadata.metadata.jdh,
+              ref: idx,
+            }
+          }
+          cell.hidden = true
+          cell.layer = 'citation'
+        } else {
+          cell.layer = 'narrative'
+        }
     } else {
       // add paragraph number and layer information based on "layer", if any provided (default to 'narrative').
       // section is mostly used to host article metadata, such as authors, title or keywords.
@@ -126,6 +144,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         idx,
         num: cell.num,
         outputs: cell.outputs,
+        hidden: !!cell.hidden,
         level: 'code'
       }))
     }
