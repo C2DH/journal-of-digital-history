@@ -8,9 +8,10 @@
         "references": "References",
         "submit": "Abstract Submission",
         "termsOfUse": "Terms of Use",
-        "article": "narrative + data",
-        "articleHermeneutics": "hermeneutic",
-        "articleHermeneuticsData": "hermeneutic + data"
+        "article": "narrative layer",
+        "articleHermeneutics": "hermeneutic layer",
+        "articleHermeneuticsData": "hermeneutic layer",
+        "articleData": "data"
       },
       "title": "Journal of <br/>Digital History",
       "titleInline": "Journal of Digital History",
