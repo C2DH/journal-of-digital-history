@@ -6,6 +6,12 @@
   }
 }
 
+.TrendLine_circleFocused {
+  stroke: var(--dark);
+  stroke-width: 2;
+  fill: transparent;
+}
+
 .StackGraph_layer path{
   will-change: fill;
   transition: fill .3s ease-in;

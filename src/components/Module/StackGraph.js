@@ -14,6 +14,7 @@ const colorScale = scaleOrdinal(['red', 'magenta', 'cyan', '#036ecd', '#9ecadd',
 const StackGraph = ({
   width, height, windowDimensions,
   encoding={}, data=[],
+  activeStep=-1, steps=[],
   stackOffset='diverged'
 }) => {
   const { t } = useTranslation()

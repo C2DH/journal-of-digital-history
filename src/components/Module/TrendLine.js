@@ -10,7 +10,9 @@ import Pointer from '../Graphics/Pointer'
 const TrendLine = ({
   width, height, windowDimensions, encoding={}, data=[],
   displayLine=false,
-  displayPoints=true
+  displayPoints=true,
+  activeStep=-1,
+  steps=[]
 }) => {
   const { t } = useTranslation()
   const {
@@ -59,6 +61,19 @@ const TrendLine = ({
   if (width === 0) {
     return null
   }
+
+  let valuesFocusedIndices = []
+  if (Array.isArray(steps[activeStep]?.focus)) {
+    valuesFocusedIndices = values.reduce((acc, d, i) => {
+      if (steps[activeStep].focus.includes(i)) {
+        acc.push(i)
+      }
+      return acc
+    }, [])
+  }
+
+  console.info('activeStep', activeStep, valuesFocusedIndices)
+
   return (
     <>
     <svg width={width} height={height} onMouseMove={handleMouseMove}>
@@ -88,6 +103,13 @@ const TrendLine = ({
         strokeWidth={1.5}
         strokeDasharray={[1,2]}
       />
+      {valuesFocusedIndices.map((i) => (
+        <circle key={`focus-${i}`}
+          cx={xValues[i]}
+          cy={yValues[i]}
+          className={`TrendLine_circleFocused ${i === pointer.idx && 'active'}`}
+          r="8"/>
+      ))}
       {values.map((d, i) => (
         <circle key={i}
           cx={xValues[i]}
