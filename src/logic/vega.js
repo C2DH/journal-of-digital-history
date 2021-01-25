@@ -43,7 +43,6 @@ export const getClosestDatumIdxFromXY = ({x, y, xValues, yValues}) => {
         ? insertIdx - 1
         : insertIdx
       )
-  console.info('returning idx', closestDatumIdx)
   return closestDatumIdx
 }
 
