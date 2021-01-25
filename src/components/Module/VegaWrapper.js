@@ -2,9 +2,11 @@ import React, { lazy } from 'react'
 import { useBoundingClientRect } from '../../hooks/graphics'
 
 const TrendLine = lazy(() => import('./TrendLine'))
+const StackGraph = lazy(() => import('./StackGraph'))
 
 const AvailableComponents = {
-  'TrendLine': TrendLine
+  'TrendLine': TrendLine,
+  'Stackgraph': StackGraph
 }
 
 const VegaWrapper = ({ metadata, className }) => {
