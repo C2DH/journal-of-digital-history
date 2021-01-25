@@ -1,7 +1,9 @@
 import React from 'react'
+
 import { useHistory } from 'react-router-dom'
 
-const ArticleToc = ({ steps, progress, step }) => {
+
+const ArticleTocLine = ({ steps, progress, step, active }) => {
   const history = useHistory()
   const handleClick = (id) => {
     const anchor = document.getElementById(`P${id}`)
@@ -11,13 +13,9 @@ const ArticleToc = ({ steps, progress, step }) => {
       window.scrollTo(0, window.scrollY + rect.top)
     }
   }
-
+  console.info('rendering!')
   return (
-    <div className="position-fixed" style={{
-      right: 0,
-      top: 30,
-      width: 30,
-    }}>
+    <>
     {steps.filter(d => !d.hidden).map((d,i) => {
       const levelClassName = `ArticleToc_Level_${d.level}`
       const typeClassName = `ArticleToc_Type_${d.type}`
@@ -38,9 +36,21 @@ const ArticleToc = ({ steps, progress, step }) => {
         </div>
       )
     })}
-    </div>
+    </>
   )
 
 }
 
-export default ArticleToc
+const MemoizedArticleTocLine = React.memo(ArticleTocLine);
+
+const ArticleToC = ({ steps, progress, step, active }) => {
+  return (
+  <MemoizedArticleTocLine
+    steps={steps}
+    step={active ? step : -1}
+    progress={active ? progress : 0}
+  />)
+}
+
+
+export default ArticleToC
