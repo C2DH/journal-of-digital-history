@@ -5,3 +5,15 @@
     fill: var(--secondary);
   }
 }
+
+.StackGraph_layer path{
+  will-change: fill;
+  transition: fill .3s ease-in;
+  // stroke: var(--white);
+  &:hover{
+    z-index:100;
+    fill: var(--dark) !important;
+    opacity: 1;
+  }
+  pointer-events:all;
+}

@@ -5,6 +5,7 @@
         "about": "About",
         "datasets": "Datasets",
         "home": "Journal",
+        "guidelines": "Guidelines for Authors",
         "references": "References",
         "submit": "Abstract Submission",
         "termsOfUse": "Terms of Use",
@@ -58,8 +59,16 @@
           "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply."
         },
         "article": {
+          "abstract": "Abstract",
+          "publicationDate": "Article published",
+          "notYetPublished": "DRAFT Article preview",
           "loadedFromRemoteURL": "<b>Note</b>: this ipython notebook has been loaded from: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>",
           "tryRemoteURL": "Try another notebook"
+        },
+        "guidelines": {
+          "basis": "The basis: quickstart",
+          "datavis": "Data visualisations",
+          "authorWithDatavis": "Do you already have your own data visualisations?"
         },
         "home": {
           "latestIssues": "Latest Issues",
