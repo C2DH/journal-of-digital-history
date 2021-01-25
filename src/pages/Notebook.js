@@ -29,7 +29,7 @@ const Notebook = () => {
   useEffect(() => {
     let timer
     if(status === StatusSuccess) {
-      timer = setTimeout(() => window.dispatchEvent(new Event('resize')), 100)
+      timer = setTimeout(() => window.dispatchEvent(new Event('resize')), 500)
     }
     return () => clearTimeout(timer)
   }, [status])
