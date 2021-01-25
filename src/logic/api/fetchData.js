@@ -4,7 +4,7 @@ import AbstractSubmission from '../../models/AbstractSubmission'
 import { StatusIdle, StatusFetching, StatusSuccess, StatusNone } from '../../constants'
 
 
-const useGetNotebookFromURL = (url) => {
+const useGetNotebookFromURL = (url, allowCached=false) => {
   const cache = useRef({});
   const [status, setStatus] = useState(StatusIdle);
   const [item, setItem] = useState(null);
@@ -18,7 +18,7 @@ const useGetNotebookFromURL = (url) => {
     }
     const fetchData = async () => {
       setStatus(StatusFetching);
-      if (cache.current[url]) {
+      if (cache.current[url] && allowCached=== true) {
           console.log('cached')
           const data = cache.current[url];
           data.cached = true;
@@ -39,7 +39,7 @@ const useGetNotebookFromURL = (url) => {
     return function cleanup() {
       cancelRequest = true;
 		}
-  }, [url])
+  }, [url, allowCached])
   return { status, item };
 }
 
