@@ -38,3 +38,87 @@ Fonts are loaded with WebFontLoader in ./src/index.js: Fira sans and Fira Mono
 5. Check out and pull master, tag it with new version, e.g. git tag `v2.1.0`
 6. Push tags to GitHub: `git push origin --tags`
 7. Github Actions will build and push new images to docker hub. It may take up to 10 minutes.
+
+
+## Visualisation with custom iyython cell textMetadata
+
+"jdh": {
+  "module": "text_object",
+  "text": {
+    "color": "var(--accent)",
+    "bootstrapColumLayout": {
+      "md": {
+        "offset":0,
+        "span": 3,
+        "order": 12
+      }
+    }
+  },
+  "object": {
+    "type": "vega",
+    "source": [
+      "## 140.000 tweets",
+      "> A quiet explanation"
+    ],
+    "component": "TrendLine",
+    "spec": {
+      "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+      "data": {
+        "values": [
+          { "t": "2014-01-01", "layer": "v0", "c": 20 },
+          { "t": "2014-01-08", "layer": "v0", "c": 10 },
+          { "t": "2014-01-15", "layer": "v0", "c": 40 },
+          { "t": "2014-01-22", "layer": "v0", "c": 50 },
+          { "t": "2014-01-28", "layer": "v0", "c": 70 },
+          { "t": "2014-04-02", "layer": "v0", "c": 9 }
+        ]
+      },
+      "transform": [{"filter": "datum.symbol==='GOOG'"}],
+      "mark": {
+        "type": "line",
+        "interpolate": "monotone"
+      },
+      "encoding": {
+        "x": {"field": "t", "type": "temporal"},
+        "y": {"field": "c", "type": "quantitative"}
+      }
+    },
+    "bootstrapColumLayout": {
+      "md": {
+        "offset":0,
+        "span": 8,
+        "order": 1
+      }
+    },
+    "cssClassName": ["bg-white"]
+  }
+}
+
+
+
+for images:
+```
+"object": {
+  "type": "image",
+  "ratio": 0.6,
+  "position": "sticky",
+  "offsetTop": 50,
+  "background": {
+    "color": "var(--primary)"
+  },
+  "border": "1px solid transparent",
+  "source": [
+    "figure caption."
+  ],
+  "data": {
+    "copyright": "CC 2020"
+  },
+  "bootstrapColumLayout": {
+    "md": {
+      "offset":0,
+      "span": 8,
+      "order": 1
+    }
+  }
+}
+```

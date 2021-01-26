@@ -1,7 +1,8 @@
 import LoginButton from './LoginButton'
 import LogoutButton from './LogoutButton'
 
-export default {
+const Buttons = {
   LoginButton,
   LogoutButton
-};
+}
+export default Buttons

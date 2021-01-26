@@ -25,7 +25,6 @@ console.info('%cRecaptcha site key', 'font-weight:bold', ReCaptchaSiteKey)
 const AbstractSubmission = (props) => {
   const { t } = useTranslation()
   const history = useHistory();
-  const [errors, setErrors] = useState([])
   const [isPreviewMode, setPreviewMode] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [confirmModalShow, setConfirmModalShow] = useState(false);
@@ -342,7 +341,6 @@ const AbstractSubmission = (props) => {
           setConfirmModalShow(false)
         }}
         onConfirm={handleConfirmCreateAbstractSubmission}
-        errors={errors}
       />
     </Container>
   )
