@@ -14,12 +14,15 @@ export const ArticleRoute = { to:'/article', label: 'navigation.article'}
 export const ArticleHermeneuticsRoute = { to:'/article/hermeneutics', label: 'navigation.articleHermeneutics'}
 export const ArticleHermeneuticsDataRoute = { to:'/article/hermeneutics,data', label: 'navigation.articleHermeneuticsData'}
 export const TermsOfUseRoute = { to:'/terms', label: 'navigation.termsOfUse'}
+export const GuidelinesRoute = { to:'/guidelines', label: 'navigation.guidelines'}
+
 export const PrimaryRoutes = [
   HomeRoute,
   // ReferencesRoute,
   // DatasetsRoute,
   AbstractSubmissionRoute,
-  AboutRoute
+  AboutRoute,
+  // GuidelinesRoute,
 ]
 
 export const ReCaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
@@ -27,8 +30,9 @@ export const GaTrackingId = process.env.REACT_APP_GA_TRACKING_ID
 
 export const BootstrapColumLayout = Object.freeze({
   md: { span:8, offset:2 },
-  lg: { span:7, offset:2 }
+  lg: { span:8, offset:2 }
 })
+
 
 export const StatusIdle = 'IDLE'
 export const StatusFetching = 'FETCHING'

@@ -1,7 +1,9 @@
 import React from 'react'
 import { Scrollama, Step } from 'react-scrollama'
+import { Container, Row, Col } from 'react-bootstrap'
 import ArticleToC from './ArticleToC'
 import ArticleCell from './ArticleCell'
+import { LayerNarrative, LayerHermeneutics } from '../../constants'
 
 
 class ArticleText extends React.PureComponent {
@@ -46,12 +48,33 @@ class ArticleText extends React.PureComponent {
   };
 
   render() {
-    const { contents } = this.props;
+    const { contents, articleTree, layer } = this.props;
     const { progress, data } = this.state;
 
     return (
       <div className='mt-5 ArticleText'>
-        <ArticleToC steps={contents} step={data} progress={progress} />
+        <div style={{
+          position: 'sticky',
+          top: 0
+        }}>
+          <Container fluid style={{position: 'absolute'}}><Row><Col {...{
+            md: { offset: 10, span: 2}
+          }}>
+            <div className="d-flex flex-row-reverse">
+              <div className="mr-3">
+                <div className="rounded border border-dark">N</div>
+                <ArticleToC
+                  steps={contents} active={layer === LayerNarrative}
+                  step={data} progress={progress}
+                />
+              </div>
+              <div className="mr-3">
+                <div className="rounded border border-dark">H</div>
+                <ArticleToC steps={contents} active={layer === LayerHermeneutics} step={data} progress={progress} />
+              </div>
+            </div>
+          </Col></Row></Container>
+        </div>
         <Scrollama
           onStepEnter={this.onStepEnter}
           onStepExit={this.onStepExit}
@@ -64,7 +87,7 @@ class ArticleText extends React.PureComponent {
           const cellStyle = {
             backgroundColor: cell.metadata.jdh?.backgroundColor ?? 'transparent'
           }
-          const cellProgress = data > i 
+          const cellProgress = data > i
             ? 1
             : data < i
               ? 0

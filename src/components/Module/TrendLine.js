@@ -10,7 +10,9 @@ import Pointer from '../Graphics/Pointer'
 const TrendLine = ({
   width, height, windowDimensions, encoding={}, data=[],
   displayLine=false,
-  displayPoints=true
+  displayPoints=true,
+  activeStep=-1,
+  steps=[],
 }) => {
   const { t } = useTranslation()
   const {
@@ -59,6 +61,17 @@ const TrendLine = ({
   if (width === 0) {
     return null
   }
+
+  let valuesFocusedIndices = []
+  if (Array.isArray(steps[activeStep]?.focus)) {
+    valuesFocusedIndices = values.reduce((acc, d, i) => {
+      if (steps[activeStep].focus.includes(i)) {
+        acc.push(i)
+      }
+      return acc
+    }, [])
+  }
+
   return (
     <>
     <svg width={width} height={height} onMouseMove={handleMouseMove}>
@@ -88,6 +101,13 @@ const TrendLine = ({
         strokeWidth={1.5}
         strokeDasharray={[1,2]}
       />
+      {valuesFocusedIndices.map((i) => (
+        <circle key={`focus-${i}`}
+          cx={xValues[i]}
+          cy={yValues[i]}
+          className={`TrendLine_circleFocused ${i === pointer.idx && 'active'}`}
+          r="8"/>
+      ))}
       {values.map((d, i) => (
         <circle key={i}
           cx={xValues[i]}
@@ -100,7 +120,7 @@ const TrendLine = ({
       <>
         <Pointer x={pointer.xMouse} y={pointer.yMouse} horizontal={false} height={1} width={width} />
         <Pointer x={pointer.xMouse} y={pointer.yMouse} height={height} width={1}/>
-        <div className="position-absolute" style={{
+        <div className="position-absolute TrendLine_pointer" style={{
           top: 10,
           left: 10,
           transform: `translate(${pointer.x}px, ${pointer.y}px)`,
@@ -116,6 +136,14 @@ const TrendLine = ({
         </div>
       </>
     )}
+    {valuesFocusedIndices.map((i) => (
+      <div className="position-absolute TrendLine_activeStep rounded" key={i} style={{
+        top: 10,
+        left: 10,
+        transform: `translate(${xValues[i]}px, ${yValues[i]}px)`,
+        pointerEvents: 'none',
+      }} dangerouslySetInnerHTML={{__html: steps[activeStep].content}} />
+    ))}
     </>
   )
 }

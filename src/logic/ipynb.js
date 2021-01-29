@@ -59,22 +59,29 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
   const referenceIndex = {}
   const paragraphNumbers = {}
   cells.map((cell, idx) => {
-    const citation = cell.source.join('\n\n').match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
-    if (citation) {
+    const sources = Array.isArray(cell.source)
+      ? cell.source.join('\n\n')
+      : cell.source
+    const citation = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
+    if (cell.metadata.jdh?.hidden) {
+      cell.hidden = true
+      cell.layer = 'hidden'
+    } else if (citation) {
       referenceIndex[citation[1]] = citation[2]
       cell.hidden = true
       cell.layer = 'citation'
     } else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs)) {
-        // check whether ths cell outputs JDH metadata;
+        // check whether ths cell outputs JDH metadata containing **module**;
         const cellOutputJdhMetadata = cell.outputs.find(d => d.metadata?.jdh?.module)
         if (cellOutputJdhMetadata) {
-          // if yes, these metadata will be added to next cell.
+          // if yes, these metadata AND its output will be added to next cell.
           cells[idx + 1].metadata = {
             ...cells[idx + 1].metadata,
             jdh: {
               ...cells[idx + 1].metadata.jdh,
               ...cellOutputJdhMetadata.metadata.jdh,
               ref: idx,
+              outputs: cell.outputs
             }
           }
           cell.hidden = true
@@ -101,6 +108,9 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       paragraphNumbers[cell.layer] = 0
     }
     cell.num = paragraphNumbers[cell.layer] += 1
+    cell.source = Array.isArray(cell.source)
+      ? cell.source
+      : [cell.source]
     return cell
   }).forEach((cell, idx) => {
     // console.info(p.cell_type, idx)
@@ -161,8 +171,14 @@ const getStepsFromMetadata = ({ metadata }) => {
   }))
 }
 
+const getParsedSteps = ({ steps }) => steps.map(step => ({
+  ...step,
+  content: markdownParser.render(step.source.join('\n'))
+}))
+
 export {
   markdownParser,
+  getParsedSteps,
   getArticleTreeFromIpynb,
   getStepsFromMetadata
 }

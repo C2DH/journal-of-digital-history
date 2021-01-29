@@ -27,6 +27,11 @@
   font-size: var(--font-size-3);
 }
 
+.ArticleHeader h1{
+  font-family: var(--font-family-serif) !important;
+  font-size: var(--font-size-5) !important;
+  line-height: var(--line-height-5) !important;
+}
 .ArticleHeader_abstract{
   font-size: var(--font-size-2);
 }

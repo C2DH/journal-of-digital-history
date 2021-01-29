@@ -22,6 +22,18 @@ const getFromEncodingPosition = ({ type, field, format} = {}) => {
   }
 }
 
+export const getClosestDatumIdxFromX = ({x, xValues }) => {
+  const insertIdx = parseInt(bisectLeft(xValues, x), 10)
+  const closestDatumIdx = insertIdx === 0
+      ? 0
+      : (
+        Math.abs(x - xValues[insertIdx]) >  Math.abs(x - xValues[insertIdx - 1])
+        ? insertIdx - 1
+        : insertIdx
+      )
+  return closestDatumIdx
+}
+
 export const getClosestDatumIdxFromXY = ({x, y, xValues, yValues}) => {
   const insertIdx = parseInt(bisectLeft(xValues, x), 10)
   const closestDatumIdx = insertIdx === 0
@@ -31,7 +43,6 @@ export const getClosestDatumIdxFromXY = ({x, y, xValues, yValues}) => {
         ? insertIdx - 1
         : insertIdx
       )
-  console.info('returning idx', closestDatumIdx)
   return closestDatumIdx
 }
 
@@ -96,8 +107,8 @@ export const useStackProps = ({ encoding, data, width, height }) => {
 
   // scales
   const { xScale, yScale, x, y0, y1 } = useMemo(() => {
-    const xScale = scaleTime().domain([xMin, xMax]).range([100, width -100])
-    const yScale = scaleLinear().domain([yMin, yMax]).range([100, height - 100])
+    const xScale = scaleTime().domain([xMin, xMax]).range([0, width])
+    const yScale = scaleLinear().domain([yMin, yMax]).range([height, 0])
     // value fn, for x is the moment time value
     const x = (d) => xScale(d.data.x)
     const y0 = (d,i) => yScale(d[0]) ?? 0
