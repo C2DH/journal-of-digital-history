@@ -16,14 +16,9 @@ const ArticleHeader = ({ title=[], abstract=[], keywords=[], contributor=[], pub
       <Row>
         <Col {...BootstrapColumLayout}>
           {doi
-            ? <h3 className="mb-5">{t('pages.article.publicationDate')} {t('dates.short', {date: publicationDate})}</h3>
-            : <h3 className="mb-5">{t('pages.article.notYetPublished')}</h3>
+            ? <h3 className="mb-3">{t('pages.article.publicationDate')} {t('dates.short', {date: publicationDate})}</h3>
+            : <h3 className="mb-3">{t('pages.article.notYetPublished')} | ({publicationDate.getFullYear()})</h3>
           }
-          <div className="ArticleHeader_keywords">
-            {keywordsAsLinks.map((keyword, i) => (
-              <LangLink key={i} to={`/tag/${keyword}`} className="mr-2">{keyword}</LangLink>
-            ))}
-          </div>
           <div className="ArticleHeader_title my-3">
           {title.map((paragraph, i) => (
             <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>
@@ -41,6 +36,11 @@ const ArticleHeader = ({ title=[], abstract=[], keywords=[], contributor=[], pub
       <Row className="mt-5">
         <Col {...BootstrapColumLayout}>
           <h3>{t('pages.article.abstract')}</h3>
+          <div className="ArticleHeader_keywords mb-3">
+            {keywordsAsLinks.map((keyword, i) => (
+              <LangLink key={i} to={`/tag/${keyword}`} className="mr-2">{keyword}</LangLink>
+            ))}
+          </div>
           <div className="ArticleHeader_abstract">
             {abstract.map((paragraph, i) => (
               <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>
