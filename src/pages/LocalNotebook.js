@@ -21,21 +21,30 @@ const LocalNotebook = () => {
     }
   }
 
-  const getJupyterLabApiURL = ({ url, token }) => {
+  const getJupyterApiURL = ({ url, token }) => {
     const urlF = new URL(url)
-    return `${urlF.origin}/api/contents/${url.split('/tree/').pop()}?type=notebook&token=${token}`
+    let notebookURL = ''
+    if (urlF.pathname.indexOf('/notebooks/') === 0) {
+      // Jupyter notebook
+      notebookURL = `${urlF.origin}/api/contents/${urlF.pathname.split('/notebooks/').pop()}?type=notebook&token=${token}`
+    } else {
+      // Jupyterlab
+      notebookURL = `${urlF.origin}/api/contents/${urlF.pathname.split('/tree/').pop()}?type=notebook&token=${token}`
+    }
+    return notebookURL
   }
 
   const handleJupyterLabToken = (token) => {
     const updatedValue = { ...value, token }
     try {
-      updatedValue.apiURL = getJupyterLabApiURL({
+      updatedValue.apiURL = getJupyterApiURL({
         url: value.url,
         token
       })
       updatedValue.isValid = true
       updatedValue.isTokenValid = true
     } catch (err) {
+      console.warn(err)
       updatedValue.err = err
       updatedValue.isValid = false
       updatedValue.isTokenValid = false
@@ -48,7 +57,7 @@ const LocalNotebook = () => {
     // http://localhost:8888/lab/workspaces/auto-m/tree/jdh-notebook/examples/article.ipynb
     const updatedValue = { ...value, url }
     try {
-      updatedValue.apiURL = getJupyterLabApiURL({
+      updatedValue.apiURL = getJupyterApiURL({
         url,
         token: value.token
       })
