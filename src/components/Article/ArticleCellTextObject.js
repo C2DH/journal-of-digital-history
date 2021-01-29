@@ -1,7 +1,6 @@
 import React, { useMemo, lazy } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import { markdownParser, getParsedSteps } from '../../logic/ipynb'
-import { getNarrativeProgress } from '../../logic/narrative'
+import { markdownParser } from '../../logic/ipynb'
 
 const VegaWrapper = lazy(() => import('../Module/VegaWrapper'))
 const ImageWrapper = lazy(() => import('../Module/ImageWrapper'))
@@ -73,10 +72,6 @@ const ArticleCellTextObject = ({ metadata, children, progress }) => {
     }
   }
 
-  // narrative
-  const steps = getParsedSteps({ steps: objectMetadata.steps || [] })
-  const { stepProgress, activeStep } = getNarrativeProgress({ steps, progress })
-
   // if(!isNaN(objectMetadata.ratio)) {
   //   objectWrapperStyle = {
   //     ...objectWrapperStyle,
@@ -106,9 +101,6 @@ const ArticleCellTextObject = ({ metadata, children, progress }) => {
           {['vega'].includes(objectMetadata.type) && (
             <VegaWrapper
               metadata={objectMetadata}
-              steps={steps}
-              activeStep={activeStep}
-              stepProgress={stepProgress}
               progress={progress}
             />
           )}

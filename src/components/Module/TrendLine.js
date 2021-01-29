@@ -12,7 +12,7 @@ const TrendLine = ({
   displayLine=false,
   displayPoints=true,
   activeStep=-1,
-  steps=[]
+  steps=[],
 }) => {
   const { t } = useTranslation()
   const {
@@ -72,8 +72,6 @@ const TrendLine = ({
     }, [])
   }
 
-  console.info('activeStep', activeStep, valuesFocusedIndices)
-
   return (
     <>
     <svg width={width} height={height} onMouseMove={handleMouseMove}>
@@ -122,7 +120,7 @@ const TrendLine = ({
       <>
         <Pointer x={pointer.xMouse} y={pointer.yMouse} horizontal={false} height={1} width={width} />
         <Pointer x={pointer.xMouse} y={pointer.yMouse} height={height} width={1}/>
-        <div className="position-absolute" style={{
+        <div className="position-absolute TrendLine_pointer" style={{
           top: 10,
           left: 10,
           transform: `translate(${pointer.x}px, ${pointer.y}px)`,
@@ -138,6 +136,14 @@ const TrendLine = ({
         </div>
       </>
     )}
+    {valuesFocusedIndices.map((i) => (
+      <div className="position-absolute TrendLine_activeStep rounded" key={i} style={{
+        top: 10,
+        left: 10,
+        transform: `translate(${xValues[i]}px, ${yValues[i]}px)`,
+        pointerEvents: 'none',
+      }} dangerouslySetInnerHTML={{__html: steps[activeStep].content}} />
+    ))}
     </>
   )
 }
