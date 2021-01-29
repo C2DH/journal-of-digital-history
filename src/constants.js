@@ -22,7 +22,7 @@ export const PrimaryRoutes = [
   // DatasetsRoute,
   AbstractSubmissionRoute,
   AboutRoute,
-  GuidelinesRoute,
+  // GuidelinesRoute,
 ]
 
 export const ReCaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
