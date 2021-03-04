@@ -14,7 +14,7 @@ const LocalNotebook = () => {
     if (value.isValid) {
       history.push({
         pathname: generatePath("/:lang/notebook/:encodedUrl", {
-          encodedUrl: btoa(value.apiURL),
+          encodedUrl: btoa(value.apiURL).split('/').join('+'),
           lang: i18n.language.split('-')[0]
         })
       })
