@@ -21,7 +21,7 @@ const Notebook = () => {
       console.warn(e)
     }
   }, [ encodedUrl ])
-  console.info('Notebook render:', url)
+  console.info('Notebook render:', url ,'from', encodedUrl)
   // check url...
   const { status, item } = useGetNotebookFromURL(url)
   const [uploadedNotebook, setUploadedNotebook] = useState(null)
@@ -37,7 +37,7 @@ const Notebook = () => {
   const handleSubmit = () => {
     history.push({
       pathname: generatePath("/:lang/notebook/:encodedUrl", {
-        encodedUrl: btoa(value),
+        encodedUrl: btoa(value.split('+').join('/')),
         lang: i18n.language.split('-')[0]
       })
     })
