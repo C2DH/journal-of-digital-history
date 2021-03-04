@@ -7,6 +7,9 @@ import ArticleHeading from '../models/ArticleHeading'
 import ArticleCell from '../models/ArticleCell'
 import ArticleReference from '../models/ArticleReference'
 
+const encodeNotebookURL = (url) => btoa(encodeURIComponent(url))
+const decodeNotebookURL = (encodedUrl) => decodeURIComponent(atob(encodedUrl))
+
 const markdownParser = MarkdownIt({
   html: false,
   linkify: true,
@@ -180,5 +183,7 @@ export {
   markdownParser,
   getParsedSteps,
   getArticleTreeFromIpynb,
-  getStepsFromMetadata
+  getStepsFromMetadata,
+  encodeNotebookURL,
+  decodeNotebookURL
 }
