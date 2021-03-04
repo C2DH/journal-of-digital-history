@@ -48,7 +48,7 @@ class ArticleText extends React.PureComponent {
   };
 
   render() {
-    const { contents, articleTree, layer } = this.props;
+    const { contents, layer } = this.props;
     const { progress, data } = this.state;
 
     return (
