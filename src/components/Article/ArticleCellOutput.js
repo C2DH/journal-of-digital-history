@@ -22,10 +22,10 @@ const ArticleCellOutput = ({ output }) => {
       {output.output_type === 'display_data' && output.data['text/plain'] && (
         <pre>{getOutput(output.data['text/plain'])}</pre>
       )}
-      {!!output.data['image/png'] && (
+      {!!output.data && !!output.data['image/png'] && (
         <img src={`data:image/png;base64,${output.data['image/png']}`} alt='display_data output'/>
       )}
-      {!!output.data['image/jpeg'] && (
+      {!!output.data && !!output.data['image/jpeg'] && (
         <img src={`data:image/jpeg;base64,${output.data['image/jpeg']}`} alt='display_data output'/>
       )}
     </blockquote>
