@@ -41,6 +41,8 @@
   --font-size-3: #{$font-size-base * 1.5};
   --font-size-4: #{$font-size-base * 2};
   --font-size-5: #{$font-size-base * 2.5};
+  --line-height-1: #{$font-size-base * 1.75};
+  --line-height-1-m: #{$font-size-base * (1.5 / 2)};
   --line-height-5: #{$font-size-base * 2.5 * 1.25};
 }
 

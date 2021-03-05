@@ -9,7 +9,10 @@
   width: 20px;
   text-align: right;
   font-family: var(--font-family-monospace);
-  color: var(--gray-600)
+  color: var(--primary);
+  font-weight: bold;
+  will-change: color;
+  transition: color .25s ease-in-out;
 }
 
 .ArticleCellContent_idx {
@@ -40,6 +43,9 @@
   border-left: 2px solid transparent;
   &.active{
     border-left-color: var(--primary);
+    .ArticleCellContent_num{
+      color: var(--secondary);
+    }
   }
 }
 
@@ -86,18 +92,25 @@
   font-weight: bold;
   font-family: var(--font-family-monospace);
   display: inline-block;
+  // color:
 }
-.ArticleReference_shortRef::before{
-  content:"(";
-}
-.ArticleReference_shortRef::after{
-  content:")";
-}
+// .ArticleReference_shortRef::before{
+//   content:"(";
+// }
+// .ArticleReference_shortRef::after{
+//   content:")";
+// }
 .ArticleReference_pointer{
-  position: absolute;
-  left: var(--negative-spacer-3);
-  border-top: 1px solid var(--secondary);
-  border-bottom: 1px solid var(--secondary);
+  // position: absolute;
+  // left: var(--negative-spacer-4);
+  // // border-top: 1px solid var(--secondary);
+  // // border-bottom: 1px solid var(--secondary);
+  // height: 6px;
+  // width: 6px;
+  // border-radius: 6px;
+  // border: 1px solid var(--secondary);
+  // background-color: var(--primary);
+  // margin-top: var(--line-height-1-m);
 }
 
 .ArticleCellVisualisation {
