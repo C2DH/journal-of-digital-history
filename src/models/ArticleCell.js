@@ -4,6 +4,7 @@ export default class ArticleCell {
     content = '',
     idx = '-1',
     layer = 'narrative',
+    section = '',
     // paragraph number, only for level=P
     num = 0,
     outputs = [],
@@ -23,6 +24,7 @@ export default class ArticleCell {
     this.metadata = metadata
     this.level = String(level).toUpperCase()
     this.layer = layer
+    this.section = section
     this.hidden = hidden
     this.references = references
   }
