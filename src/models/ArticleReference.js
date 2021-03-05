@@ -7,7 +7,7 @@ export default class ArticleReference {
     this.num = parseInt(num, 10)
     this.ref = ref
     if (ref) {
-      this.shortRef = `${ref.author?.map(d => d.family).join(', ')} ${ref.issued?.year}`
+      this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${ref.author?.map(d => d.family).join(', ').trim()} ${ref.issued?.year}</a>`
     }
   }
 }

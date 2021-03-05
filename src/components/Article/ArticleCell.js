@@ -5,12 +5,13 @@ import ArticleCellContent from './ArticleCellContent'
 import ArticleCellSourceCode from './ArticleCellSourceCode'
 
 import {
-  ModuleStack, ModuleTextObject,
+  ModuleStack, ModuleTextObject, ModuleObject,
   ModuleQuote, BootstrapColumLayout
 } from '../../constants'
 
 const ArticleCellVisualisation = lazy(() => import('./ArticleCellVisualisation'))
 const ArticleCellTextObject = lazy(() => import('./ArticleCellTextObject'))
+const ArticleCellObject = lazy(() => import('./ArticleCellObject'))
 
 
 const ArticleCell = ({
@@ -19,6 +20,9 @@ const ArticleCell = ({
   ...props
 }) => {
   const cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout;
+  // this layout will be applied to module:"object" and module: "text_object"
+  const cellObjectBootstrapColumnLayout = metadata.jdh?.object?.bootstrapColumLayout || BootstrapColumLayout;
+
   const cellModule = metadata.jdh?.module
 
   if (cellModule === ModuleStack) {
@@ -26,9 +30,29 @@ const ArticleCell = ({
   }
   if (cellModule === ModuleTextObject) {
     return (
-      <ArticleCellTextObject metadata={metadata} progress={progress} active={active}>
-        <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum}/>
-      </ArticleCellTextObject>
+      <Container>
+        <Row>
+          <Col {... cellBootstrapColumnLayout}>
+            <ArticleCellTextObject metadata={metadata} progress={progress} active={active} />
+          </Col>
+          <Col {... cellObjectBootstrapColumnLayout}>
+            <ArticleCellObject metadata={metadata} progress={progress} active={active} />
+          </Col>
+        </Row>
+      </Container>
+    )
+  }
+  if (cellModule === ModuleObject) {
+    return (
+      <Container>
+        <Row>
+          <Col {... cellObjectBootstrapColumnLayout}>
+            <ArticleCellObject metadata={metadata} progress={progress} active={active}>
+              contents.
+            </ArticleCellObject>
+          </Col>
+        </Row>
+      </Container>
     )
   }
   if (cellModule === ModuleQuote) {

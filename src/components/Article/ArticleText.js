@@ -3,7 +3,6 @@ import { Scrollama, Step } from 'react-scrollama'
 import { Container, Row, Col } from 'react-bootstrap'
 import ArticleToC from './ArticleToC'
 import ArticleCell from './ArticleCell'
-import { LayerNarrative, LayerHermeneutics } from '../../constants'
 
 
 class ArticleText extends React.PureComponent {
@@ -48,7 +47,7 @@ class ArticleText extends React.PureComponent {
   };
 
   render() {
-    const { contents, layer } = this.props;
+    const { contents } = this.props;
     const { progress, data } = this.state;
 
     return (
@@ -64,13 +63,13 @@ class ArticleText extends React.PureComponent {
               <div className="mr-3">
                 <div className="rounded border border-dark">N</div>
                 <ArticleToC
-                  steps={contents} active={layer === LayerNarrative}
+                  steps={contents} active
                   step={data} progress={progress}
                 />
               </div>
               <div className="mr-3">
                 <div className="rounded border border-dark">H</div>
-                <ArticleToC steps={contents} active={layer === LayerHermeneutics} step={data} progress={progress} />
+
               </div>
             </div>
           </Col></Row></Container>
@@ -83,7 +82,7 @@ class ArticleText extends React.PureComponent {
           offset={.5}
           threshold={0}
         >
-        {contents.filter(cell => !cell.hidden).map((cell, i) => {
+        {contents.map((cell, i) => {
           const cellStyle = {
             backgroundColor: cell.metadata.jdh?.backgroundColor ?? 'transparent'
           }
@@ -94,7 +93,7 @@ class ArticleText extends React.PureComponent {
               : progress
           return (
             <Step data={i} key={i}>
-              <div className={`ArticleText_ArticleParagraph ${data === i? ' active': ''}`} style={{ ...cellStyle }}>&nbsp;
+              <div className={`ArticleText_ArticleParagraph ${data === i? ' active': ''} ${cell.layer}`} style={{ ...cellStyle }}>&nbsp;
                 <ArticleCell {...cell} hideNum={cell.layer === 'metadata'} idx={cell.idx} progress={cellProgress} active={data === i}/>
               </div>
             </Step>

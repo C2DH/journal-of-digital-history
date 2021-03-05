@@ -7,13 +7,7 @@ import ArticleHeader from '../components/Article/ArticleHeader'
 import ArticleBilbiography from '../components/Article/ArticleBibliography'
 import source from '../data/mock-ipynb.nbconvert.json'
 import { getArticleTreeFromIpynb } from '../logic/ipynb'
-import {
-  LayerNarrative, LayerNarrativeData,
-  LayerHermeneutics, LayerHermeneuticsData,
-  LayerData,
-  // ArticleRoute,
-  // ArticleHermeneuticsDataRoute
-} from '../constants'
+import { LayerHermeneutics, LayerNarrative, LayerData, LayerNarrativeData } from '../constants'
 
 
 const Article = ({ ipynb, url, publicationDate = new Date() }) => {
@@ -22,25 +16,27 @@ const Article = ({ ipynb, url, publicationDate = new Date() }) => {
     cells: ipynb? ipynb.cells : source.cells,
     metadata: ipynb? ipynb.metadata : source.metadata
   }), [ipynb])
-  const sections = groupBy(articleTree.paragraphs, ({ metadata }) => metadata?.jdh?.section ?? 'paragraphs')
-  const { title, abstract, keywords, contributor, paragraphs = [] } = sections
-
-  let contents = []
+  const paragraphs = articleTree.paragraphs.filter((d) => [
+    LayerHermeneutics, LayerNarrative, LayerData, LayerNarrativeData
+  ].includes(d.layer))
+  const sections = groupBy(articleTree.paragraphs, 'section')
+  const { title, abstract, keywords, contributor } = sections
+  // let contents = paragraphs
   let backgroundColor = 'var(--gray-100)'
-  if (layer === LayerHermeneutics) {
-    contents = paragraphs.filter(({ layer }) => layer === LayerHermeneutics)
-    backgroundColor = 'var(--gray-300)'
-  } else if (layer === LayerHermeneuticsData) {
-    contents = paragraphs.filter(({ layer }) => [
-      LayerHermeneutics, LayerHermeneuticsData, LayerData
-    ].includes(layer))
-    backgroundColor = 'var(--gray-200)'
-  } else {
-    // layer param not specified, default for "narrative" and "data"
-    contents = paragraphs.filter(({ layer }) => [
-      LayerNarrative, LayerNarrativeData, LayerData
-    ].includes(layer))
-  }
+  // if (layer === LayerHermeneutics) {
+  //   contents = paragraphs.filter(({ layer }) => layer === LayerHermeneutics)
+  //   backgroundColor = 'var(--gray-300)'
+  // } else if (layer === LayerHermeneuticsData) {
+  //   contents = paragraphs.filter(({ layer }) => [
+  //     LayerHermeneutics, LayerHermeneuticsData, LayerData
+  //   ].includes(layer))
+  //   backgroundColor = 'var(--gray-200)'
+  // } else {
+  //   // layer param not specified, default for "narrative" and "data"
+  //   contents = paragraphs.filter(({ layer }) => [
+  //     LayerNarrative, LayerNarrativeData, LayerData
+  //   ].includes(layer))
+  // }
 
   useEffect(() => {
     useStore.setState({ backgroundColor });
@@ -49,7 +45,7 @@ const Article = ({ ipynb, url, publicationDate = new Date() }) => {
   return (
     <div className="page mt-5">
       <ArticleHeader {... {title, abstract, keywords, contributor, publicationDate, url }}/>
-      <ArticleText layer={layer} articleTree={articleTree} contents={contents}/>
+      <ArticleText layer={layer} articleTree={articleTree} contents={paragraphs}/>
       {articleTree?.bibliography
         ? (<ArticleBilbiography articleTree={articleTree} />)
         : null
