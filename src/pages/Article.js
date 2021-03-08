@@ -7,7 +7,7 @@ import ArticleHeader from '../components/Article/ArticleHeader'
 import ArticleBilbiography from '../components/Article/ArticleBibliography'
 import source from '../data/mock-ipynb.nbconvert.json'
 import { getArticleTreeFromIpynb } from '../logic/ipynb'
-import { LayerHermeneutics, LayerNarrative, LayerData, LayerNarrativeData } from '../constants'
+import { LayerHermeneutics, LayerNarrative, LayerData, LayerFigure } from '../constants'
 
 
 const Article = ({ ipynb, url, publicationDate = new Date() }) => {
@@ -17,7 +17,7 @@ const Article = ({ ipynb, url, publicationDate = new Date() }) => {
     metadata: ipynb? ipynb.metadata : source.metadata
   }), [ipynb])
   const paragraphs = articleTree.paragraphs.filter((d) => [
-    LayerHermeneutics, LayerNarrative, LayerData, LayerNarrativeData
+    LayerHermeneutics, LayerNarrative, LayerData, LayerFigure
   ].includes(d.layer))
   const sections = groupBy(articleTree.paragraphs, 'section')
   const { title, abstract, keywords, contributor } = sections
@@ -34,7 +34,7 @@ const Article = ({ ipynb, url, publicationDate = new Date() }) => {
   // } else {
   //   // layer param not specified, default for "narrative" and "data"
   //   contents = paragraphs.filter(({ layer }) => [
-  //     LayerNarrative, LayerNarrativeData, LayerData
+  //     LayerNarrative, LayerFigure, LayerData
   //   ].includes(layer))
   // }
 
