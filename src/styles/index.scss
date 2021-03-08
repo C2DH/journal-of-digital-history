@@ -29,9 +29,6 @@
   @each $bp, $value in $spacers {
     --negative-spacer-#{$bp}: #{-$value};
   }
-  @each $bp, $value in $spacers {
-    --negative-spacer-#{$bp*2}: #{-$value*2};
-  }
   @each $bp, $value in $container-max-widths {
     --#{$bp}: #{$value};
   }
