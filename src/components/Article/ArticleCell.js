@@ -17,6 +17,7 @@ const ArticleCellObject = lazy(() => import('./ArticleCellObject'))
 const ArticleCell = ({
   type, layer, num=1, content='', idx, outputs=[], hideIdx, hideNum, metadata = {},
   progress, active = false,
+  figure, // ArticleFigure instance
   ...props
 }) => {
   const cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout;
@@ -36,7 +37,7 @@ const ArticleCell = ({
             <ArticleCellTextObject metadata={metadata} progress={progress} active={active} />
           </Col>
           <Col {... cellObjectBootstrapColumnLayout}>
-            <ArticleCellObject metadata={metadata} progress={progress} active={active} />
+            <ArticleCellObject metadata={metadata} progress={progress} active={active} figure={figure} />
           </Col>
         </Row>
       </Container>
@@ -47,7 +48,7 @@ const ArticleCell = ({
       <Container>
         <Row>
           <Col {... cellObjectBootstrapColumnLayout}>
-            <ArticleCellObject metadata={metadata} progress={progress} active={active} />
+            <ArticleCellObject metadata={metadata} progress={progress} active={active} figure={figure} />
           </Col>
         </Row>
       </Container>
