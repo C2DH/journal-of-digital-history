@@ -2,9 +2,9 @@ import React, { useMemo } from 'react'
 import { getParsedSteps } from '../../logic/ipynb'
 
 const ImageWrapper = ({ metadata, output }) => {
-  const steps = useMemo(() => getParsedSteps({
-    steps: metadata?.steps ?? []
-  }), [metadata])
+  const steps = useMemo(() => getParsedSteps({ steps: [{
+    source: metadata?.source ?? []
+  }]}), [metadata])
 
   return (
     <div className="ImageWrapper">
