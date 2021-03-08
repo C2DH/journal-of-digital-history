@@ -12,7 +12,8 @@ export default class ArticleCell {
     metadata = {},
     references = [],
     hidden = false,
-    level = 'ND' // one of 'CODE', 'P', 'H1', 'H2', 'H3'
+    level = 'ND', // one of 'CODE', 'P', 'H1', 'H2', 'H3'
+    figure = null,
   }) {
     this.type = type
     this.content = String(content)
@@ -27,5 +28,6 @@ export default class ArticleCell {
     this.section = section
     this.hidden = hidden
     this.references = references
+    this.figure = figure
   }
 }
