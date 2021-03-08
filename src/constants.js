@@ -52,11 +52,11 @@ export const LayerHermeneuticsData = 'hermeneutics,data'
 export const LayerData = 'data'
 export const LayerHidden = 'hidden'
 export const LayerNarrative = 'narrative'
-export const LayerNarrativeData = 'narrative,data'
+export const LayerFigure = 'narrative,data'
 export const LayerMetadata = 'metadata'
 export const LayerCitation = 'citation'
 export const LayerChoices = [
-  LayerHermeneutics, LayerHermeneuticsData, LayerData, LayerNarrative, LayerNarrativeData, LayerMetadata
+  LayerHermeneutics, LayerHermeneuticsData, LayerData, LayerNarrative, LayerFigure, LayerMetadata
 ]
 
 export const SectionTitle = 'title'
@@ -64,3 +64,9 @@ export const SectionAbstract = 'abstract'
 export const SectionContributor = 'contributor'
 export const SectionKeywords = 'keywords'
 export const SectionChoices = [SectionTitle, SectionAbstract, SectionContributor, SectionKeywords]
+
+export const CellTypeCode = 'code'
+export const CellTypeMarkdown = 'markdown'
+
+export const FigureImage = 'image'
+export const FigureDatavis = 'vega'
