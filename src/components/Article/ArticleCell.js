@@ -47,9 +47,7 @@ const ArticleCell = ({
       <Container>
         <Row>
           <Col {... cellObjectBootstrapColumnLayout}>
-            <ArticleCellObject metadata={metadata} progress={progress} active={active}>
-              contents.
-            </ArticleCellObject>
+            <ArticleCellObject metadata={metadata} progress={progress} active={active} />
           </Col>
         </Row>
       </Container>
