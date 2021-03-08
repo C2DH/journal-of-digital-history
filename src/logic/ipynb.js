@@ -6,11 +6,13 @@ import ArticleTree from '../models/ArticleTree'
 import ArticleHeading from '../models/ArticleHeading'
 import ArticleCell from '../models/ArticleCell'
 import ArticleReference from '../models/ArticleReference'
+import ArticleFigure from '../models/ArticleFigure'
 
 import {
   LayerChoices, SectionChoices,
-  LayerNarrativeData, LayerNarrative, LayerData,
-  LayerHidden, LayerCitation, LayerMetadata
+  LayerFigure, LayerNarrative, LayerData,
+  LayerHidden, LayerCitation, LayerMetadata,
+  CellTypeMarkdown, CellTypeCode
 } from '../constants'
 
 const encodeNotebookURL = (url) => btoa(encodeURIComponent(url))
@@ -35,9 +37,13 @@ const renderMarkdownWithReferences = ({
   citationsFromMetadata = {}
 }) => {
   const references = []
-  console.info('markdownParser.render', markdownParser.render(sources))
+  // console.info('markdownParser.render', markdownParser.render(sources))
   const content = markdownParser.render(sources)
-    // just Reference, like in this sentence:
+    // find and replace ciation in Chicago author-date style, like in this sentence:
+    // "Compiling a collection of tweets of this nature raises considerable methodological issues.
+    // While we will not go into detail, we would refer our readers to previous publications
+    // that touches on these subjects <cite data-cite="7009778/GBFQ2FF7"></cite>."
+    // Cfr. https://www.scribbr.com/chicago-style/author-date/ (consulted 2021-03-08)
     //&lt;cite data-cite=“4583/B7B2APU6”&gt;&lt;/cite&gt;, p. 146).
     // "Compiling a collection of tweets of this nature raises considerable methodological issues.
     // While we will not go into detail, we would refer our readers to previous publications
@@ -76,6 +82,7 @@ const renderMarkdownWithReferences = ({
 
 const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
   const headings = [];
+  const figures = [];
   const paragraphs = [];
   let bibliography = null;
   const citationsFromMetadata = metadata?.cite2c?.citations;
@@ -90,11 +97,8 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
     const sources = Array.isArray(cell.source)
       ? cell.source.join('\n\n')
       : cell.source
-    // "Compiling a collection of tweets of this nature raises considerable methodological issues.
-    // While we will not go into detail, we would refer our readers to previous publications
-    // that touches on these subjects <cite data-cite="7009778/GBFQ2FF7"></cite>."
+    // find footnote citations (with the number)
     const footnote = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
-    // const citation = sources.match(/<cite data-cite=.([/\dA-Z]+).>/)
     if (cell.metadata.jdh?.hidden) {
       cell.hidden = true
       cell.layer = LayerHidden
@@ -103,22 +107,26 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       cell.hidden = true
       cell.layer = LayerCitation
     } else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs)) {
-        // check whether ths cell outputs JDH metadata containing **module**;
-        const cellOutputJdhMetadata = cell.outputs.find(d => d.metadata?.jdh?.module)
-        if (cellOutputJdhMetadata) {
-          // if yes, these metadata AND its output will be added to this cell.
-          cell.metadata = {
-            ...cell.metadata,
-            jdh: {
-              ...cell.metadata.jdh,
-              ...cellOutputJdhMetadata.metadata.jdh,
-              ref: idx,
-              outputs: cell.outputs
-            }
+      // check whether ths cell outputs JDH metadata containing **module**;
+      const cellOutputJdhMetadata = cell.outputs.find(d => d.metadata?.jdh?.module)
+      if (cellOutputJdhMetadata) {
+        // if yes, these metadata AND its output will be added to this cell.
+        cell.metadata = {
+          ...cell.metadata,
+          jdh: {
+            ...cell.metadata.jdh,
+            ...cellOutputJdhMetadata.metadata.jdh,
+            ref: idx,
+            outputs: cell.outputs
           }
-          // cell.hidden = true
-          // cell.layer = 'citation'
-        cell.layer = LayerNarrativeData
+        }
+        figures.push(new ArticleFigure({
+          module: cell.metadata.jdh.module,
+          type: cell.metadata.jdh.object?.type,
+          idx,
+          num: figures.length + 1
+        }))
+        cell.layer = LayerFigure
       } else {
         cell.layer = LayerData
       }
@@ -143,7 +151,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
     return cell
   }).forEach((cell, idx) => {
     // console.info(p.cell_type, idx)
-    if (cell.cell_type === 'markdown') {
+    if (cell.cell_type === CellTypeMarkdown) {
       const sources = cell.source.join('  \n')
       // exclude rendering of reference references
       const tokens = markdownParser.parse(sources);
@@ -163,7 +171,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         }))
       }
       paragraphs.push(new ArticleCell({
-        type: 'markdown',
+        type: CellTypeMarkdown,
         content,
         source: cell.source,
         section: cell.section,
@@ -175,9 +183,9 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         hidden: !!cell.hidden,
         level: headerIdx > -1 ? tokens[headerIdx].tag : 'p'
       }))
-    } else if (cell.cell_type === 'code') {
+    } else if (cell.cell_type === CellTypeCode) {
       paragraphs.push(new ArticleCell({
-        type: 'code',
+        type: CellTypeCode,
         content: cell.source.join(''),
         section: cell.section,
         source: cell.source,
@@ -187,13 +195,16 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         num: cell.num,
         outputs: cell.outputs,
         hidden: !!cell.hidden,
-        level: 'code'
+        level: 'code',
+        figure: cell.layer === LayerFigure
+          ? figures.find((d) => d.idx === idx)
+          : null
       }))
     }
   })
   // console.info('getArticleTreeFromIpynb', citationsFromMetadata, headings, paragraphs, bibliography)
-  console.info('getArticleTreeFromIpynb paragraphs:', paragraphs, 'numbers:',paragraphNumbers)
-  return new ArticleTree({ headings, paragraphs, bibliography })
+  console.info('getArticleTreeFromIpynb paragraphs:', paragraphs, 'figures:',figures)
+  return new ArticleTree({ headings, paragraphs, bibliography, figures })
 }
 
 const getStepsFromMetadata = ({ metadata }) => {
