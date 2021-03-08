@@ -1,9 +1,12 @@
 import React, { useMemo, lazy } from 'react'
 import { markdownParser } from '../../logic/ipynb'
+import ArticleFigure from './ArticleFigure'
+
 const VegaWrapper = lazy(() => import('../Module/VegaWrapper'))
 const ImageWrapper = lazy(() => import('../Module/ImageWrapper'))
 
-const ArticleCellObject = ({ metadata, children, progress }) => {
+
+const ArticleCellObject = ({ metadata, figure, children, progress }) => {
   const objectMetadata = useMemo(() => metadata.jdh?.object ?? {}, [metadata.jdh])
   const objectOutputs = useMemo(() => metadata.jdh?.outputs ?? [], [metadata.jdh])
   const objectContents = useMemo(() => {
@@ -64,7 +67,9 @@ const ArticleCellObject = ({ metadata, children, progress }) => {
   return (<>
     <div style={objectWrapperStyle} className={objectClassName.join(' ')}>
     {objectMetadata.type === 'image' && objectOutputs.map((output, i) => (
-      <ImageWrapper metadata={objectMetadata} key={i} output={output} />
+      <ImageWrapper key={i}
+        metadata={objectMetadata}
+        output={output} figure={figure}/>
     ))}
     {['video', 'map'].includes(objectMetadata.type) && (
       <>
@@ -72,12 +77,16 @@ const ArticleCellObject = ({ metadata, children, progress }) => {
         <div dangerouslySetInnerHTML={{__html: objectContents}}></div>
       </>
     )}
-    {['vega'].includes(objectMetadata.type) && (
-      <VegaWrapper
-        metadata={objectMetadata}
-        progress={progress}
-      />
-    )}
+    {['vega'].includes(objectMetadata.type)
+      ? (
+        <VegaWrapper
+          metadata={objectMetadata}
+          progress={progress}
+        >
+          <ArticleFigure figure={figure} />
+        </VegaWrapper>)
+      : null
+    }
     {['text'].includes(objectMetadata.type) && (
       <div dangerouslySetInnerHTML={{__html: objectContents}}></div>
     )}

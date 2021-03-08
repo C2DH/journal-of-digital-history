@@ -11,7 +11,7 @@ const AvailableComponents = {
   'Stackgraph': StackGraph
 }
 
-const VegaWrapper = ({ metadata, className, progress }) => {
+const VegaWrapper = ({ metadata, className, progress, children }) => {
   const [{ width, height, windowDimensions}, ref] = useBoundingClientRect()
   // narrative part, if any
   const steps = useMemo(() => getParsedSteps({ steps: metadata.steps || [] }), [metadata])
@@ -39,7 +39,9 @@ const VegaWrapper = ({ metadata, className, progress }) => {
             />
           : <div>this is vega {width} x {height}</div>
         }
+
       </div>
+      { children }
     </div>
   )
 }
