@@ -49,10 +49,10 @@ class ArticleText extends React.PureComponent {
   render() {
     const { contents } = this.props;
     const { progress, data } = this.state;
-
+    const currentLayer = contents[data].layer;
     return (
-      <div className='mt-5 ArticleText'>
-        <div style={{
+      <div className={`mt-5 ArticleText ${currentLayer}`}>
+        <div className='ArticleText_toc' style={{
           position: 'sticky',
           top: 0
         }}>
@@ -68,12 +68,13 @@ class ArticleText extends React.PureComponent {
                 />
               </div>
               <div className="mr-3">
-                <div className="rounded border border-dark">H</div>
+                <div className="rounded border border-dark">H {progress}</div>
 
               </div>
             </div>
           </Col></Row></Container>
         </div>
+        <div className="ArticleText_scrollama">
         <Scrollama
           onStepEnter={this.onStepEnter}
           onStepExit={this.onStepExit}
@@ -102,6 +103,7 @@ class ArticleText extends React.PureComponent {
           )
         })}
         </Scrollama>
+        </div>
       </div>
     )
   }
