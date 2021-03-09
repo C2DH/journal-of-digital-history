@@ -209,17 +209,6 @@
    ]
   },
   {
-   "cell_type": "markdown",
-   "metadata": {
-    "jdh": {
-     "layer": "both"
-    }
-   },
-   "source": [
-    "Figure 1: Number of tweets per day (Source: author)."
-   ]
-  },
-  {
    "cell_type": "code",
    "execution_count": 58,
    "metadata": {},
@@ -254,16 +243,21 @@
       "jdh": {
        "module": "text_object",
        "object": {
+        "source": [
+         "Number of tweets per day (Source: author).",
+         "copyright 2020"
+        ],
         "bootstrapColumLayout": {
          "md": {
-          "offset": 0,
+          "offset": 1,
           "order": 1,
-          "span": 8
+          "span": 7
          }
         },
         "component": "TrendLine",
         "cssClassName": [
-         "bg-white"
+         "bg-white",
+         "mb-3"
         ],
         "heightRatio": 0.8,
         "position": "sticky",
