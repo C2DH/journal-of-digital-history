@@ -158,7 +158,10 @@
         "fromNow": "{{date, fromNow}}",
         "LLLL": "{{date, LLLL}}",
         "LLL": "{{date, LLL}}"
-      }
+      },
+      "ArticleCellOutput_execute_result": "result",
+      "ArticleCellOutput_stream": "logs",
+      "ArticleCellOutput_display_data": "result (display)"
     }
   }
 }

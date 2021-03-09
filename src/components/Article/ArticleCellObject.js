@@ -63,7 +63,9 @@ const ArticleCellObject = ({ metadata, figure, children, progress }) => {
       objectWrapperStyle.height = 'auto'
     }
   }
-
+  if (objectMetadata.type === 'vega') {
+    console.info('progress: ',progress)
+  }
   return (<>
     <div style={objectWrapperStyle} className={objectClassName.join(' ')}>
     {objectMetadata.type === 'image' && objectOutputs.map((output, i) => (
@@ -83,7 +85,9 @@ const ArticleCellObject = ({ metadata, figure, children, progress }) => {
           metadata={objectMetadata}
           progress={progress}
         >
-          <ArticleFigure figure={figure} />
+          <ArticleFigure figure={figure}>
+            <div dangerouslySetInnerHTML={{__html: objectContents}}></div>
+          </ArticleFigure>
         </VegaWrapper>)
       : null
     }

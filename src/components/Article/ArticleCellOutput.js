@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 const getOutput = (output) => {
   return Array.isArray(output)
@@ -8,13 +9,15 @@ const getOutput = (output) => {
 
 const ArticleCellOutput = ({ output }) => {
   const outputTypeClassName= `ArticleCellOutput_${output.output_type}`
+  const { t } = useTranslation()
+
   return (
     <blockquote className={`${outputTypeClassName}`}>
       <div>
-        <div className="label">type:{output.output_type} | name:{output.name}</div>
+        <div className="label">{t(outputTypeClassName)}</div>
       </div>
       {output.output_type === 'stream' && (
-        <pre>{Array.isArray(output.text) ? output.text.join('\n') : output.text}</pre>
+        <pre>{Array.isArray(output.text) ? output.text.join('') : output.text}</pre>
       )}
       {output.output_type === 'execute_result' && output.data['text/plain'] && (
         <pre>{getOutput(output.data['text/plain'])}</pre>

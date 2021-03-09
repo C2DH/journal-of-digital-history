@@ -49,6 +49,19 @@
   }
 }
 
+.ArticleText_ArticleParagraph.hermeneutics .ArticleCellContent p{
+  color: var(--accent);
+}
+@media (min-width: 992px) {
+  .ArticleText_ArticleParagraph.hermeneutics {
+    overflow-x: hidden;
+    .container{
+      transform: translate3d(8%, 0, 0)
+    }
+  }
+}
+
+
 [class*='ArticleToc_Level_']{
   width: var(--spacer-2);
   height: var(--spacer-2);
@@ -125,5 +138,38 @@
   opacity: 0;
   &.active{
     opacity: 1
+  }
+}
+
+.ArticleCellOutput_display_data img{
+  max-width: 100%;
+}
+
+.ArticleCellOutput_display_data .label,
+.ArticleCellOutput_execute_result .label,
+.ArticleCellOutput_stream .label,
+.ArticleCellSourceCode_no_output{
+  background:  var(--gray-300);
+  display: inline-block;
+  padding: var(--spacer-0) var(--spacer-2);
+  font-weight: bold;
+}
+.ArticleCellOutput_display_data .label:before,
+.ArticleCellOutput_execute_result .label:before,
+.ArticleCellOutput_stream .label:before{
+  content: "↘ ",
+}
+
+.ArticleCellContent pre,
+.ArticleCellOutput_execute_result pre,
+.ArticleCellOutput_stream pre{
+  background-color: var(--gray-300);
+  padding: var(--spacer-2);
+}
+
+
+.ArticleText.hermeneutics{
+  .ArticleText_scrollama{
+    // transform: translate3d(-8%, 0, 0);
   }
 }
