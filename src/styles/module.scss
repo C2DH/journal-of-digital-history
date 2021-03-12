@@ -7,9 +7,11 @@
 }
 
 .TrendLine_circleFocused {
+  fill: var(--dark);
+}
+.TrendLine_circleFocused.active{
+  fill: var(--primary);
   stroke: var(--dark);
-  stroke-width: 2;
-  fill: transparent;
 }
 
 .TrendLine_pointer{
@@ -23,6 +25,23 @@
   background-color: var(--gray-200);
   border-radius: var(--spacer-1);
   z-index: 1;
+}
+
+.TrendLine_highlight {
+  font-family: var(--font-family-monospace);
+  pointer-events: none;
+  left: 0;
+  top: 0;
+  .TrendLine_highlight_num{
+    position: absolute;
+    font-size: 14px;
+    top: -25px;
+    left: -10px;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    line-height: 20px;
+  }
 }
 
 .StackGraph_layer path{

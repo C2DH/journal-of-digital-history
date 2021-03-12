@@ -30,6 +30,7 @@ const VegaWrapper = ({ metadata, className, progress, children }) => {
         {VisualisationComponent
           ? <VisualisationComponent
               encoding={metadata.spec.encoding}
+              displayPoints={false}
               data={metadata.spec.data}
               steps={steps}
               activeStep={activeStep}
