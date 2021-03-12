@@ -28,6 +28,7 @@
     "i18next": "^19.8.4",
     "jsonschema": "^1.3.0",
     "lodash.find": "^4.6.0",
+    "lodash.findindex": "^4.6.0",
     "lodash.groupby": "^4.6.0",
     "lodash.intersection": "^4.4.0",
     "markdown-it": "^12.0.0",
