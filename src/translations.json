@@ -143,6 +143,7 @@
         "instance-abstract": "<b>Abstract</b>"
       },
       "numbers": {
+        "yExponent": "Power scale exponent (y axis): <b>{{n}}</b>",
         "errors": "{{count}} errors",
         "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",
         "currentCharactersWithCount": "(now: <b>{{count}}</b>)",
