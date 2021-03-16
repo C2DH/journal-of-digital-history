@@ -13,7 +13,8 @@ export default class ArticleCell {
     references = [],
     hidden = false,
     level = 'ND', // one of 'CODE', 'P', 'H1', 'H2', 'H3'
-    figure = null,
+    figure = null, // ArticleFigure instance
+    heading = null, // ArticleHeading instance
   }) {
     this.type = type
     this.content = String(content)
@@ -29,5 +30,7 @@ export default class ArticleCell {
     this.hidden = hidden
     this.references = references
     this.figure = figure
+    this.heading = heading
+    this.isHeading = typeof heading !== 'undefined'
   }
 }
