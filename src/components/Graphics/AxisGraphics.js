@@ -4,7 +4,7 @@ import { Axis } from '@visx/axis';
 
 class AxisVerticalGraphics extends React.Component{
   shouldComponentUpdate(nextProps) {
-    return this.props.windowDimensions !== nextProps.windowDimensions
+    return this.props.exponent !== nextProps.exponent || this.props.windowDimensions !== nextProps.windowDimensions
   }
 
   render() {

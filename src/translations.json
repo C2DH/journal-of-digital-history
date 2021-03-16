@@ -143,6 +143,7 @@
         "instance-abstract": "<b>Abstract</b>"
       },
       "numbers": {
+        "yExponent": "Power scale exponent (y axis): <b>{{n}}</b>",
         "errors": "{{count}} errors",
         "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",
         "currentCharactersWithCount": "(now: <b>{{count}}</b>)",
@@ -158,7 +159,10 @@
         "fromNow": "{{date, fromNow}}",
         "LLLL": "{{date, LLLL}}",
         "LLL": "{{date, LLL}}"
-      }
+      },
+      "ArticleCellOutput_execute_result": "result",
+      "ArticleCellOutput_stream": "logs",
+      "ArticleCellOutput_display_data": "result (display)"
     }
   }
 }

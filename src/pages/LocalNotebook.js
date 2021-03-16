@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useHistory, generatePath } from 'react-router'
 import { BootstrapColumLayout } from '../constants'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
+import { encodeNotebookURL } from '../logic/ipynb'
 
 
 const LocalNotebook = () => {
@@ -10,11 +11,12 @@ const LocalNotebook = () => {
   const { i18n } = useTranslation()
   const [value, setValue] = useState({})
 
+
   const handleSubmit = () => {
     if (value.isValid) {
       history.push({
         pathname: generatePath("/:lang/notebook/:encodedUrl", {
-          encodedUrl: btoa(value.apiURL),
+          encodedUrl: value.encodedURL,
           lang: i18n.language.split('-')[0]
         })
       })
@@ -41,6 +43,7 @@ const LocalNotebook = () => {
         url: value.url,
         token
       })
+      updatedValue.encodedURL = encodeNotebookURL(updatedValue.apiURL)
       updatedValue.isValid = true
       updatedValue.isTokenValid = true
     } catch (err) {
@@ -61,6 +64,7 @@ const LocalNotebook = () => {
         url,
         token: value.token
       })
+      updatedValue.encodedURL = encodeNotebookURL(updatedValue.apiURL)
       updatedValue.isValid = true
       updatedValue.isURLValid = true
     } catch (err) {

@@ -3,7 +3,6 @@ import { Scrollama, Step } from 'react-scrollama'
 import { Container, Row, Col } from 'react-bootstrap'
 import ArticleToC from './ArticleToC'
 import ArticleCell from './ArticleCell'
-import { LayerNarrative, LayerHermeneutics } from '../../constants'
 
 
 class ArticleText extends React.PureComponent {
@@ -48,12 +47,13 @@ class ArticleText extends React.PureComponent {
   };
 
   render() {
-    const { contents, articleTree, layer } = this.props;
+    const { paragraphs, paragraphsPositions, headingsPositions } = this.props;
     const { progress, data } = this.state;
+    const currentLayer = paragraphs[data].layer;
 
     return (
-      <div className='mt-5 ArticleText'>
-        <div style={{
+      <div className={`mt-5 ArticleText ${currentLayer}`}>
+        <div className='ArticleText_toc' style={{
           position: 'sticky',
           top: 0
         }}>
@@ -62,19 +62,17 @@ class ArticleText extends React.PureComponent {
           }}>
             <div className="d-flex flex-row-reverse">
               <div className="mr-3">
-                <div className="rounded border border-dark">N</div>
+                {/* <div className="rounded border border-dark">N</div>*/}
                 <ArticleToC
-                  steps={contents} active={layer === LayerNarrative}
-                  step={data} progress={progress}
+                  headingsPositions={headingsPositions}
+                  steps={paragraphs} active
+                  step={paragraphsPositions[data]}
                 />
-              </div>
-              <div className="mr-3">
-                <div className="rounded border border-dark">H</div>
-                <ArticleToC steps={contents} active={layer === LayerHermeneutics} step={data} progress={progress} />
               </div>
             </div>
           </Col></Row></Container>
         </div>
+        <div className="ArticleText_scrollama">
         <Scrollama
           onStepEnter={this.onStepEnter}
           onStepExit={this.onStepExit}
@@ -83,7 +81,7 @@ class ArticleText extends React.PureComponent {
           offset={.5}
           threshold={0}
         >
-        {contents.filter(cell => !cell.hidden).map((cell, i) => {
+        {paragraphs.map((cell, i) => {
           const cellStyle = {
             backgroundColor: cell.metadata.jdh?.backgroundColor ?? 'transparent'
           }
@@ -94,13 +92,17 @@ class ArticleText extends React.PureComponent {
               : progress
           return (
             <Step data={i} key={i}>
-              <div className={`ArticleText_ArticleParagraph ${data === i? ' active': ''}`} style={{ ...cellStyle }}>&nbsp;
+              <div className={`ArticleText_ArticleParagraph ${data === i? ' active': ''} ${cell.layer}`}
+                style={{ ...cellStyle }}
+                id={`C-${cell.idx}`}
+              >&nbsp;
                 <ArticleCell {...cell} hideNum={cell.layer === 'metadata'} idx={cell.idx} progress={cellProgress} active={data === i}/>
               </div>
             </Step>
           )
         })}
         </Scrollama>
+        </div>
       </div>
     )
   }

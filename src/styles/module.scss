@@ -7,9 +7,11 @@
 }
 
 .TrendLine_circleFocused {
+  fill: var(--dark);
+}
+.TrendLine_circleFocused.active{
+  fill: var(--primary);
   stroke: var(--dark);
-  stroke-width: 2;
-  fill: transparent;
 }
 
 .TrendLine_pointer{
@@ -25,6 +27,30 @@
   z-index: 1;
 }
 
+
+.TrendLine_highlight {
+  font-family: var(--font-family-monospace);
+  pointer-events: none;
+  left: 0;
+  top: 0;
+
+  .TrendLine_highlight_num{
+    position: absolute;
+    font-size: 14px;
+    top: -25px;
+    left: -10px;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    line-height: 20px;
+  }
+}
+.TrendLine_highlight.active .TrendLine_highlight_num{
+  background-color: var(--dark);
+  color: white;
+  border-radius: 5px;
+}
+
 .StackGraph_layer path{
   will-change: fill;
   transition: fill .3s ease-in;
@@ -35,4 +61,13 @@
     opacity: 1;
   }
   pointer-events:all;
+}
+
+.ImageWrapper_figcaption_num,
+.ArticleFigure_figcaption_num {
+  position: absolute;
+  left: var(--negative-spacer-6);
+  width: var(--spacer-6);
+  font-family: var(--font-family-monospace);
+  font-weight: bold;
 }

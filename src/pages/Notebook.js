@@ -5,6 +5,7 @@ import Article from './Article'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
 import { useGetNotebookFromURL } from '../logic/api/fetchData'
 import { BootstrapColumLayout, StatusIdle, StatusNone, StatusSuccess } from '../constants'
+import { decodeNotebookURL } from '../logic/ipynb'
 // url=aHR0cHM6Ly9naXRodWIuY29tL0MyREgvamRoLW5vdGVib29rL2Jsb2IvbWFzdGVyL3BvYy5pcHluYg
 // as base64 encoded for url=https://github.com/C2DH/jdh-notebook/blob/master/poc.ipynb
 
@@ -16,12 +17,12 @@ const Notebook = () => {
   const [value, setValue] = useState(null)
   const url = useMemo(() => {
     try{
-      return atob(encodedUrl)
+      return decodeNotebookURL(encodedUrl)
     } catch(e) {
       console.warn(e)
     }
   }, [ encodedUrl ])
-  console.info('Notebook render:', url)
+  console.info('Notebook render:', url ,'from', encodedUrl)
   // check url...
   const { status, item } = useGetNotebookFromURL(url)
   const [uploadedNotebook, setUploadedNotebook] = useState(null)
@@ -37,7 +38,7 @@ const Notebook = () => {
   const handleSubmit = () => {
     history.push({
       pathname: generatePath("/:lang/notebook/:encodedUrl", {
-        encodedUrl: btoa(value),
+        encodedUrl: btoa(value.split('+').join('/')),
         lang: i18n.language.split('-')[0]
       })
     })

@@ -4,6 +4,7 @@ export default class ArticleCell {
     content = '',
     idx = '-1',
     layer = 'narrative',
+    section = '',
     // paragraph number, only for level=P
     num = 0,
     outputs = [],
@@ -11,7 +12,9 @@ export default class ArticleCell {
     metadata = {},
     references = [],
     hidden = false,
-    level = 'ND' // one of 'CODE', 'P', 'H1', 'H2', 'H3'
+    level = 'ND', // one of 'CODE', 'P', 'H1', 'H2', 'H3'
+    figure = null, // ArticleFigure instance
+    heading = null, // ArticleHeading instance
   }) {
     this.type = type
     this.content = String(content)
@@ -23,7 +26,12 @@ export default class ArticleCell {
     this.metadata = metadata
     this.level = String(level).toUpperCase()
     this.layer = layer
+    this.section = section
     this.hidden = hidden
     this.references = references
+    this.figure = figure
+    this.isFigure = figure !== null
+    this.heading = heading
+    this.isHeading = heading !== null
   }
 }
