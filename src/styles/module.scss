@@ -27,11 +27,13 @@
   z-index: 1;
 }
 
+
 .TrendLine_highlight {
   font-family: var(--font-family-monospace);
   pointer-events: none;
   left: 0;
   top: 0;
+
   .TrendLine_highlight_num{
     position: absolute;
     font-size: 14px;
@@ -42,6 +44,11 @@
     text-align: center;
     line-height: 20px;
   }
+}
+.TrendLine_highlight.active .TrendLine_highlight_num{
+  background-color: var(--dark);
+  color: white;
+  border-radius: 5px;
 }
 
 .StackGraph_layer path{
