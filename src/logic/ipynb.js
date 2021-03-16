@@ -82,6 +82,7 @@ const renderMarkdownWithReferences = ({
 
 const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
   const headings = [];
+  const headingsPositions = [];
   const figures = [];
   const paragraphs = [];
   let bibliography = null;
@@ -169,6 +170,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
           content: tokens[headerIdx + 1].content,
           idx
         }))
+        headingsPositions.push(idx)
       }
       paragraphs.push(new ArticleCell({
         type: CellTypeMarkdown,
@@ -181,7 +183,12 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         num: cell.num,
         references,
         hidden: !!cell.hidden,
-        level: headerIdx > -1 ? tokens[headerIdx].tag : 'p'
+        heading: headerIdx > -1
+          ? headings[headings.length - 1]
+          : null,
+        level: headerIdx > -1
+          ? tokens[headerIdx].tag
+          : 'p',
       }))
     } else if (cell.cell_type === CellTypeCode) {
       paragraphs.push(new ArticleCell({
@@ -203,8 +210,13 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
     }
   })
   // console.info('getArticleTreeFromIpynb', citationsFromMetadata, headings, paragraphs, bibliography)
-  console.info('getArticleTreeFromIpynb paragraphs:', paragraphs, 'figures:',figures)
-  return new ArticleTree({ headings, paragraphs, bibliography, figures })
+  console.info('getArticleTreeFromIpynb paragraphs:', paragraphs.length, 'figures:',figures.length, 'headingsPositions', headingsPositions)
+  return new ArticleTree({
+    headings,
+    headingsPositions,
+    paragraphs,
+    bibliography, figures
+  })
 }
 
 const getStepsFromMetadata = ({ metadata }) => {

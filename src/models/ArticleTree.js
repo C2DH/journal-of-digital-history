@@ -3,11 +3,13 @@ export default class ArticleTree {
     headings = [],
     paragraphs = [],
     figures = [],
+    headingsPositions = [],
     bibliography
   }) {
     this.headings= headings
     this.paragraphs = paragraphs
     this.figures = figures
+    this.headingsPositions = headingsPositions
     this.bibliography = bibliography
   }
 
