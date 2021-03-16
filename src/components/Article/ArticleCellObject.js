@@ -63,9 +63,7 @@ const ArticleCellObject = ({ metadata, figure, children, progress }) => {
       objectWrapperStyle.height = 'auto'
     }
   }
-  if (objectMetadata.type === 'vega') {
-    console.info('progress: ',progress)
-  }
+
   return (<>
     <div style={objectWrapperStyle} className={objectClassName.join(' ')}>
     {objectMetadata.type === 'image' && objectOutputs.map((output, i) => (
