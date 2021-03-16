@@ -177,14 +177,14 @@ const TrendLine = ({
       </>
     )}
     {hValues.map((i,j) => (
-      <div className="position-absolute TrendLine_highlight rounded" key={i} style={{
+      <div className={`position-absolute TrendLine_highlight rounded ${i === pointer.idx && 'active'}`} key={i} style={{
         transform: `translate(${xValues[i]}px, ${yValues[i]}px)`,
       }}>
         <div className="position-absolute TrendLine_highlight_num">{j + 1}</div>
       </div>
     ))}
     {valuesFocusedIndices.map((i) => (
-      <div className="position-absolute TrendLine_activeStep rounded" key={i} style={{
+      <div className={`position-absolute TrendLine_activeStep rounded ${i === pointer.idx && 'active'}`} key={i} style={{
         top: 10,
         left: 10,
         transform: `translate(${xValues[i]}px, ${yValues[i]}px)`,
