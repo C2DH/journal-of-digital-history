@@ -84,4 +84,4 @@ const ArticleToC = ({ steps, step, active, headingsPositions }) => {
 }
 
 
-export default ArticleTocLine
+export default ArticleToC

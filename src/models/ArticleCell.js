@@ -30,7 +30,8 @@ export default class ArticleCell {
     this.hidden = hidden
     this.references = references
     this.figure = figure
+    this.isFigure = figure !== null
     this.heading = heading
-    this.isHeading = typeof heading !== 'undefined'
+    this.isHeading = heading !== null
   }
 }

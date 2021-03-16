@@ -97,7 +97,7 @@
 
 .ArticleToc_Type_code{
   border-radius: 0;
-  transform: rotate(45deg);
+  // transform: rotate(45deg);
   border: 1px solid var(--accent);
 }
 
@@ -108,7 +108,8 @@
   border-radius: var(--spacer-1);
 }
 
-.ArticleToc_Heading{
+
+.ArticleToc_Heading, .ArticleToc_Figure{
 
   text-align: right;
   right: var(--spacer-3);
