@@ -47,9 +47,10 @@ class ArticleText extends React.PureComponent {
   };
 
   render() {
-    const { contents } = this.props;
+    const { paragraphs, paragraphsPositions, headingsPositions } = this.props;
     const { progress, data } = this.state;
-    const currentLayer = contents[data].layer;
+    const currentLayer = paragraphs[data].layer;
+
     return (
       <div className={`mt-5 ArticleText ${currentLayer}`}>
         <div className='ArticleText_toc' style={{
@@ -61,15 +62,12 @@ class ArticleText extends React.PureComponent {
           }}>
             <div className="d-flex flex-row-reverse">
               <div className="mr-3">
-                <div className="rounded border border-dark">N</div>
+                {/* <div className="rounded border border-dark">N</div>*/}
                 <ArticleToC
-                  steps={contents} active
-                  step={data} progress={progress}
+                  headingsPositions={headingsPositions}
+                  steps={paragraphs} active
+                  step={paragraphsPositions[data]}
                 />
-              </div>
-              <div className="mr-3">
-                <div className="rounded border border-dark">H {progress}</div>
-
               </div>
             </div>
           </Col></Row></Container>
@@ -83,7 +81,7 @@ class ArticleText extends React.PureComponent {
           offset={.5}
           threshold={0}
         >
-        {contents.map((cell, i) => {
+        {paragraphs.map((cell, i) => {
           const cellStyle = {
             backgroundColor: cell.metadata.jdh?.backgroundColor ?? 'transparent'
           }
@@ -96,6 +94,7 @@ class ArticleText extends React.PureComponent {
             <Step data={i} key={i}>
               <div className={`ArticleText_ArticleParagraph ${data === i? ' active': ''} ${cell.layer}`}
                 style={{ ...cellStyle }}
+                id={`C-${cell.idx}`}
               >&nbsp;
                 <ArticleCell {...cell} hideNum={cell.layer === 'metadata'} idx={cell.idx} progress={cellProgress} active={data === i}/>
               </div>

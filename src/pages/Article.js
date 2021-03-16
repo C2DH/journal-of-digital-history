@@ -21,31 +21,18 @@ const Article = ({ ipynb, url, publicationDate = new Date() }) => {
   ].includes(d.layer))
   const sections = groupBy(articleTree.paragraphs, 'section')
   const { title, abstract, keywords, contributor } = sections
-  // let contents = paragraphs
-  let backgroundColor = 'var(--gray-100)'
-  // if (layer === LayerHermeneutics) {
-  //   contents = paragraphs.filter(({ layer }) => layer === LayerHermeneutics)
-  //   backgroundColor = 'var(--gray-300)'
-  // } else if (layer === LayerHermeneuticsData) {
-  //   contents = paragraphs.filter(({ layer }) => [
-  //     LayerHermeneutics, LayerHermeneuticsData, LayerData
-  //   ].includes(layer))
-  //   backgroundColor = 'var(--gray-200)'
-  // } else {
-  //   // layer param not specified, default for "narrative" and "data"
-  //   contents = paragraphs.filter(({ layer }) => [
-  //     LayerNarrative, LayerFigure, LayerData
-  //   ].includes(layer))
-  // }
 
   useEffect(() => {
-    useStore.setState({ backgroundColor });
-  })
+    useStore.setState({ backgroundColor: 'var(--gray-100)' });
+  }, [])
 
   return (
     <div className="page mt-5">
       <ArticleHeader {... {title, abstract, keywords, contributor, publicationDate, url }}/>
-      <ArticleText layer={layer} articleTree={articleTree} contents={paragraphs}/>
+      <ArticleText layer={layer}
+        headingsPositions={articleTree.headingsPositions}
+        paragraphs={paragraphs}
+        paragraphsPositions={paragraphs.map(d => d.idx)}/>
       {articleTree?.bibliography
         ? (<ArticleBilbiography articleTree={articleTree} />)
         : null
