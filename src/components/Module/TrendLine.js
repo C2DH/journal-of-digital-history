@@ -97,13 +97,14 @@ const TrendLine = ({
         orientation="bottom"
         axisOffsetLeft={0}
         axisOffsetTop={svgHeight - 50}
-        label="top"
+        label="date"
         windowDimensions={windowDimensions}
       />
       <AxisGraphics
         axisOffsetLeft={50}
         axisOffsetTop={0}
         orientation="left"
+        label=""
         numTicks={Math.round(svgHeight / 100)}
         exponent={visualVariables.yExponent}
         scale={yScale.exponent(visualVariables.yExponent).range(yRange)}
