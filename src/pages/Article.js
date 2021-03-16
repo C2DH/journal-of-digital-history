@@ -28,7 +28,15 @@ const Article = ({ ipynb, url, publicationDate = new Date() }) => {
 
   return (
     <div className="page mt-5">
-      <ArticleHeader {... {title, abstract, keywords, contributor, publicationDate, url }}/>
+      <ArticleHeader {... {title, abstract, keywords, contributor, publicationDate, url }}>
+        {ipynb ? null
+          : <div className="bg-warning py-2 px-3">
+              This article was <a href="http://frenchjournalformediaresearch.com/lodel-1.0/main/index.php?id=1620">originally published and peer-reviewed</a> in French.
+              Please, be aware that this English version is a work in progress,
+              a proof of concept for the Journal of Digital History
+            </div>
+        }
+      </ArticleHeader>
       <ArticleText layer={layer}
         headingsPositions={articleTree.headingsPositions}
         paragraphs={paragraphs}
