@@ -63,7 +63,9 @@ export const SectionTitle = 'title'
 export const SectionAbstract = 'abstract'
 export const SectionContributor = 'contributor'
 export const SectionKeywords = 'keywords'
-export const SectionChoices = [SectionTitle, SectionAbstract, SectionContributor, SectionKeywords]
+export const SectionCover = 'cover'
+export const SectionDisclaimer = 'disclaimer'
+export const SectionChoices = [SectionTitle, SectionAbstract, SectionContributor, SectionKeywords, SectionDisclaimer]
 
 export const CellTypeCode = 'code'
 export const CellTypeMarkdown = 'markdown'
