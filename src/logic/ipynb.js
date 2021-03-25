@@ -80,6 +80,30 @@ const renderMarkdownWithReferences = ({
   return {content, references}
 }
 
+
+/**
+ * getSectionFromCellMetadata
+ *
+ * This funciton return one and only one valid section given a list of `choices`.
+ * Cell tags are parsed, but also jdh special metadata section. The
+ * jdh.section idea is taken from [ipypublish](https://ipypublish.readthedocs.io/en/latest/metadata_tags.html)
+ *
+ * @param {Object} metadata - Notebook cell metadata object
+ * @param {Array} choices - Section choices, as flat array of Strings.
+ * @return {null|String} - Return one and only one valid section or undefined
+*/
+const getSectionFromCellMetadata = (metadata, choices) => {
+  const candidates = [].concat(metadata.tags, metadata.jdh?.section)
+  console.info('getSectionFromCellMetadata', candidates)
+  // SectionChoices.includes(cell.metadata.jdh?.section)
+  for(let i=0;i < candidates.length;i++) {
+    if(choices.includes(candidates[i])) {
+      return candidates[i]
+    }
+  }
+  return null
+}
+
 const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
   const headings = [];
   const headingsPositions = [];
@@ -100,6 +124,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       : cell.source
     // find footnote citations (with the number)
     const footnote = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
+    const section = getSectionFromCellMetadata(cell.metadata, SectionChoices)
     if (cell.metadata.jdh?.hidden) {
       cell.hidden = true
       cell.layer = LayerHidden
@@ -131,10 +156,10 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       } else {
         cell.layer = LayerData
       }
-    } else if(SectionChoices.includes(cell.metadata.jdh?.section)) {
+    } else if(section) {
       cell.layer = LayerMetadata
       // section is mostly used to host article metadata, such as authors, title or keywords.
-      cell.section = cell.metadata.jdh?.section
+      cell.section = section
     } else {
       if (LayerChoices.includes(cell.metadata.jdh?.layer)) {
         cell.layer = cell.metadata.jdh.layer
