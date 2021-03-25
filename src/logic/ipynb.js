@@ -94,8 +94,6 @@ const renderMarkdownWithReferences = ({
 */
 const getSectionFromCellMetadata = (metadata, choices) => {
   const candidates = [].concat(metadata.tags, metadata.jdh?.section)
-  console.info('getSectionFromCellMetadata', candidates)
-  // SectionChoices.includes(cell.metadata.jdh?.section)
   for(let i=0;i < candidates.length;i++) {
     if(choices.includes(candidates[i])) {
       return candidates[i]
