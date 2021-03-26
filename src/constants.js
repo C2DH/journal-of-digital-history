@@ -15,14 +15,16 @@ export const ArticleHermeneuticsRoute = { to:'/article/hermeneutics', label: 'na
 export const ArticleHermeneuticsDataRoute = { to:'/article/hermeneutics,data', label: 'navigation.articleHermeneuticsData'}
 export const TermsOfUseRoute = { to:'/terms', label: 'navigation.termsOfUse'}
 export const GuidelinesRoute = { to:'/guidelines', label: 'navigation.guidelines'}
+export const NotebookViewerRoute = { to:'/notebook-viewer', label: 'Navigation_NotebookViewer'}
 
 export const PrimaryRoutes = [
   HomeRoute,
   // ReferencesRoute,
   // DatasetsRoute,
   AbstractSubmissionRoute,
+  // GuidelinesRoute
+  NotebookViewerRoute,
   AboutRoute,
-  // GuidelinesRoute,
 ]
 
 export const ReCaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
