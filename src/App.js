@@ -57,6 +57,7 @@ const TermsOfUse = lazy(() => import('./pages/TermsOfUse'))
 const Playground = lazy(() => import('./pages/Playground'))
 const Notebook = lazy(() => import('./pages/Notebook'))
 const LocalNotebook = lazy(() => import('./pages/LocalNotebook'))
+const NotebookViewer = lazy(() => import('./pages/NotebookViewer'))
 const Guidelines = lazy(() => import('./pages/Guidelines'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
@@ -115,6 +116,9 @@ function LangRoutes() {
       </Route>
       <Route path={`${path}/notebook/:encodedUrl?`}>
         <Notebook />
+      </Route>
+      <Route path={`${path}/notebook-viewer/:encodedUrl?`}>
+        <NotebookViewer />
       </Route>
       <Route path={`${path}/local-notebook`}>
         <LocalNotebook />
