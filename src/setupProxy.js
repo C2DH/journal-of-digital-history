@@ -11,4 +11,14 @@ module.exports = function(app) {
       changeOrigin: true,
     })
   );
+  app.use(
+    '/proxy-githubusercontent',
+    createProxyMiddleware({
+      target: 'https://raw.githubusercontent.com',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/proxy-githubusercontent': '/', // rewrite path
+      },
+    })
+  );
 };
