@@ -23,9 +23,9 @@
       "metadata": {},
       "source": [
         "### Rationale",
-        "The Journal makes use of ipynb notebooks to build the Articles. There are a couple of rules to format content and visualize dataset, just like [jupyter Book](https://jupyterbook.org/intro.html)",
-        "The Journal relies heavily on **cell metadata** to correctly display its structure and performing its magic: transforming a linear structure, the notebook, into a struccured text (the article on JDH). ",
-        "Idea: work on jupyterLab or Google colab, save the resulting notebook and use our article viewer.."
+        "The Journal makes use of **ipynb notebooks** to publish the articles. Have a quick look at the [beginner guide](https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/).",
+        "In addition to that, there is a couple of rules to *format content* and *visualize datasets*, similar to what [jupyter Book](https://jupyterbook.org/intro.html) does.",
+        "In practice, the Journal relies heavily on **cell metadata** and ** cell tags** to correctly display its structure and performing its magic: transforming a linear structure, the notebook, into a rich structured text. "
       ]
     },
     {
@@ -34,65 +34,7 @@
         "jdh": {"section": "basisDescription"}
       },
       "source": [
-        "## Quickstart {.my-5}",
-        "test, test"
-      ]
-    },
-
-    {
-      "cell_type": "markdown",
-      "metadata": {
-        "jdh": {"section": "basis"}
-      },
-      "source": [
-        "### Basic Article metadata",
-        "First, let's use the cell metadata to put title, abstract, keywords and contributors in the right place on the web page.",
-        "See the [source code](https://github.com/C2DH/jdh-notebook/blob/master/examples/basic-metadata.ipynb) and the [resulting article]()"
-      ]
-    },
-    {
-      "cell_type": "markdown",
-      "metadata": {
-        "jdh": {"section": "basis"}
-      },
-      "source": [
-        "### Add footnotes and references",
-        "We use cite2c and Zotero...",
-        "See the [source code](https://github.com/C2DH/jdh-notebook/blob/master/examples/basic-metadata.ipynb) and the [resulting article]()"
-      ]
-    },
-    {
-      "cell_type": "markdown",
-      "metadata": {
-        "jdh": {"section": "basis"}
-      },
-      "source": [
-        "### Layout principles: the Grid",
-        "We rely on a 12 column grid that it's totally flexible.",
-        "See the [source code](https://github.com/C2DH/jdh-notebook/blob/master/examples/basic-metadata.ipynb) and the [resulting article]()"
-      ]
-    },
-    {
-      "cell_type": "markdown",
-      "metadata": {
-        "jdh": {"section": "datavis"}
-      },
-      "source": [
-        "### Simple XY graph",
-        "Add simple stuff",
-        "![test](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYgC3ie72_4bMahlE53QP17-dl7hI6ly4A1w&usqp=CAU)",
-        "See the [source code]() and the result"
-      ]
-    },
-    {
-      "cell_type": "markdown",
-      "metadata": {
-        "jdh": {"section": "datavis"}
-      },
-      "source": [
-        "### Simple XY graph",
-        "Vega and more.",
-        "See the [source code](https://github.com/C2DH/jdh-notebook/blob/master/examples/xy-line-graph.ipynb) and the the [resulting article]()"
+        "## Quickstart {.my-5}"
       ]
     }
   ]
