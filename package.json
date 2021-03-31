@@ -41,6 +41,7 @@
     "react-bootstrap": "^1.4.0",
     "react-device-detect": "^1.14.0",
     "react-dom": "^16.13.1",
+    "react-feather": "^2.0.9",
     "react-ga": "^3.2.1",
     "react-google-recaptcha": "^2.1.0",
     "react-i18next": "^11.7.3",
