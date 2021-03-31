@@ -25,7 +25,7 @@
         "### Rationale",
         "The Journal makes use of **ipynb notebooks** to publish the articles. Have a quick look at the [beginner guide](https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/).",
         "In addition to that, there is a couple of rules to *format content* and *visualize datasets*, similar to what [jupyter Book](https://jupyterbook.org/intro.html) does.",
-        "In practice, the Journal relies heavily on **cell metadata** and ** cell tags** to correctly display its structure and performing its magic: transforming a linear structure, the notebook, into a rich structured text. "
+        "In practice, the Journal relies heavily on **cell metadata** and **cell tags** to correctly display its structure and performing its magic: transforming a linear structure, the notebook, into a rich structured text. "
       ]
     },
     {
