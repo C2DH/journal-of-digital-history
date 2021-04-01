@@ -47,7 +47,7 @@ class ArticleText extends React.PureComponent {
   };
 
   render() {
-    const { paragraphs, paragraphsPositions, headingsPositions } = this.props;
+    const { paragraphs, paragraphsPositions, headingsPositions, onDataHrefClick } = this.props;
     const { progress, data } = this.state;
     const currentLayer = paragraphs[data].layer;
 
@@ -95,6 +95,10 @@ class ArticleText extends React.PureComponent {
               <div className={`ArticleText_ArticleParagraph ${data === i? ' active': ''} ${cell.layer}`}
                 style={{ ...cellStyle }}
                 id={`C-${cell.idx}`}
+                onClick={(e) => {
+                  const dataHref = e.target.getAttribute('data-href')
+                  onDataHrefClick({ dataHref, idx: cell.idx })
+                }}
               >&nbsp;
                 <ArticleCell {...cell} hideNum={cell.layer === 'metadata'} idx={cell.idx} progress={cellProgress} active={data === i}/>
               </div>
