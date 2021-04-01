@@ -4,6 +4,7 @@ export default class ArticleTree {
     paragraphs = [],
     figures = [],
     headingsPositions = [],
+    citationsFromMetadata,
     bibliography
   }) {
     this.headings= headings
@@ -11,6 +12,7 @@ export default class ArticleTree {
     this.figures = figures
     this.headingsPositions = headingsPositions
     this.bibliography = bibliography
+    this.citationsFromMetadata = citationsFromMetadata
   }
 
   formatBibliograhpy({ template='apa', format='html' } = {}) {

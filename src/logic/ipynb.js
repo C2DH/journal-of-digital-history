@@ -238,7 +238,8 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
     headings,
     headingsPositions,
     paragraphs,
-    bibliography, figures
+    bibliography, figures,
+    citationsFromMetadata
   })
 }
 
