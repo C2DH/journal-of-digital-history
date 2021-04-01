@@ -22,7 +22,7 @@ export const PrimaryRoutes = [
   // ReferencesRoute,
   // DatasetsRoute,
   AbstractSubmissionRoute,
-  // GuidelinesRoute
+  GuidelinesRoute,
   NotebookViewerRoute,
   AboutRoute,
 ]

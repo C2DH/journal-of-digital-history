@@ -71,7 +71,8 @@
         "guidelines": {
           "basis": "The basis: quickstart",
           "datavis": "Data visualisations",
-          "authorWithDatavis": "Do you already have your own data visualisations?"
+          "authorWithDatavis": "Do you already have your own data visualisations?",
+          "downloadArticleTemplate": "download article template (.ipynb)"
         },
         "home": {
           "latestIssues": "Latest Issues",
