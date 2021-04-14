@@ -6,7 +6,7 @@ import LangLink from '../../components/LangLink'
 import { BootstrapColumLayout } from '../../constants'
 
 
-const ArticleHeader = ({ title=[], abstract=[], keywords=[], contributor=[], publicationDate=new Date(), url, doi, children }) => {
+const ArticleHeader = ({ title=[], abstract=[], keywords=[], contributor=[], disclaimer=[], publicationDate=new Date(), url, doi, children }) => {
   const { t } = useTranslation()
   const keywordsAsLinks = keywords.reduce((acc, d) => {
     return acc.concat(d.source.join(',').split(/\s*[,;]\s*/g))
@@ -61,6 +61,20 @@ const ArticleHeader = ({ title=[], abstract=[], keywords=[], contributor=[], pub
           </Col>
         </Row>
       )}
+      {disclaimer.length
+        ? (
+          <Row>
+            <Col {...BootstrapColumLayout}>
+              <div className="bg-warning p-3">
+              {disclaimer.map((paragraph, i) => (
+                <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>
+              ))}
+              </div>
+            </Col>
+          </Row>
+        )
+        : null
+      }
       {children
         ? <Row> <Col {...BootstrapColumLayout}>{children}</Col></Row>
         : null}
