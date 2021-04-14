@@ -51,6 +51,7 @@ export const ScrollamaThreshold = 0
 
 export const LayerHermeneutics = 'hermeneutics'
 export const LayerHermeneuticsData = 'hermeneutics,data'
+export const LayerHermeneuticsStep = 'hermeneutics-step'
 export const LayerData = 'data'
 export const LayerHidden = 'hidden'
 export const LayerNarrative = 'narrative'
@@ -58,7 +59,7 @@ export const LayerFigure = 'narrative,data'
 export const LayerMetadata = 'metadata'
 export const LayerCitation = 'citation'
 export const LayerChoices = [
-  LayerHermeneutics, LayerHermeneuticsData, LayerData, LayerNarrative, LayerFigure, LayerMetadata
+  LayerHermeneutics, LayerHermeneuticsStep, LayerHermeneuticsData, LayerData, LayerNarrative, LayerFigure, LayerMetadata
 ]
 
 export const SectionTitle = 'title'
