@@ -26,6 +26,13 @@ const Article = ({ ipynb, url, publicationDate = new Date() }) => {
 
   useEffect(() => {
     useStore.setState({ backgroundColor: 'var(--gray-100)' });
+    const script = document.createElement('script');
+    script.src = "https://hypothes.is/embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    }
   }, [])
 
   return (
