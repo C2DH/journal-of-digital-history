@@ -49,26 +49,40 @@ export const ModuleQuote = 'quote'
 
 export const ScrollamaThreshold = 0
 
+
+// Cell layer choices
+export const LayerNarrative = 'narrative'
 export const LayerHermeneutics = 'hermeneutics'
-export const LayerHermeneuticsData = 'hermeneutics,data'
 export const LayerHermeneuticsStep = 'hermeneutics-step'
 export const LayerData = 'data'
-export const LayerHidden = 'hidden'
-export const LayerNarrative = 'narrative'
-export const LayerFigure = 'narrative,data'
-export const LayerMetadata = 'metadata'
-export const LayerCitation = 'citation'
 export const LayerChoices = [
-  LayerHermeneutics, LayerHermeneuticsStep, LayerHermeneuticsData, LayerData, LayerNarrative, LayerFigure, LayerMetadata
+  LayerNarrative, LayerHermeneutics,LayerHermeneuticsStep, LayerData
 ]
 
+// Cell sections
 export const SectionTitle = 'title'
 export const SectionAbstract = 'abstract'
 export const SectionContributor = 'contributor'
 export const SectionKeywords = 'keywords'
 export const SectionCover = 'cover'
 export const SectionDisclaimer = 'disclaimer'
-export const SectionChoices = [SectionTitle, SectionAbstract, SectionContributor, SectionKeywords, SectionDisclaimer]
+export const SectionDefault = 'text' // default
+export const SectionChoices = [
+  SectionTitle, SectionAbstract, SectionContributor,
+  SectionKeywords, SectionDisclaimer, SectionDefault
+]
+
+// Cell Roles
+export const RoleHidden = 'hidden'
+export const RoleFigure = 'figure'
+export const RoleMetadata = 'metadata'
+export const RoleCitation = 'citation'
+export const RoleDefault = 'none' // default
+export const RoleChoices = [
+  RoleHidden, RoleFigure,
+  RoleMetadata, RoleCitation,
+  RoleDefault
+]
 
 export const CellTypeCode = 'code'
 export const CellTypeMarkdown = 'markdown'
