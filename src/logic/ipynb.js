@@ -1,17 +1,17 @@
 import MarkdownIt from 'markdown-it'
 import Cite from 'citation-js'
 import MarkdownItAttrs from '@gerhobbelt/markdown-it-attrs'
-
+import { groupBy } from 'lodash'
 import ArticleTree from '../models/ArticleTree'
 import ArticleHeading from '../models/ArticleHeading'
 import ArticleCell from '../models/ArticleCell'
+import ArticleCellGroup from '../models/ArticleCellGroup'
 import ArticleReference from '../models/ArticleReference'
 import ArticleFigure from '../models/ArticleFigure'
-
 import {
-  LayerChoices, SectionChoices,
-  LayerFigure, LayerNarrative, LayerData,
-  LayerHidden, LayerCitation, LayerMetadata,
+  SectionChoices, SectionDefault,
+  LayerChoices, LayerNarrative, LayerHermeneuticsStep,
+  RoleHidden, RoleFigure, RoleMetadata, RoleCitation, RoleDefault,
   CellTypeMarkdown, CellTypeCode
 } from '../constants'
 
@@ -80,58 +80,96 @@ const renderMarkdownWithReferences = ({
   return {content, references}
 }
 
-
+/**
+ * getFirstValidMatchFromChoices
+ *
+ * This funciton return one and only one valid choice (scalar value) given a list of `choices`
+ * and a list of possible candidates (scalar values only)
+ *
+ * @param {Object} candidates - list of strings, numbers etc..
+ * @param {Array} choices - list of possible valid outputs
+ * @param {Array} defaultChoice - optional. Section default choice
+ * @return {Number|String} - Return one and only one valid value among the choices or the defaultChoice
+*/
+const getFirstValidMatchFromChoices = (candidates=[], choiches=[], defaultChoice=null) => {
+  for (let i=0; i < candidates.length; i++) {
+    if (choiches.includes(candidates[i])) {
+      return candidates[i]
+    }
+  }
+  return defaultChoice
+}
 /**
  * getSectionFromCellMetadata
  *
- * This funciton return one and only one valid section given a list of `choices`.
+ * This funciton returns one and only one valid section given a list of `choices`.
  * Cell tags are parsed, but also jdh special metadata section. The
  * jdh.section idea is taken from [ipypublish](https://ipypublish.readthedocs.io/en/latest/metadata_tags.html)
  *
  * @param {Object} metadata - Notebook cell metadata object
- * @param {Array} choices - Section choices, as flat array of Strings.
  * @return {null|String} - Return one and only one valid section or undefined
 */
-const getSectionFromCellMetadata = (metadata, choices) => {
-  const candidates = [].concat(metadata.tags, metadata.jdh?.section)
-  for(let i=0;i < candidates.length;i++) {
-    if(choices.includes(candidates[i])) {
-      return candidates[i]
-    }
-  }
-  return null
-}
+const getSectionFromCellMetadata = (metadata) => getFirstValidMatchFromChoices(
+  [].concat(metadata.tags, metadata.jdh?.section),
+  SectionChoices, SectionDefault
+)
+/**
+ * getLayerFromCellMetadata
+ *
+ * This funciton returns one and only one valid `layer` from the list of `LayerChoices`.
+ * Cell tags are parsed, but also jdh special metadata layer. The
+ * jdh.layer idea is taken from [ipypublish](https://ipypublish.readthedocs.io/en/latest/metadata_tags.html)
+ *
+ * @param {Object} metadata - Notebook cell metadata object
+ * @return {null|String} - Return one and only one valid section or undefined
+*/
+const getLayerFromCellMetadata = (metadata) => getFirstValidMatchFromChoices(
+  [].concat(metadata.tags, metadata.jdh?.layer),
+  LayerChoices, LayerNarrative
+)
 
 const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
-  const headings = [];
-  const headingsPositions = [];
-  const figures = [];
-  const paragraphs = [];
-  let bibliography = null;
-  const citationsFromMetadata = metadata?.cite2c?.citations;
+  const headings = []
+  const headingsPositions = []
+  const figures = []
+  const articleCells = []
+  const articleParagraphs = []
+  const sectionsIndex = {}
+  const citationsFromMetadata = metadata?.cite2c?.citations
+  // this contain footnotes => zotero id to remap reference at paragraph level
+  const referenceIndex = {}
+  const articleCellNumbersByLayer = {}
+  //
+  let bibliography = null
   // parse biobliographic elements
   if (citationsFromMetadata instanceof Object) {
     bibliography = new Cite(Object.values(citationsFromMetadata))
   }
-  // this contain footnotes => zotero id to remap reference at paragraph level
-  const referenceIndex = {}
-  const paragraphNumbers = {}
+
+  // cycle through notebook cells to fill ArticleCells, figures, headings
   cells.map((cell, idx) => {
     const sources = Array.isArray(cell.source)
       ? cell.source.join('\n\n')
       : cell.source
     // find footnote citations (with the number)
     const footnote = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
-    const section = getSectionFromCellMetadata(cell.metadata, SectionChoices)
+    // get section and layer from metadata
+    cell.section = getSectionFromCellMetadata(cell.metadata)
+    cell.layer = getLayerFromCellMetadata(cell.metadata)
+    cell.role = RoleDefault
+    // get role in a secont step
     if (cell.metadata.jdh?.hidden) {
+      // is hidden (e.g. uninteresting code, like pip install)
       cell.hidden = true
-      cell.layer = LayerHidden
+      cell.role = RoleHidden
     } else if (footnote) {
+      // it is a footnote cell given by Cite2c
       referenceIndex[footnote[1]] = footnote[2]
       cell.hidden = true
-      cell.layer = LayerCitation
+      cell.role = RoleCitation
     } else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs)) {
-      // check whether ths cell outputs JDH metadata containing **module**;
+      // this is a "Figure" candindate.
+      // Let's check whether the cell outputs JDH metadata and if jdh namespace contains **module**;
       const cellOutputJdhMetadata = cell.outputs.find(d => d.metadata?.jdh?.module)
       if (cellOutputJdhMetadata) {
         // if yes, these metadata AND its output will be added to this cell.
@@ -150,25 +188,16 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
           idx,
           num: figures.length + 1
         }))
-        cell.layer = LayerFigure
-      } else {
-        cell.layer = LayerData
+        cell.role = RoleFigure
       }
-    } else if(section) {
-      cell.layer = LayerMetadata
-      // section is mostly used to host article metadata, such as authors, title or keywords.
-      cell.section = section
-    } else {
-      if (LayerChoices.includes(cell.metadata.jdh?.layer)) {
-        cell.layer = cell.metadata.jdh.layer
-      } else {
-        cell.layer = LayerNarrative
-      }
+      // this is not a real "Figure", just a "Data..."
+    } else if (cell.section !== SectionDefault) {
+      cell.role = RoleMetadata
     }
-    if (!paragraphNumbers[cell.layer]) {
-      paragraphNumbers[cell.layer] = 0
+    if (!articleCellNumbersByLayer[cell.layer]) {
+      articleCellNumbersByLayer[cell.layer] = 0
     }
-    cell.num = paragraphNumbers[cell.layer] += 1
+    cell.num = articleCellNumbersByLayer[cell.layer] += 1
     cell.source = Array.isArray(cell.source)
       ? cell.source
       : [cell.source]
@@ -184,7 +213,6 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         referenceIndex,
         citationsFromMetadata,
       })
-      // TODO: render paragraphs in metadata too!
       // get tokens 'heading_open' to get all h1,h2,h3 etc...
       const headerIdx = tokens.findIndex(t => t.type === 'heading_open');
       if (headerIdx > -1) {
@@ -195,13 +223,14 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         }))
         headingsPositions.push(idx)
       }
-      paragraphs.push(new ArticleCell({
+      articleCells.push(new ArticleCell({
         type: CellTypeMarkdown,
         content,
         source: cell.source,
         section: cell.section,
         metadata: cell.metadata,
         layer: cell.layer,
+        role: cell.role,
         idx,
         num: cell.num,
         references,
@@ -214,7 +243,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
           : 'p',
       }))
     } else if (cell.cell_type === CellTypeCode) {
-      paragraphs.push(new ArticleCell({
+      articleCells.push(new ArticleCell({
         type: CellTypeCode,
         content: cell.source.join(''),
         section: cell.section,
@@ -226,18 +255,45 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         outputs: cell.outputs,
         hidden: !!cell.hidden,
         level: 'code',
-        figure: cell.layer === LayerFigure
+        figure: cell.role === RoleFigure
           ? figures.find((d) => d.idx === idx)
           : null
       }))
     }
   })
-  // console.info('getArticleTreeFromIpynb', citationsFromMetadata, headings, paragraphs, bibliography)
-  console.info('getArticleTreeFromIpynb paragraphs:', paragraphs.length, 'figures:',figures.length, 'headingsPositions', headingsPositions)
+  // used locally
+  let bufferCellsGroup = new ArticleCellGroup()
+  for (let i = 0; i < articleCells.length; i+=1) {
+    // add reference
+    if (!sectionsIndex[articleCells[i].section]) {
+      sectionsIndex[articleCells[i].section] = []
+    }
+    sectionsIndex[articleCells[i].section].push(articleCells[i])
+    // get groups by role or layer
+    if (articleCells[i].layer === LayerHermeneuticsStep) {
+      bufferCellsGroup.addArticleCell(articleCells[i])
+    } else {
+      if (bufferCellsGroup.cells.length) {
+        // add this group to paragraphs
+        articleParagraphs.push(bufferCellsGroup)
+        bufferCellsGroup = new ArticleCellGroup()
+      }
+      if (articleCells[i].section === SectionDefault) {
+        articleParagraphs.push(articleCells[i])
+      }
+    }
+  }
+  if (bufferCellsGroup.cells.length) {
+    articleParagraphs.push(bufferCellsGroup)
+  }
+
   return new ArticleTree({
     headings,
     headingsPositions,
-    paragraphs,
+    cells: articleCells,
+    paragraphs: articleParagraphs,
+    paragraphsPositions: articleParagraphs.map(d => d.idx),
+    sections: sectionsIndex,
     bibliography, figures,
     citationsFromMetadata
   })
