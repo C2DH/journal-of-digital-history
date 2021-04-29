@@ -57,9 +57,9 @@ const Guidelines = () => {
               <div className="position-absolute h-100 w-100" style={{top: 0}}>
               <iframe title="Run Ansible Tasks from a Jupyter Notebook!"
                 src="https://player.vimeo.com/video/531679943" width="100%" height="100%"
-                frameborder="0"
+                frameBorder="0"
                 allow="autoplay; fullscreen; picture-in-picture"
-                allowfullscreen>
+                allowFullScreen>
               </iframe>
               </div>
             </div>
