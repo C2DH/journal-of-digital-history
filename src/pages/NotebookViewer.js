@@ -60,7 +60,7 @@ const NotebookViewer = () => {
     )
   }
   return (
-    <div>{JSON.stringify(status)}
+    <div>
     {status === StatusSuccess
       ? <Article ipynb={item}/>
       : null
