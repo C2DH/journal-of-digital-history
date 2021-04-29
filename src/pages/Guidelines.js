@@ -11,12 +11,12 @@ import { downloadFile } from '../logic/api/downloadData'
 import { Download } from 'react-feather';
 
 const articleTree = getArticleTreeFromIpynb(ipynb)
-const sections = groupBy(articleTree.paragraphs, ({ metadata }) => metadata?.jdh?.section ?? 'paragraphs')
-const { title = [], basis = [], basisDescription=[], datavis=[], paragraphs = []  } = sections
+const {title=[], text=[]} = articleTree.sections
+
+console.info('sticazzi',articleTree )
 
 const Guidelines = () => {
   const { t } = useTranslation()
-  let idx = 0
   useEffect(() => {
     useStore.setState({ backgroundColor: 'var(--white)' });
   }, [])
@@ -25,7 +25,7 @@ const Guidelines = () => {
       <Container className="page">
         <Row>
           <Col {...BootstrapColumLayout}>
-            {title.concat(paragraphs).map((props, i) => (
+            {title.concat(text).map((props, i) => (
               <ArticleCellContent hideIdx hideNum {...props} key={i} idx=""/>
             ))}
           </Col>
@@ -46,13 +46,6 @@ const Guidelines = () => {
         </Row>
         <Row>
           <Col {...BootstrapColumLayout}>
-            {basisDescription.map((props, i) => (
-              <ArticleCellContent hideIdx hideNum {...props} key={i} idx=""/>
-            ))}
-          </Col>
-        </Row>
-        <Row>
-          <Col {...BootstrapColumLayout}>
             <div className="position-relative" style={{paddingTop: `${100*388/640}%`}}>
               <div className="position-absolute h-100 w-100" style={{top: 0}}>
               <iframe title="Run Ansible Tasks from a Jupyter Notebook!"
@@ -64,14 +57,6 @@ const Guidelines = () => {
               </div>
             </div>
           </Col>
-        </Row>
-
-        <Row className="mt-5">
-          {basis.map((props, i) => (
-            <Col key={i} md={{span:4, offset: i % 2 === 0 ? 2 : 0}}>
-            <ArticleCellContent hideNum hideIdx={false} {...props} idx={idx += 1}/>
-            </Col>
-          ))}
         </Row>
       </Container>
     </>
