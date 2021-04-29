@@ -32,6 +32,9 @@ const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
   return (
     <>
     {steps.map((d,i) => {
+      if (d.type === 'group') {
+        return null
+      }
       const levelClassName = `ArticleToc_Level_${d.level}`
       const typeClassName = `ArticleToc_Type_${d.type}`
       // let inbetweenHeadingsClassName = ''
