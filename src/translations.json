@@ -68,6 +68,9 @@
           "loadedFromRemoteURL": "<b>Note</b>: this ipython notebook has been loaded from: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>",
           "tryRemoteURL": "Try another notebook"
         },
+        "issue": {
+          "title": "Issue {{ id }}"
+        },
         "guidelines": {
           "basis": "The basis: quickstart",
           "datavis": "Data visualisations",
