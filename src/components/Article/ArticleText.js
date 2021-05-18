@@ -5,6 +5,8 @@ import ArticleToC from './ArticleToC'
 import ArticleCell from './ArticleCell'
 import ArticleCellGroup from './ArticleCellGroup'
 import ArticleShadowLayer from './ArticleShadowLayer'
+import { RoleHidden } from '../../constants'
+
 
 class ArticleText extends React.PureComponent {
   state = {
@@ -93,6 +95,13 @@ class ArticleText extends React.PureComponent {
           threshold={0}
         >
         {paragraphs.map((cell, i) => {
+          if(cell.role === RoleHidden) {
+            return (
+              <Step data={i} key={i}>
+                <div style={{height: 1, overflow: 'hidden'}}>&nbsp;</div>
+              </Step>
+            )
+          }
           const cellStyle = {
             backgroundColor: cell.metadata?.jdh?.backgroundColor ?? 'transparent'
           }

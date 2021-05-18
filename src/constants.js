@@ -55,8 +55,9 @@ export const LayerNarrative = 'narrative'
 export const LayerHermeneutics = 'hermeneutics'
 export const LayerHermeneuticsStep = 'hermeneutics-step'
 export const LayerData = 'data'
+export const LayerHidden = 'hidden'
 export const LayerChoices = [
-  LayerNarrative, LayerHermeneutics,LayerHermeneuticsStep, LayerData
+  LayerNarrative, LayerHermeneutics,LayerHermeneuticsStep, LayerData, LayerHidden
 ]
 
 // Cell sections

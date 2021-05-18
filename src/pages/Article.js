@@ -42,7 +42,7 @@ const Article = ({ ipynb, url, publicationDate = new Date() }) => {
         width={width}
         {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }}
       />
-      <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/>
+      {articleTree.citationsFromMetadata ? <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/> : null }
       {articleTree?.bibliography
         ? (<ArticleBilbiography articleTree={articleTree} />)
         : null

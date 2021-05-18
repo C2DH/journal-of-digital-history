@@ -158,7 +158,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
     cell.layer = getLayerFromCellMetadata(cell.metadata)
     cell.role = RoleDefault
     // get role in a secont step
-    if (cell.metadata.jdh?.hidden) {
+    if (cell.metadata.tags?.includes('hidden') || cell.metadata.jdh?.hidden) {
       // is hidden (e.g. uninteresting code, like pip install)
       cell.hidden = true
       cell.role = RoleHidden
@@ -207,7 +207,12 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
     if (cell.cell_type === CellTypeMarkdown) {
       const sources = cell.source.join('  \n')
       // exclude rendering of reference references
-      const tokens = markdownParser.parse(sources);
+      let tokens = []
+      try {
+        tokens = markdownParser.parse(sources);
+      } catch(err) {
+        console.warn('Couldn\'t parse cell markdown tokens', cell, err)
+      }
       const {content, references} = renderMarkdownWithReferences({
         sources,
         referenceIndex,

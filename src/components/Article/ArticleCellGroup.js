@@ -8,7 +8,7 @@ const ArticleCellGroup = ({ cellGroup, step=0, currentStep=-1, progress=0.0, onD
   const sections = cellGroup.getGroupSections()
   const sectionWidth = width / 2
   return (
-    <div fluid className="ArticleCellGroup py-5 d-flex flex-column" style={{ width, height, alignIems: 'stretch' }}>
+    <div className="ArticleCellGroup py-5 d-flex flex-column" style={{ width, height, alignIems: 'stretch' }}>
       <div className="border-bottom border-accent flex-grow-1">
       {sections.map((section,i) => (
         <h3 key={i} style={{
