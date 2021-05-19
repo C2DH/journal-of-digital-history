@@ -3,6 +3,9 @@ import { Scrollama, Step } from 'react-scrollama'
 import { Container, Row, Col } from 'react-bootstrap'
 import ArticleToC from './ArticleToC'
 import ArticleCell from './ArticleCell'
+import ArticleCellGroup from './ArticleCellGroup'
+import ArticleShadowLayer from './ArticleShadowLayer'
+import { RoleHidden } from '../../constants'
 
 
 class ArticleText extends React.PureComponent {
@@ -47,16 +50,19 @@ class ArticleText extends React.PureComponent {
   };
 
   render() {
-    const { paragraphs, paragraphsPositions, headingsPositions, onDataHrefClick } = this.props;
+    const { paragraphs, paragraphsPositions, headingsPositions, onDataHrefClick, debug, height, width,
+      title, abstract, keywords, contributor, publicationDate, url, disclaimer,
+    } = this.props;
     const { progress, data } = this.state;
-    const currentLayer = paragraphs[data].layer;
+    const currentLayer = paragraphs[data]?.layer;
 
     return (
       <div className={`mt-5 ArticleText ${currentLayer}`}>
         <div className='ArticleText_toc' style={{
           position: 'sticky',
-          top: 0
+          top: 160
         }}>
+
           <Container fluid style={{position: 'absolute'}}><Row><Col {...{
             md: { offset: 10, span: 2}
           }}>
@@ -72,6 +78,13 @@ class ArticleText extends React.PureComponent {
             </div>
           </Col></Row></Container>
         </div>
+        <ArticleShadowLayer height={height} width={width} title={title}
+          abstract={abstract}
+          keywords={keywords}
+          contributor={contributor}
+          publicationDate={publicationDate}
+          url={url}
+          disclaimer={disclaimer} />
         <div className="ArticleText_scrollama">
         <Scrollama
           onStepEnter={this.onStepEnter}
@@ -82,14 +95,39 @@ class ArticleText extends React.PureComponent {
           threshold={0}
         >
         {paragraphs.map((cell, i) => {
+          if(cell.role === RoleHidden) {
+            return (
+              <Step data={i} key={i}>
+                <div style={{height: 1, overflow: 'hidden'}}>&nbsp;</div>
+              </Step>
+            )
+          }
           const cellStyle = {
-            backgroundColor: cell.metadata.jdh?.backgroundColor ?? 'transparent'
+            backgroundColor: cell.metadata?.jdh?.backgroundColor ?? 'transparent'
           }
           const cellProgress = data > i
             ? 1
             : data < i
               ? 0
               : progress
+          if (cell.type === 'group') {
+            return (
+              <Step data={i} key={i}>
+                <div>
+                <ArticleCellGroup
+                  cellGroup={cell}
+                  progress={cellProgress}
+                  step={i}
+                  currentStep={data}
+                  key={i}
+                  onDataHrefClick={onDataHrefClick}
+                  height={height * .4}
+                  width={width}
+                />
+                </div>
+              </Step>
+            )
+          }
           return (
             <Step data={i} key={i}>
               <div className={`ArticleText_ArticleParagraph ${data === i? ' active': ''} ${cell.layer}`}
@@ -100,6 +138,7 @@ class ArticleText extends React.PureComponent {
                   onDataHrefClick({ dataHref, idx: cell.idx })
                 }}
               >&nbsp;
+                {debug ? (<div>layer:{cell.layer} role:{cell.role} section:{cell.section}</div>): null}
                 <ArticleCell {...cell} hideNum={cell.layer === 'metadata'} idx={cell.idx} progress={cellProgress} active={data === i}/>
               </div>
             </Step>

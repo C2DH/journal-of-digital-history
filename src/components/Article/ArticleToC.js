@@ -1,6 +1,6 @@
 import React from 'react'
-
 import { useHistory } from 'react-router-dom'
+import { RoleHidden } from '../../constants'
 
 
 const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
@@ -32,6 +32,9 @@ const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
   return (
     <>
     {steps.map((d,i) => {
+      if (d.type === 'group' || d.role === RoleHidden) {
+        return null
+      }
       const levelClassName = `ArticleToc_Level_${d.level}`
       const typeClassName = `ArticleToc_Type_${d.type}`
       // let inbetweenHeadingsClassName = ''
@@ -53,7 +56,7 @@ const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
               : d.idx === step
                 ? 'var(--primary)'
                 : 'transparent',
-            border: '1px solid',
+            // border: '1px solid',
           }}
           >
           {d.heading

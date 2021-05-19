@@ -6,7 +6,7 @@ import LangLink from '../../components/LangLink'
 import { BootstrapColumLayout } from '../../constants'
 
 
-const ArticleHeader = ({ title=[], abstract=[], keywords=[], contributor=[], publicationDate=new Date(), url, doi, children }) => {
+const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], contributor=[], disclaimer=[], publicationDate=new Date(), url, doi, children }) => {
   const { t } = useTranslation()
   const keywordsAsLinks = keywords.reduce((acc, d) => {
     return acc.concat(d.source.join(',').split(/\s*[,;]\s*/g))
@@ -19,7 +19,7 @@ const ArticleHeader = ({ title=[], abstract=[], keywords=[], contributor=[], pub
             ? <h3 className="mb-3">{t('pages.article.publicationDate')} {t('dates.short', {date: publicationDate})}</h3>
             : <h3 className="mb-3">{t('pages.article.notYetPublished')} | ({publicationDate.getFullYear()})</h3>
           }
-          <div className="ArticleHeader_title my-3">
+          <div className={`ArticleHeader_title my-3 ${variant}`}>
           {title.map((paragraph, i) => (
             <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>
           ))}
@@ -33,22 +33,25 @@ const ArticleHeader = ({ title=[], abstract=[], keywords=[], contributor=[], pub
         </Col>
       ))}
       </Row>
-      <Row className="mt-5">
-        <Col {...BootstrapColumLayout}>
-          <h3>{t('pages.article.abstract')}</h3>
-          <div className="ArticleHeader_keywords mb-3">
-            {keywordsAsLinks.map((keyword, i) => (
-              <LangLink key={i} to={`/tag/${keyword}`} className="mr-2">{keyword}</LangLink>
-            ))}
-          </div>
-          <div className="ArticleHeader_abstract">
-            {abstract.map((paragraph, i) => (
-              <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>
-            ))}
-          </div>
-        </Col>
-      </Row>
-
+      {abstract
+        ? (
+          <Row className="mt-5">
+            <Col {...BootstrapColumLayout}>
+              <h3>{t('pages.article.abstract')}</h3>
+              <div className="ArticleHeader_keywords mb-3">
+                {keywordsAsLinks.map((keyword, i) => (
+                  <LangLink key={i} to={`/tag/${keyword}`} className="mr-2">{keyword}</LangLink>
+                ))}
+              </div>
+              <div className="ArticleHeader_abstract">
+                {abstract.map((paragraph, i) => (
+                  <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>
+                ))}
+              </div>
+            </Col>
+          </Row>
+        ):null
+      }
       {!!url && (
         <Row>
           <Col {...BootstrapColumLayout}>
@@ -61,6 +64,20 @@ const ArticleHeader = ({ title=[], abstract=[], keywords=[], contributor=[], pub
           </Col>
         </Row>
       )}
+      {disclaimer.length
+        ? (
+          <Row>
+            <Col {...BootstrapColumLayout}>
+              <div className="bg-warning p-3">
+              {disclaimer.map((paragraph, i) => (
+                <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>
+              ))}
+              </div>
+            </Col>
+          </Row>
+        )
+        : null
+      }
       {children
         ? <Row> <Col {...BootstrapColumLayout}>{children}</Col></Row>
         : null}

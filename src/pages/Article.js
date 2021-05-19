@@ -1,29 +1,24 @@
-import React, { useMemo, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {useParams} from 'react-router-dom'
-import {groupBy} from 'lodash'
 import { useStore } from '../store'
 import ArticleText from '../components/Article'
 import ArticleHeader from '../components/Article/ArticleHeader'
 import ArticleBilbiography from '../components/Article/ArticleBibliography'
 import ArticleNote from '../components/Article/ArticleNote'
 import source from '../data/mock-ipynb.nbconvert.json'
-import { getArticleTreeFromIpynb } from '../logic/ipynb'
-import { LayerHermeneutics, LayerNarrative, LayerData, LayerFigure } from '../constants'
-
+import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
+import { LayerNarrative } from '../constants'
+import { useCurrentWindowDimensions }from '../hooks/graphics'
 
 const Article = ({ ipynb, url, publicationDate = new Date() }) => {
   const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
   const [selectedDataHref, setSelectedDataHref] = useState(null)
-  const articleTree = useMemo(() => getArticleTreeFromIpynb({
+  const articleTree = useIpynbNotebookParagraphs({
     cells: ipynb? ipynb.cells : source.cells,
     metadata: ipynb? ipynb.metadata : source.metadata
-  }), [ipynb])
-  const paragraphs = articleTree.paragraphs.filter((d) => [
-    LayerHermeneutics, LayerNarrative, LayerData, LayerFigure
-  ].includes(d.layer))
-  const sections = groupBy(articleTree.paragraphs, 'section')
-  const { title, abstract, keywords, contributor } = sections
-
+  })
+  const { title, abstract, keywords, contributor, disclaimer = [] } = articleTree.sections
+  // console.info('Article rendering', articleTree)
   useEffect(() => {
     useStore.setState({ backgroundColor: 'var(--gray-100)' });
     const script = document.createElement('script');
@@ -34,30 +29,24 @@ const Article = ({ ipynb, url, publicationDate = new Date() }) => {
       document.body.removeChild(script);
     }
   }, [])
-
+  const { height, width } =  useCurrentWindowDimensions()
   return (
     <div className="page mt-5">
-      <ArticleHeader {... {title, abstract, keywords, contributor, publicationDate, url }}>
-        {ipynb ? null
-          : <div className="bg-warning py-2 px-3">
-              This article was <a href="http://frenchjournalformediaresearch.com/lodel-1.0/main/index.php?id=1620">originally published and peer-reviewed</a> in French.
-              Please, be aware that this English version is a work in progress,
-              a proof of concept for the Journal of Digital History
-            </div>
-        }
-      </ArticleHeader>
+      <ArticleHeader {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }} />
       <ArticleText layer={layer}
         headingsPositions={articleTree.headingsPositions}
-        paragraphs={paragraphs}
-        paragraphsPositions={paragraphs.map(d => d.idx)}
+        paragraphs={articleTree.paragraphs}
+        paragraphsPositions={articleTree.paragraphsPositions}
         onDataHrefClick={(d) => setSelectedDataHref(d)}
+        height={height}
+        width={width}
+        {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }}
       />
-      <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/>
+      {articleTree.citationsFromMetadata ? <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/> : null }
       {articleTree?.bibliography
         ? (<ArticleBilbiography articleTree={articleTree} />)
         : null
       }
-
     </div>
   );
 }
