@@ -4,3 +4,4 @@ node_modules
 *.log
 .netlify
 .eslintcache
+.development.env
