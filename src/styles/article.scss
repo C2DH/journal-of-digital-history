@@ -5,14 +5,14 @@
 
 .ArticleCellContent_num {
   position: absolute;
-  left: -25px;
-  width: 20px;
+  left: -35px;
+  width: 30px;
   text-align: right;
   font-family: var(--font-family-monospace);
-  color: var(--primary);
+  color: var(--gray-500);
   font-weight: bold;
-  will-change: color;
-  transition: color .25s ease-in-out;
+  // will-change: color;
+  // transition: color .25s ease-in-out;
 }
 
 .ArticleCellContent_idx {
@@ -69,18 +69,29 @@
 [class*='ArticleToc_Level_']{
   pointer-events: auto;
   position: absolute;
-  width: 7px;
-  height: 7px;
-  border-radius: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
   margin-left: 1px;
+  border: 1px solid var(--dark);
   &.ArticleToc_afterNextHeading,
   &.ArticleToc_beforePreviousHeading,
   {
-    height: 1px;
-    width:1px;
-    margin-left: 3px;
+    height: 10px;
+    width:10px;
+    // margin-left: 3px;
   }
   cursor: pointer;
+}
+.ArticleToc_Level_P,.ArticleToc_Level_CODE{
+  &.ArticleToc_afterNextHeading,
+  &.ArticleToc_beforePreviousHeading{
+    height: 1px;
+    border-top-width: 0;
+  }
+  &.ArticleToc_beforeNextHeading{
+    height: 5px;
+  }
 }
 // .ArticleToc_Level_H1{
 //   margin-left: var(--negative-spacer-4);
@@ -125,10 +136,10 @@
   }
   &.active{
     font-weight: bold;
-    width: 200px;
-    text-overflow:auto;
+    // width: 200px;
+    // text-overflow:ellipsis;
     // overflow:auto;
-    white-space: normal;
+    // white-space: normal;
   }
 }
 
@@ -234,4 +245,41 @@
     &.active{
       transform: translate(0, 0);
     }
+}
+
+.ArticleShadowHandle{
+  background: var(--dark);
+  // border: 1px solid var(--dark);
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  touch-action: none;
+  position: fixed;
+  right: 50px;
+  top: 100px;
+  cursor: pointer;
+  pointer-events: auto;
+  touch-events: none;
+  transition: background-color .25s ease-in-out;
+  & > label{
+    text-align: center;
+    display: block;
+
+    line-height: 15px;
+    font-size: 15px;
+    margin-top: 10px;
+    text-transform: lowercase;
+    font-weight: bold;
+    pointer-events: none;
+  }
+  &:hover{
+    background-color: var(--primary);
+  }
+}
+
+.ArticleShadowLayer{
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  pointer-events: none;
 }

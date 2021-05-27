@@ -17,7 +17,10 @@ const ArticleCellOutput = ({ output }) => {
         <div className="label">{t(outputTypeClassName)}</div>
       </div>
       {output.output_type === 'stream' && (
+        <details>
+          <summary>...</summary>
         <pre>{Array.isArray(output.text) ? output.text.join('') : output.text}</pre>
+        </details>
       )}
       {output.output_type === 'execute_result' && output.data['text/plain'] && (
         <pre>{getOutput(output.data['text/plain'])}</pre>

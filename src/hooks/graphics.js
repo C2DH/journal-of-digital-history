@@ -29,3 +29,62 @@ export const useBoundingClientRect = () => {
   });
   return [bbox, ref];
 };
+
+const getWidth = () => window.innerWidth
+  || document.documentElement.clientWidth
+  || document.body.clientWidth;
+
+const getHeight = () => window.innerHeight
+    || document.documentElement.clientHeight
+    || document.body.clientHeight;
+
+const getWindowDimensions = () => ({
+  width: getWidth(),
+  height: getHeight()
+})
+
+/*
+  Based on
+  https://dev.to/vitaliemaldur/resize-event-listener-using-react-hooks-1k0c
+  consulted on 2021-02-26
+*/
+export const useCurrentWindowDimensions = () => {
+  let [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  useEffect(() => {
+    let timeoutId = null;
+    const resizeListener = () => {
+      clearTimeout(timeoutId);
+      const dims = getWindowDimensions()
+      timeoutId = setTimeout(() => setWindowDimensions(dims), 150);
+      console.info('setWindowDimensions', dims)
+    };
+    window.addEventListener('resize', resizeListener);
+
+    return () => {
+      window.removeEventListener('resize', resizeListener);
+    }
+  }, [])
+  return windowDimensions;
+}
+
+
+/*
+  Based on https://gist.github.com/whoisryosuke/99f23c9957d90e8cc3eb7689ffa5757c
+  consulted on 2021-02-26
+  usage in components:
+  const { x, y } = useMousePosition();
+*/
+export function useMousePosition() {
+  const [mousePosition, setMousePosition] = useState({ x: null, y: null, isValid: false });
+  const updateMousePosition = ev => {
+    if (!ev) {
+      return
+    }
+    setMousePosition({ x: ev.clientX, y: ev.clientY, isValid: true, event: ev });
+  };
+  useEffect(() => {
+    window.addEventListener("mousemove", updateMousePosition);
+    return () => window.removeEventListener("mousemove", updateMousePosition);
+  }, []);
+  return mousePosition;
+};
