@@ -1,25 +1,29 @@
 [
     {
         "id": 1,
+        "pid": "jdh001",
         "name": "First issue",
-        "description": "First issue",
+        "description": "This First issue is the most awesome issue ever.",
         "creation_date": "2021-05-12T21:19:03+02:00",
         "publication_date": null,
         "data": {}
     },
     {
         "id": 2,
+        "pid": "jdh002",
         "name": "Twitter volume",
-        "description": "",
+        "description": "This second issue is a tematic issue that rassembles the most awesome articles ever.",
         "creation_date": "2021-05-17T14:55:44.608920+02:00",
         "publication_date": null,
-        "data": {
-            "id": 1,
-            "data": {},
-            "name": "First issue",
-            "description": "First issue",
-            "creation_date": "2021-05-12T21:19:03+02:00",
-            "publication_date": null
-        }
+        "data": {}
+    },
+    {
+        "id": 3,
+        "pid": "jdh003",
+        "name": "Oriental history volume",
+        "description": "This third issue is a tematic issue that rassembles the most awesome articles ever.",
+        "creation_date": "2021-05-17T14:55:44.608920+02:00",
+        "publication_date": null,
+        "data": {}
     }
 ]
