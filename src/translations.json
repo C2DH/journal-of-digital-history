@@ -71,6 +71,9 @@
         "issue": {
           "title": "Issue {{ id }}"
         },
+        "issues": {
+          "title": "Issues"
+        },
         "guidelines": {
           "basis": "The basis: quickstart",
           "datavis": "Data visualisations",
