@@ -15,7 +15,7 @@ const Issues = ({ match: { params: { issueId }}}) => {
       <Row>
         <Col {...BootstrapColumLayout}>
           <h1>{t('pages.issues.title')}</h1>
-          <p>{t('pages.issues.introduction')}</p>
+          <h2>{t('pages.issues.introduction')}</h2>
         </Col>
       </Row>
 
@@ -24,7 +24,15 @@ const Issues = ({ match: { params: { issueId }}}) => {
           <Col key={i} md={{span:4, offset: i % 2 === 0 ? 2 : 0}}>
             <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
               {Array(Math.round(Math.random() * 20)).fill(0).map(d => (
-                <circle cx="100" cy="100" r={80 * Math.random()} fill="transparent" stroke="#000" stroke-width={5 * Math.random()}/>
+                <circle
+                  cx={100}
+                  cy={100}
+                  // cx={100 + 5*Math.random()}
+                  // cy={100 + 5*Math.random()}
+                  r={80 * Math.random()}
+                  fill="transparent" stroke="#000"
+                  stroke-width={5 * Math.random()}
+                />
               ))}
             </svg>
             <h3 className="d-block"><LangLink to={`/issue/${issue.id}`}>{issue.name}</LangLink></h3>
