@@ -7,19 +7,21 @@ import IssueArticlesGrid from '../components/Issue/IssueArticlesGrid'
 
 const Issue = ({ match: { params: { issueId }}}) => {
   const { t } = useTranslation()
-  const { data, error, status } = useGetJSON({ url: `/mock-api/articles.json`, delay: 2000 })
+  const { data:issue, error:issueError, status:issueStatus } = useGetJSON({ url: `/mock-api/issues/1.json`, delay: 1000 })
+  const { data:articles, error:articlesError, status: articlesStatus } = useGetJSON({ url: `/mock-api/articles.json`, delay: 2000 })
+  console.info("Issue data:", issue, "status:", issueStatus, "error:", issueError)
   return (
     <>
     <Container className="Issue page mt-5">
       <Row>
         <Col {...BootstrapColumLayout}>
-          <h1>{t('pages.issue.title')}</h1>
-          <h2>{status}</h2>
+          <h1>{issue?.name}</h1>
+          <h2>{issue?.description}</h2>
         </Col>
       </Row>
     </Container>
-    {data ? <IssueArticlesGrid articles={data}/> : null}
-    {error ? <pre>{JSON.stringify(error, null, 2)}</pre>: null}
+    {articles ? <IssueArticlesGrid articles={articles}/> : null}
+    {articlesError ? <pre>{JSON.stringify(articlesError, null, 2)}</pre>: null}
     </>
   )
 }
