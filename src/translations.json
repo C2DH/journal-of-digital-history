@@ -72,7 +72,8 @@
           "title": "Issue {{ id }}"
         },
         "issues": {
-          "title": "Issues"
+          "title": "Issues",
+          "introduction": "Stephen turned and saw that the cold gaze which had measured him was not all unkind."
         },
         "guidelines": {
           "basis": "The basis: quickstart",
