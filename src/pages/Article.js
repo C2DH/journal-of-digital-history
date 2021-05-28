@@ -19,7 +19,8 @@ const Article = ({ ipynb, url, publicationDate = new Date() }) => {
   })
   const { title, abstract, keywords, contributor, disclaimer = [] } = articleTree.sections
   // console.info('Article rendering', articleTree)
-  useEffect(() => {
+  // console.info('Article rendering', JSON.stringify(articleTree,null,2))
+  /* useEffect(() => {
     useStore.setState({ backgroundColor: 'var(--gray-100)' });
     const script = document.createElement('script');
     script.src = "https://hypothes.is/embed.js";
@@ -28,7 +29,7 @@ const Article = ({ ipynb, url, publicationDate = new Date() }) => {
     return () => {
       document.body.removeChild(script);
     }
-  }, [])
+  }, [])*/
   const { height, width } =  useCurrentWindowDimensions()
   return (
     <div className="page mt-5">

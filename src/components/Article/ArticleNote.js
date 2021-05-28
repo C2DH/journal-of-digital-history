@@ -8,7 +8,7 @@ const ArticleNote= ({ articleTree, selectedDataHref }) => {
   const refId = selectedDataHref?.dataHref
   const note = useMemo(() => {
     const citation = articleTree.citationsFromMetadata[refId]
-    console.info('ArticleNote citation:', citation)
+    // console.info('ArticleNote citation:', citation)
     const citationInstance = new Cite(citation)
 
     return citationInstance.format('bibliography', {
