@@ -1,7 +1,7 @@
 import React from 'react'
+
 import { useHistory } from 'react-router-dom'
 import { RoleHidden } from '../../constants'
-
 
 const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
   const history = useHistory()
@@ -35,6 +35,9 @@ const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
       if (d.type === 'group' || d.role === RoleHidden) {
         return null
       }
+      if (steps.length > 50 && !['H1', 'H2', 'H3'].includes(d.level)) {
+        return null
+      }
       const levelClassName = `ArticleToc_Level_${d.level}`
       const typeClassName = `ArticleToc_Type_${d.type}`
       // let inbetweenHeadingsClassName = ''
@@ -49,14 +52,14 @@ const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
       return (
         <div key={i}
           onClick={() => handleClick(d.idx) }
-          className={`my-1 position-relative ${levelClassName} ${typeClassName} ${inbetweenHeadingsClassName}`}
+          className={`my-3 position-relative ${levelClassName} ${typeClassName} ${inbetweenHeadingsClassName}`}
           style={{
             backgroundColor: d.idx < step
               ? 'var(--secondary)'
               : d.idx === step
                 ? 'var(--primary)'
                 : 'transparent',
-            // border: '1px solid',
+            border: '1px solid',
           }}
           >
           {d.heading

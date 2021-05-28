@@ -26,8 +26,9 @@ const ArticleText = ({
   return (
     <div className="mt-5 ArticleText">
       <div className='ArticleText_toc' style={{
-        position: 'sticky',
-        top: 160
+        position: 'fixed',
+        top: 160,
+        right: 70
       }}>
         <Container fluid style={{position: 'absolute'}}><Row><Col {...{
           md: { offset: 10, span: 2}
