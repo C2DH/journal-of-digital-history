@@ -22,6 +22,11 @@ The repo contains the built files and it is shipped automatically to docker hub 
 See the docker-stack repo on how we do use the frontend app in production:
 [docker-compose.yml#L83](https://github.com/C2DH/journal-digital-history-docker-stack/blob/master/docker-compose.yml#L83)
 
+To build a preview docker image, you can use make `build-docker-image` with a custom `BUILD_TAG`
+
+```
+BUILD_TAG=latest-preview make build-docker-image
+```
 
 ## Theme
 The frontend app uses bootstrap with [Reactbootstrap](https://react-bootstrap.github.io/getting-started/introduction). The main stylesheet is at `./src/styles/index.scss` and import all variables defined in the `./src/styles/_variables.scss` as [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties).

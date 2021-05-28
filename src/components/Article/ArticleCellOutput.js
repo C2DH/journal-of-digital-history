@@ -1,24 +1,38 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
+const getOutput = (output) => {
+  return Array.isArray(output)
+    ? output.join(' ')
+    : output
+}
 
 const ArticleCellOutput = ({ output }) => {
   const outputTypeClassName= `ArticleCellOutput_${output.output_type}`
+  const { t } = useTranslation()
+
   return (
     <blockquote className={`${outputTypeClassName}`}>
       <div>
-        <div className="label">type:{output.output_type} | name:{output.name}</div>
+        <div className="label">{t(outputTypeClassName)}</div>
       </div>
       {output.output_type === 'stream' && (
-        <pre>{output.text.join('\n')}</pre>
+        <details>
+          <summary>...</summary>
+        <pre>{Array.isArray(output.text) ? output.text.join('') : output.text}</pre>
+        </details>
       )}
       {output.output_type === 'execute_result' && output.data['text/plain'] && (
-        <pre>{output.data['text/plain'].join('')}</pre>
+        <pre>{getOutput(output.data['text/plain'])}</pre>
       )}
       {output.output_type === 'display_data' && output.data['text/plain'] && (
-        <pre>{output.data['text/plain'].join('')}</pre>
+        <pre>{getOutput(output.data['text/plain'])}</pre>
       )}
-      {output.output_type === 'display_data' && output.data['image/png'] && (
+      {!!output.data && !!output.data['image/png'] && (
         <img src={`data:image/png;base64,${output.data['image/png']}`} alt='display_data output'/>
+      )}
+      {!!output.data && !!output.data['image/jpeg'] && (
+        <img src={`data:image/jpeg;base64,${output.data['image/jpeg']}`} alt='display_data output'/>
       )}
     </blockquote>
   )

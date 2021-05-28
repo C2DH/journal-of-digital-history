@@ -29,9 +29,6 @@
   @each $bp, $value in $spacers {
     --negative-spacer-#{$bp}: #{-$value};
   }
-  @each $bp, $value in $spacers {
-    --negative-spacer-#{$bp*2}: #{-$value*2};
-  }
   @each $bp, $value in $container-max-widths {
     --#{$bp}: #{$value};
   }
@@ -39,6 +36,11 @@
   --font-size-1: #{$font-size-base};
   --font-size-2: #{$font-size-base * 1.25};
   --font-size-3: #{$font-size-base * 1.5};
+  --font-size-4: #{$font-size-base * 2};
+  --font-size-5: #{$font-size-base * 2.5};
+  --line-height-1: #{$font-size-base * 1.75};
+  --line-height-1-m: #{$font-size-base * (1.5 / 2)};
+  --line-height-5: #{$font-size-base * 2.5 * 1.25};
 }
 
 body,
@@ -70,7 +72,16 @@ html,
    margin: 0;
    padding: 0;
    border: 0;
-   background: 'transparent';
+   background: transparent;
+   line-height: inherit;
+   color: $dark;
+   text-decoration: none;
+
+   box-shadow: 0px 1px 0px black;
+   &:hover{
+     text-decoration: none;
+     box-shadow: 0px 1px 0px var(--primary);
+   }
 }
 
 .rounded{
@@ -151,7 +162,7 @@ a.btn{
   h3, h4{
     font-size: inherit;
     display: inline-block;
-    // text-decoration: underline;
+    font-weight: bold;
     // border-bottom: 1px solid;
   }
 }

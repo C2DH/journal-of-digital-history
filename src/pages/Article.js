@@ -1,72 +1,49 @@
-import React, { useMemo, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {useParams} from 'react-router-dom'
-import {groupBy} from 'lodash'
 import { useStore } from '../store'
-import { useTranslation } from 'react-i18next'
-import { Container, Row, Col } from 'react-bootstrap'
-import LangLink from '../components/LangLink'
 import ArticleText from '../components/Article'
 import ArticleHeader from '../components/Article/ArticleHeader'
 import ArticleBilbiography from '../components/Article/ArticleBibliography'
+import ArticleNote from '../components/Article/ArticleNote'
 import source from '../data/mock-ipynb.nbconvert.json'
-import { getArticleTreeFromIpynb } from '../logic/ipynb'
-import {
-  LayerNarrative, LayerNarrativeData,
-  LayerHermeneutics, LayerHermeneuticsData,
-  LayerData,
-  BootstrapColumLayout,
-  // ArticleRoute,
-  // ArticleHermeneuticsDataRoute
-} from '../constants'
+import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
+import { LayerNarrative } from '../constants'
+import { useCurrentWindowDimensions }from '../hooks/graphics'
 
-
-const Article = ({ ipynb, url }) => {
-  const { layer } = useParams() // hermeneutics, hermeneutics+data, narrative
-  const { t } = useTranslation()
-  const articleTree = useMemo(() => getArticleTreeFromIpynb({
+const Article = ({ ipynb, url, publicationDate = new Date() }) => {
+  const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
+  const [selectedDataHref, setSelectedDataHref] = useState(null)
+  const articleTree = useIpynbNotebookParagraphs({
     cells: ipynb? ipynb.cells : source.cells,
     metadata: ipynb? ipynb.metadata : source.metadata
-  }), [ipynb])
-  const sections = groupBy(articleTree.paragraphs, ({ metadata }) => metadata?.jdh?.section ?? 'paragraphs')
-  const { title, abstract, keywords, contributor, paragraphs } = sections
-
-  let contents = []
-  let backgroundColor = 'var(--gray-100)'
-  if (layer === LayerHermeneutics) {
-    contents = paragraphs.filter(({ layer }) => layer === LayerHermeneutics)
-    backgroundColor = 'var(--gray-300)'
-  } else if (layer === LayerHermeneuticsData) {
-    contents = paragraphs.filter(({ layer }) => [
-      LayerHermeneutics, LayerHermeneuticsData, LayerData
-    ].includes(layer))
-    backgroundColor = 'var(--gray-200)'
-  } else {
-    // layer param not specified, default for "narrative" and "data"
-    contents = paragraphs.filter(({ layer }) => [
-      LayerNarrative, LayerNarrativeData, LayerData
-    ].includes(layer))
-  }
-
-  useEffect(() => {
-    useStore.setState({ backgroundColor });
   })
-
+  const { title, abstract, keywords, contributor, disclaimer = [] } = articleTree.sections
+  // console.info('Article rendering', articleTree)
+  // console.info('Article rendering', JSON.stringify(articleTree,null,2))
+  /* useEffect(() => {
+    useStore.setState({ backgroundColor: 'var(--gray-100)' });
+    const script = document.createElement('script');
+    script.src = "https://hypothes.is/embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    }
+  }, [])*/
+  const { height, width } =  useCurrentWindowDimensions()
   return (
     <div className="page mt-5">
-      <ArticleHeader {... {title, abstract, keywords, contributor}}/>
-      {url && (
-        <Container>
-          <Row>
-            <Col {...BootstrapColumLayout}>
-              <p className="p-2 bg-gray-300" dangerouslySetInnerHTML={{
-                __html: t('pages.article.loadedFromRemoteURL', { url })
-              }} />
-              <LangLink to='/notebook'>{t('pages.article.tryRemoteURL')}</LangLink>
-            </Col>
-          </Row>
-        </Container>
-      )}
-      <ArticleText articleTree={articleTree} contents={contents}/>
+      <ArticleHeader {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }} />
+      <ArticleText layer={layer}
+        headingsPositions={articleTree.headingsPositions}
+        paragraphs={articleTree.paragraphs}
+        paragraphsPositions={articleTree.paragraphsPositions}
+        onDataHrefClick={(d) => setSelectedDataHref(d)}
+        height={height}
+        width={width}
+        {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }}
+      />
+      {articleTree.citationsFromMetadata ? <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/> : null }
       {articleTree?.bibliography
         ? (<ArticleBilbiography articleTree={articleTree} />)
         : null

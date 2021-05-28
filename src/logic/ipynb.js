@@ -1,11 +1,22 @@
 import MarkdownIt from 'markdown-it'
 import Cite from 'citation-js'
 import MarkdownItAttrs from '@gerhobbelt/markdown-it-attrs'
-
+// import { groupBy } from 'lodash'
 import ArticleTree from '../models/ArticleTree'
 import ArticleHeading from '../models/ArticleHeading'
 import ArticleCell from '../models/ArticleCell'
+import ArticleCellGroup from '../models/ArticleCellGroup'
 import ArticleReference from '../models/ArticleReference'
+import ArticleFigure from '../models/ArticleFigure'
+import {
+  SectionChoices, SectionDefault,
+  LayerChoices, LayerNarrative, LayerHermeneuticsStep,
+  RoleHidden, RoleFigure, RoleMetadata, RoleCitation, RoleDefault,
+  CellTypeMarkdown, CellTypeCode
+} from '../constants'
+
+const encodeNotebookURL = (url) => btoa(encodeURIComponent(url))
+const decodeNotebookURL = (encodedUrl) => decodeURIComponent(atob(encodedUrl))
 
 const markdownParser = MarkdownIt({
   html: false,
@@ -26,7 +37,30 @@ const renderMarkdownWithReferences = ({
   citationsFromMetadata = {}
 }) => {
   const references = []
+  // console.info('markdownParser.render', markdownParser.render(sources))
   const content = markdownParser.render(sources)
+    // find and replace ciation in Chicago author-date style, like in this sentence:
+    // "Compiling a collection of tweets of this nature raises considerable methodological issues.
+    // While we will not go into detail, we would refer our readers to previous publications
+    // that touches on these subjects <cite data-cite="7009778/GBFQ2FF7"></cite>."
+    // Cfr. https://www.scribbr.com/chicago-style/author-date/ (consulted 2021-03-08)
+    //&lt;cite data-cite=“4583/B7B2APU6”&gt;&lt;/cite&gt;, p. 146).
+    // "Compiling a collection of tweets of this nature raises considerable methodological issues.
+    // While we will not go into detail, we would refer our readers to previous publications
+    // that touches on these subjects <cite data-cite="7009778/GBFQ2FF7"></cite>."
+    .replace(/&lt;cite\s+data-cite=.([/\dA-Z]+).&gt;&lt;\/cite&gt;/g, (m, id) => {
+      const reference = new ArticleReference({
+        ref: citationsFromMetadata[id],
+      })
+      references.push(reference)
+      return `
+        <span class="ArticleReference d-inline-block">
+        <span class=" d-inline-block">
+          <span class="ArticleReference_shortRef">${reference.shortRef}</span>
+        </span>
+        </span>`
+    })
+    // look for footnotes
     .replace(/&lt;sup&gt;(\d+)&lt;\/sup&gt;/g, (m, num) => {
       // add footnote nuber and optionally the Author, year
       const reference = new ArticleReference({
@@ -39,81 +73,151 @@ const renderMarkdownWithReferences = ({
         <span class="ArticleReference d-inline-block">
         <sup class="font-weight-bold">${num}</sup>
         <span class=" d-inline-block">
-          <span class="ArticleReference_pointer"></span>
           <span class="ArticleReference_shortRef">${reference.shortRef}</span>
+        </span>
         </span>`
     })
   return {content, references}
 }
 
+/**
+ * getFirstValidMatchFromChoices
+ *
+ * This funciton return one and only one valid choice (scalar value) given a list of `choices`
+ * and a list of possible candidates (scalar values only)
+ *
+ * @param {Object} candidates - list of strings, numbers etc..
+ * @param {Array} choices - list of possible valid outputs
+ * @param {Array} defaultChoice - optional. Section default choice
+ * @return {Number|String} - Return one and only one valid value among the choices or the defaultChoice
+*/
+const getFirstValidMatchFromChoices = (candidates=[], choiches=[], defaultChoice=null) => {
+  for (let i=0; i < candidates.length; i++) {
+    if (choiches.includes(candidates[i])) {
+      return candidates[i]
+    }
+  }
+  return defaultChoice
+}
+/**
+ * getSectionFromCellMetadata
+ *
+ * This funciton returns one and only one valid section given a list of `choices`.
+ * Cell tags are parsed, but also jdh special metadata section. The
+ * jdh.section idea is taken from [ipypublish](https://ipypublish.readthedocs.io/en/latest/metadata_tags.html)
+ *
+ * @param {Object} metadata - Notebook cell metadata object
+ * @return {null|String} - Return one and only one valid section or undefined
+*/
+const getSectionFromCellMetadata = (metadata) => getFirstValidMatchFromChoices(
+  [].concat(metadata.tags, metadata.jdh?.section),
+  SectionChoices, SectionDefault
+)
+/**
+ * getLayerFromCellMetadata
+ *
+ * This funciton returns one and only one valid `layer` from the list of `LayerChoices`.
+ * Cell tags are parsed, but also jdh special metadata layer. The
+ * jdh.layer idea is taken from [ipypublish](https://ipypublish.readthedocs.io/en/latest/metadata_tags.html)
+ *
+ * @param {Object} metadata - Notebook cell metadata object
+ * @return {null|String} - Return one and only one valid section or undefined
+*/
+const getLayerFromCellMetadata = (metadata) => getFirstValidMatchFromChoices(
+  [].concat(metadata.tags, metadata.jdh?.layer),
+  LayerChoices, LayerNarrative
+)
+
 const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
-  const headings = [];
-  const paragraphs = [];
-  let bibliography = null;
-  const citationsFromMetadata = metadata?.cite2c?.citations;
+  const headings = []
+  const headingsPositions = []
+  const figures = []
+  const articleCells = []
+  const articleParagraphs = []
+  const sectionsIndex = {}
+  const citationsFromMetadata = metadata?.cite2c?.citations
+  // this contain footnotes => zotero id to remap reference at paragraph level
+  const referenceIndex = {}
+  const articleCellNumbersByLayer = {}
+  //
+  let bibliography = null
   // parse biobliographic elements
   if (citationsFromMetadata instanceof Object) {
     bibliography = new Cite(Object.values(citationsFromMetadata))
   }
-  // this contain footnotes => zotero id to remap reference at paragraph level
-  const referenceIndex = {}
-  const paragraphNumbers = {}
+
+  // cycle through notebook cells to fill ArticleCells, figures, headings
   cells.map((cell, idx) => {
-    const citation = cell.source.join('\n\n').match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
-    if (citation) {
-      referenceIndex[citation[1]] = citation[2]
+    const sources = Array.isArray(cell.source)
+      ? cell.source.join('\n\n')
+      : cell.source
+    // find footnote citations (with the number)
+    const footnote = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
+    // get section and layer from metadata
+    cell.section = getSectionFromCellMetadata(cell.metadata)
+    cell.layer = getLayerFromCellMetadata(cell.metadata)
+    cell.role = RoleDefault
+    // get role in a secont step
+    if (cell.metadata.tags?.includes('hidden') || cell.metadata.jdh?.hidden) {
+      // is hidden (e.g. uninteresting code, like pip install)
       cell.hidden = true
-      cell.layer = 'citation'
+      cell.role = RoleHidden
+    } else if (footnote) {
+      // it is a footnote cell given by Cite2c
+      referenceIndex[footnote[1]] = footnote[2]
+      cell.hidden = true
+      cell.role = RoleCitation
     } else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs)) {
-        // check whether ths cell outputs JDH metadata;
-        const cellOutputJdhMetadata = cell.outputs.find(d => d.metadata?.jdh?.module)
-        if (cellOutputJdhMetadata) {
-          // if yes, these metadata will be added to next cell.
-          cells[idx + 1].metadata = {
-            ...cells[idx + 1].metadata,
-            jdh: {
-              ...cells[idx + 1].metadata.jdh,
-              ...cellOutputJdhMetadata.metadata.jdh,
-              ref: idx,
-            }
+      // this is a "Figure" candindate.
+      // Let's check whether the cell outputs JDH metadata and if jdh namespace contains **module**;
+      const cellOutputJdhMetadata = cell.outputs.find(d => d.metadata?.jdh?.module)
+      if (cellOutputJdhMetadata) {
+        // if yes, these metadata AND its output will be added to this cell.
+        cell.metadata = {
+          ...cell.metadata,
+          jdh: {
+            ...cell.metadata.jdh,
+            ...cellOutputJdhMetadata.metadata.jdh,
+            ref: idx,
+            outputs: cell.outputs
           }
-          cell.hidden = true
-          cell.layer = 'citation'
-        } else {
-          cell.layer = 'narrative'
         }
-    } else {
-      // add paragraph number and layer information based on "layer", if any provided (default to 'narrative').
-      // section is mostly used to host article metadata, such as authors, title or keywords.
-      // maybe add layer "metadata"? for the moment, we assume sections is layer metadata.
-      // layer can be "hermeneutics", "data" or none (assume "narrative" by default)
-      // this should be enough for multilayered articles.
-      // we exclude hidden cells anyway.
-      if (['hermeneutics', 'data', 'narrative', 'metadata'].includes(cell.metadata.jdh?.layer)) {
-        cell.layer = cell.metadata.jdh.layer
-      } else if (cell.metadata.jdh?.section) {
-        cell.layer = 'metadata'
-      } else {
-        cell.layer = 'narrative'
+        figures.push(new ArticleFigure({
+          module: cell.metadata.jdh.module,
+          type: cell.metadata.jdh.object?.type,
+          idx,
+          num: figures.length + 1
+        }))
+        cell.role = RoleFigure
       }
+      // this is not a real "Figure", just a "Data..."
+    } else if (cell.section !== SectionDefault) {
+      cell.role = RoleMetadata
     }
-    if (!paragraphNumbers[cell.layer]) {
-      paragraphNumbers[cell.layer] = 0
+    if (!articleCellNumbersByLayer[cell.layer]) {
+      articleCellNumbersByLayer[cell.layer] = 0
     }
-    cell.num = paragraphNumbers[cell.layer] += 1
+    cell.num = articleCellNumbersByLayer[cell.layer] += 1
+    cell.source = Array.isArray(cell.source)
+      ? cell.source
+      : [cell.source]
     return cell
   }).forEach((cell, idx) => {
     // console.info(p.cell_type, idx)
-    if (cell.cell_type === 'markdown') {
-      const sources = cell.source.join('\n\n')
+    if (cell.cell_type === CellTypeMarkdown) {
+      const sources = cell.source.join('  \n')
       // exclude rendering of reference references
-      const tokens = markdownParser.parse(sources);
+      let tokens = []
+      try {
+        tokens = markdownParser.parse(sources);
+      } catch(err) {
+        console.warn('Couldn\'t parse cell markdown tokens', cell, err)
+      }
       const {content, references} = renderMarkdownWithReferences({
         sources,
         referenceIndex,
         citationsFromMetadata,
       })
-      // TODO: render paragraphs in metadata too!
       // get tokens 'heading_open' to get all h1,h2,h3 etc...
       const headerIdx = tokens.findIndex(t => t.type === 'heading_open');
       if (headerIdx > -1) {
@@ -122,36 +226,82 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
           content: tokens[headerIdx + 1].content,
           idx
         }))
+        headingsPositions.push(idx)
       }
-      paragraphs.push(new ArticleCell({
-        type: 'markdown',
+      articleCells.push(new ArticleCell({
+        type: CellTypeMarkdown,
         content,
+        source: cell.source,
+        section: cell.section,
+        metadata: cell.metadata,
+        layer: cell.layer,
+        role: cell.role,
+        idx,
+        num: cell.num,
+        references,
+        hidden: !!cell.hidden,
+        heading: headerIdx > -1
+          ? headings[headings.length - 1]
+          : null,
+        level: headerIdx > -1
+          ? tokens[headerIdx].tag
+          : 'p',
+      }))
+    } else if (cell.cell_type === CellTypeCode) {
+      articleCells.push(new ArticleCell({
+        type: CellTypeCode,
+        content: cell.source.join(''),
+        section: cell.section,
         source: cell.source,
         metadata: cell.metadata,
         layer: cell.layer,
         idx,
         num: cell.num,
-        references,
-        hidden: !!cell.hidden,
-        level: headerIdx > -1 ? tokens[headerIdx].tag : 'p'
-      }))
-    } else if (cell.cell_type === 'code') {
-      paragraphs.push(new ArticleCell({
-        type: 'code',
-        content: cell.source.join(''),
-        source: cell.source,
-        metadata: cell.metadata,
-        idx,
-        num: cell.num,
         outputs: cell.outputs,
         hidden: !!cell.hidden,
-        level: 'code'
+        level: 'code',
+        figure: cell.role === RoleFigure
+          ? figures.find((d) => d.idx === idx)
+          : null
       }))
     }
   })
-  // console.info('getArticleTreeFromIpynb', citationsFromMetadata, headings, paragraphs, bibliography)
-  console.info('getArticleTreeFromIpynb paragraphs:', paragraphs, 'numbers:',paragraphNumbers)
-  return new ArticleTree({ headings, paragraphs, bibliography })
+  // used locally
+  let bufferCellsGroup = new ArticleCellGroup()
+  for (let i = 0; i < articleCells.length; i+=1) {
+    // add reference
+    if (!sectionsIndex[articleCells[i].section]) {
+      sectionsIndex[articleCells[i].section] = []
+    }
+    sectionsIndex[articleCells[i].section].push(articleCells[i])
+    // get groups by role or layer
+    if (articleCells[i].layer === LayerHermeneuticsStep) {
+      bufferCellsGroup.addArticleCell(articleCells[i])
+    } else {
+      if (bufferCellsGroup.cells.length) {
+        // add this group to paragraphs
+        articleParagraphs.push(bufferCellsGroup)
+        bufferCellsGroup = new ArticleCellGroup()
+      }
+      if (articleCells[i].section === SectionDefault) {
+        articleParagraphs.push(articleCells[i])
+      }
+    }
+  }
+  if (bufferCellsGroup.cells.length) {
+    articleParagraphs.push(bufferCellsGroup)
+  }
+
+  return new ArticleTree({
+    headings,
+    headingsPositions,
+    cells: articleCells,
+    paragraphs: articleParagraphs,
+    paragraphsPositions: articleParagraphs.map(d => d.idx),
+    sections: sectionsIndex,
+    bibliography, figures,
+    citationsFromMetadata
+  })
 }
 
 const getStepsFromMetadata = ({ metadata }) => {
@@ -161,8 +311,16 @@ const getStepsFromMetadata = ({ metadata }) => {
   }))
 }
 
+const getParsedSteps = ({ steps }) => steps.map(step => ({
+  ...step,
+  content: markdownParser.render(step.source.join('  \n'))
+}))
+
 export {
   markdownParser,
+  getParsedSteps,
   getArticleTreeFromIpynb,
-  getStepsFromMetadata
+  getStepsFromMetadata,
+  encodeNotebookURL,
+  decodeNotebookURL
 }

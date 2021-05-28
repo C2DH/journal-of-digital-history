@@ -14,12 +14,17 @@ export const ArticleRoute = { to:'/article', label: 'navigation.article'}
 export const ArticleHermeneuticsRoute = { to:'/article/hermeneutics', label: 'navigation.articleHermeneutics'}
 export const ArticleHermeneuticsDataRoute = { to:'/article/hermeneutics,data', label: 'navigation.articleHermeneuticsData'}
 export const TermsOfUseRoute = { to:'/terms', label: 'navigation.termsOfUse'}
+export const GuidelinesRoute = { to:'/guidelines', label: 'navigation.guidelines'}
+export const NotebookViewerRoute = { to:'/notebook-viewer', label: 'Navigation_NotebookViewer'}
+
 export const PrimaryRoutes = [
   HomeRoute,
   // ReferencesRoute,
   // DatasetsRoute,
   AbstractSubmissionRoute,
-  AboutRoute
+  GuidelinesRoute,
+  NotebookViewerRoute,
+  AboutRoute,
 ]
 
 export const ReCaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
@@ -27,8 +32,9 @@ export const GaTrackingId = process.env.REACT_APP_GA_TRACKING_ID
 
 export const BootstrapColumLayout = Object.freeze({
   md: { span:8, offset:2 },
-  lg: { span:7, offset:2 }
+  lg: { span:8, offset:2 }
 })
+
 
 export const StatusIdle = 'IDLE'
 export const StatusFetching = 'FETCHING'
@@ -38,12 +44,49 @@ export const StatusNone = 'NONE'
 
 export const ModuleStack = 'stack'
 export const ModuleTextObject = 'text_object'
+export const ModuleObject = 'object'
 export const ModuleQuote = 'quote'
 
 export const ScrollamaThreshold = 0
 
-export const LayerHermeneutics = 'hermeneutics'
-export const LayerHermeneuticsData = 'hermeneutics,data'
-export const LayerData = 'data'
+
+// Cell layer choices
 export const LayerNarrative = 'narrative'
-export const LayerNarrativeData = 'narrative,data'
+export const LayerHermeneutics = 'hermeneutics'
+export const LayerHermeneuticsStep = 'hermeneutics-step'
+export const LayerData = 'data'
+export const LayerHidden = 'hidden'
+export const LayerChoices = [
+  LayerNarrative, LayerHermeneutics,LayerHermeneuticsStep, LayerData, LayerHidden
+]
+
+// Cell sections
+export const SectionTitle = 'title'
+export const SectionAbstract = 'abstract'
+export const SectionContributor = 'contributor'
+export const SectionKeywords = 'keywords'
+export const SectionCover = 'cover'
+export const SectionDisclaimer = 'disclaimer'
+export const SectionDefault = 'text' // default
+export const SectionChoices = [
+  SectionTitle, SectionAbstract, SectionContributor,
+  SectionKeywords, SectionDisclaimer, SectionDefault
+]
+
+// Cell Roles
+export const RoleHidden = 'hidden'
+export const RoleFigure = 'figure'
+export const RoleMetadata = 'metadata'
+export const RoleCitation = 'citation'
+export const RoleDefault = 'none' // default
+export const RoleChoices = [
+  RoleHidden, RoleFigure,
+  RoleMetadata, RoleCitation,
+  RoleDefault
+]
+
+export const CellTypeCode = 'code'
+export const CellTypeMarkdown = 'markdown'
+
+export const FigureImage = 'image'
+export const FigureDatavis = 'vega'

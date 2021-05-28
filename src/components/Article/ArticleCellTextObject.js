@@ -1,78 +1,46 @@
-import React, { useMemo, lazy } from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+import React, { useMemo } from 'react'
 import { markdownParser } from '../../logic/ipynb'
 
-const VegaWrapper = lazy(() => import('../Module/VegaWrapper'))
-
-
-const ArticleCellTextObject = ({ metadata, children, progress }) => {
-  const textMetadata = metadata.jdh?.text ?? {}
-  const objectMetadata = useMemo(() => metadata.jdh?.object ?? {}, [metadata.jdh])
-  const textColumnLayout = textMetadata.bootstrapColumLayout ?? {
-    md: { offset:0, span: 6, order: 1 }
-  }
-  const objectColumnLayout = objectMetadata.bootstrapColumLayout ?? {
-    md: { offset:0, span: 6, order: 2 }
-  }
+const emptyHighlight = ({ idx }) => {
+  console.warn(
+    'Ouch! No listener has been provied for idx:', idx,
+    'Please make sure to pass that funcion as a property, e.g.',
+    '<ArticleCellTextObject onHighlight={yourAwesomeMethod} />'
+  )
+}
+const ArticleCellTextObject = ({ metadata, children, progress, onHighlight = emptyHighlight }) => {
   const objectContents = useMemo(() => {
-    if (Array.isArray(objectMetadata.source)) {
-      return markdownParser.render(objectMetadata.source.join('\n'))
+    const textMetadata = metadata.jdh?.text?.source
+    if (Array.isArray(textMetadata)) {
+      return markdownParser.render(textMetadata.join('\n'))
     }
     return null
-  }, [objectMetadata])
-  const objectClassName = Array.isArray(objectMetadata.cssClassName)
-    ? objectMetadata.cssClassName
-    : []
+  }, [metadata])
 
-  let objectWrapperStyle = {
-    backgroundColor: objectMetadata.background?.color,
-    border: objectMetadata.border,
-    height: '100%',
-    width: '100%'
-  }
+  /*
+    Get special link out of markdown
+  */
+  const handleClick = (e) => {
+    const href = e.target.getAttribute('href');
+    if (href && href.indexOf('@') === 0) {
+      const matchIndices = href.match(/^@([\d,]+)$/)
+      e.nativeEvent.stopImmediatePropagation()
+      e.preventDefault();
 
-  if (objectMetadata.position === 'sticky') {
-    objectWrapperStyle = {
-      ...objectWrapperStyle,
-      position: 'sticky',
-      top: window.innerHeight *.1,
-      height: window.innerHeight *.8
-    }
-  }
-
-  if(!isNaN(objectMetadata.ratio)) {
-    objectWrapperStyle = {
-      ...objectWrapperStyle,
-      paddingTop: `${objectMetadata.ratio * 100}%`,
-      boxSizing: 'border-box',
+      if (!matchIndices) {
+        console.warn('href value provided to trigger the `highligh` event is not readable, received:', href);
+      } else {
+        onHighlight({
+          idx: matchIndices[1].split(',')
+        });
+      }
     }
   }
 
   return (
-    <Container>
-      <Row>
-        <Col {... textColumnLayout}>
-          {children}
-        </Col>
-        <Col {... objectColumnLayout}>
-          <div style={objectWrapperStyle} className={objectClassName.join(' ')}>
-          {['image', 'video', 'map'].includes(objectMetadata.type) && (
-            <>
-              {progress}
-              <div dangerouslySetInnerHTML={{__html: objectContents}}></div>
-            </>
-          )}
-          {['vega'].includes(objectMetadata.type) && (
-            <VegaWrapper metadata={objectMetadata}
-            />
-          )}
-          {['text'].includes(objectMetadata.type) && (
-            <div dangerouslySetInnerHTML={{__html: objectContents}}></div>
-          )}
-          </div>
-        </Col>
-      </Row>
-    </Container>
+    <div onClick={handleClick}>
+      <div dangerouslySetInnerHTML={{__html: objectContents}}></div>
+    </div>
   )
 }
 

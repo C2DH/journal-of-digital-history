@@ -5,6 +5,7 @@
         "about": "About",
         "datasets": "Datasets",
         "home": "Journal",
+        "guidelines": "Guidelines for Authors",
         "references": "References",
         "submit": "Abstract Submission",
         "termsOfUse": "Terms of Use",
@@ -17,6 +18,9 @@
       "titleInline": "Journal of Digital History",
       "visibleOnlyByYou": "(only visible to you)",
       "contactUsingEmail": "Contact us at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>",
+      "FormNotebookUrl_GenerateLink": "View notebook as journal article!",
+      "Navigation_NotebookViewer": "Preview",
+      "Pages_NotebookViewer_Title": "Jupyter notebook viewer",
       "pages": {
         "loading": {
           "title": "loading...",
@@ -58,8 +62,17 @@
           "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply."
         },
         "article": {
+          "abstract": "Abstract",
+          "publicationDate": "Article published",
+          "notYetPublished": "DRAFT Article preview",
           "loadedFromRemoteURL": "<b>Note</b>: this ipython notebook has been loaded from: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>",
           "tryRemoteURL": "Try another notebook"
+        },
+        "guidelines": {
+          "basis": "The basis: quickstart",
+          "datavis": "Data visualisations",
+          "authorWithDatavis": "Do you already have your own data visualisations?",
+          "downloadArticleTemplate": "download article template (.ipynb)"
         },
         "home": {
           "latestIssues": "Latest Issues",
@@ -134,6 +147,7 @@
         "instance-abstract": "<b>Abstract</b>"
       },
       "numbers": {
+        "yExponent": "Power scale exponent (y axis): <b>{{n}}</b>",
         "errors": "{{count}} errors",
         "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",
         "currentCharactersWithCount": "(now: <b>{{count}}</b>)",
@@ -149,7 +163,10 @@
         "fromNow": "{{date, fromNow}}",
         "LLLL": "{{date, LLLL}}",
         "LLL": "{{date, LLL}}"
-      }
+      },
+      "ArticleCellOutput_execute_result": "result",
+      "ArticleCellOutput_stream": "logs",
+      "ArticleCellOutput_display_data": "result (display)"
     }
   }
 }

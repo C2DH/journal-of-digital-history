@@ -10,7 +10,6 @@ const NotFound = ({ path }) => {
         <Col md={{offset:2}}>
           <h1 className="my-5">{t('pages.notFound.title')}</h1>
           <p>{t('pages.notFound.subheading')}</p>
-          {path}
         </Col>
       </Row>
     </Container>
