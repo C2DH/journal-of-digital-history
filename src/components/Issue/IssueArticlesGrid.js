@@ -22,7 +22,7 @@ const IssueArticlesGrid = ({articles = []}) => {
                 />
               ))}
             </svg>
-            <div dangerouslySetInnerHTML={{__html: article.data.title }} />
+            <h3 dangerouslySetInnerHTML={{__html: article.data.title }} />
           </Col>
         ))}
       </Row>
