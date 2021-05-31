@@ -1,5 +1,6 @@
 import React, { lazy } from 'react';
 import { Container, Row, Col} from 'react-bootstrap'
+import ArticleCellFigure from './ArticleCellFigure'
 import ArticleCellOutput from './ArticleCellOutput'
 import ArticleCellContent from './ArticleCellContent'
 import ArticleCellSourceCode from './ArticleCellSourceCode'
@@ -84,14 +85,26 @@ const ArticleCell = ({
       <Container>
         <Row>
           <Col {... cellBootstrapColumnLayout}>
-            <div className="ArticleCellContent" id={`P${idx}`}>
-              <div className="ArticleCellContent_num">{num}</div>
-              <ArticleCellSourceCode content={content} language="python" />
-              {outputs.length
-                ? outputs.map((output,i) => <ArticleCellOutput output={output} key={i} />)
-                : <div className="ArticleCellSourceCode_no_output">no output</div>
-              }
-            </div>
+            { figure
+              ? (
+                <ArticleCellFigure
+                  metadata={metadata}
+                  figure={figure}
+                  source={content}
+                  outputs={outputs}
+                />
+              )
+              : (
+                <div className="ArticleCellContent" id={`P${idx}`}>
+                  <div className="ArticleCellContent_num"></div>
+                  <ArticleCellSourceCode content={content} language="python" />
+                  {outputs.length
+                    ? outputs.map((output,i) => <ArticleCellOutput output={output} key={i} />)
+                    : <div className="ArticleCellSourceCode_no_output">no output</div>
+                  }
+                </div>
+              )
+            }
           </Col>
         </Row>
       </Container>

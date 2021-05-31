@@ -21,7 +21,7 @@ const decodeNotebookURL = (encodedUrl) => decodeURIComponent(atob(encodedUrl))
 const markdownParser = MarkdownIt({
   html: false,
   linkify: true,
-  typographer: true
+  typographer: true,
 })
 
 markdownParser.use(MarkdownItAttrs, {
@@ -31,10 +31,12 @@ markdownParser.use(MarkdownItAttrs, {
   allowedAttributes: ['class']  // empty array = all attributes are allowed
 });
 
+
 const renderMarkdownWithReferences = ({
   sources = '',
   referenceIndex = {},
-  citationsFromMetadata = {}
+  citationsFromMetadata = {},
+  figures = [],
 }) => {
   const references = []
   // console.info('markdownParser.render', markdownParser.render(sources))
@@ -167,6 +169,12 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       referenceIndex[footnote[1]] = footnote[2]
       cell.hidden = true
       cell.role = RoleCitation
+    } else if (cell.metadata.tags?.some(d => d.indexOf('figure-') === 0 )) {
+      // this is a proper figure, nothing to say about it.
+      cell.metadata.tags.forEach((ref) => {
+        figures.push(new ArticleFigure({ ref, idx }))
+      })
+      cell.role = RoleFigure
     } else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs)) {
       // this is a "Figure" candindate.
       // Let's check whether the cell outputs JDH metadata and if jdh namespace contains **module**;
@@ -217,6 +225,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         sources,
         referenceIndex,
         citationsFromMetadata,
+        figures,
       })
       // get tokens 'heading_open' to get all h1,h2,h3 etc...
       const headerIdx = tokens.findIndex(t => t.type === 'heading_open');

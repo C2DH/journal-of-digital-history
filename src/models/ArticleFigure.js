@@ -1,5 +1,6 @@
 export default class ArticleFigure {
   constructor({
+    ref='figure-', // 'figure-12a' figure identifier.
     type = '', // constants FigureImage, FigureVideo or FigureDatavis,
     module = '', // ModuleTextObject, ModuleObject or ModuleText
     idx = -1,
@@ -9,5 +10,6 @@ export default class ArticleFigure {
     this.module = module
     this.idx = idx
     this.num = num
+    this.ref=ref
   }
 }
