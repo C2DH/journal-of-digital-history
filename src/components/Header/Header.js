@@ -79,7 +79,7 @@ const NavPrimaryRoutes = ({ routes, ...props}) => {
 
 
 
-const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs }) => {
+const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs, displayLogin }) => {
   const { t } = useTranslation()
   return (
     <>
@@ -94,17 +94,18 @@ const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs }) => {
     </Navbar.Brand>
     <Container className="d-block" style={{height:80}}>
       <Row className="d-md-flex d-none align-items-center h-100">
-        <Col md={{offset: 2, span: 6}}>
+        <Col md={{offset: 2, span: 8}}>
           <NavPrimaryRoutes className="" routes={PrimaryRoutes} />
         </Col>
-        <Col md={2}>
-          <Nav className="justify-content-end">
-            {!!displayLangs && <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>}
-            {!isAuthDisabled && <UserProfile/>}
-            <Nav.Item className='d-none'><SwitchNightMode /></Nav.Item>
-          </Nav>
-        </Col>
-
+        {displayLogin || displayLangs ?(
+          <Col md={2}>
+            <Nav className="justify-content-end">
+              {!!displayLangs && <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>}
+              {!!displayLogin && !isAuthDisabled && <UserProfile/>}
+              <Nav.Item className='d-none'><SwitchNightMode /></Nav.Item>
+            </Nav>
+          </Col>
+        ): null}
       </Row>
     </Container>
     </Navbar>
