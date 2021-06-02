@@ -14,6 +14,7 @@ const ArticleCellFigure = ({ figure, outputs=[] }) => {
 
   return (
     <div className="ArticleCellFigure">
+      <div className="anchor" id={figure.ref} />
     {!outputs.length ? (
       <div className="ArticleCellFigure_no_output">
       no output

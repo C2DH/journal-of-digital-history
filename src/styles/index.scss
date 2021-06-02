@@ -295,6 +295,14 @@ blockquote.code{
 .hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-section, .hljs-link{
   color: var(--capri) !important;
 }
+
+.anchor{
+  display: block;
+  position: relative;
+  top: -50px;
+  visibility: hidden;
+}
+
 // import styles scss named after their folder name in components/
 @import 'article';
 @import 'graphics';
