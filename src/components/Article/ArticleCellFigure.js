@@ -3,6 +3,7 @@ import ArticleCellOutput from './ArticleCellOutput'
 import ArticleFigure from './ArticleFigure'
 import { markdownParser } from '../../logic/ipynb'
 
+
 const ArticleCellFigure = ({ figure, outputs=[] }) => {
   const captions = outputs.reduce((acc, output) => {
     if (output.metadata && Array.isArray(output.metadata?.jdh?.object?.source)) {
@@ -18,8 +19,6 @@ const ArticleCellFigure = ({ figure, outputs=[] }) => {
       no output
       </div>
     ): null}
-
-    {figure.ref}
     {outputs.map((output,i) => (
       <ArticleCellOutput hideLabel output={output} key={i} />
     ))}

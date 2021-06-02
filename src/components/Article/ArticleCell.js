@@ -87,17 +87,20 @@ const ArticleCell = ({
           <Col {... cellBootstrapColumnLayout}>
             { figure
               ? (
+                <>
                 <ArticleCellFigure
                   metadata={metadata}
                   figure={figure}
                   source={content}
                   outputs={outputs}
                 />
+                <ArticleCellSourceCode toggleVisibility content={content} language="python"/>
+                </>
               )
               : (
                 <div className="ArticleCellContent" id={`P${idx}`}>
                   <div className="ArticleCellContent_num"></div>
-                  <ArticleCellSourceCode content={content} language="python" />
+                  <ArticleCellSourceCode visible content={content} language="python" />
                   {outputs.length
                     ? outputs.map((output,i) => <ArticleCellOutput output={output} key={i} />)
                     : <div className="ArticleCellSourceCode_no_output">no output</div>

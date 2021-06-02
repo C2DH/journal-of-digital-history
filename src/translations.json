@@ -103,8 +103,9 @@
         "addAuthor": "Add Contributor",
         "addDataset": "Add Dataset / Tools / Code",
         "downloadAsJSON": "Download as JSON",
-        "resetForm": "Start over ↻"
-
+        "resetForm": "Start over ↻",
+        "hidesourceCode": "hide source code",
+        "showsourceCode": "show source code"
       },
       "badge": {
         "warning": "∅",
