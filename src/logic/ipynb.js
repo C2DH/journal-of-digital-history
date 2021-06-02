@@ -1,6 +1,7 @@
 import MarkdownIt from 'markdown-it'
 import Cite from 'citation-js'
 import MarkdownItAttrs from '@gerhobbelt/markdown-it-attrs'
+import MarkdownItReplaceLink from 'markdown-it-replace-link'
 // import { groupBy } from 'lodash'
 import ArticleTree from '../models/ArticleTree'
 import ArticleHeading from '../models/ArticleHeading'
@@ -12,7 +13,8 @@ import {
   SectionChoices, SectionDefault,
   LayerChoices, LayerNarrative, LayerHermeneuticsStep,
   RoleHidden, RoleFigure, RoleMetadata, RoleCitation, RoleDefault,
-  CellTypeMarkdown, CellTypeCode
+  CellTypeMarkdown, CellTypeCode,
+  FigureRefPrefix
 } from '../constants'
 
 const encodeNotebookURL = (url) => btoa(encodeURIComponent(url))
@@ -22,6 +24,12 @@ const markdownParser = MarkdownIt({
   html: false,
   linkify: true,
   typographer: true,
+  replaceLink: function (link, env) {
+    if (link.indexOf(FigureRefPrefix) === 0) {
+      return '#' + link
+    }
+    return link
+  }
 })
 
 markdownParser.use(MarkdownItAttrs, {
@@ -30,6 +38,10 @@ markdownParser.use(MarkdownItAttrs, {
   rightDelimiter: '}',
   allowedAttributes: ['class']  // empty array = all attributes are allowed
 });
+
+markdownParser.use(MarkdownItReplaceLink)
+
+
 
 
 const renderMarkdownWithReferences = ({
@@ -169,7 +181,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       referenceIndex[footnote[1]] = footnote[2]
       cell.hidden = true
       cell.role = RoleCitation
-    } else if (cell.metadata.tags?.some(d => d.indexOf('figure-') === 0 )) {
+    } else if (cell.metadata.tags?.some(d => d.indexOf(FigureRefPrefix) === 0 )) {
       // this is a proper figure, nothing to say about it.
       cell.metadata.tags.forEach((ref) => {
         figures.push(new ArticleFigure({ ref, idx }))
