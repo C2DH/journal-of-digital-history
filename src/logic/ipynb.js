@@ -167,6 +167,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       : cell.source
     // find footnote citations (with the number)
     const footnote = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
+    const figureRef = cell.metadata.tags?.find(d => d.indexOf(FigureRefPrefix) === 0)
     // get section and layer from metadata
     cell.section = getSectionFromCellMetadata(cell.metadata)
     cell.layer = getLayerFromCellMetadata(cell.metadata)
@@ -181,11 +182,9 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       referenceIndex[footnote[1]] = footnote[2]
       cell.hidden = true
       cell.role = RoleCitation
-    } else if (cell.metadata.tags?.some(d => d.indexOf(FigureRefPrefix) === 0 )) {
+    } else if (figureRef) {
       // this is a proper figure, nothing to say about it.
-      cell.metadata.tags.forEach((ref) => {
-        figures.push(new ArticleFigure({ ref, idx }))
-      })
+      figures.push(new ArticleFigure({ ref: figureRef, idx }))
       cell.role = RoleFigure
     } else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs)) {
       // this is a "Figure" candindate.
