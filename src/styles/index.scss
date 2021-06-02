@@ -168,7 +168,10 @@ a.btn{
 }
 
 
-
+code{
+  background-color:  var(--gray-300);
+  color: #A61C3C ;
+}
 blockquote.code{
   padding: var(--spacer-2);
   padding-left: var(--spacer-3);
