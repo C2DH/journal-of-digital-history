@@ -11,12 +11,12 @@ const ArticleFigure = ({ figure, children }) => {
         { figure.ref
           ? (
             <a href={`#${figure.ref}`} className="mr-2">
-              {t('numbers.figure', { n })}
+              {t(figure.isTable ? 'numbers.table': 'numbers.figure', { n })}
             </a>
           )
           : (
             <div className="mr-2">
-              {t('numbers.figure', { n })}
+              {t(figure.isTable ? 'numbers.table': 'numbers.figure', { n })}
             </div>
           )
         }

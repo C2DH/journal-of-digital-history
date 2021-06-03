@@ -14,7 +14,8 @@ import {
   LayerChoices, LayerNarrative, LayerHermeneuticsStep,
   RoleHidden, RoleFigure, RoleMetadata, RoleCitation, RoleDefault,
   CellTypeMarkdown, CellTypeCode,
-  FigureRefPrefix
+  FigureRefPrefix,
+  TableRefPrefix
 } from '../constants'
 
 const encodeNotebookURL = (url) => btoa(encodeURIComponent(url))
@@ -168,6 +169,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
     // find footnote citations (with the number)
     const footnote = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
     const figureRef = cell.metadata.tags?.find(d => d.indexOf(FigureRefPrefix) === 0)
+    const tableRef = cell.metadata.tags?.find(d => d.indexOf(TableRefPrefix) === 0)
     // get section and layer from metadata
     cell.section = getSectionFromCellMetadata(cell.metadata)
     cell.layer = getLayerFromCellMetadata(cell.metadata)
@@ -186,7 +188,11 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       // this is a proper figure, nothing to say about it.
       figures.push(new ArticleFigure({ ref: figureRef, idx }))
       cell.role = RoleFigure
-    } else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs)) {
+    } else if (tableRef) {
+      // this is a proper figure, nothing to say about it.
+      figures.push(new ArticleFigure({ ref: tableRef, idx, isTable: true }))
+      cell.role = RoleFigure
+    }else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs)) {
       // this is a "Figure" candindate.
       // Let's check whether the cell outputs JDH metadata and if jdh namespace contains **module**;
       const cellOutputJdhMetadata = cell.outputs.find(d => d.metadata?.jdh?.module)
@@ -266,6 +272,9 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         level: headerIdx > -1
           ? tokens[headerIdx].tag
           : 'p',
+        figure: cell.role === RoleFigure
+          ? figures.find((d) => d.idx === idx)
+          : null
       }))
     } else if (cell.cell_type === CellTypeCode) {
       articleCells.push(new ArticleCell({

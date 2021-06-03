@@ -149,6 +149,7 @@
       },
       "numbers": {
         "figure": "Fig. {{ n }}",
+        "table": "Table {{ n }}",
         "yExponent": "Power scale exponent (y axis): <b>{{n}}</b>",
         "errors": "{{count}} errors",
         "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",

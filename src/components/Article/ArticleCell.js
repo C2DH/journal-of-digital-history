@@ -74,7 +74,11 @@ const ArticleCell = ({
       <Container>
         <Row>
           <Col {... cellBootstrapColumnLayout}>
-            <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum}/>
+            { figure ? <ArticleCellFigure
+              metadata={metadata}
+              figure={figure}
+            /> : null}
+            <ArticleCellContent hideNum={!!figure} layer={layer} content={content} idx={idx} num={num} />
           </Col>
         </Row>
       </Container>
