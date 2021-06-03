@@ -1,5 +1,6 @@
 import React, { lazy } from 'react';
 import { Container, Row, Col} from 'react-bootstrap'
+import ArticleCellFigure from './ArticleCellFigure'
 import ArticleCellOutput from './ArticleCellOutput'
 import ArticleCellContent from './ArticleCellContent'
 import ArticleCellSourceCode from './ArticleCellSourceCode'
@@ -73,7 +74,11 @@ const ArticleCell = ({
       <Container>
         <Row>
           <Col {... cellBootstrapColumnLayout}>
-            <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum}/>
+            { figure ? <ArticleCellFigure
+              metadata={metadata}
+              figure={figure}
+            /> : null}
+            <ArticleCellContent hideNum={!!figure} layer={layer} content={content} idx={idx} num={num} />
           </Col>
         </Row>
       </Container>
@@ -84,14 +89,29 @@ const ArticleCell = ({
       <Container>
         <Row>
           <Col {... cellBootstrapColumnLayout}>
-            <div className="ArticleCellContent" id={`P${idx}`}>
-              <div className="ArticleCellContent_num">{num}</div>
-              <ArticleCellSourceCode content={content} language="python" />
-              {outputs.length
-                ? outputs.map((output,i) => <ArticleCellOutput output={output} key={i} />)
-                : <div className="ArticleCellSourceCode_no_output">no output</div>
-              }
-            </div>
+            { figure
+              ? (
+                <>
+                <ArticleCellFigure
+                  metadata={metadata}
+                  figure={figure}
+                  source={content}
+                  outputs={outputs}
+                />
+                <ArticleCellSourceCode toggleVisibility content={content} language="python"/>
+                </>
+              )
+              : (
+                <div className="ArticleCellContent" id={`P${idx}`}>
+                  <div className="ArticleCellContent_num"></div>
+                  <ArticleCellSourceCode visible content={content} language="python" />
+                  {outputs.length
+                    ? outputs.map((output,i) => <ArticleCellOutput output={output} key={i} />)
+                    : <div className="ArticleCellSourceCode_no_output">no output</div>
+                  }
+                </div>
+              )
+            }
           </Col>
         </Row>
       </Container>

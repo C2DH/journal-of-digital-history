@@ -111,7 +111,9 @@
         "addDataset": "Add Dataset / Tools / Code",
         "downloadAsJSON": "Download as JSON",
         "resetForm": "Start over ↻",
-        "switchToHermeneuticLayer": "See Hermeneutic Layer"
+        "switchToHermeneuticLayer": "See Hermeneutic Layer",
+        "hidesourceCode": "hide source code",
+        "showsourceCode": "show source code"
       },
       "badge": {
         "warning": "∅",
@@ -154,6 +156,8 @@
         "instance-abstract": "<b>Abstract</b>"
       },
       "numbers": {
+        "figure": "Fig. {{ n }}",
+        "table": "Table {{ n }}",
         "yExponent": "Power scale exponent (y axis): <b>{{n}}</b>",
         "errors": "{{count}} errors",
         "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",

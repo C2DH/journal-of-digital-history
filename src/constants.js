@@ -90,3 +90,6 @@ export const CellTypeMarkdown = 'markdown'
 
 export const FigureImage = 'image'
 export const FigureDatavis = 'vega'
+
+export const FigureRefPrefix = 'figure-'
+export const TableRefPrefix = 'table-'

@@ -7,15 +7,17 @@ const getOutput = (output) => {
     : output
 }
 
-const ArticleCellOutput = ({ output }) => {
+const ArticleCellOutput = ({ output, hideLabel=false }) => {
   const outputTypeClassName= `ArticleCellOutput_${output.output_type}`
   const { t } = useTranslation()
 
   return (
     <blockquote className={`${outputTypeClassName}`}>
-      <div>
-        <div className="label">{t(outputTypeClassName)}</div>
-      </div>
+      {hideLabel ? null :(
+        <div>
+          <div className="label">{t(outputTypeClassName)}</div>
+        </div>
+      )}
       {output.output_type === 'stream' && (
         <details>
           <summary>...</summary>
@@ -25,7 +27,7 @@ const ArticleCellOutput = ({ output }) => {
       {output.output_type === 'execute_result' && output.data['text/plain'] && (
         <pre>{getOutput(output.data['text/plain'])}</pre>
       )}
-      {output.output_type === 'display_data' && output.data['text/plain'] && (
+      {!hideLabel && output.output_type === 'display_data' && output.data['text/plain'] && (
         <pre>{getOutput(output.data['text/plain'])}</pre>
       )}
       {!!output.data && !!output.data['image/png'] && (
