@@ -29,6 +29,9 @@ const markdownParser = MarkdownIt({
     if (link.indexOf(FigureRefPrefix) === 0) {
       return '#' + link
     }
+    if (link.indexOf(TableRefPrefix) === 0) {
+      return '#' + link
+    }
     return link
   }
 })
