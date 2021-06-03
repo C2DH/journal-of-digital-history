@@ -1,6 +1,7 @@
 import MarkdownIt from 'markdown-it'
 import Cite from 'citation-js'
 import MarkdownItAttrs from '@gerhobbelt/markdown-it-attrs'
+import MarkdownItReplaceLink from 'markdown-it-replace-link'
 // import { groupBy } from 'lodash'
 import ArticleTree from '../models/ArticleTree'
 import ArticleHeading from '../models/ArticleHeading'
@@ -12,7 +13,9 @@ import {
   SectionChoices, SectionDefault,
   LayerChoices, LayerNarrative, LayerHermeneuticsStep,
   RoleHidden, RoleFigure, RoleMetadata, RoleCitation, RoleDefault,
-  CellTypeMarkdown, CellTypeCode
+  CellTypeMarkdown, CellTypeCode,
+  FigureRefPrefix,
+  TableRefPrefix
 } from '../constants'
 
 const encodeNotebookURL = (url) => btoa(encodeURIComponent(url))
@@ -21,7 +24,16 @@ const decodeNotebookURL = (encodedUrl) => decodeURIComponent(atob(encodedUrl))
 const markdownParser = MarkdownIt({
   html: false,
   linkify: true,
-  typographer: true
+  typographer: true,
+  replaceLink: function (link, env) {
+    if (link.indexOf(FigureRefPrefix) === 0) {
+      return '#' + link
+    }
+    if (link.indexOf(TableRefPrefix) === 0) {
+      return '#' + link
+    }
+    return link
+  }
 })
 
 markdownParser.use(MarkdownItAttrs, {
@@ -31,10 +43,16 @@ markdownParser.use(MarkdownItAttrs, {
   allowedAttributes: ['class']  // empty array = all attributes are allowed
 });
 
+markdownParser.use(MarkdownItReplaceLink)
+
+
+
+
 const renderMarkdownWithReferences = ({
   sources = '',
   referenceIndex = {},
-  citationsFromMetadata = {}
+  citationsFromMetadata = {},
+  figures = [],
 }) => {
   const references = []
   // console.info('markdownParser.render', markdownParser.render(sources))
@@ -153,6 +171,8 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       : cell.source
     // find footnote citations (with the number)
     const footnote = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
+    const figureRef = cell.metadata.tags?.find(d => d.indexOf(FigureRefPrefix) === 0)
+    const tableRef = cell.metadata.tags?.find(d => d.indexOf(TableRefPrefix) === 0)
     // get section and layer from metadata
     cell.section = getSectionFromCellMetadata(cell.metadata)
     cell.layer = getLayerFromCellMetadata(cell.metadata)
@@ -167,7 +187,15 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       referenceIndex[footnote[1]] = footnote[2]
       cell.hidden = true
       cell.role = RoleCitation
-    } else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs)) {
+    } else if (figureRef) {
+      // this is a proper figure, nothing to say about it.
+      figures.push(new ArticleFigure({ ref: figureRef, idx }))
+      cell.role = RoleFigure
+    } else if (tableRef) {
+      // this is a proper figure, nothing to say about it.
+      figures.push(new ArticleFigure({ ref: tableRef, idx, isTable: true }))
+      cell.role = RoleFigure
+    }else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs)) {
       // this is a "Figure" candindate.
       // Let's check whether the cell outputs JDH metadata and if jdh namespace contains **module**;
       const cellOutputJdhMetadata = cell.outputs.find(d => d.metadata?.jdh?.module)
@@ -217,6 +245,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         sources,
         referenceIndex,
         citationsFromMetadata,
+        figures,
       })
       // get tokens 'heading_open' to get all h1,h2,h3 etc...
       const headerIdx = tokens.findIndex(t => t.type === 'heading_open');
@@ -246,6 +275,9 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         level: headerIdx > -1
           ? tokens[headerIdx].tag
           : 'p',
+        figure: cell.role === RoleFigure
+          ? figures.find((d) => d.idx === idx)
+          : null
       }))
     } else if (cell.cell_type === CellTypeCode) {
       articleCells.push(new ArticleCell({

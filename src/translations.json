@@ -103,8 +103,9 @@
         "addAuthor": "Add Contributor",
         "addDataset": "Add Dataset / Tools / Code",
         "downloadAsJSON": "Download as JSON",
-        "resetForm": "Start over ↻"
-
+        "resetForm": "Start over ↻",
+        "hidesourceCode": "hide source code",
+        "showsourceCode": "show source code"
       },
       "badge": {
         "warning": "∅",
@@ -147,6 +148,8 @@
         "instance-abstract": "<b>Abstract</b>"
       },
       "numbers": {
+        "figure": "Fig. {{ n }}",
+        "table": "Table {{ n }}",
         "yExponent": "Power scale exponent (y axis): <b>{{n}}</b>",
         "errors": "{{count}} errors",
         "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",
