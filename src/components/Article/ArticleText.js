@@ -19,7 +19,7 @@ const ArticleText = ({
   }
 
   const onStepExit = ({ element, data }) => {
-    console.info('@onStepExit')
+    // console.info('@onStepExit')
     // this.setState({ data });
   }
   // get
