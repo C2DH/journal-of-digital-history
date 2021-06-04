@@ -25,16 +25,16 @@ const ArticleShadowHandle = ({ onDrag, width=0, height=0, disabled=false }) => {
   // Btw, this component only renders once. :-)
   return (
     <animated.div className="ArticleShadowHandle" {...bind()} style={props}>
-    <svg version='1.1' viewBox='0 0 100 100'>
+    <svg version='1.1' viewBox='0 0 200 200'>
       <g className='cube'>
-        <g transform='scale(0.5)'>
-          <path fill="transparent" strokeWidth="2" stroke='rgb(222,222,222)' d='M40,46.2 0,23.1 40,0 80,23.1 z' />
-          <path fill="transparent" strokeWidth="2" stroke='rgb(181,181,181)' d='M0,23.1 40,46.2 40,92.4 0,69.3 z' />
-          <path fill="transparent" strokeWidth="2" stroke='rgb(155,155,155)' d='M40,46.2 80,23.1 80,69.3 40,92.4 z' />
+        <g transform='scale(1.8) translate(14, 10)'>
+          <path fill="transparent" strokeWidth="2" stroke='#fff' d='M40,46.2 0,23.1 40,0 80,23.1 z' />
+          <path fill="transparent" strokeWidth="2" stroke='#fff' d='M0,23.1 40,46.2 40,92.4 0,69.3 z' />
+          <path fill="transparent" strokeWidth="2" stroke='#fff' d='M40,46.2 80,23.1 80,69.3 40,92.4 z' />
         </g>
       </g>
     </svg>
-    <label>{t('hermeneuticlayer')}</label>
+    <label>{t('actions.switchToHermeneuticLayer')}</label>
     </animated.div>
   )
 }

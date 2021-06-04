@@ -68,6 +68,13 @@
           "loadedFromRemoteURL": "<b>Note</b>: this ipython notebook has been loaded from: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>",
           "tryRemoteURL": "Try another notebook"
         },
+        "issue": {
+          "title": "Issue {{ id }}"
+        },
+        "issues": {
+          "title": "Issues",
+          "introduction": "Stephen turned and saw that the cold gaze which had measured him was not all unkind."
+        },
         "guidelines": {
           "basis": "The basis: quickstart",
           "datavis": "Data visualisations",
@@ -104,6 +111,7 @@
         "addDataset": "Add Dataset / Tools / Code",
         "downloadAsJSON": "Download as JSON",
         "resetForm": "Start over ↻",
+        "switchToHermeneuticLayer": "See Hermeneutic Layer",
         "hidesourceCode": "hide source code",
         "showsourceCode": "show source code"
       },

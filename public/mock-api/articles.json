@@ -1,0 +1,33 @@
+[
+  {
+    "repository_url": "...",
+    "status": "PUBLISH",
+    "repository_type": "GITHUB",
+    "notebook_url": "https:// ... / .ipynb",
+    "notebook_commit_hash": "0ea566a37de909a9b738d6",
+    "data": {
+      "title": [
+        "# Data & data "
+      ],
+      "abstract": [
+        "abstract."
+      ]
+    },
+    "tags": [],
+    "issue": {
+      "id": 1,
+      "name": "First issue",
+      "description": "First issue",
+      "creation_date": "2021-05-12T21:19:03+02:00",
+      "publication_date": null,
+      "data": {}
+    },
+    "authors": [
+      {
+        "lastname": "First",
+        "firstname": "Author",
+        "affiliation": "The University"
+      }
+    ]
+  }
+]

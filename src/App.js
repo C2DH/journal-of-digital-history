@@ -51,6 +51,8 @@ const About = lazy(() => import('./pages/About'))
 const AbstractSubmission = lazy(() => import('./pages/AbstractSubmission'))
 const AbstractSubmitted = lazy(() => import('./pages/AbstractSubmitted'))
 const Article = lazy(() => import('./pages/Article'))
+const Issue = lazy(() => import('./pages/Issue'))
+const Issues = lazy(() => import('./pages/Issues'))
 const Abstract = lazy(() => import('./pages/Abstract'))
 const MockAbstract = lazy(() => import('./pages/MockAbstract'))
 const TermsOfUse = lazy(() => import('./pages/TermsOfUse'))
@@ -105,6 +107,8 @@ function LangRoutes() {
       <Route path={`${path}/abstract/:id`}>
         <Abstract />
       </Route>
+      <Route path={`${path}/issues`} component={Issues} />
+      <Route path={`${path}/issue/:id`} component={Issue} />
       <Route path={`${path}/abstract-submitted`}>
         <AbstractSubmitted />
       </Route>
