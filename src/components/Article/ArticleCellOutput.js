@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-
+import {markdownParser} from '../../logic/ipynb'
 const getOutput = (output) => {
   return Array.isArray(output)
     ? output.join(' ')
@@ -10,6 +10,14 @@ const getOutput = (output) => {
 const ArticleCellOutput = ({ output, hideLabel=false }) => {
   const outputTypeClassName= `ArticleCellOutput_${output.output_type}`
   const { t } = useTranslation()
+
+  if(!hideLabel && output.output_type === 'display_data' && output.data['text/markdown']) {
+    return (
+      <div className={`ArticleCellOutput ${outputTypeClassName}`} dangerouslySetInnerHTML={{
+        __html: markdownParser.render(getOutput(output.data['text/markdown']))
+      }}/>
+    )
+  }
 
   return (
     <blockquote className={`${outputTypeClassName}`}>
