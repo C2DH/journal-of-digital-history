@@ -11,7 +11,7 @@ const ArticleCellOutput = ({ output, hideLabel=false }) => {
   const outputTypeClassName= `ArticleCellOutput_${output.output_type}`
   const { t } = useTranslation()
 
-  if(!hideLabel && output.output_type === 'display_data' && output.data['text/markdown']) {
+  if(output.output_type === 'display_data' && output.data['text/markdown']) {
     return (
       <div className={`ArticleCellOutput ${outputTypeClassName}`} dangerouslySetInnerHTML={{
         __html: markdownParser.render(getOutput(output.data['text/markdown']))
