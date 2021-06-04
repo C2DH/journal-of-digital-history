@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {useParams} from 'react-router-dom'
-import { useStore } from '../store'
 import ArticleText from '../components/Article'
 import ArticleHeader from '../components/Article/ArticleHeader'
 import ArticleBilbiography from '../components/Article/ArticleBibliography'
