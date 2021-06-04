@@ -306,6 +306,16 @@ blockquote.code{
   visibility: hidden;
 }
 
+@keyframes rotate {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.rotating {
+  animation: rotate 2s linear infinite;
+}
+
 // import styles scss named after their folder name in components/
 @import 'article';
 @import 'graphics';
