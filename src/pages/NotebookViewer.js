@@ -2,12 +2,12 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, generatePath } from 'react-router'
 import { Container, Row, Col } from 'react-bootstrap'
-import { useGetNotebookFromURL } from '../logic/api/fetchData'
+import { useGetJSON } from '../logic/api/fetchData'
 import { decodeNotebookURL, encodeNotebookURL} from '../logic/ipynb'
-import { BootstrapColumLayout, StatusNone, StatusSuccess } from '../constants'
+import { BootstrapColumLayout, StatusNone, StatusSuccess, StatusFetching, StatusIdle } from '../constants'
 import Article from './Article'
 import FormNotebookUrl from '../components/Forms/FormNotebookUrl'
-
+import Loading from '../components/Loading'
 
 const NotebookViewer = () => {
   const { encodedUrl } = useParams()
@@ -23,8 +23,11 @@ const NotebookViewer = () => {
       console.warn(e)
     }
   }, [ encodedUrl ])
-  const { status, item } = useGetNotebookFromURL(url)
-
+  const { data, error, status } = useGetJSON({ url, delay: 500})
+  if(error) {
+    console.error(error)
+    return <div>Error</div>
+  }
   const handleNotebookUrlChange = ({ value, origin, proxyValue }) => {
     // trasnform given value
     if(proxyValue) {
@@ -47,13 +50,24 @@ const NotebookViewer = () => {
 
   console.info('Notebook render:', url ,'from', encodedUrl)
 
-  if (status === StatusNone) {
+  if (status !== StatusSuccess) {
     return (
       <Container className="mt-5 page">
         <Row>
           <Col {...BootstrapColumLayout}>
-          <h1>{t('Pages_NotebookViewer_Title')}</h1>
-            <FormNotebookUrl onChange={handleNotebookUrlChange}/>
+
+          {status === StatusNone && (
+              <>
+              <h1>{t('Pages_NotebookViewer_Title')}</h1>
+              <FormNotebookUrl onChange={handleNotebookUrlChange}/>
+              </>
+          )}
+          {(status === StatusFetching || status === StatusIdle) && (
+            <>
+            <h1 className="my-5">{t('pages.loading.title')}</h1>
+            <Loading />
+            </>
+          )}
           </Col>
         </Row>
       </Container>
@@ -62,7 +76,7 @@ const NotebookViewer = () => {
   return (
     <div>
     {status === StatusSuccess
-      ? <Article ipynb={item}/>
+      ? <Article ipynb={data}/>
       : null
     }
     </div>
