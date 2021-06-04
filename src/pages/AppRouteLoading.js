@@ -9,7 +9,6 @@ const AppRouteLoading = () => {
       <Row>
         <Col md={{offset:2}}>
           <h1 className="my-5">{t('pages.loading.title')}</h1>
-          <p>{t('pages.loading.subheading')}</p>
         </Col>
       </Row>
     </Container>
