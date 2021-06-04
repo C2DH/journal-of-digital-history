@@ -198,6 +198,20 @@
   }
 }
 
+.ArticleCellOutput table{
+  width: 100%;
+  font-size: .8em;
+  // .table-striped
+  border-top: 1px solid var(--gray-400);
+  border-bottom: 1px solid var(--gray-400);
+
+  tbody tr:nth-of-type(odd) {
+    background-color: var(--gray-200);
+  }
+  td, th{
+    padding: var(--spacer-2);
+  }
+}
 .ArticleCellOutput_display_data img{
   max-width: 100%;
 }
