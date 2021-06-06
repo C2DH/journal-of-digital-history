@@ -1,10 +1,9 @@
 import React, { lazy } from 'react';
 import { Container, Row, Col} from 'react-bootstrap'
-import ArticleCellFigure from './ArticleCellFigure'
 import ArticleCellOutput from './ArticleCellOutput'
 import ArticleCellContent from './ArticleCellContent'
 import ArticleCellSourceCode from './ArticleCellSourceCode'
-
+import ArticleCellFigure from './ArticleCellFigure'
 import {
   ModuleStack, ModuleTextObject, ModuleObject,
   ModuleQuote, BootstrapColumLayout
@@ -44,7 +43,7 @@ const ArticleCell = ({
       </Container>
     )
   }
-  if (cellModule === ModuleObject) {
+  if (!figure && cellModule === ModuleObject) {
     return (
       <Container>
         <Row>
@@ -70,14 +69,21 @@ const ArticleCell = ({
   }
 
   if (type === 'markdown') {
+    if (figure) {
+      return (
+        <ArticleCellFigure
+          metadata={metadata}
+          figure={figure}
+          figureColumnLayout={cellObjectBootstrapColumnLayout}
+        >
+          <ArticleCellContent hideNum={!!figure} layer={layer} content={content} idx={idx} num={num} />
+        </ArticleCellFigure>
+      )
+    }
     return (
       <Container>
         <Row>
           <Col {... cellBootstrapColumnLayout}>
-            { figure ? <ArticleCellFigure
-              metadata={metadata}
-              figure={figure}
-            /> : null}
             <ArticleCellContent hideNum={!!figure} layer={layer} content={content} idx={idx} num={num} />
           </Col>
         </Row>
@@ -85,33 +91,28 @@ const ArticleCell = ({
     )
   }
   if (type === 'code') {
+    if (figure) {
+      return (
+        <ArticleCellFigure
+          metadata={metadata}
+          outputs={outputs}
+          figure={figure}
+          sourceCode={<ArticleCellSourceCode toggleVisibility content={content} language="python"/>}
+        ></ArticleCellFigure>
+      )
+    }
     return (
       <Container>
         <Row>
           <Col {... cellBootstrapColumnLayout}>
-            { figure
-              ? (
-                <>
-                <ArticleCellFigure
-                  metadata={metadata}
-                  figure={figure}
-                  source={content}
-                  outputs={outputs}
-                />
-                <ArticleCellSourceCode toggleVisibility content={content} language="python"/>
-                </>
-              )
-              : (
-                <div className="ArticleCellContent" id={`P${idx}`}>
-                  <div className="ArticleCellContent_num"></div>
-                  <ArticleCellSourceCode visible content={content} language="python" />
-                  {outputs.length
-                    ? outputs.map((output,i) => <ArticleCellOutput output={output} key={i} />)
-                    : <div className="ArticleCellSourceCode_no_output">no output</div>
-                  }
-                </div>
-              )
-            }
+            <div className="ArticleCellContent" id={`P${idx}`}>
+              <div className="ArticleCellContent_num"></div>
+              <ArticleCellSourceCode visible content={content} language="python" />
+              {outputs.length
+                ? outputs.map((output,i) => <ArticleCellOutput output={output} key={i} />)
+                : <div className="ArticleCellSourceCode_no_output">no output</div>
+              }
+            </div>
           </Col>
         </Row>
       </Container>
