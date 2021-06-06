@@ -19,7 +19,7 @@ const ArticleCellOutput = ({ output, hideLabel=false }) => {
     )
   }
   if (output.output_type === 'display_data' && output.data['text/html']) {
-    return (<div className={`ArticleCellOutput ${outputTypeClassName}`} dangerouslySetInnerHTML={{
+    return (<div className={`ArticleCellOutput withHTML ${outputTypeClassName}`} dangerouslySetInnerHTML={{
       __html: getOutput(output.data['text/html'])
     }} />)
   }
