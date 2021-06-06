@@ -156,7 +156,7 @@
         "instance-abstract": "<b>Abstract</b>"
       },
       "numbers": {
-        "figure": "Fig. {{ n }}",
+        "figure": "Figure {{ n }}",
         "table": "Table {{ n }}",
         "yExponent": "Power scale exponent (y axis): <b>{{n}}</b>",
         "errors": "{{count}} errors",
