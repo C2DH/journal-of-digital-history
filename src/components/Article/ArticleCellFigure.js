@@ -21,7 +21,7 @@ const ArticleCellFigure = ({ figure, metadata={}, outputs=[], sourceCode, childr
   }, BootstrapColumLayout)
 
   return (
-    <div className="ArticleCellFigure small">
+    <div className="ArticleCellFigure">
     <Container fluid={metadata.tags.includes('full-width')}>
       <Row>
         <Col {...figureColumnLayout}>
@@ -41,7 +41,7 @@ const ArticleCellFigure = ({ figure, metadata={}, outputs=[], sourceCode, childr
       </Row>
     </Container>
     <Container>
-      <Row>
+      <Row className="small">
         <Col {...BootstrapColumLayout}>
         {sourceCode}
         <ArticleFigure figure={figure}><p dangerouslySetInnerHTML={{
