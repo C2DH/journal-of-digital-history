@@ -2,9 +2,10 @@ import React from 'react'
 import ArticleCellOutput from './ArticleCellOutput'
 import ArticleFigure from './ArticleFigure'
 import { markdownParser } from '../../logic/ipynb'
+import {BootstrapColumLayout} from '../../constants'
+import { Container, Row, Col} from 'react-bootstrap'
 
-
-const ArticleCellFigure = ({ figure, outputs=[] }) => {
+const ArticleCellFigure = ({ figure, metadata={}, outputs=[], sourceCode, children }) => {
   const captions = outputs.reduce((acc, output) => {
     if (output.metadata && Array.isArray(output.metadata?.jdh?.object?.source)) {
       acc.push(markdownParser.render(output.metadata.jdh.object.source.join('\n')))
@@ -12,20 +13,43 @@ const ArticleCellFigure = ({ figure, outputs=[] }) => {
     return acc
   }, [])
 
+  const figureColumnLayout = outputs.reduce((acc, output) => {
+    if (output.metadata && output.metadata.jdh?.object?.bootstrapColumLayout) {
+      acc = {...output.metadata.jdh?.object?.bootstrapColumLayout }
+    }
+    return acc
+  }, BootstrapColumLayout)
+
   return (
     <div className="ArticleCellFigure">
-      <div className="anchor" id={figure.ref} />
-    {!outputs.length ? (
-      <div className="ArticleCellFigure_no_output">
-      no output
-      </div>
-    ): null}
-    {outputs.map((output,i) => (
-      <ArticleCellOutput hideLabel output={output} key={i} />
-    ))}
-    <ArticleFigure figure={figure}><p dangerouslySetInnerHTML={{
-      __html: captions.join('<br />'),
-    }} /></ArticleFigure>
+    <Container fluid={metadata.tags && metadata.tags.includes('full-width')}>
+      <Row>
+        <Col {...figureColumnLayout}>
+          <div >
+            <div className="anchor" id={figure.ref} />
+          {!outputs.length ? (
+            <div className="ArticleCellFigure_no_output">
+            no output
+            </div>
+          ): null}
+          {outputs.map((output,i) => (
+            <ArticleCellOutput hideLabel output={output} key={i} />
+          ))}
+          </div>
+          {children}
+        </Col>
+      </Row>
+    </Container>
+    <Container>
+      <Row className="small">
+        <Col {...BootstrapColumLayout}>
+        {sourceCode}
+        <ArticleFigure figure={figure}><p dangerouslySetInnerHTML={{
+          __html: captions.join('<br />'),
+        }} /></ArticleFigure>
+        </Col>
+      </Row>
+    </Container>
     </div>
   )
 }
