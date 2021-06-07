@@ -22,7 +22,7 @@ const ArticleCellFigure = ({ figure, metadata={}, outputs=[], sourceCode, childr
 
   return (
     <div className="ArticleCellFigure">
-    <Container fluid={metadata.tags.includes('full-width')}>
+    <Container fluid={metadata.tags && metadata.tags.includes('full-width')}>
       <Row>
         <Col {...figureColumnLayout}>
           <div >
