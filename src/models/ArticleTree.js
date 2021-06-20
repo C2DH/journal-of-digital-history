@@ -1,5 +1,6 @@
 export default class ArticleTree {
   constructor({
+    id='',
     headings = [],
     paragraphs = [],
     sections = {},
@@ -10,6 +11,7 @@ export default class ArticleTree {
     citationsFromMetadata,
     bibliography
   }) {
+    this.id=id
     this.headings= headings
     this.paragraphs = paragraphs
     this.figures = figures

@@ -1,7 +1,6 @@
 import MarkdownIt from 'markdown-it'
 import Cite from 'citation-js'
 import MarkdownItAttrs from '@gerhobbelt/markdown-it-attrs'
-import MarkdownItReplaceLink from 'markdown-it-replace-link'
 // import { groupBy } from 'lodash'
 import ArticleTree from '../models/ArticleTree'
 import ArticleHeading from '../models/ArticleHeading'
@@ -24,16 +23,7 @@ const decodeNotebookURL = (encodedUrl) => decodeURIComponent(atob(encodedUrl))
 const markdownParser = MarkdownIt({
   html: false,
   linkify: true,
-  typographer: true,
-  replaceLink: function (link, env) {
-    if (link.indexOf(FigureRefPrefix) === 0) {
-      return '#' + link
-    }
-    if (link.indexOf(TableRefPrefix) === 0) {
-      return '#' + link
-    }
-    return link
-  }
+  typographer: true
 })
 
 markdownParser.use(MarkdownItAttrs, {
@@ -42,11 +32,6 @@ markdownParser.use(MarkdownItAttrs, {
   rightDelimiter: '}',
   allowedAttributes: ['class']  // empty array = all attributes are allowed
 });
-
-markdownParser.use(MarkdownItReplaceLink)
-
-
-
 
 const renderMarkdownWithReferences = ({
   sources = '',
@@ -146,7 +131,7 @@ const getLayerFromCellMetadata = (metadata) => getFirstValidMatchFromChoices(
   LayerChoices, LayerNarrative
 )
 
-const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
+const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
   const headings = []
   const headingsPositions = []
   const figures = []
@@ -178,7 +163,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
     cell.layer = getLayerFromCellMetadata(cell.metadata)
     cell.role = RoleDefault
     // get role in a secont step
-    if (cell.metadata.tags?.includes('hidden') || cell.metadata.jdh?.hidden) {
+    if (sources.length === 0 || cell.metadata.tags?.includes('hidden') || cell.metadata.jdh?.hidden) {
       // is hidden (e.g. uninteresting code, like pip install)
       cell.hidden = true
       cell.role = RoleHidden
@@ -195,7 +180,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       // this is a proper figure, nothing to say about it.
       figures.push(new ArticleFigure({ ref: tableRef, idx, isTable: true }))
       cell.role = RoleFigure
-    }else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs)) {
+    } else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs) && cell.outputs.length) {
       // this is a "Figure" candindate.
       // Let's check whether the cell outputs JDH metadata and if jdh namespace contains **module**;
       const cellOutputJdhMetadata = cell.outputs.find(d => d.metadata?.jdh?.module)
@@ -222,10 +207,6 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
     } else if (cell.section !== SectionDefault) {
       cell.role = RoleMetadata
     }
-    if (!articleCellNumbersByLayer[cell.layer]) {
-      articleCellNumbersByLayer[cell.layer] = 0
-    }
-    cell.num = articleCellNumbersByLayer[cell.layer] += 1
     cell.source = Array.isArray(cell.source)
       ? cell.source
       : [cell.source]
@@ -286,6 +267,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         section: cell.section,
         source: cell.source,
         metadata: cell.metadata,
+        role: cell.role,
         layer: cell.layer,
         idx,
         num: cell.num,
@@ -298,33 +280,44 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       }))
     }
   })
-  // used locally
-  let bufferCellsGroup = new ArticleCellGroup()
   for (let i = 0; i < articleCells.length; i+=1) {
-    // add reference
+    // add cell to section (for role Metadata)
     if (!sectionsIndex[articleCells[i].section]) {
       sectionsIndex[articleCells[i].section] = []
     }
     sectionsIndex[articleCells[i].section].push(articleCells[i])
-    // get groups by role or layer
-    if (articleCells[i].layer === LayerHermeneuticsStep) {
-      bufferCellsGroup.addArticleCell(articleCells[i])
-    } else {
-      if (bufferCellsGroup.cells.length) {
-        // add this group to paragraphs
-        articleParagraphs.push(bufferCellsGroup)
-        bufferCellsGroup = new ArticleCellGroup()
-      }
-      if (articleCells[i].section === SectionDefault) {
-        articleParagraphs.push(articleCells[i])
-      }
+    if (articleCells[i].section === SectionDefault) {
+      articleParagraphs.push(articleCells[i])
     }
   }
-  if (bufferCellsGroup.cells.length) {
-    articleParagraphs.push(bufferCellsGroup)
-  }
+  // used locally
+  // let bufferCellsGroup = new ArticleCellGroup()
+  // for (let i = 0; i < articleCells.length; i+=1) {
+  //   // add reference
+  //   if (!sectionsIndex[articleCells[i].section]) {
+  //     sectionsIndex[articleCells[i].section] = []
+  //   }
+  //   sectionsIndex[articleCells[i].section].push(articleCells[i])
+  //   // get groups by role or layer
+  //   if (articleCells[i].layer === LayerHermeneuticsStep) {
+  //     bufferCellsGroup.addArticleCell(articleCells[i])
+  //   } else {
+  //     if (bufferCellsGroup.cells.length) {
+  //       // add this group to paragraphs
+  //       articleParagraphs.push(bufferCellsGroup)
+  //       bufferCellsGroup = new ArticleCellGroup()
+  //     }
+  //     if (articleCells[i].section === SectionDefault) {
+  //       articleParagraphs.push(articleCells[i])
+  //     }
+  //   }
+  // }
+  // if (bufferCellsGroup.cells.length) {
+  //   articleParagraphs.push(bufferCellsGroup)
+  // }
 
   return new ArticleTree({
+    id,
     headings,
     headingsPositions,
     cells: articleCells,

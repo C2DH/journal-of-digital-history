@@ -76,7 +76,7 @@ const NotebookViewer = () => {
   return (
     <div>
     {status === StatusSuccess
-      ? <Article ipynb={data}/>
+      ? <Article ipynb={data} memoid={encodedUrl}/>
       : null
     }
     </div>
