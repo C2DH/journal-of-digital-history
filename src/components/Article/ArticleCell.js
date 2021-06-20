@@ -15,6 +15,7 @@ const ArticleCellObject = lazy(() => import('./ArticleCellObject'))
 
 
 const ArticleCell = ({
+  memoid,
   type, layer, num=1, content='', idx, outputs=[], hideIdx, hideNum, metadata = {},
   progress, active = false,
   figure, // ArticleFigure instance
@@ -84,7 +85,7 @@ const ArticleCell = ({
       <Container>
         <Row>
           <Col {... cellBootstrapColumnLayout}>
-            <ArticleCellContent hideNum={!!figure} layer={layer} content={content} idx={idx} num={num} />
+            <ArticleCellContent hideNum={hideNum} layer={layer} content={content} idx={idx} num={num} />
           </Col>
         </Row>
       </Container>
@@ -105,7 +106,7 @@ const ArticleCell = ({
       <Container>
         <Row>
           <Col {... cellBootstrapColumnLayout}>
-            <div className="ArticleCellContent" id={`P${idx}`}>
+            <div className="ArticleCellContent">
               <div className="ArticleCellContent_num"></div>
               <ArticleCellSourceCode visible content={content} language="python" />
               {outputs.length
@@ -121,4 +122,9 @@ const ArticleCell = ({
   return (<div>unknown type: {type}</div>)
 }
 
-export default ArticleCell
+export default React.memo(ArticleCell, (prevProps, nextProps) => {
+  if (prevProps.memoid === nextProps.memoid || prevProps.active === nextProps.active) {
+    return true // props are equal
+  }
+  return false // props are not equal -> update the component
+})
