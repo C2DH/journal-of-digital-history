@@ -5,14 +5,17 @@
 
 .ArticleCellContent_num {
   position: absolute;
-  left: -35px;
+  left: -50px;
   width: 30px;
   text-align: right;
   font-family: var(--font-family-monospace);
   color: var(--gray-500);
   font-weight: bold;
-  // will-change: color;
-  // transition: color .25s ease-in-out;
+
+font-size: 12px;
+top: 5px;
+  will-change: color;
+  transition: color .25s ease-in-out;
 }
 
 .ArticleCellContent_idx {
@@ -321,7 +324,7 @@
 .ArticleShadowLayer{
   position: fixed;
   z-index: 2;
-  top: 0;
+  top: 50px;
   pointer-events: none;
 }
 
