@@ -141,15 +141,15 @@ function LangRoutes() {
 }
 
 function usePageViews() {
-  let location = useLocation()
+  const { pathname, search } = useLocation()
 
   useEffect(
     () => {
-      const url = [location.pathname, location.search].join('')
+      const url = [pathname, search].join('')
       console.info('pageview', url)
       ReactGA.pageview(url)
     },
-    [location]
+    [pathname, search]
   )
 }
 
