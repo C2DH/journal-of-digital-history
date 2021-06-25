@@ -24,8 +24,9 @@ console.info(articleTree, homePageContents)
 
 const Home = () => {
   const { t } = useTranslation()
+  const changeBackgroundColor = useStore(state => state.changeBackgroundColor)
   useEffect(() => {
-    useStore.setState({ backgroundColor: 'white' });
+    changeBackgroundColor('var(--white)')
   })
   return (
     <>

@@ -8,8 +8,9 @@ import ArticleCellContent from '../components/Article/ArticleCellContent'
 const articleTree = getArticleTreeFromIpynb(pageContents)
 
 const About = ({ results }) => {
+  const changeBackgroundColor = useStore(state => state.changeBackgroundColor)
   useEffect(() => {
-    useStore.setState({ backgroundColor: 'var(--linen)' });
+    changeBackgroundColor('var(--linen)')
   })
   return (
     <>

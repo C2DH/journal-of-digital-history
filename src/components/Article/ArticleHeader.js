@@ -33,7 +33,7 @@ const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], contributo
         </Col>
       ))}
       </Row>
-      {abstract
+      {abstract.length
         ? (
           <Row className="mt-5">
             <Col {...BootstrapColumLayout}>

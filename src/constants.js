@@ -15,7 +15,7 @@ export const ArticleHermeneuticsRoute = { to:'/article/hermeneutics', label: 'na
 export const ArticleHermeneuticsDataRoute = { to:'/article/hermeneutics,data', label: 'navigation.articleHermeneuticsData'}
 export const TermsOfUseRoute = { to:'/terms', label: 'navigation.termsOfUse'}
 export const GuidelinesRoute = { to:'/guidelines', label: 'navigation.guidelines'}
-export const NotebookViewerRoute = { to:'/notebook-viewer', label: 'Navigation_NotebookViewer'}
+export const NotebookViewerRoute = { to:'/notebook-viewer-form', label: 'Navigation_NotebookViewer'}
 
 export const PrimaryRoutes = [
   HomeRoute,
@@ -93,3 +93,9 @@ export const FigureDatavis = 'vega'
 
 export const FigureRefPrefix = 'figure-'
 export const TableRefPrefix = 'table-'
+
+// display Layer to enable switch between layers
+export const DisplayLayerHermeneutics = 'h'
+export const DisplayLayerNarrative = 'n'
+export const DisplayLayerQueryParam = 'layer'
+export const DisplayLayerCellIdxQueryParam = 'idx'

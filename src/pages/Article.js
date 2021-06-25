@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
-import {useParams} from 'react-router-dom'
 import ArticleText from '../components/Article'
 import ArticleHeader from '../components/Article/ArticleHeader'
 import ArticleBilbiography from '../components/Article/ArticleBibliography'
 import ArticleNote from '../components/Article/ArticleNote'
 import source from '../data/mock-ipynb.nbconvert.json'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
-import { LayerNarrative } from '../constants'
-import { useCurrentWindowDimensions }from '../hooks/graphics'
+import { useCurrentWindowDimensions } from '../hooks/graphics'
 
-const Article = ({ ipynb, url, publicationDate = new Date() }) => {
-  const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
+
+const Article = ({ memoid='', ipynb, url, publicationDate = new Date() }) => {
+  // const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
   const [selectedDataHref, setSelectedDataHref] = useState(null)
   const articleTree = useIpynbNotebookParagraphs({
+    id: url,
     cells: ipynb? ipynb.cells : source.cells,
     metadata: ipynb? ipynb.metadata : source.metadata
   })
@@ -33,7 +33,8 @@ const Article = ({ ipynb, url, publicationDate = new Date() }) => {
   return (
     <div className="page mt-5">
       <ArticleHeader {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }} />
-      <ArticleText layer={layer}
+      <ArticleText
+        memoid={articleTree.id}
         headingsPositions={articleTree.headingsPositions}
         paragraphs={articleTree.paragraphs}
         paragraphsPositions={articleTree.paragraphsPositions}
@@ -42,7 +43,10 @@ const Article = ({ ipynb, url, publicationDate = new Date() }) => {
         width={width}
         {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }}
       />
-      {articleTree.citationsFromMetadata ? <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/> : null }
+      {articleTree.citationsFromMetadata
+        ? <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/>
+        : null
+      }
       {articleTree?.bibliography
         ? (<ArticleBilbiography articleTree={articleTree} />)
         : null
@@ -51,4 +55,9 @@ const Article = ({ ipynb, url, publicationDate = new Date() }) => {
   );
 }
 
-export default Article
+export default React.memo(Article, (nextProps, prevProps) => {
+  if (nextProps.memoid === prevProps.memoid) {
+    return true
+  }
+  return false
+})

@@ -124,6 +124,11 @@ html,
 body{
   background-color: var(--gray-100);
   color: var(--dark);
+  // ths transition should be the same as components/headers.scss
+  transition: background-color 1s ease-in-out;
+}
+body.noscroll{
+  overflow: hidden;
 }
 main{
   // padding-top: 10rem;
@@ -147,7 +152,6 @@ a.btn{
 }
 
 .page{
-  padding-top: var(--spacer-5);
   h1, h2, h3{
     font-family: var(--font-family-monospace);
     font-weight: bold;
@@ -201,7 +205,7 @@ blockquote.code{
 
 @media (min-width: 768px) {
   .page{
-    padding-top: 0;
+    padding-top: 100px;
     padding-bottom: var(--spacer-5);
     h2 {
       font-size: 1.8rem
@@ -220,12 +224,6 @@ blockquote.code{
     text-align: center;
     border-radius: var(--spacer-3);
   }
-}
-
-.main-background{
-  background-color: var(--primary);
-  transition: background-color 1s ease-in-out;
-  z-index: -1;
 }
 
 .generic-list-item{

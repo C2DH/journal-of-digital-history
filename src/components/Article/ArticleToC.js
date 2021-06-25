@@ -9,12 +9,7 @@ const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
     // check ArticleText component. Each Sscrollama step has an identifier
     // that identifies the non hidden cell using the ArticleCell `idx` property
     // It is prefixed with `C-``
-    const anchor = document.getElementById(`C-${idx}`)
     history.push(`#C-${idx}`)
-    if (anchor) {
-      const rect = anchor.getBoundingClientRect()
-      window.scrollTo(0, window.scrollY + rect.top)
-    }
   }
   let previousHeadingIdx = -1;
   let nextHeadingIdx = -1;
@@ -28,7 +23,7 @@ const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
       break
     }
   }
-  console.info('previousHeadingIdx', previousHeadingIdx, 'nextHeadingIdx', nextHeadingIdx,headingsPositions, step)
+  // console.info('previousHeadingIdx', previousHeadingIdx, 'nextHeadingIdx', nextHeadingIdx,headingsPositions, step)
   return (
     <>
     {steps.map((d,i) => {

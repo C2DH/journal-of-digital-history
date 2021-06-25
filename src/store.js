@@ -8,8 +8,24 @@ export const useStore = create(persist(
     acceptAnalyticsCookies: true,
     acceptCookies: false, // cookies should be accepted, session is stored locally
     mode: 'dark', // or light
+    displayLayer: 'narrative',
     temporaryAbstractSubmission: new AbstractSubmission(),
     abstractSubmitted: new AbstractSubmission(),
+    changeBackgroundColor: (backgroundColor) => {
+      // usage in components:
+      //  const changeBackgroundColor = useStore(state => state.changeBackgroundColor)
+      //  useEffect(() => {
+      //    changeBackgroundColor(#ccffaa)
+      //  }, [])
+      //
+      const header = document.getElementById('Header_background')
+      document.body.style.backgroundColor = backgroundColor
+      // change header backgroundColor too...
+      if (header) {
+        header.style.backgroundColor = backgroundColor
+      }
+      return set(state => ({ backgroundColor }))
+    },
     setTemporaryAbstractSubmission: (payload) => {
       const state = get();
       set({ ...state, temporaryAbstractSubmission: new AbstractSubmission(payload) });
@@ -33,6 +49,11 @@ export const useStore = create(persist(
     getPersistentState: () => {
       const state = get();
       return {...state}
+    },
+    setDisplayLayer: (value) => {
+      const state = get();
+      console.info('setDisplayLayer', value)
+      set({ ...state, displayLayer: value })
     }
   }),
   {
