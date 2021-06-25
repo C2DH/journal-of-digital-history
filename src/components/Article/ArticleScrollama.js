@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { Scrollama, Step } from 'react-scrollama'
-import { RoleHidden } from '../../constants'
+import { RoleHidden, LayerHermeneuticsStep, LayerHermeneutics } from '../../constants'
 import ArticleCell from './ArticleCell'
+import ArticleCellShadow from './ArticleCellShadow'
 
-
-const ArticleScrollama = ({ memoid, height=0, cells=[], onDataHrefClick, onStepChange }) => {
+const ArticleScrollama = ({
+  memoid, height=0, cells=[],
+  shadowLayers = [ LayerHermeneuticsStep, LayerHermeneutics ],
+  onDataHrefClick, onStepChange
+}) => {
   const [currentStep, setCurrentStep] = useState({idx: -1, direction: 'down'})
 
   const onStepEnter = ({ data:idx, direction }) => {
@@ -44,16 +48,30 @@ const ArticleScrollama = ({ memoid, height=0, cells=[], onDataHrefClick, onStepC
           </Step>
         )
       }
+      if (shadowLayers.indexOf(cell.layer) !== -1) {
+        return (
+          <Step data={i} key={i}>
+            <div
+              className={`ArticleText_ArticleParagraph ${isActive ? 'active' : ''} ${cell.layer}`}
+            >
+              <ArticleCellShadow
+                {...cell}
+                idx={cell.idx}
+              />
+            </div>
+          </Step>
+        )
+      }
       if (!cell.isFigure) {
         numCell += 1
       }
       return (
         <Step data={i} key={i}>
           <div
-            className={`ArticleText_ArticleParagraph ${isActive ? 'active' : ''} ${cell.layer}`}
+            className={`ArticleText_ArticleParagraph ${isActive ? 'active' : ''}`}
             id={`C-${cell.idx}`}
             onClick={(e) => handleCellClick(e, cell.idx)}>&nbsp;
-            
+
             <ArticleCell
               mmoid={memoid}
               {...cell}
