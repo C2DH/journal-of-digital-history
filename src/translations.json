@@ -101,6 +101,10 @@
       "forms": {
         "formAuthorContact": {
           "selectAsAuthor": "Use this Contact Info as Contributor"
+        },
+        "FormNotebookUrl": {
+          "notebookUrl": "Public notebook url",
+          "notebookUrlDescription": "Use a well formed URL pointing to the <code>.ipynb</code> notebook file."
         }
       },
       "actions": {
@@ -156,8 +160,8 @@
         "instance-abstract": "<b>Abstract</b>"
       },
       "numbers": {
-        "figure": "Figure {{ n }}",
-        "table": "Table {{ n }}",
+        "figure": "figure {{ n }}",
+        "table": "table {{ n }}",
         "yExponent": "Power scale exponent (y axis): <b>{{n}}</b>",
         "errors": "{{count}} errors",
         "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",
