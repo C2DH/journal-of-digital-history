@@ -1,23 +1,41 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
+const scrollToElementById = (id) => {
+  console.info('scrollToElementById', id)
+  const element = document.getElementById(id)
+  if (element) {
+    element.scrollIntoView();
+  }
+}
+
 const ScrollToTop = () => {
-  const { pathname, hash } = useLocation();
+  const { pathname, hash, search } = useLocation();
+  // for shadow hermeneutic layer
+  useEffect(() => {
+    let timer
+    const qs = new URLSearchParams(search)
+    const idx = qs.get('idx')
+    clearTimeout(timer)
+    if (!isNaN(idx)) {
+      timer = setTimeout(() => {
+        scrollToElementById('C-' + idx)
+      }, 0);
+    }
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [search])
 
   useEffect(() => {
-    let timeoutId = null
     let timer;
-    if (hash=== '') {
+    if (hash === '') {
       window.scrollTo(0, 0)
     } else {
-      clearTimeout(timeoutId);
+      clearTimeout(timer);
       timer = setTimeout(() => {
         const id = hash.replace('#', '')
-        console.info('ScrollTo', id)
-        const element = document.getElementById(id)
-        if (element) {
-          element.scrollIntoView();
-        }
+        scrollToElementById(id)
       }, 0);
     }
     return () => {
