@@ -1,5 +1,6 @@
 import React, { Suspense, lazy, useEffect } from 'react'
 import { BrowserRouter, Switch, Route, Redirect, useRouteMatch, useLocation } from "react-router-dom"
+import { QueryParamProvider } from 'use-query-params'
 import i18n from 'i18next'
 import moment from 'moment'
 import { initReactI18next } from 'react-i18next'
@@ -60,6 +61,7 @@ const Playground = lazy(() => import('./pages/Playground'))
 const Notebook = lazy(() => import('./pages/Notebook'))
 const LocalNotebook = lazy(() => import('./pages/LocalNotebook'))
 const NotebookViewer = lazy(() => import('./pages/NotebookViewer'))
+const NotebookViewerForm = lazy(() => import('./pages/NotebookViewerForm'))
 const Guidelines = lazy(() => import('./pages/Guidelines'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
@@ -121,9 +123,12 @@ function LangRoutes() {
       <Route path={`${path}/notebook/:encodedUrl?`}>
         <Notebook />
       </Route>
-      <Route path={`${path}/notebook-viewer/:encodedUrl?`}>
-        <NotebookViewer />
+      <Route path={`${path}/notebook-viewer-form`}>
+        <NotebookViewerForm />
       </Route>
+      <Route path={`${path}/notebook-viewer/:encodedUrl`}
+        component={NotebookViewer}
+      />
       <Route path={`${path}/local-notebook`}>
         <LocalNotebook />
       </Route>
@@ -142,14 +147,19 @@ function LangRoutes() {
 
 function usePageViews() {
   const { pathname, search } = useLocation()
+  const changeBackgroundColor = useStore(state => state.changeBackgroundColor)
 
   useEffect(
     () => {
       const url = [pathname, search].join('')
       console.info('pageview', url)
+      // based on the pathname, change the background
+      if (pathname.indexOf('/notebook-viewer/') !== -1) {
+        changeBackgroundColor('var(--gray-100)')
+      }
       ReactGA.pageview(url)
     },
-    [pathname, search]
+    [pathname, search, changeBackgroundColor]
   )
 }
 
@@ -172,18 +182,13 @@ function AppRoutes() {
   )
 }
 
-const MainBackground = () => {
-  const backgroundColor =  useStore((state) => state.backgroundColor);
-  return (
-    <div className="vh-100 vw-100 position-fixed main-background" style={{top: 0, backgroundColor}}></div>
-  )
-}
 
 
 export default function App() {
 
   return (
     <BrowserRouter>
+      <QueryParamProvider ReactRouterRoute={Route}>
       <Auth0ProviderWithHistory
         disabled={isUnsafeEnvironment}
         domain="dev-cy19cq3w.eu.auth0.com"
@@ -193,7 +198,6 @@ export default function App() {
         <Header availableLanguages={LANGUAGES} isAuthDisabled={isUnsafeEnvironment}/>
         <Cookies defaultAcceptCookies={acceptCookies}/>
         <main>
-          <MainBackground />
           <Suspense fallback={<AppRouteLoading/>}>
             <AppRoutes />
           </Suspense>
@@ -201,6 +205,7 @@ export default function App() {
         <Footer ></Footer>
         <ScrollToTop />
       </Auth0ProviderWithHistory>
+      </QueryParamProvider>
     </BrowserRouter>
   )
 }
