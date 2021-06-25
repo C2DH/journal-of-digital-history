@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
-import {useParams} from 'react-router-dom'
 import ArticleText from '../components/Article'
 import ArticleHeader from '../components/Article/ArticleHeader'
 import ArticleBilbiography from '../components/Article/ArticleBibliography'
 import ArticleNote from '../components/Article/ArticleNote'
 import source from '../data/mock-ipynb.nbconvert.json'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
-import { LayerNarrative } from '../constants'
-import { useCurrentWindowDimensions }from '../hooks/graphics'
+import { useCurrentWindowDimensions } from '../hooks/graphics'
+
 
 const Article = ({ memoid='', ipynb, url, publicationDate = new Date() }) => {
-  const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
+  // const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
   const [selectedDataHref, setSelectedDataHref] = useState(null)
   const articleTree = useIpynbNotebookParagraphs({
     id: url,
@@ -44,7 +43,10 @@ const Article = ({ memoid='', ipynb, url, publicationDate = new Date() }) => {
         width={width}
         {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }}
       />
-      {articleTree.citationsFromMetadata ? <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/> : null }
+      {articleTree.citationsFromMetadata
+        ? <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/>
+        : null
+      }
       {articleTree?.bibliography
         ? (<ArticleBilbiography articleTree={articleTree} />)
         : null
