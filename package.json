@@ -38,6 +38,7 @@
     "prosemirror-schema-basic": "^1.1.2",
     "prosemirror-state": "^1.3.3",
     "prosemirror-view": "^1.15.3",
+    "query-string": "^7.0.1",
     "react": "^16.13.1",
     "react-bootstrap": "^1.6.0",
     "react-device-detect": "^1.14.0",
