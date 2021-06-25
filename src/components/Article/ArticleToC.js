@@ -23,7 +23,7 @@ const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
       break
     }
   }
-  console.info('previousHeadingIdx', previousHeadingIdx, 'nextHeadingIdx', nextHeadingIdx,headingsPositions, step)
+  // console.info('previousHeadingIdx', previousHeadingIdx, 'nextHeadingIdx', nextHeadingIdx,headingsPositions, step)
   return (
     <>
     {steps.map((d,i) => {
