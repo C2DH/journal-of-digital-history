@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import ArticleToC from './ArticleToC'
-import ArticleShadowLayer from './ArticleShadowLayer'
+import ArticleHermeneuticsLayer from './ArticleHermeneuticsLayer'
 import ArticleScrollama from './ArticleScrollama'
-import { LayerHermeneuticsStep } from '../../constants'
+import { LayerHermeneuticsStep, LayerHermeneutics } from '../../constants'
 
 
 const ArticleText = ({
@@ -37,7 +37,8 @@ const ArticleText = ({
           </div>
         </Col></Row></Container>
       </div>
-      <ArticleShadowLayer
+      <ArticleHermeneuticsLayer
+        memoid={memoid}
         height={height} width={width} title={title}
         abstract={abstract}
         keywords={keywords}
@@ -45,11 +46,16 @@ const ArticleText = ({
         publicationDate={publicationDate}
         url={url}
         disclaimer={disclaimer}
-        cells={paragraphs.filter(d => d.layer === LayerHermeneuticsStep)} />
+        onDataHrefClick={onDataHrefClick}
+        cells={paragraphs.filter(d => [
+          LayerHermeneuticsStep, LayerHermeneutics
+        ].includes(d.layer))}
+        />
       <div className="ArticleText_scrollama" style={{paddingBottom: 200}}>
         <ArticleScrollama
           memoid={memoid}
-          cells={paragraphs.filter(d => d.layer !== LayerHermeneuticsStep)}
+          cells={paragraphs}
+          shadowLayers={[LayerHermeneuticsStep, LayerHermeneutics]}
           onDataHrefClick={onDataHrefClick}
           onStepChange={(step) => setCurrentStep(step)}
         />
