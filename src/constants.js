@@ -16,9 +16,11 @@ export const ArticleHermeneuticsDataRoute = { to:'/article/hermeneutics,data', l
 export const TermsOfUseRoute = { to:'/terms', label: 'navigation.termsOfUse'}
 export const GuidelinesRoute = { to:'/guidelines', label: 'navigation.guidelines'}
 export const NotebookViewerRoute = { to:'/notebook-viewer-form', label: 'Navigation_NotebookViewer'}
+export const IssueRoute = { to:'/issues', label: 'navigation.issue'}
 
 export const PrimaryRoutes = [
   HomeRoute,
+  IssueRoute,
   // ReferencesRoute,
   // DatasetsRoute,
   AbstractSubmissionRoute,
