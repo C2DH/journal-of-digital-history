@@ -128,9 +128,11 @@ export const useGetJSON = ({ url, allowCached=true, delay=0}) => {
               });
             }).catch((err) => {
               if (cancelRequest) return;
+
               setResponse({
                 data: null,
                 error: err,
+                errorCode: err.response?.status,
                 status: StatusError
               });
             })
