@@ -33,7 +33,7 @@ const Issues = ({ match: { params: { issueId }}}) => {
                   r={80 * Math.random()}
                   fill="transparent" stroke="#000"
                   style={{opacity: .5}}
-                  stroke-width={5 * Math.random()}
+                  strokeWidth={5 * Math.random()}
                 />
                 </>
               ))}

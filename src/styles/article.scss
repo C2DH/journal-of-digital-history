@@ -351,3 +351,56 @@ ArticleShadowLayer_animatedLabel{
   font-family: var(--font-family-monospace);
   font-weight: bold;
 }
+
+
+svg.ArticleFingerprint{
+  g.type-code{
+    // is type===cell
+    line{
+      stroke: var(--accent)
+    }
+    circle{
+      stroke: transparent;
+      fill: var(--accent);
+    }
+  }
+  g.type-markdown{
+    // is type===markdown
+    line{
+      stroke: var(--gray-500)
+    }
+    circle{
+      fill: var(--gray-700);
+      stroke: transparent;
+    }
+  }
+  g.is-heading{
+    circle{
+      fill: transparent;
+      stroke: var(--secondary);
+    }
+    circle.heading-placeholder{
+      fill: var(--secondary);
+      stroke: transparent;
+    }
+  }
+  g.is-hl{
+    //isHermeneutic
+    circle{
+      fill: var(--primary);
+      stroke: var(--gray-300);
+    }
+    line{
+      stroke: var(--primary)
+    }
+  }
+  g.is-hl.type-code{
+    circle{
+      stroke: transparent;
+      fill: var(--accent);
+    }
+    line{
+      stroke: var(--accent)
+    }
+  }
+}

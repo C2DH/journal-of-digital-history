@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const ArticleCellContent = React.memo(({ idx, content, num, layer, className, hideNum=false, hideIdx=true}) => {
+const ArticleCellContent = ({ idx, content, num, layer, className, hideNum=false, hideIdx=true}) => {
   return (
     <div className="ArticleCellContent">
       {!hideIdx && (<div className="ArticleCellContent_idx">{idx}</div>)}
@@ -9,6 +9,6 @@ const ArticleCellContent = React.memo(({ idx, content, num, layer, className, hi
       <div dangerouslySetInnerHTML={{__html: content}}></div>
     </div>
   )
-})
+}
 
-export default ArticleCellContent
+export default React.memo(ArticleCellContent)
