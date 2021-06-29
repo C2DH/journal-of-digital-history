@@ -5,10 +5,11 @@ import { useGetJSON } from '../logic/api/fetchData'
 import { BootstrapColumLayout } from '../constants'
 import IssueArticlesGrid from '../components/Issue/IssueArticlesGrid'
 
-const Issue = ({ match: { params: { issueId }}}) => {
+const Issue = ({ match: { params: { id:issueId }}}) => {
+  console.log("********issueid*******" + issueId)
   const { t } = useTranslation()
-  const { data:issue, error:issueError, status:issueStatus } = useGetJSON({ url: `/mock-api/issues/1.json`, delay: 1000 })
-  const { data:articles, error:articlesError, status: articlesStatus } = useGetJSON({ url: `/mock-api/articles.json`, delay: 2000 })
+  const { data:issue, error:issueError, status:issueStatus } = useGetJSON({ url: `/api/issues/${issueId}`, delay: 1000 })
+  const { data:articles, error:articlesError, status: articlesStatus } = useGetJSON({ url: `/api/articles/?pid=${issueId}`, delay: 2000 })
   console.info("Issue data:", issue, "status:", issueStatus, "error:", issueError)
   return (
     <>

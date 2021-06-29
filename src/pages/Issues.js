@@ -7,7 +7,7 @@ import LangLink from '../components/LangLink'
 
 const Issues = ({ match: { params: { issueId }}}) => {
   const { t } = useTranslation()
-  const { data:issues, error, status } = useGetJSON({ url: `/mock-api/issues.json`, delay: 0 })
+  const { data:issues, error, status } = useGetJSON({ url: `/api/issues?ordering=-creation_date`, delay: 0 })
   console.info('Issues status', status, 'error', error)
 
   return (
@@ -38,7 +38,7 @@ const Issues = ({ match: { params: { issueId }}}) => {
                 </>
               ))}
             </svg>
-            <h3 className="d-block"><LangLink to={`/issue/${issue.id}`}>{issue.name}</LangLink></h3>
+            <h3 className="d-block"><LangLink to={`/issue/${issue.pid}`}>{issue.name}</LangLink></h3>
             <p dangerouslySetInnerHTML={{__html: issue.description }} />
           </Col>
         )): null}
