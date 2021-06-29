@@ -64,7 +64,7 @@ const NotebookViewer = lazy(() => import('./pages/NotebookViewer'))
 const NotebookViewerForm = lazy(() => import('./pages/NotebookViewerForm'))
 const Guidelines = lazy(() => import('./pages/Guidelines'))
 const NotFound = lazy(() => import('./pages/NotFound'))
-
+const ArticleViewer = lazy(() => import('./pages/ArticleViewer'))
 const { startLangShort, lang } = getStartLang()
 console.info('start language:', lang, startLangShort)
 i18n
@@ -100,7 +100,7 @@ function LangRoutes() {
       <Route exact path={`${path}/about`}>
         <About />
       </Route>
-      <Route exact path={`${path}/article/:layer?`}>
+      <Route exact path={`${path}/articlePOC/:layer?`}>
         <Article />
       </Route>
       <Route exact path={`${path}/abstract`}>
@@ -111,6 +111,7 @@ function LangRoutes() {
       </Route>
       <Route path={`${path}/issues`} component={Issues} />
       <Route path={`${path}/issue/:id`} component={Issue} />
+      <Route path={`${path}/article/:pid`} component={ArticleViewer} />
       <Route path={`${path}/abstract-submitted`}>
         <AbstractSubmitted />
       </Route>
