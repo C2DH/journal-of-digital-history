@@ -183,7 +183,7 @@ const Playground = () => {
             paddingTop: '100%',
             // background: 'var(--primary)'
           }}>
-            <div class="position-absolute w-100 h-100" style={{top: 0 }}>
+            <div className="position-absolute w-100 h-100" style={{top: 0 }}>
               <Canvas visualVariables={visualVariables}/>
             </div>
           </div>

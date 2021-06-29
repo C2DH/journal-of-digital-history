@@ -74,7 +74,7 @@ const FormAbstractGenericSortableList = ({
     <div>
     <div className="position-relative w-100">
       {items.map((item, index) => (
-        <div className="d-flex align-items-top mb-2 pl-2 pr-1 pb-2 pt-0 border border-dark rounded shadow-sm">
+        <div key={index} className="d-flex align-items-top mb-2 pl-2 pr-1 pb-2 pt-0 border border-dark rounded shadow-sm">
           <ListItemComponent className="w-100 mt-2"  item={item} onChange={handleChange} />
           <div className="flex-shrink-1">
             <Button size="sm" className="d-block rounded-circle border-dark border p-0 m-3" style={{height: '25px', width:'25px', lineHeight: '23px'}} variant="warning"

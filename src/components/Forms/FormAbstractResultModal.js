@@ -23,7 +23,7 @@ const FormAbstractResultModal = ({errors = [], onConfirm, ...props}) => {
           dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
           consectetur ac, vestibulum at eros.
         </p>
-        {errors.map((error,i) => <FormJSONSchemaErrorListItem error={error} />)}
+        {errors.map((error,i) => <FormJSONSchemaErrorListItem  key={i} error={error} />)}
         <Button variant="primary" onClick={onConfirm}>Close</Button>
       </Modal.Body>
       <Modal.Footer>

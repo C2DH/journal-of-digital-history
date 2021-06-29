@@ -21,7 +21,4 @@ const IssueArticlesGrid = ({articles = []}) => {
     </Container>
   )
 }
-IssueArticlesGrid.propTypes = {
-  articles: PropTypes.array.isRequired
-}
 export default IssueArticlesGrid

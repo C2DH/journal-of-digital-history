@@ -1,3 +1,4 @@
+import React from 'react'
 import data from '../../data/mock-ipynb-stats.json'
 import { scalePow } from 'd3-scale'
 
@@ -29,7 +30,7 @@ const ArticleFingerprintCellGraphics = ({
         ? (
           <>
           <text
-            text-anchor="middle"
+            textAnchor="middle"
             x={cosTheta * (radius + offset + 6)}
             y={sinTheta * (radius + offset + 6)}
             style={{fontSize: 6}}

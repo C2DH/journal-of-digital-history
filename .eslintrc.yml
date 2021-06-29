@@ -9,4 +9,7 @@ parserOptions:
   sourceType: module
 plugins:
   - react
-rules: {}
+  - react-hooks
+rules:
+  react/prop-types: 'off'
+  react/no-unescaped-entities: 'off'

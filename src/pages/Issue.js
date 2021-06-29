@@ -26,7 +26,4 @@ const Issue = ({ match: { params: { id:issueId }}}) => {
     </>
   )
 }
-Issue.propTypes = {
-  match: PropTypes.object.isRequired
-}
 export default Issue
