@@ -1,3 +1,4 @@
+import React from 'react'
 import data from '../../data/mock-ipynb-stats.json'
 import { scalePow } from 'd3-scale'
 
