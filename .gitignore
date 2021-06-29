@@ -5,3 +5,5 @@ node_modules
 .netlify
 .eslintcache
 .development.env
+.env.development
+.vscode/settings.json
