@@ -79,7 +79,12 @@ export const useGetAbstractSubmission = (id) => {
 }
 
 
-export const useGetJSON = ({ url, allowCached=true, delay=0, timeout=0}) => {
+export const useGetJSON = ({
+  url,
+  allowCached=true,
+  delay=0,
+  timeout=process.env.REACT_APP_API_TIMEOUT || 0
+}) => {
   const cache = useRef({});
   const [response, setResponse] = useState({
     data: null,
@@ -132,7 +137,7 @@ export const useGetJSON = ({ url, allowCached=true, delay=0, timeout=0}) => {
               setResponse({
                 data: null,
                 error: err,
-                errorCode: err.response?.status || error.code,
+                errorCode: err.response?.status || err.code,
                 status: StatusError
               });
             })
