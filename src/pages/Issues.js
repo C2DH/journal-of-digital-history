@@ -7,7 +7,11 @@ import LangLink from '../components/LangLink'
 
 const Issues = ({ match: { params: { issueId }}}) => {
   const { t } = useTranslation()
-  const { data:issues, error, status } = useGetJSON({ url: `/api/issues?ordering=-creation_date`, delay: 0 })
+  const { data:issues, error, status, errorCode } = useGetJSON({
+    url: `/api/issues?ordering=-creation_date`,
+    delay: 0,
+    timeout: process.env.REACT_APP_API_TIMEOUT || 0
+  })
   console.info('Issues status', status, 'error', error)
 
   return (
