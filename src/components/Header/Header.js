@@ -98,7 +98,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs, displayLo
     <Container className="d-block" style={{height:80}}>
       <Row className="d-md-flex d-none align-items-center h-100">
         <Col md={{offset: 2, span: 8}}>
-          <NavPrimaryRoutes className="" routes={PrimaryRoutes} />
+          <NavPrimaryRoutes routes={PrimaryRoutes} />
         </Col>
         {displayLogin || displayLangs ?(
           <Col md={2}>
