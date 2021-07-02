@@ -79,7 +79,7 @@ export const useGetAbstractSubmission = (id) => {
 }
 
 
-export const useGetJSON = ({ url, allowCached=true, delay=0}) => {
+export const useGetJSON = ({ url, allowCached=true, delay=0, timeout=0}) => {
   const cache = useRef({});
   const [response, setResponse] = useState({
     data: null,
@@ -116,8 +116,8 @@ export const useGetJSON = ({ url, allowCached=true, delay=0}) => {
             status: StatusSuccess
           });
       } else {
-          console.log('useGetDataset load fresh url:', url)
-          return axios.get(url)
+          console.log('useGetDataset load fresh url:', url, 'timeout', timeout)
+          return axios.get(url, { timeout })
             .then(({data}) => {
               cache.current[url] = data // set response in cache;
               if (cancelRequest) return;
@@ -132,7 +132,7 @@ export const useGetJSON = ({ url, allowCached=true, delay=0}) => {
               setResponse({
                 data: null,
                 error: err,
-                errorCode: err.response?.status,
+                errorCode: err.response?.status || error.code,
                 status: StatusError
               });
             })
