@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { useGetJSON } from '../logic/api/fetchData'
 import { BootstrapColumLayout } from '../constants'
 import ErrorViewer from './ErrorViewer'
-import LangLink from '../components/LangLink'
+import IssueListItem  from '../components/Issue/IssueListItem'
 
 
 const Issues = ({ match: { params: { issueId }}}) => {
@@ -22,35 +22,19 @@ const Issues = ({ match: { params: { issueId }}}) => {
     )
   }
   return (
-    <Container className="Issues page mt-5">
+    <Container className="Issues page">
       <Row>
         <Col {...BootstrapColumLayout}>
-          <h1>{t('pages.issues.title')}</h1>
-          <h2>{t('pages.issues.introduction')}</h2>
+          <h1 className="my-5">{t('pages.issues.title')}</h1>
+          <h3>{t('pages.issues.subheading')}</h3>
+          <p>{t('pages.issues.introduction')}</p>
         </Col>
       </Row>
 
-      <Row>
+      <Row className="mt-5">
         {issues ? issues.map((issue, i) => (
           <Col key={i} md={{span:4, offset: i % 2 === 0 ? 2 : 0}}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" style={{background: 'var(--primary)'}}>
-              {Array(Math.round(Math.random() * 100)).fill(0).map(d => (
-                <>
-                <circle
-                  // cx={100}
-                  // cy={100}
-                  cx={100 + 5*Math.random()}
-                  cy={100 + 5*Math.random()}
-                  r={80 * Math.random()}
-                  fill="transparent" stroke="#000"
-                  style={{opacity: .5}}
-                  strokeWidth={5 * Math.random()}
-                />
-                </>
-              ))}
-            </svg>
-            <h3 className="d-block"><LangLink to={`/issue/${issue.pid}`}>{issue.name}</LangLink></h3>
-            <p dangerouslySetInnerHTML={{__html: issue.description }} />
+            <IssueListItem issue={issue} />
           </Col>
         )): null}
       </Row>

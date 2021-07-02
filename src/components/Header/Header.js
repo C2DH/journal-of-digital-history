@@ -11,7 +11,7 @@ import uniluLogo from '../../assets/images/unilu-c2dh-logo-white.svg'
 import { PrimaryRoutes, TermsOfUseRoute } from '../../constants'
 import SwitchNightMode from '../SwitchNightMode'
 import '../../styles/components/Header.scss'
-
+import { useOnScreen } from '../../hooks/graphics'
 
 const MobileHeader = ({ langs, displayLangs }) => {
   const { t, i18n } = useTranslation()
@@ -81,8 +81,10 @@ const NavPrimaryRoutes = ({ routes, ...props}) => {
 
 const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs, displayLogin }) => {
   const { t } = useTranslation()
+  const [{ intersectionRatio }, ref] = useOnScreen()
+
   return (
-    <>
+    <header ref={ref} className={`${intersectionRatio < 1 ? 'active' : ''}`}>
     <div className="position-fixed w-100" id="Header_background" style={{left: 0, zIndex:1 ,top:0, height: 100}}/>
     <Navbar  style={{height: 100 }} className="RowHeader d-md-flex d-none fixed-top"  variant="light" expand="md">
     <Navbar.Brand href="/en" className="position-absolute d-flex align-items-center">
@@ -96,7 +98,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs, displayLo
     <Container className="d-block" style={{height:80}}>
       <Row className="d-md-flex d-none align-items-center h-100">
         <Col md={{offset: 2, span: 8}}>
-          <NavPrimaryRoutes className="" routes={PrimaryRoutes} />
+          <NavPrimaryRoutes routes={PrimaryRoutes} />
         </Col>
         {displayLogin || displayLangs ?(
           <Col md={2}>
@@ -111,7 +113,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs, displayLo
     </Container>
     </Navbar>
     <MobileHeader langs={availableLanguages}/>
-    </>
+    </header>
   )
 }
 
