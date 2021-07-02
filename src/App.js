@@ -157,6 +157,8 @@ function usePageViews() {
       // based on the pathname, change the background
       if (pathname.indexOf('/notebook-viewer/') !== -1) {
         changeBackgroundColor('var(--gray-100)')
+      } else if (pathname.indexOf('/issue') !== -1) {
+        changeBackgroundColor('var(--gray-100)')
       }
       ReactGA.pageview(url)
     },
