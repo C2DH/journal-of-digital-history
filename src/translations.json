@@ -36,6 +36,11 @@
           "subheading": "You will soon be contacted by our editors via the email you have indicated in the contact form.",
           "moreInfo": "If any information needs to be changed, please contact us via email at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>"
         },
+        "errorViewer": {
+          "title": "Ouch! Something wrong happened...",
+          "subheading": "How can I get rid of this message?",
+          "message": "JDH needs you when errors happen. <br/> Please contact <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a> copy pasting the code below."
+        },
         "abstractSubmission": {
           "title": "Abstract Submission",
           "subheading": "...",

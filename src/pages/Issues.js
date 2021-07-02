@@ -3,13 +3,20 @@ import { useTranslation } from 'react-i18next'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useGetJSON } from '../logic/api/fetchData'
 import { BootstrapColumLayout } from '../constants'
+import ErrorViewer from './ErrorViewer'
 import LangLink from '../components/LangLink'
+
 
 const Issues = ({ match: { params: { issueId }}}) => {
   const { t } = useTranslation()
-  const { data:issues, error, status } = useGetJSON({ url: `/api/issues?ordering=-creation_date`, delay: 0 })
+  const { data:issues, error, errorCode, status } = useGetJSON({ url: `/api/issues?ordering=-creation_date`, delay: 0 })
   console.info('Issues status', status, 'error', error)
 
+  if (error) {
+    return (
+      <ErrorViewer error={error} errorCode={errorCode} />
+    )
+  }
   return (
     <Container className="Issues page mt-5">
       <Row>
@@ -44,7 +51,7 @@ const Issues = ({ match: { params: { issueId }}}) => {
         )): null}
       </Row>
       <Row>
-        {error ? <pre>{JSON.stringify(error, null, 2)}</pre>: null}
+
       </Row>
     </Container>
   )

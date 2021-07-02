@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { Button } from 'react-bootstrap'
 import { Eye, EyeOff } from 'react-feather'
 import hljs from "highlight.js"; // import hljs library
-import 'highlight.js/styles/dracula.css';
 
 
 const ArticleCellSourceCode = ({ content, language, toggleVisibility, visible, right }) => {
