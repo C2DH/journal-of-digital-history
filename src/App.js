@@ -155,7 +155,7 @@ function usePageViews() {
       const url = [pathname, search].join('')
       console.info('pageview', url)
       // based on the pathname, change the background
-      if (pathname.indexOf('/notebook-viewer/') !== -1) {
+      if (pathname.indexOf('/notebook') !== -1 || pathname.indexOf('/article') !== -1) {
         changeBackgroundColor('var(--gray-100)')
       } else if (pathname.indexOf('/issue') !== -1) {
         changeBackgroundColor('var(--gray-100)')
