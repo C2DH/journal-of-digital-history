@@ -207,12 +207,12 @@ top: 3px;
   max-width: 100%;
 }
 
-.ArticleCellOutput table{
+.ArticleCellOutput table, .ArticleCellFigure table{
   font-size: .8em;
   // .table-striped
   border: 0;
-  border-top: 1px solid var(--gray-400);
-  border-bottom: 1px solid var(--gray-400);
+  border: 1px solid var(--gray-400);
+  // border-bottom: 1px solid var(--gray-400);
   background-color: var(--gray-100);
   caption{
     display: none;
@@ -403,4 +403,8 @@ svg.ArticleFingerprint{
       stroke: var(--accent)
     }
   }
+}
+
+.ArticleCellFigure table{
+  width: 100%;
 }
