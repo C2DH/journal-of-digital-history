@@ -152,7 +152,7 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
   // cycle through notebook cells to fill ArticleCells, figures, headings
   cells.map((cell, idx) => {
     const sources = Array.isArray(cell.source)
-      ? cell.source.join('\n\n')
+      ? cell.source.join('\n')
       : cell.source
     // find footnote citations (with the number)
     const footnote = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
@@ -214,7 +214,7 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
   }).forEach((cell, idx) => {
     // console.info(p.cell_type, idx)
     if (cell.cell_type === CellTypeMarkdown) {
-      const sources = cell.source.join('  \n')
+      const sources = cell.source.join('')
       // exclude rendering of reference references
       let tokens = []
       try {
@@ -315,7 +315,7 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
   // if (bufferCellsGroup.cells.length) {
   //   articleParagraphs.push(bufferCellsGroup)
   // }
-
+  console.info('ipynb articleCells',articleCells)
   return new ArticleTree({
     id,
     headings,
