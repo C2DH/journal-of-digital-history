@@ -11,12 +11,13 @@ const ArticleText = ({
   paragraphs, paragraphsPositions, headingsPositions,
   onDataHrefClick,
   debug, height, width,
-  title, abstract, keywords, contributor, publicationDate, url, disclaimer
+  title, abstract, keywords, contributor, publicationDate, url, disclaimer,
+  className='mt-5'
 }) => {
   const [currentStep, setCurrentStep] = useState({idx: -1, direction: 'down'})
   // get
   return (
-    <div className="mt-5 ArticleText">
+    <div className={`${className} ArticleText`}>
       <div className='ArticleText_toc' style={{
         position: 'fixed',
         top: 160,
@@ -37,7 +38,7 @@ const ArticleText = ({
           </div>
         </Col></Row></Container>
       </div>
-      <ArticleHermeneuticsLayer
+      {/*/ <ArticleHermeneuticsLayer
         memoid={memoid}
         height={height} width={width} title={title}
         abstract={abstract}
@@ -51,6 +52,7 @@ const ArticleText = ({
           LayerHermeneuticsStep, LayerHermeneutics
         ].includes(d.layer))}
         />
+      */}
       <div className="ArticleText_scrollama" style={{paddingBottom: 200}}>
         <ArticleScrollama
           memoid={memoid}
