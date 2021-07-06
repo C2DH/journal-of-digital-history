@@ -184,7 +184,8 @@
         "precise": "{{date, DD MMM YYYY hh:ss}}",
         "fromNow": "{{date, fromNow}}",
         "LLLL": "{{date, LLLL}}",
-        "LLL": "{{date, LLL}}"
+        "LLL": "{{date, LLL}}",
+        "month": "{{date, MMM YYYY}}"
       },
       "ArticleCellOutput_execute_result": "result",
       "ArticleCellOutput_stream": "logs",

@@ -73,7 +73,7 @@ const ArticleFingerprint = ({
       .range([0, radius/2])
 
   return (
-    <svg className="ArticleFingerprint" xmlns="http://www.w3.org/2000/svg" width={svgWidth} height={svgHeight}>
+    <svg className="ArticleFingerprint position-absolute" xmlns="http://www.w3.org/2000/svg" width={svgWidth} height={svgHeight}>
       <g transform={`translate(${svgWidth/2}, ${svgHeight/2})`}>
         {/* outer circle (narrative layer)
         <circle cx={0} cy={0} stroke="var(--gray-200)" fill="transparent" r={radius}/>

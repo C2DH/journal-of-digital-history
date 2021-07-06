@@ -3,27 +3,59 @@ import { useTranslation } from 'react-i18next'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useGetJSON } from '../logic/api/fetchData'
 import { BootstrapColumLayout } from '../constants'
-import IssueArticlesGrid from '../components/Issue/IssueArticlesGrid'
+import IssueArticleGridItem from '../components/Issue/IssueArticleGridItem'
+import ErrorViewer from './ErrorViewer'
+import Loading from './Loading'
+import { StatusSuccess } from '../constants'
+
+const IssueArticlesGrid = ({ issue }) => {
+  // console.info('IssueArticlesGrid', articles)
+  const { data:articles, error, status, errorCode } = useGetJSON({
+    url: `/api/articles/?pid=${issue.pid}`
+  })
+  if (status !== StatusSuccess ) {
+    return null
+  }
+  return (
+    <Row>
+        {articles.map((article, i) => (
+          <Col key={i} md={{span:4, offset: i % 2 === 0 ? 2 : 0}}>
+            <IssueArticleGridItem article={article} />
+          </Col>
+        ))}
+    </Row>
+  )
+}
 
 const Issue = ({ match: { params: { id:issueId }}}) => {
-  console.log("********issueid*******" + issueId)
   const { t } = useTranslation()
-  const { data:issue, error:issueError, status:issueStatus } = useGetJSON({ url: `/api/issues/${issueId}`, delay: 1000 })
-  const { data:articles, error:articlesError, status: articlesStatus } = useGetJSON({ url: `/api/articles/?pid=${issueId}`, delay: 2000 })
-  console.info("Issue data:", issue, "status:", issueStatus, "error:", issueError)
+  const { data:issue, error, status, errorCode } = useGetJSON({
+    url: `/api/issues/${issueId}`,
+    delay: 0
+  })
+  if (error) {
+    return (
+      <ErrorViewer error={error} errorCode={errorCode} />
+    )
+  } else if (status !== StatusSuccess ) {
+    return (
+      <Loading title={`${t('pages.issues.title')}/${issueId}`}>
+        <h1 className="my-5"></h1>
+      </Loading>
+    )
+  }
+
   return (
-    <>
-    <Container className="Issue page mt-5">
+    <Container className="Issue page">
       <Row>
         <Col {...BootstrapColumLayout}>
-          <h1>{issue?.name}</h1>
-          <h2>{issue?.description}</h2>
+          <h1 className="my-5">{t('pages.issues.title')}/{issue.pid}<br/> {issue?.name}</h1>
+          <h3>{issue?.description}</h3>
+          <p>{t('dates.month', { date: new Date(issue.creation_date)})}</p>
         </Col>
       </Row>
+    { issue ? <IssueArticlesGrid issue={issue}/> : null }
     </Container>
-    {articles ? <IssueArticlesGrid articles={articles}/> : null}
-    {articlesError ? <pre>{JSON.stringify(articlesError, null, 2)}</pre>: null}
-    </>
   )
 }
 export default Issue

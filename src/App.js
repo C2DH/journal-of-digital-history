@@ -13,7 +13,7 @@ import Footer from './components/Footer'
 import Cookies from './components/Cookies'
 import ScrollToTop from './components/ScrollToTop'
 import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
-import AppRouteLoading from './pages/AppRouteLoading'
+import Loading from './pages/Loading'
 import ReactGA from 'react-ga';
 // Getting non-reactive fresh state
 let persistentState = useStore.getState()
@@ -75,7 +75,7 @@ i18n
     interpolation: {
       escapeValue: false, // react already safes from xss
       format: function(value, format, lng) {
-          if(value instanceof Date) {
+          if (value instanceof Date) {
             if (format === 'fromNow') {
               return moment(value).fromNow()
             }
@@ -201,7 +201,7 @@ export default function App() {
         <Header availableLanguages={LANGUAGES} isAuthDisabled={isUnsafeEnvironment}/>
         <Cookies defaultAcceptCookies={acceptCookies}/>
         <main>
-          <Suspense fallback={<AppRouteLoading/>}>
+          <Suspense fallback={<Loading/>}>
             <AppRoutes />
           </Suspense>
         </main>

@@ -314,6 +314,18 @@ blockquote.code{
   animation: rotate 2s linear infinite;
 }
 
+.squared {
+  position: relative;
+}
+
+.squared:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.grow:hover { transform: scale(1.1); }
+
 // import styles scss named after their folder name in components/
 @import 'article';
 @import 'graphics';
