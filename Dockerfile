@@ -8,6 +8,7 @@ WORKDIR /jdh
 
 COPY package.json .
 COPY yarn.lock .
+COPY .eslintrc.yml .
 
 RUN yarn install
 
