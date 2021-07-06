@@ -6,7 +6,6 @@ import ArticleCellContent from '../components/Article/ArticleCellContent'
 import { getArticleTreeFromIpynb } from '../logic/ipynb'
 import { BootstrapColumLayout } from '../constants'
 import { useStore } from '../store'
-//import ipynb from '../data/mock-api/mock-guidelines.ipynb.json'
 import source from '../data/mock-api/authorGuideline.json'
 import { downloadFile } from '../logic/api/downloadData'
 import { Download } from 'react-feather';
@@ -16,6 +15,7 @@ import ArticleBilbiography from '../components/Article/ArticleBibliography'
 import ArticleNote from '../components/Article/ArticleNote'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import { useCurrentWindowDimensions } from '../hooks/graphics'
+
 
 const Guidelines = () => {
   const { t } = useTranslation()
@@ -29,8 +29,22 @@ const Guidelines = () => {
 
   const { height, width } =  useCurrentWindowDimensions()
   return (
-    <div className="page mt-5">
+    <>
+    <Container className="page">
+      <Row>
+        <Col {...BootstrapColumLayout}>
+          {title.map((props, i) => (
+            <ArticleCellContent hideIdx hideNum {...props} key={i} idx=""/>
+          ))}
+          <h3>Introduction</h3>
+          {abstract.map((props, i) => (
+            <ArticleCellContent hideIdx hideNum {...props} key={i} idx=""/>
+          ))}
+        </Col>
+      </Row>
+    </Container>
       <ArticleText
+        className='mt-0'
         memoid={articleTree.id}
         headingsPositions={articleTree.headingsPositions}
         paragraphs={articleTree.paragraphs}
@@ -59,7 +73,7 @@ const Guidelines = () => {
           </Col>
         </Row>
       </Container>
-    </div>
+    </>
   );
 }
 export default Guidelines
