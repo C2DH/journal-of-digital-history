@@ -2,14 +2,21 @@
  "cells": [
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata" : {
+    "tags": ["title"],
+    "jdh": {
+      "section": "title"
+    }
+   },
    "source": [
-    "# Introduction"
+     "# Guidelines for Authors {.my-5}"
    ]
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+     "tags": ["abstract"]
+   },
    "source": [
     "The journal makes use of **ipynb notebooks** to publish the articles.\n",
     "In addition to that, there is a couple of rules to *format content* and *visualize datasets*, similar to what [jupyter book](https://jupyterbook.org/intro.html) does.\n",
@@ -34,7 +41,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# QuickGuide"
+    "## QuickGuide"
    ]
   },
   {
@@ -56,7 +63,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "# Structuring the Jupyter Notebook"
+    "## Structuring the Jupyter Notebook"
    ]
   },
   {
@@ -72,7 +79,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Cell Tagging"
+    "### Cell Tagging"
    ]
   },
   {
@@ -84,7 +91,10 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+     "tags":["table-1"],
+     "jdh":{"object":{"source":["Active tags for the Journal articles."]}}
+   },
    "source": [
     "Function | Tag | Markdown | Explanation\n",
     "--- | --- | --- | ---\n",
@@ -95,8 +105,8 @@
     "Keywords | keywords | | Keywords are to be separated by comma (“,”)\n",
     "Abstract | abstract | | This cell features the abstract of an article with a max./min length of x characters.\n",
     "Chapter Title | | h2 (##) | Chapter titles are always written in h2. \n",
-    "Table | table-1 | | For tables, **individually** tag each table in the order like this: table-1, table-2, table-3.\n",
-    "Figure | figure-1 | fig-1a, fig-1b | Figures need to be tagged with \"figure-(number)\". Captions are added manually."
+    "Table | `table-1` | | For tables, **individually** tag each table in the order like this: table-1, table-2, table-3.\n",
+    "Figure | `figure-1` | fig-1a, fig-1b | Figures need to be tagged with \"figure-(number)\". Captions are added manually."
    ]
   },
   {
@@ -112,13 +122,18 @@
    "source": [
     "If a cell contains 2 figures in one, we propose the following cell-centric approach:\n",
     "- tag the cell with figure-1\n",
-    "- write fig-1a and fig-1b within the cell to show them side by side on the narrative and add the corresponding caption"
+    "- write `fig-1a` and `fig-1b` within the cell to show them side by side on the narrative and add the corresponding caption",
+    "- modify the cell metadata to add the appropriate caption \n",
+    "```\n{\n  \"tags\": [\"figure-1a et 1b\"],\n  \"jdh\": {\n    \"object\": {\n      \"source\": [\"First Figure, a and b.\"]\n    }\n  }\n}\n```"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 2,
-   "metadata": {},
+   "metadata": {
+     "tags":["figure-1a et 1b"],
+     "jdh":{"object":{"source":["First Figure, a and b."]}}
+   },
    "outputs": [
     {
      "data": {
@@ -139,7 +154,9 @@
   {
    "cell_type": "code",
    "execution_count": 1,
-   "metadata": {},
+   "metadata": {
+     "tags":["figure-2"]
+   },
    "outputs": [
     {
      "data": {
@@ -149,7 +166,6 @@
       ]
      },
      "execution_count": 1,
-     "metadata": {},
      "output_type": "execute_result"
     }
    ],
@@ -163,7 +179,8 @@
    "cell_type": "code",
    "execution_count": 2,
    "metadata": {
-    "scrolled": false
+    "scrolled": false,
+    "tags":["figure-3"]
    },
    "outputs": [
     {
@@ -521,7 +538,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+
+   },
    "source": [
     "File |Type | Explanation\n",
     "--- | --- | ---\n",
