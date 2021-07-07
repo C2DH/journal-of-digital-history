@@ -30,7 +30,7 @@ markdownParser.use(MarkdownItAttrs, {
   // optional, these are default options
   leftDelimiter: '{',
   rightDelimiter: '}',
-  allowedAttributes: ['class']  // empty array = all attributes are allowed
+  allowedAttributes: ['class', 'id']  // empty array = all attributes are allowed
 });
 
 const renderMarkdownWithReferences = ({

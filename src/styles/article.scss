@@ -225,6 +225,10 @@ top: 3px;
     padding: var(--spacer-2);
   }
 }
+
+.ArticleCellFigure img{
+  max-width: 100%;
+}
 // .ArticleCellOutput_display_data {
 //   background-color: var(--gray-200);
 // }
