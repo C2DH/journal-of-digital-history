@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Scrollama, Step } from 'react-scrollama'
 import { RoleHidden, LayerHermeneuticsStep, LayerHermeneutics } from '../../constants'
-import ArticleCell from './ArticleCell'
+import ArticleCellAccordion from './ArticleCellAccordion'
 import ArticleCellShadow from './ArticleCellShadow'
 
 const ArticleScrollama = ({
@@ -48,36 +48,36 @@ const ArticleScrollama = ({
           </Step>
         )
       }
-      if (shadowLayers.indexOf(cell.layer) !== -1) {
-        return (
-          <Step data={i} key={i}>
-            <div
-              className={`ArticleText_ArticleParagraph ${isActive ? 'active' : ''} ${cell.layer}`}
-            >
-              <ArticleCellShadow
-                {...cell}
-                idx={cell.idx}
-              />
-            </div>
-          </Step>
-        )
-      }
+      // if (shadowLayers.indexOf(cell.layer) !== -1) {
+      //   return (
+      //     <Step data={i} key={i}>
+      //       <div
+      //         className={`ArticleText_ArticleParagraph ${isActive ? 'active' : ''} ${cell.layer}`}
+      //       >
+      //         <ArticleCellShadow
+      //           {...cell}
+      //           idx={cell.idx}
+      //         />
+      //       </div>
+      //     </Step>
+      //   )
+      // }
       if (!cell.isFigure) {
         numCell += 1
       }
       return (
         <Step data={i} key={i}>
           <div
-            className={`ArticleText_ArticleParagraph ${isActive ? 'active' : ''}`}
+            className={`ArticleText_ArticleParagraph position-relative ${isActive ? 'active' : ''}`}
             id={`C-${cell.idx}`}
             onClick={(e) => handleCellClick(e, cell.idx)}>&nbsp;
-
-            <ArticleCell
-              mmoid={memoid}
-              {...cell}
+            <ArticleCellAccordion
+              memoid={memoid}
+              cell={cell}
               num={numCell}
-              idx={cell.idx}
-              active={isActive}
+              isEnabled={shadowLayers.includes(cell.layer)}
+              isCollapsed={shadowLayers.includes(cell.layer)}
+              isActive={isActive}
             />
           </div>
         </Step>
