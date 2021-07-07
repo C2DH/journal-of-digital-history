@@ -56,7 +56,7 @@ const NotebookViewer = ({ match: { params: { encodedUrl }}}) => {
   }
   return (
     <div>
-    <button onClick={switchLayer} style={{position: 'fixed', top: 200, zIndex:1004}}>Change layer {layer}</button>
+    <button className="d-none" onClick={switchLayer} style={{position: 'fixed', top: 200, zIndex:1004}}>Change layer {layer}</button>
     {status === StatusSuccess
       ? <Article ipynb={data} memoid={encodedUrl}/>
       : null
