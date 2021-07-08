@@ -42,21 +42,27 @@ top: 3px;
   font-size: var(--font-size-2);
 }
 
-.ArticleText_ArticleParagraph{
+.ArticleStream_paragraph{
   border-left: 2px solid transparent;
+  margin-top: var(--spacer-3);
+  margin-bottom: var(--spacer-3);
   &.active{
     border-left-color: var(--primary);
     .ArticleCellContent_num{
       color: var(--secondary);
     }
   }
+  h2,h3,h4{
+    margin-top: var(--spacer-3);
+    margin-bottom: 0;
+  }
 }
 
-.ArticleText_ArticleParagraph.hermeneutics .ArticleCellContent p{
+.ArticleStream_paragraph.hermeneutics .ArticleCellContent p{
   color: var(--accent);
 }
 @media (min-width: 992px) {
-  .ArticleText_ArticleParagraph.hermeneutics {
+  .ArticleStream_paragraph.hermeneutics {
     overflow-x: hidden;
     .container{
       transform: translate3d(8%, 0, 0)
@@ -411,4 +417,13 @@ svg.ArticleFingerprint{
 
 .ArticleCellFigure table{
   width: 100%;
+}
+
+.ArticleCellAccordionCustomToggle{
+  white-space: nowrap;
+  border-radius: 15px;
+  background: white;
+  &:hover{
+    background-color: var(--dark);
+  }
 }
