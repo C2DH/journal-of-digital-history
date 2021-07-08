@@ -40,7 +40,7 @@ const NotebookViewer = ({ match: { params: { encodedUrl }}}) => {
 
   if (status !== StatusSuccess) {
     return (
-      <Container className="mt-5 page">
+      <Container className="page">
         <Row>
           <Col {...BootstrapColumLayout}>
           {(status === StatusFetching || status === StatusIdle) && (
