@@ -1,10 +1,12 @@
-import React from 'react'
-import { Accordion, Container, Row, Col, OverlayTrigger, Tooltip, useAccordionToggle } from 'react-bootstrap'
-import ArticleCell from './ArticleCell'
+import React, { useContext} from 'react'
+import { Accordion, AccordionContext, Container, Row, Col, OverlayTrigger, Tooltip, useAccordionButton } from 'react-bootstrap'
+// import ArticleCell from './ArticleCell'
 import { Box } from 'react-feather'
 import { BootstrapColumLayout } from '../../constants'
 const ArticleCellAccordionCustomToggle = ({ children, className, eventKey, ...props }) => {
-  const clickHandler = useAccordionToggle(eventKey)
+  const { activeEventKey } = useContext(AccordionContext);
+  const clickHandler = useAccordionButton(eventKey)
+  const isCurrentEventKey = activeEventKey === eventKey;
 
   return (
     <OverlayTrigger
@@ -17,38 +19,36 @@ const ArticleCellAccordionCustomToggle = ({ children, className, eventKey, ...pr
       }
     >
       <button
-        className="btn btn-outline-secondary btn-sm position-absolute"
+        className="ArticleCellAccordionCustomToggle btn btn-outline-secondary btn-sm position-absolute"
         onClick={clickHandler}
         style={{
           right: 30,
-          height: 26,
-          width: 26,
-          padding: 2,
-          lineHeight: 0,
-          whiteSpace: 'nowrap',
-          borderRadius: 30,
-          background: 'white'
         }}
       >
-        <Box size="16"/>
+        <span className="monospace">
+        {children}&nbsp;<Box size="16"/>
+        </span>
       </button>
     </OverlayTrigger>
   );
 }
 
 const ArticleCellAccordion = ({
-  cell,
+  eventKey=0,
   memoid='',
-  num=0,
-  isActive=isActive,
+  size=0,
   isEnabled=true,
-  isCollapsed=false
+  isCollapsed=false,
+  children
 }) => {
-
   return (
     <Accordion
-      defaultActiveKey={isCollapsed ? null: cell.idx}
-      className={isEnabled ? 'border-bottom border-dark': ''}>
+      className={isEnabled ? '': ''} style={{
+        minHeight: 4,
+        borderBottom: '1px dotted var(--dark)',
+        borderTop: '1px solid var(--gray-400)',
+        marginBottom: 'var(--spacer-3)',
+      }}>
       {isEnabled ? (
         <Container >
           <Row>
@@ -56,27 +56,20 @@ const ArticleCellAccordion = ({
               <div className="position-absolute" style={{
                 zIndex: 1,
                 left: 0,
-                top: -12,
+                top: -15,
               }}>
-                <ArticleCellAccordionCustomToggle
-                  eventKey={cell.idx}
-
-                >
-
+                <ArticleCellAccordionCustomToggle eventKey={eventKey}>
+                    <b>{size}</b> x
                 </ArticleCellAccordionCustomToggle>
               </div>
               </Col>
             </Row>
         </Container>
       ):null}
-      <Accordion.Collapse eventKey={cell.idx} >
-        <ArticleCell
-          memoid={memoid}
-          {...cell}
-          num={num}
-          idx={cell.idx}
-          active={isActive}
-        />
+      <Accordion.Collapse eventKey={eventKey}>
+        <div className="my-3">
+        { children }
+        </div>
       </Accordion.Collapse>
     </Accordion>
   )
