@@ -40,6 +40,11 @@ const ArticleStream = ({
     onDataHrefClick({ dataHref, idx })
   }
 
+  const visibilityChangeHandler = ({ idx, isIntersecting }) => {
+    console.info('@visibilityChangeHandler', idx, isIntersecting)
+  }
+
+  console.info('ArticleStream rerendered')
   return (
     <section className="ArticleStream">
     {chunks.map((cellsIndices, i) => {
@@ -57,13 +62,16 @@ const ArticleStream = ({
                 numCell += 1
               }
               return (
+                <>
+                <a className='ArticleStream_anchor anchor' id={`C-${cell.idx}`}></a>
                 <ArticleCellWrapper key={key}
-                  id={`C-${cell.idx}`}
                   onClick={(e) => handleCellClick(e, cell.idx)}
                   numCell={numCell}
                   memoid={memoid}
                   cell={cell}
+                  onVisibilityChange={visibilityChangeHandler}
                 />
+                </>
               )
             })}
           </ArticleCellAccordion>
@@ -78,13 +86,17 @@ const ArticleStream = ({
             numCell += 1
           }
           return (
+            <>
+            <a className='ArticleStream_anchor anchor' id={`C-${cell.idx}`}></a>
             <ArticleCellWrapper key={key}
               id={`C-${cell.idx}`}
               onClick={(e) => handleCellClick(e, cell.idx)}
               numCell={numCell}
               memoid={memoid}
               cell={cell}
+              onVisibilityChange={visibilityChangeHandler}
             />
+            </>
           )
         })}
         </React.Fragment>
@@ -95,4 +107,9 @@ const ArticleStream = ({
   )
 }
 
-export default ArticleStream
+export default React.memo(ArticleStream, (prevProps, nextProps) => {
+  if (prevProps.memoid === nextProps.memoid) {
+    return true // props are equal
+  }
+  return false // props are not equal -> update the component
+})
