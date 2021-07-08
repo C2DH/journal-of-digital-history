@@ -2,6 +2,21 @@ import create from 'zustand'
 import { persist } from 'zustand/middleware'
 import AbstractSubmission from './models/AbstractSubmission'
 
+export const useArticleStore = create((set) => ({
+  visibleCellsIdx: [],
+  setVisibleCell: (cellIdx, isVisible) => set((state) => {
+    // const { visibleCellsIdx } = get()
+    const copy = [...state.visibleCellsIdx]
+    const idx = copy.indexOf(cellIdx)
+    if (idx === -1 && isVisible) {
+      copy.push(cellIdx)
+    } else if(idx > -1 && !isVisible){
+      copy.splice(idx, 1)
+    }
+    copy.sort()
+    return { visibleCellsIdx: copy }
+  })
+}))
 export const useStore = create(persist(
   (set, get) => ({
     backgroundColor: '#ffffff',

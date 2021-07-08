@@ -2,13 +2,14 @@ import React, {useMemo} from 'react'
 import ArticleCellAccordion from './ArticleCellAccordion'
 import ArticleCellWrapper from './ArticleCellWrapper'
 import { RoleHidden, LayerHermeneuticsStep, LayerHermeneutics } from '../../constants'
-
+import { useArticleStore } from '../../store'
 
 const ArticleStream = ({
   memoid='', height=0, cells=[],
   shadowLayers = [ LayerHermeneuticsStep, LayerHermeneutics ],
   onDataHrefClick, onStepChange
 }) => {
+  const setVisibleCell = useArticleStore(store => store.setVisibleCell)
   let numCell = 0
   let key = -1
   // rebuild cell index based on same Layer
@@ -42,6 +43,7 @@ const ArticleStream = ({
 
   const visibilityChangeHandler = ({ idx, isIntersecting }) => {
     console.info('@visibilityChangeHandler', idx, isIntersecting)
+    setVisibleCell(idx, isIntersecting)
   }
 
   console.info('ArticleStream rerendered')
