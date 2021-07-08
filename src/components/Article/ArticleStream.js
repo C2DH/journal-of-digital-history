@@ -1,11 +1,11 @@
 import React, {useMemo} from 'react'
 import ArticleCellAccordion from './ArticleCellAccordion'
-import ArticleCell from './ArticleCell'
+import ArticleCellWrapper from './ArticleCellWrapper'
 import { RoleHidden, LayerHermeneuticsStep, LayerHermeneutics } from '../../constants'
 
 
 const ArticleStream = ({
-  memoid, height=0, cells=[],
+  memoid='', height=0, cells=[],
   shadowLayers = [ LayerHermeneuticsStep, LayerHermeneutics ],
   onDataHrefClick, onStepChange
 }) => {
@@ -57,17 +57,13 @@ const ArticleStream = ({
                 numCell += 1
               }
               return (
-                <div key={key} id={`C-${cell.idx}`}
-                  className={`ArticleStream_paragraph`}
+                <ArticleCellWrapper key={key}
+                  id={`C-${cell.idx}`}
                   onClick={(e) => handleCellClick(e, cell.idx)}
-                >
-                  <ArticleCell
-                    memoid={memoid}
-                    {...cell}
-                    num={numCell}
-                    idx={cell.idx}
-                  />
-                </div>
+                  numCell={numCell}
+                  memoid={memoid}
+                  cell={cell}
+                />
               )
             })}
           </ArticleCellAccordion>
@@ -82,17 +78,13 @@ const ArticleStream = ({
             numCell += 1
           }
           return (
-            <div key={key} id={`C-${cell.idx}`}
-              className={`ArticleStream_paragraph`}
+            <ArticleCellWrapper key={key}
+              id={`C-${cell.idx}`}
               onClick={(e) => handleCellClick(e, cell.idx)}
-            >
-              <ArticleCell
-                memoid={memoid}
-                {...cell}
-                num={numCell}
-                idx={cell.idx}
-              />
-            </div>
+              numCell={numCell}
+              memoid={memoid}
+              cell={cell}
+            />
           )
         })}
         </React.Fragment>
