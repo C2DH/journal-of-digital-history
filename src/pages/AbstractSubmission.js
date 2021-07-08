@@ -165,7 +165,9 @@ const AbstractSubmission = (props) => {
       <Row>
         <Col md={{span: 6, offset:2}}>
           <h1 className="my-5">{t('pages.abstractSubmission.title')}</h1>
-          <div className="jumbotron pt-4 pb-2 px-4">
+          <div className="jumbotron pt-4 pb-2 px-4" style={{
+            backgroundColor: 'var(--gray-200)'
+          }}>
             <h3>First Issue Call for Papers</h3>
             <p>
             The first issue of the <em>Journal of Digital History</em> will not target any particular topic:
@@ -268,7 +270,7 @@ const AbstractSubmission = (props) => {
           <Col md={4} lg={3}>
             <div style={{
               position: 'sticky',
-              top: 50
+              top: 100
             }}>
             {validatorResult && <AbstractSubmissionPreview
               validatorResult={validatorResult}
