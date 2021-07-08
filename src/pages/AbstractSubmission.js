@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from "react-router-dom";
-import { Container, Form, Button, Col, Row, Jumbotron } from 'react-bootstrap'
+import { Container, Form, Button, Col, Row } from 'react-bootstrap'
 import LangLink from '../components/LangLink'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { useStore } from '../store'
@@ -165,7 +165,7 @@ const AbstractSubmission = (props) => {
       <Row>
         <Col md={{span: 6, offset:2}}>
           <h1 className="my-5">{t('pages.abstractSubmission.title')}</h1>
-          <Jumbotron className="pt-4 pb-2 px-4">
+          <div className="jumbotron pt-4 pb-2 px-4">
             <h3>First Issue Call for Papers</h3>
             <p>
             The first issue of the <em>Journal of Digital History</em> will not target any particular topic:
@@ -175,7 +175,7 @@ const AbstractSubmission = (props) => {
             demonstrate the interest of our approach, based on the interconnexion
             of the narrative, hermeneutics and data layer.
             </p>
-          </Jumbotron>
+          </div>
         </Col>
       </Row>
       <br />
