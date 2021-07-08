@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import ArticleToC from './ArticleToC'
 import ArticleHermeneuticsLayer from './ArticleHermeneuticsLayer'
-import ArticleScrollama from './ArticleScrollama'
+import ArticleStream from './ArticleStream'
 import { LayerHermeneuticsStep, LayerHermeneutics } from '../../constants'
 
 
@@ -23,20 +23,24 @@ const ArticleText = ({
         top: 160,
         right: 70
       }}>
-        <Container fluid style={{position: 'absolute'}}><Row><Col {...{
-          md: { offset: 10, span: 2}
-        }}>
-          <div className="d-flex flex-row-reverse">
-            <div className="mr-3">
-              {/* <div className="rounded border border-dark">N</div>*/}
-              <ArticleToC
-                headingsPositions={headingsPositions}
-                steps={paragraphs} active
-                step={paragraphsPositions[currentStep.idx]}
-              />
-            </div>
-          </div>
-        </Col></Row></Container>
+        <Container fluid style={{position: 'absolute'}}>
+          <Row>
+            <Col {...{
+              md: { offset: 10, span: 2}
+            }}>
+              <div className="d-flex flex-row-reverse">
+                <div className="mr-3">
+                  {/* <div className="rounded border border-dark">N</div>*/}
+                  <ArticleToC
+                    headingsPositions={headingsPositions}
+                    steps={paragraphs} active
+                    step={paragraphsPositions[currentStep.idx]}
+                  />
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </Container>
       </div>
       {/*/ <ArticleHermeneuticsLayer
         memoid={memoid}
@@ -53,7 +57,14 @@ const ArticleText = ({
         ].includes(d.layer))}
         />
       */}
-      <div className="ArticleText_scrollama" style={{paddingBottom: 200}}>
+      <ArticleStream
+        memoid={memoid}
+        cells={paragraphs}
+        shadowLayers={[LayerHermeneuticsStep, LayerHermeneutics]}
+        onDataHrefClick={onDataHrefClick}
+        onStepChange={(step) => setCurrentStep(step)}
+      />
+      {/*/ <div className="ArticleText_scrollama" style={{paddingBottom: 200}}>
         <ArticleScrollama
           memoid={memoid}
           cells={paragraphs}
@@ -62,6 +73,7 @@ const ArticleText = ({
           onStepChange={(step) => setCurrentStep(step)}
         />
       </div>
+      */}
     </div>
   )
 }
