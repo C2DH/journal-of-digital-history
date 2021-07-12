@@ -30,7 +30,7 @@ export default class ArticleReference {
               this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${ref.author?.map(d => d.family).join(', ').trim()} ${year} ${year}</a>`
             }
          }
-         if(ref.type ==='article-magazine'){
+         if(ref.type ==='article-magazine' || ref.type ==='article-newspaper'){
           if(!ref.title){
             this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${ref.author?.map(d => d.family).join(', ').trim()} ${year}</a>`
           }else{
