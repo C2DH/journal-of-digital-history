@@ -1,38 +1,42 @@
-import React, { useEffect } from 'react'
-// import LangLink from '../components/LangLink'
+import React from 'react'
+import groupBy from 'lodash/groupBy'
 import { useTranslation } from 'react-i18next'
 import { Container, Row, Col } from 'react-bootstrap'
 import LangLink from '../components/LangLink'
-import { useStore } from '../store'
 import homePageContents from '../data/mock-api/mock-home-ipynb.json'
 import {getArticleTreeFromIpynb} from '../logic/ipynb'
 import ArticleCellContent from '../components/Article/ArticleCellContent'
 import MilestoneTimeline from '../components/MilestoneTimeline'
-import { IsPortrait } from '../constants'
+import { IsPortrait, BootstrapColumLayout } from '../constants'
 
 
 const articleTree = getArticleTreeFromIpynb(homePageContents)
-const journalCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'journal')
-const editorialBoardCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'editorial-board')
-const editorialTeamCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'editorial-team')
-const callForPapers = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'call-for-papers')
-
-const milestones = articleTree.paragraphs
-  .find(({ metadata }) => metadata?.jdh?.section === 'milestones')
-
-console.info(articleTree, homePageContents)
+const {
+  'journal': journalCells,
+  'editorial-board': editorialBoardCells,
+  'editorial-team': editorialTeamCells,
+  'call-for-papers': callForPapers,
+  'milestones': milestones
+} = groupBy(articleTree.paragraphs, ({ metadata }) => metadata?.jdh?.section)
+//
+// const journalCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'journal')
+// const editorialBoardCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'editorial-board')
+// const editorialTeamCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'editorial-team')
+// const callForPapers = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'call-for-papers')
+//
+// const milestones = articleTree.paragraphs
+//   .find(({ metadata }) => metadata?.jdh?.section === 'milestones')
+//
+console.info(milestones)
 
 const Home = () => {
   const { t } = useTranslation()
-  const changeBackgroundColor = useStore(state => state.changeBackgroundColor)
-  useEffect(() => {
-    changeBackgroundColor('var(--white)')
-  })
+
   return (
     <>
     <Container className="page">
       <Row>
-        <Col md={{span:8, offset:2}}>
+        <Col {...BootstrapColumLayout}>
           <h1 className="my-5">Write (Digital) History.</h1>
           <h2 className="my-5">
             As an international, academic, peer-reviewed and open-access journal,
@@ -100,13 +104,15 @@ const Home = () => {
         <Col md={{offset:2, span:8}}>
           <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
           <h4 className="mb-3 d-none d-md-block" >{t('pages.home.editorialRoadmap')} ⤵</h4>
-          <MilestoneTimeline
-            isPortrait={IsPortrait}
-            milestones={milestones?.metadata?.jdh?.dataset}
-            extent={milestones?.metadata?.jdh?.extent?.date}
-            showToday
-          />
-            <h4 className="mt-3 d-none d-md-block">{t('pages.home.technicalRoadmap')} ⤴</h4>
+          {milestones.map((milestone, i) => (
+            <MilestoneTimeline key={i}
+              isPortrait={IsPortrait}
+              milestones={milestone.metadata?.jdh?.dataset}
+              extent={milestone.metadata?.jdh?.extent?.date}
+              showToday
+            />
+          ))}
+          <h4 className="mt-3 d-none d-md-block">{t('pages.home.technicalRoadmap')} ⤴</h4>
         </Col>
       </Row>
     </Container>
