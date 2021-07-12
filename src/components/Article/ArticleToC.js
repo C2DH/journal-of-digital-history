@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useHistory } from 'react-router-dom'
 import { RoleHidden } from '../../constants'
-
+import { useArticleStore } from '../../store'
 const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
   const history = useHistory()
   const handleClick = (idx) => {
@@ -76,12 +76,20 @@ const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
 const MemoizedArticleTocLine = React.memo(ArticleTocLine);
 
 const ArticleToC = ({ steps, step, active, headingsPositions }) => {
+  const visibleCellsIdx = useArticleStore(state=>state.visibleCellsIdx)
   return (
-  <MemoizedArticleTocLine
-    steps={steps}
-    step={active ? step : -1}
-    headingsPositions={headingsPositions}
-  />)
+    <MemoizedArticleTocLine
+      steps={steps}
+      step={visibleCellsIdx.length ? visibleCellsIdx[visibleCellsIdx.length -1] : -1}
+      headingsPositions={headingsPositions}
+    />
+  )
+  // return (
+  // <MemoizedArticleTocLine
+  //   steps={steps}
+  //   step={active ? step : -1}
+  //   headingsPositions={headingsPositions}
+  // />)
 }
 
 

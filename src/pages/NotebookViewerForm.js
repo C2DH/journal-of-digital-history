@@ -39,10 +39,10 @@ const NotebookViewerForm = () => {
   }
 
   return (
-    <Container className="mt-5 page">
+    <Container className="page">
       <Row>
         <Col {...BootstrapColumLayout}>
-          <h1>{t('Pages_NotebookViewer_Title')}</h1>
+          <h1 className="my-5">{t('Pages_NotebookViewer_Title')}</h1>
           <FormNotebookUrl onSubmit={handleNotebookUrlSubmit}/>
         </Col>
       </Row>

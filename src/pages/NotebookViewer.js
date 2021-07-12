@@ -40,7 +40,7 @@ const NotebookViewer = ({ match: { params: { encodedUrl }}}) => {
 
   if (status !== StatusSuccess) {
     return (
-      <Container className="mt-5 page">
+      <Container className="page">
         <Row>
           <Col {...BootstrapColumLayout}>
           {(status === StatusFetching || status === StatusIdle) && (
@@ -56,7 +56,7 @@ const NotebookViewer = ({ match: { params: { encodedUrl }}}) => {
   }
   return (
     <div>
-    <button onClick={switchLayer} style={{position: 'fixed', top: 200, zIndex:1004}}>Change layer {layer}</button>
+    <button className="d-none" onClick={switchLayer} style={{position: 'fixed', top: 200, zIndex:1004}}>Change layer {layer}</button>
     {status === StatusSuccess
       ? <Article ipynb={data} memoid={encodedUrl}/>
       : null
