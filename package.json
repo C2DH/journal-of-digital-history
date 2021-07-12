@@ -39,7 +39,7 @@
     "prosemirror-view": "^1.15.3",
     "query-string": "^7.0.1",
     "react": "^16.13.1",
-    "react-bootstrap": "^2.0.0",
+    "react-bootstrap": "^2.0.0-beta.2",
     "react-device-detect": "^1.14.0",
     "react-dom": "^16.13.1",
     "react-feather": "^2.0.9",
