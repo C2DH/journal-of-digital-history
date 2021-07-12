@@ -180,6 +180,11 @@ a.btn{
   }
 }
 
+li, blockquote {
+  h4 {
+    font-weight: normal;
+  }
+}
 
 code{
   background-color:  var(--gray-300);
