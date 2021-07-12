@@ -107,7 +107,7 @@ export function useMousePosition() {
   * entry.time
   * usage
   *   const [entry, ref] = useOnScreen()
-  *   <div ref={ref}>trigger {isIntersecting? 'visisble': 'not visible'}</div>
+  *   <div ref={ref}>trigger {entry.isIntersecting? 'visisble': 'not visible'}</div>
   *
 */
 export function useOnScreen({ threshold = [0, 1], rootMargin='0% 0% 0% 0%'} = {}) {

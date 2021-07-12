@@ -10,7 +10,7 @@
   --modal-close-z-index: 91;
   --dark: #{map-get($theme-colors, 'dark')};
   --accent: #{map-get($theme-colors, 'accent')};
-  --secondary-rgb: #{map-get($theme-colors, 'secondary')};
+  --secondary: #{map-get($theme-colors, 'secondary')};
   --yellow: #FFEE88;
   --yellowcrayola: #FFE787;
   --pink: #FFCAD4;
@@ -33,6 +33,7 @@
     --#{$bp}: #{$value};
   }
   --font-family-serif: #{$font-family-serif};
+  --font-family-monospace: #{$font-family-monospace};
   --font-size-1: #{$font-size-base};
   --font-size-2: #{$font-size-base * 1.25};
   --font-size-3: #{$font-size-base * 1.5};
@@ -300,7 +301,7 @@ blockquote.code{
 .anchor{
   display: block;
   position: relative;
-  top: -50px;
+  top: -100px;
   visibility: hidden;
 }
 

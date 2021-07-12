@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { Scrollama, Step } from 'react-scrollama'
 import { RoleHidden, LayerHermeneuticsStep, LayerHermeneutics } from '../../constants'
-import ArticleCell from './ArticleCell'
+import ArticleCellAccordion from './ArticleCellAccordion'
 import ArticleCellShadow from './ArticleCellShadow'
 
 const ArticleScrollama = ({
@@ -31,6 +31,28 @@ const ArticleScrollama = ({
     onDataHrefClick({ dataHref, idx })
   }
   let numCell = 0
+  let key = -1
+  // rebuild cell index based on same Layer
+  const isSameChunk = (cell) => shadowLayers.includes(cell.layer)
+  const chunks = useMemo(() => {
+    const buffers = []
+    let prevConcatenate = null
+    let buffer = new Array()
+    cells.forEach((c,i) => {
+      const concatenate = isSameChunk(c)
+      if (i > 0 && concatenate !== prevConcatenate) {
+        buffers.push([...buffer])
+        buffer = new Array()
+      }
+      buffer.push(i)
+      prevConcatenate = !!concatenate
+    })
+    if (buffer.length) {
+      buffers.push(buffer)
+    }
+    return buffers
+  }, [memoid, shadowLayers])
+  console.info('SCROLLAMA rendered', chunks)
   return (
     <Scrollama
       className="ArticleScrollama"
@@ -39,50 +61,39 @@ const ArticleScrollama = ({
       offset={.5}
       threshold={0}
     >
-    {cells.map((cell, i) => {
-      const isActive = currentStep.idx === i
-      if (cell.role === RoleHidden || cell.hidden) {
+      {chunks.map((chunk, i) => chunk.map((j) => {
+        key++
+        const cell = cells[j]
+        const isActive = currentStep.idx === key
+        if (cell.role === RoleHidden || cell.hidden) {
+          return (
+            <Step data={key} key={key}>
+              <div style={{height: 1, overflow: 'hidden'}}>&nbsp;</div>
+            </Step>
+          )
+        }
+        if (!cell.isFigure) {
+          numCell += 1
+        }
         return (
-          <Step data={i} key={i}>
-            <div style={{height: 1, overflow: 'hidden'}}>&nbsp;</div>
-          </Step>
-        )
-      }
-      if (shadowLayers.indexOf(cell.layer) !== -1) {
-        return (
-          <Step data={i} key={i}>
+          <Step data={key} key={key}>
             <div
-              className={`ArticleText_ArticleParagraph ${isActive ? 'active' : ''} ${cell.layer}`}
-            >
-              <ArticleCellShadow
-                {...cell}
-                idx={cell.idx}
+              className={`ArticleText_ArticleParagraph position-relative ${isActive ? 'active' : ''}`}
+              id={`C-${cell.idx}`}
+              onClick={(e) => handleCellClick(e, cell.idx)}>&nbsp;
+              <ArticleCellAccordion
+                memoid={memoid}
+                cell={cell}
+                num={numCell}
+                isPreviousCellCollapsible={j > 0}
+                isEnabled={shadowLayers.includes(cell.layer)}
+                isCollapsed={shadowLayers.includes(cell.layer)}
+                isActive={isActive}
               />
             </div>
           </Step>
         )
-      }
-      if (!cell.isFigure) {
-        numCell += 1
-      }
-      return (
-        <Step data={i} key={i}>
-          <div
-            className={`ArticleText_ArticleParagraph ${isActive ? 'active' : ''}`}
-            id={`C-${cell.idx}`}
-            onClick={(e) => handleCellClick(e, cell.idx)}>&nbsp;
-
-            <ArticleCell
-              mmoid={memoid}
-              {...cell}
-              num={numCell}
-              idx={cell.idx}
-              active={isActive}
-            />
-          </div>
-        </Step>
-      )
-    })}
+      }))}
     </Scrollama>
   )
 }

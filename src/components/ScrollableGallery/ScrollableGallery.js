@@ -14,17 +14,17 @@ class ScrollableGallery extends Component {
     };
   }
 
-  onStepProgress = ({ progress }) => {
+  onStepProgress({ progress }) {
     this.setState({ progress });
   };
   // This callback fires when a Step hits the offset threshold. It receives the
   // data prop of the step, which in this demo stores the index of the step.
-  onStepEnter = ({ data, direction }) => {
+  onStepEnter({ data, direction })  {
     console.info('onStepEnter', data, direction, this.props.id)
     this.setState({ data, direction });
     useStore.setState({ backgroundColor: '#ddd' });
   };
-  onStepExit = ({ data, direction }) => {
+  onStepExit ({ data, direction })  {
     console.info('onStepExit', data, direction, this.props.id)
     if(data === 0 && direction === 'up') {
       useStore.setState({ backgroundColor: 'white' });

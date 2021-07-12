@@ -159,8 +159,10 @@ function usePageViews() {
         changeBackgroundColor('var(--gray-100)')
       } else if (pathname.indexOf('/issue') !== -1) {
         changeBackgroundColor('var(--gray-100)')
-      } else {
-        changeBackgroundColor('var(--white)')
+      } else if (pathname.indexOf('/submit') !== -1) {
+        changeBackgroundColor('var(--gray-100)')
+      } else  {
+        changeBackgroundColor('var(--gray-100)')
       }
       ReactGA.pageview(url)
     },
