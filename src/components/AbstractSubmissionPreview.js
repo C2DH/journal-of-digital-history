@@ -62,7 +62,7 @@ const AbstractSubmissionPreview = ({
         overflow: 'scroll'
       }}>
       {!isEmpty && validatorResult?.errors.map((error, i) => (
-        <blockquote className="border-left border-dark mt-2 pl-2" key={i}>
+        <blockquote className="border-left border-dark mt-2 ps-2" key={i}>
           <FormJSONSchemaErrorListItem error={error} />
         </blockquote>
       ))}

@@ -9,11 +9,7 @@
   "cells": [
     {
       "cell_type": "markdown",
-      "metadata" : {
-        "jdh": {
-          "section": "title"
-        }
-      },
+      "metadata" : {},
       "source": [
         "# About the *Journal of Digital History* {.my-5}"
       ]
@@ -26,11 +22,11 @@
         }
       },
       "source": [
-        "## The Journal of Digital History (JDH) is a joint initiative of the Luxembourg Centre for Contemporary and Digital History (C²DH) at the University of Luxembourg and the De Gruyter publishing group. {.my-5}",
-        "The journal is intended to serve as a forum for critical debate and discussion in the field of digital history by offering an innovative publication platform and promoting a new form of data-driven scholarship and of transmedia storytelling in the historical sciences. As an international peer-reviewed open access journal, the JDH will set new standards in history publishing based on a novel multi-layered approach. Each article will include:",
-        "- a **narration layer** involving transmedia storytelling;",
-        "- a **hermeneutic layer** exploring the methodological implications of using digital tools and data;",
-        "- a **data layer** providing access to data and code by means of a professional infrastructure. A key tool for this layer will be code notebooks."
+        "## The Journal of Digital History (JDH) is a joint initiative of the Luxembourg Centre for Contemporary and Digital History (C²DH) at the University of Luxembourg and the De Gruyter publishing group. {.my-5}\n",
+        "The journal is intended to serve as a forum for critical debate and discussion in the field of digital history by offering an innovative publication platform and promoting a new form of data-driven scholarship and of transmedia storytelling in the historical sciences. As an international peer-reviewed open access journal, the JDH will set new standards in history publishing based on a novel multi-layered approach. Each article will include:\n",
+        "- a **narration layer** involving transmedia storytelling;\n",
+        "- a **hermeneutic layer** exploring the methodological implications of using digital tools and data;\n",
+        "- a **data layer** providing access to data and code by means of a professional infrastructure. A key tool for this layer will be code notebooks.\n"
       ]
     },
     {
@@ -41,9 +37,9 @@
         }
       },
       "source": [
-        "### Peer Review and Submission Policy",
-        "The JDH is a double-blind peer-reviewed journal. It publishes research on all aspects of digital history. Abstracts must first be submitted via the journal website before full papers can be submitted. The managing editor will contact the author(s) to assess the feasibility of the paper.",
-        "Once the *managing editor* has approved the paper, it should be submitted in full. Papers must contain the three layers that are characteristic of the JDH. Each layer is evaluated by means of a double-blind peer-review procedure. If you have any editorial questions, you can contact the [managing editor](mailto:frederic.clavert@uni.lu)."
+        "### Peer Review and Submission Policy\n",
+        "The JDH is a double-blind peer-reviewed journal. It publishes research on all aspects of digital history. Abstracts must first be submitted via the journal website before full papers can be submitted. The managing editor will contact the author(s) to assess the feasibility of the paper.\n",
+        "Once the *managing editor* has approved the paper, it should be submitted in full. Papers must contain the three layers that are characteristic of the JDH. Each layer is evaluated by means of a double-blind peer-review procedure. If you have any editorial questions, you can contact the [managing editor](mailto:frederic.clavert@uni.lu).\n"
       ]
     },
     {
@@ -54,17 +50,17 @@
         }
       },
       "source": [
-        "### The Team at the C²DH",
-        "The JDH is developed and supported by the C²DH team with wide-ranging expertise (in alphabetical order):",
-        "[Robert Beta](https://c2dh.uni.lu/people/robert-beta) is a Systems Administrator at the C²DH.",
-        "[Frédéric Clavert](https://c2dh.uni.lu/people/frederic-clavert) is Assistant Professor in Contemporary History and JDH Managing Editor at the C²DH.",
-        "[Ori Elisar](https://c2dh.uni.lu/people/ori-elisar) is a User Experience Designer at C²DH.",
+        "### The Team at the C²DH\n",
+        "The JDH is developed and supported by the C²DH team with wide-ranging expertise (in alphabetical order):\n",
+        "[Robert Beta](https://c2dh.uni.lu/people/robert-beta) is a Systems Administrator at the C²DH.\n",
+        "[Frédéric Clavert](https://c2dh.uni.lu/people/frederic-clavert) is Assistant Professor in Contemporary History and JDH Managing Editor at the C²DH.\n",
+        "[Ori Elisar](https://c2dh.uni.lu/people/ori-elisar) is a User Experience Designer at C²DH.\n",
         "[Andreas Fickers](https://c2dh.uni.lu/people/andreas-fickers) is Director of the C²DH and Editor-in-Chief of the JDH",
-        "[Elisabeth Guerard](https://c2dh.uni.lu/people/elisabeth-guerard) is a Developer at the C²DH.",
-        "[Daniele Guido](https://c2dh.uni.lu/people/daniele-guido) is a Developer and the Lead Designer at the C²DH.",
-        "[Andy O'Dwyer](https://www.c2dh.uni.lu/people/andy-odwyer) is the Head of the DH-Lab at the C²DH.",
-        "[Mirjam Pfeiffer](https://c2dh.uni.lu/people/mirjam-pfeiffer) is a User Experience and User Interaction Designer at the C²DH.",
-        "[Lars Wieneke](https://c2dh.uni.lu/people/lars-wieneke) is Head of Digital Research Infrastructure at the C²DH."
+        "[Elisabeth Guerard](https://c2dh.uni.lu/people/elisabeth-guerard) is a Developer at the C²DH.\n",
+        "[Daniele Guido](https://c2dh.uni.lu/people/daniele-guido) is a Developer and the Lead Designer at the C²DH.\n",
+        "[Andy O'Dwyer](https://www.c2dh.uni.lu/people/andy-odwyer) is the Head of the DH-Lab at the C²DH.\n",
+        "[Mirjam Pfeiffer](https://c2dh.uni.lu/people/mirjam-pfeiffer) is a User Experience and User Interaction Designer at the C²DH.\n",
+        "[Lars Wieneke](https://c2dh.uni.lu/people/lars-wieneke) is Head of Digital Research Infrastructure at the C²DH.\n"
       ]
     },
     {
@@ -75,12 +71,12 @@
         }
       },
       "source": [
-        "### The Team at De Gruyter",
-        "*Bettina de Keijzer* is a Senior Product Manager for Digital at De Gruyter.",
-        "[Florian Hoppe](mailto:Florian.Hoppe@degruyter.com) is a Journals Manager in Humanities and Law at De Gruyter.",
-        "[Rabea Rittgerodt](https://www.linkedin.com/in/rabea-rittgerodt-533712168) is an Acquisitions Editor in History at De Gruyter.",
-        "[Charlott Schönwetter](mailto:Charlott.Schoenwetter@degruyter.com) is a Journals Editor at De Gruyter.",
-        "[Katharina Zühlke](mailto:Katharina.Zuehlke@degruyter.com) is a Product Marketing Manager at De Gruyter."
+        "### The Team at De Gruyter\n",
+        "*Bettina de Keijzer* is a Senior Product Manager for Digital at De Gruyter.\n",
+        "[Florian Hoppe](mailto:Florian.Hoppe@degruyter.com) is a Journals Manager in Humanities and Law at De Gruyter.\n",
+        "[Rabea Rittgerodt](https://www.linkedin.com/in/rabea-rittgerodt-533712168) is an Acquisitions Editor in History at De Gruyter.\n",
+        "[Charlott Schönwetter](mailto:Charlott.Schoenwetter@degruyter.com) is a Journals Editor at De Gruyter.\n",
+        "[Katharina Zühlke](mailto:Katharina.Zuehlke@degruyter.com) is a Product Marketing Manager at De Gruyter.\n"
       ]
     }
   ]

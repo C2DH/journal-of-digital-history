@@ -74,7 +74,7 @@ i18n
     lng: lang,
     interpolation: {
       escapeValue: false, // react already safes from xss
-      format: function(value, format, lng) {
+      format: function(value, format) {
           if (value instanceof Date) {
             if (format === 'fromNow') {
               return moment(value).fromNow()
@@ -161,6 +161,10 @@ function usePageViews() {
         changeBackgroundColor('var(--gray-100)')
       } else if (pathname.indexOf('/submit') !== -1) {
         changeBackgroundColor('var(--gray-100)')
+      } else if (pathname.indexOf('/about') !== -1) {
+        changeBackgroundColor('var(--linen)')
+      } else if (pathname.indexOf('/terms') !== -1) {
+        changeBackgroundColor('var(--peachpuff)')
       } else  {
         changeBackgroundColor('var(--gray-100)')
       }

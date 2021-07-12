@@ -305,7 +305,7 @@ const AbstractSubmission = (props) => {
             />
 
             {!isEmpty && validatorResult?.errors.length > 0 && (
-              <ol className="m-0 pr-2 py-2 pl-4 border border-dark rounded">
+              <ol className="m-0 pe-2 py-2 ps-4 border border-dark rounded">
               {validatorResult?.errors.map((error,i) =>
                 <li key={i}><FormJSONSchemaErrorListItem error={error} debug={false}/></li>
               )}
