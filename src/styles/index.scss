@@ -122,7 +122,12 @@ html,
     }
   }
 }
-
+.nav-link{
+  color: inherit;
+  &:hover{
+    color: var(--dark);
+  }
+}
 body{
   background-color: var(--gray-100);
   color: var(--dark);
