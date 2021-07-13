@@ -1,21 +1,23 @@
 import React, { useContext} from 'react'
+import { useTranslation } from 'react-i18next'
 import { Accordion, AccordionContext, Container, Row, Col, OverlayTrigger, Tooltip, useAccordionButton } from 'react-bootstrap'
-import { Box } from 'react-feather'
+import { Box, Minimize } from 'react-feather'
 import { BootstrapColumLayout } from '../../constants'
 
 
 const ArticleCellAccordionCustomToggle = ({ children, eventKey, title }) => {
+  const { t } = useTranslation()
   const { activeEventKey } = useContext(AccordionContext);
   const clickHandler = useAccordionButton(eventKey)
   const isCurrentEventKey = activeEventKey === eventKey;
 
   return (
     <OverlayTrigger
-      placement="right"
+      placement={ isCurrentEventKey ? 'top': 'right'}
       delay={{ show: 0, hide: 0 }}
       overlay={
         <Tooltip id="button-tooltip">
-          Show/hide the hidden layer
+          {t(isCurrentEventKey ? 'actions.showHermeneuticLayer': 'actions.hideHermeneuticLayer')}
         </Tooltip>
       }
     >
@@ -24,9 +26,9 @@ const ArticleCellAccordionCustomToggle = ({ children, eventKey, title }) => {
         onClick={clickHandler}
       >
         <span className="monospace">
-        {children}&nbsp;<Box size="16"/>
+        {children}&nbsp;{isCurrentEventKey ? <Minimize size="16"/> : <Box size="16"/>}
         </span>
-        {title ? <span className="ms-3 fst-italic me-2">{title}</span>: null}
+        {!isCurrentEventKey && title ? <span className="ms-3 fst-italic me-2">{title}</span>: null}
       </button>
     </OverlayTrigger>
   );
