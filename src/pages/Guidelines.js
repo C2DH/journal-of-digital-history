@@ -3,19 +3,19 @@ import React, { useState  } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Container, Row, Col } from 'react-bootstrap'
 import ArticleCellContent from '../components/Article/ArticleCellContent'
-import { getArticleTreeFromIpynb } from '../logic/ipynb'
+// import { getArticleTreeFromIpynb } from '../logic/ipynb'
 import { BootstrapColumLayout } from '../constants'
-import { useStore } from '../store'
+// import { useStore } from '../store'
 import source from '../data/mock-api/authorGuideline.json'
 import { downloadFile } from '../logic/api/downloadData'
 import { Download } from 'react-feather';
 import ArticleText from '../components/Article'
-import ArticleHeader from '../components/Article/ArticleHeader'
-import ArticleBilbiography from '../components/Article/ArticleBibliography'
+// import ArticleHeader from '../components/Article/ArticleHeader'
+// import ArticleBilbiography from '../components/Article/ArticleBibliography'
 import ArticleNote from '../components/Article/ArticleNote'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import { useCurrentWindowDimensions } from '../hooks/graphics'
-
+//
 
 const Guidelines = () => {
   const { t } = useTranslation()
@@ -25,7 +25,7 @@ const Guidelines = () => {
     cells: source.cells,
     metadata: source.metadata
   })
-  const { title, abstract, keywords, contributor, disclaimer = [] } = articleTree.sections
+  const { title, abstract } = articleTree.sections
 
   const { height, width } =  useCurrentWindowDimensions()
   return (

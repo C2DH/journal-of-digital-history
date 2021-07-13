@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const ArticleCellContent = ({ idx, content, num, layer, className, hideNum=false, hideIdx=true}) => {
+const ArticleCellContent = ({ idx, content, num, hideNum=false, hideIdx=true}) => {
   return (
     <div className="ArticleCellContent">
       {!hideIdx && (<div className="ArticleCellContent_idx">{idx}</div>)}

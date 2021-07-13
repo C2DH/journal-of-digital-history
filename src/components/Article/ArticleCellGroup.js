@@ -4,7 +4,7 @@ import ArticleCellSourceCode from './ArticleCellSourceCode'
 import ArticleCellOutput from './ArticleCellOutput'
 // import { Container, Row, Col } from 'react-bootstrap'
 
-const ArticleCellGroup = ({ cellGroup, step=0, currentStep=-1, progress=0.0, onDataHrefClick, debug, style, height=200, width=200 }) => {
+const ArticleCellGroup = ({ cellGroup, step=0, currentStep=-1, onDataHrefClick, height=200, width=200 }) => {
   const sections = cellGroup.getGroupSections()
   const sectionWidth = width / 2
   return (

@@ -1,18 +1,21 @@
 import React from 'react'
-
 import { useHistory } from 'react-router-dom'
 import { RoleHidden } from '../../constants'
 import { useArticleStore } from '../../store'
-const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
+
+
+const ArticleTocLine = ({ steps, step, headingsPositions }) => {
   const history = useHistory()
   const handleClick = (idx) => {
     // check ArticleText component. Each Sscrollama step has an identifier
     // that identifies the non hidden cell using the ArticleCell `idx` property
     // It is prefixed with `C-``
-    history.push(`#C-${idx}`)
+    if (!isNaN(idx)) {
+      history.push(`#C-${idx}`)
+    }
   }
-  let previousHeadingIdx = -1;
-  let nextHeadingIdx = -1;
+  let previousHeadingIdx = -1
+  let nextHeadingIdx = -1
   //
   for(let i = 0; i < headingsPositions.length; i++) {
     if (headingsPositions[i] <= step) {
@@ -75,7 +78,7 @@ const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
 
 const MemoizedArticleTocLine = React.memo(ArticleTocLine);
 
-const ArticleToC = ({ steps, step, active, headingsPositions }) => {
+const ArticleToC = ({ steps, headingsPositions }) => {
   const visibleCellsIdx = useArticleStore(state=>state.visibleCellsIdx)
   return (
     <MemoizedArticleTocLine

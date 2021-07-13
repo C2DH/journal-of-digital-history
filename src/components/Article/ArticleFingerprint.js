@@ -6,8 +6,7 @@ const ArticleFingerprintCellGraphics = ({
   idx=-1, type='markdown', theta = 0, radius=50, offset=25,
   charsRadius=5,
   isHeading=false,
-  isHermeneutic=false,
-  isMetadata=false
+  isHermeneutic=false
 }) => {
   const cosTheta = Math.cos(theta)
   const sinTheta = Math.sin(theta)
@@ -52,7 +51,7 @@ const ArticleFingerprintCellGraphics = ({
 }
 
 const ArticleFingerprint = ({
-  cells = [],
+  cells,
   // max radius
   radius=100,
   // this space is needed for the text elements
@@ -84,7 +83,7 @@ const ArticleFingerprint = ({
         {/* middle circle */}
         <circle cx={0} cy={0} stroke="var(--gray-400)" fill="transparent" r={radius/2 + radius/4}/>
 
-        {data.cells.map((cell, i, l) => {
+        {(cells || data.cells).map((cell, i) => {
           const theta = (i) * angleD - Math.PI/2
           const charsRadius = scaleNumChars(cell.countChars)
           return (

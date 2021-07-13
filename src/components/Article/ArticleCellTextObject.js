@@ -8,7 +8,7 @@ const emptyHighlight = ({ idx }) => {
     '<ArticleCellTextObject onHighlight={yourAwesomeMethod} />'
   )
 }
-const ArticleCellTextObject = ({ metadata, children, progress, onHighlight = emptyHighlight }) => {
+const ArticleCellTextObject = ({ metadata, onHighlight = emptyHighlight }) => {
   const objectContents = useMemo(() => {
     const textMetadata = metadata.jdh?.text?.source
     if (Array.isArray(textMetadata)) {

@@ -5,9 +5,9 @@ import { RoleHidden, LayerHermeneuticsStep, LayerHermeneutics } from '../../cons
 import { useArticleStore } from '../../store'
 
 const ArticleStream = ({
-  memoid='', height=0, cells=[],
+  memoid='', cells=[],
   shadowLayers = [ LayerHermeneuticsStep, LayerHermeneutics ],
-  onDataHrefClick, onStepChange
+  onDataHrefClick
 }) => {
   const setVisibleCell = useArticleStore(store => store.setVisibleCell)
   let numCell = 0
@@ -42,7 +42,7 @@ const ArticleStream = ({
   }
 
   const visibilityChangeHandler = ({ idx, isIntersecting }) => {
-    console.info('@visibilityChangeHandler', idx, isIntersecting)
+    // console.info('@visibilityChangeHandler', idx, isIntersecting)
     setVisibleCell(idx, isIntersecting)
   }
 

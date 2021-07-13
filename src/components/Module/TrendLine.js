@@ -9,11 +9,11 @@ import Pointer from '../Graphics/Pointer'
 
 const TrendLine = ({
   width, height, windowDimensions, encoding={}, data=[],
-  displayLine=false,
+  // displayLine=false,
   displayPoints=true,
   activeStep=-1,
   steps=[],
-  change
+  // change
 }) => {
   const { t } = useTranslation()
   let {

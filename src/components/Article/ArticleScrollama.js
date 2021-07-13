@@ -2,10 +2,10 @@ import React, { useState, useMemo } from 'react'
 import { Scrollama, Step } from 'react-scrollama'
 import { RoleHidden, LayerHermeneuticsStep, LayerHermeneutics } from '../../constants'
 import ArticleCellAccordion from './ArticleCellAccordion'
-import ArticleCellShadow from './ArticleCellShadow'
+
 
 const ArticleScrollama = ({
-  memoid, height=0, cells=[],
+  memoid, cells=[],
   shadowLayers = [ LayerHermeneuticsStep, LayerHermeneutics ],
   onDataHrefClick, onStepChange
 }) => {
@@ -61,7 +61,7 @@ const ArticleScrollama = ({
       offset={.5}
       threshold={0}
     >
-      {chunks.map((chunk, i) => chunk.map((j) => {
+      {chunks.map((chunk) => chunk.map((j) => {
         key++
         const cell = cells[j]
         const isActive = currentStep.idx === key

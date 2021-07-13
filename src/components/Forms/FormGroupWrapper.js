@@ -14,7 +14,7 @@ const FormGroupWrapper = ({
   const { t } = useTranslation()
   const schema = getPartialSchema(schemaId)
   const [isValid, setIsValid] = useState(null)
-  const [valueLength, setValueLength] = useState(initialValue?.length || 0)
+  const [valueLength, setValueLength] = useState(initialValue?.length || 0)
   const [errors, setErrors] = useState([])
 
   const handleChange = (event) => {
