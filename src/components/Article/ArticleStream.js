@@ -1,7 +1,12 @@
 import React, {useMemo} from 'react'
 import ArticleCellAccordion from './ArticleCellAccordion'
 import ArticleCellWrapper from './ArticleCellWrapper'
-import { RoleHidden, LayerHermeneuticsStep, LayerHermeneutics } from '../../constants'
+import ArticleScrollama from './ArticleScrollama'
+import {
+  RoleHidden, LayerHermeneuticsStep,
+  LayerHermeneutics,
+  LayerNarrativeStep
+} from '../../constants'
 import { useArticleStore } from '../../store'
 
 const truncate = (s, maxLength=32) => {
@@ -20,6 +25,7 @@ const truncate = (s, maxLength=32) => {
 const ArticleStream = ({
   memoid='', cells=[],
   shadowLayers = [ LayerHermeneuticsStep, LayerHermeneutics ],
+  stepLayers = [ LayerNarrativeStep ],
   onDataHrefClick
 }) => {
   const setVisibleCell = useArticleStore(store => store.setVisibleCell)
@@ -65,7 +71,20 @@ const ArticleStream = ({
     {chunks.map((cellsIndices, i) => {
       const isShadow = shadowLayers.includes(cells[cellsIndices[0]].layer)
       const title = truncate(cells[cellsIndices[0]]?.heading?.content)
-
+      const isStep = stepLayers.includes(cells[cellsIndices[0]].layer)
+      // eslint-disable-next-line
+      // debugger
+      if (isStep) {
+        numCell += cellsIndices.length - 1
+        return (
+          <ArticleScrollama
+            initialNumCell={numCell - cellsIndices.length + 1}
+            key={i}
+            cells={cellsIndices.map(i => cells[i])}
+            onCellClick={handleCellClick}
+          />
+        )
+      }
       if (isShadow) {
         return (
           <ArticleCellAccordion
