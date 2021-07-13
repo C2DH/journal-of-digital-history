@@ -68,7 +68,7 @@
     "build": "react-scripts build",
     "build-noindex": "react-scripts build && echo 'User-agent: *\nDisallow: /' | cat > build/robots.txt && echo '/* /index.html  200' | cat >build/_redirects && cp -r src/data/mock-api build",
     "test": "react-scripts test",
-    "lint": "node ./node_modules/.bin/eslint src/**/**/*.js",
+    "lint": "node ./node_modules/.bin/eslint --fix src/**/**/*.js src/**/*.js",
     "eject": "react-scripts eject"
   },
   "browserslist": {
