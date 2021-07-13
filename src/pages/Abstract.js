@@ -7,7 +7,7 @@ import Author from '../models/Author'
 import { useGetAbstractSubmission } from '../logic/api/fetchData'
 
 
-const Abstract = ({ results }) => {
+const Abstract = () => {
   const { t } = useTranslation()
   const { id } = useParams()
   const { status, item} = useGetAbstractSubmission(id)

@@ -17,7 +17,7 @@ const NotebookViewerForm = () => {
   const { t, i18n } = useTranslation()
   const history = useHistory()
 
-  const handleNotebookUrlSubmit = ({ value, origin, proxyValue }) => {
+  const handleNotebookUrlSubmit = ({ value, proxyValue }) => {
     // link to the notebbok viewer page with the right url link.
     if (proxyValue) {
       console.info('handleNotebookUrlChange using local proxy', proxyValue, encodeNotebookURL(proxyValue))

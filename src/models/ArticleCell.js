@@ -24,6 +24,7 @@ export default class ArticleCell {
     heading = null, // ArticleHeading instance, if any
   }) {
     this.type = type
+    this.role = role
     this.content = String(content)
     this.size = content.length
     this.idx = parseInt(idx, 10)

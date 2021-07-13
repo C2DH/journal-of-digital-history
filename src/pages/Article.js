@@ -8,7 +8,7 @@ import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import { useCurrentWindowDimensions } from '../hooks/graphics'
 
 
-const Article = ({ memoid='', ipynb, url, publicationDate = new Date() }) => {
+const Article = ({ ipynb, url, publicationDate = new Date() }) => {
   // const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
   const [selectedDataHref, setSelectedDataHref] = useState(null)
   const articleTree = useIpynbNotebookParagraphs({
