@@ -76,10 +76,10 @@ const LocalNotebook = () => {
   }
 
   return (
-    <Container className="mt-5">
+    <Container  className="page">
       <Row>
         <Col {...BootstrapColumLayout}>
-          <h1>Local notebook  (experimental)</h1>
+          <h1  className="my-5">Local notebook  (experimental)</h1>
           <h2>
             Load your ipytn notebook while you're typing!
           </h2>
