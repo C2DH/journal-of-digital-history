@@ -19,7 +19,7 @@ const ArticleCellSourceCode = ({ content, language, toggleVisibility, visible, r
           <div className={right?'text-right':''}>
           <Button size="sm" variant="outline-secondary" onClick={() => setIsSourceCodeVisible(!isSourceCodeVisible)}>
             {isSourceCodeVisible? <EyeOff size="16"/> : <Eye size="16"/>}
-            <span className="ml-2">{t(isSourceCodeVisible
+            <span className="ms-2">{t(isSourceCodeVisible
               ? 'actions.hidesourceCode'
               : 'actions.showsourceCode'
             )}</span>
