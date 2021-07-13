@@ -441,11 +441,11 @@ svg.ArticleFingerprint{
   border-radius: 15px;
   background: white;
   left: -70px;
-  &.active{
-    background-color: var(--white);
-    border-color: var(--gray-300);
-    color: var(--dark);
-  }
+  // &.active{
+  //   background-color: var(--white);
+  //   border-color: var(--gray-300);
+  //   color: var(--dark);
+  // }
   &.active:focus{
     box-shadow: 0 0 0 0.25rem rgba(34, 35, 34, 0.25)
   }
