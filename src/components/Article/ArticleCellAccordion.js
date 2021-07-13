@@ -4,7 +4,7 @@ import { Box } from 'react-feather'
 import { BootstrapColumLayout } from '../../constants'
 
 
-const ArticleCellAccordionCustomToggle = ({ children, eventKey }) => {
+const ArticleCellAccordionCustomToggle = ({ children, eventKey, title }) => {
   const { activeEventKey } = useContext(AccordionContext);
   const clickHandler = useAccordionButton(eventKey)
   const isCurrentEventKey = activeEventKey === eventKey;
@@ -22,13 +22,11 @@ const ArticleCellAccordionCustomToggle = ({ children, eventKey }) => {
       <button
         className={`ArticleCellAccordionCustomToggle btn btn-outline-secondary btn-sm position-absolute ${isCurrentEventKey ? 'active': ''}`}
         onClick={clickHandler}
-        style={{
-          right: 30,
-        }}
       >
         <span className="monospace">
         {children}&nbsp;<Box size="16"/>
         </span>
+        {title ? <span className="ms-3 fst-italic me-2">{title}</span>: null}
       </button>
     </OverlayTrigger>
   );
@@ -38,6 +36,7 @@ const ArticleCellAccordion = ({
   eventKey=0,
   size=0,
   isEnabled=true,
+  title='',
   children
 }) => {
   return (
@@ -57,7 +56,7 @@ const ArticleCellAccordion = ({
                 left: 0,
                 top: -15,
               }}>
-                <ArticleCellAccordionCustomToggle eventKey={eventKey}>
+                <ArticleCellAccordionCustomToggle eventKey={eventKey} title={title}>
                     <b>{size}</b> x
                 </ArticleCellAccordionCustomToggle>
               </div>
