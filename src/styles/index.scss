@@ -8,6 +8,7 @@
   --border-color: rgba(255, 255, 255, 0.5);
   --modal-z-index: 90;
   --modal-close-z-index: 91;
+  --white: white;
   --dark: #{map-get($theme-colors, 'dark')};
   --accent: #{map-get($theme-colors, 'accent')};
   --primary:  #{map-get($theme-colors, 'primary')};
