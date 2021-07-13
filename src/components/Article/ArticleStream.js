@@ -51,11 +51,14 @@ const ArticleStream = ({
     <section className="ArticleStream">
     {chunks.map((cellsIndices, i) => {
       const isShadow = shadowLayers.includes(cells[cellsIndices[0]].layer)
+      const title = cells[cellsIndices[0]]?.heading?.content
+
       if (isShadow) {
         return (
           <ArticleCellAccordion
             isCollapsed key={i} eventKey={i}
             size={cellsIndices.length}
+            title={title}
           >
             {cellsIndices.map((j) => {
               key++
@@ -64,7 +67,7 @@ const ArticleStream = ({
                 numCell += 1
               }
               return (
-                <>
+                <React.Fragment key={j}>
                 <a className='ArticleStream_anchor anchor' id={`C-${cell.idx}`}></a>
                 <ArticleCellWrapper key={key}
                   onClick={(e) => handleCellClick(e, cell.idx)}
@@ -73,7 +76,7 @@ const ArticleStream = ({
                   cell={cell}
                   onVisibilityChange={visibilityChangeHandler}
                 />
-                </>
+                </React.Fragment>
               )
             })}
           </ArticleCellAccordion>
@@ -88,7 +91,7 @@ const ArticleStream = ({
             numCell += 1
           }
           return (
-            <>
+            <React.Fragment key={j}>
             <a className='ArticleStream_anchor anchor' id={`C-${cell.idx}`}></a>
             <ArticleCellWrapper key={key}
               id={`C-${cell.idx}`}
@@ -98,7 +101,7 @@ const ArticleStream = ({
               cell={cell}
               onVisibilityChange={visibilityChangeHandler}
             />
-            </>
+            </React.Fragment>
           )
         })}
         </React.Fragment>
