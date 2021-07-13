@@ -1,10 +1,8 @@
 import React from 'react'
-import { Container, Row, Col} from 'react-bootstrap'
 import ArticleFingerprint from '../Article/ArticleFingerprint'
 import LangLink from '../LangLink'
 import {useBoundingClientRect} from '../../hooks/graphics'
-import { useGetJSON } from '../../logic/api/fetchData'
-import { StatusSuccess } from '../../constants'
+
 
 const IssueArticleGridItem = ({ article={}, isFake=false }) => {
   const [{width: size }, ref] = useBoundingClientRect()

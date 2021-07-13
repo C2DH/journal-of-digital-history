@@ -14,7 +14,7 @@ const colorScale = scaleOrdinal(['red', 'magenta', 'cyan', '#036ecd', '#9ecadd',
 const StackGraph = ({
   width, height, windowDimensions,
   encoding={}, data=[],
-  activeStep=-1, steps=[],
+  // activeStep=-1, steps=[],
   stackOffset='diverged'
 }) => {
   const { t } = useTranslation()
@@ -36,7 +36,7 @@ const StackGraph = ({
   const xRange = [50, width-50]
   const yRange = [height - 50, 50]
   const x = (d) => xScale.range(xRange)(d.data.x)
-  const y0 = (d,i) => yScale.range(yRange)(d[0]) ?? 0
+  const y0 = (d) => yScale.range(yRange)(d[0]) ?? 0
   const y1 = (d) => yScale.range(yRange)(d[1]) ?? 0
   const xValues = []
   values.forEach((d) => {

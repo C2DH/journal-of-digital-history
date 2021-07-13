@@ -7,8 +7,8 @@ import SwitchLanguageLink from './SwitchLanguageLink'
 export default function SwitchLanguage({
   title='untitled',
   className,
-  size='sm',
-  alignement='left',
+  // size='sm',
+  // alignement='left',
   langs=[]
 }) {
   const { i18n } = useTranslation()

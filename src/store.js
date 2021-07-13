@@ -39,7 +39,7 @@ export const useStore = create(persist(
       if (header) {
         header.style.backgroundColor = backgroundColor
       }
-      return set(state => ({ backgroundColor }))
+      return set({ backgroundColor })
     },
     setTemporaryAbstractSubmission: (payload) => {
       const state = get();

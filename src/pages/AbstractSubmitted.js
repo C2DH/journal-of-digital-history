@@ -5,7 +5,7 @@ import AbstractSubmission from '../models/AbstractSubmission'
 import { useStore } from '../store'
 
 
-const AbstractSubmitted = ({ results }) => {
+const AbstractSubmitted = () => {
   const { t } = useTranslation()
   const abstract = useStore((state) => state.abstractSubmitted);
   const temporaryAbstract = useStore((state) => state.temporaryAbstractSubmission);

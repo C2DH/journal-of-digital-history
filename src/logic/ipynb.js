@@ -5,12 +5,12 @@ import MarkdownItAttrs from '@gerhobbelt/markdown-it-attrs'
 import ArticleTree from '../models/ArticleTree'
 import ArticleHeading from '../models/ArticleHeading'
 import ArticleCell from '../models/ArticleCell'
-import ArticleCellGroup from '../models/ArticleCellGroup'
+// import ArticleCellGroup from '../models/ArticleCellGroup'
 import ArticleReference from '../models/ArticleReference'
 import ArticleFigure from '../models/ArticleFigure'
 import {
   SectionChoices, SectionDefault,
-  LayerChoices, LayerNarrative, LayerHermeneuticsStep,
+  LayerChoices, LayerNarrative, // LayerHermeneuticsStep,
   RoleHidden, RoleFigure, RoleMetadata, RoleCitation, RoleDefault,
   CellTypeMarkdown, CellTypeCode,
   FigureRefPrefix,
@@ -37,7 +37,6 @@ const renderMarkdownWithReferences = ({
   sources = '',
   referenceIndex = {},
   citationsFromMetadata = {},
-  figures = [],
 }) => {
   const references = []
   // console.info('markdownParser.render', markdownParser.render(sources))
@@ -141,7 +140,6 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
   const citationsFromMetadata = metadata?.cite2c?.citations
   // this contain footnotes => zotero id to remap reference at paragraph level
   const referenceIndex = {}
-  const articleCellNumbersByLayer = {}
   //
   let bibliography = null
   // parse biobliographic elements

@@ -5,7 +5,8 @@ import mockAbstract from '../data/mock-api/mock-abstract.json'
 import ArticleAuthor from '../components/Article/ArticleAuthor'
 import Author from '../models/Author'
 
-const Abstract = ({ results }) => {
+
+const Abstract = () => {
   const { t } = useTranslation()
   return (
     <>

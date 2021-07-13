@@ -1,9 +1,10 @@
 import React, { useContext} from 'react'
 import { Accordion, AccordionContext, Container, Row, Col, OverlayTrigger, Tooltip, useAccordionButton } from 'react-bootstrap'
-// import ArticleCell from './ArticleCell'
 import { Box } from 'react-feather'
 import { BootstrapColumLayout } from '../../constants'
-const ArticleCellAccordionCustomToggle = ({ children, className, eventKey, ...props }) => {
+
+
+const ArticleCellAccordionCustomToggle = ({ children, eventKey }) => {
   const { activeEventKey } = useContext(AccordionContext);
   const clickHandler = useAccordionButton(eventKey)
   const isCurrentEventKey = activeEventKey === eventKey;
@@ -19,7 +20,7 @@ const ArticleCellAccordionCustomToggle = ({ children, className, eventKey, ...pr
       }
     >
       <button
-        className="ArticleCellAccordionCustomToggle btn btn-outline-secondary btn-sm position-absolute"
+        className={`ArticleCellAccordionCustomToggle btn btn-outline-secondary btn-sm position-absolute ${isCurrentEventKey ? 'active': ''}`}
         onClick={clickHandler}
         style={{
           right: 30,
@@ -35,10 +36,8 @@ const ArticleCellAccordionCustomToggle = ({ children, className, eventKey, ...pr
 
 const ArticleCellAccordion = ({
   eventKey=0,
-  memoid='',
   size=0,
   isEnabled=true,
-  isCollapsed=false,
   children
 }) => {
   return (

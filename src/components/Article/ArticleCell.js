@@ -15,11 +15,9 @@ const ArticleCellObject = lazy(() => import('./ArticleCellObject'))
 
 
 const ArticleCell = ({
-  memoid,
-  type, layer, num=1, content='', idx, outputs=[], hideIdx, hideNum, metadata = {},
+  type, layer, num=1, content='', idx, outputs=[], hideNum, metadata = {},
   progress, active = false,
   figure, // ArticleFigure instance
-  ...props
 }) => {
   const cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout;
   // this layout will be applied to module:"object" and module: "text_object"

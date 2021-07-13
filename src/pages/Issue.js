@@ -8,11 +8,14 @@ import ErrorViewer from './ErrorViewer'
 import Loading from './Loading'
 import { StatusSuccess } from '../constants'
 
-const IssueArticlesGrid = ({ issue }) => {
+const IssueArticlesGrid = ({ issue, onError }) => {
   // console.info('IssueArticlesGrid', articles)
   const { data:articles, error, status, errorCode } = useGetJSON({
     url: `/api/articles/?pid=${issue.pid}`
   })
+  if (typeof onError === 'function' && error) {
+    console.error('IssueArticlesGrid loading error:', errorCode, error)
+  }
   if (status !== StatusSuccess ) {
     return null
   }

@@ -15,7 +15,7 @@ const Cookies = ({ defaultAcceptCookies }) => {
     const handleChange = (e) => {
       setAcceptAnalyticsCookies(e.target.checked)
     }
-    const handleClickAgree = (e) => {
+    const handleClickAgree = () => {
       setAcceptCookies()
     }
     if (defaultAcceptCookies || acceptCookies) {

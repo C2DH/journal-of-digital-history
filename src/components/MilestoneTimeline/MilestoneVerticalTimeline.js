@@ -31,7 +31,7 @@ const MilestoneVerticalScrollama = ({ values, onStepChange }) => {
 }
 
 
-const MilestoneVerticalTimeline = ({ values=[], size=0, scale, minDate, maxDate }) => {
+const MilestoneVerticalTimeline = ({ values=[], scale, minDate, maxDate }) => {
   const { t } = useTranslation()
   const now = new Date()
   const sortedvalues = values.sort((a, b) => a.date - b.date)

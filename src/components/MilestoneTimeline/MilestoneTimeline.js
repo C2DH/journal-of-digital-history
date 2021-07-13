@@ -44,7 +44,7 @@ const HorizontalTimeline = ({ values=[], size=0, scale, minDate, maxDate }) => {
   )
 }
 
-const MilestoneTimeline = ({ milestones=[], extent=[], showToday }) => {
+const MilestoneTimeline = ({ milestones=[], extent=[] }) => {
   const values = milestones.map((d) => ({
     ...d,
     date: new Date(d.date)
@@ -70,7 +70,7 @@ const MilestoneTimeline = ({ milestones=[], extent=[], showToday }) => {
     }
     window.addEventListener('resize', handleResize)
     handleResize()
-    return _ => {
+    return () => {
       window.removeEventListener('resize', handleResize)
     }
   }, []);

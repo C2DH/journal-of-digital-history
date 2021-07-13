@@ -26,7 +26,7 @@ const FormAbstractGenericSortableList = ({
   }, [initialItems, ItemClass]);
 
   const handleChange = ({item}) => {
-    const _items = items.map((d, i) => {
+    const _items = items.map((d) => {
       if (d.id === item.id) {
         return new ItemClass({...item})
       }

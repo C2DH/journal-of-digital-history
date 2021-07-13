@@ -22,7 +22,7 @@ import { createAbstractSubmission } from '../logic/api/postData'
 console.info('%cRecaptcha site key', 'font-weight:bold', ReCaptchaSiteKey)
 
 
-const AbstractSubmission = (props) => {
+const AbstractSubmission = () => {
   const { t } = useTranslation()
   const history = useHistory();
   const [isPreviewMode, setPreviewMode] = useState(false)

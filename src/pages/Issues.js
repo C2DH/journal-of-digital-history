@@ -13,7 +13,7 @@ const FakeIssues = [
   { name: '...', description: '&nbsp;' },
 ]
 
-const Issues = ({ match: { params: { issueId }}}) => {
+const Issues = () => {
   const { t } = useTranslation()
   const { data:issues, error, status, errorCode } = useGetJSON({
     url: `/api/issues?ordering=-creation_date`,
