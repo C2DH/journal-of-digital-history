@@ -4,6 +4,19 @@ import ArticleCellWrapper from './ArticleCellWrapper'
 import { RoleHidden, LayerHermeneuticsStep, LayerHermeneutics } from '../../constants'
 import { useArticleStore } from '../../store'
 
+const truncate = (s, maxLength=32) => {
+  if (typeof s !== 'string') {
+    return null
+  }
+  if (s.length < maxLength ) {
+    return s
+  }
+  //trim the string to the maximum length
+  const ts = s.substr(0, maxLength).trim()
+  // TODO trim recursively till a regex is fine
+  return `${ts} ...`
+}
+
 const ArticleStream = ({
   memoid='', cells=[],
   shadowLayers = [ LayerHermeneuticsStep, LayerHermeneutics ],
@@ -51,7 +64,7 @@ const ArticleStream = ({
     <section className="ArticleStream">
     {chunks.map((cellsIndices, i) => {
       const isShadow = shadowLayers.includes(cells[cellsIndices[0]].layer)
-      const title = cells[cellsIndices[0]]?.heading?.content
+      const title = truncate(cells[cellsIndices[0]]?.heading?.content)
 
       if (isShadow) {
         return (
