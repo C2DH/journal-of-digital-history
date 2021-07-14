@@ -5,7 +5,8 @@ import { markdownParser } from '../../logic/ipynb'
 import {BootstrapColumLayout} from '../../constants'
 import { Container, Row, Col} from 'react-bootstrap'
 
-const ArticleCellFigure = ({ figure, metadata={}, outputs=[], sourceCode, children }) => {
+const ArticleCellFigure = ({ figure, metadata={}, outputs=[], sourceCode, figureColumnLayout, children }) => {
+  const isFluidContainer = figure.isCover || (metadata.tags && metadata.tags.includes('full-width'))
   const captions = outputs.reduce((acc, output) => {
 
     if (output.metadata && Array.isArray(output.metadata?.jdh?.object?.source)) {
@@ -18,7 +19,7 @@ const ArticleCellFigure = ({ figure, metadata={}, outputs=[], sourceCode, childr
     captions.push(markdownParser.render(metadata.jdh.object.source.join('\n')))
   }
 
-  let figureColumnLayout = outputs.reduce((acc, output) => {
+  let columnLayout = figureColumnLayout ?? outputs.reduce((acc, output) => {
     if (output.metadata && output.metadata.jdh?.object?.bootstrapColumLayout) {
       acc = { acc, ...output.metadata.jdh?.object?.bootstrapColumLayout }
     }
@@ -30,9 +31,9 @@ const ArticleCellFigure = ({ figure, metadata={}, outputs=[], sourceCode, childr
   }
   return (
     <div className="ArticleCellFigure">
-    <Container fluid={metadata.tags && metadata.tags.includes('full-width')}>
+    <Container fluid={isFluidContainer}>
       <Row>
-        <Col {...figureColumnLayout}>
+        <Col {...columnLayout}>
           <div >
             <div className="anchor" id={figure.ref} />
           {!outputs.length ? (
@@ -47,16 +48,18 @@ const ArticleCellFigure = ({ figure, metadata={}, outputs=[], sourceCode, childr
         </Col>
       </Row>
     </Container>
-    <Container>
-      <Row className="small">
-        <Col {...BootstrapColumLayout}>
-        {sourceCode}
-        <ArticleFigure figure={figure}><p dangerouslySetInnerHTML={{
-          __html: captions.join('<br />'),
-        }} /></ArticleFigure>
-        </Col>
-      </Row>
-    </Container>
+    {figure.isCover ? null : (
+      <Container>
+        <Row className="small">
+          <Col {...BootstrapColumLayout}>
+          {sourceCode}
+          <ArticleFigure figure={figure}><p dangerouslySetInnerHTML={{
+            __html: captions.join('<br />'),
+          }} /></ArticleFigure>
+          </Col>
+        </Row>
+      </Container>
+    )}
     </div>
   )
 }
