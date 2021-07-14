@@ -1,5 +1,4 @@
 import React from 'react'
-import data from '../../data/mock-ipynb-stats.json'
 import { scalePow } from 'd3-scale'
 
 const ArticleFingerprintCellGraphics = ({
@@ -51,13 +50,14 @@ const ArticleFingerprintCellGraphics = ({
 }
 
 const ArticleFingerprint = ({
-  cells,
+  stats={},
+  cells=[],
   // max radius
   radius=100,
   // this space is needed for the text elements
   marginTop=20, marginLeft=20, marginRight=20, marginBottom=20
 }) => {
-  const angleD = (Math.PI * 2) / (data.cells.length + 1)
+  const angleD = (Math.PI * 2) / (cells.length + 1)
   const svgWidth = radius*2 + marginLeft + marginRight
   const svgHeight = radius*2 + marginTop + marginBottom
   // this is the scale function linked to the total numbers of characters in a cell.
@@ -68,9 +68,11 @@ const ArticleFingerprint = ({
       // .exponent(1)
       // with powerscale, exponent 0.25
       .exponent(.25)
-      .domain(data.stats.extentChars)
+      .domain(stats?.extentChars || [0,1])
       .range([0, radius/2])
-
+  if (cells.length===0) {
+    return null
+  }
   return (
     <svg className="ArticleFingerprint position-absolute" xmlns="http://www.w3.org/2000/svg" width={svgWidth} height={svgHeight}>
       <g transform={`translate(${svgWidth/2}, ${svgHeight/2})`}>
@@ -82,8 +84,7 @@ const ArticleFingerprint = ({
         */}
         {/* middle circle */}
         <circle cx={0} cy={0} stroke="var(--gray-400)" fill="transparent" r={radius/2 + radius/4}/>
-
-        {(cells || data.cells).map((cell, i) => {
+        {cells.map((cell, i) => {
           const theta = (i) * angleD - Math.PI/2
           const charsRadius = scaleNumChars(cell.countChars)
           return (
