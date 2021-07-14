@@ -54,7 +54,7 @@ top: 3px;
     margin-bottom: 0;
   }
 
-  
+
 
   &::after {
     content: '';
@@ -440,7 +440,18 @@ svg.ArticleFingerprint{
   white-space: nowrap;
   border-radius: 15px;
   background: white;
+  left: -70px;
+  // &.active{
+  //   background-color: var(--white);
+  //   border-color: var(--gray-300);
+  //   color: var(--dark);
+  // }
+  &.active:focus{
+    box-shadow: 0 0 0 0.25rem rgba(34, 35, 34, 0.25)
+  }
   &:hover{
+    color: var(--white);
+    border-color: var(--dark);
     background-color: var(--dark);
   }
 }
