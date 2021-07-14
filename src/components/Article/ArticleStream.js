@@ -146,7 +146,7 @@ const ArticleStream = ({
 }
 
 export default React.memo(ArticleStream, (prevProps, nextProps) => {
-  if (prevProps.memoid === nextProps.memoid) {
+  if (prevProps.memoid === nextProps.memoid && prevProps.shadowLayers.join(',') === nextProps.shadowLayers.join(',') ) {
     return true // props are equal
   }
   return false // props are not equal -> update the component
