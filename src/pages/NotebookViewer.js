@@ -6,13 +6,10 @@ import { decodeNotebookURL } from '../logic/ipynb'
 import { BootstrapColumLayout, StatusSuccess, StatusFetching, StatusIdle } from '../constants'
 import Article from './Article'
 import Loading from '../components/Loading'
-import { useQueryParam, StringParam } from 'use-query-params'
-import { DisplayLayerHermeneutics } from '../constants'
 
 
 const NotebookViewer = ({ match: { params: { encodedUrl }}}) => {
   const { t } = useTranslation()
-  const [layer, setLayer] = useQueryParam('layer', StringParam)
 
   const url = useMemo(() => {
     if (!encodedUrl || !encodedUrl.length) {
@@ -30,13 +27,6 @@ const NotebookViewer = ({ match: { params: { encodedUrl }}}) => {
     return <div>Error <pre>{JSON.stringify(error, null, 2)}</pre></div>
   }
   console.info('Notebook render:', url ,'from', encodedUrl, status)
-
-  const switchLayer = () => {
-    setLayer(layer === DisplayLayerHermeneutics
-      ? null
-      : DisplayLayerHermeneutics
-    )
-  }
 
   if (status !== StatusSuccess) {
     return (
@@ -56,7 +46,6 @@ const NotebookViewer = ({ match: { params: { encodedUrl }}}) => {
   }
   return (
     <div>
-    <button className="d-none" onClick={switchLayer} style={{position: 'fixed', top: 200, zIndex:1004}}>Change layer {layer}</button>
     {status === StatusSuccess
       ? <Article ipynb={data} memoid={encodedUrl}/>
       : null
