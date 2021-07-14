@@ -2,7 +2,7 @@ import React, {useEffect } from 'react'
 import ArticleCell from './ArticleCell'
 import { useOnScreen } from '../../hooks/graphics'
 
-const ArticleCellWrapper = ({ cell, memoid, numCell, onVisibilityChange, ...rest }) => {
+const ArticleCellWrapper = ({ cell, memoid, numCell, onVisibilityChange, isNarrativeStep, ...rest }) => {
   const [{ isIntersecting, intersectionRatio }, ref] = useOnScreen({
     rootMargin: '-40% 0% -25% 0%',
     threshold: [0, 0.25, 0.75, 1]
@@ -23,6 +23,7 @@ const ArticleCellWrapper = ({ cell, memoid, numCell, onVisibilityChange, ...rest
         {...cell}
         num={numCell}
         idx={cell.idx}
+        isNarrativeStep={isNarrativeStep}
       />
     </div>
   )
