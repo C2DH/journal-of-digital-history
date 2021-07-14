@@ -116,5 +116,6 @@ export const TableRefPrefix = 'table-'
 // display Layer to enable switch between layers
 export const DisplayLayerHermeneutics = 'h'
 export const DisplayLayerNarrative = 'n'
+export const DisplayLayerAll = 'all'
 export const DisplayLayerQueryParam = 'layer'
 export const DisplayLayerCellIdxQueryParam = 'idx'
