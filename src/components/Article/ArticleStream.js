@@ -82,6 +82,7 @@ const ArticleStream = ({
             key={i}
             cells={cellsIndices.map(i => cells[i])}
             onCellClick={handleCellClick}
+            onVisibilityChange={visibilityChangeHandler}
           />
         )
       }

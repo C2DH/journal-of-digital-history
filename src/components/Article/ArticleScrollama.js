@@ -4,7 +4,7 @@ import ArticleCellWrapper from './ArticleCellWrapper'
 import ArticleScrollamaSticky from './ArticleScrollamaSticky'
 
 
-const ArticleScrollama = ({memoid='', initialNumCell=0, cells=[], onStepChange, onCellClick }) => {
+const ArticleScrollama = ({memoid='', initialNumCell=0, cells=[], onStepChange, onCellClick, onVisibilityChange }) => {
   const [currentStep, setCurrentStep] = useState({idx: -1, direction: 'down'})
   const onStepEnter = ({ data:idx, direction }) => {
     setCurrentStep({ idx, direction })
@@ -48,6 +48,7 @@ const ArticleScrollama = ({memoid='', initialNumCell=0, cells=[], onStepChange, 
                 numCell={numCell}
                 cell={cell}
                 isNarrativeStep
+                onVisibilityChange={onVisibilityChange}
               />
               </div>
             </Step>
