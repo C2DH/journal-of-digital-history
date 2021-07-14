@@ -1,12 +1,13 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import ArticleFigure from './ArticleFigure'
+import ArticleCellOutput from './ArticleCellOutput'
 import {
   BootstrapNarrativeStepFigureColumnLayout,
   BootstrapNarrativeStepCaptionColumnLayout
 } from '../../constants'
 import { markdownParser } from '../../logic/ipynb'
-import { useCurrentWindowDimensions } from '../../hooks/graphics'
+import { useCurrentWindowDimensions, useBoundingClientRect } from '../../hooks/graphics'
 
 /**
  * ArticleScrollamaSticky
@@ -24,12 +25,16 @@ const ArticleScrollamaSticky = ({
 }) => {
   // get window height
   const { height } = useCurrentWindowDimensions()
+  // get available space dimension
+  const [bbox, ref] = useBoundingClientRect()
+
   const captions = cell.outputs.reduce((acc, output) => {
     if (output.metadata && Array.isArray(output.metadata?.jdh?.object?.source)) {
       acc.push(markdownParser.render(output.metadata.jdh.object.source.join('\n')))
     }
     return acc
   }, [])
+  console.info('ArticleScrollamaSticky currentStep:', currentStep)
   return (
     <div className="ArticleScrollamaSticky" style={{
       position: 'sticky',
@@ -42,9 +47,16 @@ const ArticleScrollamaSticky = ({
         height: height - marginTop - marginBottom
       }}>
         <Row className="flex-grow-1">
-          <Col className="bg-primary p-5" {...BootstrapNarrativeStepFigureColumnLayout}>
-            <pre> {JSON.stringify(currentStep, null, 2)}</pre>
-            <pre> {JSON.stringify(BootstrapNarrativeStepFigureColumnLayout, null, 2)}</pre>
+          <Col className="h-100 position-relative"  ref={ref} {...BootstrapNarrativeStepFigureColumnLayout}>
+            <div className="position-absolute h-100 w-100" style={{overflow: 'hidden'}}>
+              {!cell.outputs.length ? (
+                <div className="ArticleCellFigure_no_output">
+                </div>
+              ): null}
+              {cell.outputs.map((output,i) => (
+                <ArticleCellOutput hideLabel height={bbox.height} width={bbox.width} output={output} key={i} />
+              ))}
+            </div>
           </Col>
         </Row>
         <Row className="flex-shrink-1">
