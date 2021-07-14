@@ -37,6 +37,20 @@ export const BootstrapColumLayout = Object.freeze({
   lg: { span:8, offset:2 }
 })
 
+export const BootstrapNarrativeStepFigureColumnLayout = Object.freeze({
+  md: { span:12 },
+  lg: { span:12 }
+})
+
+export const BootstrapNarrativeStepColumnLayout = Object.freeze({
+  md: { span:4, offset:6 },
+  lg: { span:3, offset:7 }
+})
+
+export const BootstrapNarrativeStepCaptionColumnLayout = Object.freeze({
+  md: { span:4, offset:1 },
+  lg: { span:4, offset:1 }
+})
 
 export const StatusIdle = 'IDLE'
 export const StatusFetching = 'FETCHING'
@@ -56,10 +70,12 @@ export const ScrollamaThreshold = 0
 export const LayerNarrative = 'narrative'
 export const LayerHermeneutics = 'hermeneutics'
 export const LayerHermeneuticsStep = 'hermeneutics-step'
+export const LayerNarrativeStep = 'narrative-step'
 export const LayerData = 'data'
 export const LayerHidden = 'hidden'
 export const LayerChoices = [
-  LayerNarrative, LayerHermeneutics,LayerHermeneuticsStep, LayerData, LayerHidden
+  LayerNarrative, LayerHermeneutics, LayerHermeneuticsStep, LayerData,
+  LayerHidden, LayerNarrativeStep
 ]
 
 // Cell sections
@@ -94,6 +110,7 @@ export const FigureImage = 'image'
 export const FigureDatavis = 'vega'
 
 export const FigureRefPrefix = 'figure-'
+export const CoverRefPrefix = 'cover'
 export const TableRefPrefix = 'table-'
 
 // display Layer to enable switch between layers

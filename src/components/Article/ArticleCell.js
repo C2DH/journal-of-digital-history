@@ -6,7 +6,9 @@ import ArticleCellSourceCode from './ArticleCellSourceCode'
 import ArticleCellFigure from './ArticleCellFigure'
 import {
   ModuleStack, ModuleTextObject, ModuleObject,
-  ModuleQuote, BootstrapColumLayout
+  ModuleQuote, BootstrapColumLayout,
+  BootstrapNarrativeStepColumnLayout,
+  BootstrapNarrativeStepFigureColumnLayout
 } from '../../constants'
 
 const ArticleCellVisualisation = lazy(() => import('./ArticleCellVisualisation'))
@@ -17,12 +19,19 @@ const ArticleCellObject = lazy(() => import('./ArticleCellObject'))
 const ArticleCell = ({
   type, layer, num=1, content='', idx, outputs=[], hideNum, metadata = {},
   progress, active = false,
+  isNarrativeStep,
   figure, // ArticleFigure instance
 }) => {
-  const cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout;
+  let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout;
+  // we override or set the former layout if it appears in narrative-step
+  if (isNarrativeStep) {
+    cellBootstrapColumnLayout = BootstrapNarrativeStepColumnLayout
+  }
   // this layout will be applied to module:"object" and module: "text_object"
-  const cellObjectBootstrapColumnLayout = metadata.jdh?.object?.bootstrapColumLayout || BootstrapColumLayout;
-
+  let cellObjectBootstrapColumnLayout = metadata.jdh?.object?.bootstrapColumLayout || BootstrapColumLayout;
+  if (isNarrativeStep && figure) {
+    cellObjectBootstrapColumnLayout = BootstrapNarrativeStepFigureColumnLayout
+  }
   const cellModule = metadata.jdh?.module
 
   if (cellModule === ModuleStack) {
@@ -74,6 +83,7 @@ const ArticleCell = ({
           metadata={metadata}
           figure={figure}
           figureColumnLayout={cellObjectBootstrapColumnLayout}
+          isNarrativeStep={isNarrativeStep}
         >
           <ArticleCellContent hideNum={!!figure} layer={layer} content={content} idx={idx} num={num} />
         </ArticleCellFigure>
@@ -96,6 +106,8 @@ const ArticleCell = ({
           metadata={metadata}
           outputs={outputs}
           figure={figure}
+          isNarrativeStep={isNarrativeStep}
+          figureColumnLayout={cellObjectBootstrapColumnLayout}
           sourceCode={<ArticleCellSourceCode toggleVisibility content={content} language="python"/>}
         ></ArticleCellFigure>
       )

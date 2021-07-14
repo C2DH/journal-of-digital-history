@@ -14,7 +14,8 @@ import {
   RoleHidden, RoleFigure, RoleMetadata, RoleCitation, RoleDefault,
   CellTypeMarkdown, CellTypeCode,
   FigureRefPrefix,
-  TableRefPrefix
+  TableRefPrefix,
+  CoverRefPrefix
 } from '../constants'
 
 const encodeNotebookURL = (url) => btoa(encodeURIComponent(url))
@@ -154,6 +155,7 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
       : cell.source
     // find footnote citations (with the number)
     const footnote = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
+    const coverRef = cell.metadata.tags?.find(d => d.indexOf(CoverRefPrefix) === 0)
     const figureRef = cell.metadata.tags?.find(d => d.indexOf(FigureRefPrefix) === 0)
     const tableRef = cell.metadata.tags?.find(d => d.indexOf(TableRefPrefix) === 0)
     // get section and layer from metadata
@@ -173,6 +175,9 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
     } else if (figureRef) {
       // this is a proper figure, nothing to say about it.
       figures.push(new ArticleFigure({ ref: figureRef, idx }))
+      cell.role = RoleFigure
+    } else if (coverRef) {
+      figures.push(new ArticleFigure({ ref: coverRef, idx, isCover:true }))
       cell.role = RoleFigure
     } else if (tableRef) {
       // this is a proper figure, nothing to say about it.

@@ -6,6 +6,7 @@ export default class ArticleFigure {
     idx = -1,
     num = -1,
     isTable = false,
+    isCover = false
   }) {
     this.type = type
     this.module = module
@@ -13,5 +14,6 @@ export default class ArticleFigure {
     this.num = num
     this.ref = ref
     this.isTable = isTable
+    this.isCover = isCover
   }
 }
