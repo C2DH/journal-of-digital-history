@@ -44,7 +44,7 @@ export const BootstrapNarrativeStepFigureColumnLayout = Object.freeze({
 
 export const BootstrapNarrativeStepColumnLayout = Object.freeze({
   md: { span:4, offset:6 },
-  lg: { span:4, offset:6 }
+  lg: { span:3, offset:7 }
 })
 
 export const BootstrapNarrativeStepCaptionColumnLayout = Object.freeze({
