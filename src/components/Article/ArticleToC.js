@@ -2,7 +2,8 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { RoleHidden } from '../../constants'
 import { useArticleStore } from '../../store'
-
+// import { useQueryParam, StringParam } from 'use-query-params'
+import SwitchLayer from '../SwitchLayer'
 
 const ArticleTocLine = ({ steps, step, headingsPositions }) => {
   const history = useHistory()
@@ -29,10 +30,18 @@ const ArticleTocLine = ({ steps, step, headingsPositions }) => {
   // console.info('previousHeadingIdx', previousHeadingIdx, 'nextHeadingIdx', nextHeadingIdx,headingsPositions, step)
   return (
     <>
-    {steps.map((d,i) => {
-      if (d.type === 'group' || d.role === RoleHidden) {
-        return null
+    <SwitchLayer disabled style={{position: 'absolute', top: -50, right: 0}}/>
+    {steps.filter((d) => {
+      if (d.role === RoleHidden) {
+        return false
       }
+      // if (layer === DisplayLayerHermeneutics) {
+      //   // hermeneutics-first approach
+      //   return if([].indexOf(d.layer) === -1
+      // }
+      return true
+    }).map((d,i) => {
+
       if (steps.length > 50 && !['H1', 'H2', 'H3'].includes(d.level)) {
         return null
       }

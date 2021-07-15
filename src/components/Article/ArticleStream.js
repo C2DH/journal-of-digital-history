@@ -1,13 +1,17 @@
 import React, {useMemo} from 'react'
+import { useQueryParam, StringParam } from 'use-query-params'
 import ArticleCellAccordion from './ArticleCellAccordion'
 import ArticleCellWrapper from './ArticleCellWrapper'
 import ArticleScrollama from './ArticleScrollama'
 import {
-  RoleHidden, LayerHermeneuticsStep,
-  LayerHermeneutics,
-  LayerNarrativeStep
+  RoleHidden,
+  LayerHermeneutics, LayerHermeneuticsStep,
+  LayerNarrative,  LayerNarrativeStep,
+  DisplayLayerHermeneutics,
+  DisplayLayerAll
 } from '../../constants'
 import { useArticleStore } from '../../store'
+
 
 const truncate = (s, maxLength=32) => {
   if (typeof s !== 'string') {
@@ -24,10 +28,20 @@ const truncate = (s, maxLength=32) => {
 
 const ArticleStream = ({
   memoid='', cells=[],
-  shadowLayers = [ LayerHermeneuticsStep, LayerHermeneutics ],
   stepLayers = [ LayerNarrativeStep ],
   onDataHrefClick
 }) => {
+  const [layer] = useQueryParam('layer', StringParam)
+
+  let shadowLayers = []
+  if (!layer) {
+    shadowLayers = [LayerHermeneuticsStep, LayerHermeneutics]
+  } else if(layer === DisplayLayerHermeneutics) {
+    shadowLayers = [LayerNarrative, LayerNarrativeStep]
+  } else if(layer === DisplayLayerAll) {
+    shadowLayers = []
+  }
+
   const setVisibleCell = useArticleStore(store => store.setVisibleCell)
   let numCell = 0
   let key = -1

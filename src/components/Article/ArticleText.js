@@ -1,18 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import ArticleToC from './ArticleToC'
 import ArticleStream from './ArticleStream'
-import { LayerHermeneuticsStep, LayerHermeneutics } from '../../constants'
-
 
 const ArticleText = ({
   memoid,
-  paragraphs, paragraphsPositions, headingsPositions,
+  paragraphs,
+  headingsPositions,
   onDataHrefClick,
   className='mt-5'
 }) => {
-  const [currentStep, setCurrentStep] = useState({idx: -1, direction: 'down'})
-  // get
   return (
     <div className={`${className} ArticleText`}>
       <div className='ArticleText_toc' style={{
@@ -31,7 +28,6 @@ const ArticleText = ({
                   <ArticleToC
                     headingsPositions={headingsPositions}
                     steps={paragraphs} active
-                    step={paragraphsPositions[currentStep.idx]}
                   />
                 </div>
               </div>
@@ -42,9 +38,7 @@ const ArticleText = ({
       <ArticleStream
         memoid={memoid}
         cells={paragraphs}
-        shadowLayers={[LayerHermeneuticsStep, LayerHermeneutics]}
         onDataHrefClick={onDataHrefClick}
-        onStepChange={(step) => setCurrentStep(step)}
       />
     </div>
   )
