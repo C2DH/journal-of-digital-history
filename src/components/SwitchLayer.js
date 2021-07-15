@@ -4,10 +4,12 @@ import { DropdownButton, ButtonGroup, Dropdown} from 'react-bootstrap'
 import { DisplayLayerHermeneutics, DisplayLayerAll } from '../constants'
 import { useQueryParam, StringParam } from 'use-query-params'
 
-const SwitchLayer = ({ style }) => {
+const SwitchLayer = ({ style, disabled }) => {
   const { t } = useTranslation()
   const [layer, setLayer] = useQueryParam('layer', StringParam)
-
+  if (disabled) {
+    return null
+  }
   return(
     <DropdownButton as={ButtonGroup}
       variant='outline-secondary'

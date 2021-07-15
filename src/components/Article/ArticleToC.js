@@ -30,7 +30,7 @@ const ArticleTocLine = ({ steps, step, headingsPositions }) => {
   // console.info('previousHeadingIdx', previousHeadingIdx, 'nextHeadingIdx', nextHeadingIdx,headingsPositions, step)
   return (
     <>
-    <SwitchLayer style={{position: 'absolute', top: -50, right: 0}}/>
+    <SwitchLayer disabled style={{position: 'absolute', top: -50, right: 0}}/>
     {steps.filter((d) => {
       if (d.role === RoleHidden) {
         return false
