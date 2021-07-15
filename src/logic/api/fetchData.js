@@ -83,6 +83,7 @@ export const useGetJSON = ({
   url,
   allowCached=true,
   delay=0,
+  onDownloadProgress,
   timeout=process.env.REACT_APP_API_TIMEOUT || 0
 }) => {
   const cache = useRef({});
@@ -122,7 +123,7 @@ export const useGetJSON = ({
           });
       } else {
           console.log('useGetDataset load fresh url:', url, 'timeout', timeout)
-          return axios.get(url, { timeout })
+          return axios.get(url, { timeout, onDownloadProgress })
             .then(({data}) => {
               cache.current[url] = data // set response in cache;
               if (cancelRequest) return;
