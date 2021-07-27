@@ -20,7 +20,7 @@ export const IssueRoute = { to:'/issues', label: 'navigation.issue'}
 
 export const PrimaryRoutes = [
   HomeRoute,
-  IssueRoute,
+  // IssueRoute,
   // ReferencesRoute,
   // DatasetsRoute,
   AbstractSubmissionRoute,
