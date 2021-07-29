@@ -6,7 +6,6 @@ import {useBoundingClientRect} from '../../hooks/graphics'
 
 const IssueArticleGridItem = ({ article={}, isFake=false }) => {
   const [{width: size }, ref] = useBoundingClientRect()
-  console.log(article.data)
   return (
     <div className="IssueArticleGridItem mt-5" ref={ref}>
       <LangLink to={isFake ? '#' : `/article/${article.abstract.pid}`}>
