@@ -2,21 +2,14 @@
  "cells": [
   {
    "cell_type": "markdown",
-   "metadata" : {
-    "tags": ["title"],
-    "jdh": {
-      "section": "title"
-    }
-   },
+   "metadata": {},
    "source": [
-     "# Guidelines for Authors {.my-5}"
+    "# Introduction"
    ]
   },
   {
    "cell_type": "markdown",
-   "metadata": {
-     "tags": ["abstract"]
-   },
+   "metadata": {},
    "source": [
     "The journal makes use of **ipynb notebooks** to publish the articles.\n",
     "In addition to that, there is a couple of rules to *format content* and *visualize datasets*, similar to what [jupyter book](https://jupyterbook.org/intro.html) does.\n",
@@ -41,7 +34,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## QuickGuide"
+    "# QuickGuide"
    ]
   },
   {
@@ -63,7 +56,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Structuring the Jupyter Notebook"
+    "# Structuring the Jupyter Notebook"
    ]
   },
   {
@@ -79,7 +72,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### Cell Tagging"
+    "## Cell Tagging"
    ]
   },
   {
@@ -91,10 +84,7 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {
-     "tags":["table-1"],
-     "jdh":{"object":{"source":["Active tags for the Journal articles."]}}
-   },
+   "metadata": {},
    "source": [
     "Function | Tag | Markdown | Explanation\n",
     "--- | --- | --- | ---\n",
@@ -105,8 +95,8 @@
     "Keywords | keywords | | Keywords are to be separated by comma (“,”)\n",
     "Abstract | abstract | | This cell features the abstract of an article with a max./min length of x characters.\n",
     "Chapter Title | | h2 (##) | Chapter titles are always written in h2. \n",
-    "Table | `table-1` | | For tables, **individually** tag each table in the order like this: table-1, table-2, table-3.\n",
-    "Figure | `figure-1` | fig-1a, fig-1b | Figures need to be tagged with \"figure-(number)\". Captions are added manually."
+    "Table | table-1 | | For tables, **individually** tag each table in the order like this: table-1, table-2, table-3.\n",
+    "Figure | figure-1 | fig-1a, fig-1b | Figures need to be tagged with \"figure-(number)\". Captions are added manually."
    ]
   },
   {
@@ -122,18 +112,13 @@
    "source": [
     "If a cell contains 2 figures in one, we propose the following cell-centric approach:\n",
     "- tag the cell with figure-1\n",
-    "- write `fig-1a` and `fig-1b` within the cell to show them side by side on the narrative and add the corresponding caption",
-    "- modify the cell metadata to add the appropriate caption \n",
-    "```\n{\n  \"tags\": [\"figure-1a et 1b\"],\n  \"jdh\": {\n    \"object\": {\n      \"source\": [\"First Figure, a and b.\"]\n    }\n  }\n}\n```"
+    "- write fig-1a and fig-1b within the cell to show them side by side on the narrative and add the corresponding caption"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 2,
-   "metadata": {
-     "tags":["figure-1a et 1b"],
-     "jdh":{"object":{"source":["First Figure, a and b."]}}
-   },
+   "metadata": {},
    "outputs": [
     {
      "data": {
@@ -154,9 +139,7 @@
   {
    "cell_type": "code",
    "execution_count": 1,
-   "metadata": {
-     "tags":["figure-2"]
-   },
+   "metadata": {},
    "outputs": [
     {
      "data": {
@@ -166,21 +149,21 @@
       ]
      },
      "execution_count": 1,
+     "metadata": {},
      "output_type": "execute_result"
     }
    ],
    "source": [
     "## Caption: example for two figures in one cell in notebook \n",
     "from IPython.display import Image\n",
-    "Image(filename='media/screenshot_figures_notebook.png') "
+    "Image(filename='media/screenshot_figures_notebook.png')"
    ]
   },
   {
    "cell_type": "code",
    "execution_count": 2,
    "metadata": {
-    "scrolled": false,
-    "tags":["figure-3"]
+    "scrolled": false
    },
    "outputs": [
     {
@@ -272,7 +255,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 2,
    "metadata": {},
    "outputs": [
     {
@@ -284,7 +267,7 @@
        "<IPython.core.display.Image object>"
       ]
      },
-     "execution_count": 7,
+     "execution_count": 2,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -334,7 +317,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 3,
    "metadata": {},
    "outputs": [
     {
@@ -346,7 +329,7 @@
        "<IPython.core.display.HTML object>"
       ]
      },
-     "execution_count": 8,
+     "execution_count": 3,
      "metadata": {},
      "output_type": "execute_result"
     }
@@ -538,9 +521,7 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {
-
-   },
+   "metadata": {},
    "source": [
     "File |Type | Explanation\n",
     "--- | --- | ---\n",
@@ -633,10 +614,10 @@
     "How to read the legend of the fingerprint:\n",
     "- Visually, the circle represents a notebook. \n",
     "- Each cell in the notebook is represented by a line (and a dot at the end) that is aligned along the circle clockwise.\n",
-    "- Each chapter headline is shown as a bigger circle along the line of the notebook circle and indicated by a number. 0 is the title of the article and after that the number count upwards.\n",
-    "- All markdown cells on the narrative are shown in black, all code cells are shown in blue.\n",
-    "- All hermeneutic cells are shown in lines with a teal color and are aligned inside of the circle of the notebook.\n",
     "- The length of the lines indicate the amount of character per cell. \n",
+    "- (Each chapter headline is shown as a bigger circle along the line of the notebook circle and indicated by a number. 0 is the title of the article and after that the number count upwards).\n",
+    "- All markdown cells on the narrative are shown in black, all code cells are shown in blue.\n",
+    "- All hermeneutic cells are shown in lines with a turquoise color and are aligned inside of the circle of the notebook.\n",
     "- (Figures are shown as a circle with a dot in the middle along the circle of the notebook.)\n",
     "- (The number of authors is indicated by circles in the middle of the visualization.)"
    ]
