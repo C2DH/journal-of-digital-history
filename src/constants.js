@@ -20,7 +20,7 @@ export const IssueRoute = { to:'/issues', label: 'navigation.issue'}
 
 export const PrimaryRoutes = [
   HomeRoute,
-  IssueRoute,
+  // IssueRoute,
   // ReferencesRoute,
   // DatasetsRoute,
   AbstractSubmissionRoute,
@@ -116,5 +116,6 @@ export const TableRefPrefix = 'table-'
 // display Layer to enable switch between layers
 export const DisplayLayerHermeneutics = 'h'
 export const DisplayLayerNarrative = 'n'
+export const DisplayLayerAll = 'all'
 export const DisplayLayerQueryParam = 'layer'
 export const DisplayLayerCellIdxQueryParam = 'idx'

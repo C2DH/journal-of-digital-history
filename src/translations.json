@@ -133,6 +133,11 @@
         "danger": "⚠",
         "success": "✓"
       },
+      "layers": {
+        "h": "Layer: Hermeneutic",
+        "all": "Layer: both",
+        "default": "Layer: Narrative"
+      },
       "labels": {
         "acceptConditions": "I have read and I accept the terms and conditions available at",
         "formSubmissionIncomplete": "incomplete",
