@@ -33,21 +33,23 @@ const AbstractSubmissionPreview = ({
   ].join('-')
 
   return (
-    <div className="border border-dark p-3">
+    <div className="p-3 shadow-sm rounded" style={{
+      border: '1px solid var(--gray-300)'
+    }}>
       <h3>{t('pages.abstractSubmission.preview')}</h3>
       <p>{isEmpty && (<>
-          <Badge variant="info" pill>{t('badge.warning')}</Badge>&nbsp;
+          <Badge bg="info" pill>{t('badge.warning')}</Badge>&nbsp;
           {t('labels.formSubmissionIncomplete')}
       </>)}
       {!isEmpty && !validatorResult.valid && (<>
-            <Badge variant="warning" pill>{t('badge.danger')}</Badge>&nbsp;
+            <Badge bg="warning" pill>{t('badge.danger')}</Badge>&nbsp;
             <span dangerouslySetInnerHTML={{
               __html: t('missingStepsWithCount', { count: validatorResult.errors.length})
             }} />
       </>)}
       {validatorResult.valid && (
         <>
-          <Badge variant="success" pill>{t('badge.success')}</Badge>&nbsp;
+          <Badge bg="success" pill>{t('badge.success')}</Badge>&nbsp;
           <span dangerouslySetInnerHTML={{
             __html: t('labels.formSubmissionReady')
           }} />
@@ -60,20 +62,20 @@ const AbstractSubmissionPreview = ({
         overflow: 'scroll'
       }}>
       {!isEmpty && validatorResult?.errors.map((error, i) => (
-        <blockquote className="border-left border-dark mt-2 pl-2" key={i}>
+        <blockquote className="border-left border-dark mt-2 ps-2" key={i}>
           <FormJSONSchemaErrorListItem error={error} />
         </blockquote>
       ))}
       </div>
       <br/>
-      <Badge variant='info'>{t('labels.dateCreated')}</Badge>&nbsp;
+      <Badge bg='info'>{t('labels.dateCreated')}</Badge>&nbsp;
       {t('dates.LLL', {date: temporaryAbstractSubmission.getDateCreated()})}
       <br/>
-      <Badge variant='info'>{t('labels.dateLastModified')}</Badge>&nbsp;
+      <Badge bg='info'>{t('labels.dateLastModified')}</Badge>&nbsp;
       <span> ({t('dates.fromNow', {date: temporaryAbstractSubmission.getDateLastModified()})})</span>
       <br/>
-      <div className="my-3">
-      <Button variant="outline-danger" block
+      <div className="my-3 d-grid gap-2">
+      <Button variant="outline-danger"
         size="sm"
         onClick={onReset}
       >
@@ -91,7 +93,7 @@ const AbstractSubmissionPreview = ({
       </ButtonGroup>}
       </div>
 
-      <Button block variant="outline-dark"
+      <Button className="d-block" variant="outline-dark"
         size="sm"
         href={`data:text/json;charset=utf-8,${encodeURIComponent(
           JSON.stringify(temporaryAbstractSubmission, null, 2)

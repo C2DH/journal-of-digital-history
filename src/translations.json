@@ -12,7 +12,8 @@
         "article": "narrative layer",
         "articleHermeneutics": "hermeneutic layer",
         "articleHermeneuticsData": "hermeneutic layer",
-        "articleData": "data"
+        "articleData": "data",
+        "issue":"Issues"
       },
       "title": "Journal of <br/>Digital History",
       "titleInline": "Journal of Digital History",
@@ -34,6 +35,11 @@
           "title": "Your Abstract has been submitted!",
           "subheading": "You will soon be contacted by our editors via the email you have indicated in the contact form.",
           "moreInfo": "If any information needs to be changed, please contact us via email at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>"
+        },
+        "errorViewer": {
+          "title": "Ouch! Something wrong happened...",
+          "subheading": "How can I get rid of this message?",
+          "message": "JDH needs you when errors happen. <br/> Please contact <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a> copy pasting the code below."
         },
         "abstractSubmission": {
           "title": "Abstract Submission",
@@ -68,6 +74,14 @@
           "loadedFromRemoteURL": "<b>Note</b>: this ipython notebook has been loaded from: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>",
           "tryRemoteURL": "Try another notebook"
         },
+        "issue": {
+          "title": "Issue {{ id }}"
+        },
+        "issues": {
+          "title": "Issues",
+          "subheading": "Browse all journal issues",
+          "introduction": "Stephen turned and saw that the cold gaze which had measured him was not all unkind."
+        },
         "guidelines": {
           "basis": "The basis: quickstart",
           "datavis": "Data visualisations",
@@ -94,6 +108,10 @@
       "forms": {
         "formAuthorContact": {
           "selectAsAuthor": "Use this Contact Info as Contributor"
+        },
+        "FormNotebookUrl": {
+          "notebookUrl": "Public notebook url",
+          "notebookUrlDescription": "Use a well formed URL pointing to the <code>.ipynb</code> notebook file."
         }
       },
       "actions": {
@@ -103,13 +121,22 @@
         "addAuthor": "Add Contributor",
         "addDataset": "Add Dataset / Tools / Code",
         "downloadAsJSON": "Download as JSON",
-        "resetForm": "Start over ↻"
-
+        "resetForm": "Start over ↻",
+        "switchToHermeneuticLayer": "See Hermeneutic Layer",
+        "hidesourceCode": "hide source code",
+        "showsourceCode": "show source code",
+        "hideHermeneuticLayer": "hide hermeneutic layer",
+        "showHermeneuticLayer": "show hermeneutic layer"
       },
       "badge": {
         "warning": "∅",
         "danger": "⚠",
         "success": "✓"
+      },
+      "layers": {
+        "h": "Layer: Hermeneutic",
+        "all": "Layer: both",
+        "default": "Layer: Narrative"
       },
       "labels": {
         "acceptConditions": "I have read and I accept the terms and conditions available at",
@@ -147,6 +174,8 @@
         "instance-abstract": "<b>Abstract</b>"
       },
       "numbers": {
+        "figure": "figure {{ n }}",
+        "table": "table {{ n }}",
         "yExponent": "Power scale exponent (y axis): <b>{{n}}</b>",
         "errors": "{{count}} errors",
         "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",
@@ -162,7 +191,8 @@
         "precise": "{{date, DD MMM YYYY hh:ss}}",
         "fromNow": "{{date, fromNow}}",
         "LLLL": "{{date, LLLL}}",
-        "LLL": "{{date, LLL}}"
+        "LLL": "{{date, LLL}}",
+        "month": "{{date, MMM YYYY}}"
       },
       "ArticleCellOutput_execute_result": "result",
       "ArticleCellOutput_stream": "logs",

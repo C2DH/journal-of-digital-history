@@ -3,9 +3,9 @@ import { Container, Col, Row, Form } from 'react-bootstrap'
 
 function debounce(fn, ms) {
   let timer
-  return _ => {
+  return () => {
     clearTimeout(timer)
-    timer = setTimeout(_ => {
+    timer = setTimeout(() => {
       timer = null
       fn.apply(this, arguments)
     }, ms)
@@ -155,7 +155,7 @@ const Playground = () => {
       })
     }, 100)
     window.addEventListener('resize', debouncedHandleResize)
-    return _ => {
+    return () => {
       window.removeEventListener('resize', debouncedHandleResize)
     }
   })
@@ -183,7 +183,7 @@ const Playground = () => {
             paddingTop: '100%',
             // background: 'var(--primary)'
           }}>
-            <div class="position-absolute w-100 h-100" style={{top: 0 }}>
+            <div className="position-absolute w-100 h-100" style={{top: 0 }}>
               <Canvas visualVariables={visualVariables}/>
             </div>
           </div>

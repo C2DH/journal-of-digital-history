@@ -19,7 +19,8 @@ const colorScale = scaleOrdinal(['red', 'magenta', 'cyan', '#036ecd', '#9ecadd',
 
 const Streamgraph = ({
   stackOffset = 'wiggle',
-  animate = true, className, style, data=[], encoding={}, focus=[]
+  animate = true, className, style, data=[], encoding={},
+  // focus=[]
 }) => {
   const { t } = useTranslation()
   const [{ width, height, windowDimensions }, ref] = useBoundingClientRect()

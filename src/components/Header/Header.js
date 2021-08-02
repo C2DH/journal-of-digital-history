@@ -8,28 +8,28 @@ import UserProfile from './UserProfile'
 import logo from '../../assets/images/jdh-logo.svg'
 import deGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_white.svg'
 import uniluLogo from '../../assets/images/unilu-c2dh-logo-white.svg'
-import styles from './Header.module.scss'
 import { PrimaryRoutes, TermsOfUseRoute } from '../../constants'
 import SwitchNightMode from '../SwitchNightMode'
-
+import '../../styles/components/Header.scss'
+import { useOnScreen } from '../../hooks/graphics'
 
 const MobileHeader = ({ langs, displayLangs }) => {
   const { t, i18n } = useTranslation()
   const [isVisible, setIsVisible] = useState(false)
   return (
     <>
-    <LangNavLink to="/" className={styles.MobileHeaderBrand} >{t('titleInline')}</LangNavLink>
-    <Nav className={`${styles.MobileHeaderNav} d-block d-md-none`}>
-      <div className={styles.MobileHeaderToggler}
+    <LangNavLink to="/" className="MobileHeaderBrand" >{t('titleInline')}</LangNavLink>
+    <Nav className="MobileHeaderNav d-block d-md-none">
+      <div className="MobileHeaderToggler"
         onClick={() => setIsVisible(!isVisible)}
       >menu ☰</div>
-      <div className={styles.MobileHeaderMenu} style={{
+      <div className="MobileHeaderMenu" style={{
         transform: isVisible ? 'translateY(0)' : 'translateY(-100vh)'
       }}>
         <div className="mx-3 mt-4 pb-4">
         <h1>{t('titleInline')}</h1>
         {PrimaryRoutes.concat([TermsOfUseRoute]).map(({to, label},i) => (
-          <Nav.Item className={styles.MobileHeaderNavItem} key={`primary-route-${i}`}>
+          <Nav.Item className="MobileHeaderNavItem" key={`primary-route-${i}`}>
             <LangNavLink to={to} exact onClick={() => setIsVisible(false)}>{t(label)}</LangNavLink>
           </Nav.Item>
         ))}
@@ -41,7 +41,7 @@ const MobileHeader = ({ langs, displayLangs }) => {
           </h4>
         )}
         {!!displayLangs && langs.map((lang, i) => (
-          <Nav.Item key={`lang-switch-${i}`} className={styles.MobileHeaderNavItem}>
+          <Nav.Item key={`lang-switch-${i}`} className="MobileHeaderNavItem">
             <SwitchLanguageLink
             style={{
               padding: '0.5rem 1rem'
@@ -79,37 +79,41 @@ const NavPrimaryRoutes = ({ routes, ...props}) => {
 
 
 
-const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs }) => {
+const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs, displayLogin }) => {
   const { t } = useTranslation()
+  const [{ intersectionRatio }, ref] = useOnScreen()
+
   return (
-    <>
-    <Navbar className={`d-md-flex d-none ${styles.Navbar}`} style={{height: 100 }} variant="light" expand="md">
+    <header ref={ref} className={`${intersectionRatio < 1 ? 'active' : ''}`}>
+    <div className="position-fixed w-100" id="Header_background" style={{left: 0, zIndex:2 ,top:0, height: 100}}/>
+    <Navbar  style={{height: 100 }} className="RowHeader d-md-flex d-none fixed-top"  variant="light" expand="md">
     <Navbar.Brand href="/en" className="position-absolute d-flex align-items-center">
-      <div className={`${styles.BrandImage}`} style={{
+      <div className="BrandImage" style={{
         backgroundImage: `url(${logo})`,
       }}></div>
-      <span className={`d-md-block d-none`} dangerouslySetInnerHTML={{
+      <span className="d-md-block d-none" dangerouslySetInnerHTML={{
         __html: t('title')
       }}></span>
     </Navbar.Brand>
     <Container className="d-block" style={{height:80}}>
       <Row className="d-md-flex d-none align-items-center h-100">
-        <Col md={{offset: 2, span: 6}}>
-          <NavPrimaryRoutes className="" routes={PrimaryRoutes} />
+        <Col md={{offset: 2, span: 8}}>
+          <NavPrimaryRoutes routes={PrimaryRoutes} />
         </Col>
-        <Col md={2}>
-          <Nav className="justify-content-end">
-            {!!displayLangs && <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>}
-            {!isAuthDisabled && <UserProfile/>}
-            <Nav.Item className='d-none'><SwitchNightMode /></Nav.Item>
-          </Nav>
-        </Col>
-
+        {displayLogin || displayLangs ?(
+          <Col md={2}>
+            <Nav className="justify-content-end">
+              {!!displayLangs && <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>}
+              {!!displayLogin && !isAuthDisabled && <UserProfile/>}
+              <Nav.Item className='d-none'><SwitchNightMode /></Nav.Item>
+            </Nav>
+          </Col>
+        ): null}
       </Row>
     </Container>
     </Navbar>
     <MobileHeader langs={availableLanguages}/>
-    </>
+    </header>
   )
 }
 
@@ -118,7 +122,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs }) => {
 //
 //   // console.info('header render with lang:', lang);
 //   return (
-//     <Navbar className={styles.Navbar} fixed="top" variant="light" expand="md">
+//     <Navbar className=Navbar} fixed="top" variant="light" expand="md">
 //     <Container>
 //       <Navbar.Brand href="#home" className="d-flex align-items-center">
 //         <div className={`${styles.BrandImage} brand-image flex-grow-1 mr-1`} style={{

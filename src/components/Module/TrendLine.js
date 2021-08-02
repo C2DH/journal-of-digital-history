@@ -9,11 +9,11 @@ import Pointer from '../Graphics/Pointer'
 
 const TrendLine = ({
   width, height, windowDimensions, encoding={}, data=[],
-  displayLine=false,
+  // displayLine=false,
   displayPoints=true,
   activeStep=-1,
   steps=[],
-  change
+  // change
 }) => {
   const { t } = useTranslation()
   let {
@@ -149,7 +149,7 @@ const TrendLine = ({
           : null
       }
     </svg>
-    <div className="TrendLine_yExponent pl-4">
+    <div className="TrendLine_yExponent ps-4">
       <input type="range" id="volume" name="volume"
          min="0.1" max="4" step=".05" value={visualVariables.yExponent}
       onChange={(e) => changeVisualVariable('yExponent', e.target.value)} />

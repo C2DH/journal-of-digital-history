@@ -1,5 +1,6 @@
 import React, { Suspense, lazy, useEffect } from 'react'
 import { BrowserRouter, Switch, Route, Redirect, useRouteMatch, useLocation } from "react-router-dom"
+import { QueryParamProvider } from 'use-query-params'
 import i18n from 'i18next'
 import moment from 'moment'
 import { initReactI18next } from 'react-i18next'
@@ -12,7 +13,7 @@ import Footer from './components/Footer'
 import Cookies from './components/Cookies'
 import ScrollToTop from './components/ScrollToTop'
 import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
-import AppRouteLoading from './pages/AppRouteLoading'
+import Loading from './pages/Loading'
 import ReactGA from 'react-ga';
 // Getting non-reactive fresh state
 let persistentState = useStore.getState()
@@ -51,6 +52,8 @@ const About = lazy(() => import('./pages/About'))
 const AbstractSubmission = lazy(() => import('./pages/AbstractSubmission'))
 const AbstractSubmitted = lazy(() => import('./pages/AbstractSubmitted'))
 const Article = lazy(() => import('./pages/Article'))
+const Issue = lazy(() => import('./pages/Issue'))
+const Issues = lazy(() => import('./pages/Issues'))
 const Abstract = lazy(() => import('./pages/Abstract'))
 const MockAbstract = lazy(() => import('./pages/MockAbstract'))
 const TermsOfUse = lazy(() => import('./pages/TermsOfUse'))
@@ -58,9 +61,10 @@ const Playground = lazy(() => import('./pages/Playground'))
 const Notebook = lazy(() => import('./pages/Notebook'))
 const LocalNotebook = lazy(() => import('./pages/LocalNotebook'))
 const NotebookViewer = lazy(() => import('./pages/NotebookViewer'))
+const NotebookViewerForm = lazy(() => import('./pages/NotebookViewerForm'))
 const Guidelines = lazy(() => import('./pages/Guidelines'))
 const NotFound = lazy(() => import('./pages/NotFound'))
-
+const ArticleViewer = lazy(() => import('./pages/ArticleViewer'))
 const { startLangShort, lang } = getStartLang()
 console.info('start language:', lang, startLangShort)
 i18n
@@ -70,8 +74,8 @@ i18n
     lng: lang,
     interpolation: {
       escapeValue: false, // react already safes from xss
-      format: function(value, format, lng) {
-          if(value instanceof Date) {
+      format: function(value, format) {
+          if (value instanceof Date) {
             if (format === 'fromNow') {
               return moment(value).fromNow()
             }
@@ -96,7 +100,7 @@ function LangRoutes() {
       <Route exact path={`${path}/about`}>
         <About />
       </Route>
-      <Route exact path={`${path}/article/:layer?`}>
+      <Route exact path={`${path}/articlePOC/:layer?`}>
         <Article />
       </Route>
       <Route exact path={`${path}/abstract`}>
@@ -105,6 +109,9 @@ function LangRoutes() {
       <Route path={`${path}/abstract/:id`}>
         <Abstract />
       </Route>
+      <Route path={`${path}/issues`} component={Issues} />
+      <Route path={`${path}/issue/:id`} component={Issue} />
+      <Route path={`${path}/article/:pid`} component={ArticleViewer} />
       <Route path={`${path}/abstract-submitted`}>
         <AbstractSubmitted />
       </Route>
@@ -117,9 +124,12 @@ function LangRoutes() {
       <Route path={`${path}/notebook/:encodedUrl?`}>
         <Notebook />
       </Route>
-      <Route path={`${path}/notebook-viewer/:encodedUrl?`}>
-        <NotebookViewer />
+      <Route path={`${path}/notebook-viewer-form`}>
+        <NotebookViewerForm />
       </Route>
+      <Route path={`${path}/notebook-viewer/:encodedUrl`}
+        component={NotebookViewer}
+      />
       <Route path={`${path}/local-notebook`}>
         <LocalNotebook />
       </Route>
@@ -137,15 +147,30 @@ function LangRoutes() {
 }
 
 function usePageViews() {
-  let location = useLocation()
+  const { pathname, search } = useLocation()
+  const changeBackgroundColor = useStore(state => state.changeBackgroundColor)
 
   useEffect(
     () => {
-      const url = [location.pathname, location.search].join('')
+      const url = [pathname, search].join('')
       console.info('pageview', url)
+      // based on the pathname, change the background
+      if (pathname.indexOf('/notebook') !== -1 || pathname.indexOf('/article') !== -1) {
+        changeBackgroundColor('var(--gray-100)')
+      } else if (pathname.indexOf('/issue') !== -1) {
+        changeBackgroundColor('var(--gray-100)')
+      } else if (pathname.indexOf('/submit') !== -1) {
+        changeBackgroundColor('var(--gray-100)')
+      } else if (pathname.indexOf('/about') !== -1) {
+        changeBackgroundColor('var(--linen)')
+      } else if (pathname.indexOf('/terms') !== -1) {
+        changeBackgroundColor('var(--peachpuff)')
+      } else  {
+        changeBackgroundColor('var(--gray-100)')
+      }
       ReactGA.pageview(url)
     },
-    [location]
+    [pathname, search, changeBackgroundColor]
   )
 }
 
@@ -168,18 +193,13 @@ function AppRoutes() {
   )
 }
 
-const MainBackground = () => {
-  const backgroundColor =  useStore((state) => state.backgroundColor);
-  return (
-    <div className="vh-100 vw-100 position-fixed main-background" style={{top: 0, backgroundColor}}></div>
-  )
-}
 
 
 export default function App() {
 
   return (
     <BrowserRouter>
+      <QueryParamProvider ReactRouterRoute={Route}>
       <Auth0ProviderWithHistory
         disabled={isUnsafeEnvironment}
         domain="dev-cy19cq3w.eu.auth0.com"
@@ -189,14 +209,14 @@ export default function App() {
         <Header availableLanguages={LANGUAGES} isAuthDisabled={isUnsafeEnvironment}/>
         <Cookies defaultAcceptCookies={acceptCookies}/>
         <main>
-          <MainBackground />
-          <Suspense fallback={<AppRouteLoading/>}>
+          <Suspense fallback={<Loading/>}>
             <AppRoutes />
           </Suspense>
         </main>
         <Footer ></Footer>
         <ScrollToTop />
       </Auth0ProviderWithHistory>
+      </QueryParamProvider>
     </BrowserRouter>
   )
 }

@@ -1,6 +1,12 @@
 import { useRef, useState, useEffect} from 'react'
 
-
+/**
+ * Calculate available rectangle for the given ref.
+ * usage inside functional components:
+ *
+ *     const [bbox, ref] = useBoundingClientRect()
+ *     return (<div ref="ref"></div>)
+ */
 export const useBoundingClientRect = () => {
   const ref = useRef();
   const [bbox, setBbox] = useState({
@@ -87,4 +93,40 @@ export function useMousePosition() {
     return () => window.removeEventListener("mousemove", updateMousePosition);
   }, []);
   return mousePosition;
-};
+}
+
+/**
+  * @method useOnScreen
+  * Based on https://stackoverflow.com/questions/45514676/react-check-if-element-is-visible-in-dom
+  * consulted on 2021-04-26
+  *
+  * Possible values: entry.boundingClientRect
+  * entry.intersectionRatio
+  * entry.intersectionRect, entry.isIntersecting, entry.rootBounds,
+  * entry.target,
+  * entry.time
+  * usage
+  *   const [entry, ref] = useOnScreen()
+  *   <div ref={ref}>trigger {entry.isIntersecting? 'visisble': 'not visible'}</div>
+  *
+*/
+export function useOnScreen({ threshold = [0, 1], rootMargin='0% 0% 0% 0%'} = {}) {
+  const ref = useRef();
+  const [entry, setEntry] = useState({
+    intersectionRatio: 0, // this avoid entry is null error
+    isIntersecting: false,
+  })
+  const observer = new IntersectionObserver(([b]) => {
+    setEntry(b)
+  }, {
+    threshold,
+    rootMargin
+  })
+  useEffect(() => {
+    observer.observe(ref.current, { threshold })
+    // Remove the observer as soon as the component is unmounted
+    return () => { observer.disconnect() }
+    // eslint-disable-next-line
+  }, [])
+  return [entry, ref];
+}

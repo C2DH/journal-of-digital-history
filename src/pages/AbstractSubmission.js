@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from "react-router-dom";
-import { Container, Form, Button, Col, Row, Jumbotron } from 'react-bootstrap'
+import { Container, Form, Button, Col, Row } from 'react-bootstrap'
 import LangLink from '../components/LangLink'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { useStore } from '../store'
@@ -22,7 +22,7 @@ import { createAbstractSubmission } from '../logic/api/postData'
 console.info('%cRecaptcha site key', 'font-weight:bold', ReCaptchaSiteKey)
 
 
-const AbstractSubmission = (props) => {
+const AbstractSubmission = () => {
   const { t } = useTranslation()
   const history = useHistory();
   const [isPreviewMode, setPreviewMode] = useState(false)
@@ -165,7 +165,9 @@ const AbstractSubmission = (props) => {
       <Row>
         <Col md={{span: 6, offset:2}}>
           <h1 className="my-5">{t('pages.abstractSubmission.title')}</h1>
-          <Jumbotron className="pt-4 pb-2 px-4">
+          <div className="jumbotron pt-4 pb-2 px-4" style={{
+            backgroundColor: 'var(--gray-200)'
+          }}>
             <h3>First Issue Call for Papers</h3>
             <p>
             The first issue of the <em>Journal of Digital History</em> will not target any particular topic:
@@ -175,7 +177,7 @@ const AbstractSubmission = (props) => {
             demonstrate the interest of our approach, based on the interconnexion
             of the narrative, hermeneutics and data layer.
             </p>
-          </Jumbotron>
+          </div>
         </Col>
       </Row>
       <br />
@@ -268,7 +270,7 @@ const AbstractSubmission = (props) => {
           <Col md={4} lg={3}>
             <div style={{
               position: 'sticky',
-              top: 50
+              top: 100
             }}>
             {validatorResult && <AbstractSubmissionPreview
               validatorResult={validatorResult}
@@ -303,7 +305,7 @@ const AbstractSubmission = (props) => {
             />
 
             {!isEmpty && validatorResult?.errors.length > 0 && (
-              <ol className="m-0 pr-2 py-2 pl-4 border border-dark rounded">
+              <ol className="m-0 pe-2 py-2 ps-4 border border-dark rounded">
               {validatorResult?.errors.map((error,i) =>
                 <li key={i}><FormJSONSchemaErrorListItem error={error} debug={false}/></li>
               )}

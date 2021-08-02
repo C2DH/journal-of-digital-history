@@ -3,10 +3,12 @@ import { Container, Row, Col} from 'react-bootstrap'
 import ArticleCellOutput from './ArticleCellOutput'
 import ArticleCellContent from './ArticleCellContent'
 import ArticleCellSourceCode from './ArticleCellSourceCode'
-
+import ArticleCellFigure from './ArticleCellFigure'
 import {
   ModuleStack, ModuleTextObject, ModuleObject,
-  ModuleQuote, BootstrapColumLayout
+  ModuleQuote, BootstrapColumLayout,
+  BootstrapNarrativeStepColumnLayout,
+  BootstrapNarrativeStepFigureColumnLayout
 } from '../../constants'
 
 const ArticleCellVisualisation = lazy(() => import('./ArticleCellVisualisation'))
@@ -15,15 +17,21 @@ const ArticleCellObject = lazy(() => import('./ArticleCellObject'))
 
 
 const ArticleCell = ({
-  type, layer, num=1, content='', idx, outputs=[], hideIdx, hideNum, metadata = {},
+  type, layer, num=1, content='', idx, outputs=[], hideNum, metadata = {},
   progress, active = false,
+  isNarrativeStep,
   figure, // ArticleFigure instance
-  ...props
 }) => {
-  const cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout;
+  let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout;
+  // we override or set the former layout if it appears in narrative-step
+  if (isNarrativeStep) {
+    cellBootstrapColumnLayout = BootstrapNarrativeStepColumnLayout
+  }
   // this layout will be applied to module:"object" and module: "text_object"
-  const cellObjectBootstrapColumnLayout = metadata.jdh?.object?.bootstrapColumLayout || BootstrapColumLayout;
-
+  let cellObjectBootstrapColumnLayout = metadata.jdh?.object?.bootstrapColumLayout || BootstrapColumLayout;
+  if (isNarrativeStep && figure) {
+    cellObjectBootstrapColumnLayout = BootstrapNarrativeStepFigureColumnLayout
+  }
   const cellModule = metadata.jdh?.module
 
   if (cellModule === ModuleStack) {
@@ -43,7 +51,7 @@ const ArticleCell = ({
       </Container>
     )
   }
-  if (cellModule === ModuleObject) {
+  if (!figure && cellModule === ModuleObject) {
     return (
       <Container>
         <Row>
@@ -69,24 +77,48 @@ const ArticleCell = ({
   }
 
   if (type === 'markdown') {
+    if (figure) {
+      return (
+        <ArticleCellFigure
+          metadata={metadata}
+          figure={figure}
+          figureColumnLayout={cellObjectBootstrapColumnLayout}
+          isNarrativeStep={isNarrativeStep}
+        >
+          <ArticleCellContent hideNum={!!figure} layer={layer} content={content} idx={idx} num={num} />
+        </ArticleCellFigure>
+      )
+    }
     return (
       <Container>
         <Row>
           <Col {... cellBootstrapColumnLayout}>
-            <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum}/>
+            <ArticleCellContent hideNum={hideNum} layer={layer} content={content} idx={idx} num={num} />
           </Col>
         </Row>
       </Container>
     )
   }
   if (type === 'code') {
+    if (figure) {
+      return (
+        <ArticleCellFigure
+          metadata={metadata}
+          outputs={outputs}
+          figure={figure}
+          isNarrativeStep={isNarrativeStep}
+          figureColumnLayout={cellObjectBootstrapColumnLayout}
+          sourceCode={<ArticleCellSourceCode toggleVisibility content={content} language="python"/>}
+        ></ArticleCellFigure>
+      )
+    }
     return (
       <Container>
         <Row>
           <Col {... cellBootstrapColumnLayout}>
-            <div className="ArticleCellContent" id={`P${idx}`}>
-              <div className="ArticleCellContent_num">{num}</div>
-              <ArticleCellSourceCode content={content} language="python" />
+            <div className="ArticleCellContent">
+              <div className="ArticleCellContent_num"></div>
+              <ArticleCellSourceCode visible content={content} language="python" />
               {outputs.length
                 ? outputs.map((output,i) => <ArticleCellOutput output={output} key={i} />)
                 : <div className="ArticleCellSourceCode_no_output">no output</div>
@@ -100,4 +132,9 @@ const ArticleCell = ({
   return (<div>unknown type: {type}</div>)
 }
 
-export default ArticleCell
+export default React.memo(ArticleCell, (prevProps, nextProps) => {
+  if (prevProps.memoid === nextProps.memoid || prevProps.active === nextProps.active) {
+    return true // props are equal
+  }
+  return false // props are not equal -> update the component
+})

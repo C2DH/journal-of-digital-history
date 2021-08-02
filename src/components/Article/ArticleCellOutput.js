@@ -1,21 +1,42 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-
+import {markdownParser} from '../../logic/ipynb'
 const getOutput = (output) => {
   return Array.isArray(output)
     ? output.join(' ')
     : output
 }
 
-const ArticleCellOutput = ({ output }) => {
+const ArticleCellOutput = ({ output, height, width, hideLabel=false }) => {
   const outputTypeClassName= `ArticleCellOutput_${output.output_type}`
   const { t } = useTranslation()
 
+  const style = !isNaN(width) && !isNaN(height) ? {
+    // constrain output to this size. used for images.
+    width,
+    height,
+  } : {}
+
+  if(output.output_type === 'display_data' && output.data['text/markdown']) {
+    return (
+      <div className={`ArticleCellOutput ${outputTypeClassName}`} style={style} dangerouslySetInnerHTML={{
+        __html: markdownParser.render(getOutput(output.data['text/markdown']))
+      }}/>
+    )
+  }
+  if (['execute_result', 'display_data'].includes(output.output_type) && output.data['text/html']) {
+    return (<div className={`ArticleCellOutput withHTML mb-3 ${outputTypeClassName}`} style={style} dangerouslySetInnerHTML={{
+      __html: getOutput(output.data['text/html'])
+    }} />)
+  }
+
   return (
-    <blockquote className={`${outputTypeClassName}`}>
-      <div>
-        <div className="label">{t(outputTypeClassName)}</div>
-      </div>
+    <blockquote style={style} className={`${outputTypeClassName}`}>
+      {hideLabel ? null :(
+        <div>
+          <div className="label">{t(outputTypeClassName)}</div>
+        </div>
+      )}
       {output.output_type === 'stream' && (
         <details>
           <summary>...</summary>
@@ -25,7 +46,7 @@ const ArticleCellOutput = ({ output }) => {
       {output.output_type === 'execute_result' && output.data['text/plain'] && (
         <pre>{getOutput(output.data['text/plain'])}</pre>
       )}
-      {output.output_type === 'display_data' && output.data['text/plain'] && (
+      {!hideLabel && output.output_type === 'display_data' && output.data['text/plain'] && (
         <pre>{getOutput(output.data['text/plain'])}</pre>
       )}
       {!!output.data && !!output.data['image/png'] && (

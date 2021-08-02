@@ -112,7 +112,7 @@ export const useStackProps = ({ encoding, data, width, height }) => {
     const [yMin, yMax] = Object.keys(xGroups).reduce(([valueMin, valueMax], idx) => {
       const aggregation = xGroups[idx].reduce((acc, d) => acc + d[encoding.y.field], 0)
       return [
-        Math.min(0, aggregation),
+        Math.min(valueMin, aggregation),
         Math.max(valueMax, aggregation)
       ]
     }, [Infinity,-Infinity])
@@ -135,7 +135,7 @@ export const useStackProps = ({ encoding, data, width, height }) => {
     const yScale = scaleLinear().domain([yMin, yMax]).range([height, 0])
     // value fn, for x is the moment time value
     const x = (d) => xScale(d.data.x)
-    const y0 = (d,i) => yScale(d[0]) ?? 0
+    const y0 = (d) => yScale(d[0]) ?? 0
     const y1 = (d) => yScale(d[1]) ?? 0
     //
     return { xScale, yScale, x, y0, y1 }

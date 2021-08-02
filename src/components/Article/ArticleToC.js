@@ -1,23 +1,22 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { RoleHidden } from '../../constants'
+import { useArticleStore } from '../../store'
+// import { useQueryParam, StringParam } from 'use-query-params'
+import SwitchLayer from '../SwitchLayer'
 
-
-const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
+const ArticleTocLine = ({ steps, step, headingsPositions }) => {
   const history = useHistory()
   const handleClick = (idx) => {
     // check ArticleText component. Each Sscrollama step has an identifier
     // that identifies the non hidden cell using the ArticleCell `idx` property
     // It is prefixed with `C-``
-    const anchor = document.getElementById(`C-${idx}`)
-    history.push(`#C-${idx}`)
-    if (anchor) {
-      const rect = anchor.getBoundingClientRect()
-      window.scrollTo(0, window.scrollY + rect.top)
+    if (!isNaN(idx)) {
+      history.push(`#C-${idx}`)
     }
   }
-  let previousHeadingIdx = -1;
-  let nextHeadingIdx = -1;
+  let previousHeadingIdx = -1
+  let nextHeadingIdx = -1
   //
   for(let i = 0; i < headingsPositions.length; i++) {
     if (headingsPositions[i] <= step) {
@@ -28,11 +27,22 @@ const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
       break
     }
   }
-  console.info('previousHeadingIdx', previousHeadingIdx, 'nextHeadingIdx', nextHeadingIdx,headingsPositions, step)
+  // console.info('previousHeadingIdx', previousHeadingIdx, 'nextHeadingIdx', nextHeadingIdx,headingsPositions, step)
   return (
     <>
-    {steps.map((d,i) => {
-      if (d.type === 'group' || d.role === RoleHidden) {
+    <SwitchLayer disabled style={{position: 'absolute', top: -50, right: 0}}/>
+    {steps.filter((d) => {
+      if (d.role === RoleHidden) {
+        return false
+      }
+      // if (layer === DisplayLayerHermeneutics) {
+      //   // hermeneutics-first approach
+      //   return if([].indexOf(d.layer) === -1
+      // }
+      return true
+    }).map((d,i) => {
+
+      if (steps.length > 50 && !['H1', 'H2', 'H3'].includes(d.level)) {
         return null
       }
       const levelClassName = `ArticleToc_Level_${d.level}`
@@ -49,14 +59,14 @@ const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
       return (
         <div key={i}
           onClick={() => handleClick(d.idx) }
-          className={`my-1 position-relative ${levelClassName} ${typeClassName} ${inbetweenHeadingsClassName}`}
+          className={`my-3 position-relative ${levelClassName} ${typeClassName} ${inbetweenHeadingsClassName}`}
           style={{
             backgroundColor: d.idx < step
               ? 'var(--secondary)'
               : d.idx === step
                 ? 'var(--primary)'
                 : 'transparent',
-            // border: '1px solid',
+            border: '1px solid',
           }}
           >
           {d.heading
@@ -77,13 +87,21 @@ const ArticleTocLine = ({ steps, step, active, headingsPositions }) => {
 
 const MemoizedArticleTocLine = React.memo(ArticleTocLine);
 
-const ArticleToC = ({ steps, step, active, headingsPositions }) => {
+const ArticleToC = ({ steps, headingsPositions }) => {
+  const visibleCellsIdx = useArticleStore(state=>state.visibleCellsIdx)
   return (
-  <MemoizedArticleTocLine
-    steps={steps}
-    step={active ? step : -1}
-    headingsPositions={headingsPositions}
-  />)
+    <MemoizedArticleTocLine
+      steps={steps}
+      step={visibleCellsIdx.length ? visibleCellsIdx[visibleCellsIdx.length -1] : -1}
+      headingsPositions={headingsPositions}
+    />
+  )
+  // return (
+  // <MemoizedArticleTocLine
+  //   steps={steps}
+  //   step={active ? step : -1}
+  //   headingsPositions={headingsPositions}
+  // />)
 }
 
 

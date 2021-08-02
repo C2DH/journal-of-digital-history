@@ -33,14 +33,14 @@ const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], contributo
         </Col>
       ))}
       </Row>
-      {abstract
+      {abstract.length
         ? (
           <Row className="mt-5">
             <Col {...BootstrapColumLayout}>
               <h3>{t('pages.article.abstract')}</h3>
               <div className="ArticleHeader_keywords mb-3">
                 {keywordsAsLinks.map((keyword, i) => (
-                  <LangLink key={i} to={`/tag/${keyword}`} className="mr-2">{keyword}</LangLink>
+                  <LangLink key={i} to={`/tag/${keyword}`} className="me-2">{keyword}</LangLink>
                 ))}
               </div>
               <div className="ArticleHeader_abstract">

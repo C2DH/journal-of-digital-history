@@ -63,11 +63,12 @@
   pointer-events:all;
 }
 
-.ImageWrapper_figcaption_num,
-.ArticleFigure_figcaption_num {
+.ImageWrapper_figcaption_num {
   position: absolute;
-  left: var(--negative-spacer-6);
-  width: var(--spacer-6);
+  left: -100px;
+  width: 100px;
+  text-align: right;
+  padding-right: var(--spacer-3);
   font-family: var(--font-family-monospace);
   font-weight: bold;
 }

@@ -8,9 +8,11 @@
   --border-color: rgba(255, 255, 255, 0.5);
   --modal-z-index: 90;
   --modal-close-z-index: 91;
+  --white: white;
   --dark: #{map-get($theme-colors, 'dark')};
   --accent: #{map-get($theme-colors, 'accent')};
-  --secondary-rgb: #{map-get($theme-colors, 'secondary')};
+  --primary:  #{map-get($theme-colors, 'primary')};
+  --secondary: #{map-get($theme-colors, 'secondary')};
   --yellow: #FFEE88;
   --yellowcrayola: #FFE787;
   --pink: #FFCAD4;
@@ -33,6 +35,7 @@
     --#{$bp}: #{$value};
   }
   --font-family-serif: #{$font-family-serif};
+  --font-family-monospace: #{$font-family-monospace};
   --font-size-1: #{$font-size-base};
   --font-size-2: #{$font-size-base * 1.25};
   --font-size-3: #{$font-size-base * 1.5};
@@ -120,10 +123,20 @@ html,
     }
   }
 }
-
+.nav-link{
+  color: inherit;
+  &:hover{
+    color: var(--dark);
+  }
+}
 body{
   background-color: var(--gray-100);
   color: var(--dark);
+  // ths transition should be the same as components/headers.scss
+  transition: background-color 1s ease-in-out;
+}
+body.noscroll{
+  overflow: hidden;
 }
 main{
   // padding-top: 10rem;
@@ -131,7 +144,9 @@ main{
 a{
   color: inherit;
   box-shadow: 0px 1px 0px var(--secondary);
+  text-decoration: none;
   &:hover{
+    color: inherit;
     text-decoration: none;
     box-shadow: 0px 1px 0px var(--primary);
   }
@@ -147,7 +162,6 @@ a.btn{
 }
 
 .page{
-  padding-top: var(--spacer-5);
   h1, h2, h3{
     font-family: var(--font-family-monospace);
     font-weight: bold;
@@ -167,8 +181,16 @@ a.btn{
   }
 }
 
+li, blockquote {
+  h4 {
+    font-weight: normal;
+  }
+}
 
-
+code{
+  background-color:  var(--gray-300);
+  color: #A61C3C ;
+}
 blockquote.code{
   padding: var(--spacer-2);
   padding-left: var(--spacer-3);
@@ -198,7 +220,7 @@ blockquote.code{
 
 @media (min-width: 768px) {
   .page{
-    padding-top: 0;
+    padding-top: 100px;
     padding-bottom: var(--spacer-5);
     h2 {
       font-size: 1.8rem
@@ -217,12 +239,6 @@ blockquote.code{
     text-align: center;
     border-radius: var(--spacer-3);
   }
-}
-
-.main-background{
-  background-color: var(--primary);
-  transition: background-color 1s ease-in-out;
-  z-index: -1;
 }
 
 .generic-list-item{
@@ -295,7 +311,40 @@ blockquote.code{
 .hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-section, .hljs-link{
   color: var(--capri) !important;
 }
+
+.anchor{
+  display: block;
+  position: relative;
+  top: -100px;
+  visibility: hidden;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.rotating {
+  animation: rotate 2s linear infinite;
+}
+
+.squared {
+  position: relative;
+}
+
+.squared:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.grow:hover { transform: scale(1.1); }
+
 // import styles scss named after their folder name in components/
 @import 'article';
 @import 'graphics';
 @import 'module';
+
+// import 'highlight.js/styles/dracula.css'
+@import 'highlight.js/styles/dracula.css';

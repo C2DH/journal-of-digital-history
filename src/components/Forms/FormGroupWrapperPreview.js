@@ -5,10 +5,9 @@ import { useTranslation } from 'react-i18next'
 
 const FormGroupWrapperPreview = ({
   label, children,
-  onChange,
 }= {}) => {
   const { t } = useTranslation()
-  
+
   return(
     <Form.Group>
       {label && (<Form.Label>{t(label)}</Form.Label>)}

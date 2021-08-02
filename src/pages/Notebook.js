@@ -5,7 +5,7 @@ import Article from './Article'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
 import { useGetNotebookFromURL } from '../logic/api/fetchData'
 import { BootstrapColumLayout, StatusIdle, StatusNone, StatusSuccess } from '../constants'
-import { decodeNotebookURL } from '../logic/ipynb'
+import { decodeNotebookURL } from '../logic/ipynb'
 // url=aHR0cHM6Ly9naXRodWIuY29tL0MyREgvamRoLW5vdGVib29rL2Jsb2IvbWFzdGVyL3BvYy5pcHluYg
 // as base64 encoded for url=https://github.com/C2DH/jdh-notebook/blob/master/poc.ipynb
 

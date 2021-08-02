@@ -38,6 +38,5 @@ export default function UserProfile() {
         </Dropdown.Menu>
       </Dropdown>
     )
-  );
-};
-
+  )
+}

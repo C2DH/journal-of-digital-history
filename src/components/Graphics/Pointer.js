@@ -3,7 +3,6 @@ import React from 'react'
 const Pointer = ({
   x, y,
   width, height,
-  availableWidth, availableHeight,
   horizontal=true,
   children
 }) => {

@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { useEffect, useRef, useState } from 'react'
 import AbstractSubmission from '../../models/AbstractSubmission'
-import { StatusIdle, StatusFetching, StatusSuccess, StatusNone } from '../../constants'
+import { StatusIdle, StatusFetching, StatusSuccess, StatusNone, StatusError } from '../../constants'
 
 
-const useGetNotebookFromURL = (url, allowCached=false) => {
+export const useGetNotebookFromURL = (url, allowCached=false) => {
   const cache = useRef({});
   const [status, setStatus] = useState(StatusIdle);
   const [item, setItem] = useState(null);
@@ -43,7 +43,7 @@ const useGetNotebookFromURL = (url, allowCached=false) => {
   return { status, item };
 }
 
-const useGetAbstractSubmission = (id) => {
+export const useGetAbstractSubmission = (id) => {
   const cache = useRef({});
   const [status, setStatus] = useState('idle');
   const [item, setItem] = useState(new AbstractSubmission());
@@ -78,4 +78,85 @@ const useGetAbstractSubmission = (id) => {
   return { status, item };
 }
 
-export { useGetAbstractSubmission, useGetNotebookFromURL }
+
+export const useGetJSON = ({
+  url,
+  allowCached=true,
+  delay=0,
+  onDownloadProgress,
+  timeout=process.env.REACT_APP_API_TIMEOUT || 0
+}) => {
+  const cache = useRef({});
+  const [response, setResponse] = useState({
+    data: null,
+    error: null,
+    status: StatusIdle
+  });
+  console.info('useGetDataset url:', url, 'response', response)
+
+  useEffect(() => {
+    let cancelRequest = false
+    let timer = null
+    if (!url) {
+      setResponse({
+        data: null,
+        error: null,
+        status: StatusNone
+      });
+      return;
+    }
+    const fetchData = async () => {
+      setResponse({
+        data: null,
+        error: null,
+        status: StatusFetching
+      });
+      if (cache.current[url] && allowCached=== true) {
+          console.log('useGetDataset allowCached url:', url)
+          const data = cache.current[url];
+          data.cached = true;
+          if (cancelRequest) return;
+          setResponse({
+            data: data,
+            error: null,
+            status: StatusSuccess
+          });
+      } else {
+          console.log('useGetDataset load fresh url:', url, 'timeout', timeout)
+          return axios.get(url, { timeout, onDownloadProgress })
+            .then(({data}) => {
+              cache.current[url] = data // set response in cache;
+              if (cancelRequest) return;
+              setResponse({
+                data: data,
+                error: null,
+                status: StatusSuccess
+              });
+            }).catch((err) => {
+              if (cancelRequest) return;
+
+              setResponse({
+                data: null,
+                error: err,
+                errorCode: err.response?.status || err.code,
+                status: StatusError
+              });
+            })
+      }
+    }
+    if (delay) {
+      timer = setTimeout(() => {
+        fetchData()
+      }, delay)
+    } else {
+      fetchData()
+    }
+
+    // "If useEffect returns a function, React will run it when it is time to clean up:"
+    return function cleanup() {
+      cancelRequest = true;
+      clearTimeout(timer)
+		}
+  }, [url, allowCached, delay])
+  return response
+}

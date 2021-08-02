@@ -2,14 +2,45 @@ import create from 'zustand'
 import { persist } from 'zustand/middleware'
 import AbstractSubmission from './models/AbstractSubmission'
 
+export const useArticleStore = create((set) => ({
+  visibleCellsIdx: [],
+  setVisibleCell: (cellIdx, isVisible) => set((state) => {
+    // const { visibleCellsIdx } = get()
+    const copy = [...state.visibleCellsIdx]
+    const idx = copy.indexOf(cellIdx)
+    if (idx === -1 && isVisible) {
+      copy.push(cellIdx)
+    } else if(idx > -1 && !isVisible){
+      copy.splice(idx, 1)
+    }
+    copy.sort()
+    return { visibleCellsIdx: copy }
+  })
+}))
 export const useStore = create(persist(
   (set, get) => ({
     backgroundColor: '#ffffff',
     acceptAnalyticsCookies: true,
     acceptCookies: false, // cookies should be accepted, session is stored locally
     mode: 'dark', // or light
+    displayLayer: 'narrative',
     temporaryAbstractSubmission: new AbstractSubmission(),
     abstractSubmitted: new AbstractSubmission(),
+    changeBackgroundColor: (backgroundColor) => {
+      // usage in components:
+      //  const changeBackgroundColor = useStore(state => state.changeBackgroundColor)
+      //  useEffect(() => {
+      //    changeBackgroundColor(#ccffaa)
+      //  }, [])
+      //
+      const header = document.getElementById('Header_background')
+      document.body.style.backgroundColor = backgroundColor
+      // change header backgroundColor too...
+      if (header) {
+        header.style.backgroundColor = backgroundColor
+      }
+      return set({ backgroundColor })
+    },
     setTemporaryAbstractSubmission: (payload) => {
       const state = get();
       set({ ...state, temporaryAbstractSubmission: new AbstractSubmission(payload) });
@@ -33,6 +64,11 @@ export const useStore = create(persist(
     getPersistentState: () => {
       const state = get();
       return {...state}
+    },
+    setDisplayLayer: (value) => {
+      const state = get();
+      console.info('setDisplayLayer', value)
+      set({ ...state, displayLayer: value })
     }
   }),
   {

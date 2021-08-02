@@ -5,14 +5,17 @@ import MarkdownItAttrs from '@gerhobbelt/markdown-it-attrs'
 import ArticleTree from '../models/ArticleTree'
 import ArticleHeading from '../models/ArticleHeading'
 import ArticleCell from '../models/ArticleCell'
-import ArticleCellGroup from '../models/ArticleCellGroup'
+// import ArticleCellGroup from '../models/ArticleCellGroup'
 import ArticleReference from '../models/ArticleReference'
 import ArticleFigure from '../models/ArticleFigure'
 import {
   SectionChoices, SectionDefault,
-  LayerChoices, LayerNarrative, LayerHermeneuticsStep,
+  LayerChoices, LayerNarrative, // LayerHermeneuticsStep,
   RoleHidden, RoleFigure, RoleMetadata, RoleCitation, RoleDefault,
-  CellTypeMarkdown, CellTypeCode
+  CellTypeMarkdown, CellTypeCode,
+  FigureRefPrefix,
+  TableRefPrefix,
+  CoverRefPrefix
 } from '../constants'
 
 const encodeNotebookURL = (url) => btoa(encodeURIComponent(url))
@@ -28,13 +31,13 @@ markdownParser.use(MarkdownItAttrs, {
   // optional, these are default options
   leftDelimiter: '{',
   rightDelimiter: '}',
-  allowedAttributes: ['class']  // empty array = all attributes are allowed
+  allowedAttributes: ['class', 'id']  // empty array = all attributes are allowed
 });
 
 const renderMarkdownWithReferences = ({
   sources = '',
   referenceIndex = {},
-  citationsFromMetadata = {}
+  citationsFromMetadata = {},
 }) => {
   const references = []
   // console.info('markdownParser.render', markdownParser.render(sources))
@@ -128,7 +131,7 @@ const getLayerFromCellMetadata = (metadata) => getFirstValidMatchFromChoices(
   LayerChoices, LayerNarrative
 )
 
-const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
+const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
   const headings = []
   const headingsPositions = []
   const figures = []
@@ -138,7 +141,6 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
   const citationsFromMetadata = metadata?.cite2c?.citations
   // this contain footnotes => zotero id to remap reference at paragraph level
   const referenceIndex = {}
-  const articleCellNumbersByLayer = {}
   //
   let bibliography = null
   // parse biobliographic elements
@@ -149,16 +151,19 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
   // cycle through notebook cells to fill ArticleCells, figures, headings
   cells.map((cell, idx) => {
     const sources = Array.isArray(cell.source)
-      ? cell.source.join('\n\n')
+      ? cell.source.join('\n')
       : cell.source
     // find footnote citations (with the number)
     const footnote = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
+    const coverRef = cell.metadata.tags?.find(d => d.indexOf(CoverRefPrefix) === 0)
+    const figureRef = cell.metadata.tags?.find(d => d.indexOf(FigureRefPrefix) === 0)
+    const tableRef = cell.metadata.tags?.find(d => d.indexOf(TableRefPrefix) === 0)
     // get section and layer from metadata
     cell.section = getSectionFromCellMetadata(cell.metadata)
     cell.layer = getLayerFromCellMetadata(cell.metadata)
     cell.role = RoleDefault
     // get role in a secont step
-    if (cell.metadata.tags?.includes('hidden') || cell.metadata.jdh?.hidden) {
+    if (sources.length === 0 || cell.metadata.tags?.includes('hidden') || cell.metadata.jdh?.hidden) {
       // is hidden (e.g. uninteresting code, like pip install)
       cell.hidden = true
       cell.role = RoleHidden
@@ -167,7 +172,18 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       referenceIndex[footnote[1]] = footnote[2]
       cell.hidden = true
       cell.role = RoleCitation
-    } else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs)) {
+    } else if (figureRef) {
+      // this is a proper figure, nothing to say about it.
+      figures.push(new ArticleFigure({ ref: figureRef, idx }))
+      cell.role = RoleFigure
+    } else if (coverRef) {
+      figures.push(new ArticleFigure({ ref: coverRef, idx, isCover:true }))
+      cell.role = RoleFigure
+    } else if (tableRef) {
+      // this is a proper figure, nothing to say about it.
+      figures.push(new ArticleFigure({ ref: tableRef, idx, isTable: true }))
+      cell.role = RoleFigure
+    } else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs) && cell.outputs.length) {
       // this is a "Figure" candindate.
       // Let's check whether the cell outputs JDH metadata and if jdh namespace contains **module**;
       const cellOutputJdhMetadata = cell.outputs.find(d => d.metadata?.jdh?.module)
@@ -194,10 +210,6 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
     } else if (cell.section !== SectionDefault) {
       cell.role = RoleMetadata
     }
-    if (!articleCellNumbersByLayer[cell.layer]) {
-      articleCellNumbersByLayer[cell.layer] = 0
-    }
-    cell.num = articleCellNumbersByLayer[cell.layer] += 1
     cell.source = Array.isArray(cell.source)
       ? cell.source
       : [cell.source]
@@ -205,7 +217,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
   }).forEach((cell, idx) => {
     // console.info(p.cell_type, idx)
     if (cell.cell_type === CellTypeMarkdown) {
-      const sources = cell.source.join('  \n')
+      const sources = cell.source.join('')
       // exclude rendering of reference references
       let tokens = []
       try {
@@ -217,6 +229,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         sources,
         referenceIndex,
         citationsFromMetadata,
+        figures,
       })
       // get tokens 'heading_open' to get all h1,h2,h3 etc...
       const headerIdx = tokens.findIndex(t => t.type === 'heading_open');
@@ -246,6 +259,9 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         level: headerIdx > -1
           ? tokens[headerIdx].tag
           : 'p',
+        figure: cell.role === RoleFigure
+          ? figures.find((d) => d.idx === idx)
+          : null
       }))
     } else if (cell.cell_type === CellTypeCode) {
       articleCells.push(new ArticleCell({
@@ -254,6 +270,7 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
         section: cell.section,
         source: cell.source,
         metadata: cell.metadata,
+        role: cell.role,
         layer: cell.layer,
         idx,
         num: cell.num,
@@ -266,33 +283,44 @@ const getArticleTreeFromIpynb = ({ cells=[], metadata={} }) => {
       }))
     }
   })
-  // used locally
-  let bufferCellsGroup = new ArticleCellGroup()
   for (let i = 0; i < articleCells.length; i+=1) {
-    // add reference
+    // add cell to section (for role Metadata)
     if (!sectionsIndex[articleCells[i].section]) {
       sectionsIndex[articleCells[i].section] = []
     }
     sectionsIndex[articleCells[i].section].push(articleCells[i])
-    // get groups by role or layer
-    if (articleCells[i].layer === LayerHermeneuticsStep) {
-      bufferCellsGroup.addArticleCell(articleCells[i])
-    } else {
-      if (bufferCellsGroup.cells.length) {
-        // add this group to paragraphs
-        articleParagraphs.push(bufferCellsGroup)
-        bufferCellsGroup = new ArticleCellGroup()
-      }
-      if (articleCells[i].section === SectionDefault) {
-        articleParagraphs.push(articleCells[i])
-      }
+    if (articleCells[i].section === SectionDefault) {
+      articleParagraphs.push(articleCells[i])
     }
   }
-  if (bufferCellsGroup.cells.length) {
-    articleParagraphs.push(bufferCellsGroup)
-  }
-
+  // used locally
+  // let bufferCellsGroup = new ArticleCellGroup()
+  // for (let i = 0; i < articleCells.length; i+=1) {
+  //   // add reference
+  //   if (!sectionsIndex[articleCells[i].section]) {
+  //     sectionsIndex[articleCells[i].section] = []
+  //   }
+  //   sectionsIndex[articleCells[i].section].push(articleCells[i])
+  //   // get groups by role or layer
+  //   if (articleCells[i].layer === LayerHermeneuticsStep) {
+  //     bufferCellsGroup.addArticleCell(articleCells[i])
+  //   } else {
+  //     if (bufferCellsGroup.cells.length) {
+  //       // add this group to paragraphs
+  //       articleParagraphs.push(bufferCellsGroup)
+  //       bufferCellsGroup = new ArticleCellGroup()
+  //     }
+  //     if (articleCells[i].section === SectionDefault) {
+  //       articleParagraphs.push(articleCells[i])
+  //     }
+  //   }
+  // }
+  // if (bufferCellsGroup.cells.length) {
+  //   articleParagraphs.push(bufferCellsGroup)
+  // }
+  console.info('ipynb articleCells',articleCells)
   return new ArticleTree({
+    id,
     headings,
     headingsPositions,
     cells: articleCells,
