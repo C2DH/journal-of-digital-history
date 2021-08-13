@@ -48,6 +48,7 @@ const ArticleCellAccordion = ({
         borderBottom: '1px dotted var(--dark)',
         borderTop: '1px solid var(--gray-400)',
         marginBottom: 'var(--spacer-3)',
+        background: 'var(--primary)',
       }}>
       {isEnabled ? (
         <Container >
