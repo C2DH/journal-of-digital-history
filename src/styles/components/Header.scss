@@ -1,5 +1,6 @@
 #Header_background{
   transition: background-color 1s ease-in-out;
+  display: none;
 }
 
 .Navbar{
@@ -24,6 +25,14 @@
 
 $breakpoint-tablet: 768px;
 @media (min-width: $breakpoint-tablet) {
+  #Header_background{
+    display: block;
+    left: 0;
+    z-index:2;
+    top:0;
+    height: 100px;
+    width: 100%;
+  }
   .BrandImage{
     // border-left: 2px solid var(--primary);
     background-color: transparent;
@@ -39,6 +48,7 @@ $breakpoint-tablet: 768px;
 }
 
 .MobileHeaderNav{
+  top: 0;
   width: 50px;
   height: 25px;
   position: fixed;
