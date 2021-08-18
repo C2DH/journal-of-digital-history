@@ -3,6 +3,22 @@ import { persist } from 'zustand/middleware'
 import AbstractSubmission from './models/AbstractSubmission'
 
 export const useArticleStore = create((set) => ({
+  // visible shadow cells according to Accordion
+  visibleShadowCellsIdx: [],
+  setVisibleShadowCell: (cellIdx, isVisible) => set((state) => {
+    // const { visibleCellsIdx } = get()
+    const copy = [...state.visibleShadowCellsIdx]
+    const idx = copy.indexOf(cellIdx)
+    if (idx === -1 && isVisible) {
+      copy.push(cellIdx)
+    } else if(idx > -1 && !isVisible){
+      copy.splice(idx, 1)
+    }
+    copy.sort()
+    return { visibleShadowCellsIdx: copy }
+  }),
+
+  // visible cell are in the current Viewoport
   visibleCellsIdx: [],
   setVisibleCell: (cellIdx, isVisible) => set((state) => {
     // const { visibleCellsIdx } = get()
@@ -14,6 +30,7 @@ export const useArticleStore = create((set) => ({
       copy.splice(idx, 1)
     }
     copy.sort()
+    console.info('visibleCellsIdx', copy)
     return { visibleCellsIdx: copy }
   })
 }))
