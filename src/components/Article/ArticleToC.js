@@ -50,7 +50,7 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[] }) => {
       </ArticleToCStep>
       {headingsPositions.map((d, i) => {
         const cell = cellsIndex[d]
-        if(!cell) {
+        if (!cell) {
           return null
         }
         // is last only if next heading is higher than this one, or it is a hermeneutic
