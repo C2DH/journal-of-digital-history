@@ -110,9 +110,8 @@ export function useMousePosition() {
   *   <div ref={ref}>trigger {entry.isIntersecting? 'visisble': 'not visible'}</div>
   *
 */
-export function useOnScreen({ threshold = [0, 1], rootMargin='0% 0% 0% 0%'} = {}) {
+export function useOnScreen({ threshold = [0, 1], delay=5000, rootMargin='0% 0% 0% 0%'} = {}) {
   const ref = useRef();
-  const delay = Math.random()*2000 + 1000
   const [entry, setEntry] = useState({
     intersectionRatio: 0, // this avoid entry is null error
     isIntersecting: false,
@@ -133,8 +132,10 @@ export function useOnScreen({ threshold = [0, 1], rootMargin='0% 0% 0% 0%'} = {}
 
   useEffect(() => {
     setInterval(() => {
-      observer.disconnect()
-      observer.observe(ref.current, { threshold })
+      if (observer && ref && ref.current) {
+        observer.disconnect()
+        observer.observe(ref.current, { threshold })
+      }
     }, delay)
     // Remove the observer as soon as the component is unmounted
     return () => {

@@ -26,8 +26,9 @@ const ArticleText = ({
                 <div className="mr-3">
                   {/* <div className="rounded border border-dark">N</div>*/}
                   <ArticleToC
+                    paragraphs={paragraphs}
                     headingsPositions={headingsPositions}
-                    steps={paragraphs} active
+                    active
                   />
                 </div>
               </div>
