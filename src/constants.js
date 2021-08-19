@@ -37,6 +37,11 @@ export const BootstrapColumLayout = Object.freeze({
   lg: { span:8, offset:2 }
 })
 
+export const BootstrapQuoteColumLayout = Object.freeze({
+  md: { span:6, offset:3 },
+  lg: { span:6, offset:3 }
+})
+
 export const BootstrapNarrativeStepFigureColumnLayout = Object.freeze({
   md: { span:12 },
   lg: { span:12 }
@@ -96,10 +101,11 @@ export const RoleHidden = 'hidden'
 export const RoleFigure = 'figure'
 export const RoleMetadata = 'metadata'
 export const RoleCitation = 'citation'
+export const RoleQuote = 'quote'
 export const RoleDefault = 'none' // default
 export const RoleChoices = [
   RoleHidden, RoleFigure,
-  RoleMetadata, RoleCitation,
+  RoleMetadata, RoleCitation, RoleQuote,
   RoleDefault
 ]
 
@@ -112,7 +118,7 @@ export const FigureDatavis = 'vega'
 export const FigureRefPrefix = 'figure-'
 export const CoverRefPrefix = 'cover'
 export const TableRefPrefix = 'table-'
-
+export const QuoteRefPrefix = 'quote-'
 // display Layer to enable switch between layers
 export const DisplayLayerHermeneutics = 'h'
 export const DisplayLayerNarrative = 'n'

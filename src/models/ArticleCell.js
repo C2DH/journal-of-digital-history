@@ -35,7 +35,7 @@ export default class ArticleCell {
     this.level = String(level).toUpperCase()
     this.section = section
     this.layer = layer
-    this.role = layer
+    this.role = role
     this.hidden = hidden
     this.references = references
     this.figure = figure

@@ -11,11 +11,12 @@ import ArticleFigure from '../models/ArticleFigure'
 import {
   SectionChoices, SectionDefault,
   LayerChoices, LayerNarrative, // LayerHermeneuticsStep,
-  RoleHidden, RoleFigure, RoleMetadata, RoleCitation, RoleDefault,
+  RoleHidden, RoleFigure, RoleMetadata, RoleCitation, RoleDefault, RoleQuote,
   CellTypeMarkdown, CellTypeCode,
   FigureRefPrefix,
   TableRefPrefix,
-  CoverRefPrefix
+  CoverRefPrefix,
+  QuoteRefPrefix
 } from '../constants'
 
 const encodeNotebookURL = (url) => btoa(encodeURIComponent(url))
@@ -158,6 +159,7 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
     const coverRef = cell.metadata.tags?.find(d => d.indexOf(CoverRefPrefix) === 0)
     const figureRef = cell.metadata.tags?.find(d => d.indexOf(FigureRefPrefix) === 0)
     const tableRef = cell.metadata.tags?.find(d => d.indexOf(TableRefPrefix) === 0)
+    const quoteRef = cell.metadata.tags?.find(d => d.indexOf(QuoteRefPrefix) === 0)
     // get section and layer from metadata
     cell.section = getSectionFromCellMetadata(cell.metadata)
     cell.layer = getLayerFromCellMetadata(cell.metadata)
@@ -183,6 +185,8 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
       // this is a proper figure, nothing to say about it.
       figures.push(new ArticleFigure({ ref: tableRef, idx, isTable: true }))
       cell.role = RoleFigure
+    } else if (quoteRef) {
+      cell.role = RoleQuote
     } else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs) && cell.outputs.length) {
       // this is a "Figure" candindate.
       // Let's check whether the cell outputs JDH metadata and if jdh namespace contains **module**;
@@ -215,7 +219,7 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
       : [cell.source]
     return cell
   }).forEach((cell, idx) => {
-    // console.info(p.cell_type, idx)
+    // console.info('ipynb', cell.role)
     if (cell.cell_type === CellTypeMarkdown) {
       const sources = cell.source.join('')
       // exclude rendering of reference references

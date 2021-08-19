@@ -3,6 +3,12 @@
   position: relative;
 }
 
+.ArticleCellContent blockquote {
+  border-left: var(--spacer-1) solid;
+  padding-left: var(--spacer-4);
+  margin-left: var(--spacer-4);
+}
+
 .ArticleCellContent_num {
   position: absolute;
   left: -50px;
@@ -29,8 +35,13 @@ top: 3px;
 }
 
 .ArticleCellQuote{
-  font-family: var(--font-family-serif);
-  font-size: var(--font-size-3);
+  font-size: var(--font-size-2);
+  blockquote{
+    border-left-width: 0;
+    margin-left: 0;
+    padding-left: 0;
+    color: var(--gray-600);
+  }
 }
 
 .ArticleHeader{
