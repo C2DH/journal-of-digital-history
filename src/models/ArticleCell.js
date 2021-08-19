@@ -40,6 +40,7 @@ export default class ArticleCell {
     this.references = references
     this.figure = figure
     this.isFigure = figure !== null
+    this.isTable = figure?.isTable
     this.heading = heading
     this.isHeading = heading !== null
   }

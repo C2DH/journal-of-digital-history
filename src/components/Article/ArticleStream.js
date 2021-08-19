@@ -1,6 +1,7 @@
 import React, {useMemo} from 'react'
 import { useQueryParam, StringParam } from 'use-query-params'
 import ArticleCellAccordion from './ArticleCellAccordion'
+import ArticleCellAccordionAnchors from './ArticleCellAccordionAnchors'
 import ArticleCellWrapper from './ArticleCellWrapper'
 import ArticleScrollama from './ArticleScrollama'
 import {
@@ -55,7 +56,7 @@ const ArticleStream = ({
       if (cell.role === RoleHidden || cell.hidden) {
         return
       }
-      if (i > 0 && cell.layer !== previousLayer) {
+      if (i > 0 && (cell.layer !== previousLayer || cell.isHeading)) {
         buffers.push([...buffer])
         buffer = []
       }
@@ -84,7 +85,8 @@ const ArticleStream = ({
     <section className="ArticleStream">
     {chunks.map((cellsIndices, i) => {
       const isShadow = shadowLayers.includes(cells[cellsIndices[0]].layer)
-      const title = truncate(cells[cellsIndices[0]]?.heading?.content)
+      const title = cells[cellsIndices[0]]?.heading?.content ?? ''
+      const truncatedTitle = truncate(title)
       const isStep = stepLayers.includes(cells[cellsIndices[0]].layer)
       // eslint-disable-next-line
       // debugger
@@ -102,10 +104,15 @@ const ArticleStream = ({
       }
       if (isShadow) {
         return (
+          <div key={i} className="pt-4">
+          <ArticleCellAccordionAnchors cells={cells} cellsIndices={cellsIndices}/>
           <ArticleCellAccordion
-            isCollapsed key={i} eventKey={i}
+            isCollapsed
+            eventKey={cells[cellsIndices[0]].idx}
             size={cellsIndices.length}
             title={title}
+            truncatedTitle={truncatedTitle}
+            onVisibilityChange={visibilityChangeHandler}
           >
             {cellsIndices.map((j) => {
               key++
@@ -127,6 +134,7 @@ const ArticleStream = ({
               )
             })}
           </ArticleCellAccordion>
+          </div>
         )
       }
       return (

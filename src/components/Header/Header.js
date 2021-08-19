@@ -85,7 +85,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs, displayLo
 
   return (
     <header ref={ref} className={`${intersectionRatio < 1 ? 'active' : ''}`}>
-    <div className="position-fixed w-100" id="Header_background" style={{left: 0, zIndex:2 ,top:0, height: 100}}/>
+    <div className="position-fixed w-100" id="Header_background" />
     <Navbar  style={{height: 100 }} className="RowHeader d-md-flex d-none fixed-top"  variant="light" expand="md">
     <Navbar.Brand href="/en" className="position-absolute d-flex align-items-center">
       <div className="BrandImage" style={{

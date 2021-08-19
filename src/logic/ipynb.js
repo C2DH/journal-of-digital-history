@@ -235,10 +235,13 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
       const headerIdx = tokens.findIndex(t => t.type === 'heading_open');
       if (headerIdx > -1) {
         headings.push(new ArticleHeading({
+          level: parseInt(tokens[headerIdx].tag.replace(/[^\d]/, '')),
           tag: tokens[headerIdx].tag,
           content: tokens[headerIdx + 1].content,
           idx
         }))
+      }
+      if(headerIdx > -1 || cell.role === RoleFigure) {
         headingsPositions.push(idx)
       }
       articleCells.push(new ArticleCell({

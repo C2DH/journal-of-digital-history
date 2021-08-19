@@ -1,77 +1,57 @@
-import React, { useContext} from 'react'
-import { useTranslation } from 'react-i18next'
-import { Accordion, AccordionContext, Container, Row, Col, OverlayTrigger, Tooltip, useAccordionButton } from 'react-bootstrap'
-import { Box, Minimize } from 'react-feather'
+import React, {useEffect} from 'react'
+import { Accordion, Container, Row, Col } from 'react-bootstrap'
+import ArticleCellAccordionCustomToggle from './ArticleCellAccordionCustomToggle'
 import { BootstrapColumLayout } from '../../constants'
-
-
-const ArticleCellAccordionCustomToggle = ({ children, eventKey, title }) => {
-  const { t } = useTranslation()
-  const { activeEventKey } = useContext(AccordionContext);
-  const clickHandler = useAccordionButton(eventKey)
-  const isCurrentEventKey = activeEventKey === eventKey;
-
-  return (
-    <OverlayTrigger
-      placement={ isCurrentEventKey ? 'top': 'right'}
-      delay={{ show: 0, hide: 0 }}
-      overlay={
-        <Tooltip id="button-tooltip">
-          {t(isCurrentEventKey ? 'actions.showHermeneuticLayer': 'actions.hideHermeneuticLayer')}
-        </Tooltip>
-      }
-    >
-      <button
-        className={`ArticleCellAccordionCustomToggle btn btn-outline-secondary btn-sm position-absolute ${isCurrentEventKey ? 'active': ''}`}
-        onClick={clickHandler}
-      >
-        <span className="monospace">
-        {children}&nbsp;{isCurrentEventKey ? <Minimize size="16"/> : <Box size="16"/>}
-        </span>
-        {!isCurrentEventKey && title ? <span className="ms-3 fst-italic me-2">{title}</span>: null}
-      </button>
-    </OverlayTrigger>
-  );
-}
+import { useOnScreen } from '../../hooks/graphics'
 
 const ArticleCellAccordion = ({
   eventKey=0,
   size=0,
   isEnabled=true,
   title='',
+  truncatedTitle='',
+  onVisibilityChange,
   children
 }) => {
+  const [{ isIntersecting, intersectionRatio }, ref] = useOnScreen({
+    rootMargin: '-40% 0% -25% 0%',
+    threshold: [0, 0.25, 0.75, 1]
+  })
+  // trigger visibilityChange.
+  useEffect(() => {
+    if (typeof onVisibilityChange === 'function') {
+      onVisibilityChange({ idx: eventKey, isIntersecting })
+    }
+  }, [intersectionRatio])
+
   return (
-    <Accordion
-      className={isEnabled ? '': ''} style={{
-        minHeight: 4,
-        borderBottom: '1px dotted var(--dark)',
-        borderTop: '1px solid var(--gray-400)',
-        marginBottom: 'var(--spacer-3)',
-      }}>
+    <div ref={ref} className={`ArticleCellAccordion ${intersectionRatio > 0 ? 'active': ''}`}>
+
+    <Accordion>
       {isEnabled ? (
         <Container >
           <Row>
-            <Col {...BootstrapColumLayout } className="position-relative">
+            <Col {...BootstrapColumLayout } className="position-relative ArticleCellAccordion_button">
               <div className="position-absolute" style={{
                 zIndex: 1,
                 left: 0,
                 top: -15,
               }}>
-                <ArticleCellAccordionCustomToggle eventKey={eventKey} title={title}>
+                <ArticleCellAccordionCustomToggle eventKey={eventKey} title={title} truncatedTitle={truncatedTitle}>
                     <b>{size}</b> x
                 </ArticleCellAccordionCustomToggle>
               </div>
               </Col>
             </Row>
         </Container>
-      ):null}
+      ): null}
       <Accordion.Collapse eventKey={eventKey}>
-        <div className="my-3">
+        <div className="py-0 my-0" style={{}}>
         { children }
         </div>
       </Accordion.Collapse>
     </Accordion>
+    </div>
   )
 }
 

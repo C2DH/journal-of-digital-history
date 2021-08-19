@@ -32,7 +32,9 @@ const Article = ({ ipynb, url, publicationDate = new Date() }) => {
   const { height, width } =  useCurrentWindowDimensions()
   return (
     <div className="page mt-5">
+      <a id="top" className="anchor"></a>
       <ArticleHeader {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }} />
+
       <ArticleText
         memoid={articleTree.id}
         headingsPositions={articleTree.headingsPositions}

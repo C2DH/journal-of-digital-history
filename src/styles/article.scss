@@ -33,6 +33,16 @@ top: 3px;
   font-size: var(--font-size-3);
 }
 
+.ArticleHeader{
+  margin-top: 100px;
+}
+$breakpoint-tablet: 768px;
+@media (min-width: $breakpoint-tablet) {
+  .ArticleHeader{
+    margin-top: 0px;
+  }
+}
+
 .ArticleHeader h1{
   font-family: var(--font-family-serif) !important;
   font-size: var(--font-size-5) !important;
@@ -441,17 +451,83 @@ svg.ArticleFingerprint{
   border-radius: 15px;
   background: white;
   left: -70px;
+  color: var(--primary-dark);
+  border-color: var(--primary-dark);
   // &.active{
   //   background-color: var(--white);
   //   border-color: var(--gray-300);
   //   color: var(--dark);
   // }
+  &.active{
+    border-color: var(--primary-dark);
+    background-color: var(--primary-dark);
+  }
   &.active:focus{
     box-shadow: 0 0 0 0.25rem rgba(34, 35, 34, 0.25)
   }
   &:hover{
     color: var(--white);
-    border-color: var(--dark);
-    background-color: var(--dark);
+    border-color: var(--primary-dark);
+    background-color: var(--primary-dark);
   }
+}
+
+
+.ArticleToCStep{
+  position: relative;
+  font-size: .8em;
+  height: 20px;
+  pointer-events: auto;
+  label{
+    position: absolute;
+    top: 0;
+    right: 20px;
+    width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: right;
+    line-height: 20px;
+  }
+  &:hover label{
+    text-decoration: underline;
+  }
+}
+
+.ArticleToCStep .ArticleToCStep_Hermeneutics{
+  position: absolute;
+  right: -20px;
+}
+.ArticleToCStep .ArticleToCStep_Circle{
+  width: 10px;
+  height: 10px;
+  border: 1px solid var(--gray-500);
+  position: absolute;
+  right: 0;
+  top: 5px;
+  border-radius: 10px;
+}
+
+.ArticleToCStep.active{
+  label{
+    font-weight: bold;
+  }
+  .ArticleToCStep_Circle {
+    border-color: var(--dark);
+    border-width:2px;
+  }
+}
+
+.ArticleToCStep.hermeneutics{
+  color: var(--primary-dark);
+}
+
+.ArticleCellAccordion{
+  // border-top: 1px solid var(--dark);
+  color: var(--primary-dark);
+  min-height: 1px;
+}
+
+.ArticleCellAccordion_button{
+  border-top: 1px solid var(--primary-dark);
 }
