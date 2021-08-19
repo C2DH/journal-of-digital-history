@@ -1,5 +1,5 @@
-import React, {useEffect, useContext} from 'react'
-import { Accordion, Container, Row, Col, AccordionContext } from 'react-bootstrap'
+import React, {useEffect} from 'react'
+import { Accordion, Container, Row, Col } from 'react-bootstrap'
 import ArticleCellAccordionCustomToggle from './ArticleCellAccordionCustomToggle'
 import { BootstrapColumLayout } from '../../constants'
 import { useOnScreen } from '../../hooks/graphics'
@@ -20,7 +20,6 @@ const ArticleCellAccordion = ({
     rootMargin: '-40% 0% -25% 0%',
     threshold: [0, 0.25, 0.75, 1]
   })
-  const { activeEventKey } = useContext(AccordionContext);
   // trigger visibilityChange.
   useEffect(() => {
     if (typeof onVisibilityChange === 'function') {
@@ -30,7 +29,6 @@ const ArticleCellAccordion = ({
 
   return (
     <div ref={ref} className={`ArticleCellAccordion ${intersectionRatio > 0 ? 'active': ''}`}>
-    {isOpen?'isOpen':'isClosed'} {eventKey} {activeEventKey}
     <Accordion flush>
       {isEnabled ? (
         <Container >
