@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react'
+import React, {useMemo, useEffect} from 'react'
 import { useQueryParam, StringParam } from 'use-query-params'
 import ArticleCellAccordion from './ArticleCellAccordion'
 import ArticleCellAccordionAnchors from './ArticleCellAccordionAnchors'
@@ -79,6 +79,24 @@ const ArticleStream = ({
     // console.info('@visibilityChangeHandler', idx, isIntersecting)
     setVisibleCell(idx, isIntersecting)
   }
+
+  useEffect(() => {
+    let timeoutId = null;
+    const requestIntersectionObserverUpdate = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        const event = new Event('refreshIntersectionObserver')
+        window.dispatchEvent(event)
+      }, 150);
+    }
+    window.addEventListener('resize', requestIntersectionObserverUpdate)
+    window.addEventListener('scroll', requestIntersectionObserverUpdate)
+
+    return () => {
+      window.removeEventListener('resize', requestIntersectionObserverUpdate)
+      window.removeEventListener('scroll', requestIntersectionObserverUpdate)
+    }
+  }, [])
 
   console.info('ArticleStream rerendered')
   return (
