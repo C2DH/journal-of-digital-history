@@ -11,13 +11,10 @@ const ArticleCellAccordionCustomToggle = ({ children, isOpen, eventKey, title=''
   const setVisibleShadowCell = useArticleStore(state=>state.setVisibleShadowCell)
 
   const clickHandler = () => {
-    console.info('clicked', eventKey, isOpen)
     setVisibleShadowCell(eventKey, !isOpen)
-    // useAccordionButton(isOpen?eventKey:null)
   }
 
   React.useEffect(() => {
-    console.info('EVENT', eventKey, isOpen)
     if (isOpen) {
       onSelect(eventKey)
     } else {

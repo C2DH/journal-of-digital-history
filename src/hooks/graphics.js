@@ -110,7 +110,7 @@ export function useMousePosition() {
   *   <div ref={ref}>trigger {entry.isIntersecting? 'visisble': 'not visible'}</div>
   *
 */
-export function useOnScreen({ threshold = [0, 1], delay=5000, rootMargin='0% 0% 0% 0%'} = {}) {
+export function useOnScreen({ threshold = [0, 1], rootMargin='0% 0% 0% 0%'} = {}) {
   const ref = useRef();
   const [entry, setEntry] = useState({
     intersectionRatio: 0, // this avoid entry is null error
@@ -131,16 +131,18 @@ export function useOnScreen({ threshold = [0, 1], delay=5000, rootMargin='0% 0% 
   }, [])
 
   useEffect(() => {
-    setInterval(() => {
-      if (observer && ref && ref.current) {
+    function refreshIntersectionObserverHandler() {
+      if (ref && ref.current) {
+        console.info('useOnScreen: refreshIntersectionObserverHandler called.')
         observer.disconnect()
         observer.observe(ref.current, { threshold })
       }
-    }, delay)
+    }
+    window.addEventListener('refreshIntersectionObserver', refreshIntersectionObserverHandler)
     // Remove the observer as soon as the component is unmounted
     return () => {
-      clearInterval()
-      // observer.disconnect()
+      window.removeEventListener('refreshIntersectionObserver', refreshIntersectionObserverHandler)
+      observer.disconnect()
     }
     // eslint-disable-next-line
   }, [])
