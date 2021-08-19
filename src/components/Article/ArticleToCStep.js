@@ -1,7 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { Layers, Image, Grid } from 'react-feather'
-
+import { useArticleStore } from '../../store'
 
 const ArticleToCStep = ({
   idx, active=false,
@@ -9,10 +9,12 @@ const ArticleToCStep = ({
   isFigure=false,
   isTable=false,
   isHermeneutics=false,
+  isAccordionOpen=false,
   children,
   className=''
 }) => {
   const history = useHistory()
+  const setVisibleShadowCell = useArticleStore(state=>state.setVisibleShadowCell)
   const levelClassName = `ArticleToCStep_Level_${level}`
   const color = active ? 'var(--dark)': 'var(--gray-500)'
   const handleClick = () => {
@@ -21,6 +23,9 @@ const ArticleToCStep = ({
       history.push(`#C-${idx}`)
     } else {
       history.push(`#${idx}`)
+    }
+    if (isHermeneutics) {
+      setVisibleShadowCell(idx, !isAccordionOpen)
     }
   }
   return (
