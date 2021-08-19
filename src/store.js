@@ -30,7 +30,7 @@ export const useArticleStore = create((set) => ({
       copy.splice(idx, 1)
     }
     copy.sort()
-    console.info('visibleCellsIdx', copy)
+    // console.info('visibleCellsIdx', copy)
     return { visibleCellsIdx: copy }
   })
 }))
