@@ -288,6 +288,9 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
           ? figures.find((d) => d.idx === idx)
           : null
       }))
+      if(cell.role === RoleFigure) {
+        headingsPositions.push(idx)
+      }
     }
   })
   for (let i = 0; i < articleCells.length; i+=1) {

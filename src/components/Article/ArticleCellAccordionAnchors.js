@@ -9,9 +9,9 @@ const ArticleCellAccordionAnchors = ({ cells, cellsIndices }) => {
     return null
   }
   return (
-    <>
+    <div className="position-relative">
       {cellsIndices.map((d,i) => <a key={i} id={`C-${cells[d].idx}`} className="anchor" />)}
-    </>
+    </div>
   )
 }
 

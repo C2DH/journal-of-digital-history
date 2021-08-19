@@ -1,8 +1,9 @@
-import React, {useEffect} from 'react'
-import { Accordion, Container, Row, Col } from 'react-bootstrap'
+import React, {useEffect, useContext} from 'react'
+import { Accordion, Container, Row, Col, AccordionContext } from 'react-bootstrap'
 import ArticleCellAccordionCustomToggle from './ArticleCellAccordionCustomToggle'
 import { BootstrapColumLayout } from '../../constants'
 import { useOnScreen } from '../../hooks/graphics'
+import { useArticleStore } from '../../store'
 
 const ArticleCellAccordion = ({
   eventKey=0,
@@ -13,10 +14,13 @@ const ArticleCellAccordion = ({
   onVisibilityChange,
   children
 }) => {
+  const visibleShadowCellsIdx = useArticleStore(state=>state.visibleShadowCellsIdx)
+  const isOpen = visibleShadowCellsIdx.indexOf(eventKey) !== -1
   const [{ isIntersecting, intersectionRatio }, ref] = useOnScreen({
     rootMargin: '-40% 0% -25% 0%',
     threshold: [0, 0.25, 0.75, 1]
   })
+  const { activeEventKey } = useContext(AccordionContext);
   // trigger visibilityChange.
   useEffect(() => {
     if (typeof onVisibilityChange === 'function') {
@@ -26,8 +30,8 @@ const ArticleCellAccordion = ({
 
   return (
     <div ref={ref} className={`ArticleCellAccordion ${intersectionRatio > 0 ? 'active': ''}`}>
-
-    <Accordion>
+    {isOpen?'isOpen':'isClosed'} {eventKey} {activeEventKey}
+    <Accordion flush>
       {isEnabled ? (
         <Container >
           <Row>
@@ -37,7 +41,10 @@ const ArticleCellAccordion = ({
                 left: 0,
                 top: -15,
               }}>
-                <ArticleCellAccordionCustomToggle eventKey={eventKey} title={title} truncatedTitle={truncatedTitle}>
+                <ArticleCellAccordionCustomToggle isOpen={isOpen}
+                  eventKey={eventKey} title={title}
+                  truncatedTitle={truncatedTitle}
+                >
                     <b>{size}</b> x
                 </ArticleCellAccordionCustomToggle>
               </div>
