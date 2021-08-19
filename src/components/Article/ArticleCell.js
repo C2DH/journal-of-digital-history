@@ -93,7 +93,7 @@ const ArticleCell = ({
     return (
       <Container>
         <Row>
-          <Col {... cellBootstrapColumnLayout}>{role}
+          <Col {... cellBootstrapColumnLayout}>
             <ArticleCellContent hideNum={hideNum} layer={layer} content={content} idx={idx} num={num} />
           </Col>
         </Row>

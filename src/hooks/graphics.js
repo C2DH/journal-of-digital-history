@@ -112,11 +112,13 @@ export function useMousePosition() {
 */
 export function useOnScreen({ threshold = [0, 1], rootMargin='0% 0% 0% 0%'} = {}) {
   const ref = useRef();
+  const delay = Math.random()*2000 + 1000
   const [entry, setEntry] = useState({
     intersectionRatio: 0, // this avoid entry is null error
     isIntersecting: false,
   })
   const observer = new IntersectionObserver(([b]) => {
+    // add debounce
     setEntry(b)
   }, {
     threshold,
@@ -126,6 +128,19 @@ export function useOnScreen({ threshold = [0, 1], rootMargin='0% 0% 0% 0%'} = {}
     observer.observe(ref.current, { threshold })
     // Remove the observer as soon as the component is unmounted
     return () => { observer.disconnect() }
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
+    setInterval(() => {
+      observer.disconnect()
+      observer.observe(ref.current, { threshold })
+    }, delay)
+    // Remove the observer as soon as the component is unmounted
+    return () => {
+      clearInterval()
+      // observer.disconnect()
+    }
     // eslint-disable-next-line
   }, [])
   return [entry, ref];

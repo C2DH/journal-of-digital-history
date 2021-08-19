@@ -10,28 +10,33 @@ const ArticleToC = ({ steps=[], headingsPositions=[] }) => {
   const step = visibleCellsIdx.length ? visibleCellsIdx[visibleCellsIdx.length -1] : -1
 
   let previousHeadingIdx = -1
+  let nextVisibleLoopIndex = -1
   let nextHeadingIdx = -1
 
+  // get the previous heading position
+  console.info('firstVisibleCellIdx: ', firstVisibleCellIdx)
   // for each headingPoisition, get the cell index.
   // if the cell index is less than  index
   for(let i = 0; i < headingsPositions.length; i++) {
     if (headingsPositions[i] <= firstVisibleCellIdx) {
       previousHeadingIdx = headingsPositions[i]
+
     }
     if (nextHeadingIdx === -1 && headingsPositions[i] >= step) {
       nextHeadingIdx = headingsPositions[i]
+      nextVisibleLoopIndex = i
     }
   }
   // console.info('previousHeadingIdx ', previousHeadingIdx, headingsPositions, firstVisibleCellIdx )
   return (
-    <aside className="ArticleToC">
+    <aside className="ArticleToC" style={{transform: `translateY(-${nextVisibleLoopIndex*20}px)`}}>
       <ArticleToCStep className="mb-3"
         active={step < 1}
         idx='top'
       >
         (top)
       </ArticleToCStep>
-      {steps.filter(d => (d.isHeading && d.heading.level) || d.isFigure || d.isTable).map((d, i) => {
+      {steps.filter(d => d.isHeading || d.isFigure || d.isTable).map((d, i) => {
         // is last only if next heading is higher than this one, or it is a hermeneutic
         const isHermeneutics = d.layer === LayerHermeneutics
         // const isLast

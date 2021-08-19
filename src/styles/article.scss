@@ -109,7 +109,7 @@ $breakpoint-tablet: 768px;
 }
 
 .ArticleText_toc{
-  z-index:100;
+  z-index:1031;
   pointer-events: none;
 }
 
@@ -483,7 +483,10 @@ svg.ArticleFingerprint{
   }
 }
 
+.ArticleToC{
+  transition: transform 0.5s cubic-bezier(0.85, 0, 0.15, 1);
 
+}
 .ArticleToCStep{
   position: relative;
   font-size: .8em;
