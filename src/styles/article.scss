@@ -412,6 +412,7 @@ ArticleShadowLayer_animatedLabel{
 
 
 svg.ArticleFingerprint{
+
   g.type-code{
     // is type===cell
     line{
@@ -431,18 +432,30 @@ svg.ArticleFingerprint{
       fill: var(--gray-700);
       stroke: transparent;
     }
+    circle.refs{
+      stroke: transparent;
+      fill: var(--gray-700);
+    }
   }
   g.is-heading{
+    circle.origin{
+      fill: var(--secondary);
+      stroke: transparent;
+    }
     circle{
       fill: transparent;
       stroke: var(--secondary);
     }
     circle.heading-placeholder{
-      fill: var(--secondary);
-      stroke: transparent;
+      fill: transparent;
+      stroke: var(--secondary);
     }
   }
   g.is-hl{
+    circle.origin{
+      fill: var(--secondary);
+      stroke: transparent;
+    }
     //isHermeneutic
     circle{
       fill: var(--primary);
