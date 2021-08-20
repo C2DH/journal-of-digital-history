@@ -13,7 +13,7 @@ const IssueArticleGridItem = ({ article={}, isFake=false }) => {
           backgroundColor: 'var(--white)',
           overflow: 'hidden'
         }}>
-          <ArticleFingerprint stats={article.data.stats}  cells={article.data.cells} radius={(size - 40)/2}/>
+          <ArticleFingerprint stats={article.data.stats}  cells={article.data.cells} size={size}/>
         </div>
         <h3 className="d-block mt-3 pb-0">
           {article.abstract.title}

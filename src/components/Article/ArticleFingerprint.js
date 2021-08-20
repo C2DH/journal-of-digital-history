@@ -1,102 +1,98 @@
 import React from 'react'
-import { scalePow } from 'd3-scale'
+import { scalePow,  } from 'd3-scale'
+import { extent  } from 'd3-array'
+import ArticleFingerprintCellGraphics from './ArticleFingerprintCellGraphics'
 
-const ArticleFingerprintCellGraphics = ({
-  idx=-1, type='markdown', theta = 0, radius=50, offset=25,
-  charsRadius=5,
-  isHeading=false,
-  isHermeneutic=false
-}) => {
-  const cosTheta = Math.cos(theta)
-  const sinTheta = Math.sin(theta)
-  // if isHermeneutic, inWard, if is heading is 0
-  const charsValue = isHermeneutic ? charsRadius * -1 : isHeading ? 0 : charsRadius
-  //
-  return (
-    <g className={[
-      isHeading ? 'is-heading' : '',
-      isHermeneutic ? 'is-hl' : '',
-      'type-' + type
-    ].join(' ')}>
-      <line
-        x1={cosTheta * (radius)}
-        y1={sinTheta * (radius)}
-        x2={cosTheta * (radius + charsValue)}
-        y2={sinTheta * (radius + charsValue)}
-      />
-      {isHeading
-        ? (
-          <>
-          <text
-            textAnchor="middle"
-            x={cosTheta * (radius + offset + 6)}
-            y={sinTheta * (radius + offset + 6)}
-            style={{fontSize: 6}}
-          >{idx}</text>
-          <circle className="heading-placeholder"
-            cx={cosTheta * radius} cy={sinTheta * radius}
-            r={1}
-          />
-          </>
-        ) : null
-      }
-      <circle
-        cx={cosTheta * (radius + charsValue)} cy={sinTheta * (radius + charsValue)}
-        r={isHeading ? charsRadius : 2.5}
-      />
-
-    </g>
-  )
-}
 
 const ArticleFingerprint = ({
   stats={},
   cells=[],
-  // max radius
-  radius=100,
+  // svg dimnsion. Radisu is calculated based on this.
+  size=100,
+  debug=false,
   // this space is needed for the text elements
-  marginTop=20, marginLeft=20, marginRight=20, marginBottom=20
+  margin=20,
+  //
+  variant=''
 }) => {
+  const radius = (size/2 - margin) * 2 / 3
+  // value radius, this give us extra safety margin.
+  const maxNumCharsRadius = radius / 2
+  const maxNumRefsRadius = 5
   const angleD = (Math.PI * 2) / (cells.length + 1)
-  const svgWidth = radius*2 + marginLeft + marginRight
-  const svgHeight = radius*2 + marginTop + marginBottom
   // this is the scale function linked to the total numbers of characters in a cell.
-  // th scaled value is a number comprised between -radius/4 and radius/4
+  // th scaled value is a number comprised between 0 and baseRadius
   // according to the number of characters
   const scaleNumChars = scalePow()
       // linear, commented out
       // .exponent(1)
       // with powerscale, exponent 0.25
-      .exponent(.25)
+      .exponent(0.25)
       .domain(stats?.extentChars || [0,1])
-      .range([0, radius/2])
+      .range([0, maxNumCharsRadius])
+
+  const scaleNumRefs = scalePow()
+    .exponent(1)
+    .domain(stats?.extentRefs || [0,1])
+    .range([1.5, maxNumRefsRadius])
+
   if (cells.length===0) {
     return null
   }
+  if (debug) {
+    console.info(
+      'ArticleFingerprint',
+      '\n extentChars:', stats?.extentChars,
+      '\n recalculated extentChars:', extent(cells, (d) => d.countChars),
+      '\n range:', [0, maxNumCharsRadius]
+    )
+  }
   return (
-    <svg className="ArticleFingerprint position-absolute" xmlns="http://www.w3.org/2000/svg" width={svgWidth} height={svgHeight}>
-      <g transform={`translate(${svgWidth/2}, ${svgHeight/2})`}>
-        {/* outer circle (narrative layer)
-        <circle cx={0} cy={0} stroke="var(--gray-200)" fill="transparent" r={radius}/>
+    <svg className={`ArticleFingerprint position-absolute ${variant}`}
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+    >
+      <g transform={`translate(${size/2}, ${size/2})`}>
+        {debug // outer circle (narrative layer)
+          ? <circle cx={0} cy={0} stroke="var(--gray-500)" fill="transparent" r={radius + maxNumCharsRadius}/>
+          : null
+        }
+        {debug // inner circle (hermeneutics layer)
+          ? <circle cx={0} cy={0} stroke="var(--primary)" fill="transparent" r={radius - maxNumCharsRadius}/>
+          : null
+        }
+        {debug // baseRadius
+          ? <circle cx={0} cy={0} stroke="var(--secondary)" fill="transparent" r={radius}/>
+          : null
+        }
+        {/* baseRadius circle
+        <circle cx={0} cy={0} stroke="var(--secondary)" fill="transparent" r={baseRadius}/>
         */}
-        {/* inner circle (hermeneutics layer)
-        <circle cx={0} cy={0} stroke="var(--gray-200)" fill="transparent" r={radius/2}/>
-        */}
-        {/* middle circle */}
-        <circle cx={0} cy={0} stroke="var(--gray-400)" fill="transparent" r={radius/2 + radius/4}/>
         {cells.map((cell, i) => {
           const theta = (i) * angleD - Math.PI/2
-          const charsRadius = scaleNumChars(cell.countChars)
+          const numCharsRadius = scaleNumChars(cell.countChars)
+          const numRefsRadius = scaleNumRefs(cell.countRefs)
           return (
-            <ArticleFingerprintCellGraphics key={i} theta={theta}
-              radius={radius/2 + radius/4}
-              offset={radius/4}
+            <ArticleFingerprintCellGraphics key={i}
+              theta={theta}
+              originRadius={radius}
+              circleRadius={2.5}
+              offsetRadius={
+                // if isHermeneutic, inWard, if is heading is 0
+                cell.isHermeneutic
+                  ? numCharsRadius * -1
+                  : numCharsRadius
+              }
+              refsRadius={cell.countRefs ? numRefsRadius : 0}
               isHeading={cell.isHeading}
               isHermeneutic={cell.isHermeneutic}
               isMetadata={cell.isMetadata}
-              charsRadius={charsRadius}
+              isFigure={cell.isFigure}
+              isTable={cell.isTable}
               type={cell.type}
               idx={i}
+              debug={debug}
             />
           )
         })}
