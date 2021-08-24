@@ -32,7 +32,10 @@ export const useArticleStore = create((set) => ({
     copy.sort()
     // console.info('visibleCellsIdx', copy)
     return { visibleCellsIdx: copy }
-  })
+  }),
+
+  displayLayer: null,
+  setDisplayLayer: (displayLayer) => set({ displayLayer })
 }))
 export const useStore = create(persist(
   (set, get) => ({
