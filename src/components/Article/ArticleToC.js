@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { useSpring, a, config } from 'react-spring'
+import React from 'react'
 // import { RoleHidden } from '../../constants'
 import { useArticleStore } from '../../store'
 import { LayerHermeneutics } from '../../constants'
@@ -7,13 +6,13 @@ import ArticleToCStep from './ArticleToCStep'
 
 const ArticleToC = ({ paragraphs=[], headingsPositions=[] }) => {
   const visibleCellsIdx = useArticleStore(state=>state.visibleCellsIdx)
-  const [{ y }, api] = useSpring(() => ({ y:0, config: config.stiff }))
+  // const [{ y }, api] = useSpring(() => ({ y:0, config: config.stiff }))
 
   const firstVisibleCellIdx = visibleCellsIdx.length ? visibleCellsIdx[0] : -1
   const lastVisibleCellIdx = visibleCellsIdx.length ? visibleCellsIdx[visibleCellsIdx.length -1] : -1
 
   let previousHeadingIdx = -1
-  let nextVisibleLoopIndex = -1
+  // let nextVisibleLoopIndex = -1
   let nextHeadingIdx = -1
 
   // get the previous heading position
@@ -27,13 +26,13 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[] }) => {
     }
     if (nextHeadingIdx === -1 && headingsPositions[i] >= lastVisibleCellIdx) {
       nextHeadingIdx = headingsPositions[i]
-      nextVisibleLoopIndex = i
+      // nextVisibleLoopIndex = i
     }
   }
 
-  useEffect(() => {
-    api.start({ y: -nextVisibleLoopIndex * 20 })
-  })
+  // useEffect(() => {
+  //   api.start({ y: -nextVisibleLoopIndex * 20 })
+  // })
 
   const cellsIndex = []
   paragraphs.forEach((p) => {
@@ -41,7 +40,7 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[] }) => {
   })
   // console.info('previousHeadingIdx ', previousHeadingIdx, headingsPositions, firstVisibleCellIdx )
   return (
-    <a.aside className="ArticleToC" style={{ y }}>
+    <aside className="ArticleToC">
       <ArticleToCStep className="mb-3"
         active={lastVisibleCellIdx < 1}
         idx='top'
@@ -82,7 +81,7 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[] }) => {
       >
         (bibliography)
       </ArticleToCStep>
-    </a.aside>
+    </aside>
   )
 }
 
