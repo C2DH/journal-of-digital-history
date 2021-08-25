@@ -3,12 +3,13 @@
 // following doc
 // https://getbootstrap.com/docs/4.5/getting-started/theming/
 $theme-colors: (
-  'primary': #00f5d4,
+  'primary': #51f6e0, // before #00f5d4,
   'secondary': #222322,
   'gray': #ececec,
   'accent': #5E2BFF,
   'dark': #1E152A,
 );
+
 // accent tested:
 // 9b5de5
 // f15bb5
