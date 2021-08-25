@@ -2,13 +2,15 @@ import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import ArticleToC from './ArticleToC'
 import ArticleStream from './ArticleStream'
+import SwitchLayer from '../SwitchLayer'
 
 const ArticleText = ({
   memoid,
   paragraphs,
   headingsPositions,
   onDataHrefClick,
-  className='mt-5'
+  className='mt-5',
+  disableSwitchLayer
 }) => {
   return (
     <div className={`${className} ArticleText`}>
@@ -24,6 +26,7 @@ const ArticleText = ({
             }}>
               <div className="d-flex flex-row-reverse">
                 <div className="mr-3">
+                  {!disableSwitchLayer && <SwitchLayer />}
                   {/* <div className="rounded border border-dark">N</div>*/}
                   <ArticleToC
                     paragraphs={paragraphs}
@@ -40,6 +43,7 @@ const ArticleText = ({
         memoid={memoid}
         cells={paragraphs}
         onDataHrefClick={onDataHrefClick}
+        anchorPrefix='C-'
       />
     </div>
   )
