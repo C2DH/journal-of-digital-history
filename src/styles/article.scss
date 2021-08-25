@@ -55,9 +55,7 @@ $breakpoint-tablet: 768px;
 }
 
 .ArticleHeader h1{
-  font-family: var(--font-family-serif) !important;
-  font-size: var(--font-size-5) !important;
-  line-height: var(--line-height-5) !important;
+  font-family: var(--font-family-sans-serif) !important;
 }
 .ArticleHeader_abstract{
   font-size: var(--font-size-2);
@@ -567,4 +565,19 @@ svg.ArticleFingerprint{
 
 .ArticleCellAccordion_button{
   border-top: 1px solid var(--primary-dark);
+}
+
+
+.ArticleTextShadow{
+  position: fixed;
+  top: 0;
+  overflow: scroll;
+  z-index: 2;
+}
+.ArticleTextShadow_mask{
+  position: fixed;
+  top: 0;
+  z-index: 2;
+  height: 100px;
+  width: 100%;
 }
