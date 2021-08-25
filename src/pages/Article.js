@@ -8,7 +8,7 @@ import ArticleStream from '../components/Article/ArticleStream'
 import source from '../data/mock-ipynb.nbconvert.json'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import { useCurrentWindowDimensions } from '../hooks/graphics'
-import { LayerNarrativeStep, LayerNarrative } from '../constants'
+import { LayerNarrativeStep, LayerNarrative, DisplayLayerHermeneutics, DisplayLayerNarrative } from '../constants'
 
 const Article = ({ ipynb, url, publicationDate = new Date(), doi }) => {
   // const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
@@ -34,7 +34,7 @@ const Article = ({ ipynb, url, publicationDate = new Date(), doi }) => {
         cells={articleTree.paragraphs}
         shadowLayers={[LayerNarrativeStep, LayerNarrative]}
         onDataHrefClick={(d) => setSelectedDataHref(d)}
-        anchorPrefix='S-'
+        anchorPrefix={DisplayLayerHermeneutics}
       />
     </ArticleTextShadow>
     <div className="page mt-5">
@@ -48,6 +48,7 @@ const Article = ({ ipynb, url, publicationDate = new Date(), doi }) => {
         onDataHrefClick={(d) => setSelectedDataHref(d)}
         height={height}
         width={width}
+        anchorPrefix={DisplayLayerNarrative}
         {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }}
       />
       {articleTree.citationsFromMetadata

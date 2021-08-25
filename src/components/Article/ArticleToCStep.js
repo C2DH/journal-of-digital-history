@@ -15,14 +15,14 @@ const ArticleToCStep = ({
 }) => {
   const history = useHistory()
   const setVisibleShadowCell = useArticleStore(state=>state.setVisibleShadowCell)
+  const displayLayer = useArticleStore(state=>state.displayLayer)
+
   const levelClassName = `ArticleToCStep_Level_${level}`
   const color = active ? 'var(--dark)': 'var(--gray-500)'
   const handleClick = () => {
     // if the layer is hidden, opens it up and scroll to it on click.
-    if (!isNaN(idx)) {
-      history.push(`#C-${idx}`)
-    } else {
-      history.push(`#${idx}`)
+    if (idx) {
+      history.push(`#${displayLayer}${idx}`)
     }
     if (isHermeneutics) {
       setVisibleShadowCell(idx, !isAccordionOpen)

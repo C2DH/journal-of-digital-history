@@ -10,6 +10,7 @@ const ArticleText = ({
   headingsPositions,
   onDataHrefClick,
   className='mt-5',
+  anchorPrefix='',
   disableSwitchLayer
 }) => {
   return (
@@ -43,7 +44,7 @@ const ArticleText = ({
         memoid={memoid}
         cells={paragraphs}
         onDataHrefClick={onDataHrefClick}
-        anchorPrefix='C-'
+        anchorPrefix={anchorPrefix}
       />
     </div>
   )

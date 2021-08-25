@@ -80,7 +80,7 @@ const ArticleStream = ({
 
   const visibilityChangeHandler = ({ idx, isIntersecting }) => {
     // console.info('@visibilityChangeHandler', idx, isIntersecting)
-    setVisibleCell(idx, isIntersecting)
+    setVisibleCell(idx, anchorPrefix, isIntersecting)
   }
 
   useEffect(() => {
@@ -88,6 +88,7 @@ const ArticleStream = ({
     const requestIntersectionObserverUpdate = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
+        // console.info('ArticleStream trigger refreshIntersectionObserver event')
         const event = new Event('refreshIntersectionObserver')
         window.dispatchEvent(event)
       }, 150);
@@ -96,6 +97,7 @@ const ArticleStream = ({
     window.addEventListener('scroll', requestIntersectionObserverUpdate)
 
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener('resize', requestIntersectionObserverUpdate)
       window.removeEventListener('scroll', requestIntersectionObserverUpdate)
     }
