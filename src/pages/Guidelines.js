@@ -52,6 +52,7 @@ const Guidelines = () => {
         onDataHrefClick={(d) => setSelectedDataHref(d)}
         height={height}
         width={width}
+        disableSwitchLayer
       />
       {articleTree.citationsFromMetadata
         ? <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/>
