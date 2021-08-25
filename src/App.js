@@ -150,7 +150,7 @@ function usePageViews() {
       console.info('pageview', url)
       // based on the pathname, change the background
       if (pathname.indexOf('/notebook') !== -1 || pathname.indexOf('/article') !== -1) {
-        changeBackgroundColor('var(--gray-100)')
+        changeBackgroundColor('#F4F1F8')
       } else if (pathname.indexOf('/issue') !== -1) {
         changeBackgroundColor('var(--gray-100)')
       } else if (pathname.indexOf('/submit') !== -1) {
@@ -159,7 +159,7 @@ function usePageViews() {
         changeBackgroundColor('var(--linen)')
       } else if (pathname.indexOf('/terms') !== -1) {
         changeBackgroundColor('var(--peachpuff)')
-      } else  {
+      } else {
         changeBackgroundColor('var(--gray-100)')
       }
       ReactGA.pageview(url)
