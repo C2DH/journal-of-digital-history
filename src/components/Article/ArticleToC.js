@@ -1,24 +1,17 @@
 import React from 'react'
-// import { RoleHidden } from '../../constants'
 import { useArticleStore } from '../../store'
 import { LayerHermeneutics } from '../../constants'
 import ArticleToCStep from './ArticleToCStep'
 
 const ArticleToC = ({ paragraphs=[], headingsPositions=[] }) => {
   const visibleCellsIdx = useArticleStore(state=>state.visibleCellsIdx)
-  // const [{ y }, api] = useSpring(() => ({ y:0, config: config.stiff }))
 
   const firstVisibleCellIdx = visibleCellsIdx.length ? visibleCellsIdx[0] : -1
   const lastVisibleCellIdx = visibleCellsIdx.length ? visibleCellsIdx[visibleCellsIdx.length -1] : -1
 
   let previousHeadingIdx = -1
-  // let nextVisibleLoopIndex = -1
   let nextHeadingIdx = -1
 
-  // get the previous heading position
-  // console.info('firstVisibleCellIdx: ', firstVisibleCellIdx)
-  // for each headingPoisition, get the cell index.
-  // if the cell index is less than  index
   for(let i = 0; i < headingsPositions.length; i++) {
     if (headingsPositions[i] <= firstVisibleCellIdx) {
       previousHeadingIdx = headingsPositions[i]
@@ -30,15 +23,10 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[] }) => {
     }
   }
 
-  // useEffect(() => {
-  //   api.start({ y: -nextVisibleLoopIndex * 20 })
-  // })
-
   const cellsIndex = []
   paragraphs.forEach((p) => {
     cellsIndex[p.idx] = p
   })
-  // console.info('previousHeadingIdx ', previousHeadingIdx, headingsPositions, firstVisibleCellIdx )
   return (
     <aside className="ArticleToC">
       <ArticleToCStep className="mb-3"
