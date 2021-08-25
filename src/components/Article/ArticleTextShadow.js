@@ -4,7 +4,7 @@ import { ArrowLeft } from 'react-feather'
 import { useSpring, a, config } from 'react-spring'
 import { setBodyNoScroll } from '../../logic/viewport'
 import { useArticleStore } from '../../store'
-import { DisplayLayerHermeneutics } from '../../constants'
+import { DisplayLayerHermeneutics, DisplayLayerNarrative } from '../../constants'
 import ArticleHeader from './ArticleHeader'
 
 const layerTransition = (x, y, width, height) => {
@@ -34,22 +34,22 @@ const ArticleTextShadow = ({
   // remove on exit
   useEffect(() => () => {
     setBodyNoScroll(false)
-    setDisplayLayer(null)
+    setDisplayLayer(DisplayLayerNarrative)
   }, [])
 
   return (
-    <a.div className="ArticleTextShadow bg-primary" style={{
+    <a.div className="ArticleTextShadow bg-capri" style={{
       width,
       height,
       clipPath: props.clipPath.interpolate(layerTransition),
     }}>
-      <div className="ArticleTextShadow_mask bg-primary"></div>
+      <div className="ArticleTextShadow_mask bg-capri"></div>
       <div className="page mt-5">
       <ArticleHeader doi={doi} publicationDate={publicationDate} title={title}>
-        <div className="jumbotron p-3 my-3 shadow bg-primary rounded">
+        <div className="jumbotron border border-dark p-3 my-3 shadow bg-capri rounded">
         <h3>Hermeneutic-first version</h3>
         <p>A brief explaination of what the hermeneutic view is.</p>
-        <Button variant="outline-secondary" size="sm" onClick={() => setDisplayLayer(null)}>
+        <Button variant="outline-secondary" size="sm" onClick={() => setDisplayLayer(DisplayLayerNarrative)}>
           <ArrowLeft size={15}/> back to narrative-first mode
         </Button>
         </div>
