@@ -1,31 +1,22 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { DropdownButton, ButtonGroup, Dropdown} from 'react-bootstrap'
-import { DisplayLayerHermeneutics, DisplayLayerAll } from '../constants'
-import { useQueryParam, StringParam } from 'use-query-params'
+import { DisplayLayerHermeneutics } from '../constants'
+import { useArticleStore } from '../store'
+import '../styles/components/SwitchLayer.scss'
 
-const SwitchLayer = ({ style, disabled }) => {
-  const { t } = useTranslation()
-  const [layer, setLayer] = useQueryParam('layer', StringParam)
+const SwitchLayer = ({ disabled }) => {
+  const [displayLayer, setDisplayLayer] = useArticleStore(state => [state.displayLayer, state.setDisplayLayer])
   if (disabled) {
     return null
   }
-  return(
-    <DropdownButton as={ButtonGroup}
-      variant='outline-secondary'
-      size="sm"
-      title={t(`layers.${layer ?? 'default'}`)}
-      style={{pointerEvents: 'auto', ...style}}
-    >
-      {[DisplayLayerHermeneutics, DisplayLayerAll, null].map((eventKey, i) => (
-        <Dropdown.Item onClick={() => setLayer(eventKey)} key={i} eventKey={eventKey ?? -1 } active={layer === eventKey}>
-          {t(`layers.${eventKey ?? 'default'}`)}
-        </Dropdown.Item>
-      ))}
-    </DropdownButton>
-  )
-  // <button onClick={clickHandler} style={{position: 'fixed', top: 200, zIndex:1004}}>Change layer {layer}</button>
 
+  return (
+    <ul className="SwitchLayer" style={{pointerEvents: 'auto'}}>
+      <li className={!displayLayer ? "active":""}
+        onClick={() => setDisplayLayer(null)}>Narrative</li>
+      <li className={displayLayer === DisplayLayerHermeneutics?"active":""}
+        onClick={() => setDisplayLayer(DisplayLayerHermeneutics)}>Hermeneutics</li>
+    </ul>
+  )
 }
 
 export default SwitchLayer
