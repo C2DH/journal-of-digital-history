@@ -533,14 +533,19 @@ svg.ArticleFingerprint{
     text-align: right;
     line-height: 20px;
   }
+
   &:hover label{
     text-decoration: underline;
   }
 }
 
-.ArticleToCStep .ArticleToCStep_Hermeneutics{
+.ArticleToCStep .ArticleToCStep_Hermeneutics,
+.ArticleToCStep .ArticleToCStep_Figure,
+.ArticleToCStep .ArticleToCStep_Table,
+{
   position: absolute;
-  right: -20px;
+  right: -40px;
+  top: 4px;
 }
 .ArticleToCStep .ArticleToCStep_Circle{
   width: 10px;
