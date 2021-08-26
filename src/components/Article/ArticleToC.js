@@ -3,7 +3,7 @@ import { useArticleStore } from '../../store'
 import { LayerHermeneutics } from '../../constants'
 import ArticleToCStep from './ArticleToCStep'
 
-const ArticleToC = ({ paragraphs=[], headingsPositions=[] }) => {
+const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0 }) => {
   const visibleCellsIdx = useArticleStore(state=>state.visibleCellsIdx)
 
   const firstVisibleCellIdx = visibleCellsIdx.length ? visibleCellsIdx[0] : -1
@@ -22,14 +22,20 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[] }) => {
       // nextVisibleLoopIndex = i
     }
   }
-
+  if (!width) {
+    return null
+  }
   const cellsIndex = []
   paragraphs.forEach((p) => {
     cellsIndex[p.idx] = p
   })
   return (
-    <aside className="ArticleToC">
-      <ArticleToCStep className="mb-3"
+    <aside className="ArticleToC position-absolute py-4" style={{
+      height,
+      width,
+      overflow: 'scroll', pointerEvents: 'auto'}}>
+      <ArticleToCStep
+        width={width}
         active={lastVisibleCellIdx < 1}
         idx='top'
       >
@@ -45,6 +51,7 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[] }) => {
         // const isLast
         return (
           <ArticleToCStep
+            width={width}
             key={i}
             idx={cell.idx}
             level={cell.level}
@@ -64,6 +71,7 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[] }) => {
         )
       })}
       <ArticleToCStep
+        width={width}
         className="mt-3"
         idx='bibliography'
       >

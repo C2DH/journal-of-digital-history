@@ -11,12 +11,14 @@ const ArticleToCStep = ({
   isHermeneutics=false,
   isAccordionOpen=false,
   children,
+  width=0,
   className=''
 }) => {
   const history = useHistory()
   const setVisibleShadowCell = useArticleStore(state=>state.setVisibleShadowCell)
   const displayLayer = useArticleStore(state=>state.displayLayer)
 
+  const availableWidth = width - 50
   const levelClassName = `ArticleToCStep_Level_${level}`
   const color = active ? 'var(--dark)': 'var(--gray-500)'
   const handleClick = () => {
@@ -29,8 +31,12 @@ const ArticleToCStep = ({
     }
   }
   return (
-    <div className={`ArticleToCStep ${active?'active':''} ${className} ${levelClassName}`} onClick={handleClick}>
-      <label>
+    <div className={`ArticleToCStep ${active?'active':''} ${className} ${levelClassName}`} onClick={handleClick} style={{
+      width: availableWidth
+    }}>
+      <label style={{
+        width: availableWidth
+      }}>
       {children}
       </label>
       {isHermeneutics && <Layers className="ArticleToCStep_Hermeneutics" size={12} color={color}/>}

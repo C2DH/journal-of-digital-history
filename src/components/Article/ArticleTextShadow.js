@@ -38,15 +38,15 @@ const ArticleTextShadow = ({
   }, [])
 
   return (
-    <a.div className="ArticleTextShadow bg-capri" style={{
+    <a.div className="ArticleTextShadow bg-primary" style={{
       width,
       height,
       clipPath: props.clipPath.interpolate(layerTransition),
     }}>
-      <div className="ArticleTextShadow_mask bg-capri"></div>
+      <div className="ArticleTextShadow_mask bg-primary"></div>
       <div className="page mt-5">
       <ArticleHeader doi={doi} publicationDate={publicationDate} title={title}>
-        <div className="jumbotron border border-dark p-3 my-3 shadow bg-capri rounded">
+        <div className="jumbotron border border-dark p-3 my-3 shadow bg-primary rounded">
         <h3>Hermeneutic-first version</h3>
         <p>A brief explaination of what the hermeneutic view is.</p>
         <Button variant="outline-secondary" size="sm" onClick={() => setDisplayLayer(DisplayLayerNarrative)}>

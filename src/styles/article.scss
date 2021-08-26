@@ -1,3 +1,5 @@
+$breakpoint-tablet: 768px;
+$breakpoint-lg: 992px;
 
 .ArticleCellContent {
   position: relative;
@@ -47,7 +49,7 @@ top: 3px;
 .ArticleHeader{
   margin-top: 100px;
 }
-$breakpoint-tablet: 768px;
+
 @media (min-width: $breakpoint-tablet) {
   .ArticleHeader{
     margin-top: 0px;
@@ -97,7 +99,7 @@ $breakpoint-tablet: 768px;
 .ArticleStream_paragraph.hermeneutics .ArticleCellContent p{
   color: var(--accent);
 }
-@media (min-width: 992px) {
+@media (min-width: $breakpoint-lg) {
   .ArticleStream_paragraph.hermeneutics {
     overflow-x: hidden;
     .container{
@@ -106,10 +108,19 @@ $breakpoint-tablet: 768px;
   }
 }
 
+
 .ArticleText_toc{
   z-index:1031;
   pointer-events: none;
+  position: fixed;
+  right: 0;
 }
+@media (min-width: $breakpoint-lg) {
+  .ArticleText_toc{
+    width: 16%;
+  }
+}
+
 
 [class*='ArticleToc_Level_']{
   pointer-events: auto;
@@ -516,8 +527,6 @@ svg.ArticleFingerprint{
   label{
     position: absolute;
     top: 0;
-    right: 20px;
-    width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -538,7 +547,7 @@ svg.ArticleFingerprint{
   height: 10px;
   border: 1px solid var(--gray-500);
   position: absolute;
-  right: 0;
+  right: -20px;
   top: 5px;
   border-radius: 10px;
 }

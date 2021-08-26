@@ -5,7 +5,7 @@ import { useArticleStore } from '../store'
 import '../styles/components/SwitchLayer.scss'
 
 
-const SwitchLayer = ({ disabled }) => {
+const SwitchLayer = ({ disabled, className }) => {
   const { t } = useTranslation()
   const [displayLayer, setDisplayLayer] = useArticleStore(state => [state.displayLayer, state.setDisplayLayer])
   if (disabled) {
@@ -13,7 +13,7 @@ const SwitchLayer = ({ disabled }) => {
   }
 
   return (
-    <ul className="SwitchLayer" style={{pointerEvents: 'auto'}}>
+    <ul className={`SwitchLayer ${className}`} style={{pointerEvents: 'auto'}}>
       {[DisplayLayerNarrative, DisplayLayerHermeneutics].map(d => (
         <li key={d} className={displayLayer === d ? 'active': ''}
           onClick={() => setDisplayLayer(d)}>{t(`layers.${d}`)}</li>

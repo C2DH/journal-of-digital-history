@@ -21,6 +21,7 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
     console.error(error)
     return <div>Error <pre>{JSON.stringify({errorCode, article}, null, 2)}</pre></div>
   }
+  console.info('ArticleViewer rendered')
   if (status !== StatusSuccess) {
     return (
       <Container className="mt-5 page">
