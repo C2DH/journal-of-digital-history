@@ -29,23 +29,20 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0 }) 
   paragraphs.forEach((p) => {
     cellsIndex[p.idx] = p
   })
+
+
   return (
     <aside className="ArticleToC position-absolute py-4" style={{
       height,
       width,
       overflow: 'scroll', pointerEvents: 'auto'}}>
-      <ArticleToCStep
-        width={width}
-        active={lastVisibleCellIdx < 1}
-        idx='top'
-      >
-        (top)
-      </ArticleToCStep>
       {headingsPositions.map((d, i) => {
         const cell = cellsIndex[d]
         if (!cell) {
           return null
         }
+        let isSectionStart = false
+        let isSectionEnd = false
         // is last only if next heading is higher than this one, or it is a hermeneutic
         const isHermeneutics = cell.layer === LayerHermeneutics
         // const isLast
@@ -57,6 +54,8 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0 }) 
             level={cell.level}
             isFigure={cell.isFigure}
             isTable={cell.isTable}
+            isSectionStart={isSectionStart}
+            isSectionEnd={isSectionEnd}
             isHermeneutics={isHermeneutics}
             active={cell.idx >= previousHeadingIdx && cell.idx <= lastVisibleCellIdx}
             className={isHermeneutics ? 'hermeneutics': ''}

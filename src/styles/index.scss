@@ -13,6 +13,7 @@
   --accent: #{map-get($theme-colors, 'accent')};
   --primary:  #{map-get($theme-colors, 'primary')};
   --secondary: #{map-get($theme-colors, 'secondary')};
+  --hermeneutics: #8bffef;
   --yellow: #FFEE88;
   --yellowcrayola: #FFE787;
   --yellowicterine: #F8F272;
@@ -136,6 +137,9 @@ html,
 }
 .bg-capri{
   background-color: var(--capri) !important;
+}
+.bg-hermeneutics{
+  background-color: var(--hermeneutics) !important;
 }
 body{
   background-color: var(--gray-100);

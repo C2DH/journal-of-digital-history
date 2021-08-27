@@ -122,24 +122,6 @@ top: 3px;
 }
 
 
-[class*='ArticleToc_Level_']{
-  pointer-events: auto;
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 10px;
-  margin-left: 1px;
-  margin-top: 5px;
-  border: 1px solid var(--dark);
-  // &.ArticleToc_afterNextHeading,
-  // &.ArticleToc_beforePreviousHeading,
-  // {
-  //   height: 5px;
-  //   width:5px;
-  //   // margin-left: 3px;
-  // }
-  cursor: pointer;
-}
 .ArticleToc_Level_P,.ArticleToc_Level_CODE{
   &.ArticleToc_afterNextHeading,
   &.ArticleToc_beforePreviousHeading{
@@ -515,15 +497,16 @@ svg.ArticleFingerprint{
   }
 }
 
-.ArticleToC{
-  transition: transform 0.5s cubic-bezier(0.85, 0, 0.15, 1);
-
-}
+// .ArticleToC{
+//   transition: transform 0.5s cubic-bezier(0.85, 0, 0.15, 1);
+//
+// }
 .ArticleToCStep{
   position: relative;
   font-size: .8em;
   height: 20px;
   pointer-events: auto;
+
   label{
     position: absolute;
     top: 0;
@@ -532,6 +515,8 @@ svg.ArticleFingerprint{
     white-space: nowrap;
     text-align: right;
     line-height: 20px;
+    width: 100%;
+    cursor: pointer;
   }
 
   &:hover label{
@@ -539,23 +524,26 @@ svg.ArticleFingerprint{
   }
 }
 
-.ArticleToCStep .ArticleToCStep_Hermeneutics,
-.ArticleToCStep .ArticleToCStep_Figure,
-.ArticleToCStep .ArticleToCStep_Table,
-{
+// all headings icons mus be moved to the left
+.ArticleToCStep_Level_H1,
+.ArticleToCStep_Level_H2,
+.ArticleToCStep_Level_H3,
+.ArticleToCStep_Level_H4,
+.ArticleToCStep_Level_H5,
+.ArticleToCStep_Level_H6
+ {
+  cursor: pointer;
+  .ArticleToCStep_icon {
+    right: -24px;
+  }
+}
+
+.ArticleToCStep_icon {
   position: absolute;
   right: -40px;
-  top: 4px;
+  top: -2px;
 }
-.ArticleToCStep .ArticleToCStep_Circle{
-  width: 10px;
-  height: 10px;
-  border: 1px solid var(--gray-500);
-  position: absolute;
-  right: -20px;
-  top: 5px;
-  border-radius: 10px;
-}
+
 
 .ArticleToCStep.active{
   label{
