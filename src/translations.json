@@ -134,7 +134,8 @@
         "success": "✓"
       },
       "layers": {
-        "h": "Layer: Hermeneutic",
+        "h": "Hermeneutics",
+        "n": "Narrative",
         "all": "Layer: both",
         "default": "Layer: Narrative"
       },

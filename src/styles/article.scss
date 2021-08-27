@@ -1,3 +1,5 @@
+$breakpoint-tablet: 768px;
+$breakpoint-lg: 992px;
 
 .ArticleCellContent {
   position: relative;
@@ -47,7 +49,7 @@ top: 3px;
 .ArticleHeader{
   margin-top: 100px;
 }
-$breakpoint-tablet: 768px;
+
 @media (min-width: $breakpoint-tablet) {
   .ArticleHeader{
     margin-top: 0px;
@@ -55,9 +57,7 @@ $breakpoint-tablet: 768px;
 }
 
 .ArticleHeader h1{
-  font-family: var(--font-family-serif) !important;
-  font-size: var(--font-size-5) !important;
-  line-height: var(--line-height-5) !important;
+  font-family: var(--font-family-sans-serif) !important;
 }
 .ArticleHeader_abstract{
   font-size: var(--font-size-2);
@@ -99,7 +99,7 @@ $breakpoint-tablet: 768px;
 .ArticleStream_paragraph.hermeneutics .ArticleCellContent p{
   color: var(--accent);
 }
-@media (min-width: 992px) {
+@media (min-width: $breakpoint-lg) {
   .ArticleStream_paragraph.hermeneutics {
     overflow-x: hidden;
     .container{
@@ -108,29 +108,20 @@ $breakpoint-tablet: 768px;
   }
 }
 
+
 .ArticleText_toc{
   z-index:1031;
   pointer-events: none;
+  position: fixed;
+  right: 0;
+}
+@media (min-width: $breakpoint-lg) {
+  .ArticleText_toc{
+    width: 16%;
+  }
 }
 
-[class*='ArticleToc_Level_']{
-  pointer-events: auto;
-  position: absolute;
-  width: 5px;
-  height: 5px;
-  border-radius: 10px;
-  margin-left: 1px;
-  margin-top: 5px;
-  border: 1px solid var(--dark);
-  // &.ArticleToc_afterNextHeading,
-  // &.ArticleToc_beforePreviousHeading,
-  // {
-  //   height: 5px;
-  //   width:5px;
-  //   // margin-left: 3px;
-  // }
-  cursor: pointer;
-}
+
 .ArticleToc_Level_P,.ArticleToc_Level_CODE{
   &.ArticleToc_afterNextHeading,
   &.ArticleToc_beforePreviousHeading{
@@ -506,44 +497,53 @@ svg.ArticleFingerprint{
   }
 }
 
-.ArticleToC{
-  transition: transform 0.5s cubic-bezier(0.85, 0, 0.15, 1);
-
-}
+// .ArticleToC{
+//   transition: transform 0.5s cubic-bezier(0.85, 0, 0.15, 1);
+//
+// }
 .ArticleToCStep{
   position: relative;
   font-size: .8em;
   height: 20px;
   pointer-events: auto;
+
   label{
     position: absolute;
     top: 0;
-    right: 20px;
-    width: 100px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     text-align: right;
     line-height: 20px;
+    width: 100%;
+    cursor: pointer;
   }
+
   &:hover label{
     text-decoration: underline;
   }
 }
 
-.ArticleToCStep .ArticleToCStep_Hermeneutics{
-  position: absolute;
-  right: -20px;
+// all headings icons mus be moved to the left
+.ArticleToCStep_Level_H1,
+.ArticleToCStep_Level_H2,
+.ArticleToCStep_Level_H3,
+.ArticleToCStep_Level_H4,
+.ArticleToCStep_Level_H5,
+.ArticleToCStep_Level_H6
+ {
+  cursor: pointer;
+  .ArticleToCStep_icon {
+    right: -24px;
+  }
 }
-.ArticleToCStep .ArticleToCStep_Circle{
-  width: 10px;
-  height: 10px;
-  border: 1px solid var(--gray-500);
+
+.ArticleToCStep_icon {
   position: absolute;
-  right: 0;
-  top: 5px;
-  border-radius: 10px;
+  right: -40px;
+  top: -2px;
 }
+
 
 .ArticleToCStep.active{
   label{
@@ -567,4 +567,19 @@ svg.ArticleFingerprint{
 
 .ArticleCellAccordion_button{
   border-top: 1px solid var(--primary-dark);
+}
+
+
+.ArticleTextShadow{
+  position: fixed;
+  top: 0;
+  overflow: scroll;
+  z-index: 2;
+}
+.ArticleTextShadow_mask{
+  position: fixed;
+  top: 0;
+  z-index: 2;
+  height: 100px;
+  width: 100%;
 }

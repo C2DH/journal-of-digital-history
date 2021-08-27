@@ -62,7 +62,7 @@ export const useCurrentWindowDimensions = () => {
       clearTimeout(timeoutId);
       const dims = getWindowDimensions()
       timeoutId = setTimeout(() => setWindowDimensions(dims), 150);
-      console.info('setWindowDimensions', dims)
+      // console.info('setWindowDimensions', dims)
     };
     window.addEventListener('resize', resizeListener);
 

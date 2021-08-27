@@ -1,7 +1,8 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Layers, Image, Grid } from 'react-feather'
+import { Layers, Image, Grid, Circle } from 'react-feather'
 import { useArticleStore } from '../../store'
+
 
 const ArticleToCStep = ({
   idx, active=false,
@@ -11,32 +12,48 @@ const ArticleToCStep = ({
   isHermeneutics=false,
   isAccordionOpen=false,
   children,
+  width=0,
+  marginLeft=70,
   className=''
 }) => {
   const history = useHistory()
   const setVisibleShadowCell = useArticleStore(state=>state.setVisibleShadowCell)
+  const displayLayer = useArticleStore(state=>state.displayLayer)
+
+  const availableWidth = width - marginLeft
   const levelClassName = `ArticleToCStep_Level_${level}`
-  const color = active ? 'var(--dark)': 'var(--gray-500)'
+  const labelClassName = isHermeneutics
+    ? 'ArticleToCStep_labelHermeneutics'
+    : !isHermeneutics && !isTable && !isFigure
+      ? 'ArticleToCStep_labelCircle'
+      : isFigure && !isTable
+        ? 'ArticleToCStep_labelFigure'
+        : 'ArticleToCStep_labelTable'
+
+
+
   const handleClick = () => {
     // if the layer is hidden, opens it up and scroll to it on click.
-    if (!isNaN(idx)) {
-      history.push(`#C-${idx}`)
-    } else {
-      history.push(`#${idx}`)
+    if (idx) {
+      history.push(`#${displayLayer}${idx}`)
     }
     if (isHermeneutics) {
       setVisibleShadowCell(idx, !isAccordionOpen)
     }
   }
   return (
-    <div className={`ArticleToCStep ${active?'active':''} ${className} ${levelClassName}`} onClick={handleClick}>
-      <label>
+    <div className={`ArticleToCStep ${active?'active':''} ${className} ${levelClassName} ${displayLayer}`} onClick={handleClick} style={{
+      width: availableWidth
+    }}>
+      <label className={labelClassName}>
       {children}
       </label>
-      {isHermeneutics && <Layers className="ArticleToCStep_Hermeneutics" size={12} color={color}/>}
-      {!isHermeneutics && !isTable && !isFigure && <div className="ArticleToCStep_Circle" />}
-      {isFigure && !isTable && <Image size={12} color={color}/>}
-      {isTable && <Grid size={12} color={color}/>}
+      <div className="ArticleToCStep_icon">
+        {isHermeneutics && !isTable && !isFigure && <Layers size={12} />}
+        {!isHermeneutics && !isTable && !isFigure && <Circle size={12} />}
+        {isFigure && !isTable && <Image size={12} />}
+        {isTable && <Grid  size={12} />}
+      </div>
     </div>
   )
 }

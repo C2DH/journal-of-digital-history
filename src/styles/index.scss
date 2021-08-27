@@ -13,8 +13,10 @@
   --accent: #{map-get($theme-colors, 'accent')};
   --primary:  #{map-get($theme-colors, 'primary')};
   --secondary: #{map-get($theme-colors, 'secondary')};
+  --hermeneutics: #8bffef;
   --yellow: #FFEE88;
   --yellowcrayola: #FFE787;
+  --yellowicterine: #F8F272;
   --pink: #FFCAD4;
   --snow: #FFF3F0;
   --linen: #FEEFE5;
@@ -41,10 +43,10 @@
   --font-size-2: #{$font-size-base * 1.25};
   --font-size-3: #{$font-size-base * 1.5};
   --font-size-4: #{$font-size-base * 2};
-  --font-size-5: #{$font-size-base * 2.5};
+  --font-size-5: #{$font-size-base * 2.75};
   --line-height-1: #{$font-size-base * 1.75};
   --line-height-1-m: #{$font-size-base * (1.5 / 2)};
-  --line-height-5: #{$font-size-base * 2.5 * 1.25};
+  --line-height-5: #{$font-size-base * 2.75 * 1.25};
 }
 
 body,
@@ -130,6 +132,15 @@ html,
     color: var(--dark);
   }
 }
+.bg-yellow{
+  background-color: var(--yellowicterine) !important;
+}
+.bg-capri{
+  background-color: var(--capri) !important;
+}
+.bg-hermeneutics{
+  background-color: var(--hermeneutics) !important;
+}
 body{
   background-color: var(--gray-100);
   color: var(--dark);
@@ -162,8 +173,23 @@ a.btn{
   font-family: var(--font-family-monospace);
 }
 
+.btn-outline-white{
+  border-color: white !important;
+  color: white;
+  &:hover{
+    background-color: white;
+    color: var(--dark);
+  }
+}
+
 .page{
-  h1, h2, h3{
+  h1{
+    font-family: var(--font-family-sans-serif);
+    font-size: var(--font-size-5) !important;
+    line-height: var(--line-height-5) !important;
+    font-weight: bold;
+  }
+  h2, h3{
     font-family: var(--font-family-monospace);
     font-weight: bold;
   }
