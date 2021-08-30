@@ -24,7 +24,7 @@
   --peachpuff: #fee1c7;
   --capri: #48BEFF;
   --almond: #F0DCCA;
-  --primary-dark: #00B89F; // #00e0c2 #00CCB1 00B89F
+  --primary-dark: #007D6C; // #00B89F; // #00e0c2 #00CCB1 00B89F
   @each $bp, $value in $grays {
     --gray-#{$bp}: #{$value};
   }

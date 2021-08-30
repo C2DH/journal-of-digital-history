@@ -125,8 +125,8 @@
         "switchToHermeneuticLayer": "See Hermeneutic Layer",
         "hidesourceCode": "hide source code",
         "showsourceCode": "show source code",
-        "hideHermeneuticLayer": "hide hermeneutic layer",
-        "showHermeneuticLayer": "show hermeneutic layer"
+        "hideShadowLayer": "collapse",
+        "showShadowLayer": "show"
       },
       "badge": {
         "warning": "∅",
