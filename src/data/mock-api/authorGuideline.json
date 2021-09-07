@@ -813,7 +813,7 @@
     "Function | Tag | Markdown | Explanation\n",
     "--- | --- | --- | ---\n",
     "Title | `title` | h1 (#) | This tag is used for the title of the article. \n",
-    "Contributors | `contributors` | h3 (###) | List the contributors. Below the name, indicate the role and the affiliation.\n",
+    "Contributor | `contributor` | h3 (###) | One cell per contributor. Below the name, indicate the role and the affiliation.\n",
     "Cover Image | `cover` | | Figures are counted automatically and will appear in the table of figures. (Captions will be added via a button?)\n",
     "Disclaimer | `disclaimer` | | This disclaimer can be used for certain announcements. It will be color-coded in orange.\n",
     "Keywords | `keywords` | | Keywords are to be separated by comma (“,”)\n",
@@ -828,7 +828,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "For the header section we us the tags `title`, `contributors`, `cover`, `disclaimer` (if needed), `keywords` and `abstract` to show the article in a certain structure."
+    "For the header section we us the tags `title`, `contributor`, `cover`, `disclaimer` (if needed), `keywords` and `abstract` to show the article in a certain structure."
    ]
   },
   {
