@@ -9,16 +9,16 @@ import NotFound from './NotFound'
 import { markdownParser } from '../logic/ipynb'
 
 
-function extractMetadataFromArticle(article){
+function extractMetadataFromArticle(article, parser){
   let title = null
   let abstract = null
 
   article.data.cells.forEach((d) => {
     if (Array.isArray(d.title)) {
-      title = markdownParser.render(d.title.join(''))
+      title = parser.render(d.title.join(''))
     }
     if (Array.isArray(d.abstract)) {
-      abstract = markdownParser.render(d.abstract.join(''))
+      abstract = parser.render(d.abstract.join(''))
     }
   })
   return [title, abstract]
@@ -54,7 +54,7 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
     )
   }
   // status is success, metadata is ready.
-  const [title, abstract] = extractMetadataFromArticle(article)
+  const [title, abstract] = extractMetadataFromArticle(article, markdownParser)
   console.info('ArticleViewer rendered, title:', title)
   return (
     <NotebookViewer title={title} abstract={abstract} match={{
