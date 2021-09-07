@@ -6,7 +6,23 @@ import { BootstrapColumLayout, StatusSuccess, StatusFetching, StatusIdle } from 
 import Loading from '../components/Loading'
 import NotebookViewer from './NotebookViewer'
 import NotFound from './NotFound'
+import { markdownParser } from '../logic/ipynb'
 
+
+function extractMetadataFromArticle(article){
+  let title = null
+  let abstract = null
+
+  article.data.cells.forEach((d) => {
+    if (Array.isArray(d.title)) {
+      title = markdownParser.render(d.title.join(''))
+    }
+    if (Array.isArray(d.abstract)) {
+      abstract = markdownParser.render(d.abstract.join(''))
+    }
+  })
+  return [title, abstract]
+}
 
 const ArticleViewer = ({ match: { params: { pid }}}) => {
   const { t } = useTranslation()
@@ -21,7 +37,6 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
     console.error(error)
     return <div>Error <pre>{JSON.stringify({errorCode, article}, null, 2)}</pre></div>
   }
-  console.info('ArticleViewer rendered')
   if (status !== StatusSuccess) {
     return (
       <Container className="mt-5 page">
@@ -38,9 +53,11 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
       </Container>
     )
   }
-
+  // status is success, metadata is ready.
+  const [title, abstract] = extractMetadataFromArticle(article)
+  console.info('ArticleViewer rendered, title:', title)
   return (
-    <NotebookViewer match={{
+    <NotebookViewer title={title} abstract={abstract} match={{
       params: {
         encodedUrl: article.notebook_url
       }
