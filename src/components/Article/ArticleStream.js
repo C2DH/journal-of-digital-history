@@ -135,6 +135,8 @@ const ArticleStream = ({
             isCollapsed
             eventKey={cells[cellsIndices[0]].idx}
             size={cellsIndices.length}
+            startNum={numCell + 1}
+            endNum={numCell + cellsIndices.length}
             title={title}
             truncatedTitle={truncatedTitle}
             onVisibilityChange={visibilityChangeHandler}

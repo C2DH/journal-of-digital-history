@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { OverlayTrigger, Tooltip, AccordionContext } from 'react-bootstrap'
 // global context aware
 import { useArticleStore } from '../../store'
-import { Layers, MinusSquare } from 'react-feather'
+import { PlusSquare, MinusSquare } from 'react-feather'
 
 const ArticleCellAccordionCustomToggle = ({ children, isOpen, eventKey, title='', truncatedTitle='' }) => {
   const { t } = useTranslation()
@@ -30,10 +30,10 @@ const ArticleCellAccordionCustomToggle = ({ children, isOpen, eventKey, title=''
       overlay={
         <Tooltip id="button-tooltip">
           {isOpen
-            ? t('actions.hideHermeneuticLayer')
+            ? t('actions.hideShadowLayer')
             : title.length
               ? title
-              : t('actions.showHermeneuticLayer')
+              : t('actions.showShadowLayer')
           }
         </Tooltip>
       }
@@ -44,11 +44,11 @@ const ArticleCellAccordionCustomToggle = ({ children, isOpen, eventKey, title=''
       >
         <span className="monospace">
         {isOpen
-          ? <MinusSquare size="16" color="white"/>
-          : <Layers size="16" color="var(--primary-dark)"/>
+          ? <MinusSquare size="16" />
+          : <PlusSquare size="16"/>
         } {children}&nbsp;
         </span>
-        {truncatedTitle.length ? <span className="ms-3 fst-italic me-2">{truncatedTitle}</span>: null}
+        {truncatedTitle.length ? <span className="ms-1 fst-italic me-1">{truncatedTitle}</span>: null}
       </button>
     </OverlayTrigger>
     </>

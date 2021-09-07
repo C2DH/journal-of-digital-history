@@ -7,9 +7,10 @@ import { useArticleStore } from '../../store'
 
 const ArticleCellAccordion = ({
   eventKey=0,
-  size=0,
+  // size=0,
   isEnabled=true,
   title='',
+  // startNum, endNum,
   truncatedTitle='',
   onVisibilityChange,
   children
@@ -31,7 +32,7 @@ const ArticleCellAccordion = ({
     <div ref={ref} className={`ArticleCellAccordion ${intersectionRatio > 0 ? 'active': ''}`}>
     <Accordion flush>
       {isEnabled ? (
-        <Container >
+        <Container className="mb-4">
           <Row>
             <Col {...BootstrapColumLayout } className="position-relative ArticleCellAccordion_button">
               <div className="position-absolute" style={{
@@ -43,7 +44,6 @@ const ArticleCellAccordion = ({
                   eventKey={eventKey} title={title}
                   truncatedTitle={truncatedTitle}
                 >
-                    <b>{size}</b> x
                 </ArticleCellAccordionCustomToggle>
               </div>
               </Col>
@@ -51,7 +51,7 @@ const ArticleCellAccordion = ({
         </Container>
       ): null}
       <Accordion.Collapse eventKey={eventKey}>
-        <div className="py-0 my-0" style={{}}>
+        <div className="py-3 my-0" style={{}}>
         { children }
         </div>
       </Accordion.Collapse>
