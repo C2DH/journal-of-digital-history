@@ -25,7 +25,6 @@ const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], contributo
             <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>
           ))}
           </div>
-          <ArticleCitation />
         </Col>
       </Row>
       <Row>
@@ -44,6 +43,7 @@ const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], contributo
                 {keywordsAsLinks.map((keyword, i) => (
                   <LangLink key={i} to={`/tag/${keyword}`} className="me-2">{keyword}</LangLink>
                 ))}
+                <ArticleCitation className="my-4 w-100"/>
               </div>
               <div className="ArticleHeader_abstract">
                 {abstract.map((paragraph, i) => (
