@@ -12,16 +12,20 @@ import { markdownParser } from '../logic/ipynb'
 function extractMetadataFromArticle(article){
   let title = null
   let abstract = null
+  let contributor = null
 
-  article.data.cells.forEach((d) => {
-    if (Array.isArray(d.title)) {
-      title = markdownParser.render(d.title.join(''))
+  if (article.data) {
+    if (Array.isArray(article.data.title)) {
+      title = markdownParser.render(article.data.title[0])
     }
-    if (Array.isArray(d.abstract)) {
-      abstract = markdownParser.render(d.abstract.join(''))
+    if (Array.isArray(article.data.abstract)) {
+      abstract = markdownParser.render(article.data.abstract[0])
     }
-  })
-  return [title, abstract]
+    if (Array.isArray(article.data.contributor)) {
+      contributor = markdownParser.render(article.data.contributor.join(''))
+    }
+  }
+  return [title, abstract, contributor]
 }
 
 const ArticleViewer = ({ match: { params: { pid }}}) => {
@@ -54,10 +58,11 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
     )
   }
   // status is success, metadata is ready.
-  const [title, abstract] = extractMetadataFromArticle(article)
+  const [title, abstract, contributor] = extractMetadataFromArticle(article)
   console.info('ArticleViewer rendered, title:', title)
+  console.info('ArticleViewer rendered, contributor:', contributor)
   return (
-    <NotebookViewer title={title} abstract={abstract} match={{
+    <NotebookViewer title={title} abstract={abstract} contributor={contributor} match={{
       params: {
         encodedUrl: article.notebook_url
       }
