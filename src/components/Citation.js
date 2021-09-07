@@ -33,7 +33,7 @@ const Citation = ({ bibjson, format='html', template='apa', ...rest }) => {
   if (format === 'bibtex') {
     return (
       <section {...rest}>
-        <pre className="bg-secondary text-white p-3" >{cite.format(format)}</pre>
+        <pre>{cite.format(format)}</pre>
       </section>
     )
   }

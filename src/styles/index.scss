@@ -375,3 +375,13 @@ blockquote.code{
 
 // import 'highlight.js/styles/dracula.css'
 @import 'highlight.js/styles/dracula.css';
+
+// override bootstrap components
+.modal-header{
+  border-bottom: 0px transparent;
+  padding: 0;
+  .modal-title{
+    padding: var(--spacer-3);
+    padding-bottom: 0;
+  }
+}

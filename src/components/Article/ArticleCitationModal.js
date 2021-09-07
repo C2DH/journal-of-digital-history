@@ -17,6 +17,8 @@ const ArticleCitationModal = (props) => {
       {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
+
+      className="shadow"
       centered
     >
       <Modal.Header>
@@ -32,7 +34,7 @@ const ArticleCitationModal = (props) => {
           </ToggleButton>
         ))}
       </ToggleButtonGroup>
-        <Citation {...choices[value]} className="mt-3 rounded" demo style={{maxHeight: 200, overflow:"scroll"}}/>
+        <Citation {...choices[value]} className="mt-3 bg-gray p-2 border rounded" demo style={{maxHeight: 100, overflow:"scroll"}}/>
       </Modal.Body>
       <Modal.Footer>
         <Button size="sm" variant="outline-secondary" onClick={props.onHide}>Close</Button>
