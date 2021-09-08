@@ -1,6 +1,9 @@
 import React, {useState} from 'react'
 import { Modal, Button, ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
 import Citation from '../Citation'
+import CopyToClipboardTrigger from '../CopyToClipboardTrigger'
+// import { CopyToClipboard } from 'react-copy-to-clipboard'
+// import {OverlayTrigger, Tooltip, Button} from 'react-bootstrap'
 
 const ArticleCitationModal = (props) => {
   const choices = [
@@ -34,9 +37,15 @@ const ArticleCitationModal = (props) => {
           </ToggleButton>
         ))}
       </ToggleButtonGroup>
-        <Citation {...choices[value]} className="mt-3 bg-gray p-2 border rounded" demo style={{maxHeight: 100, overflow:"scroll"}}/>
+        <div className="mt-3 position-relative">
+         <Citation {...choices[value]} className="p-2 rounded all-copy" style={{
+          maxHeight: 100, overflow:"scroll",
+          backgroundColor: 'var(--gray-400)'
+        }} ClipboardComponent={CopyToClipboardTrigger} />
+        </div>
       </Modal.Body>
       <Modal.Footer>
+
         <Button size="sm" variant="outline-secondary" onClick={props.onHide}>Close</Button>
       </Modal.Footer>
     </Modal>

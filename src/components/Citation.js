@@ -20,7 +20,7 @@ const DefaultBibJson = {
     "identifier": [{"type":"doi","id":"10.1186/1758-2946-3-47"}]
 }
 
-const Citation = ({ bibjson, format='html', template='apa', ...rest }) => {
+const Citation = ({ bibjson, format='html', template='apa', ClipboardComponent, ...rest }) => {
   if (!bibjson && !window.CITATION_DEMO) {
     return (
       <section {...rest}>
@@ -31,10 +31,15 @@ const Citation = ({ bibjson, format='html', template='apa', ...rest }) => {
   const cite = new Cite(bibjson ?? DefaultBibJson)
 
   if (format === 'bibtex') {
+    const output = cite.format(format)
     return (
+      <>
       <section {...rest}>
-        <pre>{cite.format(format)}</pre>
+        <pre>{output}</pre>
+
       </section>
+      <ClipboardComponent text={output}/>
+      </>
     )
   }
   const output = cite.format('bibliography', {
@@ -42,9 +47,13 @@ const Citation = ({ bibjson, format='html', template='apa', ...rest }) => {
     template
   })
   return (
+    <>
     <section {...rest}>
       <p dangerouslySetInnerHTML={{__html:output}} />
+
     </section>
+    <ClipboardComponent text={output}/>
+    </>
   )
 }
 
