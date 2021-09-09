@@ -41,10 +41,13 @@ const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], contributo
               <h3>{t('pages.article.abstract')}</h3>
               <div className="ArticleHeader_keywords mb-3">
                 {keywordsAsLinks.map((keyword, i) => (
-                  <LangLink key={i} to={`/tag/${keyword}`} className="me-2">{keyword}</LangLink>
+                  <span key={i}>
+                  <em>{keyword}</em>
+                  {i < keywordsAsLinks.length - 1 && <span>&nbsp;&bull;&nbsp;</span>}
+                  </span>
                 ))}
-                <ArticleCitation className="my-4 w-100"/>
               </div>
+              <ArticleCitation className="my-4 w-100"/>
               <div className="ArticleHeader_abstract">
                 {abstract.map((paragraph, i) => (
                   <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>
