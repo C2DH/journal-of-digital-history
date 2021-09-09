@@ -43,6 +43,8 @@ const renderMarkdownWithReferences = ({
   const references = []
   // console.info('markdownParser.render', markdownParser.render(sources))
   const content = markdownParser.render(sources)
+    // replace sup
+    .replace(/&lt;sup&gt;(.*)&lt;\/sup&gt;/g, (m, str) => `<sup>${str}</sup>`)
     // find and replace ciation in Chicago author-date style, like in this sentence:
     // "Compiling a collection of tweets of this nature raises considerable methodological issues.
     // While we will not go into detail, we would refer our readers to previous publications

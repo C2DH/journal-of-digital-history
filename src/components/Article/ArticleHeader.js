@@ -2,6 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Container, Row, Col } from 'react-bootstrap'
 import ArticleCellContent from './ArticleCellContent'
+import ArticleCitation from './ArticleCitation'
 import LangLink from '../../components/LangLink'
 import { BootstrapColumLayout } from '../../constants'
 
@@ -42,6 +43,7 @@ const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], contributo
                 {keywordsAsLinks.map((keyword, i) => (
                   <LangLink key={i} to={`/tag/${keyword}`} className="me-2">{keyword}</LangLink>
                 ))}
+                <ArticleCitation className="my-4 w-100"/>
               </div>
               <div className="ArticleHeader_abstract">
                 {abstract.map((paragraph, i) => (

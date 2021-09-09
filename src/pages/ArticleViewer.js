@@ -9,21 +9,22 @@ import NotFound from './NotFound'
 import { markdownParser } from '../logic/ipynb'
 
 
-function extractMetadataFromArticle(article){
+function extractMetadataFromArticle(article, parser){
   let title = null
   let abstract = null
   let contributor = null
 
-  if (article.data) {
-    if (Array.isArray(article.data.title)) {
-      title = markdownParser.render(article.data.title[0])
-    }
-    if (Array.isArray(article.data.abstract)) {
-      abstract = markdownParser.render(article.data.abstract[0])
-    }
-    if (Array.isArray(article.data.contributor)) {
-      contributor = markdownParser.render(article.data.contributor.join(''))
-    }
+  if (typeof article?.data === 'undefined') {
+    return [title, abstract, contributor]
+  }
+  if (Array.isArray(article.data.title)) {
+    title = parser.render(article.data.title.join(''))
+  }
+  if (Array.isArray(article.data.abstract)) {
+    abstract = parser.render(article.data.abstract.join(''))
+  }
+  if (Array.isArray(article.data.contributor)) {
+    contributor = parser.render(article.data.contributor.join(''))
   }
   return [title, abstract, contributor]
 }
@@ -58,7 +59,7 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
     )
   }
   // status is success, metadata is ready.
-  const [title, abstract, contributor] = extractMetadataFromArticle(article)
+  const [title, abstract, contributor] = extractMetadataFromArticle(article, markdownParser)
   console.info('ArticleViewer rendered, title:', title)
   console.info('ArticleViewer rendered, contributor:', contributor)
   return (
