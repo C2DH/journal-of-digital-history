@@ -26,7 +26,7 @@ function extractMetadataFromArticle(article, parser){
     result.abstract = parser.render(article.data.abstract.join(''))
   }
   if (Array.isArray(article.data.contributor)) {
-    result.contributors = article.data.contributor.map(d => parser.render(d))
+    result.contributors = article.data.contributor.filter(d => typeof d === 'string').map(d => parser.render(d))
   }
   if (Array.isArray(article.data.keywords)) {
     result.keywords = article.data.keywords.reduce((acc, d) => {
