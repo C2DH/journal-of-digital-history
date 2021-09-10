@@ -11,6 +11,8 @@ const ArticleToCStep = ({
   isTable=false,
   isHermeneutics=false,
   isAccordionOpen=false,
+  isSectionStart=false,
+  isSectionEnd=false,
   children,
   width=0,
   marginLeft=70,
@@ -30,8 +32,6 @@ const ArticleToCStep = ({
         ? 'ArticleToCStep_labelFigure'
         : 'ArticleToCStep_labelTable'
 
-
-
   const handleClick = () => {
     // if the layer is hidden, opens it up and scroll to it on click.
     if (idx) {
@@ -42,7 +42,7 @@ const ArticleToCStep = ({
     }
   }
   return (
-    <div className={`ArticleToCStep ${active?'active':''} ${className} ${levelClassName} ${displayLayer}`} onClick={handleClick} style={{
+    <div className={`ArticleToCStep ${active?'active':''} ${className} ${levelClassName} ${isSectionEnd?'end':''} ${isSectionStart?'start':''} ${displayLayer}`} onClick={handleClick} style={{
       width: availableWidth
     }}>
       <label className={labelClassName}>

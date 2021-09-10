@@ -41,8 +41,17 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0 }) 
         if (!cell) {
           return null
         }
+        const nextCell = i < headingsPositions.length - 1
+          ? cellsIndex[headingsPositions[i + 1]]
+          : null
         let isSectionStart = false
         let isSectionEnd = false
+        if(cell.isHeading && cell.heading.level === 2) {
+          isSectionStart = true
+        }
+        if (nextCell && nextCell.isHeading && nextCell.heading.level === 2 ) {
+          isSectionEnd = true
+        }
         // is last only if next heading is higher than this one, or it is a hermeneutic
         const isHermeneutics = cell.layer === LayerHermeneutics
         // const isLast
