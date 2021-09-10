@@ -534,29 +534,111 @@ svg.ArticleFingerprint{
 .ArticleToCStep_Level_H3,
 .ArticleToCStep_Level_H4,
 .ArticleToCStep_Level_H5,
-.ArticleToCStep_Level_H6
- {
+.ArticleToCStep_Level_H6 {
   cursor: pointer;
-  .ArticleToCStep_icon {
-    right: -24px;
-  }
 }
 
 .ArticleToCStep_icon {
   position: absolute;
-  right: -40px;
-  top: -2px;
+  right: -24px;
+  top: 0;
+  svg{
+    position:absolute;
+    top: 5px;
+    left: -6px;
+  }
+  &::before{
+    position: absolute;
+    left: 0px;
+    height: 6px;
+    top: 0;
+    width: 1px;
+    background-color: var(--dark);
+    content: '';
+  }
+  &::after{
+    position: absolute;
+    left: 0px;
+    height: 6px;
+    top: 17px;
+    width: 1px;
+    background-color: var(--dark);
+    content: '';
+  }
 }
 
+
+.ArticleToCStep_icon_circle{
+  position: absolute;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+.ArticleToCStep_Level_H2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  .ArticleToCStep_icon::after{
+    top: 17px;
+    height: 14px;
+  }
+  .ArticleToCStep_icon_circle{
+    width: 15px;
+    height: 15px;
+    top: 3px;
+    left: -7px;
+  }
+}
+
+.ArticleToCStep_Level_H3 {
+  .ArticleToCStep_icon::before{
+    top: 0px;
+    height: 7px;
+  }
+  .ArticleToCStep_icon::after{
+    top: 14px;
+  }
+  .ArticleToCStep_icon_circle{
+    width: 9px;
+    height: 9px;
+    left: -4px;
+    top: 6px;
+  }
+}
+
+.ArticleToCStep_Level_H4, .ArticleToCStep_Level_H5, .ArticleToCStep_Level_H6 {
+  .ArticleToCStep_icon::before{
+    top: 0px;
+    height: 8px;
+  }
+  .ArticleToCStep_icon::after{
+    top: 13px;
+    height: 7px;
+  }
+  .ArticleToCStep_icon_circle{
+    width: 5px;
+    height: 5px;
+    left: -2px;
+    top: 8px;
+  }
+}
 
 .ArticleToCStep.active{
   label{
     font-weight: bold;
   }
-  .ArticleToCStep_Circle {
-    border-color: var(--dark);
-    border-width:2px;
+  .ArticleToCStep_icon_circle {
+    background-color: var(--dark);
   }
+}
+
+.ArticleToCStep.start .ArticleToCStep_icon::before {
+  display: none;
+}
+.ArticleToCStep.end .ArticleToCStep_icon::after {
+  display: none;
 }
 
 .ArticleToCStep.hermeneutics{

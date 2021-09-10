@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Layers, Image, Grid, Circle } from 'react-feather'
+import { Layers, Image, Grid } from 'react-feather'
 import { useArticleStore } from '../../store'
 
 
@@ -11,6 +11,8 @@ const ArticleToCStep = ({
   isTable=false,
   isHermeneutics=false,
   isAccordionOpen=false,
+  isSectionStart=false,
+  isSectionEnd=false,
   children,
   width=0,
   marginLeft=70,
@@ -30,11 +32,11 @@ const ArticleToCStep = ({
         ? 'ArticleToCStep_labelFigure'
         : 'ArticleToCStep_labelTable'
 
-
-
   const handleClick = () => {
     // if the layer is hidden, opens it up and scroll to it on click.
-    if (idx) {
+    if (isNaN(idx)) {
+      history.push(`#${idx}`)
+    } else {
       history.push(`#${displayLayer}${idx}`)
     }
     if (isHermeneutics) {
@@ -42,17 +44,17 @@ const ArticleToCStep = ({
     }
   }
   return (
-    <div className={`ArticleToCStep ${active?'active':''} ${className} ${levelClassName} ${displayLayer}`} onClick={handleClick} style={{
+    <div className={`ArticleToCStep ${active?'active':''} ${className} ${levelClassName} ${isSectionEnd?'end':''} ${isSectionStart?'start':''} ${displayLayer}`} onClick={handleClick} style={{
       width: availableWidth
     }}>
       <label className={labelClassName}>
       {children}
       </label>
       <div className="ArticleToCStep_icon">
-        {isHermeneutics && !isTable && !isFigure && <Layers size={12} />}
-        {!isHermeneutics && !isTable && !isFigure && <Circle size={12} />}
-        {isFigure && !isTable && <Image size={12} />}
-        {isTable && <Grid  size={12} />}
+        {isHermeneutics && !isTable && !isFigure && <Layers size={13} />}
+        {!isHermeneutics && !isTable && !isFigure && <div className="ArticleToCStep_icon_circle" />}
+        {isFigure && !isTable && <Image size={13} />}
+        {isTable && <Grid  size={13} />}
       </div>
     </div>
   )

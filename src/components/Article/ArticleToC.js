@@ -29,7 +29,7 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0 }) 
   paragraphs.forEach((p) => {
     cellsIndex[p.idx] = p
   })
-
+  let count = 0
 
   return (
     <aside className="ArticleToC position-absolute py-4" style={{
@@ -41,8 +41,24 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0 }) 
         if (!cell) {
           return null
         }
+        const nextCell = i < headingsPositions.length - 1
+          ? cellsIndex[headingsPositions[i + 1]]
+          : null
         let isSectionStart = false
         let isSectionEnd = false
+        if(cell.isHeading && cell.heading.level === 2) {
+          isSectionStart = true
+        }
+        if (count === 0) {
+          isSectionEnd = true
+          isSectionStart = true
+        }
+        if (nextCell && nextCell.isHeading && nextCell.heading.level === 2 ) {
+          isSectionEnd = true
+        }
+
+        count++
+
         // is last only if next heading is higher than this one, or it is a hermeneutic
         const isHermeneutics = cell.layer === LayerHermeneutics
         // const isLast
@@ -73,6 +89,7 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0 }) 
         width={width}
         className="mt-3"
         idx='bibliography'
+        level={2}
       >
         (bibliography)
       </ArticleToCStep>
