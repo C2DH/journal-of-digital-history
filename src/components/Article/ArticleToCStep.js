@@ -49,10 +49,10 @@ const ArticleToCStep = ({
       {children}
       </label>
       <div className="ArticleToCStep_icon">
-        {isHermeneutics && !isTable && !isFigure && <Layers size={12} />}
+        {isHermeneutics && !isTable && !isFigure && <Layers size={13} />}
         {!isHermeneutics && !isTable && !isFigure && <div className="ArticleToCStep_icon_circle" />}
-        {isFigure && !isTable && <Image size={12} />}
-        {isTable && <Grid  size={12} />}
+        {isFigure && !isTable && <Image size={13} />}
+        {isTable && <Grid  size={13} />}
       </div>
     </div>
   )

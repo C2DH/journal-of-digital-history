@@ -545,11 +545,12 @@ svg.ArticleFingerprint{
   svg{
     position:absolute;
     top: 5px;
+    left: -6px;
   }
   &::before{
     position: absolute;
     left: 0px;
-    height: 10px;
+    height: 6px;
     top: 0;
     width: 1px;
     background-color: var(--dark);
@@ -558,8 +559,8 @@ svg.ArticleFingerprint{
   &::after{
     position: absolute;
     left: 0px;
-    height: 10px;
-    top: 10px;
+    height: 6px;
+    top: 17px;
     width: 1px;
     background-color: var(--dark);
     content: '';
@@ -614,6 +615,7 @@ svg.ArticleFingerprint{
   }
   .ArticleToCStep_icon::after{
     top: 13px;
+    height: 7px;
   }
   .ArticleToCStep_icon_circle{
     width: 5px;
@@ -627,9 +629,8 @@ svg.ArticleFingerprint{
   label{
     font-weight: bold;
   }
-  .ArticleToCStep_Circle {
-    border-color: var(--dark);
-    border-width:2px;
+  .ArticleToCStep_icon_circle {
+    background-color: var(--dark);
   }
 }
 
