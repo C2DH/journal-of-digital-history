@@ -6,13 +6,19 @@ import { useGetJSON } from '../logic/api/fetchData'
 import { decodeNotebookURL } from '../logic/ipynb'
 import { BootstrapColumLayout, StatusSuccess, StatusFetching } from '../constants'
 import Article from './Article'
+import ArticleKeywords from '../components/Article/ArticleKeywords'
 import Loading from '../components/Loading'
 
 /**
  * Loading bar inspired by
  * https://codesandbox.io/s/github/pmndrs/react-spring/tree/master/demo/src/sandboxes/animating-auto
  */
-const NotebookViewer = ({ match: { params: { encodedUrl }}, title, abstract, keywords}) => {
+const NotebookViewer = ({
+  match: { params: { encodedUrl }},
+  title, abstract, keywords=[],
+  contributors=[],
+  publicationDate,
+}) => {
   const { t } = useTranslation()
   const [animatedProps, api] = useSpring(() => ({ width : 0, opacity:1, config: config.slow }))
 
@@ -67,22 +73,30 @@ const NotebookViewer = ({ match: { params: { encodedUrl }}, title, abstract, key
       {status === StatusSuccess
         ? <Article ipynb={data} memoid={encodedUrl}/>
         : (
-          <Container className="page">
+          <Container className="page mt-5">
             <Row>
               <Col {...BootstrapColumLayout}>
+              {publicationDate
+                ? <h3 className="mb-3">{t('pages.article.publicationDate')} {t('dates.short', {date: publicationDate})}</h3>
+                : <h3 className="mb-3">{t('pages.article.notYetPublished')} | ({(new Date()).getFullYear()})</h3>
+              }
               {title
-                ? <section className="my-5" dangerouslySetInnerHTML={{__html: title }} />
-                : <h1 className="my-5">{t('pages.loading.title')}</h1>
+                ? <section className="my-3" dangerouslySetInnerHTML={{__html: title }} />
+                : <h1 className="my-3">{t('pages.loading.title')}</h1>
               }
               </Col>
+            </Row>
+            <Row>
+            {contributors.map((contributor,i) => (
+              <Col key={i} md={{ offset: i % 2 === 0 ? 2: 0, span: 4}}>
+                 <div dangerouslySetInnerHTML={{__html: contributor}}></div>
+              </Col>
+            ))}
             </Row>
             <Row className="mt-5">
               <Col {...BootstrapColumLayout}>
                 <h3>{t('pages.article.abstract')}</h3>
-                {Array.isArray(keywords)
-                  ? <div className="ArticleHeader_keywords mb-3"/>
-                  : null
-                }
+                <ArticleKeywords keywords={keywords}/>
                 {abstract
                   ? <div className="ArticleHeader_abstract" dangerouslySetInnerHTML={{__html: abstract }} />
                   : null
