@@ -1,6 +1,6 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Layers, Image, Grid, Circle } from 'react-feather'
+import { Layers, Image, Grid } from 'react-feather'
 import { useArticleStore } from '../../store'
 
 
@@ -50,7 +50,7 @@ const ArticleToCStep = ({
       </label>
       <div className="ArticleToCStep_icon">
         {isHermeneutics && !isTable && !isFigure && <Layers size={12} />}
-        {!isHermeneutics && !isTable && !isFigure && <Circle size={12} />}
+        {!isHermeneutics && !isTable && !isFigure && <div className="ArticleToCStep_icon_circle" />}
         {isFigure && !isTable && <Image size={12} />}
         {isTable && <Grid  size={12} />}
       </div>
