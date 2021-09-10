@@ -10,23 +10,30 @@ import { markdownParser } from '../logic/ipynb'
 
 
 function extractMetadataFromArticle(article, parser){
-  let title = null
-  let abstract = null
-  let contributor = null
+  const result = {
+    title: null,
+    abstract: null,
+    contributors: [], keywords: []
+  }
 
   if (typeof article?.data === 'undefined') {
-    return [title, abstract, contributor]
+    return result
   }
   if (Array.isArray(article.data.title)) {
-    title = parser.render(article.data.title.join(''))
+    result.title = parser.render(article.data.title.join(''))
   }
   if (Array.isArray(article.data.abstract)) {
-    abstract = parser.render(article.data.abstract.join(''))
+    result.abstract = parser.render(article.data.abstract.join(''))
   }
   if (Array.isArray(article.data.contributor)) {
-    contributor = parser.render(article.data.contributor.join(''))
+    result.contributors = article.data.contributor.map(d => parser.render(d))
   }
-  return [title, abstract, contributor]
+  if (Array.isArray(article.data.keywords)) {
+    result.keywords = article.data.keywords.reduce((acc, d) => {
+      return acc.concat(String(d).trim().split(/\s*,\s*/))
+    }, []).filter(d => d.length)
+  }
+  return result
 }
 
 const ArticleViewer = ({ match: { params: { pid }}}) => {
@@ -59,11 +66,18 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
     )
   }
   // status is success, metadata is ready.
-  const [title, abstract, contributor] = extractMetadataFromArticle(article, markdownParser)
+  const {title, abstract, keywords, contributors} = extractMetadataFromArticle(article, markdownParser)
   console.info('ArticleViewer rendered, title:', title)
-  console.info('ArticleViewer rendered, contributor:', contributor)
+  console.info('ArticleViewer rendered, contributors:', contributors)
   return (
-    <NotebookViewer title={title} abstract={abstract} contributor={contributor} match={{
+    <NotebookViewer
+      title={title}
+      abstract={abstract}
+      contributors={contributors}
+      keywords={keywords}
+      status={article.status}
+      publicationDate={article.publication_date}
+      match={{
       params: {
         encodedUrl: article.notebook_url
       }
