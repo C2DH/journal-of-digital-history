@@ -34,7 +34,9 @@ const ArticleToCStep = ({
 
   const handleClick = () => {
     // if the layer is hidden, opens it up and scroll to it on click.
-    if (idx) {
+    if (isNaN(idx)) {
+      history.push(`#${idx}`)
+    } else {
       history.push(`#${displayLayer}${idx}`)
     }
     if (isHermeneutics) {
