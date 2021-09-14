@@ -6,35 +6,8 @@ import { BootstrapColumLayout, StatusSuccess, StatusFetching, StatusIdle } from 
 import Loading from '../components/Loading'
 import NotebookViewer from './NotebookViewer'
 import NotFound from './NotFound'
-import { markdownParser } from '../logic/ipynb'
+import { extractMetadataFromArticle } from '../logic/api/metadata'
 
-
-function extractMetadataFromArticle(article, parser){
-  const result = {
-    title: null,
-    abstract: null,
-    contributors: [], keywords: []
-  }
-
-  if (typeof article?.data === 'undefined') {
-    return result
-  }
-  if (Array.isArray(article.data.title)) {
-    result.title = parser.render(article.data.title.join(''))
-  }
-  if (Array.isArray(article.data.abstract)) {
-    result.abstract = parser.render(article.data.abstract.join(''))
-  }
-  if (Array.isArray(article.data.contributor)) {
-    result.contributors = article.data.contributor.filter(d => typeof d === 'string').map(d => parser.render(d))
-  }
-  if (Array.isArray(article.data.keywords)) {
-    result.keywords = article.data.keywords.reduce((acc, d) => {
-      return acc.concat(String(d).trim().split(/\s*,\s*/))
-    }, []).filter(d => d.length)
-  }
-  return result
-}
 
 const ArticleViewer = ({ match: { params: { pid }}}) => {
   const { t } = useTranslation()
@@ -66,7 +39,7 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
     )
   }
   // status is success, metadata is ready.
-  const {title, abstract, keywords, contributors} = extractMetadataFromArticle(article, markdownParser)
+  const {title, abstract, keywords, contributors} = extractMetadataFromArticle(article)
   console.info('ArticleViewer rendered, title:', title)
   console.info('ArticleViewer rendered, contributors:', contributors)
   return (
