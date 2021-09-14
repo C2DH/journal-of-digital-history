@@ -22,8 +22,8 @@ const IssueArticlesGrid = ({ issue, onError }) => {
   return (
     <Row>
         {articles.map((article, i) => (
-          <Col key={i} md={{span:4, offset: i % 2 === 0 ? 2 : 0}}>
-            <IssueArticleGridItem article={article} />
+          <Col key={i} lg={{ span: 4, offset:0}} md={{span:4, offset: i % 2 === 0 ? 2 : 0}}>
+            <IssueArticleGridItem article={article} num={i+1}/>
           </Col>
         ))}
     </Row>
