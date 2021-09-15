@@ -34,7 +34,7 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0, ha
   let count = 0
 
   return (
-    <aside className="ArticleToC position-absolute py-4" style={{
+    <aside className="ArticleToC position-absolute pb-4" style={{
       height,
       width,
       overflow: 'scroll', pointerEvents: 'auto'}}>
