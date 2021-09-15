@@ -20,10 +20,17 @@ $breakpoint-lg: 992px;
   color: var(--gray-500);
   font-weight: bold;
 
-font-size: 12px;
-top: 3px;
+  font-size: 12px;
+  top: 4px;
   will-change: color;
   transition: color .25s ease-in-out;
+
+  &.level_H2{
+    top: 15px;
+  }
+  &.level_H3, &.level_H4, &.level_H5, &.level_H6{
+    top: 1px;
+  }
 }
 
 .ArticleCellContent_idx {

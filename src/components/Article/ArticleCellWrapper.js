@@ -24,6 +24,7 @@ const ArticleCellWrapper = ({ cell, memoid, numCell, onVisibilityChange, isNarra
         num={numCell}
         idx={cell.idx}
         role={cell.role}
+        headingLevel={cell.isHeading ? cell.heading.level : 0}
         isNarrativeStep={isNarrativeStep}
       />
     </div>
