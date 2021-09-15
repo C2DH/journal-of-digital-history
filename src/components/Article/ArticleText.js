@@ -14,7 +14,8 @@ const ArticleText = ({
   anchorPrefix='',
   height=0,
   tocOffset=100,
-  disableSwitchLayer
+  disableSwitchLayer,
+  hasBibliography
 }) => {
   const [bbox, ref] = useBoundingClientRect()
   console.info('ArticleText bbox', bbox)
@@ -33,6 +34,7 @@ const ArticleText = ({
             paragraphs={paragraphs}
             headingsPositions={headingsPositions}
             active
+            hasBibliograhy={hasBibliography}
           />
         </div>
       </div>
