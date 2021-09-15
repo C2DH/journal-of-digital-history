@@ -56,6 +56,9 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0 }) 
         if (nextCell && nextCell.isHeading && nextCell.heading.level === 2 ) {
           isSectionEnd = true
         }
+        if(!nextCell) {
+          isSectionEnd = true
+        }
 
         count++
 
@@ -89,7 +92,9 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0 }) 
         width={width}
         className="mt-3"
         idx='bibliography'
-        level={2}
+        level="H2"
+        isSectionStart
+        isSectionEnd
       >
         (bibliography)
       </ArticleToCStep>
