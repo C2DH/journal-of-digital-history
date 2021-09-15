@@ -117,6 +117,9 @@ html,
     margin-right: 2rem;
     position: relative;
   }
+  &:hover span:before{
+    width: 100%;
+  }
   &.active > span{
     font-weight: bold;
     &:before{
