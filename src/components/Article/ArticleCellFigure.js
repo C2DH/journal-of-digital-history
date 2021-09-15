@@ -54,7 +54,7 @@ const ArticleCellFigure = ({ figure, metadata={}, outputs=[], sourceCode, figure
           <Col {...BootstrapColumLayout}>
           {sourceCode}
           <ArticleFigure figure={figure}><p dangerouslySetInnerHTML={{
-            __html: captions.join('<br />').replace(/(Fig.|figure|table)\s+[\da-z-]+\s+:\s+/i, ''),
+            __html: captions.join('<br />').replace(/(Fig.|figure|table)\s+[\da-z-]+\s*:\s+/i, ''),
           }} /></ArticleFigure>
           </Col>
         </Row>
