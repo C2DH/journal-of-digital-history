@@ -4,8 +4,8 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { useGetJSON } from '../logic/api/fetchData'
 import { BootstrapColumLayout, StatusSuccess, StatusFetching, StatusIdle } from '../constants'
 import Loading from '../components/Loading'
+import ErrorViewer from './ErrorViewer'
 import NotebookViewer from './NotebookViewer'
-import NotFound from './NotFound'
 import { extractMetadataFromArticle } from '../logic/api/metadata'
 
 
@@ -16,11 +16,7 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
     delay: 1000
   })
   if (error) {
-    if (errorCode===404) {
-      return <NotFound/>
-    }
-    console.error(error)
-    return <div>Error <pre>{JSON.stringify({errorCode, article}, null, 2)}</pre></div>
+    return <ErrorViewer error={error} errorCode={errorCode} />
   }
   if (status !== StatusSuccess) {
     return (
