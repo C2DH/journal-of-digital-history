@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useGetJSON } from '../logic/api/fetchData'
@@ -7,14 +7,29 @@ import Loading from '../components/Loading'
 import ErrorViewer from './ErrorViewer'
 import NotebookViewer from './NotebookViewer'
 import { extractMetadataFromArticle } from '../logic/api/metadata'
+import { useIssueStore } from '../store'
 
 
 const ArticleViewer = ({ match: { params: { pid }}}) => {
   const { t } = useTranslation()
+  const setIssue = useIssueStore(state => state.setIssue)
   const { data:article, error, status, errorCode} = useGetJSON({
     url:`/api/articles/${pid}`,
     delay: 1000
   })
+
+  useEffect(() => {
+    if (article && article.issue) {
+      setIssue(article.issue)
+    } else {
+      setIssue({pid: '...'})
+    }
+    return () => {
+      // clear
+      setIssue(null)
+    }
+  }, [article])
+
   if (error) {
     return <ErrorViewer error={error} errorCode={errorCode} />
   }

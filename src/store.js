@@ -3,6 +3,10 @@ import { persist } from 'zustand/middleware'
 import AbstractSubmission from './models/AbstractSubmission'
 import { DisplayLayerNarrative } from './constants'
 
+export const useIssueStore = create((set) => ({
+  issue: null,
+  setIssue: (issue) => set(() => ({ issue }))
+}))
 
 export const useArticleStore = create((set) => ({
   // visible shadow cells according to Accordion
