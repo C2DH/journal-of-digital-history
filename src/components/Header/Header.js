@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Nav, Navbar, Container, Row, Col } from 'react-bootstrap'
 import SwitchLanguage from '../SwitchLanguage'
+import IssueBreadcrumb from '../Issue/IssueBreadcrumb'
 import SwitchLanguageLink from '../SwitchLanguage/SwitchLanguageLink'
 import LangNavLink from '../LangNavLink'
 import UserProfile from './UserProfile'
@@ -62,16 +63,25 @@ const MobileHeader = ({ langs, displayLangs }) => {
     </>
   )
 }
+//
+
 
 const NavPrimaryRoutes = ({ routes, ...props}) => {
   const { t } = useTranslation()
   return (
-    <Nav {...props}>
-      {routes.map(({to, label}, i) => (
-        <Nav.Item key={`primary-route-${i}`}>
-          <LangNavLink to={to} exact>{t(label)}</LangNavLink>
-        </Nav.Item>
-      ))}
+    <Nav className="align-items-end" {...props}>
+      {routes.map(({to, label}) => {
+        if (to === '/issues') {
+          return <IssueBreadcrumb key={to} to={to} label={label}/>
+        }
+        return(
+          <Nav.Item key={to} >
+            <LangNavLink to={to} className="px-0" exact>
+              <span>{t(label)}</span>
+            </LangNavLink>
+          </Nav.Item>
+        )
+      })}
       {props.children}
     </Nav>
   )

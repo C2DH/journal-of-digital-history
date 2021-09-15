@@ -104,8 +104,38 @@ html,
 .navbar-brand{
   box-shadow: none;
 }
-.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active{
-  box-shadow: 0px 1px 0px var(--primary);
+// .navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active{
+//   box-shadow: 0px 1px 0px var(--primary);
+//
+//
+// }
+
+.navbar-nav .nav-link{
+  > span{
+    display: inline-block;
+    padding-bottom: 1rem;
+    margin-right: 2rem;
+    position: relative;
+  }
+  &:hover span:before{
+    width: 100%;
+  }
+  &.active > span{
+    font-weight: bold;
+    &:before{
+      width: 100%;
+    }
+  }
+  > span:before{
+    position: absolute;
+    content: '';
+    height: 2px;
+    width: 0;
+    background-color: var(--dark);
+    bottom: 5px;
+    will-change: width;
+    transition: width 0.5s cubic-bezier(0.85, 0, 0.15, 1);
+  }
 }
 
 .nav.nav-pills {

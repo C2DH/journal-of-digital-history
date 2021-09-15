@@ -20,7 +20,7 @@
       "visibleOnlyByYou": "(only visible to you)",
       "contactUsingEmail": "Contact us at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>",
       "FormNotebookUrl_GenerateLink": "View notebook as journal article!",
-      "Navigation_NotebookViewer": "Preview",
+      "Navigation_NotebookViewer": "Preview Notebook",
       "Pages_NotebookViewer_Title": "Jupyter notebook viewer",
       "pages": {
         "loading": {
