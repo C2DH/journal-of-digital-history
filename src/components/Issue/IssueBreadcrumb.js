@@ -9,22 +9,20 @@ import { useIssueStore } from '../../store'
 const IssueBreadcumb = ({ to, label }) => {
   const { t } = useTranslation()
   const issue = useIssueStore(state => state.issue)
-  console.info('IssueBreadcumb rerendered')
   const { pathname } = useLocation()
   const [, issuePid] = pathname.match(/^\/[a-z]+\/issue\/([a-z]+\d+)/) ?? [null, null]
-
+  const issueLabel = String(issuePid || issue?.pid || '')
   return(
     <Nav.Item className="d-flex flex-nowrap">
       <LangNavLink to={to} className="px-0" active={pathname.match(/^\/[a-z]+\/issues\/?/)}>
         <span style={{
-          marginRight: issuePid || issue?.pid ? 0 : null
+          marginRight: issueLabel.length ? 0 : null
         }}>{t(label)}</span>
       </LangNavLink>
-      {issuePid || issue?.pid ? (
+      {issueLabel.length ? (
         <LangNavLink className="px-0" to={to} active style={{
-          width:100,
-          top: -0,
-        }}>&nbsp;/&nbsp;<span>{issuePid || issue?.pid}</span>
+          whiteSpace: 'nowrap'
+        }}>&nbsp;/&nbsp;<span>{issueLabel}</span>
         </LangNavLink>
       ): null}
     </Nav.Item>
