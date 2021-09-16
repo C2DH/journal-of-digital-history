@@ -1,9 +1,11 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useArticleStore } from '../../store'
 import { LayerHermeneutics } from '../../constants'
 import ArticleToCStep from './ArticleToCStep'
 
-const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0 }) => {
+const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0, hasBibliograhy }) => {
+  const { t } = useTranslation()
   const visibleCellsIdx = useArticleStore(state=>state.visibleCellsIdx)
 
   const firstVisibleCellIdx = visibleCellsIdx.length ? visibleCellsIdx[0] : -1
@@ -32,7 +34,7 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0 }) 
   let count = 0
 
   return (
-    <aside className="ArticleToC position-absolute py-4" style={{
+    <aside className="ArticleToC position-absolute pb-4" style={{
       height,
       width,
       overflow: 'scroll', pointerEvents: 'auto'}}>
@@ -54,6 +56,9 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0 }) 
           isSectionStart = true
         }
         if (nextCell && nextCell.isHeading && nextCell.heading.level === 2 ) {
+          isSectionEnd = true
+        }
+        if(!nextCell) {
           isSectionEnd = true
         }
 
@@ -85,14 +90,19 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0 }) 
           </ArticleToCStep>
         )
       })}
-      <ArticleToCStep
-        width={width}
-        className="mt-3"
-        idx='bibliography'
-        level={2}
-      >
-        (bibliography)
-      </ArticleToCStep>
+      {hasBibliograhy?
+      (
+        <ArticleToCStep
+          width={width}
+          className="mt-3"
+          idx='bibliography'
+          level="H2"
+          isSectionStart
+          isSectionEnd
+        >
+        {t('bibliography')}
+        </ArticleToCStep>
+      ):null}
     </aside>
   )
 }

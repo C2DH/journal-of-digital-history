@@ -6,7 +6,7 @@ const ArticleKeywords = ({ keywords = []}) => {
       {keywords.map((keyword, i) => (
         <span key={i}>
         <em>{keyword}</em>
-        {i < keywords.length - 1 && <span>&nbsp;&bull;&nbsp;</span>}
+        {i < keywords.length - 1 && <span> &bull; </span>}
         </span>
       ))}
     </div>

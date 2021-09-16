@@ -49,6 +49,7 @@ const Article = ({ ipynb, url, publicationDate = new Date(), doi }) => {
         height={height}
         width={width}
         anchorPrefix={DisplayLayerNarrative}
+        hasBibliograhy={articleTree?.bibliography}
         {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }}
       />
       {articleTree.citationsFromMetadata
