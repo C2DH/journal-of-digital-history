@@ -65,6 +65,7 @@ const NotebookViewerForm = lazy(() => import('./pages/NotebookViewerForm'))
 const Guidelines = lazy(() => import('./pages/Guidelines'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const ArticleViewer = lazy(() => import('./pages/ArticleViewer'))
+const Fingerprint = lazy(() => import('./pages/Fingerprint'))
 const { startLangShort, lang } = getStartLang()
 console.info('start language:', lang, startLangShort)
 i18n
@@ -112,12 +113,8 @@ function LangRoutes() {
       <Route path={`${path}/issues`} component={Issues} />
       <Route path={`${path}/issue/:id`} component={Issue} />
       <Route path={`${path}/article/:pid`} component={ArticleViewer} />
-      <Route path={`${path}/abstract-submitted`}>
-        <AbstractSubmitted />
-      </Route>
-      <Route exact path={`${path}/terms`}>
-        <TermsOfUse />
-      </Route>
+      <Route path={`${path}/abstract-submitted`} component={AbstractSubmitted} />
+      <Route exact path={`${path}/terms`} component={TermsOfUse}/>
       <Route exact path={`${path}/submit`}>
         <AbstractSubmission />
       </Route>
@@ -133,12 +130,9 @@ function LangRoutes() {
       <Route path={`${path}/local-notebook`}>
         <LocalNotebook />
       </Route>
-      <Route exact path={`${path}/playground`}>
-        <Playground />
-      </Route>
-      <Route exact path={`${path}/guidelines`}>
-        <Guidelines />
-      </Route>
+      <Route exact path={`${path}/playground`} component={Playground}/>
+      <Route exact path={`${path}/fingerprint`} component={Fingerprint} />
+      <Route exact path={`${path}/guidelines`} component={Guidelines} />
       <Route path={`${path}*`}>
         <NotFound path={path}/>
       </Route>
@@ -156,7 +150,7 @@ function usePageViews() {
       console.info('pageview', url)
       // based on the pathname, change the background
       if (pathname.indexOf('/notebook') !== -1 || pathname.indexOf('/article') !== -1) {
-        changeBackgroundColor('var(--gray-100)')
+        changeBackgroundColor('#F4F1F8')
       } else if (pathname.indexOf('/issue') !== -1) {
         changeBackgroundColor('var(--gray-100)')
       } else if (pathname.indexOf('/submit') !== -1) {
@@ -165,7 +159,7 @@ function usePageViews() {
         changeBackgroundColor('var(--linen)')
       } else if (pathname.indexOf('/terms') !== -1) {
         changeBackgroundColor('var(--peachpuff)')
-      } else  {
+      } else {
         changeBackgroundColor('var(--gray-100)')
       }
       ReactGA.pageview(url)

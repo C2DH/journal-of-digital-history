@@ -5,10 +5,12 @@ import ArticleCellContent from './ArticleCellContent'
 import ArticleCellSourceCode from './ArticleCellSourceCode'
 import ArticleCellFigure from './ArticleCellFigure'
 import {
-  ModuleStack, ModuleTextObject, ModuleObject,
-  ModuleQuote, BootstrapColumLayout,
+  ModuleStack, ModuleTextObject, ModuleObject, ModuleQuote,
+  BootstrapColumLayout,
+  BootstrapQuoteColumLayout,
   BootstrapNarrativeStepColumnLayout,
-  BootstrapNarrativeStepFigureColumnLayout
+  BootstrapNarrativeStepFigureColumnLayout,
+  RoleQuote
 } from '../../constants'
 
 const ArticleCellVisualisation = lazy(() => import('./ArticleCellVisualisation'))
@@ -18,9 +20,11 @@ const ArticleCellObject = lazy(() => import('./ArticleCellObject'))
 
 const ArticleCell = ({
   type, layer, num=1, content='', idx, outputs=[], hideNum, metadata = {},
+  role,
   progress, active = false,
   isNarrativeStep,
   figure, // ArticleFigure instance
+  headingLevel=0, // if isHeading, set this to its ArticleHeading.level value
 }) => {
   let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout;
   // we override or set the former layout if it appears in narrative-step
@@ -62,14 +66,12 @@ const ArticleCell = ({
       </Container>
     )
   }
-  if (cellModule === ModuleQuote) {
+  if (cellModule === ModuleQuote || role === RoleQuote) {
     return (
       <Container >
         <Row>
-          <Col md={{span: 10, offset: 1}}>
-            <div className="ArticleCellQuote">
-              <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum} />
-            </div>
+          <Col className="ArticleCellQuote" {...BootstrapQuoteColumLayout}>
+            <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum} />
           </Col>
         </Row>
       </Container>
@@ -93,7 +95,7 @@ const ArticleCell = ({
       <Container>
         <Row>
           <Col {... cellBootstrapColumnLayout}>
-            <ArticleCellContent hideNum={hideNum} layer={layer} content={content} idx={idx} num={num} />
+            <ArticleCellContent headingLevel={headingLevel} hideNum={hideNum} layer={layer} content={content} idx={idx} num={num} />
           </Col>
         </Row>
       </Container>

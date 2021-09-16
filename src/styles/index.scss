@@ -13,8 +13,10 @@
   --accent: #{map-get($theme-colors, 'accent')};
   --primary:  #{map-get($theme-colors, 'primary')};
   --secondary: #{map-get($theme-colors, 'secondary')};
+  --hermeneutics: #8bffef;
   --yellow: #FFEE88;
   --yellowcrayola: #FFE787;
+  --yellowicterine: #F8F272;
   --pink: #FFCAD4;
   --snow: #FFF3F0;
   --linen: #FEEFE5;
@@ -22,6 +24,7 @@
   --peachpuff: #fee1c7;
   --capri: #48BEFF;
   --almond: #F0DCCA;
+  --primary-dark: #007D6C; // #00B89F; // #00e0c2 #00CCB1 00B89F
   @each $bp, $value in $grays {
     --gray-#{$bp}: #{$value};
   }
@@ -40,10 +43,10 @@
   --font-size-2: #{$font-size-base * 1.25};
   --font-size-3: #{$font-size-base * 1.5};
   --font-size-4: #{$font-size-base * 2};
-  --font-size-5: #{$font-size-base * 2.5};
+  --font-size-5: #{$font-size-base * 2.75};
   --line-height-1: #{$font-size-base * 1.75};
   --line-height-1-m: #{$font-size-base * (1.5 / 2)};
-  --line-height-5: #{$font-size-base * 2.5 * 1.25};
+  --line-height-5: #{$font-size-base * 2.75 * 1.25};
 }
 
 body,
@@ -101,8 +104,38 @@ html,
 .navbar-brand{
   box-shadow: none;
 }
-.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active{
-  box-shadow: 0px 1px 0px var(--primary);
+// .navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active{
+//   box-shadow: 0px 1px 0px var(--primary);
+//
+//
+// }
+
+.navbar-nav .nav-link{
+  > span{
+    display: inline-block;
+    padding-bottom: 1rem;
+    margin-right: 2rem;
+    position: relative;
+  }
+  &:hover span:before{
+    width: 100%;
+  }
+  &.active > span{
+    font-weight: bold;
+    &:before{
+      width: 100%;
+    }
+  }
+  > span:before{
+    position: absolute;
+    content: '';
+    height: 2px;
+    width: 0;
+    background-color: var(--dark);
+    bottom: 5px;
+    will-change: width;
+    transition: width 0.5s cubic-bezier(0.85, 0, 0.15, 1);
+  }
 }
 
 .nav.nav-pills {
@@ -128,6 +161,15 @@ html,
   &:hover{
     color: var(--dark);
   }
+}
+.bg-yellow{
+  background-color: var(--yellowicterine) !important;
+}
+.bg-capri{
+  background-color: var(--capri) !important;
+}
+.bg-hermeneutics{
+  background-color: var(--hermeneutics) !important;
 }
 body{
   background-color: var(--gray-100);
@@ -161,8 +203,28 @@ a.btn{
   font-family: var(--font-family-monospace);
 }
 
+.btn-outline-white{
+  border-color: white !important;
+  color: white;
+  &:hover{
+    background-color: white;
+    color: var(--dark);
+  }
+}
+.btn-outline-secondary.bg-gray{
+  &:hover{
+    background-color: var(--secondary) !important;
+  }
+}
+
 .page{
-  h1, h2, h3{
+  h1{
+    font-family: var(--font-family-sans-serif);
+    font-size: var(--font-size-5) !important;
+    line-height: var(--line-height-5) !important;
+    font-weight: bold;
+  }
+  h2, h3{
     font-family: var(--font-family-monospace);
     font-weight: bold;
   }
@@ -301,6 +363,14 @@ blockquote.code{
   pointer-events: auto;
 }
 
+.all-copy{
+  pre, p{
+    -webkit-user-select: all;  /* Chrome all / Safari all */
+    -moz-user-select: all;     /* Firefox all */
+    -ms-user-select: all;      /* IE 10+ */
+    user-select: all;          /* Likely future */
+  }
+}
 // override background only
 .hljs {
   background-color: var(--dark) !important;
@@ -315,7 +385,7 @@ blockquote.code{
 .anchor{
   display: block;
   position: relative;
-  top: -100px;
+  top: -150px;
   visibility: hidden;
 }
 
@@ -348,3 +418,13 @@ blockquote.code{
 
 // import 'highlight.js/styles/dracula.css'
 @import 'highlight.js/styles/dracula.css';
+
+// override bootstrap components
+.modal-header{
+  border-bottom: 0px transparent;
+  padding: 0;
+  .modal-title{
+    padding: var(--spacer-3);
+    padding-bottom: 0;
+  }
+}

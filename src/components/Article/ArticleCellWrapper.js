@@ -4,7 +4,7 @@ import { useOnScreen } from '../../hooks/graphics'
 
 const ArticleCellWrapper = ({ cell, memoid, numCell, onVisibilityChange, isNarrativeStep, ...rest }) => {
   const [{ isIntersecting, intersectionRatio }, ref] = useOnScreen({
-    rootMargin: '-40% 0% -25% 0%',
+    rootMargin: '-20% 0% -25% 0%',
     threshold: [0, 0.25, 0.75, 1]
   })
   useEffect(() => {
@@ -23,6 +23,8 @@ const ArticleCellWrapper = ({ cell, memoid, numCell, onVisibilityChange, isNarra
         {...cell}
         num={numCell}
         idx={cell.idx}
+        role={cell.role}
+        headingLevel={cell.isHeading ? cell.heading.level : 0}
         isNarrativeStep={isNarrativeStep}
       />
     </div>

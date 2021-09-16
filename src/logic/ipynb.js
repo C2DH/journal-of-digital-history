@@ -11,11 +11,12 @@ import ArticleFigure from '../models/ArticleFigure'
 import {
   SectionChoices, SectionDefault,
   LayerChoices, LayerNarrative, // LayerHermeneuticsStep,
-  RoleHidden, RoleFigure, RoleMetadata, RoleCitation, RoleDefault,
+  RoleHidden, RoleFigure, RoleMetadata, RoleCitation, RoleDefault, RoleQuote,
   CellTypeMarkdown, CellTypeCode,
   FigureRefPrefix,
   TableRefPrefix,
-  CoverRefPrefix
+  CoverRefPrefix,
+  QuoteRefPrefix
 } from '../constants'
 
 const encodeNotebookURL = (url) => btoa(encodeURIComponent(url))
@@ -42,6 +43,8 @@ const renderMarkdownWithReferences = ({
   const references = []
   // console.info('markdownParser.render', markdownParser.render(sources))
   const content = markdownParser.render(sources)
+    // replace sup
+    .replace(/&lt;sup&gt;(.*)&lt;\/sup&gt;/g, (m, str) => `<sup>${str}</sup>`)
     // find and replace ciation in Chicago author-date style, like in this sentence:
     // "Compiling a collection of tweets of this nature raises considerable methodological issues.
     // While we will not go into detail, we would refer our readers to previous publications
@@ -158,6 +161,7 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
     const coverRef = cell.metadata.tags?.find(d => d.indexOf(CoverRefPrefix) === 0)
     const figureRef = cell.metadata.tags?.find(d => d.indexOf(FigureRefPrefix) === 0)
     const tableRef = cell.metadata.tags?.find(d => d.indexOf(TableRefPrefix) === 0)
+    const quoteRef = cell.metadata.tags?.find(d => d.indexOf(QuoteRefPrefix) === 0)
     // get section and layer from metadata
     cell.section = getSectionFromCellMetadata(cell.metadata)
     cell.layer = getLayerFromCellMetadata(cell.metadata)
@@ -183,6 +187,8 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
       // this is a proper figure, nothing to say about it.
       figures.push(new ArticleFigure({ ref: tableRef, idx, isTable: true }))
       cell.role = RoleFigure
+    } else if (quoteRef) {
+      cell.role = RoleQuote
     } else if (idx < cells.length && cell.cell_type === 'code' && Array.isArray(cell.outputs) && cell.outputs.length) {
       // this is a "Figure" candindate.
       // Let's check whether the cell outputs JDH metadata and if jdh namespace contains **module**;
@@ -215,7 +221,7 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
       : [cell.source]
     return cell
   }).forEach((cell, idx) => {
-    // console.info(p.cell_type, idx)
+    // console.info('ipynb', cell.role)
     if (cell.cell_type === CellTypeMarkdown) {
       const sources = cell.source.join('')
       // exclude rendering of reference references
@@ -235,10 +241,13 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
       const headerIdx = tokens.findIndex(t => t.type === 'heading_open');
       if (headerIdx > -1) {
         headings.push(new ArticleHeading({
+          level: parseInt(tokens[headerIdx].tag.replace(/[^\d]/, '')),
           tag: tokens[headerIdx].tag,
           content: tokens[headerIdx + 1].content,
           idx
         }))
+      }
+      if(headerIdx > -1 || cell.role === RoleFigure) {
         headingsPositions.push(idx)
       }
       articleCells.push(new ArticleCell({
@@ -281,6 +290,9 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
           ? figures.find((d) => d.idx === idx)
           : null
       }))
+      if(cell.role === RoleFigure) {
+        headingsPositions.push(idx)
+      }
     }
   })
   for (let i = 0; i < articleCells.length; i+=1) {

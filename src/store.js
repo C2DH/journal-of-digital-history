@@ -1,10 +1,36 @@
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
 import AbstractSubmission from './models/AbstractSubmission'
+import { DisplayLayerNarrative } from './constants'
+
+export const useIssueStore = create((set) => ({
+  issue: null,
+  setIssue: (issue) => set(() => ({ issue }))
+}))
 
 export const useArticleStore = create((set) => ({
+  // visible shadow cells according to Accordion
+  visibleShadowCellsIdx: [],
+  setVisibleShadowCell: (cellIdx, isVisible) => set((state) => {
+    // const { visibleCellsIdx } = get()
+    const copy = [...state.visibleShadowCellsIdx]
+    const idx = copy.indexOf(cellIdx)
+    if (idx === -1 && isVisible) {
+      copy.push(cellIdx)
+    } else if(idx > -1 && !isVisible){
+      copy.splice(idx, 1)
+    }
+    copy.sort()
+    return { visibleShadowCellsIdx: copy }
+  }),
+
+  // visible cell are in the current Viewoport
   visibleCellsIdx: [],
-  setVisibleCell: (cellIdx, isVisible) => set((state) => {
+  setVisibleCell: (cellIdx, currentDisplayLayer, isVisible) => set((state) => {
+    // use state displayLayer to filter visibl cells accordin to the layer we're in.
+    if (currentDisplayLayer !== state.displayLayer) {
+      return { visibleCellsIdx: state.visibleCellsIdx }
+    }
     // const { visibleCellsIdx } = get()
     const copy = [...state.visibleCellsIdx]
     const idx = copy.indexOf(cellIdx)
@@ -14,8 +40,11 @@ export const useArticleStore = create((set) => ({
       copy.splice(idx, 1)
     }
     copy.sort()
+    // console.info('visibleCellsIdx', copy)
     return { visibleCellsIdx: copy }
-  })
+  }),
+  displayLayer: DisplayLayerNarrative,
+  setDisplayLayer: (displayLayer) => set({ displayLayer, visibleCellsIdx:[] })
 }))
 export const useStore = create(persist(
   (set, get) => ({

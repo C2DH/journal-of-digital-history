@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Nav, Navbar, Container, Row, Col } from 'react-bootstrap'
 import SwitchLanguage from '../SwitchLanguage'
+import IssueBreadcrumb from '../Issue/IssueBreadcrumb'
 import SwitchLanguageLink from '../SwitchLanguage/SwitchLanguageLink'
 import LangNavLink from '../LangNavLink'
 import UserProfile from './UserProfile'
@@ -62,16 +63,25 @@ const MobileHeader = ({ langs, displayLangs }) => {
     </>
   )
 }
+//
+
 
 const NavPrimaryRoutes = ({ routes, ...props}) => {
   const { t } = useTranslation()
   return (
-    <Nav {...props}>
-      {routes.map(({to, label}, i) => (
-        <Nav.Item key={`primary-route-${i}`}>
-          <LangNavLink to={to} exact>{t(label)}</LangNavLink>
-        </Nav.Item>
-      ))}
+    <Nav className="align-items-end" {...props}>
+      {routes.map(({to, label}) => {
+        if (to === '/issues') {
+          return <IssueBreadcrumb key={to} to={to} label={label}/>
+        }
+        return(
+          <Nav.Item key={to} >
+            <LangNavLink to={to} className="px-0" exact>
+              <span>{t(label)}</span>
+            </LangNavLink>
+          </Nav.Item>
+        )
+      })}
       {props.children}
     </Nav>
   )
@@ -85,7 +95,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs, displayLo
 
   return (
     <header ref={ref} className={`${intersectionRatio < 1 ? 'active' : ''}`}>
-    <div className="position-fixed w-100" id="Header_background" style={{left: 0, zIndex:2 ,top:0, height: 100}}/>
+    <div className="position-fixed w-100" id="Header_background" />
     <Navbar  style={{height: 100 }} className="RowHeader d-md-flex d-none fixed-top"  variant="light" expand="md">
     <Navbar.Brand href="/en" className="position-absolute d-flex align-items-center">
       <div className="BrandImage" style={{

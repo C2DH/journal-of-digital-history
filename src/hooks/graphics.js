@@ -62,7 +62,7 @@ export const useCurrentWindowDimensions = () => {
       clearTimeout(timeoutId);
       const dims = getWindowDimensions()
       timeoutId = setTimeout(() => setWindowDimensions(dims), 150);
-      console.info('setWindowDimensions', dims)
+      // console.info('setWindowDimensions', dims)
     };
     window.addEventListener('resize', resizeListener);
 
@@ -117,6 +117,7 @@ export function useOnScreen({ threshold = [0, 1], rootMargin='0% 0% 0% 0%'} = {}
     isIntersecting: false,
   })
   const observer = new IntersectionObserver(([b]) => {
+    // add debounce
     setEntry(b)
   }, {
     threshold,
@@ -126,6 +127,23 @@ export function useOnScreen({ threshold = [0, 1], rootMargin='0% 0% 0% 0%'} = {}
     observer.observe(ref.current, { threshold })
     // Remove the observer as soon as the component is unmounted
     return () => { observer.disconnect() }
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
+    function refreshIntersectionObserverHandler() {
+      if (ref && ref.current) {
+        console.info('useOnScreen: refreshIntersectionObserverHandler called.')
+        observer.disconnect()
+        observer.observe(ref.current, { threshold })
+      }
+    }
+    window.addEventListener('refreshIntersectionObserver', refreshIntersectionObserverHandler)
+    // Remove the observer as soon as the component is unmounted
+    return () => {
+      window.removeEventListener('refreshIntersectionObserver', refreshIntersectionObserverHandler)
+      observer.disconnect()
+    }
     // eslint-disable-next-line
   }, [])
   return [entry, ref];

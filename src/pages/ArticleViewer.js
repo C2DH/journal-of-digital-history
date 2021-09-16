@@ -1,25 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useGetJSON } from '../logic/api/fetchData'
 import { BootstrapColumLayout, StatusSuccess, StatusFetching, StatusIdle } from '../constants'
 import Loading from '../components/Loading'
+import ErrorViewer from './ErrorViewer'
 import NotebookViewer from './NotebookViewer'
-import NotFound from './NotFound'
+import { extractMetadataFromArticle } from '../logic/api/metadata'
+import { useIssueStore } from '../store'
 
 
 const ArticleViewer = ({ match: { params: { pid }}}) => {
   const { t } = useTranslation()
+  const setIssue = useIssueStore(state => state.setIssue)
   const { data:article, error, status, errorCode} = useGetJSON({
     url:`/api/articles/${pid}`,
     delay: 1000
   })
-  if (error) {
-    if (errorCode===404) {
-      return <NotFound/>
+
+  useEffect(() => {
+    if (article && article.issue) {
+      setIssue(article.issue)
+    } else {
+      setIssue({pid: '...'})
     }
-    console.error(error)
-    return <div>Error <pre>{JSON.stringify({errorCode, article}, null, 2)}</pre></div>
+    return () => {
+      // clear
+      setIssue(null)
+    }
+  }, [article])
+
+  if (error) {
+    return <ErrorViewer error={error} errorCode={errorCode} />
   }
   if (status !== StatusSuccess) {
     return (
@@ -37,9 +49,20 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
       </Container>
     )
   }
-
+  // status is success, metadata is ready.
+  const {title, abstract, keywords, contributors} = extractMetadataFromArticle(article)
+  console.info('ArticleViewer rendered, title:', title)
+  console.info('ArticleViewer rendered, contributors:', contributors)
   return (
-    <NotebookViewer match={{
+    <NotebookViewer
+      title={title}
+      abstract={abstract}
+      contributors={contributors}
+      keywords={keywords}
+      status={article.status}
+      publicationDate={article.publication_date}
+      binderUrl={article.binder_url}
+      match={{
       params: {
         encodedUrl: article.notebook_url
       }

@@ -19,11 +19,18 @@ const ErrorViewer = ({ error={}, errorCode=404, language="python", children }) =
     <Container className="ErrorViewer page">
       <Row>
         <Col {...BootstrapColumLayout}>
-          <h1 className="my-5">{t('pages.errorViewer.title')}</h1>
-          <h3>{t('pages.errorViewer.subheading')}</h3>
+          <h1 className="my-5">{t('pages.errorViewer.title')}
+
+          </h1>
+          {error.code === 'ECONNABORTED'
+            ? <h2>{error.message}</h2>
+            : <h3>{t('pages.errorViewer.subheading')}</h3>
+            
+          }
           <p className="mb-5" dangerouslySetInnerHTML={{
             __html: t('pages.errorViewer.message')
           }}/>
+
         </Col>
       </Row>
       <Row>

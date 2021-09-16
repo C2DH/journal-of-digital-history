@@ -2,13 +2,15 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Container, Row, Col } from 'react-bootstrap'
 import ArticleCellContent from './ArticleCellContent'
+import ArticleCitation from './ArticleCitation'
+import ArticleKeywords from './ArticleKeywords'
 import LangLink from '../../components/LangLink'
 import { BootstrapColumLayout } from '../../constants'
 
 
 const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], contributor=[], disclaimer=[], publicationDate=new Date(), url, doi, children }) => {
   const { t } = useTranslation()
-  const keywordsAsLinks = keywords.reduce((acc, d) => {
+  const keywordsCleaned = keywords.reduce((acc, d) => {
     return acc.concat(d.source.join(',').split(/\s*[,;]\s*/g))
   }, [])
   return (
@@ -38,11 +40,8 @@ const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], contributo
           <Row className="mt-5">
             <Col {...BootstrapColumLayout}>
               <h3>{t('pages.article.abstract')}</h3>
-              <div className="ArticleHeader_keywords mb-3">
-                {keywordsAsLinks.map((keyword, i) => (
-                  <LangLink key={i} to={`/tag/${keyword}`} className="me-2">{keyword}</LangLink>
-                ))}
-              </div>
+              <ArticleKeywords keywords={keywordsCleaned}/>
+              <ArticleCitation className="my-4 w-100"/>
               <div className="ArticleHeader_abstract">
                 {abstract.map((paragraph, i) => (
                   <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>

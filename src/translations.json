@@ -20,7 +20,7 @@
       "visibleOnlyByYou": "(only visible to you)",
       "contactUsingEmail": "Contact us at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>",
       "FormNotebookUrl_GenerateLink": "View notebook as journal article!",
-      "Navigation_NotebookViewer": "Preview",
+      "Navigation_NotebookViewer": "Preview Notebook",
       "Pages_NotebookViewer_Title": "Jupyter notebook viewer",
       "pages": {
         "loading": {
@@ -125,8 +125,8 @@
         "switchToHermeneuticLayer": "See Hermeneutic Layer",
         "hidesourceCode": "hide source code",
         "showsourceCode": "show source code",
-        "hideHermeneuticLayer": "hide hermeneutic layer",
-        "showHermeneuticLayer": "show hermeneutic layer"
+        "hideShadowLayer": "collapse",
+        "showShadowLayer": "show"
       },
       "badge": {
         "warning": "∅",
@@ -134,7 +134,8 @@
         "success": "✓"
       },
       "layers": {
-        "h": "Layer: Hermeneutic",
+        "h": "Hermeneutics",
+        "n": "Narrative",
         "all": "Layer: both",
         "default": "Layer: Narrative"
       },

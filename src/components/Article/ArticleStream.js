@@ -1,14 +1,16 @@
-import React, {useMemo} from 'react'
-import { useQueryParam, StringParam } from 'use-query-params'
+import React, {useMemo, useEffect} from 'react'
+// import { useQueryParam, StringParam } from 'use-query-params'
 import ArticleCellAccordion from './ArticleCellAccordion'
+import ArticleCellAccordionAnchors from './ArticleCellAccordionAnchors'
 import ArticleCellWrapper from './ArticleCellWrapper'
 import ArticleScrollama from './ArticleScrollama'
 import {
   RoleHidden,
   LayerHermeneutics, LayerHermeneuticsStep,
-  LayerNarrative,  LayerNarrativeStep,
-  DisplayLayerHermeneutics,
-  DisplayLayerAll
+  LayerNarrativeStep
+  // LayerNarrative,  LayerNarrativeStep,
+  // DisplayLayerHermeneutics,
+  // DisplayLayerAll
 } from '../../constants'
 import { useArticleStore } from '../../store'
 
@@ -29,18 +31,20 @@ const truncate = (s, maxLength=32) => {
 const ArticleStream = ({
   memoid='', cells=[],
   stepLayers = [ LayerNarrativeStep ],
+  shadowLayers = [LayerHermeneuticsStep, LayerHermeneutics],
+  anchorPrefix='',
   onDataHrefClick
 }) => {
-  const [layer] = useQueryParam('layer', StringParam)
+  // const [layer] = useQueryParam('layer', StringParam)
 
-  let shadowLayers = []
-  if (!layer) {
-    shadowLayers = [LayerHermeneuticsStep, LayerHermeneutics]
-  } else if(layer === DisplayLayerHermeneutics) {
-    shadowLayers = [LayerNarrative, LayerNarrativeStep]
-  } else if(layer === DisplayLayerAll) {
-    shadowLayers = []
-  }
+  // let shadowLayers = []
+  // if (!layer) {
+  //   shadowLayers = [LayerHermeneuticsStep, LayerHermeneutics]
+  // } else if(layer === DisplayLayerHermeneutics) {
+  //   shadowLayers = [LayerNarrative, LayerNarrativeStep]
+  // } else if(layer === DisplayLayerAll) {
+  //   shadowLayers = []
+  // }
 
   const setVisibleCell = useArticleStore(store => store.setVisibleCell)
   let numCell = 0
@@ -55,7 +59,7 @@ const ArticleStream = ({
       if (cell.role === RoleHidden || cell.hidden) {
         return
       }
-      if (i > 0 && cell.layer !== previousLayer) {
+      if (i > 0 && (cell.layer !== previousLayer || cell.isHeading)) {
         buffers.push([...buffer])
         buffer = []
       }
@@ -76,15 +80,36 @@ const ArticleStream = ({
 
   const visibilityChangeHandler = ({ idx, isIntersecting }) => {
     // console.info('@visibilityChangeHandler', idx, isIntersecting)
-    setVisibleCell(idx, isIntersecting)
+    setVisibleCell(idx, anchorPrefix, isIntersecting)
   }
+
+  useEffect(() => {
+    let timeoutId = null;
+    const requestIntersectionObserverUpdate = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        // console.info('ArticleStream trigger refreshIntersectionObserver event')
+        const event = new Event('refreshIntersectionObserver')
+        window.dispatchEvent(event)
+      }, 150);
+    }
+    window.addEventListener('resize', requestIntersectionObserverUpdate)
+    window.addEventListener('scroll', requestIntersectionObserverUpdate)
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', requestIntersectionObserverUpdate)
+      window.removeEventListener('scroll', requestIntersectionObserverUpdate)
+    }
+  }, [])
 
   console.info('ArticleStream rerendered')
   return (
     <section className="ArticleStream">
     {chunks.map((cellsIndices, i) => {
       const isShadow = shadowLayers.includes(cells[cellsIndices[0]].layer)
-      const title = truncate(cells[cellsIndices[0]]?.heading?.content)
+      const title = cells[cellsIndices[0]]?.heading?.content ?? ''
+      const truncatedTitle = truncate(title)
       const isStep = stepLayers.includes(cells[cellsIndices[0]].layer)
       // eslint-disable-next-line
       // debugger
@@ -102,10 +127,19 @@ const ArticleStream = ({
       }
       if (isShadow) {
         return (
+          <div key={i} className="pt-4">
+          <ArticleCellAccordionAnchors
+            anchorPrefix={anchorPrefix}
+            cells={cells} cellsIndices={cellsIndices}/>
           <ArticleCellAccordion
-            isCollapsed key={i} eventKey={i}
+            isCollapsed
+            eventKey={cells[cellsIndices[0]].idx}
             size={cellsIndices.length}
+            startNum={numCell + 1}
+            endNum={numCell + cellsIndices.length}
             title={title}
+            truncatedTitle={truncatedTitle}
+            onVisibilityChange={visibilityChangeHandler}
           >
             {cellsIndices.map((j) => {
               key++
@@ -115,7 +149,7 @@ const ArticleStream = ({
               }
               return (
                 <React.Fragment key={j}>
-                <a className='ArticleStream_anchor anchor' id={`C-${cell.idx}`}></a>
+                <a className='ArticleStream_anchor anchor' id={`${anchorPrefix}${cell.idx}`}></a>
                 <ArticleCellWrapper key={key}
                   onClick={(e) => handleCellClick(e, cell.idx)}
                   numCell={numCell}
@@ -127,6 +161,7 @@ const ArticleStream = ({
               )
             })}
           </ArticleCellAccordion>
+          </div>
         )
       }
       return (
@@ -139,9 +174,8 @@ const ArticleStream = ({
           }
           return (
             <React.Fragment key={j}>
-            <a className='ArticleStream_anchor anchor' id={`C-${cell.idx}`}></a>
+            <a className='ArticleStream_anchor anchor' id={`${anchorPrefix}${cell.idx}`}></a>
             <ArticleCellWrapper key={key}
-              id={`C-${cell.idx}`}
               onClick={(e) => handleCellClick(e, cell.idx)}
               numCell={numCell}
               memoid={memoid}

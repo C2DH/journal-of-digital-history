@@ -1,6 +1,6 @@
 {
   "name": "jdh",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^1.1.0",
@@ -23,6 +23,7 @@
     "d3-array": "^2.9.1",
     "d3-scale": "^3.2.3",
     "deepdash-es": "^5.3.0",
+    "downsize": "^0.0.8",
     "highlight.js": "^10.5.0",
     "history": "^5.0.0",
     "i18next": "^19.8.4",
@@ -40,6 +41,7 @@
     "query-string": "^7.0.1",
     "react": "^16.13.1",
     "react-bootstrap": "^2.0.0-beta.2",
+    "react-copy-to-clipboard": "^5.0.4",
     "react-device-detect": "^1.14.0",
     "react-dom": "^16.13.1",
     "react-feather": "^2.0.9",
