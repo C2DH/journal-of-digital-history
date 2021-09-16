@@ -10,7 +10,7 @@ import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import { useCurrentWindowDimensions } from '../hooks/graphics'
 import { LayerNarrativeStep, LayerNarrative, DisplayLayerHermeneutics, DisplayLayerNarrative } from '../constants'
 
-const Article = ({ ipynb, url, publicationDate = new Date(), doi }) => {
+const Article = ({ ipynb, url, publicationDate = new Date(), doi, binderUrl }) => {
   // const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
   const [selectedDataHref, setSelectedDataHref] = useState(null)
   const articleTree = useIpynbNotebookParagraphs({
@@ -50,6 +50,7 @@ const Article = ({ ipynb, url, publicationDate = new Date(), doi }) => {
         width={width}
         anchorPrefix={DisplayLayerNarrative}
         hasBibliograhy={articleTree?.bibliography}
+        binderUrl={binderUrl}
         {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }}
       />
       {articleTree.citationsFromMetadata
