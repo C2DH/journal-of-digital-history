@@ -15,12 +15,12 @@ const IssueListItem = ({ issue={}, isFake=false, ordering=0 }) => {
   return (
     <div className="IssueListItem mt-5">
       <LangLink to={isFake ? '#' : `/issue/${issue.pid}`} disabled={isFake}>
-        <animated.div className="squared position-relative" style={{
+        <animated.div className="squared position-relative border rounded border-dark" style={{
           backgroundColor: 'var(--dark)',
           overflow: 'hidden',
           ...props
         }}>
-          {isFake ? null: <img src="/img/issues/jdh001.png" style={{objectFit: 'cover'}} className="position-absolute top-0 w-100 h-100 left-0"/>}
+          {isFake ? null: <img src={`/img/issues/${issue.pid}.png`} style={{objectFit: 'cover'}} className="position-absolute top-0 w-100 h-100 left-0"/>}
         </animated.div>
         <h3 className="d-block mt-3 pb-0">{issue.name}
         </h3>
