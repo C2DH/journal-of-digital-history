@@ -52,8 +52,8 @@ const Issue = ({ match: { params: { id:issueId }}}) => {
     <Container className="Issue page">
       <Row>
         <Col {...BootstrapColumLayout}>
-          <h1 className="my-5">{t('pages.issues.title')}/{issue.pid}<br/> {issue?.name}</h1>
-          <h3>{issue?.description}</h3>
+          <h1 className="my-5">{issue?.name}</h1>
+          <h3><span className="text-muted">{issue?.pid}</span>&nbsp;{issue?.description}</h3>
           <p>{t('dates.month', { date: new Date(issue.creation_date)})}</p>
         </Col>
       </Row>
