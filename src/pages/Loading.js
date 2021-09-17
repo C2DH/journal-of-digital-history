@@ -7,7 +7,8 @@ const Loading = ({ children, title }) => {
   const { t } = useTranslation()
   return (
     <Container className="Loading page pb-0" style={{
-      color:  'var(--gray-600)'
+      color:  'var(--gray-600)',
+      height: window.innerHeight
     }}>
       <Row>
         <Col {...BootstrapColumLayout}>
