@@ -20,6 +20,7 @@ const Article = ({ ipynb, url, publicationDate = new Date(), doi, binderUrl, ema
   })
   const { title, abstract, keywords, contributor, disclaimer = [] } = articleTree.sections
   const { height, width } =  useCurrentWindowDimensions()
+  const hasBibliography = typeof articleTree.bibliography === 'object'
   return (
     <>
     <ArticleTextShadow
@@ -49,7 +50,7 @@ const Article = ({ ipynb, url, publicationDate = new Date(), doi, binderUrl, ema
         height={height}
         width={width}
         anchorPrefix={DisplayLayerNarrative}
-        hasBibliograhy={articleTree?.bibliography}
+        hasBibliography={hasBibliography}
         binderUrl={binderUrl}
         emailAddress={emailAddress}
         {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }}
@@ -58,7 +59,7 @@ const Article = ({ ipynb, url, publicationDate = new Date(), doi, binderUrl, ema
         ? <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/>
         : null
       }
-      {articleTree?.bibliography
+      {hasBibliography
         ? (<ArticleBilbiography articleTree={articleTree} />)
         : null
       }
