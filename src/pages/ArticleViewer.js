@@ -62,6 +62,7 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
       status={article.status}
       publicationDate={article.publication_date}
       binderUrl={article.binder_url}
+      emailAddress={article.abstract?.contact_email}
       match={{
       params: {
         encodedUrl: article.notebook_url

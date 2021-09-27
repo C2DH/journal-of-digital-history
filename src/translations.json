@@ -126,7 +126,9 @@
         "hidesourceCode": "hide source code",
         "showsourceCode": "show source code",
         "hideShadowLayer": "collapse",
-        "showShadowLayer": "show"
+        "showShadowLayer": "show",
+        "mailtoAuthors": "<a href='mailto:{emailAddress}' target='_blank' rel='noreferrer'>Contact the authors</a> to get full access to the data behind the notebook",
+        "gotoBinder": "Use this notebook:<br/><a target='_blank' rel='noreferrer' href='{binderUrl}'><img src='https://mybinder.org/static/images/badge_logo.svg'/></a>"
       },
       "badge": {
         "warning": "∅",
@@ -159,7 +161,8 @@
         "minItems": "not enough",
         "minLength": "...not long enough",
         "pattern": "not valid",
-        "enum": "not valid"
+        "enum": "not valid",
+        "binderUrlNotAvailable": "Binder is not available for this notebook ..."
       },
       "schemaErrors": {
         "instance-acceptConditions": "... and don't forget to check the <b>terms and conditions</b>",
