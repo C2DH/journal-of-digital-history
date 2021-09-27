@@ -40,7 +40,7 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0, ha
       overflow: 'scroll', pointerEvents: 'auto'}}>
       {headingsPositions.map((d, i) => {
         const cell = cellsIndex[d]
-        if (!cell) {
+        if (!cell || cell.hidden) {
           return null
         }
         const nextCell = i < headingsPositions.length - 1
@@ -63,7 +63,6 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0, ha
         }
 
         count++
-
         // is last only if next heading is higher than this one, or it is a hermeneutic
         const isHermeneutics = cell.layer === LayerHermeneutics
         // const isLast

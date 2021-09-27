@@ -39,10 +39,19 @@ const renderMarkdownWithReferences = ({
   sources = '',
   referenceIndex = {},
   citationsFromMetadata = {},
+  figures
 }) => {
   const references = []
   // console.info('markdownParser.render', markdownParser.render(sources))
   const content = markdownParser.render(sources)
+    // replace links "figure-" add data-idx attribute containing a figure id
+    .replace(/<a href="#((figure|table)-[^"]+)">/g, (m, anchorRef) => {
+      const ref = figures.find(d => d.ref === anchorRef)
+      if (ref) {
+        return `<a href="#${anchorRef}" data-idx="${ref.idx}">`
+      }
+      return `<a href="#${anchorRef}" data-idx-notfound>`
+    })
     // replace sup
     .replace(/&lt;sup&gt;(.*)&lt;\/sup&gt;/g, (m, str) => `<sup>${str}</sup>`)
     // find and replace ciation in Chicago author-date style, like in this sentence:
