@@ -16,7 +16,8 @@ const ArticleText = ({
   tocOffset=99,
   disableSwitchLayer,
   hasBibliography,
-  binderUrl
+  binderUrl,
+  emailAddress
 }) => {
   const [bbox, ref] = useBoundingClientRect()
   console.info('ArticleText bbox', bbox)
@@ -26,7 +27,7 @@ const ArticleText = ({
         top: tocOffset,
         height: height - tocOffset
       }}>
-        {!disableSwitchLayer && <SwitchLayer binderUrl={binderUrl} className="flex-shrink-1 py-3 mb-0"/>}
+        {!disableSwitchLayer && <SwitchLayer binderUrl={binderUrl} emailAddress={emailAddress} className="flex-shrink-1 py-3 mb-0"/>}
         {/* <div className="rounded border border-dark">N</div>*/}
         <div className="flex-grow-1 border-bottom mb-3 border-dark" ref={ref}>
           <ArticleToC

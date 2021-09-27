@@ -26,7 +26,7 @@ const CustomToggle = React.forwardRef(function CustomToggle({ children, onClick 
 });
 
 
-const SwitchLayer = ({ disabled, className, binderUrl }) => {
+const SwitchLayer = ({ disabled, className, binderUrl, emailAddress }) => {
   const { t } = useTranslation()
   const [displayLayer, setDisplayLayer] = useArticleStore(state => [state.displayLayer, state.setDisplayLayer])
   if (disabled) {
@@ -49,16 +49,14 @@ const SwitchLayer = ({ disabled, className, binderUrl }) => {
         <p className="mb-2">
           Discover the data behind this article.
         </p>
-        { binderUrl
-          ? (
-              <a target="_blank"  rel="noreferrer" href={binderUrl}>
-                <img src="https://mybinder.org/static/images/badge_logo.svg"/>
-              </a>
-          ): <em>It seems that mybinder is not available for this notebook</em>
-
-        }
+        <p className="text-dark py-2 mb-0" dangerouslySetInnerHTML={{
+          __html: binderUrl ? t('actions.gotoBinder', { binderUrl }) : t('errors.binderUrlNotAvailable')
+        }}/>
         <p className="text-dark pt-2 mb-0">
-          <Mail size={16}/> Contact the authors to get full access to the data behind the notebook
+          <Mail size={16} className="me-1"/>
+          <span dangerouslySetInnerHTML={{
+            __html:t('actions.mailtoAuthors', { emailAddress })
+          }}/>
         </p>
       </Dropdown.Header>
 
