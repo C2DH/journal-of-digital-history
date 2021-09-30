@@ -358,8 +358,15 @@
             },
             {
               "level": "top",
-              "offsetTop": "10",
+              "offsetTop": "80",
               "date": "2021-09-27",
+              "title": "<strike>Publication of the first Issue</strike>",
+              "description": ""
+            },
+            {
+              "level": "top",
+              "offsetTop": "10",
+              "date": "2021-10-18",
               "title": "Publication of the first Issue",
               "description": ""
             },

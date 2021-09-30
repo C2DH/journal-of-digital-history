@@ -32,7 +32,8 @@ const HorizontalTimeline = ({ values=[], size=0, scale, minDate, maxDate }) => {
             bottom: d.level === 'top' ? 0 : 'auto',
             paddingTop: d.level === 'top'? 0: Math.abs(d.offsetTop),
             paddingBottom: d.level === 'top' ? Math.abs(d.offsetTop) : 0
-          }}><b className="monospace">{t('dates.short', {date: d.date})}</b><br/> <span>{d.title}</span></div>
+          }}><b className="monospace">{t('dates.short', {date: d.date})}</b><br/>
+          <span dangerouslySetInnerHTML={{ __html:d.title}}/></div>
         </div>
       ))}
       <div className="position-absolute w-100" style={{
