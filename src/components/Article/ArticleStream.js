@@ -76,6 +76,11 @@ const ArticleStream = ({
     // only when the target attribute is 'data-href'
     const dataHref = e.target.getAttribute('data-href')
     onDataHrefClick({ dataHref, idx })
+
+    const anchorHref = e.target.getAttribute('data-idx')
+    if (anchorHref) {
+      e.target.setAttribute('href', `#${anchorPrefix}${anchorHref}`)
+    }
   }
 
   const visibilityChangeHandler = ({ idx, isIntersecting }) => {
@@ -88,10 +93,9 @@ const ArticleStream = ({
     const requestIntersectionObserverUpdate = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
-        // console.info('ArticleStream trigger refreshIntersectionObserver event')
         const event = new Event('refreshIntersectionObserver')
         window.dispatchEvent(event)
-      }, 150);
+      }, 500);
     }
     window.addEventListener('resize', requestIntersectionObserverUpdate)
     window.addEventListener('scroll', requestIntersectionObserverUpdate)

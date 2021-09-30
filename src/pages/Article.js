@@ -10,7 +10,7 @@ import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import { useCurrentWindowDimensions } from '../hooks/graphics'
 import { LayerNarrativeStep, LayerNarrative, DisplayLayerHermeneutics, DisplayLayerNarrative } from '../constants'
 
-const Article = ({ ipynb, url, publicationDate = new Date(), doi, binderUrl }) => {
+const Article = ({ ipynb, url, publicationDate = new Date(), doi, binderUrl, emailAddress }) => {
   // const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
   const [selectedDataHref, setSelectedDataHref] = useState(null)
   const articleTree = useIpynbNotebookParagraphs({
@@ -20,6 +20,7 @@ const Article = ({ ipynb, url, publicationDate = new Date(), doi, binderUrl }) =
   })
   const { title, abstract, keywords, contributor, disclaimer = [] } = articleTree.sections
   const { height, width } =  useCurrentWindowDimensions()
+  const hasBibliography = typeof articleTree.bibliography === 'object'
   return (
     <>
     <ArticleTextShadow
@@ -49,15 +50,16 @@ const Article = ({ ipynb, url, publicationDate = new Date(), doi, binderUrl }) =
         height={height}
         width={width}
         anchorPrefix={DisplayLayerNarrative}
-        hasBibliograhy={articleTree?.bibliography}
+        hasBibliography={hasBibliography}
         binderUrl={binderUrl}
+        emailAddress={emailAddress}
         {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }}
       />
       {articleTree.citationsFromMetadata
         ? <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/>
         : null
       }
-      {articleTree?.bibliography
+      {hasBibliography
         ? (<ArticleBilbiography articleTree={articleTree} />)
         : null
       }

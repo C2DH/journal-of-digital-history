@@ -4,13 +4,14 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { useGetJSON } from '../logic/api/fetchData'
 import { BootstrapColumLayout } from '../constants'
 import IssueArticleGridItem from '../components/Issue/IssueArticleGridItem'
+import IssueEditorialGridItem from '../components/Issue/IssueEditorialGridItem'
 import ErrorViewer from './ErrorViewer'
 import Loading from './Loading'
 import { StatusSuccess } from '../constants'
 
 const IssueArticlesGrid = ({ issue, onError }) => {
   // console.info('IssueArticlesGrid', articles)
-  const { data:articles, error, status, errorCode } = useGetJSON({
+  const { data, error, status, errorCode } = useGetJSON({
     url: `/api/articles/?pid=${issue.pid}`
   })
   if (typeof onError === 'function' && error) {
@@ -19,10 +20,26 @@ const IssueArticlesGrid = ({ issue, onError }) => {
   if (status !== StatusSuccess ) {
     return null
   }
+
+  const editorials = []
+  const articles = []
+
+  for (let i=0,j=data.length; i < j; i++) {
+    if (data[i].tags.some((t) => t.name === process.env.REACT_APP_TAG_EDITORIAL)) {
+      editorials.push(data[i])
+    } else {
+      articles.push(data[i])
+    }
+  }
   return (
     <Row>
+        {editorials.map((article, i) => (
+          <Col key={i} lg={{ span: 4, offset:0}} md={{span:6, offset:0}}>
+            <IssueEditorialGridItem article={article} />
+          </Col>
+        ))}
         {articles.map((article, i) => (
-          <Col key={i} lg={{ span: 4, offset:0}} md={{span:4, offset: i % 2 === 0 ? 2 : 0}}>
+          <Col key={i + editorials.length} lg={{ span: 4, offset:0}} md={{span:6, offset:0}}>
             <IssueArticleGridItem article={article} num={i+1}/>
           </Col>
         ))}

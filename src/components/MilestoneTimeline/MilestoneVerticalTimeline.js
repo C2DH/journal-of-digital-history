@@ -21,7 +21,7 @@ const MilestoneVerticalScrollama = ({ values, onStepChange }) => {
             opacity: currentStepIndex === stepIndex ? 1 : 0.5,
           marginTop: window.innerHeight / 4}}>
             <b className="monospace">{t('dates.short', {date: d.date})}</b>
-            <h3 className="d-block">{d.title}</h3>
+            <h3 className="d-block" style={{fontWeight: 'normal'}}dangerouslySetInnerHTML={{__html: d.title}} />
             <p>{d.description}</p>
           </div>
         </Step>

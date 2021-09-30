@@ -18,7 +18,8 @@ const NotebookViewer = ({
   title, abstract, keywords=[],
   contributors=[],
   publicationDate,
-  binderUrl
+  binderUrl,
+  emailAddress
 }) => {
   const { t } = useTranslation()
   const [animatedProps, api] = useSpring(() => ({ width : 0, opacity:1, config: config.slow }))
@@ -72,7 +73,14 @@ const NotebookViewer = ({
         }}>{animatedProps.width.to(x => `${Math.round(x * 10000) / 10000}%`)}</animated.span>
       </div>
       {status === StatusSuccess
-        ? <Article ipynb={data} memoid={encodedUrl} binderUrl={binderUrl}/>
+        ? (
+          <Article
+            ipynb={data}
+            memoid={encodedUrl}
+            binderUrl={binderUrl}
+            emailAddress={emailAddress}
+          />
+        )
         : (
           <Container className="page mt-5">
             <Row>
