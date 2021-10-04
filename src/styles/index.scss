@@ -428,3 +428,8 @@ blockquote.code{
     padding-bottom: 0;
   }
 }
+
+// TODO move to a specific space
+.IssueArticleGridItem_contributor a{
+  box-shadow: none;
+}

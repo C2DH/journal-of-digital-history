@@ -26,7 +26,7 @@ const IssueArticleGridItem = ({ article={}, isFake=false, num=0 }) => {
         <blockquote dangerouslySetInnerHTML={{
           __html: extractExcerpt(abstract)
         }} />
-        {contributors.map((d,i) => (<span key={i}>{stripHtml(d)}</span>))}
+        {contributors.map((d,i) => (<div className="IssueArticleGridItem_contributor" key={i} dangerouslySetInnerHTML={{__html: d}}/>))}
       </LangLink>
     </div>
   )

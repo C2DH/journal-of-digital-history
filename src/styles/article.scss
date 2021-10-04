@@ -57,6 +57,9 @@ $breakpoint-lg: 992px;
   margin-top: 100px;
 }
 
+.ArticleHeader_contributor h3 a{
+  box-shadow: none;
+}
 @media (min-width: $breakpoint-tablet) {
   .ArticleHeader{
     margin-top: 0px;

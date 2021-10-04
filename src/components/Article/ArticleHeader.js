@@ -30,7 +30,7 @@ const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], contributo
       </Row>
       <Row>
       {contributor.map((author,i) => (
-        <Col key={i} md={{ offset: i % 2 === 0 ? 2: 0, span: 4}}>
+        <Col key={i} md={{ offset: i % 2 === 0 ? 2: 0, span: 4}} className="ArticleHeader_contributor">
            <ArticleCellContent {...author} hideIdx hideNum/>
         </Col>
       ))}
