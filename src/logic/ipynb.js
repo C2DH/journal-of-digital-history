@@ -1,6 +1,7 @@
 import MarkdownIt from 'markdown-it'
 import Cite from 'citation-js'
 import MarkdownItAttrs from '@gerhobbelt/markdown-it-attrs'
+import MarkdownItMathjax from 'markdown-it-mathjax3'
 // import { groupBy } from 'lodash'
 import ArticleTree from '../models/ArticleTree'
 import ArticleHeading from '../models/ArticleHeading'
@@ -34,6 +35,7 @@ markdownParser.use(MarkdownItAttrs, {
   rightDelimiter: '}',
   allowedAttributes: ['class', 'id']  // empty array = all attributes are allowed
 });
+markdownParser.use(MarkdownItMathjax)
 
 const renderMarkdownWithReferences = ({
   sources = '',
