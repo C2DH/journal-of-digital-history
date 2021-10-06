@@ -44,7 +44,7 @@ const NotebookViewer = ({
       }
     }
   }
-  const { data, error, status } = useGetJSON({ url, delay: 100000000, onDownloadProgress })
+  const { data, error, status } = useGetJSON({ url, delay: 200, onDownloadProgress })
 
   useEffect(() => {
     if(status === StatusFetching) {
