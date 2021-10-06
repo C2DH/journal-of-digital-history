@@ -22,7 +22,7 @@ const MobileHeader = ({ langs, displayLangs }) => {
   const [isVisible, setIsVisible] = useState(false)
   return (
     <>
-    <LangNavLink to="/" className="MobileHeaderBrand d-flex" >
+    <LangNavLink to="/" className="MobileHeaderBrand d-flex d-md-none" >
       <div style={{width:60}}><Logo color="var(--secondary)" size={35}/>
       </div>
       <div dangerouslySetInnerHTML={{__html: t('title')}} style={{lineHeight: '18px', fontSize:'14px', marginTop: 2}}></div>
