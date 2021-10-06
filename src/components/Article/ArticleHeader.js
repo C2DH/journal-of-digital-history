@@ -8,9 +8,12 @@ import LangLink from '../../components/LangLink'
 import { BootstrapColumLayout } from '../../constants'
 
 
-const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], contributor=[], disclaimer=[], publicationDate=new Date(), url, doi, children }) => {
+const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], collaborators=[], contributor=[], disclaimer=[], publicationDate=new Date(), url, doi, children }) => {
   const { t } = useTranslation()
   const keywordsCleaned = keywords.reduce((acc, d) => {
+    if(typeof d === 'string') {
+      return acc.concat(d)
+    }
     return acc.concat(d.source.join(',').split(/\s*[,;]\s*/g))
   }, [])
   return (
@@ -32,6 +35,13 @@ const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], contributo
       {contributor.map((author,i) => (
         <Col key={i} md={{ offset: i % 2 === 0 ? 2: 0, span: 4}} className="ArticleHeader_contributor">
            <ArticleCellContent {...author} hideIdx hideNum/>
+        </Col>
+      ))}
+      </Row>
+      <Row>
+      {collaborators.map((d,i) => (
+        <Col key={i}  {...BootstrapColumLayout} className="ArticleHeader_collaborator">
+           <ArticleCellContent {...d} hideIdx hideNum/>
         </Col>
       ))}
       </Row>
