@@ -18,7 +18,7 @@ const Article = ({ ipynb, url, publicationDate = new Date(), doi, binderUrl, ema
     cells: ipynb? ipynb.cells : source.cells,
     metadata: ipynb? ipynb.metadata : source.metadata
   })
-  const { title, abstract, keywords, contributor, disclaimer = [] } = articleTree.sections
+  const { title, abstract, keywords, contributor, collaborators, disclaimer = [] } = articleTree.sections
   const { height, width } =  useCurrentWindowDimensions()
   const hasBibliography = typeof articleTree.bibliography === 'object'
   return (
@@ -40,7 +40,7 @@ const Article = ({ ipynb, url, publicationDate = new Date(), doi, binderUrl, ema
     </ArticleTextShadow>
     <div className="page mt-5">
       <a id="top" className="anchor"></a>
-      <ArticleHeader {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }} />
+      <ArticleHeader {... {title, abstract, keywords, collaborators, contributor, publicationDate, url, disclaimer }} />
       <ArticleText
         memoid={articleTree.id}
         headingsPositions={articleTree.headingsPositions}
