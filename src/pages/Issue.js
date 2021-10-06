@@ -4,7 +4,6 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { useGetJSON } from '../logic/api/fetchData'
 import { BootstrapColumLayout } from '../constants'
 import IssueArticleGridItem from '../components/Issue/IssueArticleGridItem'
-import IssueEditorialGridItem from '../components/Issue/IssueEditorialGridItem'
 import ErrorViewer from './ErrorViewer'
 import Loading from './Loading'
 import { StatusSuccess } from '../constants'
@@ -35,7 +34,7 @@ const IssueArticlesGrid = ({ issue, onError }) => {
     <Row>
         {editorials.map((article, i) => (
           <Col key={i} lg={{ span: 4, offset:0}} md={{span:6, offset:0}}>
-            <IssueEditorialGridItem article={article} />
+            <IssueArticleGridItem article={article} isEditorial />
           </Col>
         ))}
         {articles.map((article, i) => (

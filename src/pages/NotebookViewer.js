@@ -1,13 +1,13 @@
 import React, { useMemo, useEffect } from 'react'
 import { useSpring, animated, config } from 'react-spring'
-import { useTranslation } from 'react-i18next'
-import { Container, Row, Col } from 'react-bootstrap'
+// import { useTranslation } from 'react-i18next'
+import { Container } from 'react-bootstrap'
 import { useGetJSON } from '../logic/api/fetchData'
 import { decodeNotebookURL } from '../logic/ipynb'
-import { BootstrapColumLayout, StatusSuccess, StatusFetching } from '../constants'
+import { StatusSuccess, StatusFetching } from '../constants'
 import Article from './Article'
-import ArticleKeywords from '../components/Article/ArticleKeywords'
-import Loading from '../components/Loading'
+// import ArticleKeywords from '../components/Article/ArticleKeywords'
+import ArticleHeader from '../components/Article/ArticleHeader'
 
 /**
  * Loading bar inspired by
@@ -15,13 +15,15 @@ import Loading from '../components/Loading'
  */
 const NotebookViewer = ({
   match: { params: { encodedUrl }},
-  title, abstract, keywords=[],
-  contributors=[],
+  title=[], abstract=[], keywords=[],
+  contributor=[],
+  collaborators=[],
+  disclaimer=[],
   publicationDate,
   binderUrl,
   emailAddress
 }) => {
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
   const [animatedProps, api] = useSpring(() => ({ width : 0, opacity:1, config: config.slow }))
 
   const url = useMemo(() => {
@@ -42,7 +44,7 @@ const NotebookViewer = ({
       }
     }
   }
-  const { data, error, status } = useGetJSON({ url, delay: 1000, onDownloadProgress })
+  const { data, error, status } = useGetJSON({ url, delay: 200, onDownloadProgress })
 
   useEffect(() => {
     if(status === StatusFetching) {
@@ -83,36 +85,7 @@ const NotebookViewer = ({
         )
         : (
           <Container className="page mt-5">
-            <Row>
-              <Col {...BootstrapColumLayout}>
-              {publicationDate
-                ? <h3 className="mb-3">{t('pages.article.publicationDate')} {t('dates.short', {date: publicationDate})}</h3>
-                : <h3 className="mb-3">{t('pages.article.notYetPublished')} | ({(new Date()).getFullYear()})</h3>
-              }
-              {title
-                ? <section className="my-3" dangerouslySetInnerHTML={{__html: title }} />
-                : <h1 className="my-3">{t('pages.loading.title')}</h1>
-              }
-              </Col>
-            </Row>
-            <Row>
-            {contributors.map((contributor,i) => (
-              <Col key={i} md={{ offset: i % 2 === 0 ? 2: 0, span: 4}}>
-                 <div dangerouslySetInnerHTML={{__html: contributor}}></div>
-              </Col>
-            ))}
-            </Row>
-            <Row className="mt-5">
-              <Col {...BootstrapColumLayout}>
-                <h3>{t('pages.article.abstract')}</h3>
-                <ArticleKeywords keywords={keywords}/>
-                {abstract
-                  ? <div className="ArticleHeader_abstract" dangerouslySetInnerHTML={{__html: abstract }} />
-                  : null
-                }
-                <Loading />
-              </Col>
-            </Row>
+            <ArticleHeader {... {title, abstract, keywords, collaborators, contributor, publicationDate, url, disclaimer }} />
           </Container>
         )
       }

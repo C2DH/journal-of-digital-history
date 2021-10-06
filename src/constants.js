@@ -87,12 +87,14 @@ export const LayerChoices = [
 export const SectionTitle = 'title'
 export const SectionAbstract = 'abstract'
 export const SectionContributor = 'contributor'
+export const SectionCollaborators = 'collaborators'
 export const SectionKeywords = 'keywords'
 export const SectionCover = 'cover'
 export const SectionDisclaimer = 'disclaimer'
 export const SectionDefault = 'text' // default
 export const SectionChoices = [
   SectionTitle, SectionAbstract, SectionContributor,
+  SectionCollaborators,
   SectionKeywords, SectionDisclaimer, SectionDefault
 ]
 
