@@ -88,6 +88,7 @@ i18n
   })
 
 const isUnsafeEnvironment = process.env.NODE_ENV !== 'development' && window.location.protocol === 'http:'
+const isAuth0Enabled = process.env.REACT_APP_ENABLE_AUTH_0 !== 'false'
 console.info('Auth0Provider:', isUnsafeEnvironment ? 'disabled' : 'enabled')
 console.info('IsMobile:', IsMobile)
 
@@ -152,7 +153,7 @@ function usePageViews() {
       if (pathname.indexOf('/notebook') !== -1 || pathname.indexOf('/article') !== -1) {
         changeBackgroundColor('#F4F1F8')
       } else if (pathname.indexOf('/issue') !== -1) {
-        changeBackgroundColor('var(--gray-100)')
+        changeBackgroundColor('#F4F1F8')
       } else if (pathname.indexOf('/submit') !== -1) {
         changeBackgroundColor('var(--gray-100)')
       } else if (pathname.indexOf('/about') !== -1) {
@@ -195,12 +196,12 @@ export default function App() {
     <BrowserRouter>
       <QueryParamProvider ReactRouterRoute={Route}>
       <Auth0ProviderWithHistory
-        disabled={isUnsafeEnvironment}
+        disabled={!isAuth0Enabled || isUnsafeEnvironment}
         domain="dev-cy19cq3w.eu.auth0.com"
         clientId="NSxE7D46GRk9nh32wdvbtBUy7bLLQnZL"
         redirectUri={`${window.location.origin}/authorized`}
       >
-        <Header availableLanguages={LANGUAGES} isAuthDisabled={isUnsafeEnvironment}/>
+        <Header availableLanguages={LANGUAGES} isAuthDisabled={!isAuth0Enabled || isUnsafeEnvironment}/>
         <Cookies defaultAcceptCookies={acceptCookies}/>
         <main>
           <Suspense fallback={<Loading/>}>

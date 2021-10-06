@@ -39,7 +39,7 @@ const IssueArticlesGrid = ({ issue, onError }) => {
         ))}
         {articles.map((article, i) => (
           <Col key={i + editorials.length} lg={{ span: 4, offset:0}} md={{span:6, offset:0}}>
-            <IssueArticleGridItem article={article} num={i+1}/>
+            <IssueArticleGridItem article={article} num={i+1} total={articles.length}/>
           </Col>
         ))}
     </Row>

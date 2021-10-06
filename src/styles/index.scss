@@ -218,6 +218,10 @@ a.btn{
 }
 
 .page{
+  &.container{
+    padding-right: var(--spacer-4);
+    padding-left: var(--spacer-4);
+  }
   padding-top: var(--spacer-5);
   h1{
     font-family: var(--font-family-sans-serif);
@@ -287,6 +291,10 @@ blockquote.code{
     padding-bottom: var(--spacer-5);
     h2 {
       font-size: 1.8rem
+    }
+    &.container, .container{
+      padding-right: var(--spacer-3);
+      padding-left: var(--spacer-3);
     }
   }
 
@@ -433,24 +441,5 @@ blockquote.code{
   .modal-title{
     padding: var(--spacer-3);
     padding-bottom: 0;
-  }
-}
-
-// TODO move to a specific space
-.IssueArticleGridItem_contributor {
-  a {
-    box-shadow: none;
-  }
-  p{
-    display: none;
-  }
-  h2, h3{
-    font-size: inherit;
-    font-family: inherit;
-    margin: 0;
-    padding: 0;
-  }
-  h2, h3{
-    font-weight: bold;
   }
 }

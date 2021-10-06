@@ -4,27 +4,31 @@ import ArticleFingerprint from '../Article/ArticleFingerprint'
 import ArticleKeywords from '../Article/ArticleKeywords'
 import ArticleCellContent from '../Article/ArticleCellContent'
 import LangLink from '../LangLink'
+import { Badge } from 'react-bootstrap'
 import {useBoundingClientRect} from '../../hooks/graphics'
 import { extractMetadataFromArticle, stripHtml } from '../../logic/api/metadata'
+import { isMobile } from 'react-device-detect'
+import '../../styles/components/IssueArticleGridItem.scss'
 
-const IssueArticleGridItem = ({ article={}, isFake=false, num=0, isEditorial }) => {
+
+const IssueArticleGridItem = ({ article={}, isFake=false, num=0, total=1, isEditorial }) => {
   const [{width: size }, ref] = useBoundingClientRect()
   const { title, keywords, excerpt, contributor } = extractMetadataFromArticle(article)
   const { t } = useTranslation()
   return (
-    <div className="IssueArticleGridItem mt-5" ref={ref}>
+    <div className="IssueArticleGridItem" ref={ref}>
       <LangLink to={isFake ? '#' : `/article/${article.abstract.pid}`}>
-        <div className={isEditorial ? 'half-squared': 'squared'} style={{
+        <div className={isMobile ? 'half-squared':'squared'} style={{
           backgroundColor: 'transparent',
           overflow: 'hidden'
         }}>
           <ArticleFingerprint stats={article.fingerprint?.stats}  cells={article.fingerprint?.cells}
-            size={isEditorial ? size/2 : size}/>
+            size={isMobile ? size / 2 : size}/>
         </div>
-        <div className="monospace">
-          {isEditorial ? <b>{t('editorial')}</b> : num}
-        </div>
-        <h3 className="d-block mt-1 pb-0" style={{textDecoration: 'underline'}}>
+        <Badge className="bg-secondary rounded">
+          {isEditorial ? t('editorial') : <span><b>{num}</b> of {total}</span>}
+        </Badge>
+        <h3 className="d-block mt-1 pb-0 sans">
           {title.map(({content}, i) => (
             <ArticleCellContent key={i} content={stripHtml(content)} hideIdx hideNum/>
           ))}
@@ -35,7 +39,7 @@ const IssueArticleGridItem = ({ article={}, isFake=false, num=0, isEditorial }) 
         ))}
         </div>
         <ArticleKeywords keywords={keywords}/>
-        <blockquote dangerouslySetInnerHTML={{
+        <blockquote className="d-none d-md-block" dangerouslySetInnerHTML={{
           __html: excerpt
         }} />
       </LangLink>
