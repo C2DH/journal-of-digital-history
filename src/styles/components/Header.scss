@@ -80,18 +80,41 @@ $breakpoint-tablet: 768px;
   z-index: 100;
   width: auto;
   height: 40px;
-  width: 85px;
+  width: 90px;
+  font-size: 14px;
   margin-left: -15px;
   top: var(--spacer-3);
   right: var(--spacer-3);
   background-color: var(--secondary);
   border-radius: 40px;
   color: white;
-  /* font-weight: bold; */
-  padding-left: 13px;
+  font-weight: bold;
+  padding-left: 15px;
   line-height: 40px;
-  padding-right: 13px;
+  padding-right: 15px;
+  text-align: left;
+  will-change: width;
+  overflow: hidden;
+  transition: width 0.5s cubic-bezier(0.85, 0, 0.15, 1);
+
+  .Logo{
+    position: absolute;
+    background-color: var(--primary);
+    top: 5px;
+    left: 90px;
+    height: 30px;
+    width: 40px;
+    border-radius: 20px;
+    svg{
+      margin-left: 5px;
+      margin-top: 5px;
+    }
+  }
 }
+header.active .MobileHeaderToggler{
+  width: 135px;
+}
+
 .MobileHeaderMenu{
   position: absolute;
   z-index:99;
