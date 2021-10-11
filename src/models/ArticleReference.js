@@ -12,11 +12,9 @@ export default class ArticleReference {
     if (ref) {
       if (ref.issued && ref.issued.year) {
         year = ref.issued.year
-      }
-      if(ref.issued && ref.issued.literal) {
+      } else if (ref.issued && ref.issued.literal) {
         year = ref.issued.literal
-      }
-      if(ref.accessed && ref.accessed.year) {
+      } else if (ref.accessed && ref.accessed.year) {
         year = ref.accessed.year
       }
       // set shortRef accodring to different condition: use elseif
@@ -27,7 +25,7 @@ export default class ArticleReference {
           reference = ref["container-title"]
           this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${reference} ${year}</a>`
         } else {
-          this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${ref.author?.map(d => d.family).join(', ').trim()} ${year} ${year}</a>`
+          this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${ref.author?.map(d => d.family).join(', ').trim()} ${year}</a>`
         }
       } else if (ref.type ==='article-magazine' || ref.type ==='article-newspaper') {
          if(!ref.title){
