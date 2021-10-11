@@ -10,7 +10,11 @@ import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import { useCurrentWindowDimensions } from '../hooks/graphics'
 import { LayerNarrativeStep, LayerNarrative, DisplayLayerHermeneutics, DisplayLayerNarrative } from '../constants'
 
-const Article = ({ ipynb, url, publicationDate = new Date(), doi, binderUrl, emailAddress }) => {
+const Article = ({ ipynb, url,
+  publicationDate = new Date(),
+  publicationStatus,
+  issue,
+  doi, binderUrl, emailAddress }) => {
   // const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
   const [selectedDataHref, setSelectedDataHref] = useState(null)
   const articleTree = useIpynbNotebookParagraphs({
@@ -40,7 +44,19 @@ const Article = ({ ipynb, url, publicationDate = new Date(), doi, binderUrl, ema
     </ArticleTextShadow>
     <div className="page mt-5">
       <a id="top" className="anchor"></a>
-      <ArticleHeader {... {title, abstract, keywords, collaborators, contributor, publicationDate, url, disclaimer }} />
+      <ArticleHeader
+        title={title}
+        abstract={abstract}
+        keywords={keywords}
+        collaborators={collaborators}
+        contributor={contributor}
+        publicationDate={publicationDate}
+        url={url}
+        disclaimer={disclaimer}
+        publicationStatus={publicationStatus}
+        issue={issue}
+        doi={doi}
+      />
       <ArticleText
         memoid={articleTree.id}
         headingsPositions={articleTree.headingsPositions}
