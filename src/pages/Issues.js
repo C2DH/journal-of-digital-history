@@ -15,7 +15,7 @@ const FakeIssues = [
 const Issues = () => {
   const { t } = useTranslation()
   const { data:issues, error, status, errorCode } = useGetJSON({
-    url: `/api/issues?ordering=-creation_date`,
+    url: '/api/issues?ordering=creation_date&status=PUBLISHED',
     delay: 0
   })
   console.info('Issues status', status, 'error', error)
