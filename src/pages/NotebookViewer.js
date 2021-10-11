@@ -1,7 +1,7 @@
 import React, { useMemo, useEffect } from 'react'
 import { useSpring, animated, config } from 'react-spring'
 // import { useTranslation } from 'react-i18next'
-import { Container } from 'react-bootstrap'
+
 import { useGetJSON } from '../logic/api/fetchData'
 import { decodeNotebookURL } from '../logic/ipynb'
 import { StatusSuccess, StatusFetching } from '../constants'
@@ -20,8 +20,11 @@ const NotebookViewer = ({
   collaborators=[],
   disclaimer=[],
   publicationDate,
+  publicationStatus,
   binderUrl,
-  emailAddress
+  emailAddress,
+  issue,
+  doi,
 }) => {
   // const { t } = useTranslation()
   const [animatedProps, api] = useSpring(() => ({ width : 0, opacity:1, config: config.slow }))
@@ -81,12 +84,25 @@ const NotebookViewer = ({
             memoid={encodedUrl}
             binderUrl={binderUrl}
             emailAddress={emailAddress}
+            publicationStatus={publicationStatus}
+            issue={issue}
+            doi={doi}
           />
         )
         : (
-          <Container className="page mt-5">
-            <ArticleHeader {... {title, abstract, keywords, collaborators, contributor, publicationDate, url, disclaimer }} />
-          </Container>
+          <ArticleHeader className="page mt-5"
+            title={title}
+            abstract={abstract}
+            keywords={keywords}
+            collaborators={collaborators}
+            contributor={contributor}
+            publicationDate={publicationDate}
+            url={url}
+            disclaimer={disclaimer}
+            publicationStatus={publicationStatus}
+            issue={issue}
+            doi={doi}
+          />
         )
       }
     </>
