@@ -65,12 +65,14 @@ const Issue = ({ match: { params: { id:issueId }}}) => {
   }
 
   return (
-    <Container className="Issue page">
+    <Container className="Issue page mt-5">
       <Row>
         <Col {...BootstrapColumLayout}>
-          <h1 className="my-5">{issue?.name}</h1>
-          <h3><span className="text-muted">{issue?.pid}</span>&nbsp;{issue?.description}</h3>
-          <p>{t('dates.month', { date: new Date(issue.creation_date)})}</p>
+          {issue?.pid} &middot; <b>{new Date(issue.publication_date).getFullYear()}</b>
+          <h1 >{issue?.name}</h1>
+          {issue?.description ? (
+            <h3><span className="text-muted">{issue?.pid}</span>&nbsp;{issue?.description}</h3>
+          ):null}
         </Col>
       </Row>
     { issue ? <IssueArticlesGrid issue={issue}/> : null }
