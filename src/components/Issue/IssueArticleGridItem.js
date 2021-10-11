@@ -14,12 +14,12 @@ const IssueArticleGridItem = ({ article={}, isFake=false, num=0, isEditorial }) 
   return (
     <div className="IssueArticleGridItem mt-5" ref={ref}>
       <LangLink to={isFake ? '#' : `/article/${article.abstract.pid}`}>
-        <div className={isEditorial ? 'half-squared': 'squared'} style={{
+        <div className="squared" style={{
           backgroundColor: 'transparent',
           overflow: 'hidden'
         }}>
           <ArticleFingerprint stats={article.fingerprint?.stats}  cells={article.fingerprint?.cells}
-            size={isEditorial ? size/2 : size}/>
+            size={size}/>
         </div>
         <div className="monospace">
           {isEditorial ? <b>{t('editorial')}</b> : num}
