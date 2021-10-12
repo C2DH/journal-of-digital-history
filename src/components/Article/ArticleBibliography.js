@@ -12,7 +12,9 @@ const ArticleBilbiography = ({ articleTree }) => {
           <div id="bibliography" className="anchor" />
           <h2 >{t('bibliography')}</h2>
           <div dangerouslySetInnerHTML={{
-            __html: articleTree.formatBibliograhpy()
+            __html: articleTree
+              .formatBibliograhpy()
+              .replace(/(https?:\/\/[0-9a-zA-Z-./:]+)([^0-9a-zA-Z-./]+)/g, (m, link, r) => `<a href="${link}" _blank="true">${link}</a>${r}`)
           }}/>
         </Col>
       </Row>
