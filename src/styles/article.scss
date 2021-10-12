@@ -53,26 +53,6 @@ $breakpoint-lg: 992px;
   }
 }
 
-.ArticleHeader{
-  margin-top: 100px;
-}
-
-.ArticleHeader_contributor h3 a{
-  box-shadow: none;
-}
-@media (min-width: $breakpoint-tablet) {
-  .ArticleHeader{
-    margin-top: 0px;
-  }
-}
-
-.ArticleHeader h1{
-  font-family: var(--font-family-sans-serif) !important;
-}
-.ArticleHeader_abstract{
-  font-size: var(--font-size-2);
-}
-
 .ArticleStream_paragraph{
 
   position: relative;
@@ -678,4 +658,8 @@ svg.ArticleFingerprint{
   z-index: 2;
   height: 100px;
   width: 100%;
+}
+
+.ArticleBilbiography .csl-entry{
+  margin-bottom: var(--spacer-3);
 }

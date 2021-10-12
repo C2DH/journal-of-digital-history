@@ -6,7 +6,7 @@ const ArticleBilbiography = ({ articleTree }) => {
   const { t } = useTranslation()
 
   return (
-    <Container  className="mt-5">
+    <Container  className="ArticleBilbiography mt-5">
       <Row>
         <Col md={{ span: 7, offset: 2 }}>
           <div id="bibliography" className="anchor" />
