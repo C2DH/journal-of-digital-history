@@ -153,6 +153,21 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
   const articleParagraphs = []
   const sectionsIndex = {}
   const citationsFromMetadata = metadata?.cite2c?.citations
+    ? Object.values(metadata.cite2c.citations).reduce((acc, d) => {
+      if (typeof d.issued === 'object' && d.issued.year && !d.issued['date-parts']) {
+        acc[d.id] = {
+          ...d,
+          issued: {
+            ...d.issued,
+            ['date-parts']: [[d.issued.year]]
+          }
+        }
+      } else {
+        acc[d.id] = d
+      }
+      return acc
+    }, {})
+    : null
   // this contain footnotes => zotero id to remap reference at paragraph level
   const referenceIndex = {}
   //
