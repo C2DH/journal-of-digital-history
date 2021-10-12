@@ -35,7 +35,7 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
   }
   if (status !== StatusSuccess) {
     return (
-      <Container className="mt-5 page">
+      <Container className="page">
         <Row>
           <Col {...BootstrapColumLayout}>
           {(status === StatusFetching || status === StatusIdle) && (
@@ -50,19 +50,21 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
     )
   }
   // status is success, metadata is ready.
-  const {title, abstract, keywords, contributors} = extractMetadataFromArticle(article)
-  console.info('ArticleViewer rendered, title:', title)
-  console.info('ArticleViewer rendered, contributors:', contributors)
+  const {title, abstract, keywords, contributor, collaborators} = extractMetadataFromArticle(article)
+  console.info('ArticleViewer rendered, title:', title, 'contributors:', contributor, 'collaborators:', collaborators, 'keywords', keywords)
   return (
     <NotebookViewer
       title={title}
       abstract={abstract}
-      contributors={contributors}
+      contributor={contributor}
+      collaborators={collaborators}
       keywords={keywords}
-      status={article.status}
+      publicationStatus={article.status}
       publicationDate={article.publication_date}
       binderUrl={article.binder_url}
       emailAddress={article.abstract?.contact_email}
+      doi={article.doi}
+      issue={article.issue}
       match={{
       params: {
         encodedUrl: article.notebook_url

@@ -72,7 +72,12 @@
           "publicationDate": "Article published",
           "notYetPublished": "DRAFT Article preview",
           "loadedFromRemoteURL": "<b>Note</b>: this ipython notebook has been loaded from: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>",
-          "tryRemoteURL": "Try another notebook"
+          "tryRemoteURL": "Try another notebook",
+          "status": {
+            "PUBLISHED": "Article published in Open Access",
+            "DRAFT": "DRAFT"
+          },
+          "mobileDisclaimer": "While we work hard on the mobile experience, please explore all three layers - the <b>narrative</b>, the <b>hermeneutics</b> and the <b>data</b> layers on desktop"
         },
         "issue": {
           "title": "Issue {{ id }}"
@@ -184,7 +189,8 @@
         "errors": "{{count}} errors",
         "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",
         "currentCharactersWithCount": "(now: <b>{{count}}</b>)",
-        "itemIdx": "(item #{{idx}})"
+        "itemIdx": "(item #{{idx}})",
+        "articles": "{{ n }} articles"
       },
       "missingStepsWithCount": "<b>1</b> step missing",
       "missingStepsWithCount_plural": "<b>{{count}}</b> steps missing",
@@ -200,7 +206,8 @@
       },
       "ArticleCellOutput_execute_result": "result",
       "ArticleCellOutput_stream": "logs",
-      "ArticleCellOutput_display_data": "result (display)"
+      "ArticleCellOutput_display_data": "result (display)",
+      "bibliography": "Bibliography"
     }
   }
 }

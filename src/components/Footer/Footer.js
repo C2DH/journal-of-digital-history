@@ -65,7 +65,7 @@ const Footer = () => {
               </a>
               <a className={`${styles.LogoLinkDeGruyter} ${styles.LogoLink}`} href="https://www.degruyter.com" target="_blank" rel="noopener noreferrer"  style={{
                 left:'50%'
-              }}><img className="ml-2" alt='De Gruyter Publisher' src={DeGruyterLogo} style={{width: 200}}/>
+              }}><img className="ml-2" alt='De Gruyter Publisher' src={DeGruyterLogo} />
               </a>
             </div>
           </Col>

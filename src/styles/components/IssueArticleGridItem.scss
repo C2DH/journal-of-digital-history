@@ -1,0 +1,47 @@
+// TODO move to a specific space
+.IssueArticleGridItem{
+  margin: var(--spacer-3) 0;
+  border-top: 1px solid var(--secondary);
+
+
+}
+.IssueArticleGridItem h3{
+  font-family: var(--font-family-sans-serif);
+  a {
+    & > div > div {
+      display: inline;
+      box-shadow: none;
+    }
+    &:hover > div > div, &:active > div > div{
+      box-shadow: 0px 1px 0px var(--secondary);
+    }
+  }
+}
+.IssueArticleGridItem_contributor {
+  a {
+    box-shadow: none;
+    display: none;
+  }
+  p{
+    display: none;
+  }
+  h2, h3{
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+  }
+  h2, h3{
+    font-weight: normal;
+  }
+}
+
+@media (min-width: 768px) {
+  .IssueArticleGridItem{
+    margin: 0;
+    margin-bottom: var(--spacer-5);
+    padding: 0;
+    border-top-color: transparent;
+  }
+}

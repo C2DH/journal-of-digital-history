@@ -13,17 +13,26 @@ import { PrimaryRoutes, TermsOfUseRoute } from '../../constants'
 import SwitchNightMode from '../SwitchNightMode'
 import '../../styles/components/Header.scss'
 import { useOnScreen } from '../../hooks/graphics'
+import { Menu } from 'react-feather'
+import Logo from '../Logo'
+
 
 const MobileHeader = ({ langs, displayLangs }) => {
   const { t, i18n } = useTranslation()
   const [isVisible, setIsVisible] = useState(false)
   return (
     <>
-    <LangNavLink to="/" className="MobileHeaderBrand" >{t('titleInline')}</LangNavLink>
+    <LangNavLink to="/" className="MobileHeaderBrand d-flex d-md-none" >
+      <div style={{width:60}}><Logo color="var(--secondary)" size={35}/>
+      </div>
+      <div dangerouslySetInnerHTML={{__html: t('title')}} style={{lineHeight: '18px', fontSize:'14px', marginTop: 2}}></div>
+    </LangNavLink>
     <Nav className="MobileHeaderNav d-block d-md-none">
       <div className="MobileHeaderToggler"
         onClick={() => setIsVisible(!isVisible)}
-      >menu ☰</div>
+      >menu <Menu color="white" size={16} className="ms-1"/>
+        <Logo color="var(--secondary)" size={20}/>
+      </div>
       <div className="MobileHeaderMenu" style={{
         transform: isVisible ? 'translateY(0)' : 'translateY(-100vh)'
       }}>

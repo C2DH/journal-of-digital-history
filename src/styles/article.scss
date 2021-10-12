@@ -53,23 +53,6 @@ $breakpoint-lg: 992px;
   }
 }
 
-.ArticleHeader{
-  margin-top: 100px;
-}
-
-@media (min-width: $breakpoint-tablet) {
-  .ArticleHeader{
-    margin-top: 0px;
-  }
-}
-
-.ArticleHeader h1{
-  font-family: var(--font-family-sans-serif) !important;
-}
-.ArticleHeader_abstract{
-  font-size: var(--font-size-2);
-}
-
 .ArticleStream_paragraph{
 
   position: relative;
@@ -675,4 +658,44 @@ svg.ArticleFingerprint{
   z-index: 2;
   height: 100px;
   width: 100%;
+}
+
+.ArticleBilbiography .csl-entry{
+  margin-bottom: var(--spacer-3);
+  a{
+    word-break: break-all;
+  }
+}
+
+.ArticleMobileDisclaimer_popup{
+  top: 0;
+}
+
+.ArticleMobileDisclaimer_popup_back{
+  background: linear-gradient(#ffffff00, #ffffffaa, #ffffff00);
+  height:100%;
+  top:0;
+  width:100%;
+  opacity: 0;
+}
+
+.ArticleMobileDisclaimer_popup_inner{
+  border-radius: 5px;
+  background-color: white;
+  margin-top: 60%;
+  margin-left: 10%;
+  width: 80%;
+  height: 300px;
+  transform: translate(0, 800px);
+  will-change: transform;
+  transition: transform 0.6s cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+.ArticleMobileDisclaimer_popup.active {
+  .ArticleMobileDisclaimer_popup_back{
+    opacity: 1;
+  }
+  .ArticleMobileDisclaimer_popup_inner{
+    transform: translate(0, 0);
+  }
 }

@@ -1,6 +1,7 @@
 import MarkdownIt from 'markdown-it'
 import Cite from 'citation-js'
 import MarkdownItAttrs from '@gerhobbelt/markdown-it-attrs'
+import MarkdownItMathjax from 'markdown-it-mathjax3'
 // import { groupBy } from 'lodash'
 import ArticleTree from '../models/ArticleTree'
 import ArticleHeading from '../models/ArticleHeading'
@@ -34,6 +35,7 @@ markdownParser.use(MarkdownItAttrs, {
   rightDelimiter: '}',
   allowedAttributes: ['class', 'id']  // empty array = all attributes are allowed
 });
+markdownParser.use(MarkdownItMathjax)
 
 const renderMarkdownWithReferences = ({
   sources = '',
@@ -151,6 +153,21 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
   const articleParagraphs = []
   const sectionsIndex = {}
   const citationsFromMetadata = metadata?.cite2c?.citations
+    ? Object.values(metadata.cite2c.citations).reduce((acc, d) => {
+      if (typeof d.issued === 'object' && d.issued.year && !d.issued['date-parts']) {
+        acc[d.id] = {
+          ...d,
+          issued: {
+            ...d.issued,
+            ['date-parts']: [[d.issued.year]]
+          }
+        }
+      } else {
+        acc[d.id] = d
+      }
+      return acc
+    }, {})
+    : null
   // this contain footnotes => zotero id to remap reference at paragraph level
   const referenceIndex = {}
   //

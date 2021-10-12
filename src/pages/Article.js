@@ -5,12 +5,17 @@ import ArticleBilbiography from '../components/Article/ArticleBibliography'
 import ArticleNote from '../components/Article/ArticleNote'
 import ArticleTextShadow from '../components/Article/ArticleTextShadow'
 import ArticleStream from '../components/Article/ArticleStream'
+import ArticleMobileDisclaimer from '../components/Article/ArticleMobileDisclaimer'
 import source from '../data/mock-ipynb.nbconvert.json'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import { useCurrentWindowDimensions } from '../hooks/graphics'
-import { LayerNarrativeStep, LayerNarrative, DisplayLayerHermeneutics, DisplayLayerNarrative } from '../constants'
+import { LayerNarrativeStep, LayerNarrative, DisplayLayerHermeneutics, DisplayLayerNarrative, IsMobile } from '../constants'
 
-const Article = ({ ipynb, url, publicationDate = new Date(), doi, binderUrl, emailAddress }) => {
+const Article = ({ ipynb, url,
+  publicationDate = new Date(),
+  publicationStatus,
+  issue,
+  doi, binderUrl, emailAddress }) => {
   // const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
   const [selectedDataHref, setSelectedDataHref] = useState(null)
   const articleTree = useIpynbNotebookParagraphs({
@@ -18,7 +23,7 @@ const Article = ({ ipynb, url, publicationDate = new Date(), doi, binderUrl, ema
     cells: ipynb? ipynb.cells : source.cells,
     metadata: ipynb? ipynb.metadata : source.metadata
   })
-  const { title, abstract, keywords, contributor, disclaimer = [] } = articleTree.sections
+  const { title, abstract, keywords, contributor, collaborators, disclaimer = [] } = articleTree.sections
   const { height, width } =  useCurrentWindowDimensions()
   const hasBibliography = typeof articleTree.bibliography === 'object'
   return (
@@ -38,9 +43,22 @@ const Article = ({ ipynb, url, publicationDate = new Date(), doi, binderUrl, ema
         anchorPrefix={DisplayLayerHermeneutics}
       />
     </ArticleTextShadow>
-    <div className="page mt-5">
+    <div className="page">
       <a id="top" className="anchor"></a>
-      <ArticleHeader {... {title, abstract, keywords, contributor, publicationDate, url, disclaimer }} />
+      <ArticleHeader
+        title={title}
+        abstract={abstract}
+        keywords={keywords}
+        collaborators={collaborators}
+        contributor={contributor}
+        publicationDate={publicationDate}
+        url={url}
+        disclaimer={disclaimer}
+        publicationStatus={publicationStatus}
+        issue={issue}
+        doi={doi}
+      />
+      {IsMobile ? <ArticleMobileDisclaimer/> :null}
       <ArticleText
         memoid={articleTree.id}
         headingsPositions={articleTree.headingsPositions}

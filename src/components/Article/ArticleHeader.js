@@ -5,22 +5,42 @@ import ArticleCellContent from './ArticleCellContent'
 import ArticleCitation from './ArticleCitation'
 import ArticleKeywords from './ArticleKeywords'
 import LangLink from '../../components/LangLink'
-import { BootstrapColumLayout } from '../../constants'
+import {
+  BootstrapColumLayout,
+  ArticleStatusDraft,
+  ArticleStatusPublished
+} from '../../constants'
+import '../../styles/components/Article/ArticleHeader.scss'
 
-
-const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], contributor=[], disclaimer=[], publicationDate=new Date(), url, doi, children }) => {
+const ArticleHeader = ({
+  title=[], abstract=[], keywords=[], collaborators=[], contributor=[], disclaimer=[],
+  publicationDate=new Date(),
+  publicationStatus=ArticleStatusDraft,
+  className='',
+  issue,
+  variant,
+  url,
+  children
+}) => {
   const { t } = useTranslation()
   const keywordsCleaned = keywords.reduce((acc, d) => {
+    if(typeof d === 'string') {
+      return acc.concat(d)
+    }
     return acc.concat(d.source.join(',').split(/\s*[,;]\s*/g))
   }, [])
   return (
-    <Container className="ArticleHeader">
+    <Container className={`ArticleHeader ${className}`}>
       <Row>
         <Col {...BootstrapColumLayout}>
-          {doi
-            ? <h3 className="mb-3">{t('pages.article.publicationDate')} {t('dates.short', {date: publicationDate})}</h3>
-            : <h3 className="mb-3">{t('pages.article.notYetPublished')} | ({publicationDate.getFullYear()})</h3>
-          }
+          <div className="mb-3">
+            {t(`pages.article.status.${publicationStatus}`)}
+            {publicationStatus === ArticleStatusPublished
+              ? <span> &mdash; <LangLink to={`issue/${issue.pid}`}>{issue?.name}</LangLink></span>
+              : null}
+            <br/>
+            <b>{publicationDate.getFullYear()}</b>
+          </div>
           <div className={`ArticleHeader_title my-3 ${variant}`}>
           {title.map((paragraph, i) => (
             <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>
@@ -30,8 +50,15 @@ const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], contributo
       </Row>
       <Row>
       {contributor.map((author,i) => (
-        <Col key={i} md={{ offset: i % 2 === 0 ? 2: 0, span: 4}}>
+        <Col key={i} md={{ offset: i % 2 === 0 ? 2: 0, span: 4}} className="ArticleHeader_contributor">
            <ArticleCellContent {...author} hideIdx hideNum/>
+        </Col>
+      ))}
+      </Row>
+      <Row>
+      {collaborators.map((d,i) => (
+        <Col key={i}  {...BootstrapColumLayout} className="ArticleHeader_collaborator">
+           <ArticleCellContent {...d} hideIdx hideNum/>
         </Col>
       ))}
       </Row>
