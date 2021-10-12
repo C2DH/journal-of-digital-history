@@ -814,17 +814,18 @@
     "--- | --- | --- | ---\n",
     "Title | `title` | h1 (#) | This tag is used for the title of the article. \n",
     "Contributor | `contributor` | h3 (###) | One contributor per cell. Below the name, indicate the role and the affiliation.\n",
+    "Collaborator | `collaborator` |  | Collaborators can be mentioned like this: First Name, Name / orcid ID / institution.\n",
     "Cover Image | `cover` | | Figures are counted automatically and will appear in the table of figures. (Captions will be added via a button?)\n",
     "Disclaimer | `disclaimer` | | This disclaimer can be used for certain announcements. It will be color-coded in orange.\n",
     "Keywords | `keywords` | | Keywords are to be separated by comma (“,”)\n",
     "Abstract | `abstract` | | This cell features the abstract of an article with a max./min length of x characters.\n",
     "Chapter Title | | h2 (##) | Chapter titles are always written in h2. \n",
-    "Table | `table-1` | | For tables, **individually** tag each table in the order like this: table-1, table-2, table-3.\n",
-    "Figure | `figure-1` | figure 1a, figure 1b | Figures need to be tagged with \"figure-(number)\". Captions are added manually.\n",
+    "Table | `table-1` | | Tables need to be tagged \"table-(number). The number needs to be incremented **MANUALLY**.\n",
+    "Figure | `figure-1` | | Figures need to be tagged with \"figure-(number)\". The number needs to incremented **MANUALLY**. Captions can be added, see chapter 1.3.5\n",
     "Hermeneutics | `hermeneutics` |  | Methodology is always placed on the hermeneutics layer.\n",
-    "Hermeneutics Step | `hermeneutics-step` |  | This scrollytelling method is explained in chapter 4.3\n",
-    "Narrative Step | `narrative-step` |  | This scrollytelling method is explained in chapter 4.3\n",
-    "Hermeneutics, Narrative | `narrative` `hermeneutics` |  | Tagging both layers is a special use case explained in chapter 4.2.1.2"
+    "Hermeneutics Step | `hermeneutics-step` |  | This scrollytelling method is explained in chapter 1.3.4\n",
+    "Narrative Step | `narrative-step` |  | This scrollytelling method is explained in chapter 1.3.4\n",
+    "Hermeneutics, Narrative | `narrative` `hermeneutics` |  | Tagging both layers is a special use case explained in chapter 1.3.3.2"
    ]
   },
   {
@@ -1061,7 +1062,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "Figures like images for example are tagged with \"figure-(number)\". \n",
+    "Figures like images for example are tagged with \"figure-(number)\". Figures need to be **MANUALLY** incremented.\n",
     "In order to add a caption (title and copyright), we use **metadata** which will be visible on the narrative layer:\n",
     "```\n",
     "    \"tags\": [figure-1],\n",
@@ -1075,6 +1076,13 @@
     "    }\n",
     "}\n",
     "```"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Figures need to be **MANUALLY** incremented for the time being!"
    ]
   },
   {
@@ -1284,12 +1292,101 @@
     "- Submit **both version** via a private or public repo on Github \n",
     "- Send an email to mailto:jdh.admin@uni.lu when done."
    ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Fingerprint"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "In line with our data-driven approach in this journal, we wanted this concept to be reflected visually in the cover for each article as well. We therefore created a data visualization that reflects the unique characteristics of the author's writing style, a sort of <em>fingerprint</em> that readers can use to identify the nature of the article. "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {
+    "tags": [
+     "figure-15"
+    ]
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "\n",
+       "        <iframe\n",
+       "            width=\"100%\"\n",
+       "            height=\"347\"\n",
+       "            src=\"https://player.vimeo.com/video/618021919?h=b04725f547\"\n",
+       "            frameborder=\"0\"\n",
+       "            allowfullscreen\n",
+       "            \n",
+       "        ></iframe>\n",
+       "        "
+      ],
+      "text/plain": [
+       "<IPython.lib.display.VimeoVideo at 0x7fb498314670>"
+      ]
+     },
+     "metadata": {
+      "jdh": {
+       "module": "object",
+       "object": {
+        "source": [
+         "figure 15: fingerprint explanation"
+        ],
+        "type": "image"
+       }
+      }
+     },
+     "output_type": "display_data"
+    }
+   ],
+   "source": [
+    "from IPython.display import VimeoVideo\n",
+    "\n",
+    "metadata={\n",
+    "    \"jdh\": {\n",
+    "        \"module\": \"object\",\n",
+    "        \"object\": {\n",
+    "            \"type\":\"image\",\n",
+    "            \"source\": [\n",
+    "                \"figure 15: fingerprint explanation\"\n",
+    "            ]\n",
+    "        }\n",
+    "    }\n",
+    "}\n",
+    "\n",
+    "# Vimeo\n",
+    "display(VimeoVideo('618021919?h=b04725f547','100%','347'), \n",
+    "        metadata=metadata)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
   }
  ],
  "metadata": {
   "celltoolbar": "Tags",
   "kernelspec": {
-   "display_name": "Python 3",
+   "display_name": "Python 3 (ipykernel)",
    "language": "python",
    "name": "python3"
   },
