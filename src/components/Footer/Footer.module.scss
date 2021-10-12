@@ -4,13 +4,14 @@
   display: block;
   &:hover{
     box-shadow: none;
-    
+
   }
 }
 
 .LogoLinkDeGruyter{
   margin-top: 20px;
-  margin-left: -10px;
+  margin-left: 5px;
+  width: 140px;
 }
 
 $breakpoint-tablet: 768px;
@@ -21,5 +22,6 @@ $breakpoint-tablet: 768px;
   .LogoLinkDeGruyter{
     margin-top: 0;
     margin-left: 20px;
+    width: 200px;
   }
 }

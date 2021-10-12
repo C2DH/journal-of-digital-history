@@ -10,7 +10,7 @@ import {
   ArticleStatusDraft,
   ArticleStatusPublished
 } from '../../constants'
-
+import '../../styles/components/Article/ArticleHeader.scss'
 
 const ArticleHeader = ({
   title=[], abstract=[], keywords=[], collaborators=[], contributor=[], disclaimer=[],

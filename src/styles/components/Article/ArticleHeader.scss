@@ -1,0 +1,28 @@
+.ArticleHeader{
+  margin-top: var(--spacer-5);
+}
+
+.ArticleHeader_contributor h3 a{
+  box-shadow: none;
+}
+
+
+.ArticleHeader h1{
+  font-family: var(--font-family-sans-serif) !important;
+  font-size: var(--font-size-3);
+  line-height: var(--line-height-3);
+}
+.ArticleHeader_abstract{
+  font-size: var(--font-size-2);
+}
+
+@media (min-width: 768px) {
+  .ArticleHeader{
+    margin-top: 0px;
+  }
+
+  .ArticleHeader h1{
+    font-size: var(--font-size-5);
+    line-height: var(--line-height-5);
+  }
+}
