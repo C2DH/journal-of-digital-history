@@ -18,17 +18,15 @@ const IssueArticleGridItem = ({ article={}, isFake=false, num=0, total=1, isEdit
   return (
     <div className="IssueArticleGridItem" ref={ref}>
       <LangLink to={isFake ? '#' : `/article/${article.abstract.pid}`}>
-        <div className={isMobile ? 'half-squared':'squared'} style={{
+        <div className="squared" style={{
           backgroundColor: 'transparent',
           overflow: 'hidden'
         }}>
           <ArticleFingerprint stats={article.fingerprint?.stats}  cells={article.fingerprint?.cells}
-            size={isMobile ? size / 2 : size}/>
+            size={size}/>
         </div>
-        <Badge className="bg-secondary rounded">
-          {isEditorial ? t('editorial') : <span><b>{num}</b> of {total}</span>}
-        </Badge>
-        <h3 className="d-block mt-1 pb-0 sans">
+        {isEditorial ? <Badge bg="secondary">{t('editorial')}</Badge>: num}
+        <h3 className="d-block mt-1 pb-0">
           {title.map(({content}, i) => (
             <ArticleCellContent key={i} content={stripHtml(content)} hideIdx hideNum/>
           ))}

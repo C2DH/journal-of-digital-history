@@ -5,10 +5,23 @@ import ArticleCellContent from './ArticleCellContent'
 import ArticleCitation from './ArticleCitation'
 import ArticleKeywords from './ArticleKeywords'
 import LangLink from '../../components/LangLink'
-import { BootstrapColumLayout } from '../../constants'
+import {
+  BootstrapColumLayout,
+  ArticleStatusDraft,
+  ArticleStatusPublished
+} from '../../constants'
 
 
-const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], collaborators=[], contributor=[], disclaimer=[], publicationDate=new Date(), url, doi, children }) => {
+const ArticleHeader = ({
+  title=[], abstract=[], keywords=[], collaborators=[], contributor=[], disclaimer=[],
+  publicationDate=new Date(),
+  publicationStatus=ArticleStatusDraft,
+  className='',
+  issue,
+  variant,
+  url,
+  children
+}) => {
   const { t } = useTranslation()
   const keywordsCleaned = keywords.reduce((acc, d) => {
     if(typeof d === 'string') {
@@ -17,13 +30,17 @@ const ArticleHeader = ({ variant, title=[], abstract=[], keywords=[], collaborat
     return acc.concat(d.source.join(',').split(/\s*[,;]\s*/g))
   }, [])
   return (
-    <Container className="ArticleHeader">
+    <Container className={`ArticleHeader ${className}`}>
       <Row>
         <Col {...BootstrapColumLayout}>
-          {doi
-            ? <h3 className="mb-3">{t('pages.article.publicationDate')} {t('dates.short', {date: publicationDate})}</h3>
-            : <h3 className="mb-3">{t('pages.article.notYetPublished')} | ({publicationDate.getFullYear()})</h3>
-          }
+          <div className="mb-3">
+            {t(`pages.article.status.${publicationStatus}`)}
+            {publicationStatus === ArticleStatusPublished
+              ? <span> &mdash; <LangLink to={`issue/${issue.pid}`}>{issue?.name}</LangLink></span>
+              : null}
+            <br/>
+            <b>{publicationDate.getFullYear()}</b>
+          </div>
           <div className={`ArticleHeader_title my-3 ${variant}`}>
           {title.map((paragraph, i) => (
             <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>

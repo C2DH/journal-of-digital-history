@@ -93,6 +93,9 @@ html,
 .rounded{
   border-radius: .25rem !important;
 }
+.border-left{
+  border-left: 1px solid;
+}
 .pill{
   border-radius: 50% !important;
 }
@@ -230,7 +233,7 @@ a.btn{
     font-weight: bold;
   }
   h2, h3{
-    font-family: var(--font-family-monospace);
+    // font-family: var(--font-family-monospace);
     font-weight: bold;
   }
   h2{

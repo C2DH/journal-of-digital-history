@@ -16,7 +16,7 @@
 
 .NotebookViewer_loading{
   height: 3px;
-  background-color: var(--primary);
+  background-color: var(--secondary);
   transition: opacity 2s ease-in-out;
 }
 
@@ -25,7 +25,7 @@
   margin-left: 0px;
   font-weight: bold;
   font-size: small;
-  color: var(--primary);
+  color: var(--secondary);
   display: inline-block;
   padding: 0 var(--spacer-1);
 }
