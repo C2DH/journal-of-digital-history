@@ -14,7 +14,7 @@ const ArticleBilbiography = ({ articleTree }) => {
           <div dangerouslySetInnerHTML={{
             __html: articleTree
               .formatBibliograhpy()
-              .replace(/(https?:\/\/[0-9a-zA-Z-./:]+)([^0-9a-zA-Z-./]+)/g, (m, link, r) => `<a href="${link}" _blank="true">${link}</a>${r}`)
+              .replace(/(https?:\/\/[0-9a-zA-Z-./_:]+)([^0-9a-zA-Z-./]+)/g, (m, link, r) => `<a href="${link}" _blank="true">${link}</a>${r}`)
           }}/>
         </Col>
       </Row>
