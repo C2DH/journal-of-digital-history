@@ -42,7 +42,7 @@ const Article = ({ ipynb, url,
         anchorPrefix={DisplayLayerHermeneutics}
       />
     </ArticleTextShadow>
-    <div className="page mt-5">
+    <div className="page">
       <a id="top" className="anchor"></a>
       <ArticleHeader
         title={title}
