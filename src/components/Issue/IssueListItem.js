@@ -13,7 +13,7 @@ const IssueListItem = ({ issue={}, isFake=false, ordering=0 }) => {
   // const [{width: size }, ref] = useBoundingClientRect()
   // useEffect()
   return (
-    <div className="IssueListItem mt-5">
+    <div className="IssueListItem mt-md-5">
       <LangLink to={isFake ? '#' : `/issue/${issue.pid}`} disabled={isFake}>
         <animated.div className="squared position-relative border rounded border-dark" style={{
           backgroundColor: 'var(--dark)',
