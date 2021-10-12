@@ -5,10 +5,11 @@ import ArticleBilbiography from '../components/Article/ArticleBibliography'
 import ArticleNote from '../components/Article/ArticleNote'
 import ArticleTextShadow from '../components/Article/ArticleTextShadow'
 import ArticleStream from '../components/Article/ArticleStream'
+import ArticleMobileDisclaimer from '../components/Article/ArticleMobileDisclaimer'
 import source from '../data/mock-ipynb.nbconvert.json'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import { useCurrentWindowDimensions } from '../hooks/graphics'
-import { LayerNarrativeStep, LayerNarrative, DisplayLayerHermeneutics, DisplayLayerNarrative } from '../constants'
+import { LayerNarrativeStep, LayerNarrative, DisplayLayerHermeneutics, DisplayLayerNarrative, IsMobile } from '../constants'
 
 const Article = ({ ipynb, url,
   publicationDate = new Date(),
@@ -57,6 +58,7 @@ const Article = ({ ipynb, url,
         issue={issue}
         doi={doi}
       />
+      {IsMobile ? <ArticleMobileDisclaimer/> :null}
       <ArticleText
         memoid={articleTree.id}
         headingsPositions={articleTree.headingsPositions}
