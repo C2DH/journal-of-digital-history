@@ -25,6 +25,7 @@ const NotebookViewer = ({
   emailAddress,
   issue,
   doi,
+  bibjson,
 }) => {
   // const { t } = useTranslation()
   const [animatedProps, api] = useSpring(() => ({ width : 0, opacity:1, config: config.slow }))
@@ -87,6 +88,7 @@ const NotebookViewer = ({
             publicationStatus={publicationStatus}
             issue={issue}
             doi={doi}
+            bibjson={bibjson}
           />
         )
         : (
@@ -102,6 +104,7 @@ const NotebookViewer = ({
             publicationStatus={publicationStatus}
             issue={issue}
             doi={doi}
+            bibjson={bibjson}
           />
         )
       }

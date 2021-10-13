@@ -20,6 +20,7 @@ const ArticleHeader = ({
   issue,
   variant,
   url,
+  bibjson,
   children
 }) => {
   const { t } = useTranslation()
@@ -68,7 +69,7 @@ const ArticleHeader = ({
             <Col {...BootstrapColumLayout}>
               <h3>{t('pages.article.abstract')}</h3>
               <ArticleKeywords keywords={keywordsCleaned}/>
-              <ArticleCitation className="my-4 w-100"/>
+              <ArticleCitation bibjson={bibjson} className="my-4 w-100"/>
               <div className="ArticleHeader_abstract">
                 {abstract.map((paragraph, i) => (
                   <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>

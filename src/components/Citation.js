@@ -28,7 +28,14 @@ const Citation = ({ bibjson, format='html', template='apa', ClipboardComponent, 
       </section>
     )
   }
-  const cite = new Cite(bibjson ?? DefaultBibJson)
+  let bibjsonSource = (bibjson ?? DefaultBibJson)
+  if (typeof bibjsonSource.issued === 'object' && bibjsonSource.issued.year && !bibjsonSource.issued['date-parts']) {
+    bibjsonSource.issued = {
+      ...bibjsonSource.issued,
+      ['date-parts']: [[bibjsonSource.issued.year]]
+    }
+  }
+  const cite = new Cite(bibjsonSource)
 
   if (format === 'bibtex') {
     const output = cite.format(format)
