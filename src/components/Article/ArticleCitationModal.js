@@ -38,7 +38,7 @@ const ArticleCitationModal = (props) => {
         ))}
       </ToggleButtonGroup>
         <div className="mt-3 position-relative">
-         <Citation {...choices[value]} className="p-2 rounded all-copy" style={{
+         <Citation {...choices[value]} bibjson={props.bibjson} className="p-2 rounded all-copy" style={{
           maxHeight: 100, overflow:"scroll",
           backgroundColor: 'var(--gray-400)'
         }} ClipboardComponent={CopyToClipboardTrigger} />

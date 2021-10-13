@@ -65,6 +65,7 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
       emailAddress={article.abstract?.contact_email}
       doi={article.doi}
       issue={article.issue}
+      bibjson={article.citation}
       match={{
       params: {
         encodedUrl: article.notebook_url

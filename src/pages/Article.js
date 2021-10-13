@@ -46,6 +46,7 @@ const Article = ({ ipynb, url,
     <div className="page">
       <a id="top" className="anchor"></a>
       <ArticleHeader
+        className="mt-5"
         title={title}
         abstract={abstract}
         keywords={keywords}
