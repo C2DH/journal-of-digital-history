@@ -70,8 +70,7 @@ const renderMarkdownWithReferences = ({
         ref: citationsFromMetadata[id],
       })
       references.push(reference)
-      return `
-        <span class="ArticleReference d-inline-block">
+      return `<span class="ArticleReference d-inline-block">
         <span class=" d-inline-block">
           <span class="ArticleReference_shortRef">${reference.shortRef}</span>
         </span>
