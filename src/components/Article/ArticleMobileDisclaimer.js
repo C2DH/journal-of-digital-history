@@ -13,7 +13,7 @@ const ArticleMobileDisclaimer = ({ title }) => {
   const clickHandler = () => {
     const url = String(window.location)
     const subject = t('ArticleMobileDisclaimerSubject', {
-      title: extractExcerpt(title, 10)
+      title: extractExcerpt(title, 10, '...')
     })
     const body = t('ArticleMobileDisclaimerBody', { url, title })
     window.location = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`

@@ -35,16 +35,16 @@ export const extractMetadataFromArticle = (article) => {
   return result
 }
 
-export const extractExcerpt = (text, words=20) => {
+export const extractExcerpt = (text, words=20, append=" [&hellip;]") => {
   if (typeof text !== 'string' || !text.length) {
     return null
   }
-  return downsize(text, {"words": words, "append": " [&hellip;]"})
+  return downsize(text, { words, append })
 }
 
 export const stripHtml = (text) => {
   if (typeof text !== 'string' || !text.length) {
     return ''
   }
-  return text.replace(/<[^>]+>/g, '');
+  return text.replace(/<br>/ig, '').replace(/<[^>]+>/g, '');
 }
