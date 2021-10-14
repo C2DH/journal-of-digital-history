@@ -15,7 +15,7 @@ const Article = ({ ipynb, url,
   publicationDate = new Date(),
   publicationStatus,
   issue,
-  doi, binderUrl, emailAddress }) => {
+  doi, binderUrl, bibjson, emailAddress }) => {
   // const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
   const [selectedDataHref, setSelectedDataHref] = useState(null)
   const articleTree = useIpynbNotebookParagraphs({
@@ -46,6 +46,7 @@ const Article = ({ ipynb, url,
     <div className="page">
       <a id="top" className="anchor"></a>
       <ArticleHeader
+        className="mt-5"
         title={title}
         abstract={abstract}
         keywords={keywords}
@@ -57,6 +58,7 @@ const Article = ({ ipynb, url,
         publicationStatus={publicationStatus}
         issue={issue}
         doi={doi}
+        bibjson={bibjson}
       />
       {IsMobile ? <ArticleMobileDisclaimer/> :null}
       <ArticleText

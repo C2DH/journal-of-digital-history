@@ -18,6 +18,7 @@ const ArticleCitation = (props) => {
 
       <ArticleCitationModal
         show={isVisible}
+        bibjson={props.bibjson}
         onHide={() => setIsVisible(false)}
       />
     </div>
