@@ -32,7 +32,7 @@ const ArticleMobileDisclaimer = ({ title }) => {
             <p className="m-0 w-100" dangerouslySetInnerHTML={{
               __html: t('pages.article.mobileDisclaimer')
             }}/>
-            <Button block className="w-100 shadow-sm" variant="outline-secondary" onClick={clickHandler}>Mail me this! <Send size={14}/></Button>
+            <Button className="w-100 shadow-sm" variant="outline-secondary" onClick={clickHandler}>Mail me this! <Send size={14}/></Button>
           </div>
         </div>
       </div>
