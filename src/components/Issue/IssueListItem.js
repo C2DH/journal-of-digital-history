@@ -1,6 +1,6 @@
 import React from 'react'
 import LangLink from '../LangLink'
-// import {useBoundingClientRect} from '../../hooks/graphics'
+import { IsMobile } from '../../constants'
 import { useSpring, animated } from 'react-spring'
 
 
@@ -15,7 +15,7 @@ const IssueListItem = ({ issue={}, isFake=false, ordering=0 }) => {
   return (
     <div className="IssueListItem mt-md-5">
       <LangLink to={isFake ? '#' : `/issue/${issue.pid}`} disabled={isFake}>
-        <animated.div className="squared position-relative border rounded border-dark" style={{
+        <animated.div className={`${IsMobile ? 'half-squared': 'squared'} position-relative border rounded border-dark`} style={{
           backgroundColor: 'var(--dark)',
           overflow: 'hidden',
           ...props

@@ -29,7 +29,7 @@ const Issues = () => {
       <Row>
         <Col {...BootstrapColumLayout}>
           <h1 className="my-5">{t('pages.issues.title')}</h1>
-          <h3>{t('pages.issues.subheading')}</h3>
+          <h3 className="d-none d-md-block">{t('pages.issues.subheading')}</h3>
           <p className="d-none d-md-block">{t('pages.issues.introduction')}</p>
         </Col>
       </Row>
