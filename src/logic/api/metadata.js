@@ -35,11 +35,11 @@ export const extractMetadataFromArticle = (article) => {
   return result
 }
 
-export const extractExcerpt = (text) => {
+export const extractExcerpt = (text, words=20) => {
   if (typeof text !== 'string' || !text.length) {
     return null
   }
-  return downsize(text, {"words": 20, "append": " [&hellip;]"})
+  return downsize(text, {"words": words, "append": " [&hellip;]"})
 }
 
 export const stripHtml = (text) => {
