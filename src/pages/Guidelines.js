@@ -24,8 +24,8 @@ const Guidelines = () => {
 
   const { height, width } =  useCurrentWindowDimensions()
   return (
-    <>
-    <Container className="page">
+    <div className="page">
+    <Container >
       <Row>
         <Col {...BootstrapColumLayout}>
           <div className="my-5">
@@ -73,7 +73,7 @@ const Guidelines = () => {
         : null
       }
 
-    </>
+    </div>
   );
 }
 export default Guidelines

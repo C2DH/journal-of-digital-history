@@ -207,7 +207,9 @@
       "ArticleCellOutput_execute_result": "result",
       "ArticleCellOutput_stream": "logs",
       "ArticleCellOutput_display_data": "result (display)",
-      "bibliography": "Bibliography"
+      "bibliography": "Bibliography",
+      "ArticleMobileDisclaimerSubject": "To read: \"{{ title }}\" on jdh",
+      "ArticleMobileDisclaimerBody": "Note to self: remember to read the article \"{{ title }}\" on {{ url }}"
     }
   }
 }

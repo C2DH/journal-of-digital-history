@@ -7,7 +7,7 @@ import LangLink from '../LangLink'
 import { Badge } from 'react-bootstrap'
 import {useBoundingClientRect} from '../../hooks/graphics'
 import { extractMetadataFromArticle, stripHtml } from '../../logic/api/metadata'
-// import { isMobile } from 'react-device-detect'
+import { IsMobile } from '../../constants'
 import '../../styles/components/IssueArticleGridItem.scss'
 
 
@@ -17,14 +17,15 @@ const IssueArticleGridItem = ({ article={}, isFake=false, num=0, isEditorial }) 
   const { t } = useTranslation()
   return (
     <div className="IssueArticleGridItem" ref={ref}>
-
-        <div className="squared" style={{
+        <LangLink to={isFake ? '#' : `/article/${article.abstract.pid}`}>
+        <div className={IsMobile ? 'half-squared': 'squared'} style={{
           backgroundColor: 'transparent',
           overflow: 'hidden'
         }}>
           <ArticleFingerprint stats={article.fingerprint?.stats}  cells={article.fingerprint?.cells}
-            size={size}/>
+            size={IsMobile ? size/2 : size}/>
         </div>
+        </LangLink>
         {isEditorial ? <Badge bg="secondary" className="rounded">{t('editorial')}</Badge>: num}
         <h3 className="d-block mt-1 pb-0">
           <LangLink to={isFake ? '#' : `/article/${article.abstract.pid}`}>

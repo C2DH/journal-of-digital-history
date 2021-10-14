@@ -9,12 +9,15 @@ import ArticleMobileDisclaimer from '../components/Article/ArticleMobileDisclaim
 import source from '../data/mock-ipynb.nbconvert.json'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import { useCurrentWindowDimensions } from '../hooks/graphics'
+import { stripHtml } from '../logic/api/metadata'
 import { LayerNarrativeStep, LayerNarrative, DisplayLayerHermeneutics, DisplayLayerNarrative, IsMobile } from '../constants'
+
 
 const Article = ({ ipynb, url,
   publicationDate = new Date(),
   publicationStatus,
   issue,
+  plainTitle,
   doi, binderUrl, bibjson, emailAddress }) => {
   // const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
   const [selectedDataHref, setSelectedDataHref] = useState(null)
@@ -59,8 +62,9 @@ const Article = ({ ipynb, url,
         issue={issue}
         doi={doi}
         bibjson={bibjson}
+        isPreview={false}
       />
-      {IsMobile ? <ArticleMobileDisclaimer/> :null}
+      {IsMobile ? <ArticleMobileDisclaimer title={stripHtml(plainTitle.map(d => d.content).join(' '))}/> :null}
       <ArticleText
         memoid={articleTree.id}
         headingsPositions={articleTree.headingsPositions}
