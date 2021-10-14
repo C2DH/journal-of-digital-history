@@ -89,6 +89,7 @@ const NotebookViewer = ({
             issue={issue}
             doi={doi}
             bibjson={bibjson}
+            plainTitle={title}
           />
         )
         : (

@@ -3,12 +3,21 @@ import { useTranslation } from 'react-i18next'
 import { useOnScreen } from '../../hooks/graphics'
 import { Button } from 'react-bootstrap'
 import { Send } from 'react-feather'
+import { extractExcerpt } from '../../logic/api/metadata'
 
-const ArticleMobileDisclaimer = () => {
+
+const ArticleMobileDisclaimer = ({ title }) => {
   const [{ intersectionRatio }, ref] = useOnScreen()
   const { t } = useTranslation()
   const clickHandler = () => {
-    window.location = 'mailto:?subject=%22a%20nice%20title%22%20read%20reminder%20JDH&body=Hi!%0A%0ANice%20to%20meet%20you'
+    const url = String(window.location)
+    const subject = t('ArticleMobileDisclaimerSubject', {
+      title: extractExcerpt(title, 10)
+    })
+    const body = t('ArticleMobileDisclaimerBody', { url, title })
+    // eslint-disable-next-line
+    debugger;
+    window.location = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
   return (
