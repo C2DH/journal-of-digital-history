@@ -1,13 +1,15 @@
 import React from 'react'
 import groupBy from 'lodash/groupBy'
 import { useTranslation } from 'react-i18next'
-import { Container, Row, Col, Card, } from 'react-bootstrap'
+import { Container, Row, Col, } from 'react-bootstrap'
 import LangLink from '../components/LangLink'
 import homePageContents from '../data/mock-api/mock-home-ipynb.json'
 import {getArticleTreeFromIpynb} from '../logic/ipynb'
 import ArticleCellContent from '../components/Article/ArticleCellContent'
 import MilestoneTimeline from '../components/MilestoneTimeline'
 import { IsPortrait, BootstrapColumLayout } from '../constants'
+import logo from '/Users/ori.elisar/Documents/GitHub/journal-of-digital-history/src/assets/images/jdh001.png'; // with import
+
 
 
 const articleTree = getArticleTreeFromIpynb(homePageContents)
@@ -37,16 +39,20 @@ const Home = () => {
     <Container className="page">
       <Row>
         <Col {...BootstrapColumLayout}>
-          <Card border="dark" bg="primary" style={{ width: '100%' }}>
-          <Card.Img variant="top" src="public/img/issues/jdh001.png" />
-          <Card.Body>
-            <Card.Title>The first issue of the journal for digital history has been released</Card.Title>
-            <Card.Text>
-              Scalable historiography: storytelling, hermeneutics, data
-            </Card.Text>
-              <Card.Link href="#">Available only here</Card.Link>
-          </Card.Body>
-        </Card>
+        <div className="card border-dark border-3 bg-primary" style={{maxWidth: '100%'}}>
+<div className="row g-0 ">
+  <div className="col-md-4">
+<img src={logo} style={{height: '30vh'}} />
+  </div>
+  <div className="col-md-8 mt-4">
+    <div className="card-body">
+      <h5 className="card-title mb-3">The first issue of the journal for digital history has been released</h5>
+      <p className="card-text">Scalable historiography: storytelling, hermeneutics, data</p>
+        <a href="#" className="card-link">Available only here</a>
+    </div>
+  </div>
+</div>
+</div>
         </Col>
       </Row>
       <Row>
