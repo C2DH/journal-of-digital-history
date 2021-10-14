@@ -1,7 +1,7 @@
 import React from 'react'
 import groupBy from 'lodash/groupBy'
 import { useTranslation } from 'react-i18next'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Card, } from 'react-bootstrap'
 import LangLink from '../components/LangLink'
 import homePageContents from '../data/mock-api/mock-home-ipynb.json'
 import {getArticleTreeFromIpynb} from '../logic/ipynb'
@@ -35,6 +35,20 @@ const Home = () => {
   return (
     <>
     <Container className="page">
+      <Row>
+        <Col {...BootstrapColumLayout}>
+          <Card border="dark" bg="primary" style={{ width: '100%' }}>
+          <Card.Img variant="top" src="public/img/issues/jdh001.png" />
+          <Card.Body>
+            <Card.Title>The first issue of the journal for digital history has been released</Card.Title>
+            <Card.Text>
+              Scalable historiography: storytelling, hermeneutics, data
+            </Card.Text>
+              <Card.Link href="#">Available only here</Card.Link>
+          </Card.Body>
+        </Card>
+        </Col>
+      </Row>
       <Row>
         <Col {...BootstrapColumLayout}>
           <h1 className="my-5">Write (Digital) History.</h1>
