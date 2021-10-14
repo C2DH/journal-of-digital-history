@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import { Modal, Button, ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
 import Citation from '../Citation'
-import CopyToClipboardTrigger from '../CopyToClipboardTrigger'
+// import CopyToClipboardTrigger from '../CopyToClipboardTrigger'
 // import { CopyToClipboard } from 'react-copy-to-clipboard'
 // import {OverlayTrigger, Tooltip, Button} from 'react-bootstrap'
 
@@ -41,7 +41,7 @@ const ArticleCitationModal = (props) => {
          <Citation {...choices[value]} bibjson={props.bibjson} className="p-2 rounded all-copy" style={{
           maxHeight: 100, overflow:"scroll",
           backgroundColor: 'var(--gray-400)'
-        }} ClipboardComponent={CopyToClipboardTrigger} />
+        }} />
         </div>
       </Modal.Body>
       <Modal.Footer>
