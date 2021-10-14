@@ -106,6 +106,7 @@ const NotebookViewer = ({
             issue={issue}
             doi={doi}
             bibjson={bibjson}
+            isPreview
           />
         )
       }

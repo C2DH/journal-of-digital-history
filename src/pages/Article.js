@@ -62,6 +62,7 @@ const Article = ({ ipynb, url,
         issue={issue}
         doi={doi}
         bibjson={bibjson}
+        isPreview={false}
       />
       {IsMobile ? <ArticleMobileDisclaimer title={stripHtml(plainTitle.map(d => d.content).join(' '))}/> :null}
       <ArticleText

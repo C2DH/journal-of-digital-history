@@ -21,7 +21,8 @@ const ArticleHeader = ({
   variant,
   url,
   bibjson,
-  children
+  children,
+  isPreview=true
 }) => {
   const { t } = useTranslation()
   const keywordsCleaned = keywords.reduce((acc, d) => {
@@ -69,7 +70,7 @@ const ArticleHeader = ({
             <Col {...BootstrapColumLayout}>
               <h3>{t('pages.article.abstract')}</h3>
               <ArticleKeywords keywords={keywordsCleaned}/>
-              <ArticleCitation bibjson={bibjson} className="my-4 w-100"/>
+              <ArticleCitation disabled={isPreview} bibjson={bibjson} className="my-4 w-100"/>
               <div className="ArticleHeader_abstract">
                 {abstract.map((paragraph, i) => (
                   <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>

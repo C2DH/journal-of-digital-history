@@ -9,7 +9,7 @@ const ArticleCitation = (props) => {
 
   return (
     <div className="ArticleCitation" {...props}>
-      <Button size="sm" variant="outline-secondary" onClick={() => setIsVisible(true)}>
+      <Button size="sm" variant="outline-secondary" disabled={props.disabled} onClick={() => setIsVisible(true)}>
         <BookOpen size={12}/>
         <span className="ms-2">
         Cite as ...
