@@ -20,7 +20,7 @@ const ArticleMobileDisclaimer = ({ title }) => {
   }
 
   return (
-    <div ref={ref} className="ArticleMobileDisclaimer position-absolute w-100 pointer-events-none" style={{height: '200%'}}>
+    <div ref={ref} className="ArticleMobileDisclaimer position-absolute w-100 pointer-events-none" style={{height: 2000}}>
       <div className={`ArticleMobileDisclaimer_popup position-fixed w-100 h-100 ${isVisible && intersectionRatio > 0 ? 'active' : ''}`}
         style={{top:0, zIndex:100}}>
         <div className="ArticleMobileDisclaimer_popup_inner position-absolute top-0 shadow">
@@ -32,7 +32,7 @@ const ArticleMobileDisclaimer = ({ title }) => {
             <p className="m-0 w-100" dangerouslySetInnerHTML={{
               __html: t('pages.article.mobileDisclaimer')
             }}/>
-            <Button className="w-100 shadow-sm" variant="outline-secondary" onClick={clickHandler}>Mail me this! <Send size={14}/></Button>
+            <Button className="w-100 shadow-sm" variant="primary" onClick={clickHandler}>Mail me this! <Send size={14}/></Button>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 {
   "name": "jdh",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^1.1.0",
@@ -49,6 +49,7 @@
     "react-feather": "^2.0.9",
     "react-ga": "^3.2.1",
     "react-google-recaptcha": "^2.1.0",
+    "react-helmet": "^6.1.0",
     "react-i18next": "^11.7.3",
     "react-rocketjump": "^2.6.2",
     "react-router": "^5.2.0",

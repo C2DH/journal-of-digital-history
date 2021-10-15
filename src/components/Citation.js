@@ -20,7 +20,7 @@ const DefaultBibJson = {
     "identifier": [{"type":"doi","id":"10.1186/1758-2946-3-47"}]
 }
 
-const Citation = ({ bibjson, format='html', template='apa', ClipboardComponent, ...rest }) => {
+const Citation = ({ bibjson, format='html', template='apa', ClipboardComponent=()=>(<div></div>), ...rest }) => {
   if (!bibjson && !window.CITATION_DEMO) {
     return (
       <section {...rest}>

@@ -14,7 +14,7 @@ const ArticleNote= ({ articleTree, selectedDataHref }) => {
     return citationInstance.format('bibliography', {
       template:'apa',
       format:'html',
-    })
+    }).replace(/(https?:\/\/[0-9a-zA-Z-./_:?=]+)([^0-9a-zA-Z-./]+)/g, (m, link, r) => `<a href="${link}" target="_blank">${link}</a>${r}`)
   }, [refId, articleTree.citationsFromMetadata])
 
   return (

@@ -26,7 +26,8 @@ const Footer = () => {
       <Container className="py-5">
         <Row>
           <Col md={{span: 3, offset:2}}>
-          © <a href="https://www.uni.lu/">University of Luxembourg</a><br/> © De Gruyter {now.getFullYear()}
+          © <a href="https://www.uni.lu/" target="_blank" rel="noopener noreferrer">University of Luxembourg</a><br/>
+          © <a href="https://www.degruyter.com" target="_blank" rel="noopener noreferrer"> De Gruyter</a> {now.getFullYear()}
           <p className="mt-2" dangerouslySetInnerHTML={{__html: t('contactUsingEmail')}}></p>
           </Col>
           <Col md={3}>
