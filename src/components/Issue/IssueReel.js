@@ -35,7 +35,10 @@ const IssueReel = () => {
     return null
   }
 
-  if(!issues){
+  if (!Array.isArray(issues)) {
+    return null
+  }
+  if (!issues.length) {
     return null
   }
   const items = (issues ?? FakeIssues)
@@ -43,8 +46,6 @@ const IssueReel = () => {
   // const isFake = status !== StatusSuccess
   const size = 100
   const margin = 10
-
-
 
   return (
     <div className="IssueReel" style={{transition: 'opacity .5s ease-in', opacity: status === StatusSuccess ? 1 : 0,}}>
