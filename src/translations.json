@@ -210,7 +210,8 @@
       "bibliography": "Bibliography",
       "ArticleMobileDisclaimerSubject": "To read: \"{{ title }}\" on jdh",
       "ArticleMobileDisclaimerBody": "Note to self: remember to read the article \"{{ title }}\" on {{ url }}",
-      "HelloWorldTitle": "The first issue of the journal for digital history has been released!"
+      "HelloWorldTitle": "The first issue of the Journal of Digital History has been released!",
+      "HelloWorldAvailableHere": "Available here!"
     }
   }
 }

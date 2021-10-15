@@ -64,7 +64,7 @@ const IssueReel = () => {
           <h2 className="m0 p0">{t('HelloWorldTitle')}</h2>
           <h3>{latestItem.name}</h3>
           <br/>
-          <LangLink  to={`issue/${latestItem.pid}`}>Availabile here!</LangLink>
+          <LangLink  to={`issue/${latestItem.pid}`}>{t('HelloWorldAvailableHere')}</LangLink>
         </div>
       </div>
     </div>
