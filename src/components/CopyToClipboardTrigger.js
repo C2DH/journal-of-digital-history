@@ -1,5 +1,5 @@
 import React, { useState, useEffect,useRef } from 'react'
-import {Clipboard} from 'react-feather'
+import {Copy} from 'react-feather'
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 import {Tooltip, Button} from 'react-bootstrap'
 
@@ -35,7 +35,7 @@ const CopyToClipboardTrigger = ({ text, delay=1500 }) => {
       onCopy={() => setIsCopied(true)}
     >
       <Button ref={target} size="sm" className="bg-gray" variant="outline-secondary">
-        {isCopied? 'copied! ': ''}<Clipboard size={16}/>
+        {isCopied? 'copied! ': ''}<Copy size={16}/>
       </Button>
     </CopyToClipboard>
 

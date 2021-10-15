@@ -469,7 +469,7 @@ svg.ArticleFingerprint{
   white-space: nowrap;
   border-radius: 15px;
   background: white;
-  left: -70px;
+  left: var(--spacer-2);
   color: var(--primary-dark);
   border-color: var(--primary-dark);
   // &.active{
@@ -488,6 +488,12 @@ svg.ArticleFingerprint{
     color: var(--white);
     border-color: var(--primary-dark);
     background-color: var(--primary-dark);
+  }
+}
+
+@media (min-width: $breakpoint-tablet) {
+  .ArticleCellAccordionCustomToggle{
+    left: -35px;
   }
 }
 

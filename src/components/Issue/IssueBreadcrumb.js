@@ -20,7 +20,7 @@ const IssueBreadcumb = ({ to, label }) => {
         }}>{t(label)}</span>
       </LangNavLink>
       {issueLabel.length ? (
-        <LangNavLink className="px-0" to={to} active style={{
+        <LangNavLink className="px-0" to={`issue/${issuePid || issue?.pid}`} active style={{
           whiteSpace: 'nowrap'
         }}>&nbsp;/&nbsp;<span>{issueLabel}</span>
         </LangNavLink>

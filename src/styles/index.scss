@@ -121,6 +121,12 @@ html,
     margin-right: 2rem;
     position: relative;
   }
+  &.with-ellipsis > span{
+    max-width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
   &:hover span:before{
     width: 100%;
   }
