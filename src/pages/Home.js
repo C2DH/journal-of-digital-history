@@ -7,8 +7,8 @@ import homePageContents from '../data/mock-api/mock-home-ipynb.json'
 import {getArticleTreeFromIpynb} from '../logic/ipynb'
 import ArticleCellContent from '../components/Article/ArticleCellContent'
 import MilestoneTimeline from '../components/MilestoneTimeline'
+import IssueReel from '../components/Issue/IssueReel'
 import { IsPortrait, BootstrapColumLayout } from '../constants'
-import logo from '../assets/images/jdh001.png';
 
 
 const articleTree = getArticleTreeFromIpynb(homePageContents)
@@ -29,20 +29,7 @@ const Home = () => {
     <Container className="page">
       <Row>
         <Col {...BootstrapColumLayout}>
-        <div className="card border-dark border-3 bg-primary" style={{maxWidth: '100%'}}>
-          <div className="row g-0 ">
-            <div className="col-md-4">
-          <img src={logo} style={{height: '30vh'}} />
-            </div>
-            <div className="col-md-8 mt-4">
-              <div className="card-body">
-                <h5 className="card-title mb-3">The first issue of the journal for digital history has been released</h5>
-                <p className="card-text">Scalable historiography: storytelling, hermeneutics, data</p>
-                  <a href="#" className="card-link">Available only here</a>
-              </div>
-            </div>
-          </div>
-          </div>
+          <IssueReel />
         </Col>
       </Row>
       <Row>

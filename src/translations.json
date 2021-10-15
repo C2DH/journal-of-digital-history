@@ -209,7 +209,8 @@
       "ArticleCellOutput_display_data": "result (display)",
       "bibliography": "Bibliography",
       "ArticleMobileDisclaimerSubject": "To read: \"{{ title }}\" on jdh",
-      "ArticleMobileDisclaimerBody": "Note to self: remember to read the article \"{{ title }}\" on {{ url }}"
+      "ArticleMobileDisclaimerBody": "Note to self: remember to read the article \"{{ title }}\" on {{ url }}",
+      "HelloWorldTitle": "The first issue of the journal for digital history has been released"
     }
   }
 }
