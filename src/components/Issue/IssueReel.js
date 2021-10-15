@@ -18,20 +18,9 @@ const IssueReel = () => {
   // load published issue
   const { data:issues, error, status, errorCode } = useGetJSON({
     url: `/api/issues?status=PUBLISHED&ordering=-creation_date`,
-    delay: 100
+    delay: 200
   })
-
-  if (error) {
-    console.warn('Error in getting latest published issue:', errorCode, error)
-    return null
-  }
   const [{x, y}, api] = useSpring(() => ({ x: 0, y: 0, config: { mass: 10, tension: 550, friction: 140 } }))
-  const items = (issues ?? FakeIssues)
-  const latestItem = items[0]
-  // const isFake = status !== StatusSuccess
-  const size = 100
-  const margin = 10
-
   React.useEffect(() => {
     const mouseMoveHandler = ({ clientX, clientY }) => {
       api.start({ x: (clientX - window.innerWidth / 2) / 5, y: (clientY - window.innerHeight / 3) / 5})
@@ -41,6 +30,21 @@ const IssueReel = () => {
       document.removeEventListener('mousemove', mouseMoveHandler)
     }
   })
+  if (error) {
+    console.warn('Error in getting latest published issue:', errorCode, error)
+    return null
+  }
+
+  if(!issues){
+    return null
+  }
+  const items = (issues ?? FakeIssues)
+  const latestItem = items[0]
+  // const isFake = status !== StatusSuccess
+  const size = 100
+  const margin = 10
+
+
 
   return (
     <div className="IssueReel" style={{transition: 'opacity .5s ease-in', opacity: status === StatusSuccess ? 1 : 0,}}>
