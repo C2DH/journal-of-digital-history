@@ -34,7 +34,7 @@ const IssueReel = () => {
 
   React.useEffect(() => {
     const mouseMoveHandler = ({ clientX, clientY }) => {
-      api.start({ x: (clientX - window.innerWidth / 2) / 10, y: (clientY - window.innerHeight / 2) / 10})
+      api.start({ x: (clientX - window.innerWidth / 2) / 5, y: (clientY - window.innerHeight / 3) / 5})
     }
     document.addEventListener('mousemove', mouseMoveHandler)
     return function clean() {
