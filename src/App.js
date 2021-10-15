@@ -21,7 +21,7 @@ let persistentState = useStore.getState()
 try {
   const localStorageState = JSON.parse(localStorage.getItem('JournalOfDigitalHistory'));
   console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___|       \n\n')
-  console.info('%cinitial saved state', 'font-weight: bold', typeof persistentState === 'object')
+  console.info('%cinitial available state', 'font-weight: bold', 'in localStorage:', localStorageState !== null)
   if (localStorageState) {
     persistentState = localStorageState
   }
@@ -29,8 +29,8 @@ try {
   console.warn(e)
 }
 
-const acceptAnalyticsCookies = Boolean(persistentState.state.acceptAnalyticsCookies)
-const acceptCookies = Boolean(persistentState.state.acceptCookies)
+const acceptAnalyticsCookies = Boolean(persistentState.state?.acceptAnalyticsCookies)
+const acceptCookies = Boolean(persistentState.state?.acceptCookies)
 // console.info('initial saved state', persistentState)
 console.info('%cacceptAnalyticsCookies', 'font-weight: bold', acceptAnalyticsCookies)
 console.info('%cacceptCookies', 'font-weight: bold', acceptCookies)
