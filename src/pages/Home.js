@@ -8,8 +8,7 @@ import {getArticleTreeFromIpynb} from '../logic/ipynb'
 import ArticleCellContent from '../components/Article/ArticleCellContent'
 import MilestoneTimeline from '../components/MilestoneTimeline'
 import { IsPortrait, BootstrapColumLayout } from '../constants'
-import logo from '/Users/ori.elisar/Documents/GitHub/journal-of-digital-history/src/assets/images/jdh001.png'; // with import
-
+import logo from '../assets/images/jdh001.png';
 
 
 const articleTree = getArticleTreeFromIpynb(homePageContents)
@@ -20,16 +19,7 @@ const {
   'call-for-papers': callForPapers,
   'milestones': milestones
 } = groupBy(articleTree.paragraphs, ({ metadata }) => metadata?.jdh?.section)
-//
-// const journalCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'journal')
-// const editorialBoardCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'editorial-board')
-// const editorialTeamCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'editorial-team')
-// const callForPapers = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'call-for-papers')
-//
-// const milestones = articleTree.paragraphs
-//   .find(({ metadata }) => metadata?.jdh?.section === 'milestones')
-//
-console.info(milestones)
+
 
 const Home = () => {
   const { t } = useTranslation()
@@ -40,19 +30,19 @@ const Home = () => {
       <Row>
         <Col {...BootstrapColumLayout}>
         <div className="card border-dark border-3 bg-primary" style={{maxWidth: '100%'}}>
-<div className="row g-0 ">
-  <div className="col-md-4">
-<img src={logo} style={{height: '30vh'}} />
-  </div>
-  <div className="col-md-8 mt-4">
-    <div className="card-body">
-      <h5 className="card-title mb-3">The first issue of the journal for digital history has been released</h5>
-      <p className="card-text">Scalable historiography: storytelling, hermeneutics, data</p>
-        <a href="#" className="card-link">Available only here</a>
-    </div>
-  </div>
-</div>
-</div>
+          <div className="row g-0 ">
+            <div className="col-md-4">
+          <img src={logo} style={{height: '30vh'}} />
+            </div>
+            <div className="col-md-8 mt-4">
+              <div className="card-body">
+                <h5 className="card-title mb-3">The first issue of the journal for digital history has been released</h5>
+                <p className="card-text">Scalable historiography: storytelling, hermeneutics, data</p>
+                  <a href="#" className="card-link">Available only here</a>
+              </div>
+            </div>
+          </div>
+          </div>
         </Col>
       </Row>
       <Row>
