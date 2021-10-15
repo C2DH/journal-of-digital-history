@@ -10,3 +10,11 @@
 //     transform: rotate(360deg);
 //   }
 // }
+.IssueReel{
+  margin-top: var(--spacer-5);
+}
+@media (min-width: 768px) {
+  .IssueReel {
+    margin-top: var(--spacer-2);
+  }
+}

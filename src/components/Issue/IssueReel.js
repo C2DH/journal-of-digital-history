@@ -43,7 +43,7 @@ const IssueReel = () => {
   })
 
   return (
-    <div className="IssueReel" style={{marginTop: margin, transition: 'opacity .5s ease-in', opacity: status === StatusSuccess ? 1 : 0,}}>
+    <div className="IssueReel" style={{transition: 'opacity .5s ease-in', opacity: status === StatusSuccess ? 1 : 0,}}>
       <div className="position-relative border border-dark">
         <a.div className="position-absolute w-100 h-100 bg-primary" style={{
           zIndex: -1,
@@ -59,7 +59,8 @@ const IssueReel = () => {
         <div className="px-3 pb-3" style={{marginLeft: size + margin, marginTop: margin}}>
           <h2 className="m0 p0">{t('HelloWorldTitle')}</h2>
           <h3>{latestItem.name}</h3>
-          <LangLink className="d-inline-block" to={`issue/${latestItem.pid}`}>Availabile here!</LangLink>
+          <br/>
+          <LangLink  to={`issue/${latestItem.pid}`}>Availabile here!</LangLink>
         </div>
       </div>
     </div>
