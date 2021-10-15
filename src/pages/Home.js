@@ -1,12 +1,13 @@
 import React from 'react'
 import groupBy from 'lodash/groupBy'
 import { useTranslation } from 'react-i18next'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, } from 'react-bootstrap'
 import LangLink from '../components/LangLink'
 import homePageContents from '../data/mock-api/mock-home-ipynb.json'
 import {getArticleTreeFromIpynb} from '../logic/ipynb'
 import ArticleCellContent from '../components/Article/ArticleCellContent'
 import MilestoneTimeline from '../components/MilestoneTimeline'
+import IssueReel from '../components/Issue/IssueReel'
 import { IsPortrait, BootstrapColumLayout } from '../constants'
 
 
@@ -18,16 +19,7 @@ const {
   'call-for-papers': callForPapers,
   'milestones': milestones
 } = groupBy(articleTree.paragraphs, ({ metadata }) => metadata?.jdh?.section)
-//
-// const journalCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'journal')
-// const editorialBoardCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'editorial-board')
-// const editorialTeamCells = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'editorial-team')
-// const callForPapers = articleTree.paragraphs.filter(({ metadata }) => metadata?.jdh?.section === 'call-for-papers')
-//
-// const milestones = articleTree.paragraphs
-//   .find(({ metadata }) => metadata?.jdh?.section === 'milestones')
-//
-console.info(milestones)
+
 
 const Home = () => {
   const { t } = useTranslation()
@@ -35,6 +27,11 @@ const Home = () => {
   return (
     <>
     <Container className="page">
+      <Row>
+        <Col {...BootstrapColumLayout}>
+          <IssueReel />
+        </Col>
+      </Row>
       <Row>
         <Col {...BootstrapColumLayout}>
           <h1 className="my-5">Write (Digital) History.</h1>
