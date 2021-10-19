@@ -8,7 +8,9 @@ export const useGetNotebookFromURL = (url, allowCached=false) => {
   const cache = useRef({});
   const [status, setStatus] = useState(StatusIdle);
   const [item, setItem] = useState(null);
-  console.info('useGetNotebookFromURL', url, item)
+  if (process.env.NODE_ENV === 'development') {
+    console.info('useGetNotebookFromURL', url, item)
+  }
   useEffect(() => {
     let cancelRequest = false;
     if (!url) {
@@ -92,8 +94,9 @@ export const useGetJSON = ({
     error: null,
     status: StatusIdle
   });
-  console.info('useGetDataset url:', url, 'response', response)
-
+  if (process.env.NODE_ENV === 'development') {
+    console.info('useGetDataset url:', url, 'response', response)
+  }
   useEffect(() => {
     let cancelRequest = false
     let timer = null
