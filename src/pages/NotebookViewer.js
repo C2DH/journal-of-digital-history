@@ -22,6 +22,7 @@ const NotebookViewer = ({
   publicationDate,
   publicationStatus,
   plainTitle,
+  plainContributor,
   excerpt,
   binderUrl,
   emailAddress,
@@ -44,7 +45,7 @@ const NotebookViewer = ({
     }
   }, [ encodedUrl ])
   const onDownloadProgress = (e) => {
-    console.info('onDownloadProgress', e.total, e.loaded)
+    console.debug('onDownloadProgress', e.total, e.loaded)
     if (e.total && e.loaded) {
       if (e.loaded < e.total) {
         api.start({ width: 100 * e.loaded / e.total })
@@ -88,6 +89,7 @@ const NotebookViewer = ({
             memoid={encodedUrl}
             binderUrl={binderUrl}
             emailAddress={emailAddress}
+            publicationDate={publicationDate}
             publicationStatus={publicationStatus}
             issue={issue}
             doi={doi}
@@ -95,6 +97,8 @@ const NotebookViewer = ({
             pid={pid}
             plainTitle={plainTitle}
             excerpt={excerpt}
+            plainKeywords={keywords}
+            plainContributor={plainContributor}
           />
         )
         : (

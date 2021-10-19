@@ -18,6 +18,8 @@ const Article = ({ pid, ipynb, url,
   publicationStatus,
   issue,
   plainTitle,
+  plainContributor,
+  plainKeywords = [],
   excerpt,
   doi, binderUrl, bibjson, emailAddress }) => {
   // const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
@@ -47,8 +49,17 @@ const Article = ({ pid, ipynb, url,
       <meta property="og:type" content="article" />
       <meta property="og:image" content={`${window.location.origin}/img/articles/${pid}.png`} />
       <meta property="og:url" content={window.location} />
+      <meta property="article:author" content={plainContributor} />
+      <meta property="article:published_time" content={publicationDate.toISOString().split('T').shift()} />
+      <meta property="article:section" content={issue?.pid || ''} />
+      {plainKeywords.map((k,i) => (
+        <meta key={i} property="article:tag" content={k} />
+      ))}
       <meta name="dc:title" content={plainTitle}	/>
       <meta name="dc:publisher" content="DeGruyter" />
+      {plainContributor.split(', ').map((d,i) => (
+        <meta key={i} name="dc:creator" content={d}	/>
+      ))}
       {/*
         dc:title     Studying E-Journal User Behavior Using Log Files
         dc:creator 	  	Yu, L
@@ -60,8 +71,7 @@ const Article = ({ pid, ipynb, url,
         dcterms:issued 	http://purl.org/dc/terms/W3CDTF 	2000
         dcterms:isPartOf 	  	  	urn:ISSN:0740-8188
         dcterms:bibliographicCitation
-        */
-      }
+        */}
     </Helmet>
     <ArticleTextShadow
       doi={doi}

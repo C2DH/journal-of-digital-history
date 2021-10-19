@@ -50,17 +50,22 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
     )
   }
   // status is success, metadata is ready.
-  const {title, plainTitle, abstract, excerpt, keywords, contributor, collaborators} = extractMetadataFromArticle(article)
+  const {
+    title, plainTitle, abstract, excerpt,
+    keywords, contributor,
+    plainContributor, collaborators
+  } = extractMetadataFromArticle(article)
   console.info(
     '%cArticleViewer', 'font-weight: bold','rendered with metadata\n- title:', title, plainTitle,
-    '\n- excerpt:', excerpt, '\n- contributors:', contributor,
-    '\n- collaborators:', collaborators, '\n-keywords', keywords
+    '\n- excerpt:', excerpt, '\n- contributors:', plainContributor,
+    '\n- collaborators:', collaborators, '\n- keywords', keywords
   )
   return (
     <NotebookViewer
       pid={pid}
       title={title}
       plainTitle={plainTitle}
+      plainContributor={plainContributor}
       excerpt={excerpt}
       abstract={abstract}
       contributor={contributor}
