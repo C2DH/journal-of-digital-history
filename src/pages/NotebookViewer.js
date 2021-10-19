@@ -21,11 +21,14 @@ const NotebookViewer = ({
   disclaimer=[],
   publicationDate,
   publicationStatus,
+  plainTitle,
+  excerpt,
   binderUrl,
   emailAddress,
   issue,
   doi,
   bibjson,
+  pid,
 }) => {
   // const { t } = useTranslation()
   const [animatedProps, api] = useSpring(() => ({ width : 0, opacity:1, config: config.slow }))
@@ -89,7 +92,9 @@ const NotebookViewer = ({
             issue={issue}
             doi={doi}
             bibjson={bibjson}
-            plainTitle={title}
+            pid={pid}
+            plainTitle={plainTitle}
+            excerpt={excerpt}
           />
         )
         : (

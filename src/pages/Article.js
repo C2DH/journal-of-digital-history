@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Helmet } from 'react-helmet'
 import ArticleText from '../components/Article'
 import ArticleHeader from '../components/Article/ArticleHeader'
 import ArticleBilbiography from '../components/Article/ArticleBibliography'
@@ -9,15 +10,15 @@ import ArticleMobileDisclaimer from '../components/Article/ArticleMobileDisclaim
 import source from '../data/mock-ipynb.nbconvert.json'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import { useCurrentWindowDimensions } from '../hooks/graphics'
-import { stripHtml } from '../logic/api/metadata'
 import { LayerNarrativeStep, LayerNarrative, DisplayLayerHermeneutics, DisplayLayerNarrative, IsMobile } from '../constants'
 
 
-const Article = ({ ipynb, url,
+const Article = ({ pid, ipynb, url,
   publicationDate = new Date(),
   publicationStatus,
   issue,
   plainTitle,
+  excerpt,
   doi, binderUrl, bibjson, emailAddress }) => {
   // const { layer = LayerNarrative } = useParams() // hermeneutics, hermeneutics+data, narrative
   const [selectedDataHref, setSelectedDataHref] = useState(null)
@@ -29,8 +30,39 @@ const Article = ({ ipynb, url,
   const { title, abstract, keywords, contributor, collaborators, disclaimer = [] } = articleTree.sections
   const { height, width } =  useCurrentWindowDimensions()
   const hasBibliography = typeof articleTree.bibliography === 'object'
+  // reload zotero
+  useEffect(() => {
+    document.dispatchEvent(new Event('ZoteroItemUpdated', {
+      bubbles: true,
+      cancelable: true
+    }))
+  }, [pid])
+
   return (
     <>
+    <Helmet>
+      <meta property="og:site_name" content="Journal of Digital history" />
+      <meta property="og:title" content={plainTitle} />
+      <meta property="og:description" content={excerpt} />
+      <meta property="og:type" content="article" />
+      <meta property="og:image" content={`${window.location.origin}/img/articles/${pid}.png`} />
+      <meta property="og:url" content={window.location} />
+      <meta name="dc:title" content={plainTitle}	/>
+      <meta name="dc:publisher" content="DeGruyter" />
+      {/*
+        dc:title     Studying E-Journal User Behavior Using Log Files
+        dc:creator 	  	Yu, L
+        dc:creator 	  	Apps, A
+        dc:subject 	http://purl.org/dc/terms/DDC 	020
+        dc:subject 	http://purl.org/dc/terms/LCC 	Z671
+        dc:publisher 	  	Elsevier
+        dc:type 	http://purl.org/dc/terms/DCMIType 	Text
+        dcterms:issued 	http://purl.org/dc/terms/W3CDTF 	2000
+        dcterms:isPartOf 	  	  	urn:ISSN:0740-8188
+        dcterms:bibliographicCitation
+        */
+      }
+    </Helmet>
     <ArticleTextShadow
       doi={doi}
       publicationDate={publicationDate}
@@ -64,7 +96,7 @@ const Article = ({ ipynb, url,
         bibjson={bibjson}
         isPreview={false}
       />
-      {IsMobile ? <ArticleMobileDisclaimer title={stripHtml(plainTitle.map(d => d.content).join(' '))}/> :null}
+      {IsMobile ? <ArticleMobileDisclaimer title={plainTitle}/> :null}
       <ArticleText
         memoid={articleTree.id}
         headingsPositions={articleTree.headingsPositions}
