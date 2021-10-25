@@ -15,7 +15,9 @@ const ArticleTextShadow = ({
   width, height,
   // memoid='',
   title,
+  issue,
   publicationDate,
+  publicationStatus,
   doi,
   children
 }) => {
@@ -45,7 +47,13 @@ const ArticleTextShadow = ({
     }}>
       <div className="ArticleTextShadow_mask bg-hermeneutics"></div>
       <div className="page mt-5">
-      <ArticleHeader doi={doi} publicationDate={publicationDate} title={title}>
+      <ArticleHeader
+        doi={doi}
+        issue={issue}
+        publicationDate={publicationDate}
+        title={title}
+        publicationStatus={publicationStatus}
+      >
         <div className="jumbotron border border-dark p-3 my-3 shadow bg-hermeneutics rounded">
         <h3>Hermeneutic-first version</h3>
         <p>A brief explaination of what the hermeneutic view is.</p>

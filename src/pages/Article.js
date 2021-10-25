@@ -75,10 +75,12 @@ const Article = ({ pid, ipynb, url,
     </Helmet>
     <ArticleTextShadow
       doi={doi}
+      issue={issue}
       publicationDate={publicationDate}
       title={title}
       height={height}
       width={width}
+      publicationStatus={publicationStatus}
     >
       <ArticleStream
         memoid={articleTree.id}
