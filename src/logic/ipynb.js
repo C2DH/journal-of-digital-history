@@ -151,8 +151,15 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
   const articleCells = []
   const articleParagraphs = []
   const sectionsIndex = {}
-  const citationsFromMetadata = metadata?.cite2c?.citations
-    ? Object.values(metadata.cite2c.citations).reduce((acc, d) => {
+  let citationsFromMetadata = metadata?.cite2c?.citations
+
+  if (citationsFromMetadata) {
+    // if one of the key is named "udefined" (sic)
+    if (citationsFromMetadata.undefined) {
+      delete citationsFromMetadata.undefined
+    }
+    // add property issued to correct Cite library bug on date-parts
+    citationsFromMetadata = Object.values(citationsFromMetadata).reduce((acc, d) => {
       if (typeof d.issued === 'object' && d.issued.year && !d.issued['date-parts']) {
         acc[d.id] = {
           ...d,
@@ -166,14 +173,14 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
       }
       return acc
     }, {})
-    : null
+  }
   // this contain footnotes => zotero id to remap reference at paragraph level
   const referenceIndex = {}
   //
   let bibliography = null
   // parse biobliographic elements
   if (citationsFromMetadata instanceof Object) {
-    bibliography = new Cite(Object.values(citationsFromMetadata))
+    bibliography = new Cite(Object.values(citationsFromMetadata).filter(d => d))
   }
 
   // cycle through notebook cells to fill ArticleCells, figures, headings
