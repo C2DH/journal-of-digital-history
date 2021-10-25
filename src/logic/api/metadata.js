@@ -11,13 +11,15 @@ const render = (md) => ({
 export const extractMetadataFromArticle = (article) => {
   const result = {
     title: [],
+    plainTitle: '',
     abstract: [],
+    plainAbstract: '',
     contributor: [], keywords: [],
+    plainContributor: '',
     collaborators: [],
     excerpt: '',
     tags: article?.tags.map(d => d.name)
   }
-  console.info(article)
   if (typeof article?.data === 'undefined') {
     return result
   }
@@ -26,7 +28,14 @@ export const extractMetadataFromArticle = (article) => {
       result[key] = article.data[key].map(render)
     }
   })
-  result.excerpt = extractExcerpt(result.abstract.map(d => d.content).join(''))
+  result.excerpt = stripHtml(extractExcerpt(result.abstract.map(d => d.content).join(''), 20, '...'))
+  result.plainTitle = stripHtml(result.title.map(d => d.content).join(' '))
+  result.plainAbstract = stripHtml(result.abstract.map(d => d.content).join(' '))
+  result.plainContributor = result.contributor.map(d => {
+    return d.content
+      .substring(d.content.indexOf('<h3>'), d.content.indexOf('</h3>'))
+      .replace(/<h3>([^<]+).*/g, (m, c) => c.trim())
+  }).join(', ')
   if (Array.isArray(article.data.keywords)) {
     result.keywords = article.data.keywords.reduce((acc, d) => {
       return acc.concat(String(d).trim().split(/\s*[,;]\s*/))
