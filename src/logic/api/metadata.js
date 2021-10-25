@@ -28,9 +28,9 @@ export const extractMetadataFromArticle = (article) => {
       result[key] = article.data[key].map(render)
     }
   })
-  result.excerpt = stripHtml(extractExcerpt(result.abstract.map(d => d.content).join(''), 20, '...'))
-  result.plainTitle = stripHtml(result.title.map(d => d.content).join(' '))
-  result.plainAbstract = stripHtml(result.abstract.map(d => d.content).join(' '))
+  result.excerpt = stripHtml(extractExcerpt(result.abstract.map(d => d.content).join(''), 20, '...')).trim()
+  result.plainTitle = stripHtml(result.title.map(d => d.content).join(' ')).trim()
+  result.plainAbstract = stripHtml(result.abstract.map(d => d.content).join(' ')).trim()
   result.plainContributor = result.contributor.map(d => {
     return d.content
       .substring(d.content.indexOf('<h3>'), d.content.indexOf('</h3>'))
