@@ -1,13 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { scrollToElementById } from '../logic/viewport'
 
-const scrollToElementById = (id) => {
-  console.info('scrollToElementById', id)
-  const element = document.getElementById(id)
-  if (element) {
-    element.scrollIntoView();
-  }
-}
 
 const ScrollToTop = () => {
   const { pathname, hash, search } = useLocation();

@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams, useHistory, generatePath } from 'react-router'
-import Article from './Article'
+import Article from '../components/Article'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
 import { useGetNotebookFromURL } from '../logic/api/fetchData'
 import { BootstrapColumLayout, StatusIdle, StatusNone, StatusSuccess } from '../constants'

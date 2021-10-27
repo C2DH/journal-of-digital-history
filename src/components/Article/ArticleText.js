@@ -20,7 +20,7 @@ const ArticleText = ({
   emailAddress
 }) => {
   const [bbox, ref] = useBoundingClientRect()
-  console.info('ArticleText bbox', bbox)
+  console.debug('ArticleText useBoundingClientRect():', bbox)
   return (
     <div className={`${className} ArticleText`}>
       {!IsMobile
