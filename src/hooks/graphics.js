@@ -133,7 +133,6 @@ export function useOnScreen({ threshold = [0, 1], rootMargin='0% 0% 0% 0%'} = {}
   useEffect(() => {
     function refreshIntersectionObserverHandler() {
       if (ref && ref.current) {
-        console.info('useOnScreen: refreshIntersectionObserverHandler called.')
         observer.disconnect()
         observer.observe(ref.current, { threshold })
       }
