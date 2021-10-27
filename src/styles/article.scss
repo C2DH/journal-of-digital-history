@@ -653,6 +653,7 @@ svg.ArticleFingerprint{
 
 
 .ArticleTextShadow{
+  display: none;
   position: fixed;
   top: 0;
   overflow: scroll;
@@ -664,6 +665,11 @@ svg.ArticleFingerprint{
   z-index: 2;
   height: 100px;
   width: 100%;
+}
+@media (min-width: $breakpoint-tablet) {
+  .ArticleTextShadow{
+    display: block;
+  }
 }
 
 .ArticleBilbiography .csl-entry{

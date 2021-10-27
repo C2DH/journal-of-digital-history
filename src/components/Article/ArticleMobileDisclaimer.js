@@ -25,7 +25,7 @@ const ArticleMobileDisclaimer = ({ title }) => {
         style={{top:0, zIndex:100}}>
         <div className="ArticleMobileDisclaimer_popup_inner position-absolute top-0 shadow">
           <div className="p-3 d-flex flex-column align-items-center justify-content-between h-100 w-100 pointer-events-auto">
-            <div className="d-flex align-items-start ">
+            <div className="d-flex align-items-start w-100 justify-content-between ">
               <h2 className="m-0 w-100">Explore all 3 layers: <br/> Only available on Desktop!</h2>
               <Button size="sm" variant="transparent" onClick={() => setIsVisible(false)}><X/></Button>
             </div>
