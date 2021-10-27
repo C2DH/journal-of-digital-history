@@ -8,9 +8,8 @@ export const useGetNotebookFromURL = (url, allowCached=false) => {
   const cache = useRef({});
   const [status, setStatus] = useState(StatusIdle);
   const [item, setItem] = useState(null);
-  if (process.env.NODE_ENV === 'development') {
-    console.info('useGetNotebookFromURL', url, item)
-  }
+  console.debug('useGetNotebookFromURL', url, item)
+
   useEffect(() => {
     let cancelRequest = false;
     if (!url) {
@@ -21,7 +20,7 @@ export const useGetNotebookFromURL = (url, allowCached=false) => {
     const fetchData = async () => {
       setStatus(StatusFetching);
       if (cache.current[url] && allowCached=== true) {
-          console.log('cached')
+          console.debug('useGetNotebookFromURL URL cached:', url)
           const data = cache.current[url];
           data.cached = true;
           if (cancelRequest) return;
@@ -95,7 +94,7 @@ export const useGetJSON = ({
     status: StatusIdle
   });
   if (process.env.NODE_ENV === 'development') {
-    console.info('useGetDataset url:', url, 'response', response)
+    console.debug('useGetDataset url:', url, 'response', response)
   }
   useEffect(() => {
     let cancelRequest = false
@@ -115,7 +114,7 @@ export const useGetJSON = ({
         status: StatusFetching
       });
       if (cache.current[url] && allowCached=== true) {
-          console.log('useGetDataset allowCached url:', url)
+          console.debug('useGetDataset allowCached url:', url)
           const data = cache.current[url];
           data.cached = true;
           if (cancelRequest) return;
@@ -125,7 +124,7 @@ export const useGetJSON = ({
             status: StatusSuccess
           });
       } else {
-          console.log('useGetDataset load fresh url:', url, 'timeout', timeout)
+          console.debug('useGetDataset load fresh url:', url, 'timeout', timeout)
           return axios.get(url, { timeout, onDownloadProgress })
             .then(({data}) => {
               cache.current[url] = data // set response in cache;

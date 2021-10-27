@@ -362,7 +362,6 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
   // if (bufferCellsGroup.cells.length) {
   //   articleParagraphs.push(bufferCellsGroup)
   // }
-  console.info('ipynb articleCells',articleCells)
   return new ArticleTree({
     id,
     headings,
