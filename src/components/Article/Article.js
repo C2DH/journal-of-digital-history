@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
-import ArticleText from '../components/Article'
-import ArticleHeader from '../components/Article/ArticleHeader'
-import ArticleBilbiography from '../components/Article/ArticleBibliography'
-import ArticleNote from '../components/Article/ArticleNote'
-import ArticleTextShadow from '../components/Article/ArticleTextShadow'
-import ArticleStream from '../components/Article/ArticleStream'
-import ArticleMobileDisclaimer from '../components/Article/ArticleMobileDisclaimer'
-import source from '../data/mock-ipynb.nbconvert.json'
-import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
-import { useCurrentWindowDimensions } from '../hooks/graphics'
-import { LayerNarrativeStep, LayerNarrative, DisplayLayerHermeneutics, DisplayLayerNarrative, IsMobile } from '../constants'
+import ArticleText from './ArticleText'
+import ArticleHeader from './ArticleHeader'
+import ArticleBilbiography from './ArticleBibliography'
+import ArticleNote from './ArticleNote'
+import ArticleTextShadow from './ArticleTextShadow'
+import ArticleStream from './ArticleStream'
+import ArticleMobileDisclaimer from './ArticleMobileDisclaimer'
+import source from '../../data/mock-ipynb.nbconvert.json'
+import { useIpynbNotebookParagraphs } from '../../hooks/ipynb'
+import { useCurrentWindowDimensions } from '../../hooks/graphics'
+import { scrollToElementById } from '../../logic/viewport'
+import { LayerNarrativeStep, LayerNarrative, DisplayLayerHermeneutics, DisplayLayerNarrative, IsMobile } from '../../constants'
 
 
 const Article = ({ pid, ipynb, url,
@@ -32,12 +33,24 @@ const Article = ({ pid, ipynb, url,
   const { title, abstract, keywords, contributor, collaborators, disclaimer = [] } = articleTree.sections
   const { height, width } =  useCurrentWindowDimensions()
   const hasBibliography = typeof articleTree.bibliography === 'object'
-  // reload zotero
+  // reload zotero and check current hash
   useEffect(() => {
     document.dispatchEvent(new Event('ZoteroItemUpdated', {
       bubbles: true,
       cancelable: true
     }))
+    // check current hash
+    let timer = 0
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      if (window.location.hash.length) {
+        const id = window.location.hash.replace('#', '')
+        scrollToElementById(id)
+      }
+    }, 50)
+    return () => {
+      clearTimeout(timer)
+    }
   }, [pid])
 
   return (

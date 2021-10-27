@@ -5,7 +5,7 @@ import { useSpring, animated, config } from 'react-spring'
 import { useGetJSON } from '../logic/api/fetchData'
 import { decodeNotebookURL } from '../logic/ipynb'
 import { StatusSuccess, StatusFetching } from '../constants'
-import Article from './Article'
+import Article from '../components/Article'
 // import ArticleKeywords from '../components/Article/ArticleKeywords'
 import ArticleHeader from '../components/Article/ArticleHeader'
 
