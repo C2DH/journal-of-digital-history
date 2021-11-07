@@ -22,7 +22,7 @@ const NotebookViewer = ({
   publicationDate,
   publicationStatus,
   plainTitle,
-  plainContributor,
+  plainContributor = '',
   excerpt,
   binderUrl,
   emailAddress,

@@ -19,7 +19,7 @@ const Article = ({ pid, ipynb, url,
   publicationStatus,
   issue,
   plainTitle,
-  plainContributor,
+  plainContributor = '',
   plainKeywords = [],
   excerpt,
   doi, binderUrl, bibjson, emailAddress }) => {
