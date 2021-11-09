@@ -30,5 +30,6 @@ export default class ArticleTree {
         template,
       })
     }
+    return ''
   }
 }
