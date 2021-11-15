@@ -67,6 +67,8 @@ const Guidelines = lazy(() => import('./pages/Guidelines'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const ArticleViewer = lazy(() => import('./pages/ArticleViewer'))
 const Fingerprint = lazy(() => import('./pages/Fingerprint'))
+const FingerprintViewer = lazy(() => import('./pages/FingerprintViewer'))
+
 const { startLangShort, lang } = getStartLang()
 console.info('start language:', lang, startLangShort)
 i18n
@@ -123,6 +125,7 @@ function LangRoutes() {
       <Route path={`${path}/notebook-viewer-form`}>
         <NotebookViewerForm />
       </Route>
+      <Route path={`${path}/fingerprint-viewer`} component={FingerprintViewer} />
       <Route path={`${path}/notebook-viewer/:encodedUrl`}
         component={NotebookViewer}
       />
