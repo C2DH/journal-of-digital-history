@@ -134,7 +134,7 @@
       "examples": [
         "https://orcid.org/0000-0002-0237-2532"
       ],
-      "pattern": "^https?://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$"
+      "pattern": "^https?://orcid.org/[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}$"
     },
     "isValid": {
       "$id": "#/definitions/isValid",
