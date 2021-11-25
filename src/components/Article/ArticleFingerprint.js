@@ -17,7 +17,7 @@ const ArticleFingerprint = ({
   onMouseMove,
 }) => {
   // animated properties for current selected "datum"
-  const [pointer, api] = useSpring(() => ({ theta : 0, opacity: 0, config: config.stiff }))
+  const [pointer, api] = useSpring(() => ({ theta : 0, idx:0, opacity: 0, config: config.stiff }))
   const radius = (size/2 - margin) * 2 / 3
   // value radius, this give us extra safety margin.
   const maxNumCharsRadius = radius / 2
@@ -55,8 +55,9 @@ const ArticleFingerprint = ({
     const absRadians = radians < 0 ? radians + Math.PI * 2 : radians
     const theta = absRadians * 180 / Math.PI
     const datumIdx = Math.round(scaleTheta(theta))
-    const datum = cells[datumIdx] ? cells[datumIdx] : cells[0]
-    api.start({ theta: theta - 90, opacity: 1 })
+    const idx = cells[datumIdx] ? datumIdx : 0
+    const datum = cells[idx]
+    api.start({ theta: theta - 90, idx, opacity: 1 })
     onMouseMove(e, datum, cells[datumIdx] ? datumIdx : 0 )
   }
 
@@ -128,7 +129,11 @@ const ArticleFingerprint = ({
       </g>
       <g transform={`translate(${size/2}, ${size/2})`} onMouseOut={mouseOutHandler}>
         <rect fill="transparent" x={-size/2} y={-size/2} width={size} height={size} ></rect>
-        <animated.line style={{pointerEvents:'none'}} x1="0" y1="0" stroke="red" x2={size/2} y2={0} strokeOpacity={pointer.opacity.interpolate(o => o)} transform={pointer.theta.interpolate((t) => `rotate(${t})`)}/>
+        <animated.line style={{pointerEvents:'none'}} x1="0" y1="0" stroke="red" x2={size/2} y2={0} strokeOpacity={pointer.opacity.to(o => o)} transform={pointer.theta.to((t) => `rotate(${t})`)}/>
+        <animated.line style={{pointerEvents:'none'}} x1="0" y1="0" stroke="red" x2={size/2} y2={0} strokeOpacity={pointer.opacity.to(o => o)} transform={pointer.idx.to((idx) => {
+          const t = parseInt(idx, 10)
+          return `rotate(${t / cells.length * 360}deg)`
+        })}/>
       </g>
     </svg>
   )

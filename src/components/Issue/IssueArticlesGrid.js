@@ -32,12 +32,11 @@ const IssueArticlesGrid = ({ issue, onError }) => {
       articles.push(data[i])
     }
   }
-  const handleMouseMove = (e, datum, datumIdx) => {
+  const handleMouseMove = (e, datum) => {
     api.start({ x: e.clientX - left, y: e.clientY - 50, opacity: 1 })
-    tooltipText.current = datum.countChars + ' ' + datumIdx
+    tooltipText.current = (datum.firstWords || datum.countChars) + ' ...'
   }
-  const handleMouseOut = (e) => {
-    console.info(e.currentTarget)
+  const handleMouseOut = () => {
     api.start({ opacity: 0 })
   }
   return (
@@ -53,15 +52,15 @@ const IssueArticlesGrid = ({ issue, onError }) => {
     }}>
       <a.span>{animatedProps.x.to(() => String(tooltipText.current))}</a.span>
     </a.div>
-    <Row ref={ref} onMouseOut={handleMouseOut}>
+    <Row ref={ref} >
         {editorials.map((article, i) => (
           <Col key={i} lg={{ span: 4, offset:0}} md={{span:6, offset:0}} >
-            <IssueArticleGridItem onMouseMove={handleMouseMove} article={article} isEditorial />
+            <IssueArticleGridItem onMouseOut={handleMouseOut} onMouseMove={handleMouseMove} article={article} isEditorial />
           </Col>
         ))}
         {articles.map((article, i) => (
           <Col key={i + editorials.length} lg={{ span: 4, offset:0}} onMouseOut={handleMouseOut} md={{span:6, offset:0}}>
-            <IssueArticleGridItem onMouseMove={handleMouseMove} article={article} num={i+1} total={articles.length}/>
+            <IssueArticleGridItem onMouseOut={handleMouseOut} onMouseMove={handleMouseMove} article={article} num={i+1} total={articles.length}/>
           </Col>
         ))}
     </Row>
