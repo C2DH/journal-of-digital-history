@@ -122,7 +122,7 @@ const ArticleCell = ({
               <div className="ArticleCellContent_num"></div>
               <ArticleCellSourceCode visible content={content} language="python" />
               {outputs.length
-                ? outputs.map((output,i) => <ArticleCellOutput output={output} key={i} />)
+                ? outputs.map((output,i) => <ArticleCellOutput cellId={idx} output={output} key={i} />)
                 : <div className="ArticleCellSourceCode_no_output">no output</div>
               }
             </div>
