@@ -182,7 +182,7 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
   if (citationsFromMetadata instanceof Object) {
     bibliography = new Cite(Object.values(citationsFromMetadata).filter(d => d))
   }
-
+  let paragraphNumber = 0
   // cycle through notebook cells to fill ArticleCells, figures, headings
   cells.map((cell, idx) => {
     const sources = Array.isArray(cell.source)
@@ -251,9 +251,11 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
     cell.source = Array.isArray(cell.source)
       ? cell.source
       : [cell.source]
+    paragraphNumber += 1
+    cell.num = paragraphNumber
     return cell
   }).forEach((cell, idx) => {
-    // console.info('ipynb', cell.role)
+    // console.info('ipynb', cell.role, cell.num)
     if (cell.cell_type === CellTypeMarkdown) {
       const sources = cell.source.join('')
       // exclude rendering of reference references
