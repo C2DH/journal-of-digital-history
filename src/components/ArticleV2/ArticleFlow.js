@@ -51,7 +51,7 @@ const ArticleFlow = ({
     // api.start({x: -layers.indexOf(cell.layer) * width })
   }
 
-  console.debug('[ArticleFlow] component rendered')
+  console.debug(`[ArticleFlow] component rendered ${width}x${height}px`)
 
   return (
     <>
@@ -63,9 +63,14 @@ const ArticleFlow = ({
       height, width, overflow: "hidden"
     }}>
       <div className="position-absolute" style={{ zIndex: 1 }}>
-      <ArticleLayerSwitch layers={layers} onChange={onLayerChangeHandler}/>
+      <ArticleLayerSwitch
+        layers={layers}
+        onChange={onLayerChangeHandler}
+      />
       </div>
-      <ArticleLayers layers={layers} onPlaceholderClick={onPlaceholderClickHandler}
+      <ArticleLayers
+        layers={layers}
+        onPlaceholderClick={onPlaceholderClickHandler}
         cellsGroups={cellsGroups}
         cells={cells}
         height={height}
@@ -79,5 +84,8 @@ const ArticleFlow = ({
 }
 
 export default React.memo(ArticleFlow, (nextProps, prevProps) => {
+  if (nextProps.width !== prevProps.width || nextProps.height !== prevProps.height) {
+    return false
+  }
   return nextProps.memoid === prevProps.memoid
 })

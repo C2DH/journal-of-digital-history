@@ -3,11 +3,10 @@ import ArticleLayer from './ArticleLayer'
 import { useQueryParams, StringParam, NumberParam, withDefault, } from 'use-query-params'
 import {
   DisplayLayerQueryParam,
-  DisplayLayerNarrative,
+  LayerNarrative,
   DisplayLayerCellIdxQueryParam,
   DisplayLayerCellTopQueryParam
 } from '../../constants'
-
 
 
 const ArticleLayers = ({
@@ -28,7 +27,7 @@ const ArticleLayers = ({
     [DisplayLayerCellTopQueryParam]: selectedCellTop
   }, setQuery] = useQueryParams({
     [DisplayLayerCellIdxQueryParam]: withDefault(NumberParam, -1),
-    [DisplayLayerQueryParam]: withDefault(StringParam, DisplayLayerNarrative),
+    [DisplayLayerQueryParam]: withDefault(StringParam, LayerNarrative),
     [DisplayLayerCellTopQueryParam]: withDefault(NumberParam, 0),
   })
 
@@ -67,8 +66,8 @@ const ArticleLayers = ({
         layers={layers}
         style={{
           width: width,
-          height: height -110,
-          top: 110,
+          height: height -100,
+          top: 100,
           overflow: selectedLayer === layer ? "scroll":"hidden",
           zIndex: i,
           // left: i * width

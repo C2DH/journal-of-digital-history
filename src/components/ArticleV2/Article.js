@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useIpynbNotebookParagraphs } from '../../hooks/ipynb'
 import { useCurrentWindowDimensions } from '../../hooks/graphics'
 import ArticleHeader from '../Article/ArticleHeader'
 import ArticleFlow from './ArticleFlow'
 
+import { setBodyNoScroll } from '../../logic/viewport'
 
 const Article = ({
   // pid,
@@ -22,6 +23,7 @@ const Article = ({
   bibjson,
   // emailAddress
 }) => {
+
   const { height, width } =  useCurrentWindowDimensions()
   const articleTree = useIpynbNotebookParagraphs({
     id: url,
@@ -36,7 +38,15 @@ const Article = ({
     collaborators,
     disclaimer = []
   } = articleTree.sections
-  console.debug('[Article] component rendered')
+  console.debug(`[Article] component rendered ${width}x${height}px`)
+
+  useEffect(() => {
+    setBodyNoScroll(true)
+    return function() {
+      setBodyNoScroll(false)
+    }
+  },[])
+
   return (
     <>
     <div className="page">
