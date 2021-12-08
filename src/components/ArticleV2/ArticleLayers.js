@@ -35,6 +35,14 @@ const ArticleLayers = ({
 
   const onPlaceholderClickHandler = (e, { layer, idx, y }) => {
     console.debug('[ArticleLayers] @onPlaceholderClickHandler:', layer, idx, y)
+    // replaceIn not to trgger the changes. This is helpful whenever the user
+    // hits the back Button in the browser (or uses the swipe left on mobile)
+    setQuery({
+      [DisplayLayerQueryParam]: selectedLayer,
+      [DisplayLayerCellIdxQueryParam]: idx,
+      [DisplayLayerCellTopQueryParam]: y
+    }, 'replaceIn')
+    // this query
     setQuery({
       [DisplayLayerQueryParam]: layer,
       [DisplayLayerCellIdxQueryParam]: idx,
@@ -65,10 +73,10 @@ const ArticleLayers = ({
         width={width}
         layers={layers}
         style={{
-          width: width,
-          height: height -100,
-          top: 100,
-          overflow: selectedLayer === layer ? "scroll":"hidden",
+          width,
+          height,
+          top: 0,
+          overflow: selectedLayer === layer ? "scroll": "hidden",
           zIndex: i,
           // left: i * width
         }}
