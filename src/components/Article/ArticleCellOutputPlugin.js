@@ -3,25 +3,19 @@ import React from 'react'
 class ArticleCellOutputPlugin extends React.Component {
   constructor(props) {
     super(props)
-    console.info('ArticleCellOutputPlugin Created.', props.trustedInnerHTML)
+    console.info('ArticleCellOutputPlugin created for cell idx:', props.cellIdx)
   }
 
   componentDidMount() {
-    console.info('ArticleCellOutputPlugin mounted.', this.props.trustedInnerHTML)
+    console.info('ArticleCellOutputPlugin @componentDidMount for cell idx:', this.props.cellIdx)
     this.el.innerHTML = this.props.trustedInnerHTML
   }
 
   componentDidUpdate(prevProps) {
-    console.info('ArticleCellOutputPlugin changed.')
+    console.info('ArticleCellOutputPlugin @componentDidUpdate for cell idx:', this.props.cellIdx)
     if (prevProps.trustedInnerHTML !== this.props.trustedInnerHTML) {
       console.info('ArticleCellOutputPlugin changed.', prevProps.trustedInnerHTML)
     }
-  }
-
-
-  componentWillUnmount() {
-    // do nothing
-    console.info('ArticleCellOutputPlugin componentWillUnmount')
   }
 
   render() {
