@@ -9,7 +9,7 @@ const getOutput = (output) => {
     : output
 }
 
-const ArticleCellOutput = ({ output, height, width, hideLabel=false, isTrusted=true, cellId='' }) => {
+const ArticleCellOutput = ({ output, height, width, hideLabel=false, isTrusted=true, cellIdx=-1 }) => {
   const outputTypeClassName= `ArticleCellOutput_${output.output_type}`
   const { t } = useTranslation()
   const style = !isNaN(width) && !isNaN(height) ? {
@@ -22,14 +22,16 @@ const ArticleCellOutput = ({ output, height, width, hideLabel=false, isTrusted=t
     : []
   // apply scripts if found on data.
   useEffect(() => {
-    if (!trustedScripts.length) {
+    if (!trustedScripts.length || isNaN(cellIdx)) {
       return
     }
-    const scriptDomElementId = 'trusted-article-cell-output-' + cellId
+    console.debug('[ArticleCellOutput] @useEffect found javscript trusted scripts at cellIdx:', cellIdx)
+    const scriptDomElementId = 'trusted-article-cell-output-' + String(cellIdx)
     let scriptDomElement = document.getElementById(scriptDomElementId)
     if (scriptDomElement === null) {
       const script = document.createElement('script');
       script.setAttribute('id', scriptDomElementId)
+      script.appendChild(document.createTextNode(trustedScripts.join('\n')));
       document.body.appendChild(script)
     } else {
       // replace contents of the script
@@ -37,12 +39,12 @@ const ArticleCellOutput = ({ output, height, width, hideLabel=false, isTrusted=t
     }
     return () => {
       try {
-      document.body.removeChild(scriptDomElement)
+        document.body.removeChild(scriptDomElement)
       } catch(e) {
-        console.warn('document.body.removeChild failed for ', cellId, e.message)
+        console.warn('document.body.removeChild failed for ', cellIdx, e.message)
       }
     }
-  }, [trustedScripts])
+  }, [trustedScripts, cellIdx])
 
   if(output.output_type === 'display_data' && output.data['text/markdown']) {
     return (
@@ -52,13 +54,23 @@ const ArticleCellOutput = ({ output, height, width, hideLabel=false, isTrusted=t
     )
   }
   if (['execute_result', 'display_data'].includes(output.output_type) && output.data['text/html']) {
-    if (trustedScripts) {
+    if (trustedScripts.length) {
       // use DOM to handle this
-      return <ArticleCellOutputPlugin trustedInnerHTML={getOutput(output.data['text/html'])} />
+      return (
+        <ArticleCellOutputPlugin
+          cellIdx={cellIdx}
+          trustedInnerHTML={getOutput(output.data['text/html'])}
+        />
+      )
     }
-    return (<div className={`ArticleCellOutput withHTML mb-3 ${outputTypeClassName}`} style={style} dangerouslySetInnerHTML={{
-      __html: getOutput(output.data['text/html'])
-    }} />)
+    return (
+      <div className={`ArticleCellOutput withHTML mb-3 ${outputTypeClassName}`}
+        style={style}
+        dangerouslySetInnerHTML={{
+        __html: getOutput(output.data['text/html'])
+        }}
+      />
+    )
   }
 
   return (
