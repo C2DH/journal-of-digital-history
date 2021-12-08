@@ -131,3 +131,5 @@ export const DisplayLayerCellTopQueryParam = 'y'
 // article status
 export const ArticleStatusPublished = 'PUBLISHED'
 export const ArticleStatusDraft = 'Draft'
+// article component version
+export const ArticleVersionQueryParam = 'v'
