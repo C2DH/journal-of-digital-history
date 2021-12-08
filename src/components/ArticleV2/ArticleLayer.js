@@ -6,6 +6,7 @@ import {a, useSpring, config} from 'react-spring'
 import { useRefWithCallback } from '../../hooks/graphics'
 import { Button } from 'react-bootstrap'
 import { ArrowRight } from 'react-feather'
+import styles from './ArticleLayer.module.css'
 
 function getCellAnchorFromIdx(idx, prefix='c') {
   return `${prefix}${idx}`
@@ -15,11 +16,15 @@ function layerTransition(x, y, width, height) {
   return `polygon(${x}px 0px, ${x}px ${height}px, ${width}px ${height}px, ${width}px 0px)`
 }
 
+function cx(...rest) {
+  return styles[rest.join('_')]
+}
+
 const ArticleLayer = ({
   memoid='',
   layer=LayerNarrative,
-  previousLayer=null,
-  nextLayer=null,
+  // previousLayer=null,
+  // nextLayer=null,
   cellsGroups=[],
   cells=[],
   // index of selected cell  (cell.idx)
@@ -38,7 +43,7 @@ const ArticleLayer = ({
     config: config.slow
   }))
   const layerRef = useRefWithCallback((layerDiv) => {
-    if(!isSelected || selectedCellIdx === -1) { // discard
+    if (!isSelected || selectedCellIdx === -1) { // discard
       return
     }
     // get cellEmeemnt in current layer (as it can be just a placeholder,too)
@@ -56,19 +61,8 @@ const ArticleLayer = ({
       onPlaceholderClick(e, {
         layer: cell.layer,
         idx: cell.idx,
+        height, // ref height
         y: e.currentTarget.parentNode.parentNode.getBoundingClientRect().y -15
-      })
-    } else {
-      console.warn('[ArticleLayer] misses a onPlaceholderClick listener')
-    }
-  }
-
-  const onOtherLayerCellClickHandler = (e, cell, otherlayer) => {
-    if (typeof onPlaceholderClick === 'function') {
-      onPlaceholderClick(e, {
-        layer: otherlayer,
-        idx: cell.idx,
-        y: e.currentTarget.parentNode.getBoundingClientRect().y - 15
       })
     } else {
       console.warn('[ArticleLayer] misses a onPlaceholderClick listener')
@@ -86,12 +80,14 @@ const ArticleLayer = ({
   }, [isSelected])
 
   console.debug('[ArticleLayer] rendered: ',layer,'- n. groups:', cellsGroups.length)
+
   return (
-    <a.div ref={layerRef} className={`position-absolute bg-${layer}`} style={{
+    <a.div ref={layerRef} className={`text-${layer} ${cx('mask', layer)}`} style={{
       ...style,
-      // backgroundColor: layer === 'narrative' ? 'white' : layer === 'hermeneutics' ? 'green' : 'red',
       clipPath: mask.clipPath.to(layerTransition),
     }} >
+      <div className={cx('pushFixed', layer)}></div>
+      <div className={styles.push}></div>
       {children}
       {cellsGroups.map((cellsIndices, i) => {
         const firstCellInGroup = cells[cellsIndices[0]]
@@ -100,15 +96,9 @@ const ArticleLayer = ({
           return (
             <React.Fragment key={i}>
               {cellsIndices.map((k) => (
-                <a key={['a', k].join('-')} className='ArticleLayer_anchor' id={getCellAnchorFromIdx(cells[k].idx, layer)}></a>
+                <a key={['a', k].join('-')} className={styles.anchor} id={getCellAnchorFromIdx(cells[k].idx, layer)}></a>
               ))}
-              <div
-                className="position-relative ArticleLayer_placeholder"
-                style={{
-                  color: `var(--layer-${layer}-${firstCellInGroup.layer}-text)`, maxHeight:200,
-                  overflow: 'hidden'
-                }}
-              >
+              <div className={`position-relative ${cx('placeholder', layer, firstCellInGroup.layer)}`}>
                 {cellsIndices.slice(0,2).map((j) => (
                   <React.Fragment key={[i,j].join('-')}>
                     <ArticleCellPlaceholder
@@ -118,10 +108,9 @@ const ArticleLayer = ({
                     />
                   </React.Fragment>
                 ))}
-                <div className="position-absolute ArticleLayer_placeholder_bg" style={{
-                  background: `linear-gradient(180deg, var(--layer-${layer}-bg-0) 0%, var(--layer-${layer}-bg-1) 70%)`
-                }}/>
-                <div className="position-absolute ArticleLayer_placeholder_btn">
+                <div className={cx('placeholderGradient', layer, firstCellInGroup.layer)} />
+                <div className={cx('placeholderActive', firstCellInGroup.idx === selectedCellIdx ? 'on' : 'off' )}/>
+                <div className={styles.placeholderButton}>
                   <Button variant="outline-secondary" size="sm" className="d-flex align-items-center" onClick={(e) => onPlaceholderClickHandler(e, firstCellInGroup)}>
                     read in {firstCellInGroup.layer} layer
                     &nbsp;
@@ -145,16 +134,17 @@ const ArticleLayer = ({
               <React.Fragment key={[i,j].join('-')}>
                 <a className='ArticleLayer_anchor' id={getCellAnchorFromIdx(cell.idx,layer)}></a>
                 <div className="position-relative">
-                  {selectedCellIdx === cell.idx && previousLayer ? (
+                  <div className={cx('cellActive', firstCellInGroup.idx === selectedCellIdx ? 'on' : 'off' )}/>
+                  {/* debug && selectedCellIdx === cell.idx && previousLayer ? (
                     <div className="position-absolute left-0">
                       <button onClick={(e) => onOtherLayerCellClickHandler(e, cell, previousLayer) }>back to the other layer</button>
                     </div>
-                  ):null}
-                  {selectedCellIdx === cell.idx && nextLayer ? (
+                  ):null */}
+                  {/* debug && selectedCellIdx === cell.idx && nextLayer ? (
                     <div className="position-absolute right-0">
                       <button onClick={(e) => onOtherLayerCellClickHandler(e, cell, nextLayer) }>go to the next layer</button>
                     </div>
-                  ):null}
+                  ):null */}
                   <ArticleCell
                     memoid={memoid}
                     {...cell}
