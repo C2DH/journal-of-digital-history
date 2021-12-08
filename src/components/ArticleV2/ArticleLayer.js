@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { LayerNarrative } from '../../constants'
 import ArticleCell from '../Article/ArticleCell'
+import ArticleCellObserver from './ArticleCellObserver'
 import ArticleCellPlaceholder from './ArticleCellPlaceholder'
 import {a, useSpring, config} from 'react-spring'
 import { useRefWithCallback } from '../../hooks/graphics'
@@ -82,7 +83,7 @@ const ArticleLayer = ({
   console.debug('[ArticleLayer] rendered: ',layer,'- n. groups:', cellsGroups.length)
 
   return (
-    <a.div ref={layerRef} className={`text-${layer} ${cx('mask', layer)}`} style={{
+    <a.div ref={layerRef} className={`text-old-${layer} ${cx('mask', layer)}`} style={{
       ...style,
       clipPath: mask.clipPath.to(layerTransition),
     }} >
@@ -133,7 +134,7 @@ const ArticleLayer = ({
             return (
               <React.Fragment key={[i,j].join('-')}>
                 <a className='ArticleLayer_anchor' id={getCellAnchorFromIdx(cell.idx,layer)}></a>
-                <div className="position-relative">
+                <ArticleCellObserver cell={cell} className="position-relative">
                   <div className={cx('cellActive', firstCellInGroup.idx === selectedCellIdx ? 'on' : 'off' )}/>
                   {/* debug && selectedCellIdx === cell.idx && previousLayer ? (
                     <div className="position-absolute left-0">
@@ -153,7 +154,7 @@ const ArticleLayer = ({
                     role={cell.role}
                     headingLevel={cell.isHeading ? cell.heading.level : 0}
                   />
-                </div>
+                </ArticleCellObserver>
               </React.Fragment>
             )
           })}
