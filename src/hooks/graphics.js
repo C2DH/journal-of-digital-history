@@ -1,4 +1,9 @@
-import { useRef, useState, useEffect} from 'react'
+import {
+  useRef,
+  useState,
+  useEffect,
+  useCallback
+} from 'react'
 
 /**
  * Calculate available rectangle for the given ref.
@@ -146,4 +151,66 @@ export function useOnScreen({ threshold = [0, 1], rootMargin='0% 0% 0% 0%'} = {}
     // eslint-disable-next-line
   }, [])
   return [entry, ref];
+}
+
+
+/**
+  * @method useRefWithCallback
+  * Guarantees that the DOM is ready before calling the
+  * onMount callback.
+  * Usage:
+  * ```
+  * const refWithCallback = useRefWithCallback(...)
+  *
+  * return (
+  *   <div ref={refWithCallback}> ...</div>
+  * )
+  * ```
+  * @return
+  */
+export function useRefWithCallback(onMount, onUnmount) {
+  const nodeRef = useRef(null);
+  const setRef = useCallback(node => {
+    if (nodeRef.current && typeof onUnmount === 'function') {
+      onUnmount(nodeRef.current);
+    }
+    nodeRef.current = node;
+    if (nodeRef.current && typeof onMount === 'function') {
+      onMount(nodeRef.current);
+    }
+  }, [onMount, onUnmount]);
+  return setRef;
+}
+
+
+export function useInjectTrustedJavascript({ id='', contents=[], onMount, onUnmount }) {
+  const setRefWithCallback = useRefWithCallback((node) => {
+    if (contents.length) {
+      console.debug('useInjectTrustedJavascript', id, contents.length)
+      let scriptDomElement = document.getElementById(id)
+      if (scriptDomElement === null) {
+        const script = document.createElement('script')
+        script.setAttribute('id', id)
+        script.appendChild(document.createTextNode(contents.join('\n')))
+        node.appendChild(script)
+      }
+    }
+    if (node && typeof onMount === 'function') {
+      onMount(node)
+    }
+  }, (node) => {
+    if (contents.length) {
+      let scriptDomElement = document.getElementById(id)
+      try {
+        node.removeChild(scriptDomElement)
+      } catch(e) {
+        console.warn('document.body.removeChild failed with id:', id, e.message)
+      }
+      if (node && typeof onUnmount === 'function') {
+        onUnmount(node)
+      }
+    }
+  })
+
+  return setRefWithCallback
 }
