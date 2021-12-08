@@ -711,3 +711,22 @@ svg.ArticleFingerprint{
     transform: translate(0, 0);
   }
 }
+
+
+.ArticleLayer_placeholder_bg{
+  z-index:1;
+  bottom: 0;
+  pointer-events: none;
+  left: 0;
+  right:0;
+  top: 20%;
+  background: transparent;
+}
+
+.ArticleLayer_placeholder_btn{
+  z-index: 2;
+  left: 50%;
+  width: 250px;
+  margin-left: -125px;
+  bottom: var(--spacer-3);
+}
