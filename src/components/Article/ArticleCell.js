@@ -87,7 +87,7 @@ const ArticleCell = ({
           figureColumnLayout={cellObjectBootstrapColumnLayout}
           isNarrativeStep={isNarrativeStep}
         >
-          <ArticleCellContent hideNum={!!figure} layer={layer} content={content} idx={idx} num={num} />
+          <ArticleCellContent layer={layer} content={content} idx={idx} num={num} />
         </ArticleCellFigure>
       )
     }
@@ -122,7 +122,7 @@ const ArticleCell = ({
               <div className="ArticleCellContent_num"></div>
               <ArticleCellSourceCode visible content={content} language="python" />
               {outputs.length
-                ? outputs.map((output,i) => <ArticleCellOutput cellId={idx} output={output} key={i} />)
+                ? outputs.map((output,i) => <ArticleCellOutput cellIdx={idx} output={output} key={i} />)
                 : <div className="ArticleCellSourceCode_no_output">no output</div>
               }
             </div>
