@@ -48,6 +48,9 @@
   --line-height-3: #{$font-size-base * 2.5};
   --line-height-1-m: #{$font-size-base * (1.5 / 2)};
   --line-height-5: #{$font-size-base * 2.75 * 1.25};
+  --layer-narrative-bg-0: rgb(244, 241, 248, 0);
+  --layer-narrative-bg-1: rgb(244, 241, 248, 1);
+  --layer-narrative-hermeneutics-text: #51f6e0;
 }
 
 body,
@@ -180,6 +183,9 @@ html,
 }
 .bg-hermeneutics{
   background-color: var(--hermeneutics) !important;
+}
+.text-hermeneutics{
+  color: var(--primary-dark);
 }
 body{
   background-color: var(--gray-100);
@@ -456,4 +462,12 @@ blockquote.code{
     padding: var(--spacer-3);
     padding-bottom: 0;
   }
+}
+
+.left-0{
+  left: 0
+}
+
+.right-0{
+  right: 0
 }
