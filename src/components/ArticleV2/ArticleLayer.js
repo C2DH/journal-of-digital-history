@@ -66,7 +66,7 @@ const ArticleLayer = ({
         layer: cell.layer,
         idx: cell.idx,
         height, // ref height
-        y: e.currentTarget.parentNode.parentNode.getBoundingClientRect().y -15
+        y: e.currentTarget.parentNode.parentNode.getBoundingClientRect().y
       })
     } else {
       console.warn('[ArticleLayer] misses a onCellPlaceholderClick listener')
@@ -79,7 +79,7 @@ const ArticleLayer = ({
         layer: previousLayer,
         idx: cell.idx,
         height, // ref height
-        y: e.currentTarget.parentNode.getBoundingClientRect().y -15
+        y: e.currentTarget.parentNode.getBoundingClientRect().y
       })
     }
   }
