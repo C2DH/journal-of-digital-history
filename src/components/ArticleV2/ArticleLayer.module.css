@@ -8,6 +8,10 @@
   composes: mask;
   background-color: #B1FBEC;
 }
+.mask_data{
+  composes: mask;
+  background-color: #cccfff;
+}
 
 .push{
   /* equals the top header */
@@ -20,6 +24,7 @@
   height: 100px;
   width:100%;
   z-index:1;
+  /* border-bottom: 1px solid var(--secondary); */
 }
 
 .pushFixed_narrative{
@@ -29,6 +34,11 @@
 .pushFixed_hermeneutics{
   composes: pushFixed;
   background-color: #B1FBEC;
+}
+
+.pushFixed_data{
+  composes: pushFixed;
+  background-color: #cccfff;
 }
 
 .anchor{
@@ -45,7 +55,7 @@
   pointer-events: none;
   left: 0;
   right:0;
-  top: 0;
+  height: 50%;
   background: transparent
 }
 .placeholderButton{
@@ -66,43 +76,67 @@
   color: var(--dark);
 }
 
+.placeholder_data_narrative {
+  composes: placeholder;
+  color: var(--dark);
+}
+.placeholder_data_hermeneutics {
+  composes: placeholder;
+  color: var(--dark);
+}
+
 .placeholderGradient_narrative_hermeneutics{
   composes: placeholderGradient;
-  background: linear-gradient(180deg, rgb(244, 241, 248, 0.4) 0%, rgb(244, 241, 248, 1) 90%);
+  background: linear-gradient(180deg, rgb(244, 241, 248, 0) 0%, rgb(244, 241, 248, .8) 50%);
 }
 .placeholderGradient_hermeneutics_narrative{
   composes: placeholderGradient;
   background: linear-gradient(180deg, #B1FBEC99 0%, #B1FBECff 90%);
 }
+.placeholderGradient_data_narrative{
+  composes: placeholderGradient;
+  background: linear-gradient(180deg, #cccfff99 0%, #cccfffff 90%);
+}
+.placeholderGradient_data_hermeneutics
+{
+  composes: placeholderGradient;
+  background: linear-gradient(180deg, #cccfff99 0%, #cccfffff 90%);
+}
 
 .placeholderActive {
   position: absolute;
-  left: 5px;
-  width: 2px;
+  left: var(--spacer-2);
   background: transparent;
   height: 100%;
-  z-index: 0;
+  right: 20%;
+  z-index: -1;
   top: 0;
 }
-.placeholderActive_on, .cellActive_on{
-  composes: placeholderActive;
+/* .placeholderActive:after{
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 2px;
   background: var(--dark);
+  bottom: 5px;
+} */
+.placeholderActive_narrative_on,
+.placeholderActive_hermeneutics_on,
+.placeholderActive_data_on, .cellActive_on{
+  border-top: 1px solid;
+  /* border-bottom: 1px double; */
+  composes: placeholderActive;
+  /* background: #ffffff77; */
 }
 .placeholderActive_off, .cellActive_off{
   composes: placeholderActive;
   background: transparent;
+  opacity: 0;
 }
-/* .placeholder_narrative_hermeneutics:hover .placeholderGradient{
-  background: linear-gradient(180deg, #e9e6ec00 0%, #e9e6ecff 70%);
-} */
-
-
-
-  /* &.hermeneutics-narrative{
-    background-color: #6cfde9;
-    color: #419d90;
-    .ArticleLayer_placeholder_bg{
-      background: linear-gradient(180deg, #6cfde900 0%, #6cfde9ff 70%);
-    }
-  }
-} */
+.cellActiveBackButton{
+  position: absolute;
+  left: 25px;
+  top: var(--spacer-2);
+  /* border-radius: 100%; */
+}

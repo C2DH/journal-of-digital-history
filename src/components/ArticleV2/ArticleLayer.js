@@ -6,7 +6,7 @@ import ArticleCellPlaceholder from './ArticleCellPlaceholder'
 import {a, useSpring, config} from 'react-spring'
 import { useRefWithCallback } from '../../hooks/graphics'
 import { Button } from 'react-bootstrap'
-import { ArrowRight } from 'react-feather'
+import { ArrowRight, ArrowLeft, Bookmark } from 'react-feather'
 import styles from './ArticleLayer.module.css'
 
 function getCellAnchorFromIdx(idx, prefix='c') {
@@ -26,18 +26,21 @@ const ArticleLayer = ({
   layer=LayerNarrative,
   // previousLayer=null,
   // nextLayer=null,
-  cellsGroups=[],
-  cells=[],
+  paragraphsGroups=[],
+  paragraphs=[],
   // index of selected cell  (cell.idx)
   selectedCellIdx=-1,
   selectedCellTop=0,
-  onPlaceholderClick,
+  onCellPlaceholderClick,
+  onCellIntersectionChange,
   isSelected=false,
   selectedLayer='',
+  previousLayer='',
   layers=[],
   children,
   width=0, height=0,
   style,
+  FooterComponent = function({ width, height }) { return <div style={{width, height}} />},
 }) => {
   const [mask, setMask] = useSpring(() => ({
     clipPath: [width, 0, width, height], x:0, y:0,
@@ -57,16 +60,27 @@ const ArticleLayer = ({
     layerDiv.scrollTo({ top: cellElement.offsetTop + layerDiv.offsetTop - selectedCellTop })
   })
 
-  const onPlaceholderClickHandler = (e, cell) => {
-    if (typeof onPlaceholderClick === 'function') {
-      onPlaceholderClick(e, {
+  const onCellPlaceholderClickHandler = (e, cell) => {
+    if (typeof onCellPlaceholderClick === 'function') {
+      onCellPlaceholderClick(e, {
         layer: cell.layer,
         idx: cell.idx,
         height, // ref height
         y: e.currentTarget.parentNode.parentNode.getBoundingClientRect().y -15
       })
     } else {
-      console.warn('[ArticleLayer] misses a onPlaceholderClick listener')
+      console.warn('[ArticleLayer] misses a onCellPlaceholderClick listener')
+    }
+  }
+
+  const onSelectedCellClickHandler = (e, cell) => {
+    if (typeof onCellPlaceholderClick === 'function') {
+      onCellPlaceholderClick(e, {
+        layer: previousLayer,
+        idx: cell.idx,
+        height, // ref height
+        y: e.currentTarget.parentNode.getBoundingClientRect().y -15
+      })
     }
   }
 
@@ -78,9 +92,9 @@ const ArticleLayer = ({
       console.info('close', layer, layers.indexOf(selectedLayer), layers.indexOf(layer))
       setMask.start({ clipPath: [width, 0, width, height], x:0, y:0 })
     }
-  }, [isSelected])
+  }, [isSelected, layer, layers])
 
-  console.debug('[ArticleLayer] rendered: ',layer,'- n. groups:', cellsGroups.length)
+  console.debug('[ArticleLayer] rendered: ',layer,'- n. groups:', paragraphsGroups.length)
 
   return (
     <a.div ref={layerRef} className={`text-old-${layer} ${cx('mask', layer)}`} style={{
@@ -90,29 +104,36 @@ const ArticleLayer = ({
       <div className={cx('pushFixed', layer)}></div>
       <div className={styles.push}></div>
       {children}
-      {cellsGroups.map((cellsIndices, i) => {
-        const firstCellInGroup = cells[cellsIndices[0]]
+      {paragraphsGroups.map((paragraphsIndices, i) => {
+        const firstCellInGroup = paragraphs[paragraphsIndices[0]]
         const isPlaceholder = firstCellInGroup.layer !== layer
         if (isPlaceholder) {
           return (
             <React.Fragment key={i}>
-              {cellsIndices.map((k) => (
-                <a key={['a', k].join('-')} className={styles.anchor} id={getCellAnchorFromIdx(cells[k].idx, layer)}></a>
+              {paragraphsIndices.map((k) => (
+                <a key={['a', k].join('-')} className={styles.anchor} id={getCellAnchorFromIdx(paragraphs[k].idx, layer)}></a>
               ))}
-              <div className={`position-relative ${cx('placeholder', layer, firstCellInGroup.layer)}`}>
-                {cellsIndices.slice(0,2).map((j) => (
-                  <React.Fragment key={[i,j].join('-')}>
+              <div className={`position-relative ArticleStream_paragraph ${cx('placeholder', layer, firstCellInGroup.layer)}`}>
+                {paragraphsIndices.slice(0,2).map((j) => (
+                  <ArticleCellObserver
+                    onCellIntersectionChange={onCellIntersectionChange}
+                    cell={paragraphs[j]}
+                    key={[i,j].join('-')}
+                    className=""
+                  >
                     <ArticleCellPlaceholder
                       memoid={memoid}
-                      {...cells[j]}
-                      headingLevel={cells[j].isHeading ? cells[j].heading.level : 0}
+                      {...paragraphs[j]}
+                      headingLevel={paragraphs[j].isHeading ? paragraphs[j].heading.level : 0}
                     />
-                  </React.Fragment>
+                  </ArticleCellObserver>
                 ))}
                 <div className={cx('placeholderGradient', layer, firstCellInGroup.layer)} />
-                <div className={cx('placeholderActive', firstCellInGroup.idx === selectedCellIdx ? 'on' : 'off' )}/>
+                <div className={cx('placeholderActive', layer, firstCellInGroup.idx === selectedCellIdx ? 'on' : 'off' )}>
+                  <Bookmark size={14}/>
+                </div>
                 <div className={styles.placeholderButton}>
-                  <Button variant="outline-secondary" size="sm" className="d-flex align-items-center" onClick={(e) => onPlaceholderClickHandler(e, firstCellInGroup)}>
+                  <Button variant="outline-secondary" size="sm" className="d-flex align-items-center" onClick={(e) => onCellPlaceholderClickHandler(e, firstCellInGroup)}>
                     read in {firstCellInGroup.layer} layer
                     &nbsp;
                     <ArrowRight size={12}/>
@@ -125,8 +146,8 @@ const ArticleLayer = ({
 
         return (
           <React.Fragment key={i}>
-          {cellsIndices.map((j) => {
-            const cell = cells[j]
+          {paragraphsIndices.map((j) => {
+            const cell = paragraphs[j]
             if(!cell) {
               // eslint-disable-next-line
               debugger
@@ -134,8 +155,24 @@ const ArticleLayer = ({
             return (
               <React.Fragment key={[i,j].join('-')}>
                 <a className='ArticleLayer_anchor' id={getCellAnchorFromIdx(cell.idx,layer)}></a>
-                <ArticleCellObserver cell={cell} className="position-relative">
-                  <div className={cx('cellActive', firstCellInGroup.idx === selectedCellIdx ? 'on' : 'off' )}/>
+                <ArticleCellObserver
+                  onCellIntersectionChange={onCellIntersectionChange}
+                  cell={cell}
+                  className="position-relative ArticleStream_paragraph"
+                >
+                  <div className={cx('cellActive', cell.idx === selectedCellIdx ? 'on' : 'off' )}>
+                  <Bookmark size={14}/>
+                  </div>
+                  { cell.idx === selectedCellIdx && previousLayer !== '' && previousLayer !== layer ? (
+                    <Button
+                      size="sm"
+                      variant="outline-secondary"
+                      className={styles.cellActiveBackButton}
+                      onClick={(e) => onSelectedCellClickHandler(e, cell)}
+                    >
+                      <ArrowLeft size={16} /> back to [{previousLayer}]
+                    </Button>
+                  ) : null}
                   {/* debug && selectedCellIdx === cell.idx && previousLayer ? (
                     <div className="position-absolute left-0">
                       <button onClick={(e) => onOtherLayerCellClickHandler(e, cell, previousLayer) }>back to the other layer</button>
@@ -161,6 +198,8 @@ const ArticleLayer = ({
           </React.Fragment>
         )
       })}
+      <div className={styles.push}></div>
+      <FooterComponent width={width} height={height}/>
     </a.div>
   )
 }
