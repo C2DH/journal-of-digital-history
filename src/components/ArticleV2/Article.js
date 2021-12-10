@@ -19,9 +19,9 @@ const Article = ({
   // plainKeywords = [],
   // excerpt,
   doi,
-  // binderUrl,
+  binderUrl,
   bibjson,
-  // emailAddress
+  emailAddress
 }) => {
 
   const { height, width } =  useCurrentWindowDimensions()
@@ -55,7 +55,11 @@ const Article = ({
         memoid={articleTree.id}
         height={height}
         width={width}
-        cells={articleTree.paragraphs}
+        paragraphs={articleTree.paragraphs}
+        headingsPositions={articleTree.headingsPositions}
+        hasBibliography={typeof articleTree.bibliography === 'object'}
+        binderUrl={binderUrl}
+        emailAddress={emailAddress}
       >
         <ArticleHeader
           className="mt-5"
