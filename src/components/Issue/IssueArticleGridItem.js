@@ -11,7 +11,7 @@ import { IsMobile } from '../../constants'
 import '../../styles/components/IssueArticleGridItem.scss'
 
 
-const IssueArticleGridItem = ({ article={}, isFake=false, num=0, isEditorial }) => {
+const IssueArticleGridItem = ({ article={}, isFake=false, num=0, isEditorial, onMouseMove }) => {
   const [{width: size }, ref] = useBoundingClientRect()
   const { title, keywords, excerpt, contributor } = extractMetadataFromArticle(article)
   const { t } = useTranslation()
@@ -21,8 +21,8 @@ const IssueArticleGridItem = ({ article={}, isFake=false, num=0, isEditorial }) 
         <div className={IsMobile ? 'half-squared': 'squared'} style={{
           backgroundColor: 'transparent',
           overflow: 'hidden'
-        }}>
-          <ArticleFingerprint stats={article.fingerprint?.stats}  cells={article.fingerprint?.cells}
+        }} >
+          <ArticleFingerprint onMouseMove={onMouseMove} stats={article.fingerprint?.stats}  cells={article.fingerprint?.cells}
             size={IsMobile ? size/2 : size}/>
         </div>
         </LangLink>

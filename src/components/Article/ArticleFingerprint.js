@@ -2,7 +2,7 @@ import React from 'react'
 import { scalePow,  } from 'd3-scale'
 import { extent  } from 'd3-array'
 import ArticleFingerprintCellGraphics from './ArticleFingerprintCellGraphics'
-
+import { animated, useSpring, config} from 'react-spring'
 
 const ArticleFingerprint = ({
   stats={},
@@ -13,8 +13,11 @@ const ArticleFingerprint = ({
   // this space is needed for the text elements
   margin=20,
   //
-  variant=''
+  variant='',
+  onMouseMove,
 }) => {
+  // animated properties for current selected "datum"
+  const [pointer, api] = useSpring(() => ({ theta : 0, idx:0, opacity: 0, config: config.stiff }))
   const radius = (size/2 - margin) * 2 / 3
   // value radius, this give us extra safety margin.
   const maxNumCharsRadius = radius / 2
@@ -36,6 +39,32 @@ const ArticleFingerprint = ({
     .domain(stats?.extentRefs || [0,1])
     .range([1.5, maxNumRefsRadius])
 
+  const scaleTheta = scalePow().exponent(1).domain([0, 360]).range([0, cells.length + 1])
+
+
+
+  const mouseMoveHander = (e) => {
+    if (typeof onMouseMove !== 'function') {
+      return
+    }
+    // get cell based on mouse position
+    const x = e.nativeEvent.offsetX - size/2
+    const y = e.nativeEvent.offsetY - size/2
+    // get angle and relative cell.
+    const radians = Math.atan2(y, x) + Math.PI / 2 // correction
+    const absRadians = radians < 0 ? radians + Math.PI * 2 : radians
+    const theta = absRadians * 180 / Math.PI
+    const datumIdx = Math.round(scaleTheta(theta))
+    const idx = cells[datumIdx] ? datumIdx : 0
+    const datum = cells[idx]
+    api.start({ theta: theta - 90, idx, opacity: 1 })
+    onMouseMove(e, datum, cells[datumIdx] ? datumIdx : 0 )
+  }
+
+  const mouseOutHandler = () => {
+    api.start({ opacity: 0 })
+  }
+
   if (cells.length===0) {
     return null
   }
@@ -52,6 +81,7 @@ const ArticleFingerprint = ({
       xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
+      onMouseMove={mouseMoveHander}
     >
       <g transform={`translate(${size/2}, ${size/2})`}>
         {debug // outer circle (narrative layer)
@@ -96,6 +126,14 @@ const ArticleFingerprint = ({
             />
           )
         })}
+      </g>
+      <g transform={`translate(${size/2}, ${size/2})`} onMouseOut={mouseOutHandler}>
+        <rect fill="transparent" x={-size/2} y={-size/2} width={size} height={size} ></rect>
+        <animated.line style={{pointerEvents:'none'}} x1="0" y1="0" stroke="red" x2={size/2} y2={0} strokeOpacity={pointer.opacity.to(o => o)} transform={pointer.theta.to((t) => `rotate(${t})`)}/>
+        <animated.line style={{pointerEvents:'none'}} x1="0" y1="0" stroke="red" x2={size/2} y2={0} strokeOpacity={pointer.opacity.to(o => o)} transform={pointer.idx.to((idx) => {
+          const t = parseInt(idx, 10)
+          return `rotate(${t / cells.length * 360}deg)`
+        })}/>
       </g>
     </svg>
   )
