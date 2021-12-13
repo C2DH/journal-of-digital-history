@@ -1,14 +1,12 @@
 import React, { useMemo, useEffect } from 'react'
 import { useSpring, animated, config } from 'react-spring'
-// import { useTranslation } from 'react-i18next'
-
+import { useQueryParams, NumberParam, withDefault } from 'use-query-params'
 import { useGetJSON } from '../logic/api/fetchData'
 import { decodeNotebookURL } from '../logic/ipynb'
-import { StatusSuccess, StatusFetching } from '../constants'
+import { StatusSuccess, StatusFetching, ArticleVersionQueryParam } from '../constants'
 import Article from '../components/Article'
-// import ArticleKeywords from '../components/Article/ArticleKeywords'
+import ArticleV2 from '../components/ArticleV2'
 import ArticleHeader from '../components/Article/ArticleHeader'
-
 /**
  * Loading bar inspired by
  * https://codesandbox.io/s/github/pmndrs/react-spring/tree/master/demo/src/sandboxes/animating-auto
@@ -31,7 +29,10 @@ const NotebookViewer = ({
   bibjson,
   pid,
 }) => {
-  // const { t } = useTranslation()
+  const [{[ArticleVersionQueryParam]: version}] = useQueryParams({
+    [ArticleVersionQueryParam]: withDefault(NumberParam, 0)
+  })
+  const ArticleComponent = version === 2 ? ArticleV2 : Article
   const [animatedProps, api] = useSpring(() => ({ width : 0, opacity:1, config: config.slow }))
 
   const url = useMemo(() => {
@@ -84,7 +85,7 @@ const NotebookViewer = ({
       </div>
       {status === StatusSuccess
         ? (
-          <Article
+          <ArticleComponent
             ipynb={data}
             memoid={encodedUrl}
             binderUrl={binderUrl}

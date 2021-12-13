@@ -126,8 +126,11 @@ export const DisplayLayerHermeneutics = 'h'
 export const DisplayLayerNarrative = 'n'
 export const DisplayLayerAll = 'all'
 export const DisplayLayerQueryParam = 'layer'
+export const DisplayPreviousLayerQueryParam = 'pl'
 export const DisplayLayerCellIdxQueryParam = 'idx'
-
+export const DisplayLayerCellTopQueryParam = 'y'
 // article status
 export const ArticleStatusPublished = 'PUBLISHED'
 export const ArticleStatusDraft = 'Draft'
+// article component version
+export const ArticleVersionQueryParam = 'v'

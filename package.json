@@ -1,6 +1,6 @@
 {
   "name": "jdh",
-  "version": "2.2.8",
+  "version": "2.2.9",
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^1.1.0",
