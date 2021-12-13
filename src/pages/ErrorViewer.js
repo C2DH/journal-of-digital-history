@@ -6,7 +6,7 @@ import { BootstrapColumLayout } from '../constants'
 import hljs from 'highlight.js' // import hljs library
 
 
-const ErrorViewer = ({ error={}, errorCode=404, language="python", children }) => {
+const ErrorViewer = ({ error={}, errorCode=404, language="python", className='page', children }) => {
   const { t } = useTranslation()
   if (errorCode === 404) {
     return <NotFound />
@@ -16,7 +16,7 @@ const ErrorViewer = ({ error={}, errorCode=404, language="python", children }) =
       ? hljs.highlight(language, cleanedError)
       : hljs.highlightAuto(cleanedError);
   return (
-    <Container className="ErrorViewer page">
+    <Container className={`ErrorViewer ${className})`}>
       <Row>
         <Col {...BootstrapColumLayout}>
           <h1 className="my-5">{t('pages.errorViewer.title')}
@@ -25,7 +25,7 @@ const ErrorViewer = ({ error={}, errorCode=404, language="python", children }) =
           {error.code === 'ECONNABORTED'
             ? <h2>{error.message}</h2>
             : <h3>{t('pages.errorViewer.subheading')}</h3>
-            
+
           }
           <p className="mb-5" dangerouslySetInnerHTML={{
             __html: t('pages.errorViewer.message')

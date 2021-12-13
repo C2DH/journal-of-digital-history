@@ -129,11 +129,19 @@ const ArticleFingerprint = ({
       </g>
       <g transform={`translate(${size/2}, ${size/2})`} onMouseOut={mouseOutHandler}>
         <rect fill="transparent" x={-size/2} y={-size/2} width={size} height={size} ></rect>
-        <animated.line style={{pointerEvents:'none'}} x1="0" y1="0" stroke="red" x2={size/2} y2={0} strokeOpacity={pointer.opacity.to(o => o)} transform={pointer.theta.to((t) => `rotate(${t})`)}/>
-        <animated.line style={{pointerEvents:'none'}} x1="0" y1="0" stroke="red" x2={size/2} y2={0} strokeOpacity={pointer.opacity.to(o => o)} transform={pointer.idx.to((idx) => {
-          const t = parseInt(idx, 10)
-          return `rotate(${t / cells.length * 360}deg)`
-        })}/>
+        {/*
+          <animated.line style={{pointerEvents:'none'}} x1="0" y1="0" stroke="red" x2={size/2} y2={0}
+            strokeOpacity={pointer.opacity.to(o => o)}
+            transform={pointer.theta.to((t) => `rotate(${t})`)}
+          />
+        */}
+        <animated.line style={{pointerEvents:'none'}} x1="0" y1="0" stroke="var(--secondary)" x2={radius + maxNumCharsRadius} y2={0}
+          strokeOpacity={pointer.opacity.to(o => o)}
+          transform={pointer.idx.to((idx) => {
+            // const t = parseInt(idx, 10)
+            return `rotate(${scaleTheta.invert(idx) - 90})`
+          })}
+        />
       </g>
     </svg>
   )
