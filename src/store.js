@@ -8,6 +8,22 @@ export const useIssueStore = create((set) => ({
   setIssue: (issue) => set(() => ({ issue }))
 }))
 
+export const useArticleToCStore = create((set) => ({
+  visibleCellsIdx: [],
+  setVisibleCell: (cellIdx, isVisible) => set((state) => {
+    const copy = [...state.visibleCellsIdx]
+    const idx = copy.indexOf(cellIdx)
+    if (idx === -1 && isVisible) {
+      copy.push(cellIdx)
+    } else if(idx > -1 && !isVisible){
+      copy.splice(idx, 1)
+    }
+    copy.sort((a,b)=> a - b)
+    console.debug('[useArticleToCStore] visibleCellsIdx:', copy)
+    return { visibleCellsIdx: copy }
+  })
+}))
+
 export const useArticleStore = create((set) => ({
   // visible shadow cells according to Accordion
   visibleShadowCellsIdx: [],

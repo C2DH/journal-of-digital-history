@@ -1,0 +1,11 @@
+.tocWrapper{
+  position: fixed;
+  /* width according to 2 col in bootstrap grid system, see breakpoints */
+  width: 16%;
+  right: 0;
+  pointer-events: none;
+  z-index: 5;
+  display: flex;
+  /* border-top: 1px solid var(--dark); */
+  flex-direction: column;
+}

@@ -11,6 +11,10 @@ $breakpoint-lg: 992px;
   margin-left: var(--spacer-4);
 }
 
+.ArticleCellObserver.active  .ArticleCellContent_num{
+  color: var(--secondary);
+}
+
 .ArticleCellContent_num {
   position: absolute;
   left: -50px;
@@ -29,7 +33,7 @@ $breakpoint-lg: 992px;
     top: 14px;
   }
   &.level_H3, &.level_H4, &.level_H5, &.level_H6{
-    top: 21px;
+    top: 20px;
   }
 }
 
