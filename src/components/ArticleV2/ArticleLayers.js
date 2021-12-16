@@ -6,7 +6,8 @@ import {
   LayerNarrative,
   DisplayLayerCellIdxQueryParam,
   DisplayLayerCellTopQueryParam,
-  DisplayPreviousLayerQueryParam
+  DisplayPreviousLayerQueryParam,
+  DisplayLayerCellRefHeight
 } from '../../constants'
 
 
@@ -28,6 +29,7 @@ const ArticleLayers = ({
     [DisplayLayerCellIdxQueryParam]:selectedCellIdx,
     [DisplayLayerCellTopQueryParam]: selectedCellTop,
     [DisplayPreviousLayerQueryParam]: previousLayer,
+    [DisplayLayerCellRefHeight]: selectedCellRefHeight
   }, setQuery] = useQueryParams({
     [DisplayLayerCellIdxQueryParam]: withDefault(NumberParam, -1),
     [DisplayLayerQueryParam]: withDefault(StringParam, LayerNarrative),
@@ -37,14 +39,15 @@ const ArticleLayers = ({
 
   // const [springs, api] = useSprings(layers.length, fn(order.current)) // Create springs, each corresponds to an item, controlling its transform, scale, etc.
 
-  const onCellPlaceholderClickHandler = (e, { layer, idx, y }) => {
-    console.debug('[ArticleLayers] @onCellPlaceholderClickHandler:', layer, idx, y)
+  const onCellPlaceholderClickHandler = (e, { layer, idx, height:refHeight ,y }) => {
+    console.debug('[ArticleLayers] @onCellPlaceholderClickHandler:', layer, idx, y, refHeight)
     // replaceIn not to trgger the changes. This is helpful whenever the user
     // hits the back Button in the browser (or uses the swipe left on mobile)
     setQuery({
       [DisplayLayerQueryParam]: selectedLayer,
       [DisplayLayerCellIdxQueryParam]: idx,
       [DisplayLayerCellTopQueryParam]: y,
+      [DisplayLayerCellRefHeight]: refHeight,
       [DisplayPreviousLayerQueryParam]: previousLayer,
     }, 'replaceIn')
     // this query
@@ -52,6 +55,7 @@ const ArticleLayers = ({
       [DisplayLayerQueryParam]: layer,
       [DisplayLayerCellIdxQueryParam]: idx,
       [DisplayLayerCellTopQueryParam]: y,
+      [DisplayLayerCellRefHeight]: refHeight,
       [DisplayPreviousLayerQueryParam]: selectedLayer,
     })
     if (typeof onCellPlaceholderClick === 'function') {
@@ -74,6 +78,7 @@ const ArticleLayers = ({
         onCellIntersectionChange={onCellIntersectionChange}
         selectedCellIdx={selectedCellIdx}
         selectedCellTop={selectedCellTop}
+        selectedCellRefHeight={selectedCellRefHeight}
         isSelected={selectedLayer === layer}
         selectedLayer={selectedLayer}
         previousLayer={previousLayer}

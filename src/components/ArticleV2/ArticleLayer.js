@@ -66,7 +66,8 @@ const ArticleLayer = ({
         layer: cell.layer,
         idx: cell.idx,
         height, // ref height
-        y: e.currentTarget.parentNode.parentNode.getBoundingClientRect().y
+        y: e.currentTarget.parentNode.parentNode.offsetTop - e.currentTarget.parentNode.parentNode.parentNode.scrollTop - 15
+        // Math.round(e.currentTarget.parentNode.parentNode.getBoundingClientRect().y)
       })
     } else {
       console.warn('[ArticleLayer] misses a onCellPlaceholderClick listener')
@@ -74,12 +75,17 @@ const ArticleLayer = ({
   }
 
   const onSelectedCellClickHandler = (e, cell) => {
+    // console.info('@onCellPlaceholderClickHandler', e, cell)
+    // // eslint-disable-next-line
+    // debugger
+
     if (typeof onCellPlaceholderClick === 'function') {
       onCellPlaceholderClick(e, {
         layer: previousLayer,
         idx: cell.idx,
         height, // ref height
-        y: e.currentTarget.parentNode.getBoundingClientRect().y
+        y: e.currentTarget.parentNode.offsetTop - e.currentTarget.parentNode.parentNode.scrollTop - 15
+        // Math.round(e.currentTarget.parentNode.getBoundingClientRect().y) -15
       })
     }
   }

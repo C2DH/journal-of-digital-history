@@ -129,6 +129,7 @@ export const DisplayLayerQueryParam = 'layer'
 export const DisplayPreviousLayerQueryParam = 'pl'
 export const DisplayLayerCellIdxQueryParam = 'idx'
 export const DisplayLayerCellTopQueryParam = 'y'
+export const DisplayLayerCellRefHeight = 'h'
 // article status
 export const ArticleStatusPublished = 'PUBLISHED'
 export const ArticleStatusDraft = 'Draft'
