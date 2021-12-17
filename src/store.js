@@ -10,6 +10,7 @@ export const useIssueStore = create((set) => ({
 
 export const useArticleToCStore = create((set) => ({
   visibleCellsIdx: [],
+  clearVisibleCellsIdx: () => set(() => ({ visibleCellsIdx: [] })),
   setVisibleCell: (cellIdx, isVisible) => set((state) => {
     const copy = [...state.visibleCellsIdx]
     const idx = copy.indexOf(cellIdx)
