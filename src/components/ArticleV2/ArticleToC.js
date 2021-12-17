@@ -96,7 +96,7 @@ const ArticleToC = ({
       previousHeadingIdx,
       nextHeadingIdx
     }
-  }, [ firstVisibleCellIdx ])
+  }, [ firstVisibleCellIdx, lastVisibleCellIdx ])
 
   const onStepClickHandler = (step) => {
     console.debug('[ArticleToC] @onClickHandler step:', step, selectedLayer)
