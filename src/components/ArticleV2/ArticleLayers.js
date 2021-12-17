@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ArticleLayer from './ArticleLayer'
 import { useQueryParams, StringParam, NumberParam, withDefault, } from 'use-query-params'
 import {
@@ -8,7 +8,7 @@ import {
   DisplayLayerCellTopQueryParam,
   DisplayPreviousLayerQueryParam
 } from '../../constants'
-
+import { useArticleToCStore } from '../../store'
 
 const ArticleLayers = ({
   memoid='',
@@ -21,6 +21,7 @@ const ArticleLayers = ({
   onCellIntersectionChange,
   children,
 }) => {
+  const clearVisibleCellsIdx = useArticleToCStore(store => store.clearVisibleCellsIdx)
   // Store indicies as a local ref, this represents the item order [0,1,2]
   // const order = React.useRef(layers.map((_, index) => index))
   const [{
@@ -58,6 +59,11 @@ const ArticleLayers = ({
       onCellPlaceholderClick(e, { layer, idx, y })
     }
   }
+
+  useEffect(() => {
+    console.debug('[ArticleLayers] @useEffect layer changed to:', selectedLayer)
+    clearVisibleCellsIdx()
+  }, [selectedLayer])
   console.debug('[ArticleLayers] rendered, selected:', selectedLayer)
   return (
     <>
