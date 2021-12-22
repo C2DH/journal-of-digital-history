@@ -649,6 +649,17 @@ svg.ArticleFingerprint{
   color: var(--primary-dark);
 }
 
+.ArticleToC_layerSelector{
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 var(--spacer-2);
+  border-radius: var(--spacer-1);
+  &.active{
+    background: var(--dark);
+    color: var(--white);
+  }
+}
+
 .ArticleCellAccordion{
   // border-top: 1px solid var(--dark);
   color: var(--primary-dark);

@@ -119,9 +119,11 @@ const ArticleToC = ({
     <>
     <div className="flex-shrink-1 py-3 mb-0 pointer-events-auto text-end">
       {layers.map((d,i) => (
-        <div className="me-5" key={i} onClick={() =>setQuery({
-          [DisplayLayerQueryParam]: d
-        })}>{selectedLayer === d ? <b>{d}</b>: d}</div>
+        <div
+          className={`me-5 ArticleToC_layerSelector ${selectedLayer === d ? 'active' : ''}`}
+          key={i}
+          onClick={() =>setQuery({[DisplayLayerQueryParam]: d})}
+        >{d}</div>
       ))}
       <p className="text-dark py-2 mb-0 me-5" style={{ fontSize: '10px'}} dangerouslySetInnerHTML={{
         __html: binderUrl ? t('actions.gotoBinder', { binderUrl }) : t('errors.binderUrlNotAvailable')
