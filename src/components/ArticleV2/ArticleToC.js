@@ -127,7 +127,7 @@ const ArticleToC = ({
         __html: binderUrl ? t('actions.gotoBinder', { binderUrl }) : t('errors.binderUrlNotAvailable')
       }}/>
     </div>
-    <div className="flex-grow-1 border-bottom mb-3 border-dark" style={{ overflow: "scroll"}}>
+    <div className="flex-grow-1 ps-2 pt-2 pb-2 mb-3" style={{ overflow: "scroll"}}>
       {steps.map((step, i) => {
         const showBookmark = i < steps.length - 1
           ? selectedCellIdx >= step.cell.idx && selectedCellIdx < steps[i+1].cell.idx
