@@ -20,7 +20,7 @@ export const useArticleToCStore = create((set) => ({
       copy.splice(idx, 1)
     }
     copy.sort((a,b)=> a - b)
-    console.debug('[useArticleToCStore] visibleCellsIdx:', copy)
+    // console.debug('[useArticleToCStore] visibleCellsIdx:', copy)
     return { visibleCellsIdx: copy }
   })
 }))
