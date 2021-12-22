@@ -30,7 +30,7 @@ const NotebookViewer = ({
   pid,
 }) => {
   const [{[ArticleVersionQueryParam]: version}] = useQueryParams({
-    [ArticleVersionQueryParam]: withDefault(NumberParam, 0)
+    [ArticleVersionQueryParam]: withDefault(NumberParam, 2)
   })
   const ArticleComponent = version === 2 ? ArticleV2 : Article
   const [animatedProps, api] = useSpring(() => ({ width : 0, opacity:1, config: config.slow }))
