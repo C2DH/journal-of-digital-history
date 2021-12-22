@@ -40,6 +40,7 @@ const Article = ({
     disclaimer = []
   } = articleTree.sections
   console.debug(`[Article] component rendered ${width}x${height}px`)
+  console.debug('[Article] loading articleTree anchors:', articleTree.anchors)
 
   const onDataHrefClickHandler = (d) => {
     console.debug('DataHref click handler')
