@@ -5,6 +5,7 @@ export default class ArticleTree {
     paragraphs = [],
     sections = {},
     figures = [],
+    anchors = [],
     cells = [],
     headingsPositions = [],
     paragraphsPositions = [],
@@ -15,6 +16,7 @@ export default class ArticleTree {
     this.headings= headings
     this.paragraphs = paragraphs
     this.figures = figures
+    this.anchors = anchors
     this.cells = cells
     this.sections = sections
     this.headingsPositions = headingsPositions
