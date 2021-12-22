@@ -1,0 +1,33 @@
+.ArticleCellPopup {
+  position: absolute;
+  left: var(--negative-spacer-5);
+  background-color: var(--dark);
+  color: var(--white);
+  padding: 0 var(--spacer-2);
+  font-size: 12px;
+  line-height: 25px;
+  font-weight: bold;
+  top: 0px;
+  z-index: 1000;
+
+  label:hover{
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  &::after{
+    content: '';
+    position: absolute;
+    left: var(--spacer-3);
+    top: 100%;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--dark);
+    clear: both;
+  }
+
+  line, path{
+    stroke-width: 2.5px;
+  }
+}

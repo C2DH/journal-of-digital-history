@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form , Button} from 'react-bootstrap'
-import { Link2 } from 'react-feather'
+import { Cpu } from 'react-feather'
 
 const FormNotebookUrl = ({initialValue = '', onSubmit}) => {
   const { t } = useTranslation()
@@ -58,15 +58,15 @@ const FormNotebookUrl = ({initialValue = '', onSubmit}) => {
 
       </Form.Group>
       <Button onClick={handleSubmit}
-        variant="primary" type="submit"
+        variant="secondary" type="submit"
         style={{
-          borderRadius: '1.25rem',
+          borderRadius: '5px',
           paddingLeft: '1rem',
           paddingRight: '1rem'
         }}
       >
-        <span className="mr-2">{t('FormNotebookUrl_GenerateLink')}</span>
-        <Link2 size="16"/>
+        <span className="me-2">{t('FormNotebookUrl_GenerateLink')}</span>
+        <Cpu size="16"/>
       </Button>
 
     </Form>
