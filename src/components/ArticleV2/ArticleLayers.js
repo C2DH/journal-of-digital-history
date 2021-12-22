@@ -7,6 +7,7 @@ import {
   DisplayLayerCellIdxQueryParam,
   DisplayLayerCellTopQueryParam,
   DisplayPreviousLayerQueryParam,
+  DisplayPreviousCellIdxQueryParam,
   DisplayLayerHeightQueryParam
 } from '../../constants'
 import { useArticleToCStore } from '../../store'
@@ -30,12 +31,14 @@ const ArticleLayers = ({
     [DisplayLayerCellIdxQueryParam]:selectedCellIdx,
     [DisplayLayerCellTopQueryParam]: selectedCellTop,
     [DisplayPreviousLayerQueryParam]: previousLayer,
+    [DisplayPreviousCellIdxQueryParam]: previousCellIdx,
     [DisplayLayerHeightQueryParam]: layerHeight,
   }, setQuery] = useQueryParams({
     [DisplayLayerCellIdxQueryParam]: withDefault(NumberParam, -1),
     [DisplayLayerQueryParam]: withDefault(StringParam, LayerNarrative),
     [DisplayLayerCellTopQueryParam]: withDefault(NumberParam, 0),
     [DisplayPreviousLayerQueryParam]: StringParam,
+    [DisplayPreviousCellIdxQueryParam]: withDefault(NumberParam, -1),
     [DisplayLayerHeightQueryParam]: withDefault(NumberParam, -1),
   })
 
@@ -65,6 +68,23 @@ const ArticleLayers = ({
     }
   }
 
+  const onAnchorClickHandler = (e, { layer, idx, previousIdx, previousLayer, y, height:h }) => {
+    console.debug(
+      '[ArticleLayers] @onAnchorClickHandler:',
+      '\n - target:', idx, layer,
+      '\n - source:', previousIdx, previousLayer
+    )
+    // this query
+    setQuery({
+      [DisplayLayerQueryParam]: layer,
+      [DisplayLayerCellIdxQueryParam]: idx,
+      [DisplayLayerCellTopQueryParam]: y,
+      [DisplayPreviousLayerQueryParam]: previousLayer,
+      [DisplayPreviousCellIdxQueryParam]: previousIdx,
+      [DisplayLayerHeightQueryParam]: h
+    })
+  }
+
   useEffect(() => {
     console.debug('[ArticleLayers] @useEffect layer changed to:', selectedLayer)
     clearVisibleCellsIdx()
@@ -82,6 +102,7 @@ const ArticleLayers = ({
         previousLayerIdx={i > 0 ? layers[i-1] : null}
         nextLayer={i < layers.length - 1 ? layers[i+1]: null}
         onCellPlaceholderClick={onCellPlaceholderClickHandler}
+        onAnchorClick={onAnchorClickHandler}
         onCellIntersectionChange={onCellIntersectionChange}
         selectedCellIdx={selectedCellIdx}
         selectedCellTop={selectedCellTop}
@@ -89,6 +110,7 @@ const ArticleLayers = ({
         isSelected={selectedLayer === layer}
         selectedLayer={selectedLayer}
         previousLayer={previousLayer}
+        previousCellIdx={previousCellIdx}
         height={height}
         width={width}
         layers={layers}

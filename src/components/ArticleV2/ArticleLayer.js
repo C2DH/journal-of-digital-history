@@ -35,9 +35,11 @@ const ArticleLayer = ({
   selectedLayerHeight=-1,
   onCellPlaceholderClick,
   onCellIntersectionChange,
+  onAnchorClick,
   isSelected=false,
   selectedLayer='',
   previousLayer='',
+  previousCellIdx=-1,
   layers=[],
   children,
   width=0, height=0,
@@ -94,13 +96,17 @@ const ArticleLayer = ({
     }
   }
 
+  /**
+   * method onSelectedCellClickHandler
+   * This method send user back to the placeholder who generated the link, if any.
+   */
   const onSelectedCellClickHandler = (e, cell) => {
     if (typeof onCellPlaceholderClick === 'function') {
       onCellPlaceholderClick(e, {
         layer: previousLayer,
-        idx: cell.idx,
+        idx: previousCellIdx > -1 ? previousCellIdx : cell.idx,
         height, // ref height
-        y: e.currentTarget.parentNode.parentNode.offsetTop - e.currentTarget.parentNode.parentNode.parentNode.scrollTop - 15
+        y: previousCellIdx > -1 ? selectedCellTop : e.currentTarget.parentNode.parentNode.offsetTop - e.currentTarget.parentNode.parentNode.parentNode.scrollTop - 15
       })
     }
   }
@@ -146,6 +152,48 @@ const ArticleLayer = ({
     })
   }
 
+  const onLayerClickHandler = (e) => {
+    // console.debug('[ArticleLayer] @onLayerClickHandler', e)
+    // // eslint-disable-next-line
+    // debugger
+    // check if the user clicked on an anchor element (figure, table of simple anchor)
+    // in the markdown cell content.
+    if (e.target.nodeName === 'A') {
+      if (e.target.hasAttribute('data-idx')) {
+        e.preventDefault()
+        const targetCellIdx = parseInt(e.target.getAttribute('data-idx'), 10)
+        const targetCell = paragraphs.find(p => p.idx === targetCellIdx)
+        const cellElement = document.getElementById(getCellAnchorFromIdx(targetCellIdx, targetCell.layer))
+        if (!cellElement) {
+          console.warn('Not found! celleElment with given id:', selectedCellIdx)
+          return
+        }
+        // get cell idx where the event was generated.
+        const wrapper = e.target.closest('.ArticleLayer_paragraphWrapper')
+        const sourceCellidx = parseInt(wrapper.getAttribute('data-cell-idx'), 10)
+        const sourceCellLayer = wrapper.getAttribute('data-cell-layer')
+        console.debug(
+          '[ArticleLayer] @onLayerClickHandler:',
+          '\n - target:', targetCellIdx, targetCell.layer,
+          '\n - source:', sourceCellidx, sourceCellLayer
+        )
+      onAnchorClick(e, {
+          layer: targetCell.layer,
+          idx: targetCell.idx,
+          previousIdx: sourceCellidx,
+          previousLayer: sourceCellLayer,
+          height, // ref height
+          y: wrapper.offsetTop - wrapper.parentNode.scrollTop - 15
+        })
+      }
+    }
+    if (!e.target.classList.contains('ArticleCellContent_num')) {
+      setPopupProps.start({
+        opacity: 0
+      })
+    }
+  }
+
   useEffect(() => {
     const layerLevel = layers.indexOf(layer)
     if (layerLevel === 0) {
@@ -165,7 +213,7 @@ const ArticleLayer = ({
     <a.div ref={layerRef} className={`text-old-${layer} ${cx('mask', layer)}`} style={{
       ...style,
       clipPath: mask.clipPath.to(layerTransition),
-    }} >
+    }} onClick={onLayerClickHandler}>
       <div className={cx('pushFixed', layer)}></div>
       <div className={styles.push}></div>
       <ArticleCellPopup style={popupProps} onClick={onCellPopupClickHandler}/>
@@ -221,16 +269,18 @@ const ArticleLayer = ({
             return (
               <React.Fragment  key={[i,j].join('-')}>
               <a className='ArticleLayer_anchor' id={getCellAnchorFromIdx(cell.idx,layer)}></a>
-              <div className={`ArticleLayer_paragraphWrapper ${styles.paragraphWrapper}`}>
-
-
+              <div
+                className={`ArticleLayer_paragraphWrapper ${styles.paragraphWrapper}`}
+                data-cell-idx={cell.idx}
+                data-cell-layer={cell.layer}
+              >
                 <div className={cx('cellActive', firstCellInGroup.idx === selectedCellIdx || cell.idx === selectedCellIdx ? 'on' : 'off' )} />
                 <ArticleCellObserver
                   onCellIntersectionChange={onCellIntersectionChange}
                   cell={cell}
                   className="ArticleStream_paragraph"
                 >
-                  { cell.idx === selectedCellIdx && previousLayer !== '' && previousLayer !== layer ? (
+                  { cell.idx === selectedCellIdx && previousLayer !== '' && previousLayer !== layer && previousCellIdx !== cell.idx? (
                     <Button
                       size="sm"
                       variant="outline-secondary"
