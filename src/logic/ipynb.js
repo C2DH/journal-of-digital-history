@@ -49,6 +49,7 @@ const renderMarkdownWithReferences = ({
   const references = []
   // console.info('markdownParser.render', markdownParser.render(sources))
   const content = markdownParser.render(sources)
+    .replace(/&lt;a[^&]*&gt;(.*)&lt;\/a&gt;/g, '')
     // replace links "figure-" add data-idx attribute containing a figure id
     .replace(/<a href="#((figure|table|anchor)-[^"]+)">/g, (m, anchorRef) => {
       const ref = anchorRef.indexOf('anchor-') !== -1
@@ -257,7 +258,7 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
     }
     if (anchorRef) {
       anchors.push(new ArticleAnchor({ ref: anchorRef, idx }))
-    } 
+    }
     cell.source = Array.isArray(cell.source)
       ? cell.source
       : [cell.source]
