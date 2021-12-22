@@ -35,6 +35,10 @@ $breakpoint-lg: 992px;
   &.level_H3, &.level_H4, &.level_H5, &.level_H6{
     top: 20px;
   }
+  &.selectable{
+    cursor: pointer;
+    text-decoration: underline;
+  }
 }
 
 .ArticleCellContent_idx {
