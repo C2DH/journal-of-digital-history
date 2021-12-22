@@ -6,7 +6,8 @@ import {
   LayerNarrative,
   DisplayLayerCellIdxQueryParam,
   DisplayLayerCellTopQueryParam,
-  DisplayPreviousLayerQueryParam
+  DisplayPreviousLayerQueryParam,
+  DisplayLayerHeightQueryParam
 } from '../../constants'
 import { useArticleToCStore } from '../../store'
 
@@ -29,16 +30,18 @@ const ArticleLayers = ({
     [DisplayLayerCellIdxQueryParam]:selectedCellIdx,
     [DisplayLayerCellTopQueryParam]: selectedCellTop,
     [DisplayPreviousLayerQueryParam]: previousLayer,
+    [DisplayLayerHeightQueryParam]: layerHeight,
   }, setQuery] = useQueryParams({
     [DisplayLayerCellIdxQueryParam]: withDefault(NumberParam, -1),
     [DisplayLayerQueryParam]: withDefault(StringParam, LayerNarrative),
     [DisplayLayerCellTopQueryParam]: withDefault(NumberParam, 0),
     [DisplayPreviousLayerQueryParam]: StringParam,
+    [DisplayLayerHeightQueryParam]: withDefault(NumberParam, -1),
   })
 
   // const [springs, api] = useSprings(layers.length, fn(order.current)) // Create springs, each corresponds to an item, controlling its transform, scale, etc.
 
-  const onCellPlaceholderClickHandler = (e, { layer, idx, y }) => {
+  const onCellPlaceholderClickHandler = (e, { layer, idx, y, height:h }) => {
     console.debug('[ArticleLayers] @onCellPlaceholderClickHandler:', layer, idx, y)
     // replaceIn not to trgger the changes. This is helpful whenever the user
     // hits the back Button in the browser (or uses the swipe left on mobile)
@@ -47,6 +50,7 @@ const ArticleLayers = ({
       [DisplayLayerCellIdxQueryParam]: idx,
       [DisplayLayerCellTopQueryParam]: y,
       [DisplayPreviousLayerQueryParam]: previousLayer,
+      [DisplayLayerHeightQueryParam]: layerHeight
     }, 'replaceIn')
     // this query
     setQuery({
@@ -54,6 +58,7 @@ const ArticleLayers = ({
       [DisplayLayerCellIdxQueryParam]: idx,
       [DisplayLayerCellTopQueryParam]: y,
       [DisplayPreviousLayerQueryParam]: selectedLayer,
+      [DisplayLayerHeightQueryParam]: h
     })
     if (typeof onCellPlaceholderClick === 'function') {
       onCellPlaceholderClick(e, { layer, idx, y })
@@ -80,6 +85,7 @@ const ArticleLayers = ({
         onCellIntersectionChange={onCellIntersectionChange}
         selectedCellIdx={selectedCellIdx}
         selectedCellTop={selectedCellTop}
+        selectedLayerHeight={layerHeight}
         isSelected={selectedLayer === layer}
         selectedLayer={selectedLayer}
         previousLayer={previousLayer}
