@@ -1,7 +1,6 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { useQueryParams, withDefault, NumberParam, StringParam } from 'use-query-params'
-import { Bookmark } from 'react-feather'
-import { Button } from 'react-bootstrap'
 import { useArticleToCStore } from '../../store'
 import {
   LayerHermeneutics,
@@ -12,15 +11,17 @@ import {
   DisplayPreviousLayerQueryParam,
 } from '../../constants'
 import ArticleToCStep from './ArticleToCStep'
-
+import ArticleToCBookmark from './ArticleToCBookmark'
 
 const ArticleToC = ({
   memoid='',
   layers=[],
   paragraphs=[],
   headingsPositions=[],
+  binderUrl=null,
   width=100
 }) => {
+  const { t } = useTranslation()
   const visibleCellsIdx = useArticleToCStore(state=>state.visibleCellsIdx)
 
   const [{
@@ -110,7 +111,8 @@ const ArticleToC = ({
   const onBookmarkClickHandler = () => {
     setQuery({
       [DisplayLayerCellIdxQueryParam]: selectedCellIdx,
-      [DisplayPreviousLayerQueryParam]: undefined
+      [DisplayPreviousLayerQueryParam]: undefined,
+      [DisplayLayerCellTopQueryParam]: 100
     })
   }
   return (
@@ -121,6 +123,9 @@ const ArticleToC = ({
           [DisplayLayerQueryParam]: d
         })}>{selectedLayer === d ? <b>{d}</b>: d}</div>
       ))}
+      <p className="text-dark py-2 mb-0 me-5" style={{ fontSize: '10px'}} dangerouslySetInnerHTML={{
+        __html: binderUrl ? t('actions.gotoBinder', { binderUrl }) : t('errors.binderUrlNotAvailable')
+      }}/>
     </div>
     <div className="flex-grow-1 border-bottom mb-3 border-dark" style={{ overflow: "scroll"}}>
       {steps.map((step, i) => {
@@ -130,19 +135,14 @@ const ArticleToC = ({
         return (
           <div className="position-relative" key={i}>
           {showBookmark ? (
-            <Button
+            <ArticleToCBookmark
               onClick={onBookmarkClickHandler}
-              variant="secondary"
-              size="sm"
-              className="pill p-0 position-absolute pointer-events-auto border-top border-secondary top-0"
               style={{
-                width: 25,
-                height: 25,
-                right: 10,
-                lineHeight: '25px'
+                top: selectedCellIdx > step.cell.idx
+                  ? '100%'
+                : (selectedCellIdx < step.cell.idx ? 0 : '50%')
               }}
-            ><Bookmark size={14}/>
-            </Button>
+            />
           ): null}
           <ArticleToCStep
             width={width * .16}

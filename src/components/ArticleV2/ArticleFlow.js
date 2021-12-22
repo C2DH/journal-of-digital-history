@@ -1,5 +1,5 @@
 import React from 'react'
-import { LayerNarrative, LayerHermeneutics, LayerData, LayerHidden } from '../../constants'
+import { LayerNarrative, LayerHermeneutics, LayerHidden } from '../../constants'
 import ArticleLayers from './ArticleLayers'
 import ArticleToC from './ArticleToC'
 import styles from './ArticleFlow.module.css'
@@ -15,11 +15,11 @@ const ArticleFlow = ({
   // onCellClick,
   // onVisibilityChange
   // hasBibliography,
-  // binderUrl,
+  binderUrl=null,
   // emailAddress,
   headingsPositions=[],
   tocOffset=99,
-  layers=[LayerNarrative, LayerHermeneutics, LayerData],
+  layers=[LayerNarrative, LayerHermeneutics],
   children
 }) => {
   const setVisibleCell = useArticleToCStore(store => store.setVisibleCell)
@@ -64,6 +64,7 @@ const ArticleFlow = ({
       height: height - tocOffset
     }}>
       <ArticleToC
+        binderUrl={binderUrl}
         layers={layers}
         memoid={memoid}
         paragraphs={paragraphs}
