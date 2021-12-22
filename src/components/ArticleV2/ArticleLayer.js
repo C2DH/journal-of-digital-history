@@ -86,11 +86,12 @@ const ArticleLayer = ({
 
   const onCellPlaceholderClickHandler = (e, cell) => {
     if (typeof onCellPlaceholderClick === 'function') {
+      const wrapper = e.currentTarget.closest('.ArticleLayer_placeholderWrapper')
       onCellPlaceholderClick(e, {
         layer: cell.layer,
         idx: cell.idx,
         height, // ref height
-        y: e.currentTarget.parentNode.parentNode.offsetTop - e.currentTarget.parentNode.parentNode.parentNode.scrollTop - 15
+        y: wrapper.offsetTop - wrapper.parentNode.scrollTop - 15
       })
     } else {
       console.warn('[ArticleLayer] misses a onCellPlaceholderClick listener')
@@ -143,6 +144,20 @@ const ArticleLayer = ({
     })
   }
 
+  const onCellPlaceholderNumClickHandler = (e, cell) => {
+    const wrapper = e.currentTarget.closest('.ArticleLayer_placeholderWrapper')
+
+    console.debug('[ArticleLayer] @onCellPlaceholderNumClickHandler', cell)
+    onAnchorClick(e, {
+      idx: cell.idx,
+      layer: cell.layer,
+      height, // ref height
+      y: wrapper.offsetTop - wrapper.parentNode.scrollTop - 15,
+      previousLayer: selectedLayer,
+      previousIdx: cell.idx
+    })
+  }
+
   const onCellPopupClickHandler = (e, cell) => {
     console.debug('[ArticleLayer] @onCellPopupClickHandler', cell)
     onCellPlaceholderClick(e, {
@@ -178,7 +193,7 @@ const ArticleLayer = ({
         if (!wrapper){
           // nothing to do :(
           console.warn('ArticleLayer_paragraphWrapper Not found! Element is maybe a placeholder.', selectedCellIdx)
-          return 
+          return
         }
         const sourceCellidx = parseInt(wrapper.getAttribute('data-cell-idx'), 10)
         const sourceCellLayer = wrapper.getAttribute('data-cell-layer')
@@ -241,7 +256,7 @@ const ArticleLayer = ({
               {paragraphsIndices.map((k) => (
                 <a key={['a', k].join('-')} className={styles.anchor} id={getCellAnchorFromIdx(paragraphs[k].idx, layer)}></a>
               ))}
-              <div className={`position-relative ${cx('placeholder', layer, firstCellInGroup.layer)}`}>
+              <div className={`ArticleLayer_placeholderWrapper position-relative ${cx('placeholder', layer, firstCellInGroup.layer)}`}>
                 <div className={cx('placeholderActive', layer )} />
                 {paragraphsIndices.slice(0,2).map((j) => (
                   <ArticleCellObserver
@@ -251,9 +266,11 @@ const ArticleLayer = ({
                     className="ArticleStream_paragraph"
                   >
                     <ArticleCellPlaceholder
+                      onNumClick={onCellPlaceholderNumClickHandler}
                       memoid={memoid}
                       {...paragraphs[j]}
                       headingLevel={paragraphs[j].isHeading ? paragraphs[j].heading.level : 0}
+                      nums={firstCellInGroup.idx !== paragraphs[j].idx ? [paragraphs[j].num] : paragraphsIndices.map(d => paragraphs[d].num)}
                     />
                   </ArticleCellObserver>
                 ))}
