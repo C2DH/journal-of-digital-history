@@ -5,7 +5,7 @@ const ArticleToCBookmark = ({ onClick, style, children }) => {
   return(
     <div className="ArticleToCBookmark p-0 position-absolute pointer-events-auto border-top border-secondary" style={{
       ...style,
-      width: 35,
+      width: 22,
       height: 1,
       right: 10,
       backgroundColor: 'var(--dark)',
