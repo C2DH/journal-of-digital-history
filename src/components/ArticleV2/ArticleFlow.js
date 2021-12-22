@@ -33,7 +33,7 @@ const ArticleFlow = ({
       if (cell.layer === LayerHidden) {
         return
       }
-      if (i > 0 && (cell.layer !== previousLayer || cell.isHeading)) {
+      if (i > 0 && (cell.layer !== previousLayer || cell.isHeading || cell.isFigure || cell.isTable )) {
         buffers.push([...buffer])
         buffer = []
       }
