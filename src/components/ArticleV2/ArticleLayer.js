@@ -3,10 +3,11 @@ import { LayerNarrative } from '../../constants'
 import ArticleCell from '../Article/ArticleCell'
 import ArticleCellObserver from './ArticleCellObserver'
 import ArticleCellPlaceholder from './ArticleCellPlaceholder'
+import ArticleCellPopup from './ArticleCellPopup'
 import {a, useSpring, config} from 'react-spring'
 import { useRefWithCallback } from '../../hooks/graphics'
 import { Button } from 'react-bootstrap'
-import { ArrowRight, ArrowLeft, Bookmark } from 'react-feather'
+import { ArrowRight, ArrowLeft } from 'react-feather'
 import styles from './ArticleLayer.module.css'
 
 function getCellAnchorFromIdx(idx, prefix='c') {
@@ -31,6 +32,7 @@ const ArticleLayer = ({
   // index of selected cell  (cell.idx)
   selectedCellIdx=-1,
   selectedCellTop=0,
+  selectedLayerHeight=-1,
   onCellPlaceholderClick,
   onCellIntersectionChange,
   isSelected=false,
@@ -42,6 +44,14 @@ const ArticleLayer = ({
   style,
   FooterComponent = function({ width, height }) { return <div style={{width, height}} />},
 }) => {
+  const [popupProps, setPopupProps] = useSpring(() => ({
+    x: 0,
+    y: 0,
+    opacity: 0,
+    cellIdx: -1,
+    cellLayer: '',
+    config: config.stiff
+  }))
   const [mask, setMask] = useSpring(() => ({
     clipPath: [width, 0, width, height], x:0, y:0,
     config: config.slow
@@ -56,8 +66,19 @@ const ArticleLayer = ({
       console.warn('Not found! celleElment with given id:', selectedCellIdx)
       return
     }
-    console.debug('[ArticleLayer] useRefWithCallback:', selectedCellIdx, layer, 'selectedCellTop', selectedCellTop, cellElement.offsetTop, getCellAnchorFromIdx(selectedCellIdx, layer))
-    layerDiv.scrollTo({ top: cellElement.offsetTop + layerDiv.offsetTop - selectedCellTop })
+    // if the current layer height is greater than the height ref in the URL params,
+    // it means we can safely scroll to the selectedcellTop position displayed in the URL.
+    const cellElementRefTop = height >= selectedLayerHeight
+      ? selectedCellTop
+      : selectedLayerHeight/2
+    const top = cellElement.offsetTop + layerDiv.offsetTop - cellElementRefTop
+    console.debug(
+      '[ArticleLayer] useRefWithCallback',
+      '\n selectedCellIdx:', selectedCellIdx,
+      '\n layer', layer,
+      '\n scrollTo:', top
+    )
+    layerDiv.scrollTo({ top, behavior: previousLayer === selectedLayer ? 'smooth': 'instant' })
   })
 
   const onCellPlaceholderClickHandler = (e, cell) => {
@@ -79,17 +100,61 @@ const ArticleLayer = ({
         layer: previousLayer,
         idx: cell.idx,
         height, // ref height
-        y: e.currentTarget.parentNode.offsetTop - e.currentTarget.parentNode.parentNode.scrollTop - 15
+        y: e.currentTarget.parentNode.parentNode.offsetTop - e.currentTarget.parentNode.parentNode.parentNode.scrollTop - 15
       })
     }
   }
 
+  /**
+   * method onNumClickHandler
+   * update the Animatable properties of ArticleCellPopup component. We add there also
+   * the current cell idx and cell layer (yes, it should be better placed in a ref @todo)
+   */
+  const onNumClickHandler = (e, cell) =>  {
+    const wrapper = e.currentTarget.closest('.ArticleLayer_paragraphWrapper')
+    setPopupProps.start({
+      from: {
+        x: e.currentTarget.parentNode.offsetLeft,
+        y: wrapper.offsetTop,
+        opacity:.6,
+        cellIdx: cell.idx,
+        cellLayer: cell.layer,
+      },
+      to:{
+        x: e.currentTarget.parentNode.offsetLeft,
+        y: wrapper.offsetTop - 10,
+        opacity:1,
+        cellIdx: cell.idx,
+        cellLayer: cell.layer
+      }
+    })
+    onCellPlaceholderClick(e, {
+      layer: cell.layer,
+      idx: cell.idx,
+      height, // ref height
+      y: wrapper.offsetTop - wrapper.parentNode.scrollTop - 15
+    })
+  }
+
+  const onCellPopupClickHandler = (e, cell) => {
+    console.debug('[ArticleLayer] @onCellPopupClickHandler', cell)
+    onCellPlaceholderClick(e, {
+      layer: cell.layer,
+      idx: cell.idx,
+      height, // ref height
+      y: 100
+    })
+  }
+
   useEffect(() => {
-    if (layers.indexOf(layer) <= layers.indexOf(selectedLayer)) {
-      console.info('open', layer, layers.indexOf(selectedLayer), layers.indexOf(layer))
+    const layerLevel = layers.indexOf(layer)
+    if (layerLevel === 0) {
+      setMask.set({ clipPath: [0, 0, width, height], x:-width, y:0 })
+    } else if (layerLevel <= layers.indexOf(selectedLayer)) {
+      console.info('open', layer, layers.indexOf(selectedLayer), layerLevel)
       setMask.start({ clipPath: [0, 0, width, height], x:-width, y:0 })
-    } else if (layers.indexOf(layer) > layers.indexOf(selectedLayer)) {
-      console.info('close', layer, layers.indexOf(selectedLayer), layers.indexOf(layer))
+    } else if (layerLevel > layers.indexOf(selectedLayer)) {
+      console.info('close', layer, layers.indexOf(selectedLayer), layerLevel)
       setMask.start({ clipPath: [width, 0, width, height], x:0, y:0 })
     }
   }, [isSelected, layer, layers])
@@ -103,7 +168,9 @@ const ArticleLayer = ({
     }} >
       <div className={cx('pushFixed', layer)}></div>
       <div className={styles.push}></div>
+      <ArticleCellPopup style={popupProps} onClick={onCellPopupClickHandler}/>
       {children}
+
       {paragraphsGroups.map((paragraphsIndices, i) => {
         const firstCellInGroup = paragraphs[paragraphsIndices[0]]
         const isPlaceholder = firstCellInGroup.layer !== layer
@@ -113,13 +180,14 @@ const ArticleLayer = ({
               {paragraphsIndices.map((k) => (
                 <a key={['a', k].join('-')} className={styles.anchor} id={getCellAnchorFromIdx(paragraphs[k].idx, layer)}></a>
               ))}
-              <div className={`position-relative ArticleStream_paragraph ${cx('placeholder', layer, firstCellInGroup.layer)}`}>
+              <div className={`position-relative ${cx('placeholder', layer, firstCellInGroup.layer)}`}>
+                <div className={cx('placeholderActive', layer )} />
                 {paragraphsIndices.slice(0,2).map((j) => (
                   <ArticleCellObserver
                     onCellIntersectionChange={onCellIntersectionChange}
                     cell={paragraphs[j]}
                     key={[i,j].join('-')}
-                    className=""
+                    className="ArticleStream_paragraph"
                   >
                     <ArticleCellPlaceholder
                       memoid={memoid}
@@ -129,9 +197,7 @@ const ArticleLayer = ({
                   </ArticleCellObserver>
                 ))}
                 <div className={cx('placeholderGradient', layer, firstCellInGroup.layer)} />
-                <div className={cx('placeholderActive', layer, firstCellInGroup.idx === selectedCellIdx ? 'on' : 'off' )}>
-                  <Bookmark size={14}/>
-                </div>
+
                 <div className={styles.placeholderButton}>
                   <Button variant="outline-secondary" size="sm" className="d-flex align-items-center" onClick={(e) => onCellPlaceholderClickHandler(e, firstCellInGroup)}>
                     read in {firstCellInGroup.layer} layer
@@ -153,16 +219,17 @@ const ArticleLayer = ({
               debugger
             }
             return (
-              <React.Fragment key={[i,j].join('-')}>
-                <a className='ArticleLayer_anchor' id={getCellAnchorFromIdx(cell.idx,layer)}></a>
+              <React.Fragment  key={[i,j].join('-')}>
+              <a className='ArticleLayer_anchor' id={getCellAnchorFromIdx(cell.idx,layer)}></a>
+              <div className={`ArticleLayer_paragraphWrapper ${styles.paragraphWrapper}`}>
+
+
+                <div className={cx('cellActive', firstCellInGroup.idx === selectedCellIdx || cell.idx === selectedCellIdx ? 'on' : 'off' )} />
                 <ArticleCellObserver
                   onCellIntersectionChange={onCellIntersectionChange}
                   cell={cell}
-                  className="position-relative ArticleStream_paragraph"
+                  className="ArticleStream_paragraph"
                 >
-                  <div className={cx('cellActive', cell.idx === selectedCellIdx ? 'on' : 'off' )}>
-                  <Bookmark size={14}/>
-                  </div>
                   { cell.idx === selectedCellIdx && previousLayer !== '' && previousLayer !== layer ? (
                     <Button
                       size="sm"
@@ -170,28 +237,21 @@ const ArticleLayer = ({
                       className={styles.cellActiveBackButton}
                       onClick={(e) => onSelectedCellClickHandler(e, cell)}
                     >
-                      <ArrowLeft size={16} /> back to [{previousLayer}]
+                      <ArrowLeft size={16} /> back
                     </Button>
                   ) : null}
-                  {/* debug && selectedCellIdx === cell.idx && previousLayer ? (
-                    <div className="position-absolute left-0">
-                      <button onClick={(e) => onOtherLayerCellClickHandler(e, cell, previousLayer) }>back to the other layer</button>
-                    </div>
-                  ):null */}
-                  {/* debug && selectedCellIdx === cell.idx && nextLayer ? (
-                    <div className="position-absolute right-0">
-                      <button onClick={(e) => onOtherLayerCellClickHandler(e, cell, nextLayer) }>go to the next layer</button>
-                    </div>
-                  ):null */}
                   <ArticleCell
+                    onNumClick={onNumClickHandler}
                     memoid={memoid}
                     {...cell}
                     num={cell.num}
                     idx={cell.idx}
                     role={cell.role}
+                    layer={cell.layer}
                     headingLevel={cell.isHeading ? cell.heading.level : 0}
                   />
                 </ArticleCellObserver>
+              </div>
               </React.Fragment>
             )
           })}
