@@ -138,9 +138,11 @@ const ArticleLayer = ({
         cellLayer: cell.layer
       }
     })
-    onCellPlaceholderClick(e, {
+    onAnchorClick(e, {
       layer: cell.layer,
       idx: cell.idx,
+      previousLayer: cell.layer,
+      previousIdx: cell.idx,
       height, // ref height
       y: wrapper.offsetTop - wrapper.parentNode.scrollTop - 15
     })
@@ -259,7 +261,7 @@ const ArticleLayer = ({
                 <a key={['a', k].join('-')} className={styles.anchor} id={getCellAnchorFromIdx(paragraphs[k].idx, layer)}></a>
               ))}
               <div className={`ArticleLayer_placeholderWrapper position-relative ${cx('placeholder', layer, firstCellInGroup.layer)}`}>
-                <div className={cx('placeholderActive', layer )} />
+                <div className={cx('placeholderActive', layer, firstCellInGroup.idx ===  selectedCellIdx? 'on' : 'off')} />
                 {paragraphsIndices.slice(0,2).map((j) => (
                   <ArticleCellObserver
                     onCellIntersectionChange={onCellIntersectionChange}
@@ -315,7 +317,7 @@ const ArticleLayer = ({
                   { cell.idx === selectedCellIdx && previousLayer !== '' && previousLayer !== layer ? (
                     <Button
                       size="sm"
-                      variant="outline-secondary"
+                      variant="secondary"
                       className={styles.cellActiveBackButton}
                       onClick={(e) => onSelectedCellClickHandler(e, cell)}
                     >
