@@ -43,10 +43,13 @@
 
 .anchor{
   position: relative;
+  height: 0;
+  overflow: hidden;
 }
 .placeholder{
   max-height: 200px;
   overflow: hidden;
+  position: relative;
 }
 .placeholderGradient{
   position: absolute;
@@ -91,7 +94,7 @@
 }
 .placeholderGradient_hermeneutics_narrative{
   composes: placeholderGradient;
-  background: linear-gradient(180deg, #B1FBEC99 0%, #B1FBECff 90%);
+  background: linear-gradient(180deg, #B1FBEC00 0%, #B1FBECff 50%);
 }
 .placeholderGradient_data_narrative{
   composes: placeholderGradient;
@@ -105,31 +108,34 @@
 
 .placeholderActive {
   position: absolute;
-  left: var(--spacer-2);
+  left: 0;
   background: transparent;
   height: 100%;
-  right: 20%;
+  right: 16%;
   z-index: -1;
   top: 0;
 }
-/* .placeholderActive:after{
+.placeholderActive:after{
   content: '';
   position: absolute;
-  top: 5px;
-  left: 5px;
+  top: 0px;
+  left: 0px;
   width: 2px;
   background: var(--dark);
-  bottom: 5px;
-} */
+  bottom: 0px;
+  z-index: 1000;
+}
 .placeholderActive_narrative_on,
 .placeholderActive_hermeneutics_on,
-.placeholderActive_data_on, .cellActive_on{
-  border-top: 1px solid;
-  /* border-bottom: 1px double; */
+.placeholderActive_data_on,
+.cellActive_on{
+  /* border-top: 1px solid; */
   composes: placeholderActive;
   /* background: #ffffff77; */
 }
-.placeholderActive_off, .cellActive_off{
+.placeholderActive_narrative_off,
+.placeholderActive_hermeneutics_off,
+.placeholderActive_data_off, .cellActive_off{
   composes: placeholderActive;
   background: transparent;
   opacity: 0;
@@ -138,5 +144,11 @@
   position: absolute;
   left: 25px;
   top: var(--spacer-2);
+  /* border-radius: 20px; */
   /* border-radius: 100%; */
+}
+
+.paragraphWrapper{
+  position: relative;
+  overflow: auto;
 }
