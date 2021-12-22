@@ -33,6 +33,7 @@ const ArticleLayer = ({
   selectedCellIdx=-1,
   selectedCellTop=0,
   selectedLayerHeight=-1,
+  onDataHrefClick,
   onCellPlaceholderClick,
   onCellIntersectionChange,
   onAnchorClick,
@@ -159,7 +160,11 @@ const ArticleLayer = ({
     // check if the user clicked on an anchor element (figure, table of simple anchor)
     // in the markdown cell content.
     if (e.target.nodeName === 'A') {
-      if (e.target.hasAttribute('data-idx')) {
+      if (e.target.hasAttribute('data-href')) {
+        // link to bibliography :)
+        const dataHref = e.target.getAttribute('data-href')
+        onDataHrefClick({ dataHref })
+      } else if (e.target.hasAttribute('data-idx')) {
         e.preventDefault()
         const targetCellIdx = parseInt(e.target.getAttribute('data-idx'), 10)
         const targetCell = paragraphs.find(p => p.idx === targetCellIdx)
@@ -177,7 +182,7 @@ const ArticleLayer = ({
           '\n - target:', targetCellIdx, targetCell.layer,
           '\n - source:', sourceCellidx, sourceCellLayer
         )
-      onAnchorClick(e, {
+        onAnchorClick(e, {
           layer: targetCell.layer,
           idx: targetCell.idx,
           previousIdx: sourceCellidx,
@@ -186,7 +191,10 @@ const ArticleLayer = ({
           y: wrapper.offsetTop - wrapper.parentNode.scrollTop - 15
         })
       }
+    } else {
+      onDataHrefClick({})
     }
+
     if (!e.target.classList.contains('ArticleCellContent_num')) {
       setPopupProps.start({
         opacity: 0

@@ -15,6 +15,7 @@ const ArticleFlow = ({
   // onCellClick,
   // onVisibilityChange
   // hasBibliography,
+  onDataHrefClick,
   binderUrl=null,
   // emailAddress,
   headingsPositions=[],
@@ -50,7 +51,7 @@ const ArticleFlow = ({
     console.debug('[ArticleFlow] @onPlaceholderClickHandler', e,cell)
   }
   const onCellIntersectionChangeHandler = ({ idx, isIntersecting }) => {
-    console.debug('[ArticleFlow] @onCellIntersectionChangeHandler', idx)
+    // console.debug('[ArticleFlow] @onCellIntersectionChangeHandler', idx)
     setVisibleCell(idx, isIntersecting)
   }
   console.debug(`[ArticleFlow] component rendered, size: ${width}x${height}px`)
@@ -82,6 +83,7 @@ const ArticleFlow = ({
       <ArticleLayers
         layers={layers}
         onPlaceholderClick={onPlaceholderClickHandler}
+        onDataHrefClick={onDataHrefClick}
         onCellIntersectionChange={onCellIntersectionChangeHandler}
         paragraphsGroups={paragraphsGroups}
         paragraphs={paragraphs}

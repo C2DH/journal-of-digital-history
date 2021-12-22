@@ -21,6 +21,7 @@ const ArticleLayers = ({
   height=0,
   onCellPlaceholderClick,
   onCellIntersectionChange,
+  onDataHrefClick,
   children,
 }) => {
   const clearVisibleCellsIdx = useArticleToCStore(store => store.clearVisibleCellsIdx)
@@ -102,6 +103,7 @@ const ArticleLayers = ({
         previousLayerIdx={i > 0 ? layers[i-1] : null}
         nextLayer={i < layers.length - 1 ? layers[i+1]: null}
         onCellPlaceholderClick={onCellPlaceholderClickHandler}
+        onDataHrefClick={onDataHrefClick}
         onAnchorClick={onAnchorClickHandler}
         onCellIntersectionChange={onCellIntersectionChange}
         selectedCellIdx={selectedCellIdx}
