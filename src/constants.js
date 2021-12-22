@@ -121,6 +121,7 @@ export const FigureRefPrefix = 'figure-'
 export const CoverRefPrefix = 'cover'
 export const TableRefPrefix = 'table-'
 export const QuoteRefPrefix = 'quote-'
+export const AnchorRefPrefix = 'anchor-'
 // display Layer to enable switch between layers
 export const DisplayLayerHermeneutics = 'h'
 export const DisplayLayerNarrative = 'n'
