@@ -175,6 +175,11 @@ const ArticleLayer = ({
         }
         // get cell idx where the event was generated.
         const wrapper = e.target.closest('.ArticleLayer_paragraphWrapper')
+        if (!wrapper){
+          // nothing to do :(
+          console.warn('ArticleLayer_paragraphWrapper Not found! Element is maybe a placeholder.', selectedCellIdx)
+          return 
+        }
         const sourceCellidx = parseInt(wrapper.getAttribute('data-cell-idx'), 10)
         const sourceCellLayer = wrapper.getAttribute('data-cell-layer')
         console.debug(
