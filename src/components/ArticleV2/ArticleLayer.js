@@ -87,9 +87,11 @@ const ArticleLayer = ({
   const onCellPlaceholderClickHandler = (e, cell) => {
     if (typeof onCellPlaceholderClick === 'function') {
       const wrapper = e.currentTarget.closest('.ArticleLayer_placeholderWrapper')
-      onCellPlaceholderClick(e, {
+      onAnchorClick(e, {
         layer: cell.layer,
         idx: cell.idx,
+        previousIdx: cell.idx,
+        previousLayer: layer,
         height, // ref height
         y: wrapper.offsetTop - wrapper.parentNode.scrollTop - 15
       })
@@ -270,7 +272,7 @@ const ArticleLayer = ({
                       memoid={memoid}
                       {...paragraphs[j]}
                       headingLevel={paragraphs[j].isHeading ? paragraphs[j].heading.level : 0}
-                      nums={firstCellInGroup.idx !== paragraphs[j].idx ? [paragraphs[j].num] : paragraphsIndices.map(d => paragraphs[d].num)}
+                      nums={firstCellInGroup.idx !== paragraphs[j].idx ? [] : paragraphsIndices.map(d => paragraphs[d].num)}
                     />
                   </ArticleCellObserver>
                 ))}
@@ -310,7 +312,7 @@ const ArticleLayer = ({
                   cell={cell}
                   className="ArticleStream_paragraph"
                 >
-                  { cell.idx === selectedCellIdx && previousLayer !== '' && previousLayer !== layer && previousCellIdx !== cell.idx? (
+                  { cell.idx === selectedCellIdx && previousLayer !== '' && previousLayer !== layer ? (
                     <Button
                       size="sm"
                       variant="outline-secondary"

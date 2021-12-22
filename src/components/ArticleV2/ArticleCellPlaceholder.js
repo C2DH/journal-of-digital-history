@@ -17,17 +17,19 @@ const ArticleCellPlaceholder = ({
   // isFigure=false
   onNumClick
 }) => {
-  const paragraphNumbers = nums.length === 1
-    ? nums[0]
-    : (
-      <span>
-        {nums[0]}
-        <br/>
-        <ArrowDown size={15}/>
-        <br/>
-        {nums[nums.length -1]}
-      </span>
-    )
+  const paragraphNumbers = nums.length
+    ? nums.length === 1
+      ? nums[0]
+      : (
+        <span>
+          {nums[0]}
+          <br/>
+          <ArrowDown size={15}/>
+          <br/>
+          {nums[nums.length -1]}
+        </span>
+      )
+    : null
   const onNumClickHandler = (e) => {
     onNumClick(e, {layer, idx})
   }
