@@ -11,21 +11,33 @@ import { IsMobile } from '../../constants'
 import '../../styles/components/IssueArticleGridItem.scss'
 
 
-const IssueArticleGridItem = ({ article={}, isFake=false, num=0, isEditorial, onMouseMove }) => {
+const IssueArticleGridItem = ({
+  article={}, isFake=false, num=0, isEditorial,
+    onMouseMove,
+    onMouseOut,
+    onClick,
+  }) => {
   const [{width: size }, ref] = useBoundingClientRect()
   const { title, keywords, excerpt, contributor } = extractMetadataFromArticle(article)
   const { t } = useTranslation()
   return (
-    <div className="IssueArticleGridItem" ref={ref}>
-        <LangLink to={isFake ? '#' : `/article/${article.abstract.pid}`}>
-        <div className={IsMobile ? 'half-squared': 'squared'} style={{
-          backgroundColor: 'transparent',
-          overflow: 'hidden'
-        }} >
-          <ArticleFingerprint onMouseMove={onMouseMove} stats={article.fingerprint?.stats}  cells={article.fingerprint?.cells}
-            size={IsMobile ? size/2 : size}/>
+    <div className="IssueArticleGridItem" ref={ref} onMouseOut={onMouseOut}>
+        <div
+          className={IsMobile ? 'half-squared': 'squared'}
+          onMouseOut={onMouseOut}
+          style={{
+            backgroundColor: 'transparent',
+            overflow: 'hidden'
+          }}
+        >
+          <ArticleFingerprint
+            onMouseMove={onMouseMove}
+            onClick={onClick}
+            stats={article.fingerprint?.stats}
+            cells={article.fingerprint?.cells}
+            size={IsMobile ? size/2 : size}
+          />
         </div>
-        </LangLink>
         {isEditorial ? <Badge bg="secondary" className="rounded">{t('editorial')}</Badge>: num}
         <h3 className="d-block mt-1 pb-0">
           <LangLink to={isFake ? '#' : `/article/${article.abstract.pid}`}>

@@ -1,16 +1,18 @@
 import React, { useRef } from 'react'
 import { Row, Col } from 'react-bootstrap'
+import { useHistory } from 'react-router'
 import { useGetJSON } from '../../logic/api/fetchData'
 import IssueArticleGridItem from './IssueArticleGridItem'
-import { StatusSuccess } from '../../constants'
+import { StatusSuccess, DisplayLayerCellIdxQueryParam } from '../../constants'
 import { a, useSpring, config} from 'react-spring'
 import {useBoundingClientRect} from '../../hooks/graphics'
 
 
 const IssueArticlesGrid = ({ issue, onError }) => {
   const [{ left }, ref] = useBoundingClientRect()
-  const [animatedProps, api] = useSpring(() => ({ x : 0, y: 0, opacity:1, config: config.stiff }))
-  const tooltipText = useRef('');
+  const history = useHistory()
+  const [animatedTooltipProps, tooltipApi] = useSpring(() => ({ x : 0, y: 0, opacity:1, config: config.stiff }))
+  const tooltipText = useRef({ idx: '', text: '', heading: ''});
   // console.info('IssueArticlesGrid', articles)
   const { data, error, status, errorCode } = useGetJSON({
     url: `/api/articles/?pid=${issue.pid}`
@@ -32,35 +34,70 @@ const IssueArticlesGrid = ({ issue, onError }) => {
       articles.push(data[i])
     }
   }
-  const handleMouseMove = (e, datum) => {
-    api.start({ x: e.clientX - left, y: e.clientY - 50, opacity: 1 })
-    tooltipText.current = (datum.firstWords || datum.countChars) + ' ...'
+  const onMouseMoveHandler = (e, datum, idx) => {
+    if( tooltipText.current.idx !== idx) {
+      tooltipText.current.text = datum.firstWords
+      tooltipText.current.idx = idx
+      tooltipText.current.heading = datum.firstWordsHeading || '?'
+      console.info('datum', datum)
+    }
+    tooltipApi.start({
+      x: e.clientX - left +ref.current.parentNode.offsetLeft,
+      y: e.clientY - 50,
+      color: datum.type === 'code'
+        ? 'var(--white)'
+        : datum.isHermeneutic
+          ? 'var(--secondary)'
+          : 'var(--white)',
+      backgroundColor: datum.type === 'code'
+        ? 'var(--accent)'
+        : datum.isHermeneutic
+          ? 'var(--primary)'
+          : 'var(--secondary)',
+      opacity: 1
+    })
   }
-  const handleMouseOut = () => {
-    api.start({ opacity: 0 })
+
+  const onClickHandler = (e, datum, idx, article) => {
+    e.stopPropagation()
+    console.info('clicked on me!', tooltipText.current?.idx, idx, article)
+    // link to specific cell in article
+    const url = `/en/article/${article.abstract.pid}?${DisplayLayerCellIdxQueryParam}=${idx}`
+    history.push(url);
   }
+  const onMouseOutHandler = () => {
+    tooltipApi.start({ opacity: 0 })
+  }
+
   return (
     <>
-    <a.div className="position-fixed top-0" style={{
-      zIndex:1000,
-      backgroundColor: 'var(--secondary)',
-      color: 'white',
-      borderRadius: 2,
-      padding: '0 var(--spacer-2)',
-      pointerEvents: 'none',
-      ...animatedProps
+    <a.div className="ArticleFingerprintTooltip position-fixed top-0" style={{
+      ...animatedTooltipProps
     }}>
-      <a.span>{animatedProps.x.to(() => String(tooltipText.current))}</a.span>
+      <a.span>{animatedTooltipProps.x.to(() => String(tooltipText.current.text))}</a.span>
     </a.div>
-    <Row ref={ref} >
+    <Row ref={ref}>
         {editorials.map((article, i) => (
           <Col key={i} lg={{ span: 4, offset:0}} md={{span:6, offset:0}} >
-            <IssueArticleGridItem onMouseOut={handleMouseOut} onMouseMove={handleMouseMove} article={article} isEditorial />
+            <IssueArticleGridItem
+              onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
+              onMouseOut={onMouseOutHandler}
+              onMouseMove={onMouseMoveHandler}
+              article={article}
+              isEditorial
+            />
           </Col>
         ))}
         {articles.map((article, i) => (
-          <Col key={i + editorials.length} lg={{ span: 4, offset:0}} onMouseOut={handleMouseOut} md={{span:6, offset:0}}>
-            <IssueArticleGridItem onMouseOut={handleMouseOut} onMouseMove={handleMouseMove} article={article} num={i+1} total={articles.length}/>
+          <Col key={i + editorials.length} lg={{ span: 4, offset:0}} onMouseOut={onMouseOutHandler} md={{span:6, offset:0}}>
+            <IssueArticleGridItem
+              onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
+              onMouseOut={onMouseOutHandler}
+              onMouseMove={onMouseMoveHandler}
+              article={article}
+              num={i+1}
+              total={articles.length}
+            />
           </Col>
         ))}
     </Row>
