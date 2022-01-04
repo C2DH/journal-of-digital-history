@@ -1,5 +1,5 @@
 import React from 'react'
-import { LayerNarrative, LayerHermeneutics, LayerData, LayerHidden } from '../../constants'
+import { LayerNarrative, LayerHermeneutics, LayerHidden } from '../../constants'
 import ArticleLayers from './ArticleLayers'
 import ArticleToC from './ArticleToC'
 import styles from './ArticleFlow.module.css'
@@ -15,11 +15,12 @@ const ArticleFlow = ({
   // onCellClick,
   // onVisibilityChange
   // hasBibliography,
-  // binderUrl,
+  onDataHrefClick,
+  binderUrl=null,
   // emailAddress,
   headingsPositions=[],
   tocOffset=99,
-  layers=[LayerNarrative, LayerHermeneutics, LayerData],
+  layers=[LayerNarrative, LayerHermeneutics],
   children
 }) => {
   const setVisibleCell = useArticleToCStore(store => store.setVisibleCell)
@@ -32,7 +33,7 @@ const ArticleFlow = ({
       if (cell.layer === LayerHidden) {
         return
       }
-      if (i > 0 && (cell.layer !== previousLayer || cell.isHeading)) {
+      if (i > 0 && (cell.layer !== previousLayer || cell.isHeading || cell.isFigure || cell.isTable )) {
         buffers.push([...buffer])
         buffer = []
       }
@@ -50,7 +51,7 @@ const ArticleFlow = ({
     console.debug('[ArticleFlow] @onPlaceholderClickHandler', e,cell)
   }
   const onCellIntersectionChangeHandler = ({ idx, isIntersecting }) => {
-    console.debug('[ArticleFlow] @onCellIntersectionChangeHandler', idx)
+    // console.debug('[ArticleFlow] @onCellIntersectionChangeHandler', idx)
     setVisibleCell(idx, isIntersecting)
   }
   console.debug(`[ArticleFlow] component rendered, size: ${width}x${height}px`)
@@ -64,6 +65,7 @@ const ArticleFlow = ({
       height: height - tocOffset
     }}>
       <ArticleToC
+        binderUrl={binderUrl}
         layers={layers}
         memoid={memoid}
         paragraphs={paragraphs}
@@ -81,6 +83,7 @@ const ArticleFlow = ({
       <ArticleLayers
         layers={layers}
         onPlaceholderClick={onPlaceholderClickHandler}
+        onDataHrefClick={onDataHrefClick}
         onCellIntersectionChange={onCellIntersectionChangeHandler}
         paragraphsGroups={paragraphsGroups}
         paragraphs={paragraphs}

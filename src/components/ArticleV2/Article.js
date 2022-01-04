@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useIpynbNotebookParagraphs } from '../../hooks/ipynb'
 import { useCurrentWindowDimensions } from '../../hooks/graphics'
 import ArticleHeader from '../Article/ArticleHeader'
+import ArticleNote from '../Article/ArticleNote'
 import ArticleFlow from './ArticleFlow'
 
 import { setBodyNoScroll } from '../../logic/viewport'
@@ -23,7 +24,7 @@ const Article = ({
   bibjson,
   emailAddress
 }) => {
-
+  const [selectedDataHref, setSelectedDataHref] = useState(null)
   const { height, width } =  useCurrentWindowDimensions()
   const articleTree = useIpynbNotebookParagraphs({
     id: url,
@@ -39,7 +40,12 @@ const Article = ({
     disclaimer = []
   } = articleTree.sections
   console.debug(`[Article] component rendered ${width}x${height}px`)
+  console.debug('[Article] loading articleTree anchors:', articleTree.anchors)
 
+  const onDataHrefClickHandler = (d) => {
+    console.debug('DataHref click handler')
+    setSelectedDataHref(d)
+  }
   useEffect(() => {
     setBodyNoScroll(true)
     return function() {
@@ -60,6 +66,7 @@ const Article = ({
         hasBibliography={typeof articleTree.bibliography === 'object'}
         binderUrl={binderUrl}
         emailAddress={emailAddress}
+        onDataHrefClick={onDataHrefClickHandler}
       >
         <ArticleHeader
           className="mt-5"
@@ -78,6 +85,11 @@ const Article = ({
           isPreview={false}
         />
       </ArticleFlow>
+      {articleTree.citationsFromMetadata
+        ? <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/>
+        : null
+      }
+
     </div>
     </>
   )

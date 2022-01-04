@@ -25,6 +25,7 @@ const ArticleCell = ({
   isNarrativeStep,
   figure, // ArticleFigure instance
   headingLevel=0, // if isHeading, set this to its ArticleHeading.level value
+  onNumClick,
 }) => {
   let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout;
   // we override or set the former layout if it appears in narrative-step
@@ -71,7 +72,14 @@ const ArticleCell = ({
       <Container >
         <Row>
           <Col className="ArticleCellQuote" {...BootstrapQuoteColumLayout}>
-            <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum} />
+            <ArticleCellContent
+              onNumClick={onNumClick}
+              layer={layer}
+              content={content}
+              idx={idx}
+              num={num}
+              hideNum={hideNum}
+            />
           </Col>
         </Row>
       </Container>
@@ -87,7 +95,13 @@ const ArticleCell = ({
           figureColumnLayout={cellObjectBootstrapColumnLayout}
           isNarrativeStep={isNarrativeStep}
         >
-          <ArticleCellContent layer={layer} content={content} idx={idx} num={num} />
+          <ArticleCellContent
+            onNumClick={onNumClick}
+            layer={layer}
+            content={content}
+            idx={idx}
+            num={num}
+          />
         </ArticleCellFigure>
       )
     }
@@ -95,7 +109,15 @@ const ArticleCell = ({
       <Container>
         <Row>
           <Col {... cellBootstrapColumnLayout}>
-            <ArticleCellContent headingLevel={headingLevel} hideNum={hideNum} layer={layer} content={content} idx={idx} num={num} />
+            <ArticleCellContent
+              headingLevel={headingLevel}
+              onNumClick={onNumClick}
+              hideNum={hideNum}
+              layer={layer}
+              content={content}
+              idx={idx}
+              num={num}
+            />
           </Col>
         </Row>
       </Container>
