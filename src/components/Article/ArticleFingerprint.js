@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { scalePow,  } from 'd3-scale'
 import { extent  } from 'd3-array'
 import ArticleFingerprintCellGraphics from './ArticleFingerprintCellGraphics'
@@ -15,7 +15,11 @@ const ArticleFingerprint = ({
   //
   variant='',
   onMouseMove,
+  onClick,
+  onMouseOut,
 }) => {
+  // reference value for the clicked idx
+  const cached = useRef({ idx: -1})
   // animated properties for current selected "datum"
   const [pointer, api] = useSpring(() => ({ theta : 0, idx:0, opacity: 0, config: config.stiff }))
   const radius = (size/2 - margin) * 2 / 3
@@ -57,12 +61,24 @@ const ArticleFingerprint = ({
     const datumIdx = Math.round(scaleTheta(theta))
     const idx = cells[datumIdx] ? datumIdx : 0
     const datum = cells[idx]
+    // save idx
+    cached.current.idx = idx
     api.start({ theta: theta - 90, idx, opacity: 1 })
     onMouseMove(e, datum, cells[datumIdx] ? datumIdx : 0 )
   }
 
   const mouseOutHandler = () => {
     api.start({ opacity: 0 })
+    if (typeof onMouseOut === 'function') {
+      onMouseOut()
+    }
+  }
+
+  const onClickHandler = (e) => {
+    if (typeof onClick === 'function' && cached.current.idx !== -1) {
+      const datum = cells[cached.current.idx]
+      onClick(e, datum, cached.current.idx)
+    }
   }
 
   if (cells.length===0) {
@@ -82,6 +98,7 @@ const ArticleFingerprint = ({
       width={size}
       height={size}
       onMouseMove={mouseMoveHander}
+      onClick={onClickHandler}
     >
       <g transform={`translate(${size/2}, ${size/2})`}>
         {debug // outer circle (narrative layer)
