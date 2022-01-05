@@ -1,12 +1,16 @@
 import React from 'react'
-import ArticleCellOutput from './ArticleCellOutput'
+import ArticleCellOutputs from './ArticleCellOutputs'
 import ArticleFigure from './ArticleFigure'
 import { markdownParser } from '../../logic/ipynb'
-import { useInjectTrustedJavascript } from '../../hooks/graphics'
 import {BootstrapColumLayout} from '../../constants'
 import { Container, Row, Col} from 'react-bootstrap'
 
-const ArticleCellFigure = ({ figure, metadata={}, outputs=[], sourceCode, figureColumnLayout, children }) => {
+const ArticleCellFigure = ({
+  figure, metadata={}, outputs=[], sourceCode,
+  isJavascriptTrusted,
+  figureColumnLayout,
+  children
+}) => {
   const isFluidContainer = figure.isCover || (metadata.tags && metadata.tags.includes('full-width'))
   const captions = outputs.reduce((acc, output) => {
     if (output.metadata && Array.isArray(output.metadata?.jdh?.object?.source)) {
@@ -30,35 +34,20 @@ const ArticleCellFigure = ({ figure, metadata={}, outputs=[], sourceCode, figure
     figureColumnLayout = { ...figureColumnLayout, ...metadata.jdh?.object?.bootstrapColumLayout }
   }
 
-  // use scripts if there areany
-  const trustedScripts = outputs.reduce((acc, output) => {
-    if (typeof output.data === 'object') {
-      if (Array.isArray(output.data['application/javascript'])) {
-        return acc.concat(output.data['application/javascript'])
-      }
-    }
-    return acc
-  }, [])
-
-  const refTrustedJavascript = useInjectTrustedJavascript({
-    id: `trusted-script-for-${figure.ref}`,
-    contents: trustedScripts
-  })
 
   return (
-    <div className="ArticleCellFigure" ref={refTrustedJavascript}>
+    <div className="ArticleCellFigure" >
     <Container fluid={isFluidContainer}>
       <Row>
         <Col {...columnLayout}>
-          <div >
+          <div>
             <div className="anchor" id={figure.ref} />
-          {!outputs.length ? (
-            <div className="ArticleCellFigure_no_output">
-            </div>
-          ): null}
-          {outputs.map((output,i) => (
-            <ArticleCellOutput hideLabel output={output} key={i} />
-          ))}
+            <ArticleCellOutputs
+              hideLabel
+              isJavascriptTrusted={isJavascriptTrusted}
+              cellIdx={figure.idx}
+              outputs={outputs}
+            />
           </div>
           {children}
         </Col>
