@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useIpynbNotebookParagraphs } from '../../hooks/ipynb'
 import { useCurrentWindowDimensions } from '../../hooks/graphics'
 import ArticleHeader from '../Article/ArticleHeader'
 import ArticleNote from '../Article/ArticleNote'
 import ArticleFlow from './ArticleFlow'
 
-import { setBodyNoScroll } from '../../logic/viewport'
 
 const Article = ({
   // pid,
@@ -46,12 +45,6 @@ const Article = ({
     console.debug('DataHref click handler')
     setSelectedDataHref(d)
   }
-  useEffect(() => {
-    setBodyNoScroll(true)
-    return function() {
-      setBodyNoScroll(false)
-    }
-  },[])
 
   return (
     <>
