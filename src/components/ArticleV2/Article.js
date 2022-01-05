@@ -21,7 +21,8 @@ const Article = ({
   doi,
   binderUrl,
   bibjson,
-  emailAddress
+  emailAddress,
+  isJavascriptTrusted=false
 }) => {
   const [selectedDataHref, setSelectedDataHref] = useState(null)
   const { height, width } =  useCurrentWindowDimensions()
@@ -60,6 +61,7 @@ const Article = ({
         binderUrl={binderUrl}
         emailAddress={emailAddress}
         onDataHrefClick={onDataHrefClickHandler}
+        isJavascriptTrusted={isJavascriptTrusted}
       >
         <ArticleHeader
           className="mt-5"

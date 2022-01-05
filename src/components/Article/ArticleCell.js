@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { Container, Row, Col} from 'react-bootstrap'
-import ArticleCellOutput from './ArticleCellOutput'
+import ArticleCellOutputs from './ArticleCellOutputs'
 import ArticleCellContent from './ArticleCellContent'
 import ArticleCellSourceCode from './ArticleCellSourceCode'
 import ArticleCellFigure from './ArticleCellFigure'
@@ -25,6 +25,7 @@ const ArticleCell = ({
   isNarrativeStep,
   figure, // ArticleFigure instance
   headingLevel=0, // if isHeading, set this to its ArticleHeading.level value
+  isJavascriptTrusted = false,
   onNumClick,
 }) => {
   let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout;
@@ -93,6 +94,7 @@ const ArticleCell = ({
           metadata={metadata}
           figure={figure}
           figureColumnLayout={cellObjectBootstrapColumnLayout}
+          isJavascriptTrusted={isJavascriptTrusted}
           isNarrativeStep={isNarrativeStep}
         >
           <ArticleCellContent
@@ -132,10 +134,12 @@ const ArticleCell = ({
           figure={figure}
           isNarrativeStep={isNarrativeStep}
           figureColumnLayout={cellObjectBootstrapColumnLayout}
+          isJavascriptTrusted={isJavascriptTrusted}
           sourceCode={<ArticleCellSourceCode toggleVisibility content={content} language="python"/>}
         ></ArticleCellFigure>
       )
     }
+
     return (
       <Container>
         <Row>
@@ -143,10 +147,11 @@ const ArticleCell = ({
             <div className="ArticleCellContent">
               <div className="ArticleCellContent_num"></div>
               <ArticleCellSourceCode visible content={content} language="python" />
-              {outputs.length
-                ? outputs.map((output,i) => <ArticleCellOutput cellIdx={idx} output={output} key={i} />)
-                : <div className="ArticleCellSourceCode_no_output">no output</div>
-              }
+              <ArticleCellOutputs
+                isJavascriptTrusted={false}
+                cellIdx={idx}
+                outputs={outputs}
+              />
             </div>
           </Col>
         </Row>

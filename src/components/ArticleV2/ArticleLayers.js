@@ -22,6 +22,7 @@ const ArticleLayers = ({
   onCellPlaceholderClick,
   onCellIntersectionChange,
   onDataHrefClick,
+  isJavascriptTrusted=false,
   children,
 }) => {
   const clearVisibleCellsIdx = useArticleToCStore(store => store.clearVisibleCellsIdx)
@@ -116,6 +117,7 @@ const ArticleLayers = ({
         height={height}
         width={width}
         layers={layers}
+        isJavascriptTrusted={isJavascriptTrusted}
         style={{
           width,
           height,

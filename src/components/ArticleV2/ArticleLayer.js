@@ -44,6 +44,7 @@ const ArticleLayer = ({
   layers=[],
   children,
   width=0, height=0,
+  isJavascriptTrusted=false,
   style,
   FooterComponent = function({ width, height }) { return <div style={{width, height}} />},
 }) => {
@@ -329,6 +330,7 @@ const ArticleLayer = ({
                     </Button>
                   ) : null}
                   <ArticleCell
+                    isJavascriptTrusted={isJavascriptTrusted}
                     onNumClick={onNumClickHandler}
                     memoid={memoid}
                     {...cell}
