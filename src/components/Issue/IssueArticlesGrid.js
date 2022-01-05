@@ -11,7 +11,12 @@ import {useBoundingClientRect} from '../../hooks/graphics'
 const IssueArticlesGrid = ({ issue, onError }) => {
   const [{ left }, ref] = useBoundingClientRect()
   const history = useHistory()
-  const [animatedTooltipProps, tooltipApi] = useSpring(() => ({ x : 0, y: 0, opacity:0, config: config.stiff }))
+  const [animatedTooltipProps, tooltipApi] = useSpring(() => ({
+    x : 0, y: 0, opacity:0,
+    color: 'var(--white)',
+    backgroundColor: 'var(--secondary)',
+    config: config.stiff
+  }))
   const tooltipText = useRef({ idx: '', text: '', heading: ''});
   // console.info('IssueArticlesGrid', articles)
   const { data, error, status, errorCode } = useGetJSON({
