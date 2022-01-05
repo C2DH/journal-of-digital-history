@@ -122,6 +122,7 @@ const ArticleLayers = ({
           top: 0,
           overflow: selectedLayer === layer ? "scroll": "hidden",
           zIndex: i,
+          pointerEvents: selectedLayer === layer ? "auto": "none",
           // left: i * width
         }}
       >

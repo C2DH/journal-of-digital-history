@@ -2,7 +2,9 @@
 .IssueArticleGridItem{
   margin: var(--spacer-3) 0;
   border-top: 1px solid var(--secondary);
-
+  svg{
+    cursor: pointer;
+  }
 
 }
 .IssueArticleGridItem h3{
