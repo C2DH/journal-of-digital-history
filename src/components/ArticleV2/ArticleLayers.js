@@ -37,7 +37,7 @@ const ArticleLayers = ({
   }, setQuery] = useQueryParams({
     [DisplayLayerCellIdxQueryParam]: withDefault(NumberParam, -1),
     [DisplayLayerQueryParam]: withDefault(StringParam, LayerNarrative),
-    [DisplayLayerCellTopQueryParam]: withDefault(NumberParam, 0),
+    [DisplayLayerCellTopQueryParam]: withDefault(NumberParam, 100),
     [DisplayPreviousLayerQueryParam]: StringParam,
     [DisplayPreviousCellIdxQueryParam]: withDefault(NumberParam, -1),
     [DisplayLayerHeightQueryParam]: withDefault(NumberParam, -1),
