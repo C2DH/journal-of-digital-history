@@ -28,6 +28,7 @@ const NotebookViewer = ({
   doi,
   bibjson,
   pid,
+  isJavascriptTrusted
 }) => {
   const [{[ArticleVersionQueryParam]: version}] = useQueryParams({
     [ArticleVersionQueryParam]: withDefault(NumberParam, 2)
@@ -100,6 +101,7 @@ const NotebookViewer = ({
             excerpt={excerpt}
             plainKeywords={keywords}
             plainContributor={plainContributor}
+            isJavascriptTrusted={isJavascriptTrusted}
           />
         )
         : (

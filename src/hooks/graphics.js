@@ -183,9 +183,9 @@ export function useRefWithCallback(onMount, onUnmount) {
 }
 
 
-export function useInjectTrustedJavascript({ id='', contents=[], onMount, onUnmount }) {
+export function useInjectTrustedJavascript({ id='', isTrusted=false, contents=[], onMount, onUnmount }) {
   const setRefWithCallback = useRefWithCallback((node) => {
-    if (contents.length) {
+    if (isTrusted && contents.length) {
       console.debug('useInjectTrustedJavascript', id, contents.length)
       let scriptDomElement = document.getElementById(id)
       if (scriptDomElement === null) {
@@ -199,7 +199,7 @@ export function useInjectTrustedJavascript({ id='', contents=[], onMount, onUnmo
       onMount(node)
     }
   }, (node) => {
-    if (contents.length) {
+    if (isTrusted && contents.length) {
       let scriptDomElement = document.getElementById(id)
       try {
         node.removeChild(scriptDomElement)

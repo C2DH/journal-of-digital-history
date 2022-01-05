@@ -85,6 +85,7 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
       doi={article.doi}
       issue={article.issue}
       bibjson={article.citation}
+      isJavascriptTrusted
       match={{
       params: {
         encodedUrl: article.notebook_url

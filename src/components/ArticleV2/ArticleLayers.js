@@ -22,6 +22,7 @@ const ArticleLayers = ({
   onCellPlaceholderClick,
   onCellIntersectionChange,
   onDataHrefClick,
+  isJavascriptTrusted=false,
   children,
 }) => {
   const clearVisibleCellsIdx = useArticleToCStore(store => store.clearVisibleCellsIdx)
@@ -37,7 +38,7 @@ const ArticleLayers = ({
   }, setQuery] = useQueryParams({
     [DisplayLayerCellIdxQueryParam]: withDefault(NumberParam, -1),
     [DisplayLayerQueryParam]: withDefault(StringParam, LayerNarrative),
-    [DisplayLayerCellTopQueryParam]: withDefault(NumberParam, 0),
+    [DisplayLayerCellTopQueryParam]: withDefault(NumberParam, 100),
     [DisplayPreviousLayerQueryParam]: StringParam,
     [DisplayPreviousCellIdxQueryParam]: withDefault(NumberParam, -1),
     [DisplayLayerHeightQueryParam]: withDefault(NumberParam, -1),
@@ -116,6 +117,7 @@ const ArticleLayers = ({
         height={height}
         width={width}
         layers={layers}
+        isJavascriptTrusted={isJavascriptTrusted}
         style={{
           width,
           height,

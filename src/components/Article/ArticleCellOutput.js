@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {markdownParser} from '../../logic/ipynb'
 import ArticleCellOutputPlugin from './ArticleCellOutputPlugin'
@@ -9,7 +9,7 @@ const getOutput = (output) => {
     : output
 }
 
-const ArticleCellOutput = ({ output, height, width, hideLabel=false, isTrusted=true, cellIdx=-1 }) => {
+const ArticleCellOutput = ({ output, height, width, hideLabel=false, isJavascriptTrusted=false, cellIdx=-1 }) => {
   const outputTypeClassName= `ArticleCellOutput_${output.output_type}`
   const { t } = useTranslation()
   const style = !isNaN(width) && !isNaN(height) ? {
@@ -17,34 +17,6 @@ const ArticleCellOutput = ({ output, height, width, hideLabel=false, isTrusted=t
     width,
     height,
   } : {}
-  const trustedScripts = !!output.data && isTrusted && Array.isArray(output.data['application/javascript'])
-    ? output.data['application/javascript']
-    : []
-  // apply scripts if found on data.
-  useEffect(() => {
-    if (!trustedScripts.length || isNaN(cellIdx)) {
-      return
-    }
-    console.debug('[ArticleCellOutput] @useEffect found javscript trusted scripts at cellIdx:', cellIdx)
-    const scriptDomElementId = 'trusted-article-cell-output-' + String(cellIdx)
-    let scriptDomElement = document.getElementById(scriptDomElementId)
-    if (scriptDomElement === null) {
-      const script = document.createElement('script');
-      script.setAttribute('id', scriptDomElementId)
-      script.appendChild(document.createTextNode(trustedScripts.join('\n')));
-      document.body.appendChild(script)
-    } else {
-      // replace contents of the script
-      scriptDomElement.appendChild(document.createTextNode(trustedScripts.join('\n')));
-    }
-    return () => {
-      try {
-        document.body.removeChild(scriptDomElement)
-      } catch(e) {
-        console.warn('document.body.removeChild failed for ', cellIdx, e.message)
-      }
-    }
-  }, [trustedScripts, cellIdx])
 
   if(output.output_type === 'display_data' && output.data['text/markdown']) {
     return (
@@ -54,8 +26,7 @@ const ArticleCellOutput = ({ output, height, width, hideLabel=false, isTrusted=t
     )
   }
   if (['execute_result', 'display_data'].includes(output.output_type) && output.data['text/html']) {
-    if (trustedScripts.length) {
-      // use DOM to handle this
+    if (isJavascriptTrusted) { // use DOM directly to handle this
       return (
         <ArticleCellOutputPlugin
           cellIdx={cellIdx}
