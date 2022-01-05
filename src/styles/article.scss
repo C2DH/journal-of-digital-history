@@ -730,3 +730,22 @@ svg.ArticleFingerprint{
     transform: translate(0, 0);
   }
 }
+
+
+.ArticleFingerprintTooltip {
+  z-index: 1000;
+  font-size: 12px;
+  background-color: var(--secondary);
+  color: white;
+  border-radius: 2px;
+  padding: 9px 15px;
+  pointer-events: none;
+  width: 200px;
+  left: var(--spacer-5);
+}
+
+.ArticleFingerprintTooltip_heading{
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: var(--font-family-monospace);
+}

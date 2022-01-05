@@ -8,7 +8,7 @@ import ErrorViewer from './ErrorViewer'
 import NotebookViewer from './NotebookViewer'
 import { extractMetadataFromArticle } from '../logic/api/metadata'
 import { useIssueStore } from '../store'
-
+import { setBodyNoScroll } from '../logic/viewport'
 
 const ArticleViewer = ({ match: { params: { pid }}}) => {
   const { t } = useTranslation()
@@ -17,6 +17,13 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
     url:`/api/articles/${pid}`,
     delay: 1000
   })
+
+  useEffect(() => {
+    setBodyNoScroll(true)
+    return function() {
+      setBodyNoScroll(false)
+    }
+  },[])
 
   useEffect(() => {
     if (article && article.issue) {

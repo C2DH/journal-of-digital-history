@@ -105,6 +105,10 @@ const ArticleLayer = ({
    * This method send user back to the placeholder who generated the link, if any.
    */
   const onSelectedCellClickHandler = (e, cell) => {
+    // console.info('@onCellPlaceholderClickHandler', e, cell)
+    // // eslint-disable-next-line
+    // debugger
+
     if (typeof onCellPlaceholderClick === 'function') {
       onCellPlaceholderClick(e, {
         layer: previousLayer,
