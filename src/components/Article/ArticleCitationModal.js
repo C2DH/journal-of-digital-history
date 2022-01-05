@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Modal, Button, ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
+import { Modal, ToggleButtonGroup, ToggleButton } from 'react-bootstrap'
 import Citation from '../Citation'
 // import CopyToClipboardTrigger from '../CopyToClipboardTrigger'
 // import { CopyToClipboard } from 'react-copy-to-clipboard'
@@ -9,7 +9,9 @@ const ArticleCitationModal = (props) => {
   const choices = [
     { format: 'bibtex', label: 'bibtex' },
     { format: 'html', template: 'apa', label: 'APA' },
-    { format: 'html', template: 'mla', label: 'MLA' }
+    // { format: 'html', template: 'mla', label: 'MLA' },
+    // { format: 'html', template: 'vancouver', label: 'vancouver' },
+    { format: 'html', template: 'harvard1', label: 'harvard' }
   ]
   const [value, setValue] = useState(1);
   const handleChange = (val) => {
@@ -24,7 +26,7 @@ const ArticleCitationModal = (props) => {
       className="shadow"
       centered
     >
-      <Modal.Header>
+      <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
           Cite as ...
         </Modal.Title>
@@ -44,10 +46,6 @@ const ArticleCitationModal = (props) => {
         }} />
         </div>
       </Modal.Body>
-      <Modal.Footer>
-
-        <Button size="sm" variant="outline-secondary" onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
     </Modal>
   )
 }
