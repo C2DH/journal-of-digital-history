@@ -33,7 +33,7 @@ export const ReCaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
 export const GaTrackingId = process.env.REACT_APP_GA_TRACKING_ID
 
 export const BootstrapColumLayout = Object.freeze({
-  md: { span:8, offset:2 },
+  md: { span:8, offset:1 },
   lg: { span:8, offset:2 }
 })
 
