@@ -184,6 +184,9 @@ html,
 .bg-hermeneutics{
   background-color: var(--hermeneutics) !important;
 }
+.bg-info{
+  background-color: var(--accent) !important;
+}
 .text-hermeneutics{
   color: var(--primary-dark);
 }
@@ -292,9 +295,9 @@ blockquote.code{
   counter-increment: progressiveHeading;                   /* Increment the value of section counter by 1 */
   content: counter(progressiveHeading);
   margin-right: var(--spacer-2);
-  padding-left: var(--spacer-1);
-  padding-right: var(--spacer-1);
-  border-bottom: 1px solid;
+  padding-left: var(--spacer-2);
+  padding-right: var(--spacer-2);
+
 }
 
 .page{
@@ -324,9 +327,10 @@ blockquote.code{
     border: 1px solid;
     padding: 0;
     margin-top: 5px;
+    font-size: 10px;
     width: var(--spacer-3);
     height: var(--spacer-3);
-    line-height: var(--spacer-3);
+    line-height: 14px;
     text-align: center;
     border-radius: var(--spacer-3);
   }
