@@ -47,7 +47,7 @@ export default class ArticleReference {
       ? ref.editor
       : ref.author
     // remap authors to get nice stuff, like Turchin, Currie, Whitehouse, et al. 2018
-    authorNames = authorNames.map(d => d.family.trim())
+    authorNames = (authorNames ?? []).map(d => d.family.trim())
     if(authorNames.length > 3) {
       authorNames = authorNames.slice(0, 3).concat(['et al.'])
     }
