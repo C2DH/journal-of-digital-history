@@ -209,7 +209,7 @@ export default function App() {
             <AppRoutes />
           </Suspense>
         </main>
-        <Footer ></Footer>
+        <Footer hideOnRoutes={['/article/']}/>
         <ScrollToTop />
       </Auth0ProviderWithHistory>
       </QueryParamProvider>
