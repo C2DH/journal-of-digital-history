@@ -46,7 +46,8 @@ const ArticleLayer = ({
   width=0, height=0,
   isJavascriptTrusted=false,
   style,
-  FooterComponent = function({ width, height }) { return <div style={{width, height}} />},
+  renderedBibliographyComponent=null,
+  renderedFooterComponent=null,
 }) => {
   const [popupProps, setPopupProps] = useSpring(() => ({
     x: 0,
@@ -349,7 +350,9 @@ const ArticleLayer = ({
         )
       })}
       <div className={styles.push}></div>
-      <FooterComponent width={width} height={height}/>
+      {renderedBibliographyComponent}
+      <div className="my-5" />
+      {renderedFooterComponent}
     </a.div>
   )
 }

@@ -4,7 +4,8 @@ import { useCurrentWindowDimensions } from '../../hooks/graphics'
 import ArticleHeader from '../Article/ArticleHeader'
 import ArticleNote from '../Article/ArticleNote'
 import ArticleFlow from './ArticleFlow'
-
+import ArticleBibliography from '../Article/ArticleBibliography'
+import Footer from '../Footer'
 
 const Article = ({
   // pid,
@@ -46,7 +47,10 @@ const Article = ({
     console.debug('DataHref click handler')
     setSelectedDataHref(d)
   }
-
+  const renderedBibliographyComponent = (
+    <ArticleBibliography articleTree={articleTree} noAnchor className="mt-0"/>
+  )
+  const renderedFooterComponent = (<Footer />)
   return (
     <>
     <div className="page">
@@ -62,6 +66,9 @@ const Article = ({
         emailAddress={emailAddress}
         onDataHrefClick={onDataHrefClickHandler}
         isJavascriptTrusted={isJavascriptTrusted}
+        articleTree={articleTree}
+        renderedBibliographyComponent={renderedBibliographyComponent}
+        renderedFooterComponent={renderedFooterComponent}
       >
         <ArticleHeader
           className="mt-5"

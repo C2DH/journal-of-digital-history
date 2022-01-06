@@ -1,5 +1,6 @@
 import React from 'react'
 import LangNavLink from '../LangNavLink'
+import { useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Container, Row, Col, Nav } from 'react-bootstrap'
 import {
@@ -18,9 +19,13 @@ import styles from './Footer.module.scss'
 const now = new Date()
 
 
-const Footer = () => {
+const Footer = ({ hideOnRoutes=[]}) => {
   const { t } = useTranslation()
-
+  const { pathname } = useLocation()
+  if (hideOnRoutes.some((d) => pathname.indexOf(d) !== -1)) {
+    console.debug('[Footer] hidden following hideOnRoutes:', hideOnRoutes, 'with pathname:', pathname)
+    return null
+  }
   return (
     <>
       <Container className="py-5">

@@ -71,11 +71,7 @@ const NotebookViewer = ({
   // console.info('Notebook render:', url ,'from', encodedUrl, status)
   return (
     <>
-      <div className="position-fixed w-100" style={{
-        top: 0,
-        left: 0,
-        zIndex: 3
-      }}>
+      <div className="NotebookViewer_loadingWrapper position-fixed w-100 top-0 left-0">
         <animated.div className="NotebookViewer_loading position-absolute" style={{
           width: animatedProps.width.interpolate(x => `${x}%`),
           opacity: animatedProps.opacity

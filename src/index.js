@@ -5,6 +5,11 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import WebFontLoader from 'webfontloader'
 
+// replace console.* for disable log debug on production
+if (process.env.NODE_ENV === 'production') {
+  console.debug = () => {}
+}
+
 WebFontLoader.load({
   google: {
     families: [
