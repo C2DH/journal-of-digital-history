@@ -24,6 +24,8 @@ const ArticleLayers = ({
   onDataHrefClick,
   isJavascriptTrusted=false,
   children,
+  renderedBibliographyComponent,
+  renderedFooterComponent
 }) => {
   const clearVisibleCellsIdx = useArticleToCStore(store => store.clearVisibleCellsIdx)
   // Store indicies as a local ref, this represents the item order [0,1,2]
@@ -127,6 +129,8 @@ const ArticleLayers = ({
           pointerEvents: selectedLayer === layer ? "auto": "none",
           // left: i * width
         }}
+        renderedBibliographyComponent={renderedBibliographyComponent}
+        renderedFooterComponent={renderedFooterComponent}
       >
         {children}
       </ArticleLayer>

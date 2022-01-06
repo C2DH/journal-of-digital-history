@@ -22,6 +22,8 @@ const ArticleFlow = ({
   tocOffset=99,
   layers=[LayerNarrative, LayerHermeneutics],
   isJavascriptTrusted = false,
+  renderedBibliographyComponent=null,
+  renderedFooterComponent=null,
   children
 }) => {
   const setVisibleCell = useArticleToCStore(store => store.setVisibleCell)
@@ -91,6 +93,8 @@ const ArticleFlow = ({
         height={height}
         width={width}
         isJavascriptTrusted={isJavascriptTrusted}
+        renderedBibliographyComponent={renderedBibliographyComponent}
+        renderedFooterComponent={renderedFooterComponent}
       >
         {children}
       </ArticleLayers>
