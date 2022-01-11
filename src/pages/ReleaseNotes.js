@@ -32,7 +32,7 @@ const ReleaseNotes = () => {
   const { t } = useTranslation()
   // load release notes from github
   const { data:releases, status } = useGetJSON({
-    url: 'https://api.github.com/repos/c2dh/journal-of-digital-history/releases',
+    url: process.env.REACT_APP_GITHUB_RELEASES_API_ENDPOINT,
     delay: 100,
   })
 
