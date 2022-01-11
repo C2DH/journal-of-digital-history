@@ -8,7 +8,7 @@ const FingerprintExplained = () => {
     <Container className="FingerprintExplained page">
       <Row>
         <Col {...BootstrapColumLayout}>
-          <h1>Release notes.</h1>
+          <h1 className="my-5">Fingerprint, explained</h1>
         </Col>
       </Row>
     </Container>

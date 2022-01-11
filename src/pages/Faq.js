@@ -8,7 +8,7 @@ const Faq = () => {
     <Container className="Faq page">
       <Row>
         <Col {...BootstrapColumLayout}>
-          <h1>Release notes.</h1>
+          <h1 className="my-5">Faq</h1>
         </Col>
       </Row>
     </Container>
