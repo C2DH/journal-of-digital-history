@@ -103,7 +103,12 @@ const ArticleLayer = ({
       '\n layer', layer,
       '\n scrollTo:', top
     )
-    layerDiv.scrollTo({ top, behavior: previousLayer === selectedLayer ? 'smooth': 'instant' })
+    layerDiv.scrollTo({
+      top,
+      behavior: !previousLayer || previousLayer === selectedLayer
+        ? 'smooth'
+        : 'instant'
+    })
   })
 
   const onCellPlaceholderClickHandler = (e, cell) => {
