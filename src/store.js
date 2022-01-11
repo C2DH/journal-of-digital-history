@@ -22,7 +22,10 @@ export const useArticleToCStore = create((set) => ({
     copy.sort((a,b)=> a - b)
     // console.debug('[useArticleToCStore] visibleCellsIdx:', copy)
     return { visibleCellsIdx: copy }
-  })
+  }),
+  setVisibleCellsIdx: (visibleCellsIdx=[]) => set(() => ({
+    visibleCellsIdx: [...visibleCellsIdx]
+  }))
 }))
 
 export const useArticleStore = create((set) => ({

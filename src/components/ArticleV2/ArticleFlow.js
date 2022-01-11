@@ -74,6 +74,7 @@ const ArticleFlow = ({
         paragraphs={paragraphs}
         headingsPositions={headingsPositions}
         width={width}
+        height={height}
       />
     </div>
 

@@ -126,12 +126,18 @@ export const AnchorRefPrefix = 'anchor-'
 export const DisplayLayerHermeneutics = 'h'
 export const DisplayLayerNarrative = 'n'
 export const DisplayLayerAll = 'all'
+// available sections to link to
+export const DisplayLayerSectionBibliography = 'bib'
+export const DisplayLayerSectionHeader = 'head'
+export const DisplayLayerSectionFooter = 'foo'
+// names of the query parameters available
 export const DisplayLayerQueryParam = 'layer'
 export const DisplayPreviousLayerQueryParam = 'pl'
 export const DisplayLayerCellIdxQueryParam = 'idx'
 export const DisplayPreviousCellIdxQueryParam = 'pidx'
 export const DisplayLayerCellTopQueryParam = 'y'
 export const DisplayLayerHeightQueryParam = 'lh'
+export const DisplayLayerSectionParam = 's'
 // article status
 export const ArticleStatusPublished = 'PUBLISHED'
 export const ArticleStatusDraft = 'Draft'
