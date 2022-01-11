@@ -45,9 +45,15 @@ const ArticleToC = ({
 
   const steps = React.useMemo(() => headingsPositions.reduce((acc, idx, i) => {
     const cell = cellIndex[idx]
-    if(!cell) {
+    if (!cell) {
       // is possible that there are headingPositions outside of the
       // articleTree.paragraphs list (e.g in the metadata section).
+      // In this case, we just skip.
+      return acc
+    }
+    if (cell.hidden) {
+
+      // is possible that there are headingPositions within hidden cells.
       // In this case, we just skip.
       return acc
     }
