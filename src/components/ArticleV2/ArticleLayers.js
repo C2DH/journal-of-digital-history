@@ -8,7 +8,8 @@ import {
   DisplayLayerCellTopQueryParam,
   DisplayPreviousLayerQueryParam,
   DisplayPreviousCellIdxQueryParam,
-  DisplayLayerHeightQueryParam
+  DisplayLayerHeightQueryParam,
+  DisplayLayerSectionParam
 } from '../../constants'
 import { useArticleToCStore } from '../../store'
 
@@ -37,6 +38,7 @@ const ArticleLayers = ({
     [DisplayPreviousLayerQueryParam]: previousLayer,
     [DisplayPreviousCellIdxQueryParam]: previousCellIdx,
     [DisplayLayerHeightQueryParam]: layerHeight,
+    [DisplayLayerSectionParam]: layerSection,
   }, setQuery] = useQueryParams({
     [DisplayLayerCellIdxQueryParam]: withDefault(NumberParam, -1),
     [DisplayLayerQueryParam]: withDefault(StringParam, LayerNarrative),
@@ -44,6 +46,7 @@ const ArticleLayers = ({
     [DisplayPreviousLayerQueryParam]: StringParam,
     [DisplayPreviousCellIdxQueryParam]: withDefault(NumberParam, -1),
     [DisplayLayerHeightQueryParam]: withDefault(NumberParam, -1),
+    [DisplayLayerSectionParam]: StringParam,
   })
 
   // const [springs, api] = useSprings(layers.length, fn(order.current)) // Create springs, each corresponds to an item, controlling its transform, scale, etc.
@@ -57,7 +60,8 @@ const ArticleLayers = ({
       [DisplayLayerCellIdxQueryParam]: idx,
       [DisplayLayerCellTopQueryParam]: y,
       [DisplayPreviousLayerQueryParam]: previousLayer,
-      [DisplayLayerHeightQueryParam]: layerHeight
+      [DisplayLayerHeightQueryParam]: layerHeight,
+      [DisplayLayerSectionParam]: layerSection
     }, 'replaceIn')
     // this query
     setQuery({
@@ -65,7 +69,9 @@ const ArticleLayers = ({
       [DisplayLayerCellIdxQueryParam]: idx,
       [DisplayLayerCellTopQueryParam]: y,
       [DisplayPreviousLayerQueryParam]: selectedLayer,
-      [DisplayLayerHeightQueryParam]: h
+      [DisplayLayerHeightQueryParam]: h,
+      // section is Bibliography, later annexes etc...
+      [DisplayLayerSectionParam]: undefined
     })
     if (typeof onCellPlaceholderClick === 'function') {
       onCellPlaceholderClick(e, { layer, idx, y })
@@ -114,6 +120,7 @@ const ArticleLayers = ({
         selectedLayerHeight={layerHeight}
         isSelected={selectedLayer === layer}
         selectedLayer={selectedLayer}
+        selectedSection={layerSection}
         previousLayer={previousLayer}
         previousCellIdx={previousCellIdx}
         height={height}

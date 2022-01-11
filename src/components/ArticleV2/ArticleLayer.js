@@ -8,6 +8,10 @@ import {a, useSpring, config} from 'react-spring'
 import { useRefWithCallback } from '../../hooks/graphics'
 import { Button } from 'react-bootstrap'
 import { ArrowRight, ArrowLeft } from 'react-feather'
+import {
+  DisplayLayerSectionBibliography,
+  DisplayLayerSectionFooter
+} from '../../constants'
 import styles from './ArticleLayer.module.css'
 
 function getCellAnchorFromIdx(idx, prefix='c') {
@@ -40,6 +44,7 @@ const ArticleLayer = ({
   isSelected=false,
   selectedLayer='',
   previousLayer='',
+  selectedSection=null,
   previousCellIdx=-1,
   layers=[],
   children,
@@ -62,7 +67,22 @@ const ArticleLayer = ({
     config: config.slow
   }))
   const layerRef = useRefWithCallback((layerDiv) => {
-    if (!isSelected || selectedCellIdx === -1) { // discard
+    if (selectedSection) {
+      console.info('[ArticleLayer] @useRefWithCallback on selectedSection selected:', selectedSection)
+      // get section offset
+      const sectionElement = document.getElementById(getCellAnchorFromIdx(selectedSection, layer))
+      if (!sectionElement) {
+        console.warn('[ArticleLayer] @useRefWithCallback could not find any sectionElement with given id:', selectedSection)
+        return
+      }
+      layerDiv.scrollTo({
+        top: sectionElement.offsetTop + layerDiv.offsetTop - 150,
+        behavior: previousLayer === selectedLayer
+          ? 'smooth'
+          : 'instant'
+      })
+      return
+    } else if (!isSelected || selectedCellIdx === -1) { // discard
       return
     }
     // get cellEmeemnt in current layer (as it can be just a placeholder,too)
@@ -350,8 +370,10 @@ const ArticleLayer = ({
         )
       })}
       <div className={styles.push}></div>
+      <a className='ArticleLayer_anchor' id={getCellAnchorFromIdx(DisplayLayerSectionBibliography,layer)}></a>
       {renderedBibliographyComponent}
       <div className="my-5" />
+      <a className='ArticleLayer_anchor' id={getCellAnchorFromIdx(DisplayLayerSectionFooter,layer)}></a>
       {renderedFooterComponent}
     </a.div>
   )
