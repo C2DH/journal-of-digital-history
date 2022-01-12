@@ -79,7 +79,7 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
       collaborators={collaborators}
       keywords={keywords}
       publicationStatus={article.status}
-      publicationDate={article.publication_date}
+      publicationDate={new Date(article.issue?.publication_date)}
       binderUrl={article.binder_url}
       emailAddress={article.abstract?.contact_email}
       doi={article.doi}
