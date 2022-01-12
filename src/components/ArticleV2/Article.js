@@ -4,6 +4,7 @@ import { useCurrentWindowDimensions } from '../../hooks/graphics'
 import ArticleHeader from '../Article/ArticleHeader'
 import ArticleNote from '../Article/ArticleNote'
 import ArticleFlow from './ArticleFlow'
+import ArticleHelmet from './ArticleHelmet'
 import ArticleBibliography from '../Article/ArticleBibliography'
 import Footer from '../Footer'
 
@@ -12,13 +13,14 @@ const Article = ({
   // Notebook instance, an object containing {cells:[], metadata:{}}
   ipynb,
   url,
+  imageUrl,
   publicationDate = new Date(),
   publicationStatus,
   issue,
-  // plainTitle,
-  // plainContributor = '',
-  // plainKeywords = [],
-  // excerpt,
+  plainTitle,
+  plainContributor = '',
+  plainKeywords = [],
+  excerpt,
   doi,
   binderUrl,
   bibjson,
@@ -40,6 +42,8 @@ const Article = ({
     collaborators,
     disclaimer = []
   } = articleTree.sections
+
+
   console.debug(`[Article] component rendered ${width}x${height}px`)
   console.debug('[Article] loading articleTree anchors:', articleTree.anchors)
 
@@ -51,8 +55,21 @@ const Article = ({
     <ArticleBibliography articleTree={articleTree} noAnchor className="mt-0"/>
   )
   const renderedFooterComponent = (<Footer />)
+
+
+
   return (
     <>
+    <ArticleHelmet
+      url={url}
+      imageUrl={imageUrl}
+      plainTitle={plainTitle}
+      plainContributor={plainContributor}
+      plainKeywords={plainKeywords}
+      publicationDate={publicationDate}
+      issue={issue}
+      excerpt={excerpt}
+    />
     <div className="page">
       <a id="top" className="anchor"></a>
       <ArticleFlow
