@@ -11,6 +11,10 @@ $breakpoint-lg: 992px;
   margin-left: var(--spacer-4);
 }
 
+.ArticleCellObserver.active  .ArticleCellContent_num{
+  color: var(--secondary);
+}
+
 .ArticleCellContent_num {
   position: absolute;
   left: -50px;
@@ -29,7 +33,11 @@ $breakpoint-lg: 992px;
     top: 14px;
   }
   &.level_H3, &.level_H4, &.level_H5, &.level_H6{
-    top: 21px;
+    top: 20px;
+  }
+  &.selectable{
+    cursor: pointer;
+    text-decoration: underline;
   }
 }
 
@@ -641,6 +649,17 @@ svg.ArticleFingerprint{
   color: var(--primary-dark);
 }
 
+.ArticleToC_layerSelector{
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 var(--spacer-2);
+  border-radius: var(--spacer-1);
+  &.active{
+    background: var(--dark);
+    color: var(--white);
+  }
+}
+
 .ArticleCellAccordion{
   // border-top: 1px solid var(--dark);
   color: var(--primary-dark);
@@ -710,4 +729,23 @@ svg.ArticleFingerprint{
   .ArticleMobileDisclaimer_popup_inner{
     transform: translate(0, 0);
   }
+}
+
+
+.ArticleFingerprintTooltip {
+  z-index: 1000;
+  font-size: 12px;
+  background-color: var(--secondary);
+  color: white;
+  border-radius: 2px;
+  padding: 9px 15px;
+  pointer-events: none;
+  width: 200px;
+  left: var(--spacer-5);
+}
+
+.ArticleFingerprintTooltip_heading{
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: var(--font-family-monospace);
 }

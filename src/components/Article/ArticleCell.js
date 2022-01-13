@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { Container, Row, Col} from 'react-bootstrap'
-import ArticleCellOutput from './ArticleCellOutput'
+import ArticleCellOutputs from './ArticleCellOutputs'
 import ArticleCellContent from './ArticleCellContent'
 import ArticleCellSourceCode from './ArticleCellSourceCode'
 import ArticleCellFigure from './ArticleCellFigure'
@@ -25,6 +25,8 @@ const ArticleCell = ({
   isNarrativeStep,
   figure, // ArticleFigure instance
   headingLevel=0, // if isHeading, set this to its ArticleHeading.level value
+  isJavascriptTrusted = false,
+  onNumClick,
 }) => {
   let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout;
   // we override or set the former layout if it appears in narrative-step
@@ -71,7 +73,14 @@ const ArticleCell = ({
       <Container >
         <Row>
           <Col className="ArticleCellQuote" {...BootstrapQuoteColumLayout}>
-            <ArticleCellContent layer={layer} content={content} idx={idx} num={num} hideNum={hideNum} />
+            <ArticleCellContent
+              onNumClick={onNumClick}
+              layer={layer}
+              content={content}
+              idx={idx}
+              num={num}
+              hideNum={hideNum}
+            />
           </Col>
         </Row>
       </Container>
@@ -85,9 +94,16 @@ const ArticleCell = ({
           metadata={metadata}
           figure={figure}
           figureColumnLayout={cellObjectBootstrapColumnLayout}
+          isJavascriptTrusted={isJavascriptTrusted}
           isNarrativeStep={isNarrativeStep}
         >
-          <ArticleCellContent hideNum={!!figure} layer={layer} content={content} idx={idx} num={num} />
+          <ArticleCellContent
+            onNumClick={onNumClick}
+            layer={layer}
+            content={content}
+            idx={idx}
+            num={num}
+          />
         </ArticleCellFigure>
       )
     }
@@ -95,7 +111,15 @@ const ArticleCell = ({
       <Container>
         <Row>
           <Col {... cellBootstrapColumnLayout}>
-            <ArticleCellContent headingLevel={headingLevel} hideNum={hideNum} layer={layer} content={content} idx={idx} num={num} />
+            <ArticleCellContent
+              headingLevel={headingLevel}
+              onNumClick={onNumClick}
+              hideNum={hideNum}
+              layer={layer}
+              content={content}
+              idx={idx}
+              num={num}
+            />
           </Col>
         </Row>
       </Container>
@@ -110,10 +134,12 @@ const ArticleCell = ({
           figure={figure}
           isNarrativeStep={isNarrativeStep}
           figureColumnLayout={cellObjectBootstrapColumnLayout}
+          isJavascriptTrusted={isJavascriptTrusted}
           sourceCode={<ArticleCellSourceCode toggleVisibility content={content} language="python"/>}
         ></ArticleCellFigure>
       )
     }
+
     return (
       <Container>
         <Row>
@@ -121,10 +147,11 @@ const ArticleCell = ({
             <div className="ArticleCellContent">
               <div className="ArticleCellContent_num"></div>
               <ArticleCellSourceCode visible content={content} language="python" />
-              {outputs.length
-                ? outputs.map((output,i) => <ArticleCellOutput output={output} key={i} />)
-                : <div className="ArticleCellSourceCode_no_output">no output</div>
-              }
+              <ArticleCellOutputs
+                isJavascriptTrusted={false}
+                cellIdx={idx}
+                outputs={outputs}
+              />
             </div>
           </Col>
         </Row>

@@ -33,7 +33,7 @@ export const ReCaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
 export const GaTrackingId = process.env.REACT_APP_GA_TRACKING_ID
 
 export const BootstrapColumLayout = Object.freeze({
-  md: { span:8, offset:2 },
+  md: { span:8, offset:1 },
   lg: { span:8, offset:2 }
 })
 
@@ -121,13 +121,25 @@ export const FigureRefPrefix = 'figure-'
 export const CoverRefPrefix = 'cover'
 export const TableRefPrefix = 'table-'
 export const QuoteRefPrefix = 'quote-'
+export const AnchorRefPrefix = 'anchor-'
 // display Layer to enable switch between layers
 export const DisplayLayerHermeneutics = 'h'
 export const DisplayLayerNarrative = 'n'
 export const DisplayLayerAll = 'all'
+// available sections to link to
+export const DisplayLayerSectionBibliography = 'bib'
+export const DisplayLayerSectionHeader = 'head'
+export const DisplayLayerSectionFooter = 'foo'
+// names of the query parameters available
 export const DisplayLayerQueryParam = 'layer'
+export const DisplayPreviousLayerQueryParam = 'pl'
 export const DisplayLayerCellIdxQueryParam = 'idx'
-
+export const DisplayPreviousCellIdxQueryParam = 'pidx'
+export const DisplayLayerCellTopQueryParam = 'y'
+export const DisplayLayerHeightQueryParam = 'lh'
+export const DisplayLayerSectionParam = 's'
 // article status
 export const ArticleStatusPublished = 'PUBLISHED'
 export const ArticleStatusDraft = 'Draft'
+// article component version
+export const ArticleVersionQueryParam = 'v'

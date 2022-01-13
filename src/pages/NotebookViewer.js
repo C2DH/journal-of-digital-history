@@ -1,14 +1,12 @@
 import React, { useMemo, useEffect } from 'react'
 import { useSpring, animated, config } from 'react-spring'
-// import { useTranslation } from 'react-i18next'
-
+import { useQueryParams, NumberParam, withDefault } from 'use-query-params'
 import { useGetJSON } from '../logic/api/fetchData'
 import { decodeNotebookURL } from '../logic/ipynb'
-import { StatusSuccess, StatusFetching } from '../constants'
+import { StatusSuccess, StatusFetching, ArticleVersionQueryParam } from '../constants'
 import Article from '../components/Article'
-// import ArticleKeywords from '../components/Article/ArticleKeywords'
+import ArticleV2 from '../components/ArticleV2'
 import ArticleHeader from '../components/Article/ArticleHeader'
-
 /**
  * Loading bar inspired by
  * https://codesandbox.io/s/github/pmndrs/react-spring/tree/master/demo/src/sandboxes/animating-auto
@@ -30,8 +28,12 @@ const NotebookViewer = ({
   doi,
   bibjson,
   pid,
+  isJavascriptTrusted
 }) => {
-  // const { t } = useTranslation()
+  const [{[ArticleVersionQueryParam]: version}] = useQueryParams({
+    [ArticleVersionQueryParam]: withDefault(NumberParam, 2)
+  })
+  const ArticleComponent = version === 2 ? ArticleV2 : Article
   const [animatedProps, api] = useSpring(() => ({ width : 0, opacity:1, config: config.slow }))
 
   const url = useMemo(() => {
@@ -69,11 +71,7 @@ const NotebookViewer = ({
   // console.info('Notebook render:', url ,'from', encodedUrl, status)
   return (
     <>
-      <div className="position-fixed w-100" style={{
-        top: 0,
-        left: 0,
-        zIndex: 3
-      }}>
+      <div className="NotebookViewer_loadingWrapper position-fixed w-100 top-0 left-0">
         <animated.div className="NotebookViewer_loading position-absolute" style={{
           width: animatedProps.width.interpolate(x => `${x}%`),
           opacity: animatedProps.opacity
@@ -84,7 +82,7 @@ const NotebookViewer = ({
       </div>
       {status === StatusSuccess
         ? (
-          <Article
+          <ArticleComponent
             ipynb={data}
             memoid={encodedUrl}
             binderUrl={binderUrl}
@@ -99,6 +97,7 @@ const NotebookViewer = ({
             excerpt={excerpt}
             plainKeywords={keywords}
             plainContributor={plainContributor}
+            isJavascriptTrusted={isJavascriptTrusted}
           />
         )
         : (

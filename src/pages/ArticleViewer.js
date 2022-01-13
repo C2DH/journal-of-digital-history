@@ -8,7 +8,7 @@ import ErrorViewer from './ErrorViewer'
 import NotebookViewer from './NotebookViewer'
 import { extractMetadataFromArticle } from '../logic/api/metadata'
 import { useIssueStore } from '../store'
-
+import { setBodyNoScroll } from '../logic/viewport'
 
 const ArticleViewer = ({ match: { params: { pid }}}) => {
   const { t } = useTranslation()
@@ -17,6 +17,13 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
     url:`/api/articles/${pid}`,
     delay: 1000
   })
+
+  useEffect(() => {
+    setBodyNoScroll(true)
+    return function() {
+      setBodyNoScroll(false)
+    }
+  },[])
 
   useEffect(() => {
     if (article && article.issue) {
@@ -72,12 +79,13 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
       collaborators={collaborators}
       keywords={keywords}
       publicationStatus={article.status}
-      publicationDate={article.publication_date}
+      publicationDate={new Date(article.issue?.publication_date)}
       binderUrl={article.binder_url}
       emailAddress={article.abstract?.contact_email}
       doi={article.doi}
       issue={article.issue}
       bibjson={article.citation}
+      isJavascriptTrusted
       match={{
       params: {
         encodedUrl: article.notebook_url

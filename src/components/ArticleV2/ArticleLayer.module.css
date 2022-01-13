@@ -1,0 +1,154 @@
+.mask{
+  position: absolute;
+}
+.mask_narrative{
+  composes: mask;
+}
+.mask_hermeneutics{
+  composes: mask;
+  background-color: #B1FBEC;
+}
+.mask_data{
+  composes: mask;
+  background-color: #cccfff;
+}
+
+.push{
+  /* equals the top header */
+  height: 100px;
+}
+.pushFixed{
+  position: fixed;
+  background-color: red;
+  top: 0;
+  height: 100px;
+  width:100%;
+  z-index:1;
+  /* border-bottom: 1px solid var(--secondary); */
+}
+
+.pushFixed_narrative{
+  composes: pushFixed;
+  background-color: rgb(244, 241, 248);
+}
+.pushFixed_hermeneutics{
+  composes: pushFixed;
+  background-color: #B1FBEC;
+}
+
+.pushFixed_data{
+  composes: pushFixed;
+  background-color: #cccfff;
+}
+
+.anchor{
+  position: relative;
+  height: 0;
+  overflow: hidden;
+}
+.placeholder{
+  max-height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+.placeholderGradient{
+  position: absolute;
+  z-index:0;
+  bottom: 0;
+  pointer-events: none;
+  left: 0;
+  right:0;
+  height: 50%;
+  background: transparent
+}
+.placeholderButton{
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  width: 250px;
+  margin-left: -125px;
+  bottom: var(--spacer-3);
+}
+
+.placeholder_narrative_hermeneutics {
+  composes: placeholder;
+  color: var(--primary-dark);
+}
+.placeholder_hermeneutics_narrative {
+  composes: placeholder;
+  color: var(--dark);
+}
+
+.placeholder_data_narrative {
+  composes: placeholder;
+  color: var(--dark);
+}
+.placeholder_data_hermeneutics {
+  composes: placeholder;
+  color: var(--dark);
+}
+
+.placeholderGradient_narrative_hermeneutics{
+  composes: placeholderGradient;
+  background: linear-gradient(180deg, rgb(244, 241, 248, 0) 0%, rgb(244, 241, 248, .8) 50%);
+}
+.placeholderGradient_hermeneutics_narrative{
+  composes: placeholderGradient;
+  background: linear-gradient(180deg, #B1FBEC00 0%, #B1FBECff 50%);
+}
+.placeholderGradient_data_narrative{
+  composes: placeholderGradient;
+  background: linear-gradient(180deg, #cccfff99 0%, #cccfffff 90%);
+}
+.placeholderGradient_data_hermeneutics
+{
+  composes: placeholderGradient;
+  background: linear-gradient(180deg, #cccfff99 0%, #cccfffff 90%);
+}
+
+.placeholderActive {
+  position: absolute;
+  left: 0;
+  background: transparent;
+  height: 100%;
+  right: 16%;
+  z-index: -1;
+  top: 0;
+}
+.placeholderActive:after{
+  content: '';
+  position: absolute;
+  top: 0px;
+  left: 10px;
+  width: 3px;
+  background: var(--dark);
+  bottom: 0px;
+  z-index: 1000;
+}
+.placeholderActive_narrative_on,
+.placeholderActive_hermeneutics_on,
+.placeholderActive_data_on,
+.cellActive_on{
+  /* border-top: 1px solid; */
+  composes: placeholderActive;
+  /* background: #ffffff77; */
+}
+.placeholderActive_narrative_off,
+.placeholderActive_hermeneutics_off,
+.placeholderActive_data_off, .cellActive_off{
+  composes: placeholderActive;
+  background: transparent;
+  opacity: 0;
+}
+.cellActiveBackButton{
+  position: absolute;
+  left: 25px;
+  top: var(--spacer-2);
+  /* border-radius: 20px; */
+  /* border-radius: 100%; */
+}
+
+.paragraphWrapper{
+  position: relative;
+  overflow: auto;
+}

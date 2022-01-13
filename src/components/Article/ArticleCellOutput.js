@@ -1,16 +1,17 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {markdownParser} from '../../logic/ipynb'
+import ArticleCellOutputPlugin from './ArticleCellOutputPlugin'
+
 const getOutput = (output) => {
   return Array.isArray(output)
     ? output.join(' ')
     : output
 }
 
-const ArticleCellOutput = ({ output, height, width, hideLabel=false }) => {
+const ArticleCellOutput = ({ output, height, width, hideLabel=false, isJavascriptTrusted=false, cellIdx=-1 }) => {
   const outputTypeClassName= `ArticleCellOutput_${output.output_type}`
   const { t } = useTranslation()
-
   const style = !isNaN(width) && !isNaN(height) ? {
     // constrain output to this size. used for images.
     width,
@@ -25,9 +26,22 @@ const ArticleCellOutput = ({ output, height, width, hideLabel=false }) => {
     )
   }
   if (['execute_result', 'display_data'].includes(output.output_type) && output.data['text/html']) {
-    return (<div className={`ArticleCellOutput withHTML mb-3 ${outputTypeClassName}`} style={style} dangerouslySetInnerHTML={{
-      __html: getOutput(output.data['text/html'])
-    }} />)
+    if (isJavascriptTrusted) { // use DOM directly to handle this
+      return (
+        <ArticleCellOutputPlugin
+          cellIdx={cellIdx}
+          trustedInnerHTML={getOutput(output.data['text/html'])}
+        />
+      )
+    }
+    return (
+      <div className={`ArticleCellOutput withHTML mb-3 ${outputTypeClassName}`}
+        style={style}
+        dangerouslySetInnerHTML={{
+        __html: getOutput(output.data['text/html'])
+        }}
+      />
+    )
   }
 
   return (

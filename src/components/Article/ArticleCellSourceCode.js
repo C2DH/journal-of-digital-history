@@ -5,7 +5,10 @@ import { Eye, EyeOff } from 'react-feather'
 import hljs from "highlight.js"; // import hljs library
 
 
-const ArticleCellSourceCode = ({ content, language, toggleVisibility, visible, right }) => {
+const ArticleCellSourceCode = ({
+  content, language, toggleVisibility, visible, right,
+  num=-1
+}) => {
   const [isSourceCodeVisible, setIsSourceCodeVisible] = useState(visible)
   const { t } = useTranslation()
   const highlighted = language
@@ -13,7 +16,12 @@ const ArticleCellSourceCode = ({ content, language, toggleVisibility, visible, r
       : hljs.highlightAuto(content);
 
   return (
-    <div className="ArticleCellSourceCode " >
+    <div className="ArticleCellSourceCode position-relative" >
+      {num !== -1 ? (
+        <div className={`ArticleCellContent_num`}>
+          {num}
+        </div>
+      ):null}
       {toggleVisibility
         ? (
           <div className={right?'text-right':''}>

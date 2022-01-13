@@ -80,6 +80,9 @@
           },
           "mobileDisclaimer": "While we work hard on the mobile experience, please explore all three layers - the <b>narrative</b>, the <b>hermeneutics</b> and the <b>data</b> layers on desktop"
         },
+        "fingerprintViewerForm": {
+          "title": "Preview Fingerprint"
+        },
         "issue": {
           "title": "Issue {{ id }}"
         },
@@ -118,6 +121,10 @@
         "FormNotebookUrl": {
           "notebookUrl": "Public notebook url",
           "notebookUrlDescription": "Use a well formed URL pointing to the <code>.ipynb</code> notebook file."
+        },
+        "fingerprintViewerForm": {
+          "notebookUrl": "Absolute URL of the ipynb file",
+          "notebookUrlDescription": "Use a well formed URL pointing to the <code>.ipynb</code> notebook file. For instance use to the <b>raw</b> url of the ipynb file for notebook hosted on Github."
         }
       },
       "actions": {

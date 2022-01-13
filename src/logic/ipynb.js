@@ -9,6 +9,7 @@ import ArticleCell from '../models/ArticleCell'
 // import ArticleCellGroup from '../models/ArticleCellGroup'
 import ArticleReference from '../models/ArticleReference'
 import ArticleFigure from '../models/ArticleFigure'
+import ArticleAnchor from '../models/ArticleAnchor'
 import {
   SectionChoices, SectionDefault,
   LayerChoices, LayerNarrative, // LayerHermeneuticsStep,
@@ -17,7 +18,8 @@ import {
   FigureRefPrefix,
   TableRefPrefix,
   CoverRefPrefix,
-  QuoteRefPrefix
+  QuoteRefPrefix,
+  AnchorRefPrefix
 } from '../constants'
 
 const encodeNotebookURL = (url) => btoa(encodeURIComponent(url))
@@ -41,16 +43,20 @@ const renderMarkdownWithReferences = ({
   sources = '',
   referenceIndex = {},
   citationsFromMetadata = {},
-  figures
+  figures = [],
+  anchors = []
 }) => {
   const references = []
   // console.info('markdownParser.render', markdownParser.render(sources))
   const content = markdownParser.render(sources)
+    .replace(/&lt;a[^&]*&gt;(.*)&lt;\/a&gt;/g, '')
     // replace links "figure-" add data-idx attribute containing a figure id
-    .replace(/<a href="#((figure|table)-[^"]+)">/g, (m, anchorRef) => {
-      const ref = figures.find(d => d.ref === anchorRef)
+    .replace(/<a href="#((figure|table|anchor)-[^"]+)">/g, (m, anchorRef) => {
+      const ref = anchorRef.indexOf('anchor-') !== -1
+        ? anchors.find(d => d.ref === anchorRef)
+        : figures.find(d => d.ref === anchorRef)
       if (ref) {
-        return `<a href="#${anchorRef}" data-idx="${ref.idx}">`
+        return `<a href="#${anchorRef}" data-idx="${ref.idx}" data-ref-type="${ref.type}">`
       }
       return `<a href="#${anchorRef}" data-idx-notfound>`
     })
@@ -150,6 +156,7 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
   const figures = []
   const articleCells = []
   const articleParagraphs = []
+  const anchors = []
   const sectionsIndex = {}
   let citationsFromMetadata = metadata?.cite2c?.citations
 
@@ -182,7 +189,7 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
   if (citationsFromMetadata instanceof Object) {
     bibliography = new Cite(Object.values(citationsFromMetadata).filter(d => d))
   }
-
+  let paragraphNumber = 0
   // cycle through notebook cells to fill ArticleCells, figures, headings
   cells.map((cell, idx) => {
     const sources = Array.isArray(cell.source)
@@ -194,6 +201,7 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
     const figureRef = cell.metadata.tags?.find(d => d.indexOf(FigureRefPrefix) === 0)
     const tableRef = cell.metadata.tags?.find(d => d.indexOf(TableRefPrefix) === 0)
     const quoteRef = cell.metadata.tags?.find(d => d.indexOf(QuoteRefPrefix) === 0)
+    const anchorRef = cell.metadata.tags?.find(d => d.indexOf(AnchorRefPrefix) === 0)
     // get section and layer from metadata
     cell.section = getSectionFromCellMetadata(cell.metadata)
     cell.layer = getLayerFromCellMetadata(cell.metadata)
@@ -248,12 +256,17 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
     } else if (cell.section !== SectionDefault) {
       cell.role = RoleMetadata
     }
+    if (anchorRef) {
+      anchors.push(new ArticleAnchor({ ref: anchorRef, idx }))
+    }
     cell.source = Array.isArray(cell.source)
       ? cell.source
       : [cell.source]
+    paragraphNumber += 1
+    cell.num = paragraphNumber
     return cell
   }).forEach((cell, idx) => {
-    // console.info('ipynb', cell.role)
+    // console.info('ipynb', cell.role, cell.num)
     if (cell.cell_type === CellTypeMarkdown) {
       const sources = cell.source.join('')
       // exclude rendering of reference references
@@ -268,6 +281,7 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
         referenceIndex,
         citationsFromMetadata,
         figures,
+        anchors
       })
       // get tokens 'heading_open' to get all h1,h2,h3 etc...
       const headerIdx = tokens.findIndex(t => t.type === 'heading_open');
@@ -370,7 +384,7 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
     paragraphs: articleParagraphs,
     paragraphsPositions: articleParagraphs.map(d => d.idx),
     sections: sectionsIndex,
-    bibliography, figures,
+    bibliography, figures, anchors,
     citationsFromMetadata
   })
 }
