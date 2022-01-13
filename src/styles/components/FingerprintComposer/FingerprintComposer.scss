@@ -1,0 +1,35 @@
+.Jupitercell {
+  border: 1px solid;
+  border-color: var(--gray-400);
+  background-color: var(--gray-200);
+  padding: var(--spacer-3);
+  border-radius: 3px;
+  font-family: var(--font-family-monospace);
+  font-size: 0.9em
+}
+
+.Jupitercell.Hermeneutics {
+  border-color: blueviolet;
+  border-width: 5px;
+}
+
+.Jupitercell.Narative {
+  border-color: black;
+  border-width: 4px;
+}
+
+.Jupitercell.Data {
+  border-color: black;
+  border-width: 12px;
+}
+
+.Jupitercelltag {
+  border: 1px solid;
+  border-color: blue;
+  border-radius: 4px;
+  margin: 4px;
+}
+
+.JupiterCellListItem {
+  margin-top: 24px;
+}
