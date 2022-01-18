@@ -184,7 +184,7 @@ const ArticleToC = ({
         __html: binderUrl ? t('actions.gotoBinder', { binderUrl }) : t('errors.binderUrlNotAvailable')
       }}/>
     </div>
-    <div className="flex-grow-1 ps-2 pt-2 pb-2 mb-2 border-bottom border-top" style={{ overflow: "scroll"}}>
+    <div className="flex-grow-1 ps-2 pt-2 pb-2 mb-2 border-bottom border-top border-dark" style={{ overflow: "scroll"}}>
       {steps.map((step, i) => {
         const showBookmark = i < steps.length - 1
           ? selectedCellIdx >= step.cell.idx && selectedCellIdx < steps[i+1].cell.idx
@@ -231,7 +231,7 @@ const ArticleToC = ({
         isSectionStart
         isSectionEnd
         selected
-        active
+        active={false}
         className=''
         onStepClick={(e) => onSectionClickHandler(e, DisplayLayerSectionBibliography)}
       >{t('bibliography')}</ArticleToCStep>
