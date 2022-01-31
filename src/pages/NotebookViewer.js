@@ -3,10 +3,16 @@ import { useSpring, animated, config } from 'react-spring'
 import { useQueryParams, NumberParam, withDefault } from 'use-query-params'
 import { useGetJSON } from '../logic/api/fetchData'
 import { decodeNotebookURL } from '../logic/ipynb'
-import { StatusSuccess, StatusFetching, ArticleVersionQueryParam } from '../constants'
+import {
+  StatusSuccess,
+  StatusError,
+  StatusFetching,
+  ArticleVersionQueryParam
+} from '../constants'
 import Article from '../components/Article'
 import ArticleV2 from '../components/ArticleV2'
 import ArticleHeader from '../components/Article/ArticleHeader'
+import ErrorViewer from './ErrorViewer'
 /**
  * Loading bar inspired by
  * https://codesandbox.io/s/github/pmndrs/react-spring/tree/master/demo/src/sandboxes/animating-auto
@@ -54,20 +60,25 @@ const NotebookViewer = ({
       }
     }
   }
-  const { data, error, status } = useGetJSON({ url, delay: 200, onDownloadProgress })
+  const { data, error, status } = useGetJSON({
+    url, delay: 200,
+    timeout: process.env.REACT_APP_API_TIMEOUT,
+    onDownloadProgress
+  })
 
   useEffect(() => {
     if(status === StatusFetching) {
       api.start({ width: 10, opacity: 1 })
     } else if(status === StatusSuccess) {
       api.start({ width: 100, opacity: 0 })
+    } else if(status === StatusError) {
+      api.start({
+        width: 0,
+        opacity: 0
+      })
     }
   }, [status])
 
-  if (error) {
-    console.error(error)
-    return <div>Error <pre>{JSON.stringify(error, null, 2)}</pre></div>
-  }
   // console.info('Notebook render:', url ,'from', encodedUrl, status)
   return (
     <>
@@ -80,6 +91,7 @@ const NotebookViewer = ({
           opacity: animatedProps.opacity
         }}>{animatedProps.width.to(x => `${Math.round(x * 10000) / 10000}%`)}</animated.span>
       </div>
+      {status === StatusError && <ErrorViewer error={error} errorCode={error.code} />}
       {status === StatusSuccess
         ? (
           <ArticleComponent

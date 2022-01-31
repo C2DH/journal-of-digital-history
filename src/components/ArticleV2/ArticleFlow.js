@@ -24,6 +24,9 @@ const ArticleFlow = ({
   isJavascriptTrusted = false,
   renderedBibliographyComponent=null,
   renderedFooterComponent=null,
+  // if it is defined, it overrides the style of the ArticleLayout pushFixed
+  // header
+  pageBackgroundColor,
   children
 }) => {
   const setVisibleCell = useArticleToCStore(store => store.setVisibleCell)
@@ -93,6 +96,7 @@ const ArticleFlow = ({
         paragraphs={paragraphs}
         height={height}
         width={width}
+        pageBackgroundColor={pageBackgroundColor}
         isJavascriptTrusted={isJavascriptTrusted}
         renderedBibliographyComponent={renderedBibliographyComponent}
         renderedFooterComponent={renderedFooterComponent}
@@ -108,5 +112,6 @@ export default React.memo(ArticleFlow, (nextProps, prevProps) => {
   if (nextProps.width !== prevProps.width || nextProps.height !== prevProps.height) {
     return false
   }
+  console.debug('[ArticleFlow] rendering requested, memoid:', nextProps.memoid, nextProps.memoid === prevProps.memoid)
   return nextProps.memoid === prevProps.memoid
 })
