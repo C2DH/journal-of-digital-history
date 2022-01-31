@@ -19,11 +19,12 @@
 }
 .pushFixed{
   position: fixed;
-  background-color: red;
+  background-color: transparent;
   top: 0;
   height: 100px;
   width:100%;
   z-index:1;
+  transition: background-color 1s ease-in-out;
   /* border-bottom: 1px solid var(--secondary); */
 }
 

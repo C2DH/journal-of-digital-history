@@ -265,10 +265,10 @@ const ArticleLayer = ({
     if (layerLevel === 0) {
       setMask.set({ clipPath: [0, 0, width, height], x:-width, y:0 })
     } else if (layerLevel <= layers.indexOf(selectedLayer)) {
-      console.info('open', layer, layers.indexOf(selectedLayer), layerLevel)
+      console.debug('[ArticleLayer] @useEffect open', layer, layers.indexOf(selectedLayer), layerLevel)
       setMask.start({ clipPath: [0, 0, width, height], x:-width, y:0 })
     } else if (layerLevel > layers.indexOf(selectedLayer)) {
-      console.info('close', layer, layers.indexOf(selectedLayer), layerLevel)
+      console.debug('[ArticleLayer] @useEffect close', layer, layers.indexOf(selectedLayer), layerLevel)
       setMask.start({ clipPath: [width, 0, width, height], x:0, y:0 })
     }
   }, [isSelected, layer, layers])
