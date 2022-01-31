@@ -30,7 +30,7 @@
 
 .pushFixed_narrative{
   composes: pushFixed;
-  background-color: rgb(244, 241, 248);
+  background-color: var(--gray-100);/* rgb(244, 241, 248); */
 }
 .pushFixed_hermeneutics{
   composes: pushFixed;
