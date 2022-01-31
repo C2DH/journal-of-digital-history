@@ -215,7 +215,10 @@ export default function App() {
             <AppRoutes />
           </Suspense>
         </main>
-        <Footer hideOnRoutes={['/article/', '/notebook-viewer/']}/>
+        <Footer hideOnRoutes={[
+          '/article/', '/notebook-viewer/',
+          '/guidelines'
+        ]}/>
         <ScrollToTop />
       </Auth0ProviderWithHistory>
       </QueryParamProvider>
