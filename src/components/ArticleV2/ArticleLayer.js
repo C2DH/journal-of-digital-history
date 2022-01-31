@@ -51,6 +51,9 @@ const ArticleLayer = ({
   width=0, height=0,
   isJavascriptTrusted=false,
   style,
+  // if it is defined, will override the style of the
+  // ArticleLayout pushFixed header
+  pageBackgroundColor,
   renderedBibliographyComponent=null,
   renderedFooterComponent=null,
 }) => {
@@ -277,7 +280,9 @@ const ArticleLayer = ({
       ...style,
       clipPath: mask.clipPath.to(layerTransition),
     }} onClick={onLayerClickHandler}>
-      <div className={cx('pushFixed', layer)}></div>
+      <div className={cx('pushFixed', layer)} style={{
+        backgroundColor: pageBackgroundColor
+      }}></div>
       <div className={styles.push}></div>
       <ArticleCellPopup style={popupProps} onClick={onCellPopupClickHandler}/>
       {children}

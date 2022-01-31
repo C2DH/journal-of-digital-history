@@ -25,6 +25,9 @@ const ArticleLayers = ({
   onDataHrefClick,
   isJavascriptTrusted=false,
   children,
+  // if it is defined, will override the backgroudn color of the first
+  // ArticleLayer pushFixed header
+  pageBackgroundColor,
   renderedBibliographyComponent,
   renderedFooterComponent
 }) => {
@@ -136,6 +139,7 @@ const ArticleLayers = ({
           pointerEvents: selectedLayer === layer ? "auto": "none",
           // left: i * width
         }}
+        pageBackgroundColor={i === 0 ? pageBackgroundColor : undefined}
         renderedBibliographyComponent={renderedBibliographyComponent}
         renderedFooterComponent={renderedFooterComponent}
       >
