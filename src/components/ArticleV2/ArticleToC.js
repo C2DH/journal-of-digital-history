@@ -173,7 +173,7 @@ const ArticleToC = ({
   return (
     <>
     <div className="flex-shrink-1 py-3 mb-0 pointer-events-auto text-end">
-      {layers.map((d,i) => (
+      {layers.length > 1 && layers.map((d,i) => (
         <div
           className={`me-5 ArticleToC_layerSelector ${selectedLayer === d ? 'active' : ''}`}
           key={i}
