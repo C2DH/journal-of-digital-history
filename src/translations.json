@@ -61,6 +61,8 @@
           "articleAbstractHelpText": "<i>Please take the multi-layered principle of the JDH articles into account. In particular, we would like you to describe the narrative layer, the hermeneutic layer and the data layer.</i>",
           "articleAbstractPlaceholder": "...",
           "authorAffiliation": "Affiliation",
+          "githubId": "Specify a github account (user)",
+          "githubIdPlaceholder": "@octocat",
           "preview": "Submission Status",
           "ContactPointSectionTitle": "Contact",
           "DataSectionTitle": "Tools, Code & Data",

@@ -41,6 +41,11 @@ const AbstractSubmission = () => {
     { id: 'abstract', value: temporaryAbstractSubmission.abstract, label: 'pages.abstractSubmission.articleAbstract' },
     { id: 'contact', value: temporaryAbstractSubmission.contact, label: 'pages.abstractSubmission.articleContact' },
     { id: 'authors', value: temporaryAbstractSubmission.authors, label: 'pages.abstractSubmission.AuthorsSectionTitle' },
+    {
+      id: 'githubId',
+      value: temporaryAbstractSubmission.githubId,
+      isValid: null,
+      label: 'pages.abstractSubmission.githubId' },
     { id: 'datasets', value: temporaryAbstractSubmission.datasets, label: 'pages.abstractSubmission.DataSectionTitle' },
     {
       id: 'acceptConditions', value: temporaryAbstractSubmission.acceptConditions
@@ -49,19 +54,18 @@ const AbstractSubmission = () => {
   const [ validatorResult, setValidatorResult ] = useState(null)
   useEffect(() => {
     console.info("useEffect setValidatorResult")
-    const { title, abstract, contact, authors, datasets, acceptConditions } = temporaryAbstractSubmission
+    const { title, abstract, contact, authors, datasets, githubId, acceptConditions } = temporaryAbstractSubmission
     setValidatorResult(getValidatorResultWithAbstractSchema({
       title,
       abstract,
       contact,
       authors,
       datasets,
+      githubId,
       acceptConditions
     }))
   }, [temporaryAbstractSubmission]);
-  useEffect(() => {
-    useStore.setState({ backgroundColor: 'var(--gray-100)' });
-  })
+
 
   const handleSubmit = async(event) => {
     event.preventDefault();
@@ -204,6 +208,19 @@ const AbstractSubmission = () => {
               </FormGroupWrapperPreview>}
             <hr />
             <h3 className="progressiveHeading">{t('pages.abstractSubmission.DataSectionTitle')}</h3>
+            {isPreviewMode &&
+              <FormGroupWrapperPreview
+              label='pages.abstractSubmission.githubId'
+              >{temporaryAbstractSubmission.githubId}
+              </FormGroupWrapperPreview>}
+            {!isPreviewMode && (
+              <FormGroupWrapper schemaId='#/definitions/githubId' rows={5} placeholder={t('pages.abstractSubmission.githubIdPlaceholder')}
+                initialValue={temporaryAbstractSubmission.githubId}
+                label='pages.abstractSubmission.githubId'
+                onChange={({ value, isValid }) => handleChange({ id: 'githubId', value, isValid })}
+              />
+            )}
+
             {!isPreviewMode && <FormAbstractGenericSortableList
               onChange={({ items, isValid }) => handleChange({
                 id: 'datasets',
@@ -257,7 +274,8 @@ const AbstractSubmission = () => {
           <Col md={4} lg={3}>
             <div style={{
               position: 'sticky',
-              top: 100
+              top: 120,
+              background: 'var(--gray-100)'
             }}>
             {validatorResult && <AbstractSubmissionPreview
               validatorResult={validatorResult}
