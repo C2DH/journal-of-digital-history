@@ -53,6 +53,7 @@ const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
 const AbstractSubmission = lazy(() => import('./pages/AbstractSubmission'))
 const AbstractSubmitted = lazy(() => import('./pages/AbstractSubmitted'))
+const ArticlesPage = lazy(() => import('./pages/Articles'))
 const Issue = lazy(() => import('./pages/Issue'))
 const Issues = lazy(() => import('./pages/Issues'))
 const Abstract = lazy(() => import('./pages/Abstract'))
@@ -114,9 +115,11 @@ function LangRoutes() {
       <Route path={`${path}/abstract/:id`}>
         <Abstract />
       </Route>
+
       <Route path={`${path}/issues`} component={Issues} />
       <Route path={`${path}/issue/:id`} component={Issue} />
       <Route path={`${path}/article/:pid`} component={ArticleViewer} />
+      <Route exact path={`${path}/articles`} component={ArticlesPage} />
       <Route path={`${path}/abstract-submitted`} component={AbstractSubmitted} />
       <Route exact path={`${path}/terms`} component={TermsOfUse}/>
       <Route exact path={`${path}/submit`}>
@@ -155,22 +158,21 @@ function usePageViews() {
   useEffect(
     () => {
       const url = [pathname, search].join('')
-      console.info('usePageViews', url)
-      changeBackgroundColor('var(--gray-100)')
+      console.info('pageview', url)
       // based on the pathname, change the background
-      // if (pathname.indexOf('/notebook') !== -1 || pathname.indexOf('/article') !== -1) {
-      //   changeBackgroundColor('#F4F1F8')
-      // } else if (pathname.indexOf('/issue') !== -1) {
-      //   changeBackgroundColor('#F4F1F8')
-      // } else if (pathname.indexOf('/submit') !== -1) {
-      //   changeBackgroundColor('var(--gray-100)')
-      // } else if (pathname.indexOf('/about') !== -1) {
-      //   changeBackgroundColor('var(--linen)')
-      // } else if (pathname.indexOf('/terms') !== -1) {
-      //   changeBackgroundColor('var(--peachpuff)')
-      // } else {
-      //   changeBackgroundColor('var(--gray-100)')
-      // }
+      if (pathname.indexOf('/notebook') !== -1 || pathname.indexOf('/article') !== -1) {
+        changeBackgroundColor('#F4F1F8')
+      } else if (pathname.indexOf('/issue') !== -1) {
+        changeBackgroundColor('#F4F1F8')
+      } else if (pathname.indexOf('/submit') !== -1) {
+        changeBackgroundColor('var(--gray-100)')
+      } else if (pathname.indexOf('/about') !== -1) {
+        changeBackgroundColor('var(--linen)')
+      } else if (pathname.indexOf('/terms') !== -1) {
+        changeBackgroundColor('var(--peachpuff)')
+      } else {
+        changeBackgroundColor('var(--gray-100)')
+      }
       ReactGA.pageview(url)
     },
     [pathname, search, changeBackgroundColor]
@@ -216,10 +218,7 @@ export default function App() {
             <AppRoutes />
           </Suspense>
         </main>
-        <Footer hideOnRoutes={[
-          '/article/', '/notebook-viewer/',
-          '/guidelines'
-        ]}/>
+        <Footer hideOnRoutes={['/article/', '/notebook-viewer/']}/>
         <ScrollToTop />
       </Auth0ProviderWithHistory>
       </QueryParamProvider>
