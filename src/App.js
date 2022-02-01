@@ -54,6 +54,7 @@ const About = lazy(() => import('./pages/About'))
 const AbstractSubmission = lazy(() => import('./pages/AbstractSubmission'))
 const AbstractSubmitted = lazy(() => import('./pages/AbstractSubmitted'))
 const ArticlesPage = lazy(() => import('./pages/Articles'))
+const CallForPapers = lazy(() => import('./pages/CallForPapers'))
 const Issue = lazy(() => import('./pages/Issue'))
 const Issues = lazy(() => import('./pages/Issues'))
 const Abstract = lazy(() => import('./pages/Abstract'))
@@ -144,6 +145,7 @@ function LangRoutes() {
       <Route exact path={`${path}/playground`} component={Playground}/>
       <Route exact path={`${path}/fingerprint`} component={Fingerprint} />
       <Route exact path={`${path}/guidelines`} component={Guidelines} />
+      <Route exact path={`${path}/cfp/:permalink`} component={CallForPapers} />
       <Route path={`${path}*`}>
         <NotFound path={path}/>
       </Route>
