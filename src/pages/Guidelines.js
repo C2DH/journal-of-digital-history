@@ -27,7 +27,7 @@ const GuidelinesArticle = ({ data, status, isFake=false}) => {
             <a className="btn btn-outline-secondary btn-sm rounded " onClick={(e) => {
               e.preventDefault()
               downloadFile({
-                url: '/proxy-githubusercontent/C2DH/template_repo_JDH/blob/main/author_guideline_template.ipynb',
+                url: '/proxy-githubusercontent/C2DH/template_repo_JDH/main/author_guideline_template.ipynb',
                 filename: 'author_guideline_template.ipynb'
               })
             }} href="#download">
