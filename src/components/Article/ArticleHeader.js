@@ -67,7 +67,7 @@ const ArticleHeader = ({
         </Col>
       ))}
       </Row>
-      {abstract.length && !ignorePublicationStatus
+      {abstract.length > 0 && !ignorePublicationStatus
         ? (
           <Row className="mt-5">
             <Col {...BootstrapColumLayout}>
@@ -83,7 +83,7 @@ const ArticleHeader = ({
           </Row>
         ):null
       }
-      {abstract.length && ignorePublicationStatus && (
+      {abstract.length > 0 && ignorePublicationStatus && (
         <Row className="mt-5">
           <Col {...BootstrapColumLayout}>
           <div className="ArticleHeader_abstract">
