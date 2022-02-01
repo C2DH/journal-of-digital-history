@@ -32,6 +32,8 @@ const Article = ({
   // if it is defined, will override the style of the ArticleLayout pushFixed
   // header
   pageBackgroundColor,
+  // layers, if any. See ArticleFlow component.
+  layers,
   // Children will be put right aftr the ArticleHeader.
   children,
 }) => {
@@ -54,7 +56,7 @@ const Article = ({
 
   console.debug(`[Article] component rendered ${width}x${height}px`)
   console.debug('[Article] loading articleTree anchors:', articleTree.anchors)
-  console.debug('[Article] loading articleTree:', ipynb, articleTree)
+  console.debug('[Article] loading articleTree paragraphs:',  articleTree.paragraphs.length)
 
   const onDataHrefClickHandler = (d) => {
     console.debug('DataHref click handler')
@@ -82,6 +84,7 @@ const Article = ({
     <div className="page">
       <a id="top" className="anchor"></a>
       <ArticleFlow
+        layers={layers}
         memoid={memoid || articleTree.id}
         height={height}
         width={width}

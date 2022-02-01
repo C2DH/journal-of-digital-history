@@ -60,6 +60,7 @@ const StaticPageLoader = ({ url, delay=0, Component, fakeData }) => {
     {status !== StatusError && (
       <Component
         status={status}
+        url={url}
         data={status === StatusSuccess ? data : fakeData}
         isFake={status !== StatusSuccess}
       />
