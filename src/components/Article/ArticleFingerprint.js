@@ -75,9 +75,13 @@ const ArticleFingerprint = ({
   }
 
   const onClickHandler = (e) => {
-    if (typeof onClick === 'function' && cached.current.idx !== -1) {
-      const datum = cells[cached.current.idx]
-      onClick(e, datum, cached.current.idx)
+    if (typeof onClick === 'function') {
+      if (cached.current.idx !== -1) {
+        const datum = cells[cached.current.idx]
+        onClick(e, datum, cached.current.idx)
+      } else {
+        onClick(e)
+      }
     }
   }
 
@@ -152,7 +156,7 @@ const ArticleFingerprint = ({
             transform={pointer.theta.to((t) => `rotate(${t})`)}
           />
         */}
-        <animated.line style={{pointerEvents:'none'}} x1="0" y1="0" stroke="var(--secondary)" x2={radius + maxNumCharsRadius} y2={0}
+        <animated.line style={{pointerEvents:'none'}} x1="0" y1="0" stroke="var(--secondary)" x2={radius} y2={0}
           strokeOpacity={pointer.opacity.to(o => o)}
           transform={pointer.idx.to((idx) => {
             // const t = parseInt(idx, 10)

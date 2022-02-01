@@ -4,11 +4,17 @@ import { getArticleTreeFromIpynb } from '../logic/ipynb'
 
 export const useIpynbNotebookParagraphs = ({ id, cells, metadata }) => {
   const treeRef = useRef(null)
-  if (!treeRef.current) {
-    console.info('useIpynbNotebookParagraphs() parsing article')
-    treeRef.current = getArticleTreeFromIpynb({ id, cells, metadata })
+  if (!treeRef.current || treeRef.current.id !== id) {
+    console.debug('[useIpynbNotebookParagraphs] getArticleTreeFromIpynb id:', id, 'n. cells:', cells.length)
+    if (!cells.length) {
+      return getArticleTreeFromIpynb({ id, cells, metadata })
+    }
+    treeRef.current = {
+      id,
+      articleTree: getArticleTreeFromIpynb({ id, cells, metadata })
+    }
   } else {
-    console.warn('useIpynbNotebookParagraphs parsing article using ref!')
+    console.debug('[useIpynbNotebookParagraphs] use memoized articleTree, id:', id)
   }
-  return treeRef.current
+  return treeRef.current.articleTree
 }

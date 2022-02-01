@@ -17,10 +17,12 @@ export const TermsOfUseRoute = { to:'/terms', label: 'navigation.termsOfUse'}
 export const GuidelinesRoute = { to:'/guidelines', label: 'navigation.guidelines'}
 export const NotebookViewerRoute = { to:'/notebook-viewer-form', label: 'Navigation_NotebookViewer'}
 export const IssueRoute = { to:'/issues', label: 'navigation.issue'}
+export const ArticlesRoute = { to:'/articles', label: 'navigation.issue'}
 
 export const PrimaryRoutes = [
   HomeRoute,
-  IssueRoute,
+  // IssueRoute,
+  ArticlesRoute,
   // ReferencesRoute,
   // DatasetsRoute,
   AbstractSubmissionRoute,
@@ -33,7 +35,7 @@ export const ReCaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
 export const GaTrackingId = process.env.REACT_APP_GA_TRACKING_ID
 
 export const BootstrapColumLayout = Object.freeze({
-  md: { span:8, offset:2 },
+  md: { span:8, offset:1 },
   lg: { span:8, offset:2 }
 })
 
@@ -126,12 +128,18 @@ export const AnchorRefPrefix = 'anchor-'
 export const DisplayLayerHermeneutics = 'h'
 export const DisplayLayerNarrative = 'n'
 export const DisplayLayerAll = 'all'
+// available sections to link to
+export const DisplayLayerSectionBibliography = 'bib'
+export const DisplayLayerSectionHeader = 'head'
+export const DisplayLayerSectionFooter = 'foo'
+// names of the query parameters available
 export const DisplayLayerQueryParam = 'layer'
 export const DisplayPreviousLayerQueryParam = 'pl'
 export const DisplayLayerCellIdxQueryParam = 'idx'
 export const DisplayPreviousCellIdxQueryParam = 'pidx'
 export const DisplayLayerCellTopQueryParam = 'y'
 export const DisplayLayerHeightQueryParam = 'lh'
+export const DisplayLayerSectionParam = 's'
 // article status
 export const ArticleStatusPublished = 'PUBLISHED'
 export const ArticleStatusDraft = 'Draft'

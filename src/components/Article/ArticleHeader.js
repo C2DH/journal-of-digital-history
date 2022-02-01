@@ -22,7 +22,8 @@ const ArticleHeader = ({
   url,
   bibjson,
   children,
-  isPreview=true
+  isPreview=true,
+  ignorePublicationStatus=false
 }) => {
   const { t } = useTranslation()
   const keywordsCleaned = keywords.reduce((acc, d) => {
@@ -35,15 +36,17 @@ const ArticleHeader = ({
     <Container className={`ArticleHeader ${className}`}>
       <Row>
         <Col {...BootstrapColumLayout}>
-          <div className="mb-3">
-            {t(`pages.article.status.${publicationStatus}`)}
-            {publicationStatus === ArticleStatusPublished
-              ? <span> &mdash; <LangLink to={`issue/${issue.pid}`}>{issue?.name}</LangLink></span>
-              : null}
-            <br/>
-            <b>{publicationDate.getFullYear()}</b>
-          </div>
-          <div className={`ArticleHeader_title my-3 ${variant}`}>
+          {!ignorePublicationStatus &&
+            <div className="mb-3">
+              {t(`pages.article.status.${publicationStatus}`)}
+              {publicationStatus === ArticleStatusPublished
+                ? <span> &mdash; <LangLink to={`issue/${issue.pid}`}>{issue?.name}</LangLink></span>
+                : null}
+              <br/>
+              <b>{publicationDate.getFullYear()}</b>
+            </div>
+          }
+          <div className={`ArticleHeader_title ${ignorePublicationStatus ? 'mb-3': 'my-3'} ${variant}`}>
           {title.map((paragraph, i) => (
             <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>
           ))}
@@ -64,13 +67,13 @@ const ArticleHeader = ({
         </Col>
       ))}
       </Row>
-      {abstract.length
+      {abstract.length > 0 && !ignorePublicationStatus
         ? (
           <Row className="mt-5">
             <Col {...BootstrapColumLayout}>
               <h3>{t('pages.article.abstract')}</h3>
               <ArticleKeywords keywords={keywordsCleaned}/>
-              <ArticleCitation disabled={isPreview} bibjson={bibjson} className="my-4 w-100"/>
+              <ArticleCitation disabled={isPreview } bibjson={bibjson} className="my-4 w-100"/>
               <div className="ArticleHeader_abstract">
                 {abstract.map((paragraph, i) => (
                   <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>
@@ -80,6 +83,17 @@ const ArticleHeader = ({
           </Row>
         ):null
       }
+      {abstract.length > 0 && ignorePublicationStatus && (
+        <Row className="mt-5">
+          <Col {...BootstrapColumLayout}>
+          <div className="ArticleHeader_abstract">
+            {abstract.map((paragraph, i) => (
+              <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>
+            ))}
+          </div>
+          </Col>
+        </Row>
+      )}
       {!!url && (
         <Row>
           <Col {...BootstrapColumLayout}>

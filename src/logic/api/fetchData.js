@@ -85,7 +85,8 @@ export const useGetJSON = ({
   allowCached=true,
   delay=0,
   onDownloadProgress,
-  timeout=process.env.REACT_APP_API_TIMEOUT || 0
+  timeout=process.env.REACT_APP_API_TIMEOUT || 0,
+  raw=false
 }) => {
   const cache = useRef({});
   const [response, setResponse] = useState({
@@ -116,7 +117,9 @@ export const useGetJSON = ({
       if (cache.current[url] && allowCached=== true) {
           console.debug('useGetDataset allowCached url:', url)
           const data = cache.current[url];
-          data.cached = true;
+          if (!raw) {
+            data.cached = true;
+          }
           if (cancelRequest) return;
           setResponse({
             data: data,
@@ -147,7 +150,9 @@ export const useGetJSON = ({
       }
     }
     if (delay) {
+      console.debug('useGetDataset delayed: ', delay)
       timer = setTimeout(() => {
+        console.debug('useGetDataset executed after: ', delay)
         fetchData()
       }, delay)
     } else {
@@ -161,4 +166,8 @@ export const useGetJSON = ({
 		}
   }, [url, allowCached, delay])
   return response
+}
+
+export const useGetRawContents = (opts) => {
+  return useGetJSON({... opts, raw:true })
 }

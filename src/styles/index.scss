@@ -484,3 +484,8 @@ blockquote.code{
 .right-0{
   right: 0
 }
+
+.transition-opacity{
+  will-change: opacity;
+  transition: opacity 0.5s cubic-bezier(0.85, 0, 0.15, 1);
+}

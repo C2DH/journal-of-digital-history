@@ -9,6 +9,8 @@ import {
   DisplayLayerCellIdxQueryParam,
   DisplayLayerCellTopQueryParam,
   DisplayPreviousLayerQueryParam,
+  DisplayLayerSectionParam,
+  DisplayLayerSectionBibliography
 } from '../../constants'
 import ArticleToCStep from './ArticleToCStep'
 import ArticleToCBookmark from './ArticleToCBookmark'
@@ -19,18 +21,20 @@ const ArticleToC = ({
   paragraphs=[],
   headingsPositions=[],
   binderUrl=null,
-  width=100
+  width=100,
+  height=100
 }) => {
   const { t } = useTranslation()
-  const visibleCellsIdx = useArticleToCStore(state=>state.visibleCellsIdx)
-
+  const visibleCellsIdx = useArticleToCStore(state => state.visibleCellsIdx)
+  const setVisibleCellsIdx = useArticleToCStore(state => state.setVisibleCellsIdx)
   const [{
     [DisplayLayerQueryParam]:selectedLayer,
     [DisplayLayerCellIdxQueryParam]:selectedCellIdx,
   }, setQuery] = useQueryParams({
     [DisplayLayerCellIdxQueryParam]: withDefault(NumberParam, -1),
     [DisplayLayerQueryParam]: withDefault(StringParam, LayerNarrative),
-    [DisplayLayerCellTopQueryParam]: withDefault(NumberParam, 0),
+    [DisplayLayerCellTopQueryParam]: withDefault(NumberParam, 100),
+    [DisplayLayerSectionParam]: StringParam,
   })
 
   let count = 0
@@ -41,9 +45,15 @@ const ArticleToC = ({
 
   const steps = React.useMemo(() => headingsPositions.reduce((acc, idx, i) => {
     const cell = cellIndex[idx]
-    if(!cell) {
+    if (!cell) {
       // is possible that there are headingPositions outside of the
       // articleTree.paragraphs list (e.g in the metadata section).
+      // In this case, we just skip.
+      return acc
+    }
+    if (cell.hidden) {
+
+      // is possible that there are headingPositions within hidden cells.
       // In this case, we just skip.
       return acc
     }
@@ -104,7 +114,8 @@ const ArticleToC = ({
     // go to the cell
     setQuery({
       [DisplayLayerCellIdxQueryParam]: step.cell.idx,
-      [DisplayPreviousLayerQueryParam]: undefined
+      [DisplayPreviousLayerQueryParam]: undefined,
+      [DisplayLayerSectionParam]: undefined
     })
   }
 
@@ -112,13 +123,57 @@ const ArticleToC = ({
     setQuery({
       [DisplayLayerCellIdxQueryParam]: selectedCellIdx,
       [DisplayPreviousLayerQueryParam]: undefined,
-      [DisplayLayerCellTopQueryParam]: 100
+      [DisplayLayerCellTopQueryParam]: 100,
+      [DisplayLayerSectionParam]: undefined
     })
   }
+
+  // this listens to click on Bibliography or other extra section (author bio?)
+  const onSectionClickHandler = (e, section) => {
+    setQuery({
+      [DisplayLayerCellIdxQueryParam]: undefined,
+      [DisplayPreviousLayerQueryParam]: undefined,
+      [DisplayLayerSectionParam]: section
+    })
+  }
+
+  React.useEffect(() => {
+    console.debug('[ArticleToC] @useEffect', visibleCellsIdx)
+    let timer = null
+
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      console.debug('[ArticleToC] @useEffect @timeout!')
+      let visibilityChanged = false
+      const updatedVisibleCellsIdx = []
+      for (let i=0, l=visibleCellsIdx.length; i < l; i++) {
+        const el = document.getElementById(selectedLayer + visibleCellsIdx[i])
+        if (el) {
+          const rect = el.getBoundingClientRect()
+          if ( rect.top < 0 || rect.top > height) {
+            console.debug('[ArticleToC]', visibleCellsIdx[i], 'is not visible anymore', rect.top, height)
+            visibilityChanged = true
+          } else {
+            updatedVisibleCellsIdx.push(visibleCellsIdx[i])
+          }
+        }
+      }
+      if(visibilityChanged) {
+        console.debug('[ArticleToC] visibilityChanged from', visibleCellsIdx, 'to', updatedVisibleCellsIdx)
+        setVisibleCellsIdx(updatedVisibleCellsIdx)
+      }
+    }, 100)
+    // delay and double check if cell idx are still visible.
+    return function cleanup() {
+      clearTimeout(timer)
+    }
+  }, [visibleCellsIdx, selectedLayer])
   return (
     <>
     <div className="flex-shrink-1 py-3 mb-0 pointer-events-auto text-end">
-      {layers.map((d,i) => (
+      {layers.length > 1 && layers.map((d,i) => (
         <div
           className={`me-5 ArticleToC_layerSelector ${selectedLayer === d ? 'active' : ''}`}
           key={i}
@@ -129,7 +184,7 @@ const ArticleToC = ({
         __html: binderUrl ? t('actions.gotoBinder', { binderUrl }) : t('errors.binderUrlNotAvailable')
       }}/>
     </div>
-    <div className="flex-grow-1 ps-2 pt-2 pb-2 mb-3" style={{ overflow: "scroll"}}>
+    <div className="flex-grow-1 ps-2 pt-2 pb-2 mb-2 border-bottom border-top border-dark" style={{ overflow: "scroll"}}>
       {steps.map((step, i) => {
         const showBookmark = i < steps.length - 1
           ? selectedCellIdx >= step.cell.idx && selectedCellIdx < steps[i+1].cell.idx
@@ -166,6 +221,20 @@ const ArticleToC = ({
           </ArticleToCStep>
           </div>
       )})}
+    </div>
+    <div className="flex-shrink-1 ps-2 mb-3">
+      <ArticleToCStep
+        cell={{
+          level: 'H2'
+        }}
+        width={width * .16}
+        isSectionStart
+        isSectionEnd
+        selected
+        active={false}
+        className=''
+        onStepClick={(e) => onSectionClickHandler(e, DisplayLayerSectionBibliography)}
+      >{t('bibliography')}</ArticleToCStep>
     </div>
     </>
   )

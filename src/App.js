@@ -53,6 +53,8 @@ const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
 const AbstractSubmission = lazy(() => import('./pages/AbstractSubmission'))
 const AbstractSubmitted = lazy(() => import('./pages/AbstractSubmitted'))
+const ArticlesPage = lazy(() => import('./pages/Articles'))
+const CallForPapers = lazy(() => import('./pages/CallForPapers'))
 const Issue = lazy(() => import('./pages/Issue'))
 const Issues = lazy(() => import('./pages/Issues'))
 const Abstract = lazy(() => import('./pages/Abstract'))
@@ -68,6 +70,9 @@ const NotFound = lazy(() => import('./pages/NotFound'))
 const ArticleViewer = lazy(() => import('./pages/ArticleViewer'))
 const Fingerprint = lazy(() => import('./pages/Fingerprint'))
 const FingerprintViewer = lazy(() => import('./pages/FingerprintViewer'))
+const FingerprintExplained = lazy(() => import ('./pages/FingerprintExplained'))
+const ReleaseNotes = lazy(() => import ('./pages/ReleaseNotes'))
+const Faq = lazy(() => import ('./pages/Faq'))
 
 const { startLangShort, lang } = getStartLang()
 console.info('start language:', lang, startLangShort)
@@ -111,9 +116,11 @@ function LangRoutes() {
       <Route path={`${path}/abstract/:id`}>
         <Abstract />
       </Route>
+
       <Route path={`${path}/issues`} component={Issues} />
       <Route path={`${path}/issue/:id`} component={Issue} />
       <Route path={`${path}/article/:pid`} component={ArticleViewer} />
+      <Route exact path={`${path}/articles`} component={ArticlesPage} />
       <Route path={`${path}/abstract-submitted`} component={AbstractSubmitted} />
       <Route exact path={`${path}/terms`} component={TermsOfUse}/>
       <Route exact path={`${path}/submit`}>
@@ -126,6 +133,9 @@ function LangRoutes() {
         <NotebookViewerForm />
       </Route>
       <Route path={`${path}/fingerprint-viewer`} component={FingerprintViewer} />
+      <Route path={`${path}/fingerprint-explained`} component={FingerprintExplained} />
+      <Route path={`${path}/release-notes`} component={ReleaseNotes} />
+      <Route path={`${path}/faq`} component={Faq} />
       <Route path={`${path}/notebook-viewer/:encodedUrl`}
         component={NotebookViewer}
       />
@@ -135,6 +145,7 @@ function LangRoutes() {
       <Route exact path={`${path}/playground`} component={Playground}/>
       <Route exact path={`${path}/fingerprint`} component={Fingerprint} />
       <Route exact path={`${path}/guidelines`} component={Guidelines} />
+      <Route exact path={`${path}/cfp/:permalink`} component={CallForPapers} />
       <Route path={`${path}*`}>
         <NotFound path={path}/>
       </Route>
@@ -209,7 +220,7 @@ export default function App() {
             <AppRoutes />
           </Suspense>
         </main>
-        <Footer ></Footer>
+        <Footer hideOnRoutes={['/article/', '/notebook-viewer/']}/>
         <ScrollToTop />
       </Auth0ProviderWithHistory>
       </QueryParamProvider>

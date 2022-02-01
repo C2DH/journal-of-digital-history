@@ -8,6 +8,10 @@ import {a, useSpring, config} from 'react-spring'
 import { useRefWithCallback } from '../../hooks/graphics'
 import { Button } from 'react-bootstrap'
 import { ArrowRight, ArrowLeft } from 'react-feather'
+import {
+  DisplayLayerSectionBibliography,
+  DisplayLayerSectionFooter
+} from '../../constants'
 import styles from './ArticleLayer.module.css'
 
 function getCellAnchorFromIdx(idx, prefix='c') {
@@ -40,13 +44,18 @@ const ArticleLayer = ({
   isSelected=false,
   selectedLayer='',
   previousLayer='',
+  selectedSection=null,
   previousCellIdx=-1,
   layers=[],
   children,
   width=0, height=0,
   isJavascriptTrusted=false,
   style,
-  FooterComponent = function({ width, height }) { return <div style={{width, height}} />},
+  // if it is defined, will override the style of the
+  // ArticleLayout pushFixed header
+  pageBackgroundColor,
+  renderedBibliographyComponent=null,
+  renderedFooterComponent=null,
 }) => {
   const [popupProps, setPopupProps] = useSpring(() => ({
     x: 0,
@@ -61,7 +70,22 @@ const ArticleLayer = ({
     config: config.slow
   }))
   const layerRef = useRefWithCallback((layerDiv) => {
-    if (!isSelected || selectedCellIdx === -1) { // discard
+    if (selectedSection) {
+      console.info('[ArticleLayer] @useRefWithCallback on selectedSection selected:', selectedSection)
+      // get section offset
+      const sectionElement = document.getElementById(getCellAnchorFromIdx(selectedSection, layer))
+      if (!sectionElement) {
+        console.warn('[ArticleLayer] @useRefWithCallback could not find any sectionElement with given id:', selectedSection)
+        return
+      }
+      layerDiv.scrollTo({
+        top: sectionElement.offsetTop + layerDiv.offsetTop - 150,
+        behavior: previousLayer === selectedLayer
+          ? 'smooth'
+          : 'instant'
+      })
+      return
+    } else if (!isSelected || selectedCellIdx === -1) { // discard
       return
     }
     // get cellEmeemnt in current layer (as it can be just a placeholder,too)
@@ -82,7 +106,12 @@ const ArticleLayer = ({
       '\n layer', layer,
       '\n scrollTo:', top
     )
-    layerDiv.scrollTo({ top, behavior: previousLayer === selectedLayer ? 'smooth': 'instant' })
+    layerDiv.scrollTo({
+      top,
+      behavior: !previousLayer || previousLayer === selectedLayer
+        ? 'smooth'
+        : 'instant'
+    })
   })
 
   const onCellPlaceholderClickHandler = (e, cell) => {
@@ -236,10 +265,10 @@ const ArticleLayer = ({
     if (layerLevel === 0) {
       setMask.set({ clipPath: [0, 0, width, height], x:-width, y:0 })
     } else if (layerLevel <= layers.indexOf(selectedLayer)) {
-      console.info('open', layer, layers.indexOf(selectedLayer), layerLevel)
+      console.debug('[ArticleLayer] @useEffect open', layer, layers.indexOf(selectedLayer), layerLevel)
       setMask.start({ clipPath: [0, 0, width, height], x:-width, y:0 })
     } else if (layerLevel > layers.indexOf(selectedLayer)) {
-      console.info('close', layer, layers.indexOf(selectedLayer), layerLevel)
+      console.debug('[ArticleLayer] @useEffect close', layer, layers.indexOf(selectedLayer), layerLevel)
       setMask.start({ clipPath: [width, 0, width, height], x:0, y:0 })
     }
   }, [isSelected, layer, layers])
@@ -251,7 +280,9 @@ const ArticleLayer = ({
       ...style,
       clipPath: mask.clipPath.to(layerTransition),
     }} onClick={onLayerClickHandler}>
-      <div className={cx('pushFixed', layer)}></div>
+      <div className={cx('pushFixed', layer)} style={{
+        backgroundColor: pageBackgroundColor
+      }}></div>
       <div className={styles.push}></div>
       <ArticleCellPopup style={popupProps} onClick={onCellPopupClickHandler}/>
       {children}
@@ -349,7 +380,11 @@ const ArticleLayer = ({
         )
       })}
       <div className={styles.push}></div>
-      <FooterComponent width={width} height={height}/>
+      <a className='ArticleLayer_anchor' id={getCellAnchorFromIdx(DisplayLayerSectionBibliography,layer)}></a>
+      {renderedBibliographyComponent}
+      <div className="my-5" />
+      <a className='ArticleLayer_anchor' id={getCellAnchorFromIdx(DisplayLayerSectionFooter,layer)}></a>
+      {renderedFooterComponent}
     </a.div>
   )
 }

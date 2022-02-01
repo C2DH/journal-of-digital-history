@@ -39,6 +39,7 @@ const IssueArticlesGrid = ({ issue, onError }) => {
       articles.push(data[i])
     }
   }
+  // eslint-disable-next-line no-unused-vars
   const onMouseMoveHandler = (e, datum, idx) => {
     if( tooltipText.current.idx !== idx) {
       tooltipText.current.text = datum.firstWords
@@ -65,9 +66,10 @@ const IssueArticlesGrid = ({ issue, onError }) => {
 
   const onClickHandler = (e, datum, idx, article) => {
     e.stopPropagation()
-    console.info('clicked on me!', tooltipText.current?.idx, idx, article)
     // link to specific cell in article
-    const url = `/en/article/${article.abstract.pid}?${DisplayLayerCellIdxQueryParam}=${idx}`
+    const url = idx
+      ? `/en/article/${article.abstract.pid}?${DisplayLayerCellIdxQueryParam}=${idx}`
+      : `/en/article/${article.abstract.pid}`
     history.push(url);
   }
   const onMouseOutHandler = () => {
@@ -84,10 +86,10 @@ const IssueArticlesGrid = ({ issue, onError }) => {
     <Row ref={ref}>
         {editorials.map((article, i) => (
           <Col key={i} lg={{ span: 4, offset:0}} md={{span:6, offset:0}} >
+            {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
             <IssueArticleGridItem
               onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
               onMouseOut={onMouseOutHandler}
-              onMouseMove={onMouseMoveHandler}
               article={article}
               isEditorial
             />
@@ -95,10 +97,10 @@ const IssueArticlesGrid = ({ issue, onError }) => {
         ))}
         {articles.map((article, i) => (
           <Col key={i + editorials.length} lg={{ span: 4, offset:0}} onMouseOut={onMouseOutHandler} md={{span:6, offset:0}}>
+            {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
             <IssueArticleGridItem
               onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
               onMouseOut={onMouseOutHandler}
-              onMouseMove={onMouseMoveHandler}
               article={article}
               num={i+1}
               total={articles.length}
