@@ -7,7 +7,7 @@ import homePageContents from '../data/mock-api/mock-home-ipynb.json'
 import {getArticleTreeFromIpynb} from '../logic/ipynb'
 import ArticleCellContent from '../components/Article/ArticleCellContent'
 import MilestoneTimeline from '../components/MilestoneTimeline'
-import IssueReel from '../components/Issue/IssueReel'
+import HomeReel from '../components/HomeReel'
 import { IsPortrait, BootstrapColumLayout } from '../constants'
 
 
@@ -27,14 +27,16 @@ const Home = () => {
   return (
     <>
     <Container className="page">
+
       <Row>
         <Col {...BootstrapColumLayout}>
-          <IssueReel />
+          <h1 className="my-5">Write (Digital) History.</h1>
+
+          <HomeReel />
         </Col>
       </Row>
       <Row>
         <Col {...BootstrapColumLayout}>
-          <h1 className="my-5">Write (Digital) History.</h1>
           <h2 className="my-5">
             As an international, academic, peer-reviewed and open-access journal,
             the Journal of Digital History (JDH) will set new standards in history publishing
