@@ -1,0 +1,14 @@
+.HomeReel{
+  .HomeReel_item{
+    border: 2px solid transparent;
+    border-radius: 4px;
+    will-change: border-color;
+    transition: border-color .2s ease-in-out;
+    transition-delay: .5s;
+  }
+  .slick-active .HomeReel_item{
+    border-color: var(--secondary);
+    // opacity: 1;
+    // color: red;
+  }
+}
