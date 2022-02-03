@@ -18,8 +18,8 @@ const HomeReel = ({ height=180 }) => {
   if(status === StatusSuccess) {
     try {
       items = JSON.parse(data.match(/```json([^`]*)```/)[1])
-      console.debug('[HomeReel] items loaded:', items.length, '\n from:', process.env.REACT_APP_GITHUB_WIKI_NEWS, '\n REACT_APP_DISPLAY_DRAFT_NEWS', process.env.REACT_APP_DISPLAY_DRAFT_NEWS)
-      if (!process.env.REACT_APP_DISPLAY_DRAFT_NEWS) {
+      console.debug('[HomeReel] items loaded:', items.length, '\n from:', process.env.REACT_APP_GITHUB_WIKI_NEWS)
+      if (window.location.protocol !== 'http:') {
         items = items.filter(({ draft }) => !draft)
       }
     } catch (err) {
