@@ -31,18 +31,13 @@ const Home = () => {
       <Row>
         <Col {...BootstrapColumLayout}>
           <h1 className="my-5">Write (Digital) History.</h1>
-
-          <HomeReel />
-        </Col>
-      </Row>
-      <Row>
-        <Col {...BootstrapColumLayout}>
           <h2 className="my-5">
             As an international, academic, peer-reviewed and open-access journal,
             the Journal of Digital History (JDH) will set new standards in history publishing
             based on the principle of multi-layered articles.
           </h2>
-          <h2 style={{
+          <HomeReel />
+          <h2 className="mt-5" style={{
             fontFamily: 'var(--font-family-sans-serif)',
             lineHeight: '1.75',
             marginBottom: '2rem',
@@ -56,6 +51,8 @@ const Home = () => {
             and of <span style={{background:'var(--primary)'}}>transmedia storytelling</span>&nbsp;
             in the historical sciences. <LangLink to="/about">Read More</LangLink>
           </h2>
+
+
         </Col>
       </Row>
       <Row>

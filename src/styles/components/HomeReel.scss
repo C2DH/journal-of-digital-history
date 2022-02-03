@@ -1,14 +1,43 @@
 .HomeReel{
   .HomeReel_item{
-    border: 2px solid transparent;
-    border-radius: 4px;
+    border: 2px solid var(--secondary);
+    // border-radius: 4px;
     will-change: border-color;
-    transition: border-color .2s ease-in-out;
-    transition-delay: .5s;
+    transition: border-color 1s cubic-bezier(0.85, 0, 0.15, 1);
+
   }
-  .slick-active .HomeReel_item{
-    border-color: var(--secondary);
-    // opacity: 1;
-    // color: red;
+  h2, p, a, .icon > svg {
+    color: var(--secondary);
+    will-change: color;
+    transition: color 1s ease-in-out;
+  }
+  .slick-slide{
+    -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  }
+  .slick-active {
+    .HomeReel_item{
+      border-color: var(--accent);
+    }
+    h2, p, a, .icon > svg  {
+      color: var(--accent);
+    }
+    a{
+      box-shadow: 0px 1px 0px var(--accent);
+    }
+  }
+  .slick-dots li button::before{
+    color: var(--secondary);
+    opacity: .5;
+
+  }
+  .slick-dots li.slick-active button::before{
+    color: var(--accent);
+    opacity: 1;
   }
 }
