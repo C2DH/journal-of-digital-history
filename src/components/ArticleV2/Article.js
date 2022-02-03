@@ -90,7 +90,7 @@ const Article = ({
         width={width}
         paragraphs={articleTree.paragraphs}
         headingsPositions={articleTree.headingsPositions}
-        hasBibliography={typeof articleTree.bibliography === 'object'}
+        hasBibliography={!!articleTree.bibliography}
         binderUrl={binderUrl}
         emailAddress={emailAddress}
         onDataHrefClick={onDataHrefClickHandler}
