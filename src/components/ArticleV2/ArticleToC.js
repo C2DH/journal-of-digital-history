@@ -22,7 +22,8 @@ const ArticleToC = ({
   headingsPositions=[],
   binderUrl=null,
   width=100,
-  height=100
+  height=100,
+  hasBibliography=false,
 }) => {
   const { t } = useTranslation()
   const visibleCellsIdx = useArticleToCStore(state => state.visibleCellsIdx)
@@ -222,20 +223,22 @@ const ArticleToC = ({
           </div>
       )})}
     </div>
-    <div className="flex-shrink-1 ps-2 mb-3">
-      <ArticleToCStep
-        cell={{
-          level: 'H2'
-        }}
-        width={width * .16}
-        isSectionStart
-        isSectionEnd
-        selected
-        active={false}
-        className=''
-        onStepClick={(e) => onSectionClickHandler(e, DisplayLayerSectionBibliography)}
-      >{t('bibliography')}</ArticleToCStep>
-    </div>
+    {hasBibliography && (
+      <div className="flex-shrink-1 ps-2 mb-3">
+        <ArticleToCStep
+          cell={{
+            level: 'H2'
+          }}
+          width={width * .16}
+          isSectionStart
+          isSectionEnd
+          selected
+          active={false}
+          className=''
+          onStepClick={(e) => onSectionClickHandler(e, DisplayLayerSectionBibliography)}
+        >{t('bibliography')}</ArticleToCStep>
+      </div>
+    )}
     </>
   )
 }
