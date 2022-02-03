@@ -14,7 +14,7 @@ const ArticleFlow = ({
   // onCellChange,
   // onCellClick,
   // onVisibilityChange
-  // hasBibliography,
+  hasBibliography,
   onDataHrefClick,
   binderUrl=null,
   // emailAddress,
@@ -78,6 +78,7 @@ const ArticleFlow = ({
         headingsPositions={headingsPositions}
         width={width}
         height={height}
+        hasBibliography={hasBibliography}
       />
     </div>
 

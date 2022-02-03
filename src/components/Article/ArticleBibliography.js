@@ -10,7 +10,10 @@ const ArticleBilbiography = ({
   className='mt-5'
 }) => {
   const { t } = useTranslation()
-
+  console.debug('[ArticleBilbiography] articleTree', articleTree, articleTree.bibliography)
+  if (!articleTree.bibliography) {
+    return null
+  }
   return (
     <Container className={`ArticleBilbiography ${className}`}>
       <Row>
