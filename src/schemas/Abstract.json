@@ -104,11 +104,11 @@
     "githubId": {
       "$id": "#/definitions/githubId",
       "type": "string",
-      "pattern": "^[a-z0-9\\._%+!$&*=^|~#%{}\/\\-]+@([a-z0-9\\-]+\\.){1,}([a-z]{2,22})$",
+      "pattern": "^[a-z\\d]?(?:[a-z\\d]|-(?=[a-z\\d])){0,38}$",
       "title": "A github user account",
       "description": "Personal or institutional github user",
       "default": "",
-      "maxLength": 50,
+      "maxLength": 38,
       "examples": ["@joe.defilippo"]
     },
     "affiliation": {
@@ -177,8 +177,7 @@
     "contact",
     "authors",
     "datasets",
-    "acceptConditions",
-    "githubId"
+    "acceptConditions"
   ],
   "additionalProperties": false,
   "properties": {

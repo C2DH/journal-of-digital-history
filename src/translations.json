@@ -37,7 +37,7 @@
           "moreInfo": "If any information needs to be changed, please contact us via email at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>"
         },
         "cfp":{
-          "applyCallForPapers": "submit your abstract"
+          "applyCallForPapers": "Submit an Abstract"
         },
         "errorViewer": {
           "title": "Ouch! Something wrong happened...",
@@ -81,7 +81,8 @@
           "status": {
             "PUBLISHED": "Article published in Open Access",
             "DRAFT": "DRAFT",
-            "Draft": "DRAFT"
+            "Draft": "DRAFT",
+            "INTERNAL_REVIEW": "DRAFT, INTERNAL REVIEW"
           },
           "mobileDisclaimer": "While we work hard on the mobile experience, please explore all three layers - the <b>narrative</b>, the <b>hermeneutics</b> and the <b>data</b> layers on desktop"
         },
@@ -193,7 +194,8 @@
         "instance-datasets": "A <b>description</b> is required to add a valid \"Tools, Code & Data\" item",
         "instance-datasets-url": "One <b>URL</b> in <b> \"Tools, Code & Data\"</b> is not valid, make sure it starts with <code>http</code>",
         "instance-title": "<b>Title</b>",
-        "instance-abstract": "<b>Abstract</b>"
+        "instance-abstract": "<b>Abstract</b>",
+        "instance-githubId": "A valid <em>github user identifier</em> contains only numbers and letters"
       },
       "numbers": {
         "figure": "figure {{ n }}",

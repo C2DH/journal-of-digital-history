@@ -44,7 +44,6 @@ const AbstractSubmission = () => {
     {
       id: 'githubId',
       value: temporaryAbstractSubmission.githubId,
-      isValid: null,
       label: 'pages.abstractSubmission.githubId' },
     { id: 'datasets', value: temporaryAbstractSubmission.datasets, label: 'pages.abstractSubmission.DataSectionTitle' },
     {
@@ -96,9 +95,9 @@ const AbstractSubmission = () => {
   }
 
   const handleConfirmCreateAbstractSubmission = async() => {
-    console.info('handleConfirmCreateAbstractSubmission', temporaryAbstractSubmission)
+    console.debug('handleConfirmCreateAbstractSubmission', temporaryAbstractSubmission)
     const token = await recaptchaRef.current.executeAsync()
-    console.info('%cRecaptcha', 'font-weight:bold', 'token:', token)
+    console.debug('%cRecaptcha', 'font-weight:bold', 'token:', token)
     createAbstractSubmission({
       item: temporaryAbstractSubmission,
       token,
@@ -124,7 +123,7 @@ const AbstractSubmission = () => {
       acc[el.id] = el.value
       return acc
     } , {})
-    console.info('@change', submission)
+    console.debug('[AbstractSubmission] @handleChange submission:', submission)
     // todo add creation date if a temporaryAbstractSubmission object is available.
     setTemporaryAbstractSubmission({
       ...submission,
