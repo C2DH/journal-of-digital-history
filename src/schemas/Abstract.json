@@ -104,7 +104,7 @@
     "githubId": {
       "$id": "#/definitions/githubId",
       "type": "string",
-      "pattern": "^[a-z\\d]?(?:[a-z\\d]|-(?=[a-z\\d])){0,38}$",
+      "pattern": "^@?[a-z\\d]?(?:[a-z\\d]|-(?=[a-z\\d])){0,38}$",
       "title": "A github user account",
       "description": "Personal or institutional github user",
       "default": "",
