@@ -262,8 +262,10 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
     cell.source = Array.isArray(cell.source)
       ? cell.source
       : [cell.source]
-    paragraphNumber += 1
-    cell.num = paragraphNumber
+    if (cell.role !== RoleMetadata) {
+      paragraphNumber += 1
+      cell.num = paragraphNumber
+    }
     return cell
   }).forEach((cell, idx) => {
     // console.info('ipynb', cell.role, cell.num)
