@@ -178,7 +178,6 @@
     "authors",
     "datasets",
     "acceptConditions",
-    "githubId"
   ],
   "additionalProperties": false,
   "properties": {
