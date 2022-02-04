@@ -177,7 +177,7 @@
     "contact",
     "authors",
     "datasets",
-    "acceptConditions",
+    "acceptConditions"
   ],
   "additionalProperties": false,
   "properties": {
