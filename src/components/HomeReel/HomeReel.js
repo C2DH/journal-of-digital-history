@@ -58,7 +58,7 @@ const HomeReel = ({ height=180 }) => {
     pauseOnHover: true,
     speed: 1000,
     autoplay: true,
-    autoplaySpeed: 3500,
+    autoplaySpeed: 2750,
     cssEase: "cubic-bezier(0.85, 0, 0.15, 1)"
   };
 
