@@ -22,7 +22,9 @@ import { createAbstractSubmission } from '../logic/api/postData'
 console.info('%cRecaptcha site key', 'font-weight:bold', ReCaptchaSiteKey)
 
 
-const AbstractSubmission = () => {
+const AbstractSubmission = ({
+  allowGithubId=false
+}) => {
   const { t } = useTranslation()
   const history = useHistory();
   const [isPreviewMode, setPreviewMode] = useState(false)
@@ -41,6 +43,10 @@ const AbstractSubmission = () => {
     { id: 'abstract', value: temporaryAbstractSubmission.abstract, label: 'pages.abstractSubmission.articleAbstract' },
     { id: 'contact', value: temporaryAbstractSubmission.contact, label: 'pages.abstractSubmission.articleContact' },
     { id: 'authors', value: temporaryAbstractSubmission.authors, label: 'pages.abstractSubmission.AuthorsSectionTitle' },
+    {
+      id: 'githubId',
+      value: temporaryAbstractSubmission.githubId,
+      label: 'pages.abstractSubmission.githubId' },
     { id: 'datasets', value: temporaryAbstractSubmission.datasets, label: 'pages.abstractSubmission.DataSectionTitle' },
     {
       id: 'acceptConditions', value: temporaryAbstractSubmission.acceptConditions
@@ -49,19 +55,18 @@ const AbstractSubmission = () => {
   const [ validatorResult, setValidatorResult ] = useState(null)
   useEffect(() => {
     console.info("useEffect setValidatorResult")
-    const { title, abstract, contact, authors, datasets, acceptConditions } = temporaryAbstractSubmission
+    const { title, abstract, contact, authors, datasets, githubId, acceptConditions } = temporaryAbstractSubmission
     setValidatorResult(getValidatorResultWithAbstractSchema({
       title,
       abstract,
       contact,
       authors,
       datasets,
+      githubId,
       acceptConditions
     }))
   }, [temporaryAbstractSubmission]);
-  useEffect(() => {
-    useStore.setState({ backgroundColor: 'var(--gray-100)' });
-  })
+
 
   const handleSubmit = async(event) => {
     event.preventDefault();
@@ -70,6 +75,9 @@ const AbstractSubmission = () => {
       return
     }
     const submission = results.reduce((acc, el) => {
+      if (!allowGithubId && el.id === 'githubId') {
+        return acc
+      }
       acc[el.id] = el.value
       return acc
     } , {})
@@ -92,9 +100,9 @@ const AbstractSubmission = () => {
   }
 
   const handleConfirmCreateAbstractSubmission = async() => {
-    console.info('handleConfirmCreateAbstractSubmission', temporaryAbstractSubmission)
+    console.debug('handleConfirmCreateAbstractSubmission', temporaryAbstractSubmission)
     const token = await recaptchaRef.current.executeAsync()
-    console.info('%cRecaptcha', 'font-weight:bold', 'token:', token)
+    console.debug('%cRecaptcha', 'font-weight:bold', 'token:', token)
     createAbstractSubmission({
       item: temporaryAbstractSubmission,
       token,
@@ -120,7 +128,7 @@ const AbstractSubmission = () => {
       acc[el.id] = el.value
       return acc
     } , {})
-    console.info('@change', submission)
+    console.debug('[AbstractSubmission] @handleChange submission:', submission)
     // todo add creation date if a temporaryAbstractSubmission object is available.
     setTemporaryAbstractSubmission({
       ...submission,
@@ -204,6 +212,19 @@ const AbstractSubmission = () => {
               </FormGroupWrapperPreview>}
             <hr />
             <h3 className="progressiveHeading">{t('pages.abstractSubmission.DataSectionTitle')}</h3>
+            {allowGithubId && isPreviewMode &&
+              <FormGroupWrapperPreview
+              label='pages.abstractSubmission.githubId'
+              >{temporaryAbstractSubmission.githubId}
+              </FormGroupWrapperPreview>}
+            {allowGithubId && !isPreviewMode && (
+              <FormGroupWrapper schemaId='#/definitions/githubId' rows={5} placeholder={t('pages.abstractSubmission.githubIdPlaceholder')}
+                initialValue={temporaryAbstractSubmission.githubId}
+                label='pages.abstractSubmission.githubId'
+                onChange={({ value, isValid }) => handleChange({ id: 'githubId', value, isValid })}
+              />
+            )}
+
             {!isPreviewMode && <FormAbstractGenericSortableList
               onChange={({ items, isValid }) => handleChange({
                 id: 'datasets',
@@ -257,7 +278,8 @@ const AbstractSubmission = () => {
           <Col md={4} lg={3}>
             <div style={{
               position: 'sticky',
-              top: 100
+              top: 120,
+              background: 'var(--gray-100)'
             }}>
             {validatorResult && <AbstractSubmissionPreview
               validatorResult={validatorResult}

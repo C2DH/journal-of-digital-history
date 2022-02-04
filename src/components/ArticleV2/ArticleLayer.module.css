@@ -19,17 +19,18 @@
 }
 .pushFixed{
   position: fixed;
-  background-color: red;
+  background-color: transparent;
   top: 0;
   height: 100px;
   width:100%;
   z-index:1;
+  transition: background-color 1s ease-in-out;
   /* border-bottom: 1px solid var(--secondary); */
 }
 
 .pushFixed_narrative{
   composes: pushFixed;
-  background-color: rgb(244, 241, 248);
+  background-color: var(--gray-100);/* rgb(244, 241, 248); */
 }
 .pushFixed_hermeneutics{
   composes: pushFixed;

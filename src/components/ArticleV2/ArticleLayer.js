@@ -51,6 +51,9 @@ const ArticleLayer = ({
   width=0, height=0,
   isJavascriptTrusted=false,
   style,
+  // if it is defined, will override the style of the
+  // ArticleLayout pushFixed header
+  pageBackgroundColor,
   renderedBibliographyComponent=null,
   renderedFooterComponent=null,
 }) => {
@@ -262,10 +265,10 @@ const ArticleLayer = ({
     if (layerLevel === 0) {
       setMask.set({ clipPath: [0, 0, width, height], x:-width, y:0 })
     } else if (layerLevel <= layers.indexOf(selectedLayer)) {
-      console.info('open', layer, layers.indexOf(selectedLayer), layerLevel)
+      console.debug('[ArticleLayer] @useEffect open', layer, layers.indexOf(selectedLayer), layerLevel)
       setMask.start({ clipPath: [0, 0, width, height], x:-width, y:0 })
     } else if (layerLevel > layers.indexOf(selectedLayer)) {
-      console.info('close', layer, layers.indexOf(selectedLayer), layerLevel)
+      console.debug('[ArticleLayer] @useEffect close', layer, layers.indexOf(selectedLayer), layerLevel)
       setMask.start({ clipPath: [width, 0, width, height], x:0, y:0 })
     }
   }, [isSelected, layer, layers])
@@ -277,7 +280,9 @@ const ArticleLayer = ({
       ...style,
       clipPath: mask.clipPath.to(layerTransition),
     }} onClick={onLayerClickHandler}>
-      <div className={cx('pushFixed', layer)}></div>
+      <div className={cx('pushFixed', layer)} style={{
+        backgroundColor: pageBackgroundColor
+      }}></div>
       <div className={styles.push}></div>
       <ArticleCellPopup style={popupProps} onClick={onCellPopupClickHandler}/>
       {children}

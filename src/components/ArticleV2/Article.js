@@ -9,6 +9,7 @@ import ArticleBibliography from '../Article/ArticleBibliography'
 import Footer from '../Footer'
 
 const Article = ({
+  memoid='',
   // pid,
   // Notebook instance, an object containing {cells:[], metadata:{}}
   ipynb,
@@ -25,12 +26,23 @@ const Article = ({
   binderUrl,
   bibjson,
   emailAddress,
-  isJavascriptTrusted=false
+  isJavascriptTrusted=false,
+  // used to remove publication info from ArticleHeader
+  ignorePublicationStatus=false,
+  // used to put page specific helmet in the parent component
+  ignoreHelmet=false,
+  // if it is defined, will override the style of the ArticleLayout pushFixed
+  // header
+  pageBackgroundColor,
+  // layers, if any. See ArticleFlow component.
+  layers,
+  // Children will be put right aftr the ArticleHeader.
+  children,
 }) => {
   const [selectedDataHref, setSelectedDataHref] = useState(null)
   const { height, width } =  useCurrentWindowDimensions()
   const articleTree = useIpynbNotebookParagraphs({
-    id: url,
+    id: memoid || url,
     cells: ipynb?.cells ?? [],
     metadata: ipynb?.metadata ?? {}
   })
@@ -46,6 +58,7 @@ const Article = ({
 
   console.debug(`[Article] component rendered ${width}x${height}px`)
   console.debug('[Article] loading articleTree anchors:', articleTree.anchors)
+  console.debug('[Article] loading articleTree paragraphs:',  articleTree.paragraphs.length)
 
   const onDataHrefClickHandler = (d) => {
     console.debug('DataHref click handler')
@@ -60,30 +73,34 @@ const Article = ({
 
   return (
     <>
-    <ArticleHelmet
-      url={url}
-      imageUrl={imageUrl}
-      plainTitle={plainTitle}
-      plainContributor={plainContributor}
-      plainKeywords={plainKeywords}
-      publicationDate={publicationDate}
-      issue={issue}
-      excerpt={excerpt}
-    />
+    {!ignoreHelmet && (
+      <ArticleHelmet
+        url={url}
+        imageUrl={imageUrl}
+        plainTitle={plainTitle}
+        plainContributor={plainContributor}
+        plainKeywords={plainKeywords}
+        publicationDate={publicationDate}
+        issue={issue}
+        excerpt={excerpt}
+      />
+    )}
     <div className="page">
       <a id="top" className="anchor"></a>
       <ArticleFlow
-        memoid={articleTree.id}
+        layers={layers}
+        memoid={memoid || articleTree.id}
         height={height}
         width={width}
         paragraphs={articleTree.paragraphs}
         headingsPositions={articleTree.headingsPositions}
-        hasBibliography={typeof articleTree.bibliography === 'object'}
+        hasBibliography={!!articleTree.bibliography}
         binderUrl={binderUrl}
         emailAddress={emailAddress}
         onDataHrefClick={onDataHrefClickHandler}
         isJavascriptTrusted={isJavascriptTrusted}
         articleTree={articleTree}
+        pageBackgroundColor={pageBackgroundColor}
         renderedBibliographyComponent={renderedBibliographyComponent}
         renderedFooterComponent={renderedFooterComponent}
       >
@@ -98,11 +115,13 @@ const Article = ({
           url={url}
           disclaimer={disclaimer}
           publicationStatus={publicationStatus}
+          ignorePublicationStatus={ignorePublicationStatus}
           issue={issue}
           doi={doi}
           bibjson={bibjson}
           isPreview={false}
         />
+        {typeof children === 'function' ? children(articleTree) : children}
       </ArticleFlow>
       {articleTree.citationsFromMetadata
         ? <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/>

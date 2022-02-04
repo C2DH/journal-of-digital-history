@@ -33,23 +33,23 @@ const AbstractSubmissionPreview = ({
   ].join('-')
 
   return (
-    <div className="p-3 shadow-sm rounded" style={{
+    <div className="p-3 shadow-sm rounded small" style={{
       border: '1px solid var(--gray-300)'
     }}>
       <h3>{t('pages.abstractSubmission.preview')}</h3>
       <p>{isEmpty && (<>
-          <Badge bg="info" pill>{t('badge.warning')}</Badge>&nbsp;
+          <Badge bg="secondary" pill>{t('badge.warning')}</Badge>&nbsp;
           {t('labels.formSubmissionIncomplete')}
       </>)}
       {!isEmpty && !validatorResult.valid && (<>
-            <Badge bg="warning" pill>{t('badge.danger')}</Badge>&nbsp;
+            <Badge bg="secondary"  pill>{t('badge.danger')}</Badge>&nbsp;
             <span dangerouslySetInnerHTML={{
               __html: t('missingStepsWithCount', { count: validatorResult.errors.length})
             }} />
       </>)}
       {validatorResult.valid && (
         <>
-          <Badge bg="success" pill>{t('badge.success')}</Badge>&nbsp;
+          <Badge bg="primary" pill>{t('badge.success')}</Badge>&nbsp;
           <span dangerouslySetInnerHTML={{
             __html: t('labels.formSubmissionReady')
           }} />
@@ -75,7 +75,7 @@ const AbstractSubmissionPreview = ({
       <span> ({t('dates.fromNow', {date: temporaryAbstractSubmission.getDateLastModified()})})</span>
       <br/>
       <div className="my-3 d-grid gap-2">
-      <Button variant="outline-danger"
+      <Button variant="outline-dark"
         size="sm"
         onClick={onReset}
       >

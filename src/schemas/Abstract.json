@@ -101,6 +101,16 @@
       "default": "",
       "examples": ["joe.defilippo@uni.lu"]
     },
+    "githubId": {
+      "$id": "#/definitions/githubId",
+      "type": "string",
+      "pattern": "^@?[a-z\\d]?(?:[a-z\\d]|-(?=[a-z\\d])){0,38}$",
+      "title": "A github user account",
+      "description": "Personal or institutional github user",
+      "default": "",
+      "maxLength": 38,
+      "examples": ["@joe.defilippo"]
+    },
     "affiliation": {
       "$id": "#/definitions/affiliation",
       "type": "string",
@@ -179,6 +189,9 @@
     },
     "abstract": {
       "$ref": "#/definitions/abstract"
+    },
+    "githubId": {
+      "$ref": "#/definitions/githubId"
     },
     "datasets": {
       "$id": "#/properties/datasets",
