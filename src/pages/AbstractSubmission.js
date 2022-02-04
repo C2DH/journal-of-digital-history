@@ -22,7 +22,9 @@ import { createAbstractSubmission } from '../logic/api/postData'
 console.info('%cRecaptcha site key', 'font-weight:bold', ReCaptchaSiteKey)
 
 
-const AbstractSubmission = () => {
+const AbstractSubmission = ({
+  allowGithubId=false
+}) => {
   const { t } = useTranslation()
   const history = useHistory();
   const [isPreviewMode, setPreviewMode] = useState(false)
@@ -73,6 +75,9 @@ const AbstractSubmission = () => {
       return
     }
     const submission = results.reduce((acc, el) => {
+      if (!allowGithubId && el.id === 'githubId') {
+        return acc
+      }
       acc[el.id] = el.value
       return acc
     } , {})
@@ -207,12 +212,12 @@ const AbstractSubmission = () => {
               </FormGroupWrapperPreview>}
             <hr />
             <h3 className="progressiveHeading">{t('pages.abstractSubmission.DataSectionTitle')}</h3>
-            {isPreviewMode &&
+            {allowGithubId && isPreviewMode &&
               <FormGroupWrapperPreview
               label='pages.abstractSubmission.githubId'
               >{temporaryAbstractSubmission.githubId}
               </FormGroupWrapperPreview>}
-            {!isPreviewMode && (
+            {allowGithubId && !isPreviewMode && (
               <FormGroupWrapper schemaId='#/definitions/githubId' rows={5} placeholder={t('pages.abstractSubmission.githubIdPlaceholder')}
                 initialValue={temporaryAbstractSubmission.githubId}
                 label='pages.abstractSubmission.githubId'

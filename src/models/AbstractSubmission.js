@@ -7,7 +7,7 @@ export default class AbstractSubmission {
     title = '',
     abstract = '',
     contact = new Author(),
-    githubId = '',
+    // githubId = '',
     authors = [],
     datasets = [],
     dateLastModified,
@@ -18,7 +18,7 @@ export default class AbstractSubmission {
     this.title = String(title)
     this.abstract = String(abstract)
     this.contact = contact
-    this.githubId = String(githubId)
+    // this.githubId = String(githubId)
     this.authors = authors
     this.datasets = datasets
     if (dateLastModified) {

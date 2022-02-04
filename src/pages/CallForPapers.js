@@ -4,6 +4,7 @@ import { Zap } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 import StaticPageLoader from './StaticPageLoader'
 import Article from '../components/ArticleV2'
+import LangLink from '../components/LangLink'
 import {
   LayerNarrative,
   BootstrapColumLayout
@@ -22,7 +23,7 @@ const CallForPapers = ({ match: { params: { permalink }}}) => {
   return(
     <StaticPageLoader
       url={cfpUrl}
-      Component={({ data, status,url }) => (
+      Component={({ data, status, url }) => (
         <Article
           pageBackgroundColor='var(--gray-100)'
           ipynb={data}
@@ -34,14 +35,16 @@ const CallForPapers = ({ match: { params: { permalink }}}) => {
           <Container>
             <Row>
             <Col {...BootstrapColumLayout}>
+              <LangLink to={`submit?cfp=${permalink}`}>
               <Button
                 variant="outline-secondary"
-                size="sm"
-                className="d-flex align-items-center rounded"
+                size="md"
+                className="d-flex align-items-center rounded mt-3"
               >
                 <Zap className="me-2" size={16}/>
                 {t('pages.cfp.applyCallForPapers')}
               </Button>
+              </LangLink>
             </Col>
             </Row>
           </Container>
