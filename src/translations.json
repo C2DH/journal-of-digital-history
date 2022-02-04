@@ -194,7 +194,8 @@
         "instance-datasets": "A <b>description</b> is required to add a valid \"Tools, Code & Data\" item",
         "instance-datasets-url": "One <b>URL</b> in <b> \"Tools, Code & Data\"</b> is not valid, make sure it starts with <code>http</code>",
         "instance-title": "<b>Title</b>",
-        "instance-abstract": "<b>Abstract</b>"
+        "instance-abstract": "<b>Abstract</b>",
+        "instance-githubId": "A valid <em>github user identifier</em> contains only numbers and letters"
       },
       "numbers": {
         "figure": "figure {{ n }}",
