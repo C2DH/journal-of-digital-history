@@ -5,9 +5,12 @@ import { useTranslation } from 'react-i18next'
 import StaticPageLoader from './StaticPageLoader'
 import Article from '../components/ArticleV2'
 import LangLink from '../components/LangLink'
+import NotebookHelmet from '../components/NotebookHelmet'
+
 import {
   LayerNarrative,
-  BootstrapColumLayout
+  BootstrapColumLayout,
+  StatusSuccess
 } from '../constants'
 
 
@@ -31,7 +34,11 @@ const CallForPapers = ({ match: { params: { permalink }}}) => {
           ignorePublicationStatus
           plainTitle="Guidelines"
           layers={[LayerNarrative]}
+          ignoreHelmet
         >
+          {status === StatusSuccess && (
+            <NotebookHelmet metadata={data.metadata} status={status} />
+          )}
           <Container>
             <Row>
             <Col {...BootstrapColumLayout}>
@@ -47,6 +54,7 @@ const CallForPapers = ({ match: { params: { permalink }}}) => {
               </LangLink>
             </Col>
             </Row>
+
           </Container>
         </Article>
       )}
