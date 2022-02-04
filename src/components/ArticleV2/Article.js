@@ -29,6 +29,8 @@ const Article = ({
   isJavascriptTrusted=false,
   // used to remove publication info from ArticleHeader
   ignorePublicationStatus=false,
+  // used to put page specific helmet in the parent component
+  ignoreHelmet=false,
   // if it is defined, will override the style of the ArticleLayout pushFixed
   // header
   pageBackgroundColor,
@@ -71,16 +73,18 @@ const Article = ({
 
   return (
     <>
-    <ArticleHelmet
-      url={url}
-      imageUrl={imageUrl}
-      plainTitle={plainTitle}
-      plainContributor={plainContributor}
-      plainKeywords={plainKeywords}
-      publicationDate={publicationDate}
-      issue={issue}
-      excerpt={excerpt}
-    />
+    {!ignoreHelmet && (
+      <ArticleHelmet
+        url={url}
+        imageUrl={imageUrl}
+        plainTitle={plainTitle}
+        plainContributor={plainContributor}
+        plainKeywords={plainKeywords}
+        publicationDate={publicationDate}
+        issue={issue}
+        excerpt={excerpt}
+      />
+    )}
     <div className="page">
       <a id="top" className="anchor"></a>
       <ArticleFlow
@@ -117,7 +121,7 @@ const Article = ({
           bibjson={bibjson}
           isPreview={false}
         />
-        {children}
+        {typeof children === 'function' ? children(articleTree) : children}
       </ArticleFlow>
       {articleTree.citationsFromMetadata
         ? <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/>
