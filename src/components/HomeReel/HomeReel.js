@@ -60,11 +60,6 @@ const HomeReel = ({
     }
   }
 
-  const afterChangeHandler = (args) => {
-    console.debug('[HomeReel] @afterChangeHandler', args)
-    playInfiniteSwingingTimer()
-  }
-
   const onInitHandler = (args) => {
     console.debug('[HomeReel] @onInitHandler', args)
     // stat timer
@@ -80,7 +75,7 @@ const HomeReel = ({
       sliderTimer.current = setTimeout(playInfiniteSwingingTimer, 100)
       return
     }
-    console.debug('[HomeReel] .playInfiniteSwingingTimer()')
+    console.debug('[HomeReel] .playInfiniteSwingingTimer() scheduled.')
     sliderTimer.current = setTimeout(() => {
       const idx = slider.current.innerSlider.state.currentSlide
       const l = slider.current.innerSlider.state.slideCount
@@ -103,6 +98,7 @@ const HomeReel = ({
           slider.current.slickGoTo(idx + 1)
         }
       }
+      playInfiniteSwingingTimer()
     }, slider.current.props.autoplaySpeed || delay)
   }
 
@@ -114,8 +110,6 @@ const HomeReel = ({
 
   return (
     <div className="HomeReel position-relative"
-      onMouseEnter={stopInfiniteSwingingTimer}
-      onMouseLeave={playInfiniteSwingingTimer}
       ref={ref} style={{height}}>
       {width > 0 && items.length === 1 && (
         <HomeReelItem
@@ -125,12 +119,17 @@ const HomeReel = ({
         />
       )}
       {width > 0 && items.length > 1 && (
-        <div className="position-absolute" style={{
-          // width,
-          left: -left,
-          right: -left,
-          height,
-        }}>
+        <div className="HomeReel_rail position-absolute"
+          onMouseEnter={stopInfiniteSwingingTimer}
+          onMouseLeave={playInfiniteSwingingTimer}
+          style={{
+            // width,
+            left: -left,
+            right: -left,
+            height,
+            paddingTop: 'var(--spacer-2)'
+          }}
+        >
           <Slider
             ref={slider}
             className="slider variable-width"
@@ -144,9 +143,8 @@ const HomeReel = ({
             pauseOnHover={false}
             speed={1000}
             autoplay={false}
-            autoplaySpeed={2750}
+            autoplaySpeed={3750}
             cssEase="cubic-bezier(0.85, 0, 0.15, 1)"
-            afterChange={afterChangeHandler}
             onInit={onInitHandler}
           >
             {items.map((item, i) => (
