@@ -47,8 +47,8 @@ const ArticleHeader = ({
             </div>
           }
           {ignorePublicationStatus && (
-            <div className="mb-3">
-              {t(`pages.article.status.${publicationStatus}`)}
+            <div className="mb-3 mt-4">
+              <em>{t(`pages.article.status.${publicationStatus}`)}</em>
             </div>
           )}
           <div className={`ArticleHeader_title ${ignorePublicationStatus ? 'mb-3': 'my-3'} ${variant}`}>

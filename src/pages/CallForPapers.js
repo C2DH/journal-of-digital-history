@@ -26,8 +26,7 @@ const CallForPapers = ({ match: { params: { permalink }}}) => {
   return(
     <StaticPageLoader
       url={cfpUrl}
-      Component={({ data, status, url }) => (<>
-        ciao
+      Component={({ data, status, url }) => (
         <Article
           pageBackgroundColor='var(--gray-100)'
           ipynb={data}
@@ -54,7 +53,7 @@ const CallForPapers = ({ match: { params: { permalink }}}) => {
             </Row>
 
           </Container>
-        </Article></>
+        </Article>
       )}
     />
   )

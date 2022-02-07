@@ -8,7 +8,7 @@ import {getArticleTreeFromIpynb} from '../logic/ipynb'
 import ArticleCellContent from '../components/Article/ArticleCellContent'
 import MilestoneTimeline from '../components/MilestoneTimeline'
 import HomeReel from '../components/HomeReel'
-import { IsPortrait, BootstrapColumLayout } from '../constants'
+import { IsPortrait, BootstrapColumLayout, IsMobile } from '../constants'
 
 
 const articleTree = getArticleTreeFromIpynb(homePageContents)
@@ -31,12 +31,14 @@ const Home = () => {
       <Row>
         <Col {...BootstrapColumLayout}>
           <h1 className="my-5">Write (Digital) History.</h1>
-          <h2 className="my-5">
+          <h2 className="my-5 mb-3-sm">
             As an international, academic, peer-reviewed and open-access journal,
             the Journal of Digital History (JDH) will set new standards in history publishing
             based on the principle of multi-layered articles.
           </h2>
-          <HomeReel />
+          <HomeReel
+            height={IsMobile ? 250 : 180}
+          />
           <h2 className="mt-5" style={{
             fontFamily: 'var(--font-family-sans-serif)',
             lineHeight: '1.75',

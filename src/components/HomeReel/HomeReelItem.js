@@ -23,7 +23,7 @@ const HomeReelItem = ({
       <div className="HomeReel_item p-3 me-5 d-flex align-items-top" onClick={onClickHandler} onMouseEnter={onMouseEnter}>
 
         {!!item.zap && (
-          <div className="icon me-2">
+          <div className="icon d-none d-md-block me-2">
             <Zap/>
           </div>
         )}
