@@ -7,6 +7,8 @@ import { Helmet } from 'react-helmet'
  */
 const NotebookHelmet = ({
   metadata={},
+  // default og data in case no suitable items have been found
+  defaultValues={},
   status
 }) => {
   console.debug('[NotebookHelmet] notebok metadata: ', metadata)
@@ -23,17 +25,19 @@ const NotebookHelmet = ({
     <Helmet>
       <meta property="og:site_name" content="Journal of Digital history" />
       <meta property="og:url" content={process.env.REACT_APP_BASEURL + window.location.pathname} />
-      <meta property="og:title" content={metadata.title || metadata.jdh.helmet['og:title']} />
+      <meta property="og:title" content={metadata.title || metadata.jdh?.helmet['og:title'] || defaultValues['og:title']} />
       {[
-        'og:title',
         'og:image',
         'og:type',
         'og:description'
       ].map((k) => {
           let content = ''
           try {
-            content = metadata.jdh.helmet[k]
+            content = metadata.jdh?.helmet[k] || defaultValues[k] || ''
           } catch {
+            return null
+          }
+          if (!content.length) {
             return null
           }
           return (
