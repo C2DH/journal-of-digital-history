@@ -60,8 +60,8 @@ const Article = ({ pid, ipynb, url,
       <meta property="og:title" content={plainTitle} />
       <meta property="og:description" content={excerpt} />
       <meta property="og:type" content="article" />
-      <meta property="og:image" content={`${window.location.origin}/img/articles/${pid}.png`} />
-      <meta property="og:url" content={window.location} />
+      <meta property="og:image" content={`${process.env.REACT_APP_BASEURL}/img/articles/${pid}.png`} />
+      <meta property="og:url" content={ process.env.REACT_APP_BASEURL + window.location.pathname } />
       <meta property="article:author" content={plainContributor} />
       <meta property="article:published_time" content={publicationDate.toISOString().split('T').shift()} />
       <meta property="article:section" content={issue?.pid || ''} />
