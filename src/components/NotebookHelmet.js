@@ -22,7 +22,7 @@ const NotebookHelmet = ({
   return  (
     <Helmet>
       <meta property="og:site_name" content="Journal of Digital history" />
-      <meta property="og:url" content={window.location} />
+      <meta property="og:url" content={process.env.REACT_APP_BASEURL + window.location.pathname} />
       <meta property="og:title" content={metadata.title || metadata.jdh.helmet['og:title']} />
       {[
         'og:title',
