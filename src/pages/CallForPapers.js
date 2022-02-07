@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Row, Col, Button } from 'react-bootstrap'
+import { Container, Row, Col } from 'react-bootstrap'
 import { Zap } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 import StaticPageLoader from './StaticPageLoader'
@@ -31,6 +31,7 @@ const CallForPapers = ({ match: { params: { permalink }}}) => {
           pageBackgroundColor='var(--gray-100)'
           ipynb={data}
           memoid={url + status}
+          publicationStatus='CFP'
           ignorePublicationStatus
           plainTitle="Guidelines"
           layers={[LayerNarrative]}
@@ -41,16 +42,12 @@ const CallForPapers = ({ match: { params: { permalink }}}) => {
           )}
           <Container>
             <Row>
-            <Col {...BootstrapColumLayout}>
-              <LangLink to={`submit?cfp=${permalink}`}>
-              <Button
-                variant="outline-secondary"
-                size="md"
-                className="d-flex align-items-center rounded mt-3"
+            <Col {...BootstrapColumLayout} className="d-flex justify-content-right">
+              <LangLink to={`submit?cfp=${permalink}`}
+                className="btn btn-sm btn-accent d-flex align-items-center rounded mt-3"
               >
                 <Zap className="me-2" size={16}/>
                 {t('pages.cfp.applyCallForPapers')}
-              </Button>
               </LangLink>
             </Col>
             </Row>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { LayerNarrative, LayerHermeneutics, LayerHidden } from '../../constants'
+import { LayerNarrative, LayerHermeneutics, LayerHidden, IsMobile } from '../../constants'
 import ArticleLayers from './ArticleLayers'
 import ArticleToC from './ArticleToC'
 import styles from './ArticleFlow.module.css'
@@ -67,19 +67,21 @@ const ArticleFlow = ({
       height, width
     }}></div>
     <div className={styles.tocWrapper} style={{
-      top: tocOffset,
-      height: height - tocOffset
+      top: IsMobile ? 0 : tocOffset,
+      height: IsMobile ? height : height - tocOffset
     }}>
-      <ArticleToC
-        binderUrl={binderUrl}
-        layers={layers}
-        memoid={memoid}
-        paragraphs={paragraphs}
-        headingsPositions={headingsPositions}
-        width={width}
-        height={height}
-        hasBibliography={hasBibliography}
-      />
+      {!IsMobile && (
+        <ArticleToC
+          binderUrl={binderUrl}
+          layers={layers}
+          memoid={memoid}
+          paragraphs={paragraphs}
+          headingsPositions={headingsPositions}
+          width={width}
+          height={height}
+          hasBibliography={hasBibliography}
+        />
+      )}
     </div>
 
     <div className="position-fixed bg-transparent" style={{

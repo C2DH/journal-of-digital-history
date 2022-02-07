@@ -43,9 +43,14 @@ const ArticleHeader = ({
                 ? <span> &mdash; <LangLink to={`issue/${issue.pid}`}>{issue?.name}</LangLink></span>
                 : null}
               <br/>
-              <b>{publicationDate.getFullYear()}</b>
+              <b>{publicationDate !== null && publicationDate.getFullYear()}</b>
             </div>
           }
+          {ignorePublicationStatus && (
+            <div className="mb-3 mt-4">
+              <em>{t(`pages.article.status.${publicationStatus}`)}</em>
+            </div>
+          )}
           <div className={`ArticleHeader_title ${ignorePublicationStatus ? 'mb-3': 'my-3'} ${variant}`}>
           {title.map((paragraph, i) => (
             <ArticleCellContent key={i} {...paragraph} hideIdx hideNum/>

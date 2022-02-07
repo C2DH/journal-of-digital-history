@@ -79,6 +79,7 @@
           "loadedFromRemoteURL": "<b>Note</b>: this ipython notebook has been loaded from: <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>",
           "tryRemoteURL": "Try another notebook",
           "status": {
+            "CFP": "Call for papers",
             "PUBLISHED": "Article published in Open Access",
             "DRAFT": "DRAFT",
             "Draft": "DRAFT",

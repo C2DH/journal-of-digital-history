@@ -5,8 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { downloadFile } from '../logic/api/downloadData'
 import source from '../data/mock-api/authorGuideline.json'
 import StaticPageLoader from './StaticPageLoader'
+import NotebookHelmet from '../components/NotebookHelmet'
 import Article from '../components/ArticleV2'
-import { BootstrapColumLayout } from '../constants'
+import { BootstrapColumLayout, StatusSuccess } from '../constants'
+
 //
 const GuidelinesArticle = ({ data, status, isFake=false}) => {
   const { t } = useTranslation()
@@ -20,7 +22,18 @@ const GuidelinesArticle = ({ data, status, isFake=false}) => {
       memoid={memoid}
       ignorePublicationStatus
       plainTitle="Guidelines"
+      ignoreHelmet
     >
+      {status === StatusSuccess && (
+        <NotebookHelmet
+          metadata={data.metadata}
+          status={status}
+          defaultValues={{
+            'og:title': "Guidelines for authors",
+            'og:description': 'The journal makes use of ipynb notebooks to publish the articles. These guidelines wil help you in setting up your writing environment to send us awesome notebooks.'
+          }}
+        />
+      )}
       <Container>
         <Row>
           <Col {...BootstrapColumLayout}>
