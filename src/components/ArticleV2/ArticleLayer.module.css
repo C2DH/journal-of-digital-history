@@ -15,14 +15,14 @@
 
 .push{
   /* equals the top header */
-  height: 100px;
+  height: 0px;
 }
 
 .pushFixed{
   position: fixed;
   background-color: transparent;
   top: 0;
-  height: 100px;
+  height: 0px;
   width:100%;
   z-index:1;
   transition: background-color 1s ease-in-out;
