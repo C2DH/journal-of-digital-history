@@ -36,6 +36,7 @@ const CallForPapers = ({ match: { params: { permalink }}}) => {
           plainTitle="Guidelines"
           layers={[LayerNarrative]}
           ignoreHelmet
+          ignoreBinder
         >
           {status === StatusSuccess && (
             <NotebookHelmet metadata={data.metadata} status={status} />

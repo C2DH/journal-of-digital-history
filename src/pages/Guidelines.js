@@ -23,6 +23,7 @@ const GuidelinesArticle = ({ data, status, isFake=false}) => {
       ignorePublicationStatus
       plainTitle="Guidelines"
       ignoreHelmet
+      ignoreBinder
     >
       {status === StatusSuccess && (
         <NotebookHelmet
