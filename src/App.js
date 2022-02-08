@@ -7,7 +7,7 @@ import { initReactI18next } from 'react-i18next'
 import { getStartLang, LANGUAGE_PATH, LANGUAGES } from './logic/language'
 import translations from './translations'
 import {useStore} from './store'
-import { IsMobile, GaTrackingId } from './constants'
+import { IsMobile, GaTrackingId, NotebookPoweredPaths } from './constants'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Cookies from './components/Cookies'
@@ -221,7 +221,7 @@ export default function App() {
             <AppRoutes />
           </Suspense>
         </main>
-        <Footer hideOnRoutes={['/article/', '/notebook-viewer/', '/cfp/', '/guidelines/']}/>
+        <Footer hideOnRoutes={NotebookPoweredPaths}/>
         <ScrollToTop />
       </Auth0ProviderWithHistory>
       </QueryParamProvider>
