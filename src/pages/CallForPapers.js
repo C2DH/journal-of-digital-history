@@ -31,7 +31,7 @@ const CallForPapers = ({ match: { params: { permalink }}}) => {
           pageBackgroundColor='var(--gray-100)'
           ipynb={data}
           memoid={url + status}
-          publicationStatus='CFP'
+          category='pages.article.status.CFP'
           ignorePublicationStatus
           plainTitle="Guidelines"
           layers={[LayerNarrative]}

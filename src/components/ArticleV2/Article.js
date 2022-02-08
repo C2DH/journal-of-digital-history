@@ -36,6 +36,8 @@ const Article = ({
   pageBackgroundColor,
   // layers, if any. See ArticleFlow component.
   layers,
+  // a translatable string that defines the article header if ignorePublicationStatus is true
+  category,
   // Children will be put right aftr the ArticleHeader.
   children,
 }) => {
@@ -105,7 +107,7 @@ const Article = ({
         renderedFooterComponent={renderedFooterComponent}
       >
         <ArticleHeader
-          className="mt-5"
+          className="page mt-5"
           title={title}
           abstract={abstract}
           keywords={keywords}
@@ -116,6 +118,7 @@ const Article = ({
           disclaimer={disclaimer}
           publicationStatus={publicationStatus}
           ignorePublicationStatus={ignorePublicationStatus}
+          category={category}
           issue={issue}
           doi={doi}
           bibjson={bibjson}
