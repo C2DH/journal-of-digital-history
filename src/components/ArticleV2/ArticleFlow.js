@@ -22,6 +22,7 @@ const ArticleFlow = ({
   tocOffset=99,
   layers=[LayerNarrative, LayerHermeneutics],
   isJavascriptTrusted = false,
+  ignoreBinder=false,
   renderedBibliographyComponent=null,
   renderedFooterComponent=null,
   // if it is defined, it overrides the style of the ArticleLayout pushFixed
@@ -73,6 +74,7 @@ const ArticleFlow = ({
       {!IsMobile && (
         <ArticleToC
           binderUrl={binderUrl}
+          ignoreBinder={ignoreBinder}
           layers={layers}
           memoid={memoid}
           paragraphs={paragraphs}
