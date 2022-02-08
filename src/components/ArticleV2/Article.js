@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useIpynbNotebookParagraphs } from '../../hooks/ipynb'
 import { useCurrentWindowDimensions } from '../../hooks/graphics'
 import ArticleHeader from '../Article/ArticleHeader'
@@ -7,6 +8,8 @@ import ArticleFlow from './ArticleFlow'
 import ArticleHelmet from './ArticleHelmet'
 import ArticleBibliography from '../Article/ArticleBibliography'
 import Footer from '../Footer'
+import LangNavLink from '../LangNavLink'
+import Logo from '../Logo'
 
 const Article = ({
   memoid='',
@@ -43,6 +46,7 @@ const Article = ({
   // Children will be put right aftr the ArticleHeader.
   children,
 }) => {
+  const { t } = useTranslation()
   const [selectedDataHref, setSelectedDataHref] = useState(null)
   const { height, width } =  useCurrentWindowDimensions()
   const articleTree = useIpynbNotebookParagraphs({
@@ -73,7 +77,12 @@ const Article = ({
     <ArticleBibliography articleTree={articleTree} noAnchor className="mt-0"/>
   )
   const renderedFooterComponent = (<Footer />)
-
+  const renderedLogoComponent =(
+    <LangNavLink to="/" className="MobileHeaderBrand d-flex d-md-none position-absolute" >
+    <div style={{width:60}}><Logo color="var(--secondary)" size={35}/>
+    </div>
+    <div dangerouslySetInnerHTML={{__html: t('title')}} style={{lineHeight: '18px', fontSize:'14px', marginTop: 2}}></div>
+  </LangNavLink>)
 
 
   return (
@@ -109,6 +118,7 @@ const Article = ({
         ignoreBinder={ignoreBinder}
         renderedBibliographyComponent={renderedBibliographyComponent}
         renderedFooterComponent={renderedFooterComponent}
+        renderedLogoComponent={renderedLogoComponent}
       >
         <ArticleHeader
           className="page mt-5 pb-0"

@@ -57,6 +57,7 @@ const ArticleLayer = ({
   pageBackgroundColor,
   renderedBibliographyComponent=null,
   renderedFooterComponent=null,
+  renderedLogoComponent=null
 }) => {
   const [popupProps, setPopupProps] = useSpring(() => ({
     x: 0,
@@ -286,6 +287,8 @@ const ArticleLayer = ({
         height: IsMobile ? 0: 100
       }}></div>
       <ArticleCellPopup style={popupProps} onClick={onCellPopupClickHandler}/>
+      {renderedLogoComponent}
+
       {children}
 
       {paragraphsGroups.map((paragraphsIndices, i) => {

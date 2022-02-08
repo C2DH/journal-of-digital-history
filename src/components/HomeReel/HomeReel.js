@@ -134,6 +134,7 @@ const HomeReel = ({
             ref={slider}
             className="slider variable-width"
             dots
+            swipeToSlide
             infinite={false}
             centerMode
             centerPadding="0px"
@@ -144,7 +145,6 @@ const HomeReel = ({
             speed={1000}
             autoplay={false}
             autoplaySpeed={3750}
-            cssEase="cubic-bezier(0.85, 0, 0.15, 1)"
             onInit={onInitHandler}
           >
             {items.map((item, i) => (
