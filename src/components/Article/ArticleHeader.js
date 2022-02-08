@@ -23,7 +23,9 @@ const ArticleHeader = ({
   bibjson,
   children,
   isPreview=true,
-  ignorePublicationStatus=false
+  ignorePublicationStatus=false,
+  // category is a string
+  category=null,
 }) => {
   const { t } = useTranslation()
   const keywordsCleaned = keywords.reduce((acc, d) => {
@@ -46,9 +48,9 @@ const ArticleHeader = ({
               <b>{publicationDate !== null && publicationDate.getFullYear()}</b>
             </div>
           }
-          {ignorePublicationStatus && (
-            <div className="mb-3 mt-4">
-              <em>{t(`pages.article.status.${publicationStatus}`)}</em>
+          {typeof category === 'string' && (
+            <div className="mb-3">
+              <em>{t(category)}</em>
             </div>
           )}
           <div className={`ArticleHeader_title ${ignorePublicationStatus ? 'mb-3': 'my-3'} ${variant}`}>

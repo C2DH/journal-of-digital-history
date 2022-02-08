@@ -21,6 +21,7 @@ const ArticleToC = ({
   paragraphs=[],
   headingsPositions=[],
   binderUrl=null,
+  ignoreBinder=false,
   width=100,
   height=100,
   hasBibliography=false,
@@ -181,9 +182,14 @@ const ArticleToC = ({
           onClick={() =>setQuery({[DisplayLayerQueryParam]: d})}
         >{d}</div>
       ))}
-      <p className="text-dark py-2 mb-0 me-5" style={{ fontSize: '10px'}} dangerouslySetInnerHTML={{
-        __html: binderUrl ? t('actions.gotoBinder', { binderUrl }) : t('errors.binderUrlNotAvailable')
-      }}/>
+      {!ignoreBinder && (
+        <p className="text-dark py-2 mb-0 me-5"
+          style={{ fontSize: '10px'}}
+          dangerouslySetInnerHTML={{
+            __html: binderUrl ? t('actions.gotoBinder', { binderUrl }) : t('errors.binderUrlNotAvailable')
+          }}
+        />
+      )}
     </div>
     <div className="flex-grow-1 ps-2 pt-2 pb-2 mb-2 border-bottom border-top border-dark" style={{ overflow: "scroll"}}>
       {steps.map((step, i) => {

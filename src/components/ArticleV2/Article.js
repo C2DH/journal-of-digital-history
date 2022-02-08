@@ -36,6 +36,10 @@ const Article = ({
   pageBackgroundColor,
   // layers, if any. See ArticleFlow component.
   layers,
+  // a translatable string that defines the article header if ignorePublicationStatus is true
+  category,
+  // if false, binder url notice will be hidden
+  ignoreBinder=false,
   // Children will be put right aftr the ArticleHeader.
   children,
 }) => {
@@ -57,6 +61,7 @@ const Article = ({
 
 
   console.debug(`[Article] component rendered ${width}x${height}px`)
+  console.debug('[Article] binderUrl:', binderUrl)
   console.debug('[Article] loading articleTree anchors:', articleTree.anchors)
   console.debug('[Article] loading articleTree paragraphs:',  articleTree.paragraphs.length)
 
@@ -101,11 +106,12 @@ const Article = ({
         isJavascriptTrusted={isJavascriptTrusted}
         articleTree={articleTree}
         pageBackgroundColor={pageBackgroundColor}
+        ignoreBinder={ignoreBinder}
         renderedBibliographyComponent={renderedBibliographyComponent}
         renderedFooterComponent={renderedFooterComponent}
       >
         <ArticleHeader
-          className="mt-5"
+          className="page mt-5 pb-0"
           title={title}
           abstract={abstract}
           keywords={keywords}
@@ -116,6 +122,7 @@ const Article = ({
           disclaimer={disclaimer}
           publicationStatus={publicationStatus}
           ignorePublicationStatus={ignorePublicationStatus}
+          category={category}
           issue={issue}
           doi={doi}
           bibjson={bibjson}

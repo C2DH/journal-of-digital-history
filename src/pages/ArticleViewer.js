@@ -2,7 +2,13 @@ import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useGetJSON } from '../logic/api/fetchData'
-import { BootstrapColumLayout, StatusSuccess, StatusFetching, StatusIdle } from '../constants'
+import {
+  BootstrapColumLayout,
+  StatusSuccess,
+  StatusFetching,
+  StatusIdle,
+  StatusError
+} from '../constants'
 import Loading from '../components/Loading'
 import ErrorViewer from './ErrorViewer'
 import NotebookViewer from './NotebookViewer'
@@ -15,7 +21,7 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
   const setIssue = useIssueStore(state => state.setIssue)
   const { data:article, error, status, errorCode} = useGetJSON({
     url:`/api/articles/${pid}`,
-    delay: 1000
+    delay: 0
   })
 
   useEffect(() => {
@@ -24,6 +30,12 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
       setBodyNoScroll(false)
     }
   },[])
+
+  useEffect(() => {
+    if (status === StatusError) {
+      setBodyNoScroll(false)
+    }
+  },[status])
 
   useEffect(() => {
     if (article && article.issue) {
