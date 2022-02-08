@@ -10,7 +10,8 @@ import { Button } from 'react-bootstrap'
 import { ArrowRight, ArrowLeft } from 'react-feather'
 import {
   DisplayLayerSectionBibliography,
-  DisplayLayerSectionFooter
+  DisplayLayerSectionFooter,
+  IsMobile
 } from '../../constants'
 import styles from './ArticleLayer.module.css'
 
@@ -281,9 +282,9 @@ const ArticleLayer = ({
       clipPath: mask.clipPath.to(layerTransition),
     }} onClick={onLayerClickHandler}>
       <div className={cx('pushFixed', layer)} style={{
-        backgroundColor: pageBackgroundColor
+        backgroundColor: pageBackgroundColor,
+        height: IsMobile ? 0: 100
       }}></div>
-      <div className={styles.push}></div>
       <ArticleCellPopup style={popupProps} onClick={onCellPopupClickHandler}/>
       {children}
 
