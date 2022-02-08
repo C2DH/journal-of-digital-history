@@ -29,7 +29,8 @@ const ArticleLayers = ({
   // ArticleLayer pushFixed header
   pageBackgroundColor,
   renderedBibliographyComponent,
-  renderedFooterComponent
+  renderedFooterComponent,
+  renderedLogoComponent
 }) => {
   const clearVisibleCellsIdx = useArticleToCStore(store => store.clearVisibleCellsIdx)
   // Store indicies as a local ref, this represents the item order [0,1,2]
@@ -142,6 +143,7 @@ const ArticleLayers = ({
         pageBackgroundColor={i === 0 ? pageBackgroundColor : undefined}
         renderedBibliographyComponent={renderedBibliographyComponent}
         renderedFooterComponent={renderedFooterComponent}
+        renderedLogoComponent={renderedLogoComponent}
       >
         {children}
       </ArticleLayer>

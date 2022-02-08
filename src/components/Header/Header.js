@@ -9,7 +9,8 @@ import UserProfile from './UserProfile'
 import logo from '../../assets/images/jdh-logo.svg'
 import deGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_white.svg'
 import uniluLogo from '../../assets/images/unilu-c2dh-logo-white.svg'
-import { PrimaryRoutes, TermsOfUseRoute } from '../../constants'
+import { PrimaryRoutes, TermsOfUseRoute, NotebookPoweredPaths } from '../../constants'
+import { useLocation } from 'react-router'
 import SwitchNightMode from '../SwitchNightMode'
 import '../../styles/components/Header.scss'
 import { useOnScreen } from '../../hooks/graphics'
@@ -20,13 +21,20 @@ import Logo from '../Logo'
 const MobileHeader = ({ langs, displayLangs }) => {
   const { t, i18n } = useTranslation()
   const [isVisible, setIsVisible] = useState(false)
+  const { pathname } = useLocation()
+
   return (
     <>
-    <LangNavLink to="/" className="MobileHeaderBrand d-flex d-md-none" >
-      <div style={{width:60}}><Logo color="var(--secondary)" size={35}/>
-      </div>
-      <div dangerouslySetInnerHTML={{__html: t('title')}} style={{lineHeight: '18px', fontSize:'14px', marginTop: 2}}></div>
-    </LangNavLink>
+    {NotebookPoweredPaths.some((d) => pathname.indexOf(d) !== -1)
+      ? null
+      : (
+        <LangNavLink to="/" className="MobileHeaderBrand d-flex d-md-none" >
+          <div style={{width:60}}><Logo color="var(--secondary)" size={35}/>
+          </div>
+          <div dangerouslySetInnerHTML={{__html: t('title')}} style={{lineHeight: '18px', fontSize:'14px', marginTop: 2}}></div>
+        </LangNavLink>
+      )
+    }
     <Nav className="MobileHeaderNav d-block d-md-none">
       <div className="MobileHeaderToggler"
         onClick={() => setIsVisible(!isVisible)}

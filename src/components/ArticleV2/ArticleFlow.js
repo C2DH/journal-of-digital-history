@@ -28,6 +28,8 @@ const ArticleFlow = ({
   // if it is defined, it overrides the style of the ArticleLayout pushFixed
   // header
   pageBackgroundColor,
+  // article on mobile must have the logo visible somewhere
+  renderedLogoComponent=null,
   children
 }) => {
   const setVisibleCell = useArticleToCStore(store => store.setVisibleCell)
@@ -105,6 +107,7 @@ const ArticleFlow = ({
         isJavascriptTrusted={isJavascriptTrusted}
         renderedBibliographyComponent={renderedBibliographyComponent}
         renderedFooterComponent={renderedFooterComponent}
+        renderedLogoComponent={renderedLogoComponent}
       >
         {children}
       </ArticleLayers>
