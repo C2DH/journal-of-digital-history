@@ -47,16 +47,6 @@ const ArticlesGrid = ({ data }) => {
       x,
       y,
       id: [article.abstract.id, idx],
-      color: datum.type === 'code'
-        ? 'var(--white)'
-        : datum.isHermeneutic
-          ? 'var(--secondary)'
-          : 'var(--white)',
-      backgroundColor: datum.type === 'code'
-        ? 'var(--accent)'
-        : datum.isHermeneutic
-          ? 'var(--primary)'
-          : 'var(--secondary)',
       opacity: 1
     })
   }

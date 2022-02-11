@@ -1,10 +1,33 @@
 import React from 'react'
 import { a, animated } from 'react-spring'
 
+
 const ArticleFingerprintTooltip = ({ animatedProps, forwardedRef }) => {
   return (
     <a.div className="ArticleFingerprintTooltip shadow pointer-events-none position-fixed top-0" style={{
-      ...animatedProps
+      ...animatedProps,
+      color: animatedProps.id.to(() => {
+        const type =  String(forwardedRef.current.datum.type)
+        const isHermeneutic =  Boolean(forwardedRef.current.datum.isHermeneutic)
+        return (
+          type === 'code'
+            ? 'var(--white)'
+            : isHermeneutic
+              ? 'var(--secondary)'
+              : 'var(--white)'
+        )
+      }),
+      backgroundColor: animatedProps.id.to(() => {
+        const type =  String(forwardedRef.current.datum.type)
+        const isHermeneutic =  Boolean(forwardedRef.current.datum.isHermeneutic)
+        return (
+          type === 'code'
+            ? 'var(--accent)'
+            : isHermeneutic
+              ? 'var(--primary)'
+              : 'var(--secondary)'
+        )
+      }),
     }}>
       <div className="small mb-1 pb-1" style={{
         borderBottom: '1px solid'

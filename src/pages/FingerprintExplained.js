@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import { BootstrapColumLayout } from '../constants'
 import JupiterCellListItem from '../components/FingerprintComposer/JupiterCellListItem'
 import MiniJupiterCellListItem from '../components/FingerprintComposer/MiniJupiterCellListItem'
 import '../styles/components/FingerprintComposer/FingerprintComposer.scss'
 import ArticleFingerprint from '../components/Article/ArticleFingerprint'
+import ArticleFingerprintTooltip from '../components/ArticleV2/ArticleFingerprintTooltip'
 import { useBoundingClientRect } from '../hooks/graphics'
+import { useSpring, config } from 'react-spring'
 
 
 const FingerprintExplained = () => {
@@ -27,19 +29,46 @@ const FingerprintExplained = () => {
     },
   ]);
   const [value, setValue] = useState("");
+
+  // animated Ref contains the info to display on the tooltip
+  const animatedRef = useRef({ idx: '', length: '', datum:{}});
+  const [animatedProps, setAnimatedProps] = useSpring(() => ({
+    from: { x: 0, y: 0, id: [0, 0], color: 'red' },
+    x : 0, y: 0, opacity:0, id: [0, 0],
+    color: 'var(--white)',
+    backgroundColor: 'var(--secondary)',
+    config: config.stiff
+  }))
+
+  const onMouseMoveHandler = (e, datum, idx) => {
+    // console.debug('@onMouseMoveHandler', datum, idx)
+    animatedRef.current.idx = idx
+    animatedRef.current.length = cells.length
+    animatedRef.current.datum = datum
+    // this will change only animated toltip stuff
+    setAnimatedProps.start({
+      x: e.clientX - 200,
+      y: e.clientY + 50,
+      id: [idx],
+      opacity: 1
+    })
+  }
+
   const onChangeHandler=(idx, cell) => {
     console.info ("Changed to:", idx, cell)
-    setCells(cells.map((d, i)=>{
-      if (i===idx) {
-        return {
-          ...d,
-          ...cell
-        }
+    setCells(cells.map((d, i) => {
+      if (i === idx) {
+        return { ...d, ...cell }
       }
       return d
     }))
   }
+
   return (
+    <>
+    <ArticleFingerprintTooltip
+      forwardedRef={animatedRef}
+      animatedProps={animatedProps} />
     <Container className="FingerprintExplained page">
       <Row>
         <Col {...BootstrapColumLayout}>
@@ -91,12 +120,16 @@ const FingerprintExplained = () => {
           </Container>
         </Col>
         <Col>
-          <div ref={ref} style={{
-            minHeight: size,
-            position: "sticky",
-            top: 100
-          }}>
+          <div ref={ref}
+            style={{
+              minHeight: size,
+              position: "sticky",
+              top: 100
+            }}
+            onMouseOut={() => setAnimatedProps.start({ opacity: 0 })}
+          >
           <ArticleFingerprint
+            onMouseMove={onMouseMoveHandler}
             debug={true}
             stats={{
               extentChars: [5, 440]
@@ -164,6 +197,7 @@ const FingerprintExplained = () => {
       </Row>
 
     </Container>
+    </>
   )
 }
 
