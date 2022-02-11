@@ -73,6 +73,7 @@ const FingerprintExplained = () => {
         <Col {...BootstrapColumLayout}>
           <h1 className="my-5">Fingerprint, explained</h1>
           <p> This would be a paragraph explaining the concept behind the Markdown cell language Fusce turpis tortor, efficitur et turpis a, congue sagittis elit. Nullam quis metus tortor. Vivamus ut porta dolor. Vestibulum malesuada neque at turpis tincidunt, in sagittis neque semper. Suspendisse posuere ornare lacus vel placerat. Cras lobortis luctus feugiat. Donec interdum est non lectus vehicula pharetra. Sed convallis dui quam, a elementum tortor pharetra id. Vivamus vel fermentum odio. In commodo ipsum pulvinar quam faucibus, sed rhoncus ligula faucibus. Proin bibendum non ipsum in bibendum. Nam sit amet lacus lectus. Integer vitae tellus sit amet felis efficitur maximus. Etiam iaculis ultricies leo, sit amet varius neque euismod in. </p>
+
         </Col>
       </Row>
       <Row style={{
@@ -81,29 +82,6 @@ const FingerprintExplained = () => {
       <Col>
           <h2 className="my-5">The Cell</h2>
 
-          <Container className="page">
-            <Row>
-              <Col {...BootstrapColumLayout}>
-                <h1 className="my-5">{t('pages.fingerprintViewerForm.title')}</h1>
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group className="mt-5 mb-3" controlId="">
-                    <Form.Label>{t("To test, you can add the text of the new cell here OR load your favorite")}</Form.Label>
-                    <Form.Control
-                      defaultValue={value}
-                      onChange={(e) => setValue(e.target.value)}
-                      type="url"
-                      placeholder="https://"
-                    />
-                    <Form.Text className="text-muted" dangerouslySetInnerHTML={{
-                      __html: t('forms.fingerprintViewerForm.notebookUrlDescription')
-                    }}/>
-                  </Form.Group>
-                  <Button type="submit" variant="outline-secondary" size="sm">Preview Fingerprint</Button>
-                </Form>
-              </Col>
-            </Row>
-          </Container>
-          
           {cells.map((d,i) => {
             return (
               <JupiterCellListItem
@@ -118,9 +96,11 @@ const FingerprintExplained = () => {
               </JupiterCellListItem>
             )
           })}
+
           <Container className="AddNewCell">
           <Row>
-          <hr className="mt-3 mb-3"/>
+
+
               <label className="form-label"> Experiment with the fingerprint visualization by adding more cells </label>
               <textarea className="form-control-fp"
                 onChange={(e) => setValue(e.target.value)}
@@ -139,7 +119,24 @@ const FingerprintExplained = () => {
               ]))}>
                 add new cell
               </Button>
+              <hr className="mt-3 mb-3"/>
+              <Form>
+                <Form.Group className="mt-3 mb-3" controlId="">
+                  <Form.Label>To test, you can add the text of the new cell above, OR load your favorite:</Form.Label>
+                  <Form.Control
+                    defaultValue={value}
+                    onChange={(e) => setValue(e.target.value)}
+                    type="url"
+                    placeholder="https://"
+                  />
+                  <Form.Text className="text-muted" dangerouslySetInnerHTML={{
+                    __html: ("Use a well formed URL pointing to the <code>.ipynb</code> notebook file. For instance use to the <b>raw</b> url of the ipynb file for notebook hosted on Github.")
+                  }}/>
+                </Form.Group>
+                <Button type="submit" variant="outline-secondary" size="sm">Preview Fingerprint</Button>
+              </Form>
               </Row>
+
           </Container>
         </Col>
         <Col>
