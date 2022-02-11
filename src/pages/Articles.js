@@ -26,13 +26,12 @@ const ArticlesGrid = ({ data }) => {
   }))
 
   const onArticleMouseMoveHandler = (e, datum, idx, article, bounds) => {
-    console.debug('@onArticleMouseMoveHandler', idx, article)
     if (animatedRef.current.idx !== idx ) {
       animatedRef.current.idx = idx
       animatedRef.current.length = article.fingerprint.cells.length
       animatedRef.current.datum = datum
     }
-    const x = Math.min(width - 200, e.clientX - bounds.left + 50)
+    const x = Math.min(width - 200, e.clientX - bounds.left)
     const y = e.clientY + 50
     // this will change only animated toltip stuff
     setAnimatedProps.start({
