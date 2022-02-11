@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { Container, Row, Col, Button } from 'react-bootstrap'
+import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import { BootstrapColumLayout } from '../constants'
 import JupiterCellListItem from '../components/FingerprintComposer/JupiterCellListItem'
 import MiniJupiterCellListItem from '../components/FingerprintComposer/MiniJupiterCellListItem'
@@ -8,7 +8,6 @@ import ArticleFingerprint from '../components/Article/ArticleFingerprint'
 import ArticleFingerprintTooltip from '../components/ArticleV2/ArticleFingerprintTooltip'
 import { useBoundingClientRect } from '../hooks/graphics'
 import { useSpring, config } from 'react-spring'
-
 
 const FingerprintExplained = () => {
   const [{ width:size }, ref] = useBoundingClientRect()
@@ -81,6 +80,30 @@ const FingerprintExplained = () => {
       }}>
       <Col>
           <h2 className="my-5">The Cell</h2>
+
+          <Container className="page">
+            <Row>
+              <Col {...BootstrapColumLayout}>
+                <h1 className="my-5">{t('pages.fingerprintViewerForm.title')}</h1>
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group className="mt-5 mb-3" controlId="">
+                    <Form.Label>{t("To test, you can add the text of the new cell here OR load your favorite")}</Form.Label>
+                    <Form.Control
+                      defaultValue={value}
+                      onChange={(e) => setValue(e.target.value)}
+                      type="url"
+                      placeholder="https://"
+                    />
+                    <Form.Text className="text-muted" dangerouslySetInnerHTML={{
+                      __html: t('forms.fingerprintViewerForm.notebookUrlDescription')
+                    }}/>
+                  </Form.Group>
+                  <Button type="submit" variant="outline-secondary" size="sm">Preview Fingerprint</Button>
+                </Form>
+              </Col>
+            </Row>
+          </Container>
+          
           {cells.map((d,i) => {
             return (
               <JupiterCellListItem
