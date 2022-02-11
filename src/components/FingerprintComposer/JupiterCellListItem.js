@@ -1,26 +1,49 @@
 import React, { useState } from 'react'
 import Jupitercell from './Jupitercell'
+import { Container, Col, Row, ButtonGroup, Button } from 'react-bootstrap'
 
-const JupiterCellListItem = ({ children }) => {
-  const [isNarrative, setisNarrative] = useState(false);
-  const [isHermeneutics, setisHermeneutics] = useState(false);
-  const [isData, setisData] = useState(false);
+
+const JupiterCellListItem = ({
+  children,
+  hermeneutics=false,
+  data=false,
+  onChange
+}) => {
+  const [tags, set] = useState({
+    hermeneutics,
+    data
+  })
+  const onClickHandler=(t) => {
+    const ts = {
+      ...tags,
+      ...t
+    }
+    set(ts)
+    if (typeof onChange === 'function') {
+      onChange(ts)
+    }
+  }
   return (
-    <div className="JupiterCellListItem">
+    <Container>
+    <Row className="JupiterCellListItem">
+    <Col>
+    <ButtonGroup aria-lable="toggle">
+    <Button variant="outline-dark" size="sm" onClick={() => onClickHandler({hermeneutics:!tags.hermeneutics})}>
+      Hermeneutics
+    </Button>
+    <Button variant="outline-dark" size="sm" onClick={() => onClickHandler({data:!tags.data})}> Data </Button>
+    </ButtonGroup>
+    </Col>
+    <Col md={8}>
       <Jupitercell
-        isNarative={isNarrative}
-        isHermeneutics={isHermeneutics}
-        isData={isData}
+        isHermeneutics={tags.hermeneutics}
+        isData={tags.data}
       >
         {children}
       </Jupitercell>
-      <button onClick={() => setisNarrative(!isNarrative)}> Narrative </button>
-      <button onClick={() => setisHermeneutics(!isHermeneutics)}>
-        {" "}
-        Hermeneutics{" "}
-      </button>
-      <button onClick={() => setisData(!isData)}> Data </button>
-    </div>
+      </Col>
+    </Row>
+    </Container>
   );
 }
 
