@@ -13,18 +13,18 @@ const FingerprintExplained = () => {
   const [{ width:size }, ref] = useBoundingClientRect()
   const [cells, setCells] = useState([
     {
-      content: "This is a Narative layer"
+      firstWords: "This is a Narative layer"
     },
     {
-      content: "This is not a Narative layer"
+      firstWords: "This is not a Narative layer"
     },
     {
       hermeneutics: true,
-      content: "This is an Hermeneutics layer"
+      firstWords: "This is an Hermeneutics layer"
     },
     {
       data: true,
-      content: "This is a data layer"
+      firstWords: "This is a data layer"
     },
   ]);
   const [value, setValue] = useState("");
@@ -92,7 +92,7 @@ const FingerprintExplained = () => {
                 onChange={(cell) => onChangeHandler(i, cell)}
               >
 
-                {d.content}
+                {d.firstWords}
               </JupiterCellListItem>
             )
           })}
@@ -114,7 +114,7 @@ const FingerprintExplained = () => {
               <Button className="JupitercellAddButton" variant="outline-dark" size="sm" onClick={() => setCells(cells.concat([
                 {
                   hermeneutics: false,
-                  content: value
+                  firstWords: value
                 },
               ]))}>
                 add new cell
@@ -158,7 +158,7 @@ const FingerprintExplained = () => {
               ...cell,
               type: cell.data ? 'code': 'markdown',
               isHermeneutic: cell.hermeneutics,
-              countChars: cell.content.length
+              countChars: cell.firstWords.length
             }))}
             size={size}
             margin={20}
@@ -189,7 +189,7 @@ const FingerprintExplained = () => {
             ...cell,
             type: cell.data ? 'code': 'markdown',
             isHermeneutic: cell.hermeneutics,
-            countChars: cell.content.length
+            countChars: cell.firstWords.length
           }))}
           size={size}
           margin={20}
