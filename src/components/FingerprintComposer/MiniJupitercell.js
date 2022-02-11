@@ -1,9 +1,8 @@
 import React from 'react'
-import Jupitercelltag from './Jupitercelltag'
 import { Container, Row } from 'react-bootstrap'
 
 
-const Jupitercell = ({
+const MiniJupitercell = ({
   isNarative = false,
   isHermeneutics = false,
   isData = false,
@@ -21,13 +20,9 @@ const Jupitercell = ({
     <Container>
     <Row>
       <div className={divClassName}>
-        {isNarative === true ? (
-          <Jupitercelltag tag="Narrative"></Jupitercelltag>
-        ) : null}
-        {isHermeneutics ? (
-          <Jupitercelltag tag="Hermeneutics"></Jupitercelltag>
-        ) : null}
-        {isData ? <Jupitercelltag tag="Data"></Jupitercelltag> : null}
+        {isNarative === true ? ("" ) : null}
+        {isHermeneutics ? ( "" ) : null}
+        {isData ? ("") : null}
         <p>{children}</p>
       </div>
       </Row>
@@ -35,4 +30,4 @@ const Jupitercell = ({
   );
 }
 
-export default Jupitercell
+export default MiniJupitercell

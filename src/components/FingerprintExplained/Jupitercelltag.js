@@ -3,12 +3,12 @@ import React from 'react'
 
 const Jupitercelltag=({
   tag = "tagname",
-  // type = "⊗",
+  type = "x",
   // children
 }) => {
   return (
     <label className="Jupitercelltag">
-      {tag}
+      {tag} {type}
     </label>
   );
 }
