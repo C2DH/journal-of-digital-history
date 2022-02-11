@@ -209,7 +209,7 @@ const FingerprintExplained = () => {
                 data={d.data}
                 onChange={(cell) => onChangeHandler(i, cell)}
                 >
-                {d.content}
+                {d.firstWords}
                 </MiniJupiterCellListItem>
               )
             })}
