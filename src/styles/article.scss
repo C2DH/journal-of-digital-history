@@ -741,11 +741,19 @@ svg.ArticleFingerprint{
   padding: 9px 15px;
   pointer-events: none;
   width: 200px;
-  left: var(--spacer-5);
+  left: 100px;
 }
 
 .ArticleFingerprintTooltip_heading{
   font-weight: bold;
   text-transform: uppercase;
   font-family: var(--font-family-monospace);
+}
+
+.ArticleFingerprintTooltip_content{
+  pre{
+    word-break: break-all;
+    white-space:pre;
+    font-family: var(--font-family-monospace);
+  }
 }

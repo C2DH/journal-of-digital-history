@@ -1,8 +1,7 @@
 import React from 'react'
 import { a, animated } from 'react-spring'
 
-const AnimatedTooltip = ({ animatedProps, forwardedRef }) => {
-  console.debug('[AnimatedTooltip] rendered')
+const ArticleFingerprintTooltip = ({ animatedProps, forwardedRef }) => {
   return (
     <a.div className="ArticleFingerprintTooltip shadow pointer-events-none position-fixed top-0" style={{
       ...animatedProps
@@ -26,12 +25,30 @@ const AnimatedTooltip = ({ animatedProps, forwardedRef }) => {
           })}
         </a.span>
       </div>
-      <div>
-        <a.span>{animatedProps.id.to(() => String(forwardedRef.current.datum.firstWords))}</a.span>
-        <a.span>{animatedProps.id.to(() => String(forwardedRef.current.datum.type))}</a.span>
-      </div>
+      <a.div
+        classname="ArticleFingerprintTooltip_content"
+        style={{
+          fontFamily: animatedProps.id.to(() => {
+            return String(forwardedRef.current.datum.type) === 'code'
+              ? 'var(--font-family-monospace)'
+              : 'inherit'
+          }),
+          backgroundColor: animatedProps.id.to(() => {
+            return String(forwardedRef.current.datum.type) === 'code'
+              ? 'rgba(0,0,0,.12)'
+              : 'inherit'
+          }),
+          padding: animatedProps.id.to(() => {
+            return String(forwardedRef.current.datum.type) === 'code'
+              ? 'var(--spacer-2)'
+              : '0'
+          }),
+        }}
+      >
+        {animatedProps.id.to(() => String(forwardedRef.current.datum.firstWords))}
+      </a.div>
     </a.div>
   )
 }
 
-export default animated(AnimatedTooltip)
+export default animated(ArticleFingerprintTooltip)
