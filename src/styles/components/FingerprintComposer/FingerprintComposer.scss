@@ -21,11 +21,8 @@
 
 .Jupitercell.Data {
   border-color: black;
-  border-width: 1px;
-}
-
-.Jupitercell.Datasm {
-  border-color: black;
+  color: var(--gray-100);
+  background-color: var(--gray-600);
   border-width: 1px;
 }
 
