@@ -34,7 +34,7 @@ const ArticleToCStep = ({
     <div className={`ArticleToCStep ${active?'active':''} ${className} ${levelClassName} ${isSectionEnd?'end':''} ${isSectionStart?'start':''} ${displayLayer}`} onClick={handleClick} style={{
       width: availableWidth
     }}>
-      <label className={labelClassName}>
+      <label className={labelClassName} title={children}>
       {children}
       </label>
       <div className="ArticleToCStep_icon">

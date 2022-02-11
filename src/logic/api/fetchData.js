@@ -150,7 +150,9 @@ export const useGetJSON = ({
       }
     }
     if (delay) {
+      console.debug('useGetDataset delayed: ', delay)
       timer = setTimeout(() => {
+        console.debug('useGetDataset executed after: ', delay)
         fetchData()
       }, delay)
     } else {

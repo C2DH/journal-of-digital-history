@@ -25,8 +25,12 @@ const ArticleLayers = ({
   onDataHrefClick,
   isJavascriptTrusted=false,
   children,
+  // if it is defined, will override the backgroudn color of the first
+  // ArticleLayer pushFixed header
+  pageBackgroundColor,
   renderedBibliographyComponent,
-  renderedFooterComponent
+  renderedFooterComponent,
+  renderedLogoComponent
 }) => {
   const clearVisibleCellsIdx = useArticleToCStore(store => store.clearVisibleCellsIdx)
   // Store indicies as a local ref, this represents the item order [0,1,2]
@@ -136,8 +140,10 @@ const ArticleLayers = ({
           pointerEvents: selectedLayer === layer ? "auto": "none",
           // left: i * width
         }}
+        pageBackgroundColor={i === 0 ? pageBackgroundColor : undefined}
         renderedBibliographyComponent={renderedBibliographyComponent}
         renderedFooterComponent={renderedFooterComponent}
+        renderedLogoComponent={renderedLogoComponent}
       >
         {children}
       </ArticleLayer>

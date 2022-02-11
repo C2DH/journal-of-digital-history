@@ -17,10 +17,12 @@ export const TermsOfUseRoute = { to:'/terms', label: 'navigation.termsOfUse'}
 export const GuidelinesRoute = { to:'/guidelines', label: 'navigation.guidelines'}
 export const NotebookViewerRoute = { to:'/notebook-viewer-form', label: 'Navigation_NotebookViewer'}
 export const IssueRoute = { to:'/issues', label: 'navigation.issue'}
+export const ArticlesRoute = { to:'/articles', label: 'navigation.issue'}
 
 export const PrimaryRoutes = [
   HomeRoute,
-  IssueRoute,
+  // IssueRoute,
+  ArticlesRoute,
   // ReferencesRoute,
   // DatasetsRoute,
   AbstractSubmissionRoute,
@@ -29,6 +31,12 @@ export const PrimaryRoutes = [
   AboutRoute,
 ]
 
+export const NotebookPoweredPaths = [
+  '/article/',
+  '/notebook-viewer/',
+  '/cfp/',
+  '/guidelines/'
+]
 export const ReCaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
 export const GaTrackingId = process.env.REACT_APP_GA_TRACKING_ID
 

@@ -9,14 +9,21 @@ import hljs from 'highlight.js' // import hljs library
 const ErrorViewer = ({ error={}, errorCode=404, language="python", className='page', children }) => {
   const { t } = useTranslation()
   if (errorCode === 404) {
-    return <NotFound />
+    return (
+      <NotFound>
+        <div className="alert alert-warning" role="alert">
+          page: <b>{window.location.pathname}</b>
+          <br />{error.message}
+        </div>
+      </NotFound>
+    )
   }
   const cleanedError = JSON.stringify(error, null, 2)
   const highlighted = language
       ? hljs.highlight(language, cleanedError)
       : hljs.highlightAuto(cleanedError);
   return (
-    <Container className={`ErrorViewer ${className})`}>
+    <Container className={`ErrorViewer ${className}`}>
       <Row>
         <Col {...BootstrapColumLayout}>
           <h1 className="my-5">{t('pages.errorViewer.title')}

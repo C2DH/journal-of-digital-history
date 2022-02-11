@@ -21,8 +21,10 @@ const ArticleToC = ({
   paragraphs=[],
   headingsPositions=[],
   binderUrl=null,
+  ignoreBinder=false,
   width=100,
-  height=100
+  height=100,
+  hasBibliography=false,
 }) => {
   const { t } = useTranslation()
   const visibleCellsIdx = useArticleToCStore(state => state.visibleCellsIdx)
@@ -173,18 +175,23 @@ const ArticleToC = ({
   return (
     <>
     <div className="flex-shrink-1 py-3 mb-0 pointer-events-auto text-end">
-      {layers.map((d,i) => (
+      {layers.length > 1 && layers.map((d,i) => (
         <div
           className={`me-5 ArticleToC_layerSelector ${selectedLayer === d ? 'active' : ''}`}
           key={i}
           onClick={() =>setQuery({[DisplayLayerQueryParam]: d})}
         >{d}</div>
       ))}
-      <p className="text-dark py-2 mb-0 me-5" style={{ fontSize: '10px'}} dangerouslySetInnerHTML={{
-        __html: binderUrl ? t('actions.gotoBinder', { binderUrl }) : t('errors.binderUrlNotAvailable')
-      }}/>
+      {!ignoreBinder && (
+        <p className="text-dark py-2 mb-0 me-5"
+          style={{ fontSize: '10px'}}
+          dangerouslySetInnerHTML={{
+            __html: binderUrl ? t('actions.gotoBinder', { binderUrl }) : t('errors.binderUrlNotAvailable')
+          }}
+        />
+      )}
     </div>
-    <div className="flex-grow-1 ps-2 pt-2 pb-2 mb-2 border-bottom border-top" style={{ overflow: "scroll"}}>
+    <div className="flex-grow-1 ps-2 pt-2 pb-2 mb-2 border-bottom border-top border-dark" style={{ overflow: "scroll"}}>
       {steps.map((step, i) => {
         const showBookmark = i < steps.length - 1
           ? selectedCellIdx >= step.cell.idx && selectedCellIdx < steps[i+1].cell.idx
@@ -222,20 +229,22 @@ const ArticleToC = ({
           </div>
       )})}
     </div>
-    <div className="flex-shrink-1 ps-2 mb-3">
-      <ArticleToCStep
-        cell={{
-          level: 'H2'
-        }}
-        width={width * .16}
-        isSectionStart
-        isSectionEnd
-        selected
-        active
-        className=''
-        onStepClick={(e) => onSectionClickHandler(e, DisplayLayerSectionBibliography)}
-      >{t('bibliography')}</ArticleToCStep>
-    </div>
+    {hasBibliography && (
+      <div className="flex-shrink-1 ps-2 mb-3">
+        <ArticleToCStep
+          cell={{
+            level: 'H2'
+          }}
+          width={width * .16}
+          isSectionStart
+          isSectionEnd
+          selected
+          active={false}
+          className=''
+          onStepClick={(e) => onSectionClickHandler(e, DisplayLayerSectionBibliography)}
+        >{t('bibliography')}</ArticleToCStep>
+      </div>
+    )}
     </>
   )
 }

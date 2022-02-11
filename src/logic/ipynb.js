@@ -262,8 +262,10 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
     cell.source = Array.isArray(cell.source)
       ? cell.source
       : [cell.source]
-    paragraphNumber += 1
-    cell.num = paragraphNumber
+    if (cell.role !== RoleMetadata) {
+      paragraphNumber += 1
+      cell.num = paragraphNumber
+    }
     return cell
   }).forEach((cell, idx) => {
     // console.info('ipynb', cell.role, cell.num)
@@ -283,13 +285,37 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
         figures,
         anchors
       })
-      // get tokens 'heading_open' to get all h1,h2,h3 etc...
+      // get tokens 'heading_open' to get the first h1,h2,h3 in source.
       const headerIdx = tokens.findIndex(t => t.type === 'heading_open');
       if (headerIdx > -1) {
+        // We used to get heading content from the next token, as this is the
+        // first element after the heading_open.
+        // If it has only one child, everything works as expected:
+        // we can safely get its plain text from the `content` property as it is
+        // a text node (DOM).
+        // However, sometimes authors want to put emphasised text in their
+        // heading. For instance, the sentence:
+        //
+        //     "Quantifying the *epigraphic habit*, in space and time"
+        //
+        // is composed of 5 children:
+        //
+        //     [text]     "Quantifying the ",
+        //     [em_open]  "",
+        //     [text]     "epigraphic habit",
+        //     [em_close] "",
+        //     [text]     ", in space and time"
+        //
+        // Hence, if we want to have only the plain text content,
+        // we have to join the content of the children of the next token...
+        const headingContent = tokens[headerIdx + 1].children
+          .map(d => d.content)
+          .join('')
+
         headings.push(new ArticleHeading({
           level: parseInt(tokens[headerIdx].tag.replace(/[^\d]/, '')),
           tag: tokens[headerIdx].tag,
-          content: tokens[headerIdx + 1].content,
+          content: headingContent,
           idx
         }))
       }

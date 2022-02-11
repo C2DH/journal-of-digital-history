@@ -7,7 +7,7 @@ import { initReactI18next } from 'react-i18next'
 import { getStartLang, LANGUAGE_PATH, LANGUAGES } from './logic/language'
 import translations from './translations'
 import {useStore} from './store'
-import { IsMobile, GaTrackingId } from './constants'
+import { IsMobile, GaTrackingId, NotebookPoweredPaths } from './constants'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Cookies from './components/Cookies'
@@ -53,6 +53,8 @@ const Home = lazy(() => import('./pages/Home'))
 const About = lazy(() => import('./pages/About'))
 const AbstractSubmission = lazy(() => import('./pages/AbstractSubmission'))
 const AbstractSubmitted = lazy(() => import('./pages/AbstractSubmitted'))
+const ArticlesPage = lazy(() => import('./pages/Articles'))
+const CallForPapers = lazy(() => import('./pages/CallForPapers'))
 const Issue = lazy(() => import('./pages/Issue'))
 const Issues = lazy(() => import('./pages/Issues'))
 const Abstract = lazy(() => import('./pages/Abstract'))
@@ -114,9 +116,11 @@ function LangRoutes() {
       <Route path={`${path}/abstract/:id`}>
         <Abstract />
       </Route>
+
       <Route path={`${path}/issues`} component={Issues} />
       <Route path={`${path}/issue/:id`} component={Issue} />
       <Route path={`${path}/article/:pid`} component={ArticleViewer} />
+      <Route exact path={`${path}/articles`} component={ArticlesPage} />
       <Route path={`${path}/abstract-submitted`} component={AbstractSubmitted} />
       <Route exact path={`${path}/terms`} component={TermsOfUse}/>
       <Route exact path={`${path}/submit`}>
@@ -141,6 +145,7 @@ function LangRoutes() {
       <Route exact path={`${path}/playground`} component={Playground}/>
       <Route exact path={`${path}/fingerprint`} component={Fingerprint} />
       <Route exact path={`${path}/guidelines`} component={Guidelines} />
+      <Route exact path={`${path}/cfp/:permalink`} component={CallForPapers} />
       <Route path={`${path}*`}>
         <NotFound path={path}/>
       </Route>
@@ -156,20 +161,21 @@ function usePageViews() {
     () => {
       const url = [pathname, search].join('')
       console.info('pageview', url)
-      // based on the pathname, change the background
-      if (pathname.indexOf('/notebook') !== -1 || pathname.indexOf('/article') !== -1) {
-        changeBackgroundColor('#F4F1F8')
-      } else if (pathname.indexOf('/issue') !== -1) {
-        changeBackgroundColor('#F4F1F8')
-      } else if (pathname.indexOf('/submit') !== -1) {
-        changeBackgroundColor('var(--gray-100)')
-      } else if (pathname.indexOf('/about') !== -1) {
-        changeBackgroundColor('var(--linen)')
-      } else if (pathname.indexOf('/terms') !== -1) {
-        changeBackgroundColor('var(--peachpuff)')
-      } else {
-        changeBackgroundColor('var(--gray-100)')
-      }
+      changeBackgroundColor('var(--gray-100)')
+      // // based on the pathname, change the background
+      // if (pathname.indexOf('/notebook') !== -1 || pathname.indexOf('/article') !== -1) {
+      //   changeBackgroundColor('#F4F1F8')
+      // } else if (pathname.indexOf('/issue') !== -1) {
+      //   changeBackgroundColor('#F4F1F8')
+      // } else if (pathname.indexOf('/submit') !== -1) {
+      //   changeBackgroundColor('var(--gray-100)')
+      // } else if (pathname.indexOf('/about') !== -1) {
+      //   changeBackgroundColor('var(--linen)')
+      // } else if (pathname.indexOf('/terms') !== -1) {
+      //   changeBackgroundColor('var(--peachpuff)')
+      // } else {
+      //   changeBackgroundColor('var(--gray-100)')
+      // }
       ReactGA.pageview(url)
     },
     [pathname, search, changeBackgroundColor]
@@ -215,7 +221,7 @@ export default function App() {
             <AppRoutes />
           </Suspense>
         </main>
-        <Footer hideOnRoutes={['/article/', '/notebook-viewer/']}/>
+        <Footer hideOnRoutes={NotebookPoweredPaths}/>
         <ScrollToTop />
       </Auth0ProviderWithHistory>
       </QueryParamProvider>
