@@ -1,19 +1,65 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import groupBy from 'lodash/groupBy'
-import StaticPageLoader from './StaticPageLoader'
 import { Container, Row, Col } from 'react-bootstrap'
+import { useSpring, config} from 'react-spring'
+import StaticPageLoader from './StaticPageLoader'
 import IssueArticles from '../components/Issue/IssueArticles'
 import Issue from '../components/Issue'
+import ArticleFingerprintTooltip from '../components/ArticleV2/ArticleFingerprintTooltip'
 import { BootstrapColumLayout } from '../constants'
+import { useBoundingClientRect } from '../hooks/graphics'
 
 const ArticlesGrid = ({ data }) => {
+  const [{  width }, ref] = useBoundingClientRect()
   const articlesByIssue = groupBy(data, 'issue.pid')
   const issues = Object.keys(articlesByIssue).sort((a,b) => {
     return articlesByIssue[a][0].issue.pid < articlesByIssue[b][0].issue.pid
   })
+  const animatedRef = useRef({ idx: '', length: '', datum:{}});
+  const [animatedProps, setAnimatedProps] = useSpring(() => ({
+    from: { x: 0, y: 0, id: [0, 0], color: 'red' },
+    x : 0, y: 0, opacity:0,
+    id: [0, 0],
+    color: 'var(--white)',
+    backgroundColor: 'var(--secondary)',
+    config: config.stiff
+  }))
 
+  const onArticleMouseMoveHandler = (e, datum, idx, article, bounds) => {
+    console.debug('@onArticleMouseMoveHandler', idx, article)
+    if (animatedRef.current.idx !== idx ) {
+      animatedRef.current.idx = idx
+      animatedRef.current.length = article.fingerprint.cells.length
+      animatedRef.current.datum = datum
+    }
+    const x = Math.min(width - 200, e.clientX - bounds.left + 50)
+    const y = e.clientY + 50
+    // this will change only animated toltip stuff
+    setAnimatedProps.start({
+      x,
+      y,
+      id: [article.abstract.id, idx],
+      color: datum.type === 'code'
+        ? 'var(--white)'
+        : datum.isHermeneutic
+          ? 'var(--secondary)'
+          : 'var(--white)',
+      backgroundColor: datum.type === 'code'
+        ? 'var(--accent)'
+        : datum.isHermeneutic
+          ? 'var(--primary)'
+          : 'var(--secondary)',
+      opacity: 1
+    })
+  }
+  const onArticleMouseOutHandler = () => {
+    setAnimatedProps.start({ opacity: 0 })
+  }
+  const onArticleClickHandler = (e, datum, idx, article) => {
+    console.debug('@onArticleClickHandler', datum, idx, article)
+  }
   return (
-    <Container className="Issue page mt-5">
+    <Container ref={ref} className="Issue page mt-5">
       {issues.map((issueId) => {
         const issue = articlesByIssue[issueId][0].issue
         return (
@@ -23,7 +69,16 @@ const ArticlesGrid = ({ data }) => {
                 <Issue item={issue} />
               </Col>
             </Row>
-            <IssueArticles  data={articlesByIssue[issueId]}/>
+
+            <ArticleFingerprintTooltip
+              forwardedRef={animatedRef}
+              animatedProps={animatedProps} />
+            <IssueArticles
+              data={articlesByIssue[issueId]}
+              onArticleMouseMove={onArticleMouseMoveHandler}
+              onArticleClickHandler={onArticleClickHandler}
+              onArticleMouseOut={onArticleMouseOutHandler}
+              />
           </React.Fragment>
         )
       })}

@@ -46,9 +46,9 @@ const IssueArticles = ({
     }
   }
   // eslint-disable-next-line no-unused-vars
-  const onMouseMoveHandler = (e) => {
+  const onMouseMoveHandler = (e, datum, idx, article) => {
     if (typeof onArticleMouseMove === 'function') {
-      onArticleMouseMove(e, { top, left })
+      onArticleMouseMove(e, datum, idx, article, { top, left })
     }
   }
   return (
@@ -57,6 +57,7 @@ const IssueArticles = ({
         <Col key={i} {...BootstrapColumLayout} >
           {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
           <IssueArticleGridItem
+            onMouseMove={(e, datum, idx) => onMouseMoveHandler(e, datum, idx, article)}
             onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
             onMouseOut={onMouseOutHandler}
             article={article}
@@ -68,6 +69,7 @@ const IssueArticles = ({
         <Col key={i + editorials.length} {...BootstrapColumLayout}>
           {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
           <IssueArticleGridItem
+            onMouseMove={(e, datum, idx) => onMouseMoveHandler(e, datum, idx, article)}
             onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
             onMouseOut={onMouseOutHandler}
             article={article}
