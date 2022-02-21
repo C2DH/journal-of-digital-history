@@ -97,7 +97,7 @@ const ArticleBilbiography = ({
         </Col>
       </Row>
     </Container>
-    <Container>
+    <Container className={`ArticleBilbiography_references`}>
       <Row>
         <Col  {...BootstrapColumLayout}>
           <Facets
