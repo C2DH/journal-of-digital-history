@@ -13,7 +13,8 @@ import {
   DisplayLayerSectionFooter,
   IsMobile
 } from '../../constants'
-import styles from './ArticleLayer.module.css'
+import '../../styles/components/Article2/ArticleLayer.scss'
+
 
 function getCellAnchorFromIdx(idx, prefix='c') {
   return `${prefix}${idx}`
@@ -21,10 +22,6 @@ function getCellAnchorFromIdx(idx, prefix='c') {
 
 function layerTransition(x, y, width, height) {
   return `polygon(${x}px 0px, ${x}px ${height}px, ${width}px ${height}px, ${width}px 0px)`
-}
-
-function cx(...rest) {
-  return styles[rest.join('_')]
 }
 
 const ArticleLayer = ({
@@ -278,11 +275,11 @@ const ArticleLayer = ({
   console.debug('[ArticleLayer] rendered: ',layer,'- n. groups:', paragraphsGroups.length)
 
   return (
-    <a.div ref={layerRef} className={`text-old-${layer} ${cx('mask', layer)}`} style={{
+    <a.div ref={layerRef} className={`text-old-${layer} ArticleLayer_mask ${layer}`} style={{
       ...style,
       clipPath: mask.clipPath.to(layerTransition),
     }} onClick={onLayerClickHandler}>
-      <div className={cx('pushFixed', layer)} style={{
+      <div className={`ArticleLayer_pushFixed ${layer}`} style={{
         backgroundColor: pageBackgroundColor,
         height: IsMobile ? 0: 100
       }}></div>
@@ -298,10 +295,10 @@ const ArticleLayer = ({
           return (
             <React.Fragment key={i}>
               {paragraphsIndices.map((k) => (
-                <a key={['a', k].join('-')} className={styles.anchor} id={getCellAnchorFromIdx(paragraphs[k].idx, layer)}></a>
+                <a key={['a', k].join('-')} className="ArticleLayer_anchor" id={getCellAnchorFromIdx(paragraphs[k].idx, layer)}></a>
               ))}
-              <div className={`ArticleLayer_placeholderWrapper position-relative ${cx('placeholder', layer, firstCellInGroup.layer)}`}>
-                <div className={cx('placeholderActive', layer, firstCellInGroup.idx ===  selectedCellIdx? 'on' : 'off')} />
+              <div className={`ArticleLayer_placeholderWrapper position-relative ArticleLayer_placeholder ${layer}_${firstCellInGroup.layer}`}>
+                <div className={`ArticleLayer_placeholderActive ${layer} ${firstCellInGroup.idx ===  selectedCellIdx? 'on' : 'off'}`}/>
                 {paragraphsIndices.slice(0,2).map((j) => (
                   <ArticleCellObserver
                     onCellIntersectionChange={onCellIntersectionChange}
@@ -318,9 +315,8 @@ const ArticleLayer = ({
                     />
                   </ArticleCellObserver>
                 ))}
-                <div className={cx('placeholderGradient', layer, firstCellInGroup.layer)} />
-
-                <div className={styles.placeholderButton}>
+                <div className={`ArticleLayer_placeholderGradient ${layer}_${firstCellInGroup.layer}`} />
+                <div className="ArticleLayer_placeholderButton">
                   <Button variant="outline-secondary" size="sm" className="d-flex align-items-center" onClick={(e) => onCellPlaceholderClickHandler(e, firstCellInGroup)}>
                     read in {firstCellInGroup.layer} layer
                     &nbsp;
@@ -342,28 +338,28 @@ const ArticleLayer = ({
             }
             return (
               <React.Fragment  key={[i,j].join('-')}>
-              <a className='ArticleLayer_anchor' id={getCellAnchorFromIdx(cell.idx,layer)}></a>
+              <a className="ArticleLayer_anchor" id={getCellAnchorFromIdx(cell.idx,layer)}></a>
               <div
-                className={`ArticleLayer_paragraphWrapper ${styles.paragraphWrapper}`}
+                className="ArticleLayer_paragraphWrapper"
                 data-cell-idx={cell.idx}
                 data-cell-layer={cell.layer}
               >
-                <div className={cx('cellActive', firstCellInGroup.idx === selectedCellIdx || cell.idx === selectedCellIdx ? 'on' : 'off' )} />
+                <div className={`ArticleLayer_cellActive ${firstCellInGroup.idx === selectedCellIdx || cell.idx === selectedCellIdx ? 'on' : 'off'}`} />
                 <ArticleCellObserver
                   onCellIntersectionChange={onCellIntersectionChange}
                   cell={cell}
                   className="ArticleStream_paragraph"
                 >
-                  { cell.idx === selectedCellIdx && previousLayer !== '' && previousLayer !== layer ? (
+                  { cell.idx === selectedCellIdx && previousLayer !== '' && previousLayer !== layer && (
                     <Button
                       size="sm"
                       variant="secondary"
-                      className={styles.cellActiveBackButton}
+                      className="ArticleLayer_paragraphWrapper_backBtn"
                       onClick={(e) => onSelectedCellClickHandler(e, cell)}
                     >
                       <ArrowLeft size={16} /> back
                     </Button>
-                  ) : null}
+                  )}
                   <ArticleCell
                     isJavascriptTrusted={isJavascriptTrusted}
                     onNumClick={onNumClickHandler}
@@ -383,7 +379,7 @@ const ArticleLayer = ({
           </React.Fragment>
         )
       })}
-      <div className={styles.push}></div>
+      <div className="ArticleLayer_push"></div>
       <a className='ArticleLayer_anchor' id={getCellAnchorFromIdx(DisplayLayerSectionBibliography,layer)}></a>
       {renderedBibliographyComponent}
       <div className="my-5" />
