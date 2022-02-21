@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import { BootstrapColumLayout,StatusSuccess,StatusError } from '../constants'
 import JupiterCellListItem from '../components/FingerprintComposer/JupiterCellListItem'
@@ -13,6 +14,7 @@ import { useSpring, config } from 'react-spring'
 
 const FingerprintExplained = () => {
   const [{ width:size }, ref] = useBoundingClientRect()
+  const { t } = useTranslation()
   const [cells, setCells] = useState([]);
   const [value, setValue] = useState("");
   const [notebookUrl, setNotebookUrl] = useState(null);
@@ -55,10 +57,13 @@ const FingerprintExplained = () => {
   }
 
   const onChangeHandler=(idx, cell) => {
-    console.info ("Changed to:", idx, cell)
-    setCells(cells.map((d, i) => {
+    console.debug("[FingerprintExplained] @onChange:", idx, cell)
+    setCells((state) => state.map((d, i) => {
       if (i === idx) {
-        return { ...d, ...cell }
+        return {
+          ...d,
+          ...cell
+        }
       }
       return d
     }))
@@ -88,19 +93,20 @@ const FingerprintExplained = () => {
       <Row style={{
         minHeight: size*2.5
       }}>
-      <Col>
+        <Col md={{span:7}}>
           <h2 className="my-5">The Cell</h2>
-
           {cells.map((d,i) => {
             return (
               <JupiterCellListItem
                 key={i}
-                narrative={d.narrative}
-                hermeneutics={d.hermeneutics}
+                num={`${i+1} / ${cells.length}`}
+                initial={d}
+                type={d.code}
+                isHermeneutic={d.isHermeneutic}
+                isHeading={d.isHeading}
                 data={d.data}
                 onChange={(cell) => onChangeHandler(i, cell)}
               >
-              <pre>{JSON.stringify(d, null, 2)}</pre>
                 {d.firstWords}
               </JupiterCellListItem>
             )
@@ -150,7 +156,7 @@ const FingerprintExplained = () => {
               </Row>
 
           </Container>
-        </Col> 
+        </Col>
         <Col>
           <div ref={ref}
             style={{
@@ -170,6 +176,18 @@ const FingerprintExplained = () => {
             size={size}
             margin={20}
           />
+            <div className="position-absolute"
+              style={{
+                top: size
+              }} 
+              dangerouslySetInnerHTML={{
+                __html: t('pages.fingerprintExplained.legend', {
+                  count: cells.length,
+                  countHermeneutics: cells.filter(d=>d.isHermeneutic).length,
+                  countData: cells.filter(d=>d.type==='code').length
+                })
+              }}
+            />
           </div>
         </Col>
       </Row>
