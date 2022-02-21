@@ -16,6 +16,7 @@ const FingerprintExplained = () => {
   const [{ width:size }, ref] = useBoundingClientRect()
   const { t } = useTranslation()
   const [cells, setCells] = useState([]);
+  const [stats, setStats] = useState({});
   const [value, setValue] = useState("");
   const [notebookUrl, setNotebookUrl] = useState(null);
   const [submitedNotebookUrl, setSubmitedNotebookUrl] = useState('https://raw.githubusercontent.com/C2DH/jdh-notebook/master/examples/hermeneutic-layer.ipynb');
@@ -72,8 +73,9 @@ const FingerprintExplained = () => {
   useEffect(() => {
     if (status === StatusSuccess) {
       const fingerprintData = parseNotebook(data)
-      console.info('hey this is me', fingerprintData)
+      console.info('[FingerprintExplained] @useEffect StatusSuccess, notebook loaded.')
       setCells(fingerprintData.cells)
+      setStats(fingerprintData.stats)
     }
   }, [status])
 
@@ -169,9 +171,7 @@ const FingerprintExplained = () => {
           <ArticleFingerprint
             onMouseMove={onMouseMoveHandler}
             debug={true}
-            stats={{
-              extentChars: [5, 440]
-            }}
+            stats={stats}
             cells={cells}
             size={size}
             margin={20}
@@ -179,7 +179,7 @@ const FingerprintExplained = () => {
             <div className="position-absolute"
               style={{
                 top: size
-              }} 
+              }}
               dangerouslySetInnerHTML={{
                 __html: t('pages.fingerprintExplained.legend', {
                   count: cells.length,
