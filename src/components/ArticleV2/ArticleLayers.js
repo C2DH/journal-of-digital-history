@@ -95,7 +95,8 @@ const ArticleLayers = ({
       [DisplayLayerCellTopQueryParam]: y,
       [DisplayPreviousLayerQueryParam]: previousLayer,
       [DisplayPreviousCellIdxQueryParam]: previousIdx,
-      [DisplayLayerHeightQueryParam]: h
+      [DisplayLayerHeightQueryParam]: h,
+      [DisplayLayerSectionParam]: undefined
     })
   }
 
