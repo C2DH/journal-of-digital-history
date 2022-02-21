@@ -1,6 +1,5 @@
 import React from 'react'
 import Jupitercelltag from './Jupitercelltag'
-import { Container, Row } from 'react-bootstrap'
 
 
 const Jupitercell = ({
@@ -8,7 +7,7 @@ const Jupitercell = ({
   isHermeneutics = false,
   isData = false,
   children
-  }) => {
+}) => {
   let divClassName = "Jupitercell";
   if (isNarative === true) {
     divClassName = "Jupitercell Narative";
@@ -18,8 +17,7 @@ const Jupitercell = ({
     divClassName = "Jupitercell Data";
   }
   return (
-    <Container>
-    <Row>
+    <div>
       <div className={divClassName}>
         {isNarative === true ? (
           <Jupitercelltag tag="Narrative"></Jupitercelltag>
@@ -30,8 +28,7 @@ const Jupitercell = ({
         {isData ? <Jupitercelltag tag="Data"></Jupitercelltag> : null}
         <p>{children}</p>
       </div>
-      </Row>
-    </Container>
+    </div>
   );
 }
 
