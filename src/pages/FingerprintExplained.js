@@ -1,33 +1,28 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Container, Row, Col, Button, Form } from 'react-bootstrap'
-import { BootstrapColumLayout } from '../constants'
+import { BootstrapColumLayout,StatusSuccess,StatusError } from '../constants'
 import JupiterCellListItem from '../components/FingerprintComposer/JupiterCellListItem'
 import MiniJupiterCellListItem from '../components/FingerprintComposer/MiniJupiterCellListItem'
 import '../styles/components/FingerprintComposer/FingerprintComposer.scss'
 import ArticleFingerprint from '../components/Article/ArticleFingerprint'
 import ArticleFingerprintTooltip from '../components/ArticleV2/ArticleFingerprintTooltip'
+import { parseNotebook } from '../logic/fingerprint'
+import { useGetJSON } from '../logic/api/fetchData'
 import { useBoundingClientRect } from '../hooks/graphics'
 import { useSpring, config } from 'react-spring'
 
 const FingerprintExplained = () => {
   const [{ width:size }, ref] = useBoundingClientRect()
-  const [cells, setCells] = useState([
-    {
-      firstWords: "This is a Narative layer"
-    },
-    {
-      firstWords: "This is not a Narative layer"
-    },
-    {
-      hermeneutics: true,
-      firstWords: "This is an Hermeneutics layer"
-    },
-    {
-      data: true,
-      firstWords: "This is a data layer"
-    },
-  ]);
+  const [cells, setCells] = useState([]);
   const [value, setValue] = useState("");
+  const [notebookUrl, setNotebookUrl] = useState(null);
+  const [submitedNotebookUrl, setSubmitedNotebookUrl] = useState('https://raw.githubusercontent.com/C2DH/jdh-notebook/master/examples/hermeneutic-layer.ipynb');
+
+  const { data, status } = useGetJSON({
+    url: submitedNotebookUrl,
+    delay: 0,
+  })
+
 
   // animated Ref contains the info to display on the tooltip
   const animatedRef = useRef({ idx: '', length: '', datum:{}});
@@ -38,6 +33,12 @@ const FingerprintExplained = () => {
     backgroundColor: 'var(--secondary)',
     config: config.stiff
   }))
+
+  const onSubmitHandler = (e) => {
+    setSubmitedNotebookUrl(notebookUrl)
+    console.info('@submit', submitedNotebookUrl)
+    e.preventDefault()
+  }
 
   const onMouseMoveHandler = (e, datum, idx) => {
     // console.debug('@onMouseMoveHandler', datum, idx)
@@ -62,6 +63,14 @@ const FingerprintExplained = () => {
       return d
     }))
   }
+
+  useEffect(() => {
+    if (status === StatusSuccess) {
+      const fingerprintData = parseNotebook(data)
+      console.info('hey this is me', fingerprintData)
+      setCells(fingerprintData.cells)
+    }
+  }, [status])
 
   return (
     <>
@@ -91,7 +100,7 @@ const FingerprintExplained = () => {
                 data={d.data}
                 onChange={(cell) => onChangeHandler(i, cell)}
               >
-
+              <pre>{JSON.stringify(d, null, 2)}</pre>
                 {d.firstWords}
               </JupiterCellListItem>
             )
@@ -120,15 +129,18 @@ const FingerprintExplained = () => {
                 add new cell
               </Button>
               <hr className="mt-3 mb-3"/>
-              <Form>
+              <Form onSubmit={onSubmitHandler}>
                 <Form.Group className="mt-3 mb-3" controlId="">
                   <Form.Label>To test, you can add the text of the new cell above, OR load your favorite:</Form.Label>
                   <Form.Control
-                    defaultValue={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    defaultValue={notebookUrl}
+                    onChange={(e) => setNotebookUrl(e.target.value)}
                     type="url"
                     placeholder="https://"
                   />
+                  {status === StatusError && (
+                    <p> There's an error </p>
+                  )}
                   <Form.Text className="text-muted" dangerouslySetInnerHTML={{
                     __html: ("Use a well formed URL pointing to the <code>.ipynb</code> notebook file. For instance use to the <b>raw</b> url of the ipynb file for notebook hosted on Github.")
                   }}/>
@@ -138,11 +150,11 @@ const FingerprintExplained = () => {
               </Row>
 
           </Container>
-        </Col>
+        </Col> 
         <Col>
           <div ref={ref}
             style={{
-              minHeight: size,
+              minHeight: size ,
               position: "sticky",
               top: 100
             }}
@@ -154,12 +166,7 @@ const FingerprintExplained = () => {
             stats={{
               extentChars: [5, 440]
             }}
-            cells={cells.map((cell) => ({
-              ...cell,
-              type: cell.data ? 'code': 'markdown',
-              isHermeneutic: cell.hermeneutics,
-              countChars: cell.firstWords.length
-            }))}
+            cells={cells}
             size={size}
             margin={20}
           />
@@ -174,28 +181,6 @@ const FingerprintExplained = () => {
       <Row style={{
         minHeight: size*3
       }}>
-      <Col>
-        <div ref={ref} style={{
-          minHeight: size,
-          position: "sticky",
-          top: 100
-        }}>
-        <ArticleFingerprint
-          debug={true}
-          stats={{
-            extentChars: [5, 440]
-          }}
-          cells={cells.map((cell) => ({
-            ...cell,
-            type: cell.data ? 'code': 'markdown',
-            isHermeneutic: cell.hermeneutics,
-            countChars: cell.firstWords.length
-          }))}
-          size={size}
-          margin={20}
-        />
-        </div>
-      </Col>
         <Col>
           <h2 className="my-5">The Fingerprint</h2>
           <p> This would be a paragraph explaining the concept behind the Markdown cell language Fusce turpis tortor, efficitur et turpis a, congue sagittis elit. Nullam quis metus tortor. Vivamus ut porta dolor. Vestibulum malesuada neque at turpis tincidunt, in sagittis neque semper. Suspendisse posuere ornare lacus vel placerat. Cras lobortis luctus feugiat. Donec interdum est non lectus vehicula pharetra. Sed convallis dui quam, a elementum tortor pharetra id. Vivamus vel fermentum odio. In commodo ipsum pulvinar quam faucibus, sed rhoncus ligula faucibus. Proin bibendum non ipsum in bibendum. Nam sit amet lacus lectus. Integer vitae tellus sit amet felis efficitur maximus. Etiam iaculis ultricies leo, sit amet varius neque euismod in. </p>
@@ -213,6 +198,8 @@ const FingerprintExplained = () => {
                 </MiniJupiterCellListItem>
               )
             })}
+        </Col>
+        <Col>
         </Col>
       </Row>
 
