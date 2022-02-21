@@ -1,11 +1,24 @@
 .AgreeButton {
   width: 100%;
+  font-weight: bold;
+  border-radius: 50px;
 }
 
+.disclaimer{
+  font-size: .8em;
+}
+
+.agreement{
+  font-size: .8em;
+}
 @media (min-width: 768px) {
   .AgreeButton {
     width: auto;
     padding-left: var(--spacer-4);
     padding-right: var(--spacer-4);
+  }
+
+  .disclaimer, .agreement{
+    font-size: inherit;
   }
 }
