@@ -24,7 +24,7 @@ const Cookies = ({ defaultAcceptCookies }) => {
     return (
       <div style={{position: 'fixed', bottom: 0, background: 'var(--secondary)', color: 'white', width: '100%', zIndex:1060}}>
         <Container className="py-4">
-          <p>
+          <p className={styles.disclaimer}>
             We uses cookies and other data to deliver, maintain and improve
             the platform (<b>"functional" cookies</b>).
             {/*
@@ -39,9 +39,11 @@ const Cookies = ({ defaultAcceptCookies }) => {
               onChange={handleChange}
             />
           </Form>
+            <p className={styles.agreement}>
             By browsing this website you agree to our cookie policy.
             Visit <LangLink to={TermsOfUseRoute.to}>{t(TermsOfUseRoute.label)}</LangLink> to review your options later.
-            <div className="mx-3 my-3">
+            </p>
+            <div className="mx-3 my-0 my-md-3">
             <Button className={styles.AgreeButton} onClick={handleClickAgree}>Agree</Button>
             </div>
         </Container>

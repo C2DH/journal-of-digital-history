@@ -6,9 +6,17 @@ $breakpoint-lg: 992px;
 }
 
 .ArticleCellContent blockquote {
-  border-left: var(--spacer-1) solid;
-  padding-left: var(--spacer-4);
-  margin-left: var(--spacer-4);
+  border-left: 3px solid rgba(0,0,0,.3);
+  padding-left: var(--spacer-3);
+  margin-left: 0;
+}
+
+@media (min-width: $breakpoint-tablet) {
+  .ArticleCellContent blockquote{
+    border-left: var(--spacer-1) solid;
+    padding-left: var(--spacer-4);
+    margin-left: var(--spacer-4);
+  }
 }
 
 .ArticleCellObserver.active  .ArticleCellContent_num{

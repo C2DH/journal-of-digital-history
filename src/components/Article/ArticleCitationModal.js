@@ -8,7 +8,9 @@ import Citation from '../Citation'
 const ArticleCitationModal = (props) => {
   const choices = [
     { format: 'bibtex', label: 'bibtex' },
-    { format: 'html', template: 'apa', label: 'APA' },
+    { format: 'html', template: 'apa', label: 'APA', replaceFn: (text) => {
+      return text.replace(/&#38;quot;/g, "\"")
+    } },
     // { format: 'html', template: 'mla', label: 'MLA' },
     // { format: 'html', template: 'vancouver', label: 'vancouver' },
     { format: 'html', template: 'harvard1', label: 'harvard' }

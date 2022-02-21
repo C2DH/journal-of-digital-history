@@ -1,8 +1,16 @@
+import MarkdownIt from 'markdown-it'
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { BootstrapColumLayout, StatusFetching } from '../constants'
 import { useGetJSON } from '../logic/api/fetchData'
 import { useTranslation } from 'react-i18next'
+
+const markdownParser = MarkdownIt({
+  html: false,
+  linkify: true,
+  typographer: true
+})
+
 
 const FakeReleases = [
   {
@@ -41,8 +49,11 @@ const ReleaseNotes = () => {
     <Container className="ReleaseNotes page">
       <Row>
         <Col {...BootstrapColumLayout}>
-          <h1 className="my-5">Release notes</h1>
-          <p className="mb-5">{Array.isArray(releases) ? releases.length : '...'} releases so far.</p>
+          <h1 className="my-5">{t('pages.releaseNotes.title')}</h1>
+          <p className="mb-5">
+            {t('pages.releaseNotes.subheading', {
+              n: Array.isArray(releases) ? releases.length : '...'
+            })}</p>
         </Col>
       </Row>
       {(Array.isArray(releases) ? releases : FakeReleases).map((release, i) => (
@@ -55,7 +66,9 @@ const ReleaseNotes = () => {
             &nbsp;&mdash;&nbsp;
             {t('dates.fromNow', { date: new Date(release.published_at)})}
           </p>
-          <p>{release.body}</p>
+          <p dangerouslySetInnerHTML={{
+            __html: markdownParser.render(release.body)
+          }} />
           </Col>
         </Row>
       ))}
