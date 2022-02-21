@@ -94,6 +94,9 @@
         "fingerprintViewerForm": {
           "title": "Preview Fingerprint"
         },
+        "fingerprintExplained": {
+          "legend": "{{ count }} cell(s) in total, {{ countHermeneutics }} tagged as <code>hermeneutics</code>, {{ countData }} using code (data)"
+        },
         "issue": {
           "title": "Issue {{ id }}"
         },
