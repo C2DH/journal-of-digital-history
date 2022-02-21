@@ -45,6 +45,13 @@ export const BootstrapColumLayout = Object.freeze({
   lg: { span:8, offset:2 }
 })
 
+export const BootstrapSideColumLayout = Object.freeze({
+  md: { span:2, offset:0 },
+})
+export const BootstrapMainColumLayout = Object.freeze({
+  md: { span:6, offset:1 },
+})
+
 export const BootstrapQuoteColumLayout = Object.freeze({
   md: { span:6, offset:3 },
   lg: { span:6, offset:3 }

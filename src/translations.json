@@ -224,10 +224,31 @@
       "ArticleCellOutput_stream": "logs",
       "ArticleCellOutput_display_data": "result (display)",
       "bibliography": "Bibliography",
+      "bibliographySummary": "{{ authors }} authors cited, {{ total }} references.",
       "ArticleMobileDisclaimerSubject": "To read: \"{{ title }}\" on jdh",
       "ArticleMobileDisclaimerBody": "Note to self: remember to read the article \"{{ title }}\" on {{ url }}",
       "HelloWorldTitle": "The first issue of the Journal of Digital History has been released!",
-      "HelloWorldAvailableHere": "Available here!"
+      "HelloWorldAvailableHere": "Available here!",
+      "dimensions": {
+        "authors": "Authors cited",
+        "issued": {
+          "year": "Year of publication"
+        },
+        "actions": {
+          "showMore": "show {{ n }} more ...",
+          "showLess": "show less ..."
+        },
+        "sorting": {
+          "values": {
+            "authors": "Author",
+            "issued": {
+              "year": "Year of publication"
+            }
+          },
+          "options": "Order by",
+          "directions": ""
+        }
+      }
     }
   }
 }
