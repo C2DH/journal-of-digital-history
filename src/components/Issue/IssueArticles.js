@@ -55,7 +55,6 @@ const IssueArticles = ({
   }
   return (
     <Row ref={ref}>
-      {JSON.stringify(selected)}
       {editorials.map((article, i) => {
         if (Array.isArray(selected) && selected.indexOf(article.idx) === -1 ) {
           return null
