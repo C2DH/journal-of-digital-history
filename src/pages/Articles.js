@@ -107,8 +107,15 @@ const ArticlesGrid = ({
         <Col {...BootstrapColumLayout}>
         <Facets
           dimensions={['narrative', 'hermeneutic', 'tool'].map((category) => ({
+            fixed: true,
             name: category,
             fn: (d) => d.tags.filter(t => t.category === category).map(t => t.name),
+            sortFn: (a,b) => {
+              return a.indices.length === b.indices.length
+                ? a.key > b.key
+                  ? 1 : -1
+                : a.indices.length > b.indices.length ? -1 : 1
+            },
             isArray: true
           }))}
           items={data}
