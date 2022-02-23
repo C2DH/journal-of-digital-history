@@ -26,7 +26,7 @@ const ArticleFingerprintTooltip = ({ animatedProps, forwardedRef }) => {
         </a.span>
       </div>
       <a.div
-        classname="ArticleFingerprintTooltip_content"
+        className="ArticleFingerprintTooltip_content"
         style={{
           fontFamily: animatedProps.id.to(() => {
             return String(forwardedRef.current.datum.type) === 'code'

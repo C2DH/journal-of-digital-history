@@ -5,7 +5,7 @@ import ErrorViewer from './ErrorViewer'
 import { useSpring, animated, config } from 'react-spring'
 
 
-const StaticPageLoader = ({ url, delay=0, Component, fakeData }) => {
+const StaticPageLoader = ({ url, delay=0, Component, fakeData, ...rest }) => {
   const [animatedLine, apiAnimatedLine] = useSpring(() => ({ width : 0, opacity:1, config: config.slow }))
   const { data, error, status } = useGetJSON({
     url,
@@ -63,6 +63,7 @@ const StaticPageLoader = ({ url, delay=0, Component, fakeData }) => {
         url={url}
         data={status === StatusSuccess ? data : fakeData}
         isFake={status !== StatusSuccess}
+        {...rest}
       />
     )}
     </>

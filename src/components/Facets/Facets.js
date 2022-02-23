@@ -74,11 +74,17 @@ function useFacetsSelection(dimensions = []) {
     }
     console.debug('[useFacetsSelection]', {name, key, indices, method})
     if (method === MethodFilter) {
-      _dims[name].selected = _dims[name].selected
-        // add indices
-        .concat(indices)
-        // remove dupes
-        .filter((d, i, arr) => arr.indexOf(d) === i)
+      if (_dims[name].selected.length) {
+        _dims[name].selected = _dims[name].selected.filter(d => indices.includes(d))
+      } else {
+        _dims[name].selected = indices
+      }
+      // this would be for MethodAdd
+      // _dims[name].selected = _dims[name].selected
+      //   // add indices
+      //   .concat(indices)
+      //   // remove dupes
+      //   .filter((d, i, arr) => arr.indexOf(d) === i)
       if (!_dims[name].keys.includes(key)) {
         _dims[name].keys.push(key)
       }
@@ -193,7 +199,7 @@ const Facets = ({
   return (
     <div className={`${className}`}>
       {dimensions.map((dimension) => (
-        <React.Fragment key={dimension.name}>
+        <div className={`Facets_dimension ${dimension.name}`} key={dimension.name}>
           <h3 className="Facets_dimensionHeading">{t(`dimensions.${dimension.name}`)}</h3>
           <Dimension
             items={items}
@@ -214,7 +220,7 @@ const Facets = ({
                 onClick={(e) => onResetHandler(e, dimension.name)}>reset</Button>
             )}
           </Dimension>
-        </React.Fragment>
+        </div>
       ))}
     </div>
   )
