@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useMemo } from 'react'
 import groupBy from 'lodash/groupBy'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useSpring, config} from 'react-spring'
@@ -6,23 +6,27 @@ import { useHistory } from 'react-router'
 import StaticPageLoader from './StaticPageLoader'
 import IssueArticles from '../components/Issue/IssueArticles'
 import Issue from '../components/Issue'
+import Facets from '../components/Facets'
 import ArticleFingerprintTooltip from '../components/ArticleV2/ArticleFingerprintTooltip'
 import {
   BootstrapColumLayout,
   DisplayLayerCellIdxQueryParam,
   DisplayLayerQueryParam,
   LayerNarrative,
-  LayerHermeneutics
+  LayerHermeneutics,
+  StatusSuccess
 } from '../constants'
 import { useBoundingClientRect } from '../hooks/graphics'
+import '../styles/pages/Articles.scss'
 
+const ArticlesGrid = ({
+  data,
+  url,
+  status
+}) => {
+  const [selected, setSelected] = useState(null)
 
-const ArticlesGrid = ({ data }) => {
   const [{  width }, ref] = useBoundingClientRect()
-  const articlesByIssue = groupBy(data, 'issue.pid')
-  const issues = Object.keys(articlesByIssue).sort((a,b) => {
-    return articlesByIssue[a][0].issue.pid < articlesByIssue[b][0].issue.pid
-  })
   const history = useHistory()
   const animatedRef = useRef({ idx: '', length: '', datum:{}});
   const [animatedProps, setAnimatedProps] = useSpring(() => ({
@@ -33,6 +37,25 @@ const ArticlesGrid = ({ data }) => {
     backgroundColor: 'var(--secondary)',
     config: config.stiff
   }))
+
+  const { articlesByIssue, issues } = useMemo(() => {
+    if(status !== StatusSuccess) {
+      return {
+        articlesByIssue: {},
+        issues: [],
+        sortedItems: []
+      }
+    }
+    const sortedItems = data.map((item, idx) => ({
+      ...item,
+      idx
+    }))
+    const articlesByIssue = groupBy(sortedItems, 'issue.pid')
+    const issues = Object.keys(articlesByIssue).sort((a,b) => {
+      return articlesByIssue[a][0].issue.pid < articlesByIssue[b][0].issue.pid
+    })
+    return { articlesByIssue, issues }
+  }, [url, status])
 
   const onArticleMouseMoveHandler = (e, datum, idx, article, bounds) => {
     if (animatedRef.current.idx !== idx ) {
@@ -46,7 +69,7 @@ const ArticlesGrid = ({ data }) => {
     setAnimatedProps.start({
       x,
       y,
-      id: [article.abstract.id, idx],
+      id: [article.abstract.id || -1, idx ?? -1],
       color: datum.type === 'code'
         ? 'var(--white)'
         : datum.isHermeneutic
@@ -72,8 +95,33 @@ const ArticlesGrid = ({ data }) => {
       : `/en/article/${article.abstract.pid}`
     history.push(url);
   }
+
+  const onFacetsSelectHandler = (name, indices) => {
+    console.debug('[Articles] @onSelect', name, indices)
+    setSelected(indices)
+  }
+  console.debug('[Articles] data:', data)
   return (
-    <Container ref={ref} className="Issue page mt-5">
+    <Container ref={ref} className="Articles Issue page">
+      <Row className="mb-3 border-bottom border-accent">
+        <Col {...BootstrapColumLayout}>
+        <Facets
+          dimensions={['narrative', 'hermeneutic', 'tool'].map((category) => ({
+            name: category,
+            fn: (d) => d.tags.filter(t => t.category === category).map(t => t.name),
+            isArray: true
+          }))}
+          items={data}
+          onSelect={onFacetsSelectHandler}
+          onInit={(args) => console.debug('[Articles]', args)}
+          className="Articles_facets"
+        />
+        </Col>
+      </Row>
+      <ArticleFingerprintTooltip
+        forwardedRef={animatedRef}
+        animatedProps={animatedProps}
+      />
       {issues.map((issueId) => {
         const issue = articlesByIssue[issueId][0].issue
         return (
@@ -83,11 +131,8 @@ const ArticlesGrid = ({ data }) => {
                 <Issue item={issue} />
               </Col>
             </Row>
-
-            <ArticleFingerprintTooltip
-              forwardedRef={animatedRef}
-              animatedProps={animatedProps} />
             <IssueArticles
+              selected={selected}
               data={articlesByIssue[issueId]}
               onArticleMouseMove={onArticleMouseMoveHandler}
               onArticleClick={onArticleClickHandler}
