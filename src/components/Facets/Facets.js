@@ -138,7 +138,7 @@ const Facets = ({
   // memoid='',
   onSelect,
   onInit,
-  className
+  className, style,
 }) => {
   const { t } = useTranslation()
   // Resulting state: { selected: [0, 14, 15 ...]}
@@ -197,7 +197,7 @@ const Facets = ({
   )
 
   return (
-    <div className={`${className}`}>
+    <div className={`${className}`} style={style}>
       {dimensions.map((dimension) => (
         <div className={`Facets_dimension ${dimension.name}`} key={dimension.name}>
           <h3 className="Facets_dimensionHeading">{t(`dimensions.${dimension.name}`)}</h3>
