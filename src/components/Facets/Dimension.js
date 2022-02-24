@@ -81,6 +81,7 @@ const Dimension = ({
         ? 1 : -1
       : a.count > b.count ? -1 : 1
   },
+  fixed=false,
   onInit,
   onSelect,
   children
@@ -91,12 +92,14 @@ const Dimension = ({
   const groups = Object.values(groupsIndex).sort(sortFn)
   let activeGroups = []
   // remove active elments from the list:
-  activeKeys.forEach((activeKey) => {
-    const idx = groups.findIndex((d) => d.key === activeKey)
-    if (idx !== -1) {
-      activeGroups = activeGroups.concat(groups.splice(idx, 1))
-    }
-  })
+  if(!fixed) {
+    activeKeys.forEach((activeKey) => {
+      const idx = groups.findIndex((d) => d.key === activeKey)
+      if (idx !== -1) {
+        activeGroups = activeGroups.concat(groups.splice(idx, 1))
+      }
+    })
+  }
   const threshold = thresholdFn(groups, activeGroups)
   const topGroups = groups.slice(0, threshold)
   const restGroups = groups.slice(threshold)
@@ -138,7 +141,10 @@ const Dimension = ({
   return (
     <div className="Dimension">
       {children}
-      <ul>
+      <ul className={[
+        isActive ? 'active': '',
+        showMore ? 'expanded': ''
+      ].join(' ')}>
         {activeGroups.map((group) => (
           <DimensionGroupListItem
             key={group.key}
