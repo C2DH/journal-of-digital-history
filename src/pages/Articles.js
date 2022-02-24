@@ -58,7 +58,7 @@ const ArticlesGrid = ({
   }, [url, status])
 
   const onArticleMouseMoveHandler = (e, datum, idx, article, bounds) => {
-    if (animatedRef.current.idx !== idx ) {
+    if (!isNaN(idx) && animatedRef.current.idx !== idx ) {
       animatedRef.current.idx = idx
       animatedRef.current.length = article.fingerprint.cells.length
       animatedRef.current.datum = datum
@@ -69,7 +69,7 @@ const ArticlesGrid = ({
     setAnimatedProps.start({
       x,
       y,
-      id: [article.abstract.id || -1, idx ?? -1],
+      id: [article.abstract.id || 0, isNaN(idx) ? 0 : idx],
       color: datum.type === 'code'
         ? 'var(--white)'
         : datum.isHermeneutic
@@ -103,7 +103,7 @@ const ArticlesGrid = ({
   console.debug('[Articles] data:', data)
   return (
     <Container ref={ref} className="Articles Issue page">
-      <Row className="mb-3 border-bottom border-accent">
+      <Row className="mb-3">
         <Col {...BootstrapColumLayout}>
         <Facets
           dimensions={['narrative', 'hermeneutic', 'tool'].map((category) => ({

@@ -13,6 +13,28 @@
 
   .Facets_dimension{
     position: relative;
+    &.narrative ul {
+      .DimensionGroupListItem.active{
+        box-shadow: 0 0 0px 3px var(--gray-500);
+      }
+    }
+    &.hermeneutic ul {
+      border-left-color: var(--primary);
+
+      .DimensionGroupListItem.active{
+        color: var(--primary-dark);
+
+        box-shadow: 0 0 0px 3px var(--primary);
+      }
+    }
+    &.tool ul {
+      border-left-color: var(--accent);
+      .DimensionGroupListItem.active{
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        box-shadow: 0 0 0px 3px var(--accent-light);
+      }
+    }
   }
   .Facets_dimensionHeading{
     position: absolute;
@@ -25,11 +47,22 @@
     margin-top: -10px;
     height: 20px;
   }
+
+  // .Dimension{
+  //   max-width: 100%;
+  //   overflow: hidden;
+  // }
   ul {
     display: flex;
     flex-wrap: wrap;
     padding-left: 10px;
-    border-left: 2px solid var(--dark)
+    border-left: 2px solid var(--dark);
+  }
+
+
+  li{
+    height: 25px;
+    white-space: nowrap;
   }
 
   .DimensionGroupListItem {
