@@ -24,6 +24,10 @@
       "Navigation_NotebookViewer": "Preview Notebook",
       "Pages_NotebookViewer_Title": "Jupyter notebook viewer",
       "pages": {
+        "articles": {
+          "title": "Articles & Issues",
+          "subheading": "Filter by keywords, libraries or browse the articles."
+        },
         "loading": {
           "title": "loading...",
           "subheading": "..."
