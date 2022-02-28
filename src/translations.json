@@ -204,6 +204,7 @@
         "instance-githubId": "A valid <em>github user identifier</em> contains only numbers and letters"
       },
       "numbers": {
+        "issue": "Issue n.{{n}}",
         "figure": "figure {{ n }}",
         "table": "table {{ n }}",
         "yExponent": "Power scale exponent (y axis): <b>{{n}}</b>",
