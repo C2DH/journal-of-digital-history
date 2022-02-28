@@ -209,6 +209,7 @@ const Facets = ({
             name={dimension.name}
             fn={dimension.fn}
             sortFn={dimension.sortFn}
+            thresholdFn={dimension.thresholdFn}
             fixed={dimension.fixed}
             onSelect={onSelectHandler}
             onInit={onInitHandler}

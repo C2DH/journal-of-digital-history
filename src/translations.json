@@ -13,7 +13,8 @@
         "articleHermeneutics": "hermeneutic layer",
         "articleHermeneuticsData": "hermeneutic layer",
         "articleData": "data",
-        "issue":"Issues"
+        "issue":"Articles & Issues",
+        "releaseNotes": "Release notes"
       },
       "title": "Journal of <br/>Digital History",
       "titleInline": "Journal of Digital History",
@@ -23,6 +24,10 @@
       "Navigation_NotebookViewer": "Preview Notebook",
       "Pages_NotebookViewer_Title": "Jupyter notebook viewer",
       "pages": {
+        "articles": {
+          "title": "Articles & Issues",
+          "subheading": "Filter by keywords, libraries or browse the articles."
+        },
         "loading": {
           "title": "loading...",
           "subheading": "..."
@@ -203,6 +208,7 @@
         "instance-githubId": "A valid <em>github user identifier</em> contains only numbers and letters"
       },
       "numbers": {
+        "issue": "Issue n.{{n}}",
         "figure": "figure {{ n }}",
         "table": "table {{ n }}",
         "yExponent": "Power scale exponent (y axis): <b>{{n}}</b>",
@@ -234,9 +240,9 @@
       "HelloWorldTitle": "The first issue of the Journal of Digital History has been released!",
       "HelloWorldAvailableHere": "Available here!",
       "dimensions": {
-        "tool": "data",
+        "tool": "libraries",
         "hermeneutic": "hermeneutics",
-        "narrative": "narrative",
+        "narrative": "keywords",
         "authors": "Authors cited",
         "issued": {
           "year": "Year of publication"

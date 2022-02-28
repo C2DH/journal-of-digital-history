@@ -1,4 +1,5 @@
-import React, { useRef, useState, useMemo } from 'react'
+import React, { useRef, useState, useMemo, useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import groupBy from 'lodash/groupBy'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useSpring, config} from 'react-spring'
@@ -14,7 +15,8 @@ import {
   DisplayLayerQueryParam,
   LayerNarrative,
   LayerHermeneutics,
-  StatusSuccess
+  StatusSuccess,
+  IsMobile
 } from '../constants'
 import { useBoundingClientRect } from '../hooks/graphics'
 import '../styles/pages/Articles.scss'
@@ -22,8 +24,10 @@ import '../styles/pages/Articles.scss'
 const ArticlesGrid = ({
   data,
   url,
+  issueId,
   status
 }) => {
+  const { t } = useTranslation()
   const [selected, setSelected] = useState(null)
 
   const [{  width }, ref] = useBoundingClientRect()
@@ -100,15 +104,45 @@ const ArticlesGrid = ({
     console.debug('[Articles] @onSelect', name, indices)
     setSelected(indices)
   }
-  console.debug('[Articles] data:', data)
+
+  useLayoutEffect(() => {
+    // go to issueId as soon as it's ready.
+    if (issueId && status === StatusSuccess) {
+      console.debug('[Articles] goto issueId:', issueId)
+      const element = document.getElementById('anchor-' + issueId)
+      element && element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest"
+      })
+    }
+  }, [status])
+  console.debug('[Articles] \n- data:', Array.isArray(data), '\n- issueId:', issueId)
+
+
   return (
-    <Container ref={ref} className="Articles Issue page">
+    <Container ref={ref} className="Articles Issue page ">
       <Row className="mb-3">
         <Col {...BootstrapColumLayout}>
+        <h1 className="mt-5">{t('pages.articles.title')}</h1>
+        <p>{t('pages.articles.subheading')}{IsMobile?'stocazzz':'no!'}</p>
         <Facets
-          dimensions={['narrative', 'hermeneutic', 'tool'].map((category) => ({
+          dimensions={['narrative', 'tool'].map((category) => ({
             fixed: true,
             name: category,
+            thresholdFn: (groups, activeGroups, isActive) => {
+              if (IsMobile) {
+                return 5
+              }
+              if (isActive) {
+                return 10
+              }
+              // according to group composition
+              const wished = groups.filter((d) => {
+                return d.count > 1
+              }).length
+              return Math.min(10, Math.max(wished, 10))
+            },
             fn: (d) => d.tags.filter(t => t.category === category).map(t => t.name),
             sortFn: (a,b) => {
               return a.indices.length === b.indices.length
@@ -120,7 +154,7 @@ const ArticlesGrid = ({
           }))}
           items={data}
           onSelect={onFacetsSelectHandler}
-          onInit={(args) => console.debug('[Articles]', args)}
+          onInit={(args) => console.debug('[Articles_Facets] @init', args)}
           className="Articles_facets"
         />
         </Col>
@@ -129,18 +163,19 @@ const ArticlesGrid = ({
         forwardedRef={animatedRef}
         animatedProps={animatedProps}
       />
-      {issues.map((issueId) => {
-        const issue = articlesByIssue[issueId][0].issue
+      {issues.map((id) => {
+        const issue = articlesByIssue[id][0].issue
         return (
-          <React.Fragment key={issueId}>
+          <React.Fragment key={id}>
             <Row>
               <Col {...BootstrapColumLayout}>
+                <a className="anchor" id={`anchor-${id}`} />
                 <Issue item={issue} />
               </Col>
             </Row>
             <IssueArticles
               selected={selected}
-              data={articlesByIssue[issueId]}
+              data={articlesByIssue[id]}
               onArticleMouseMove={onArticleMouseMoveHandler}
               onArticleClick={onArticleClickHandler}
               onArticleMouseOut={onArticleMouseOutHandler}
@@ -152,11 +187,13 @@ const ArticlesGrid = ({
   )
 }
 
-const Articles = () => {
+const Articles = ({ match: { params: { id:issueId }}}) => {
+  console.debug('[Articles] issueId', issueId)
   return (
     <StaticPageLoader
       url="/api/articles?limit=100"
       Component={ArticlesGrid}
+      issueId={issueId}
     />
   )
 }
