@@ -33,7 +33,7 @@ const Footer = ({ hideOnRoutes=[]}) => {
       <Container className="Footer py-5">
         <Row>
           <Col {...BootstrapFullColumLayout}>
-            <div className="d-flex justify-content-between">
+            <div className="d-md-flex justify-content-between">
               <div>
                 © <a href="https://www.uni.lu/" target="_blank" rel="noopener noreferrer">University of Luxembourg</a><br/>
                 © <a href="https://www.degruyter.com" target="_blank" rel="noopener noreferrer"> De Gruyter</a> {now.getFullYear()}
@@ -74,7 +74,7 @@ const Footer = ({ hideOnRoutes=[]}) => {
         </Row>
         <Row>
           <Col {...BootstrapFullColumLayout}>
-            <div className="position-relative border-top border-dark pt-5 my-5" style={{minHeight:200}}>
+            <div className="position-relative border-top border-dark border-double pt-md-5 my-md-5 pt-3 my-3" style={{minHeight:200}}>
               <a className="Footer_logoLink" href="https://c2dh.uni.lu" target="_blank" rel="noopener noreferrer" style={{
                 left: 0,
                 marginLeft: -20
