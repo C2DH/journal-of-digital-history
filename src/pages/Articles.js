@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo } from 'react'
+import React, { useRef, useState, useMemo, useLayoutEffect } from 'react'
 import groupBy from 'lodash/groupBy'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useSpring, config} from 'react-spring'
@@ -22,6 +22,7 @@ import '../styles/pages/Articles.scss'
 const ArticlesGrid = ({
   data,
   url,
+  issueId,
   status
 }) => {
   const [selected, setSelected] = useState(null)
@@ -100,7 +101,22 @@ const ArticlesGrid = ({
     console.debug('[Articles] @onSelect', name, indices)
     setSelected(indices)
   }
-  console.debug('[Articles] data:', data)
+
+  useLayoutEffect(() => {
+    // go to issueId as soon as it's ready.
+    if (issueId && status === StatusSuccess) {
+      console.debug('[Articles] goto issueId:', issueId)
+      const element = document.getElementById('anchor-' + issueId)
+      element && element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest"
+      })
+    }
+  }, [status])
+  console.debug('[Articles] \n- data:', Array.isArray(data), '\n- issueId:', issueId)
+
+
   return (
     <Container ref={ref} className="Articles Issue page">
       <Row className="mb-3">
@@ -120,7 +136,7 @@ const ArticlesGrid = ({
           }))}
           items={data}
           onSelect={onFacetsSelectHandler}
-          onInit={(args) => console.debug('[Articles]', args)}
+          onInit={(args) => console.debug('[Articles_Facets] @init', args)}
           className="Articles_facets"
         />
         </Col>
@@ -129,18 +145,19 @@ const ArticlesGrid = ({
         forwardedRef={animatedRef}
         animatedProps={animatedProps}
       />
-      {issues.map((issueId) => {
-        const issue = articlesByIssue[issueId][0].issue
+      {issues.map((id) => {
+        const issue = articlesByIssue[id][0].issue
         return (
-          <React.Fragment key={issueId}>
+          <React.Fragment key={id}>
             <Row>
               <Col {...BootstrapColumLayout}>
+                <a className="anchor" id={`anchor-${id}`} />
                 <Issue item={issue} />
               </Col>
             </Row>
             <IssueArticles
               selected={selected}
-              data={articlesByIssue[issueId]}
+              data={articlesByIssue[id]}
               onArticleMouseMove={onArticleMouseMoveHandler}
               onArticleClick={onArticleClickHandler}
               onArticleMouseOut={onArticleMouseOutHandler}
@@ -152,11 +169,13 @@ const ArticlesGrid = ({
   )
 }
 
-const Articles = () => {
+const Articles = ({ match: { params: { id:issueId }}}) => {
+  console.debug('[Articles] issueId', issueId)
   return (
     <StaticPageLoader
       url="/api/articles?limit=100"
       Component={ArticlesGrid}
+      issueId={issueId}
     />
   )
 }
