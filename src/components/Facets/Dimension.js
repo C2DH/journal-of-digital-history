@@ -65,7 +65,7 @@ const Dimension = ({
   name = '',
   fn,
   // function shoud return the nuber of elements to put in advance
-  thresholdFn = (groups, isActive) => {
+  thresholdFn = (groups, activeGroups, isActive) => {
     if (isActive) {
       return 10
     }
@@ -100,7 +100,7 @@ const Dimension = ({
       }
     })
   }
-  const threshold = thresholdFn(groups, activeGroups)
+  const threshold = thresholdFn(groups, activeGroups, isActive)
   const topGroups = groups.slice(0, threshold)
   const restGroups = groups.slice(threshold)
 
