@@ -1,4 +1,5 @@
 import React, { useRef, useState, useMemo, useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import groupBy from 'lodash/groupBy'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useSpring, config} from 'react-spring'
@@ -14,7 +15,8 @@ import {
   DisplayLayerQueryParam,
   LayerNarrative,
   LayerHermeneutics,
-  StatusSuccess
+  StatusSuccess,
+  IsMobile
 } from '../constants'
 import { useBoundingClientRect } from '../hooks/graphics'
 import '../styles/pages/Articles.scss'
@@ -25,6 +27,7 @@ const ArticlesGrid = ({
   issueId,
   status
 }) => {
+  const { t } = useTranslation()
   const [selected, setSelected] = useState(null)
 
   const [{  width }, ref] = useBoundingClientRect()
@@ -118,13 +121,28 @@ const ArticlesGrid = ({
 
 
   return (
-    <Container ref={ref} className="Articles Issue page">
+    <Container ref={ref} className="Articles Issue page ">
       <Row className="mb-3">
         <Col {...BootstrapColumLayout}>
+        <h1 className="mt-5">{t('pages.articles.title')}</h1>
+        <p>{t('pages.articles.subheading')}{IsMobile?'stocazzz':'no!'}</p>
         <Facets
           dimensions={['narrative', 'tool'].map((category) => ({
             fixed: true,
             name: category,
+            thresholdFn: (groups, activeGroups, isActive) => {
+              if (IsMobile) {
+                return 5
+              }
+              if (isActive) {
+                return 10
+              }
+              // according to group composition
+              const wished = groups.filter((d) => {
+                return d.count > 1
+              }).length
+              return Math.min(10, Math.max(wished, 10))
+            },
             fn: (d) => d.tags.filter(t => t.category === category).map(t => t.name),
             sortFn: (a,b) => {
               return a.indices.length === b.indices.length
