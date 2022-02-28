@@ -1,27 +1,26 @@
-.LogoLink {
+.Footer_logoLink,
+.Footer_logoLinkDeGruyter{
   text-decoration: none;
   box-shadow: none;
   display: block;
   &:hover{
     box-shadow: none;
-
   }
 }
 
-.LogoLinkDeGruyter{
+.Footer_logoLinkDeGruyter{
   margin-top: 20px;
   margin-left: 5px;
   width: 140px;
 }
 
-$breakpoint-tablet: 768px;
-@media (min-width: $breakpoint-tablet) {
-  .LogoLink {
+@media (min-width: 768px) {
+  .Footer_logoLink {
     position: absolute;
   }
-  .LogoLinkDeGruyter{
+  .Footer_logoLinkDeGruyter{
     margin-top: 0;
-    margin-left: 20px;
+    margin-left: 350px;
     width: 200px;
   }
 }
