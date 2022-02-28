@@ -13,7 +13,8 @@
         "articleHermeneutics": "hermeneutic layer",
         "articleHermeneuticsData": "hermeneutic layer",
         "articleData": "data",
-        "issue":"Issues"
+        "issue":"Issues",
+        "releaseNotes": "Release notes"
       },
       "title": "Journal of <br/>Digital History",
       "titleInline": "Journal of Digital History",
