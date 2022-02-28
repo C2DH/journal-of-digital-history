@@ -41,28 +41,24 @@ const Footer = ({ hideOnRoutes=[]}) => {
               </div>
               <div>
                 <Nav className="flex-column">
-                  <Nav.Item><LangNavLink to={HomeRoute.to} exact>{t(HomeRoute.label)}</LangNavLink></Nav.Item>
-                  <Nav.Item><LangNavLink to={AbstractSubmissionRoute.to} exact>{t(AbstractSubmissionRoute.label)}</LangNavLink></Nav.Item>
+                  {[HomeRoute, AbstractSubmissionRoute].map((route, i) => (
+                    <Nav.Item key={i}>
+                      <LangNavLink to={route.to} exact>
+                        <span>{t(route.label)}</span>
+                      </LangNavLink>
+                    </Nav.Item>
+                  ))}
                 </Nav>
               </div>
               <div>
                 <Nav className="flex-column">
-                  <Nav.Item>
-                    <LangNavLink to={AboutRoute.to} exact>
-                      <span>{t(AboutRoute.label)}</span>
-                    </LangNavLink>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <LangNavLink to={ReleaseNotesRoute.to} exact>
-                      {t(ReleaseNotesRoute.label)}
-                    </LangNavLink>
-                  </Nav.Item>
-
-                  <Nav.Item><LangNavLink to={TermsOfUseRoute.to} exact>{t(TermsOfUseRoute.label)}</LangNavLink></Nav.Item>
-                  {/*
-                    <Nav.Item><LangNavLink to={ReferencesRoute.to} exact>{t(ReferencesRoute.label)}</LangNavLink></Nav.Item>
-                    <Nav.Item><LangNavLink to={DatasetsRoute.to} exact>{t(DatasetsRoute.label)}</LangNavLink></Nav.Item>
-                  */}
+                  {[AboutRoute, ReleaseNotesRoute, TermsOfUseRoute].map((route, i) => (
+                    <Nav.Item key={i}>
+                      <LangNavLink to={route.to} exact>
+                        <span>{t(route.label)}</span>
+                      </LangNavLink>
+                    </Nav.Item>
+                  ))}
                 </Nav>
               </div>
             </div>
