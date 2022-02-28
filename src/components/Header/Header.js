@@ -86,14 +86,14 @@ const MobileHeader = ({ langs, displayLangs }) => {
 const NavPrimaryRoutes = ({ routes, ...props}) => {
   const { t } = useTranslation()
   return (
-    <Nav className="align-items-end" {...props}>
+    <Nav className="NavPrimaryRoutes justify-content-between align-items-end" {...props}>
       {routes.map(({to, label}) => {
         if (to === '/issues') {
           return <IssueBreadcrumb key={to} to={to} label={label}/>
         }
         return(
           <Nav.Item key={to} >
-            <LangNavLink to={to} className="px-0" exact>
+            <LangNavLink to={to} className="NavPrimaryRoutes_link px-0" exact>
               <span>{t(label)}</span>
             </LangNavLink>
           </Nav.Item>
@@ -122,9 +122,12 @@ const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs, displayLo
         __html: t('title')
       }}></span>
     </Navbar.Brand>
-    <Container className="d-block" style={{height:80}}>
+    <Container className="d-block w-100" style={{height:80}}>
       <Row className="d-md-flex d-none align-items-center h-100">
-        <Col md={{offset: 2, span: 8}}>
+        <Col md={{offset: 1, span: 11}} lg={{
+          offset: 2,
+          span: 8
+        }}>
           <NavPrimaryRoutes routes={PrimaryRoutes} />
         </Col>
         {displayLogin || displayLangs ?(

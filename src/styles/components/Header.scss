@@ -16,13 +16,18 @@
 .BrandImage{
   background: var(--primary);
   height: 70px;
-  width: 70px;
+  width: 50px;
   background-repeat: no-repeat;
   background-size: 65%;
   background-position: center;
   border-radius:5px;
 }
 
+@media(min-width: 992px) {
+  .BrandImage{
+    width: 70px;
+  }
+}
 header.active #Header_background{
   // box-shadow: 0 0 .5rem var(--gray-500) !important;
   // border-bottom: 1px solid var(--gray-300);
@@ -144,4 +149,40 @@ header.active .MobileHeaderToggler{
 .MobileHeaderNavItem{
   color: var(--white);
   border-left: 1px solid var(--white);
+}
+
+.RowHeader .navbar-brand span{
+  font-size: .9em;
+}
+
+.NavPrimaryRoutes .nav-link > span{
+  font-size: .9em;
+  padding-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  &::before{
+    top: 25px;
+  }
+}
+
+.NavPrimaryRoutes .nav-link > span{
+  display: block !important;
+  max-width: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 0.5rem !important;
+}
+
+.NavPrimaryRoutes{
+
+}
+
+@media (min-width: 1200px) {
+  .NavPrimaryRoutes .nav-link > span{
+    max-width: auto;
+    overflow: normal;
+    text-overflow: none;
+    white-space: nowrap;
+    font-size: 1em;
+  }
 }
