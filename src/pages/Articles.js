@@ -106,7 +106,7 @@ const ArticlesGrid = ({
       <Row className="mb-3">
         <Col {...BootstrapColumLayout}>
         <Facets
-          dimensions={['narrative', 'hermeneutic', 'tool'].map((category) => ({
+          dimensions={['narrative', 'tool'].map((category) => ({
             fixed: true,
             name: category,
             fn: (d) => d.tags.filter(t => t.category === category).map(t => t.name),

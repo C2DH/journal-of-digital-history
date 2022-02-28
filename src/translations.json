@@ -234,9 +234,9 @@
       "HelloWorldTitle": "The first issue of the Journal of Digital History has been released!",
       "HelloWorldAvailableHere": "Available here!",
       "dimensions": {
-        "tool": "data",
+        "tool": "libraries",
         "hermeneutic": "hermeneutics",
-        "narrative": "narrative",
+        "narrative": "keywords",
         "authors": "Authors cited",
         "issued": {
           "year": "Year of publication"
