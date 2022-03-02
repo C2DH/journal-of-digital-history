@@ -125,7 +125,7 @@ const ArticlesGrid = ({
       <Row className="mb-3">
         <Col {...BootstrapColumLayout}>
         <h1 className="mt-5">{t('pages.articles.title')}</h1>
-        <p>{t('pages.articles.subheading')}{IsMobile?'stocazzz':'no!'}</p>
+        <p>{t('pages.articles.subheading')}</p>
         <Facets
           dimensions={['narrative', 'tool'].map((category) => ({
             fixed: true,
