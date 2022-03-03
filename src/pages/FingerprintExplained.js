@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import { BootstrapColumLayout,StatusSuccess,StatusError } from '../constants'
 import JupiterCellListItem from '../components/FingerprintComposer/JupiterCellListItem'
-import MiniJupiterCellListItem from '../components/FingerprintComposer/MiniJupiterCellListItem'
 import '../styles/components/FingerprintComposer/FingerprintComposer.scss'
 import ArticleFingerprint from '../components/Article/ArticleFingerprint'
 import ArticleFingerprintTooltip from '../components/ArticleV2/ArticleFingerprintTooltip'
@@ -97,6 +96,29 @@ const FingerprintExplained = () => {
       }}>
         <Col md={{span:7}}>
           <h2 className="my-5">The Cell</h2>
+
+          <Form className="boxed" onSubmit={onSubmitHandler}>
+            <Form.Group className="mt-3 mb-3" controlId="">
+              <Form.Label>Go ahead! Test your notebook test, you can add the text of the new cell above, OR load your favorite:</Form.Label>
+              <Form.Control
+                defaultValue={notebookUrl}
+                onChange={(e) => setNotebookUrl(e.target.value)}
+                type="url"
+                placeholder="https://"
+              />
+              {status === StatusError && (
+                <p> There's an error </p>
+              )}
+              <Form.Text className="text-muted" dangerouslySetInnerHTML={{
+                __html: ("Use a well formed URL pointing to the <code>.ipynb</code> notebook file. For instance use to the <b>raw</b> url of the ipynb file for notebook hosted on Github.")
+              }}/>
+            </Form.Group>
+            <Button type="submit" variant="outline-secondary" size="sm">Preview Fingerprint</Button>
+          </Form>
+          <h2 className="my-5">The Cell</h2>
+
+
+
           {cells.map((d,i) => {
             return (
               <JupiterCellListItem
@@ -117,7 +139,6 @@ const FingerprintExplained = () => {
           <Container className="AddNewCell">
           <Row>
 
-
               <label className="form-label"> Experiment with the fingerprint visualization by adding more cells </label>
               <textarea className="form-control-fp"
                 onChange={(e) => setValue(e.target.value)}
@@ -136,25 +157,6 @@ const FingerprintExplained = () => {
               ]))}>
                 add new cell
               </Button>
-              <hr className="mt-3 mb-3"/>
-              <Form onSubmit={onSubmitHandler}>
-                <Form.Group className="mt-3 mb-3" controlId="">
-                  <Form.Label>To test, you can add the text of the new cell above, OR load your favorite:</Form.Label>
-                  <Form.Control
-                    defaultValue={notebookUrl}
-                    onChange={(e) => setNotebookUrl(e.target.value)}
-                    type="url"
-                    placeholder="https://"
-                  />
-                  {status === StatusError && (
-                    <p> There's an error </p>
-                  )}
-                  <Form.Text className="text-muted" dangerouslySetInnerHTML={{
-                    __html: ("Use a well formed URL pointing to the <code>.ipynb</code> notebook file. For instance use to the <b>raw</b> url of the ipynb file for notebook hosted on Github.")
-                  }}/>
-                </Form.Group>
-                <Button type="submit" variant="outline-secondary" size="sm">Preview Fingerprint</Button>
-              </Form>
               </Row>
 
           </Container>
@@ -196,30 +198,6 @@ const FingerprintExplained = () => {
         </Col>
       </Row>
 
-      <Row style={{
-        minHeight: size*3
-      }}>
-        <Col>
-          <h2 className="my-5">The Fingerprint</h2>
-          <p> This would be a paragraph explaining the concept behind the Markdown cell language Fusce turpis tortor, efficitur et turpis a, congue sagittis elit. Nullam quis metus tortor. Vivamus ut porta dolor. Vestibulum malesuada neque at turpis tincidunt, in sagittis neque semper. Suspendisse posuere ornare lacus vel placerat. Cras lobortis luctus feugiat. Donec interdum est non lectus vehicula pharetra. Sed convallis dui quam, a elementum tortor pharetra id. Vivamus vel fermentum odio. In commodo ipsum pulvinar quam faucibus, sed rhoncus ligula faucibus. Proin bibendum non ipsum in bibendum. Nam sit amet lacus lectus. Integer vitae tellus sit amet felis efficitur maximus. Etiam iaculis ultricies leo, sit amet varius neque euismod in. </p>
-
-            {cells.map((d,i) => {
-              return (
-                <MiniJupiterCellListItem
-                key={i}
-                narrative={d.narrative}
-                hermeneutics={d.hermeneutics}
-                data={d.data}
-                onChange={(cell) => onChangeHandler(i, cell)}
-                >
-                {d.firstWords}
-                </MiniJupiterCellListItem>
-              )
-            })}
-        </Col>
-        <Col>
-        </Col>
-      </Row>
 
     </Container>
     </>

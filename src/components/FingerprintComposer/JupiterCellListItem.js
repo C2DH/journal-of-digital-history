@@ -62,7 +62,7 @@ const JupiterCellListItem = ({
             type: cell.type==='markdown' ? 'code' : 'markdown'
           })}
         >
-          Data {cell.type==='code' && <b>ON</b>}
+          Code {cell.type==='code' && <b>ON</b>}
         </Button>
         <Button
           className="ms-1"
@@ -74,7 +74,7 @@ const JupiterCellListItem = ({
             type: 'markdown'
           })}
         >
-          Heading {cell.isHeading && <b>ON</b>}
+          h2 {cell.isHeading && <b>ON</b>}
         </Button>
       </div>
       {debug === true && (

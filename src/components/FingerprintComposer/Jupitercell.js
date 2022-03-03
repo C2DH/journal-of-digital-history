@@ -25,7 +25,7 @@ const Jupitercell = ({
         {isHermeneutics ? (
           <Jupitercelltag tag="Hermeneutics"></Jupitercelltag>
         ) : null}
-        {isData ? <Jupitercelltag tag="Data"></Jupitercelltag> : null}
+        {isData ? <Jupitercelltag tag="Code"></Jupitercelltag> : null}
         <p>{children}</p>
       </div>
     </div>
