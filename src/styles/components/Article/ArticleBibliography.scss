@@ -1,0 +1,94 @@
+.ArticleBilbiography_references{
+  .csl-entry a{
+    word-break: break-all;
+  }
+}
+.ArticleBilbiography_facet{
+
+  font-size: 0.8em;
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .DimensionGroupListItem {
+    color: var(--gray-600);
+    border: 1px solid var(--gray-600);
+    margin: var(--spacer-1);
+    padding: 1px 8px;
+    border-radius: 4px;
+    display: flex;
+
+
+    &:hover{
+      background-color: var(--gray-200);
+    }
+    &.with-count, &.active{
+      border: 1px solid var(--dark);
+      color: var(--dark);
+    }
+    &.active{
+      font-weight: bold;
+      box-shadow: 0 0 0px 3px var(--primary);
+    }
+  }
+
+  .DimensionGroupListItem_label{
+    cursor: pointer;
+  }
+  .DimensionGroupListItem_actions{
+    padding-top: 0px;
+    margin-left: var(--spacer-2);
+    width: 18px;
+    height: 18px;
+    position: relative;
+  }
+  .DimensionGroupListItem_actions_removeBtn{
+    border-radius: 10px;
+    position: absolute;
+    top: 2px;
+    flex-shrink: 1;
+    width: 18px;
+    height: 18px;
+
+    svg {
+      position: absolute;
+      // optical alignement to the center of the button
+      top: 1px;
+      left: 1px;
+      padding: 0;
+    }
+  }
+
+  .Dimension_toggleShowMoreBtn{
+    background: transparent;
+    border: 1px solid transparent;
+    font-size: inherit;
+    height: 100%;
+
+    &:hover span{
+      box-shadow: 0px 1px 0 var(--dark);
+    }
+  }
+}
+
+.ArticleBilbiography_Sorting{
+  font-size: 0.8em;
+  display: flex;
+  ul{
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin-right: var(--spacer-2);
+  }
+  li{
+    margin-right: var(--spacer-2);
+    cursor: pointer;
+    &.active{
+      box-shadow: 0px 1px 0 var(--dark);
+    }
+  }
+  label{
+    font-weight: bold;
+  }
+}

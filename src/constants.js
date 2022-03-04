@@ -17,7 +17,10 @@ export const TermsOfUseRoute = { to:'/terms', label: 'navigation.termsOfUse'}
 export const GuidelinesRoute = { to:'/guidelines', label: 'navigation.guidelines'}
 export const NotebookViewerRoute = { to:'/notebook-viewer-form', label: 'Navigation_NotebookViewer'}
 export const IssueRoute = { to:'/issues', label: 'navigation.issue'}
-export const ArticlesRoute = { to:'/articles', label: 'navigation.issue'}
+export const ArticlesRoute = { to:'/articles', label: 'navigation.issue', alias:['/issues', '/article/', '/issue/']}
+export const ReleaseNotesRoute = { to:'/release-notes', label: 'navigation.releaseNotes'}
+export const FaqRoute = { to:'/faq', label: 'navigation.faq'}
+
 
 export const PrimaryRoutes = [
   HomeRoute,
@@ -43,6 +46,17 @@ export const GaTrackingId = process.env.REACT_APP_GA_TRACKING_ID
 export const BootstrapColumLayout = Object.freeze({
   md: { span:8, offset:1 },
   lg: { span:8, offset:2 }
+})
+export const BootstrapFullColumLayout = Object.freeze({
+  md: { span:10, offset:1 },
+  lg: { span:8, offset:2 }
+})
+
+export const BootstrapSideColumLayout = Object.freeze({
+  md: { span:2, offset:0 },
+})
+export const BootstrapMainColumLayout = Object.freeze({
+  md: { span:6, offset:1 },
 })
 
 export const BootstrapQuoteColumLayout = Object.freeze({

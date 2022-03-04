@@ -46,7 +46,7 @@ const FormNotebookUrl = ({initialValue = '', onSubmit}) => {
         }}/>
         <p className="mt-2">
           Check our notebooks
-          <Button className="d-inline mx-2" variant="link" onClick={() => setValue("https://github.com/C2DH/jdh-notebook/blob/master/author_guideline_template.ipynb")}>
+          <Button className="d-inline mx-2" variant="link" onClick={() => setValue("https://github.com/C2DH/template_repo_JDH/blob/main/author_guideline_template.ipynb")}>
             guideline template
           </Button>
           or

@@ -7,6 +7,8 @@ $theme-colors: (
   'secondary': #222322,
   'gray': #ececec,
   'accent': #5E2BFF,
+  'accent-light': lighten(#5E2BFF, 20%),
+  'accent-dark': darken(#5E2BFF, 10%),
   'dark': #1E152A,
 );
 

@@ -11,6 +11,8 @@
   --white: white;
   --dark: #{map-get($theme-colors, 'dark')};
   --accent: #{map-get($theme-colors, 'accent')};
+  --accent-light: #{map-get($theme-colors, 'accent-light')};
+  --accent-dark: #{map-get($theme-colors, 'accent-dark')};
   --primary:  #{map-get($theme-colors, 'primary')};
   --secondary: #{map-get($theme-colors, 'secondary')};
   --hermeneutics: #8bffef;

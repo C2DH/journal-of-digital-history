@@ -13,7 +13,9 @@
         "articleHermeneutics": "hermeneutic layer",
         "articleHermeneuticsData": "hermeneutic layer",
         "articleData": "data",
-        "issue":"Issues"
+        "issue":"Articles & Issues",
+        "releaseNotes": "Release notes",
+        "faq": "Frequently asked questions"
       },
       "title": "Journal of <br/>Digital History",
       "titleInline": "Journal of Digital History",
@@ -23,6 +25,10 @@
       "Navigation_NotebookViewer": "Preview Notebook",
       "Pages_NotebookViewer_Title": "Jupyter notebook viewer",
       "pages": {
+        "articles": {
+          "title": "Articles & Issues",
+          "subheading": "Filter by keywords, libraries or browse the articles."
+        },
         "loading": {
           "title": "loading...",
           "subheading": "..."
@@ -38,6 +44,13 @@
         },
         "cfp":{
           "applyCallForPapers": "Submit an Abstract"
+        },
+        "releaseNotes": {
+          "title": "Release notes",
+          "subheading": "{{n}} releases so far."
+        },
+        "faq": {
+          "title": "Frequently asked questions"
         },
         "errorViewer": {
           "title": "Ouch! Something wrong happened...",
@@ -199,6 +212,7 @@
         "instance-githubId": "A valid <em>github user identifier</em> contains only numbers and letters"
       },
       "numbers": {
+        "issue": "Issue n.{{n}}",
         "figure": "figure {{ n }}",
         "table": "table {{ n }}",
         "yExponent": "Power scale exponent (y axis): <b>{{n}}</b>",
@@ -224,10 +238,34 @@
       "ArticleCellOutput_stream": "logs",
       "ArticleCellOutput_display_data": "result (display)",
       "bibliography": "Bibliography",
+      "bibliographySummary": "{{ authors }} authors cited, {{ total }} references.",
       "ArticleMobileDisclaimerSubject": "To read: \"{{ title }}\" on jdh",
       "ArticleMobileDisclaimerBody": "Note to self: remember to read the article \"{{ title }}\" on {{ url }}",
       "HelloWorldTitle": "The first issue of the Journal of Digital History has been released!",
-      "HelloWorldAvailableHere": "Available here!"
+      "HelloWorldAvailableHere": "Available here!",
+      "dimensions": {
+        "tool": "libraries",
+        "hermeneutic": "hermeneutics",
+        "narrative": "keywords",
+        "authors": "Authors cited",
+        "issued": {
+          "year": "Year of publication"
+        },
+        "actions": {
+          "showMore": "show {{ n }} more ...",
+          "showLess": "show less ..."
+        },
+        "sorting": {
+          "values": {
+            "authors": "Author",
+            "issued": {
+              "year": "Year of publication"
+            }
+          },
+          "options": "Order by",
+          "directions": ""
+        }
+      }
     }
   }
 }
