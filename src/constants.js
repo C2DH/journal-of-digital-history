@@ -19,6 +19,7 @@ export const NotebookViewerRoute = { to:'/notebook-viewer-form', label: 'Navigat
 export const IssueRoute = { to:'/issues', label: 'navigation.issue'}
 export const ArticlesRoute = { to:'/articles', label: 'navigation.issue', alias:['/issues', '/article/', '/issue/']}
 export const ReleaseNotesRoute = { to:'/release-notes', label: 'navigation.releaseNotes'}
+export const FaqRoute = { to:'/faq', label: 'navigation.faq'}
 
 
 export const PrimaryRoutes = [
