@@ -25,7 +25,9 @@ const ArticlesGrid = ({
   data,
   url,
   issueId,
-  status
+  status,
+  // tag ategories to keep
+  categories=['narrative', 'tool']
 }) => {
   const { t } = useTranslation()
   const [selected, setSelected] = useState(null)
@@ -42,12 +44,13 @@ const ArticlesGrid = ({
     config: config.stiff
   }))
 
-  const { articlesByIssue, issues } = useMemo(() => {
+  const { articlesByIssue, issues, showFilters } = useMemo(() => {
     if(status !== StatusSuccess) {
       return {
         articlesByIssue: {},
         issues: [],
-        sortedItems: []
+        sortedItems: [],
+        showFilters: false,
       }
     }
     const sortedItems = data.map((item, idx) => ({
@@ -58,7 +61,10 @@ const ArticlesGrid = ({
     const issues = Object.keys(articlesByIssue).sort((a,b) => {
       return articlesByIssue[a][0].issue.pid < articlesByIssue[b][0].issue.pid
     })
-    return { articlesByIssue, issues }
+    const showFilters = data.reduce((acc, d) => {
+      return acc || d.tags.some(t => categories.includes(t.category))
+    }, false)
+    return { articlesByIssue, issues, showFilters }
   }, [url, status])
 
   const onArticleMouseMoveHandler = (e, datum, idx, article, bounds) => {
@@ -121,46 +127,48 @@ const ArticlesGrid = ({
   useLayoutEffect(() => {
     setAnimatedProps.start({ opacity: 0 })
   }, [selected])
-  console.debug('[Articles] \n- data:', Array.isArray(data), '\n- issueId:', issueId)
+  console.debug('[Articles] \n- data:', Array.isArray(data), data,'\n- issueId:', issueId)
 
 
   return (
     <Container ref={ref} className="Articles Issue page ">
       <Row className="mb-3">
         <Col {...BootstrapColumLayout}>
-        <h1 className="mt-5">{t('pages.articles.title')}</h1>
-        <p>{t('pages.articles.subheading')}</p>
-        <Facets
-          dimensions={['narrative', 'tool'].map((category) => ({
-            fixed: true,
-            name: category,
-            thresholdFn: (groups, activeGroups, isActive) => {
-              if (IsMobile) {
-                return 5
-              }
-              if (isActive) {
-                return 10
-              }
-              // according to group composition
-              const wished = groups.filter((d) => {
-                return d.count > 1
-              }).length
-              return Math.min(10, Math.max(wished, 10))
-            },
-            fn: (d) => d.tags.filter(t => t.category === category).map(t => t.name),
-            sortFn: (a,b) => {
-              return a.indices.length === b.indices.length
-                ? a.key > b.key
-                  ? 1 : -1
-                : a.indices.length > b.indices.length ? -1 : 1
-            },
-            isArray: true
-          }))}
-          items={data}
-          onSelect={onFacetsSelectHandler}
-          onInit={(args) => console.debug('[Articles_Facets] @init', args)}
-          className="Articles_facets"
-        />
+          <h1 className="mt-5">{t('pages.articles.title')}</h1>
+          {showFilters && <p>{t('pages.articles.subheading')}</p>}
+          {showFilters && (
+            <Facets
+              dimensions={categories.map((category) => ({
+                fixed: true,
+                name: category,
+                thresholdFn: (groups, activeGroups, isActive) => {
+                  if (IsMobile) {
+                    return 5
+                  }
+                  if (isActive) {
+                    return 10
+                  }
+                  // according to group composition
+                  const wished = groups.filter((d) => {
+                    return d.count > 1
+                  }).length
+                  return Math.min(10, Math.max(wished, 10))
+                },
+                fn: (d) => d.tags.filter(t => t.category === category).map(t => t.name),
+                sortFn: (a,b) => {
+                  return a.indices.length === b.indices.length
+                    ? a.key > b.key
+                      ? 1 : -1
+                    : a.indices.length > b.indices.length ? -1 : 1
+                },
+                isArray: true
+              }))}
+            items={data}
+            onSelect={onFacetsSelectHandler}
+            onInit={(args) => console.debug('[Articles_Facets] @init', args)}
+            className="Articles_facets"
+          />
+        )}
         </Col>
       </Row>
       <ArticleFingerprintTooltip
