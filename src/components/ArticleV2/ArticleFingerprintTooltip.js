@@ -2,6 +2,7 @@ import React from 'react'
 import { a, animated } from 'react-spring'
 
 const ArticleFingerprintTooltip = ({ animatedProps, forwardedRef }) => {
+  try{
   return (
     <a.div className="ArticleFingerprintTooltip shadow pointer-events-none position-fixed top-0" style={{
       ...animatedProps
@@ -49,6 +50,11 @@ const ArticleFingerprintTooltip = ({ animatedProps, forwardedRef }) => {
       </a.div>
     </a.div>
   )
+  } catch(e) {
+    console.debug('[ArticleFingerprintTooltip] current', forwardedRef.current, animatedProps )
+    console.warn('[ArticleFingerprintTooltip] threw an error, skip', e);
+    return null
+  }
 }
 
 export default animated(ArticleFingerprintTooltip)

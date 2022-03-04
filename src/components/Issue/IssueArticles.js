@@ -73,11 +73,14 @@ const IssueArticles = ({
         )
       })}
       {articles.map((article, i) => {
+        let display = 'block'
         if (Array.isArray(selected) && selected.indexOf(article.idx) === -1 ) {
-          return null
+          display = 'none'
         }
         return (
-          <Col key={i + editorials.length} {...BootstrapColumLayout}>
+          <Col key={i + editorials.length} {...BootstrapColumLayout} style={{
+            display
+          }}>
             {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
             <IssueArticleGridItem
               onMouseMove={(e, datum, idx) => onMouseMoveHandler(e, datum, idx, article)}
