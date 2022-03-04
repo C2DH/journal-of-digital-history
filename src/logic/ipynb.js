@@ -78,7 +78,7 @@ const renderMarkdownWithReferences = ({
       references.push(reference)
       return `<span class="ArticleReference d-inline-block">
         <span class=" d-inline-block">
-          <span class="ArticleReference_shortRef">${reference.shortRef}</span>
+          <span class="ArticleReference_shortRef">${reference.shortRef  || '['+id+']'}</span>
         </span>
         </span>`
     })
@@ -166,7 +166,11 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
       delete citationsFromMetadata.undefined
     }
     // add property issued to correct Cite library bug on date-parts
-    citationsFromMetadata = Object.values(citationsFromMetadata).reduce((acc, d) => {
+    citationsFromMetadata = Object.keys(citationsFromMetadata).reduce((acc, k) => {
+      const d = citationsFromMetadata[k]
+      if (!d.id) {
+        d.id = k
+      }
       if (typeof d.issued === 'object' && d.issued.year && !d.issued['date-parts']) {
         acc[d.id] = {
           ...d,
