@@ -11,7 +11,8 @@ import {
   AbstractSubmissionRoute,
   AboutRoute,
   ReleaseNotesRoute,
-  TermsOfUseRoute
+  TermsOfUseRoute,
+  FaqRoute
 } from '../../constants'
 import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_Oldenbourg.svg'
 import UniluLogo from '../../assets/images/unilu-c2dh-logo.svg'
@@ -41,7 +42,7 @@ const Footer = ({ hideOnRoutes=[]}) => {
               </div>
               <div>
                 <Nav className="flex-column">
-                  {[HomeRoute, AbstractSubmissionRoute].map((route, i) => (
+                  {[HomeRoute, AbstractSubmissionRoute, AboutRoute].map((route, i) => (
                     <Nav.Item key={i}>
                       <LangNavLink to={route.to} exact>
                         <span>{t(route.label)}</span>
@@ -52,7 +53,7 @@ const Footer = ({ hideOnRoutes=[]}) => {
               </div>
               <div>
                 <Nav className="flex-column">
-                  {[AboutRoute, ReleaseNotesRoute, TermsOfUseRoute].map((route, i) => (
+                  {[FaqRoute, ReleaseNotesRoute, TermsOfUseRoute].map((route, i) => (
                     <Nav.Item key={i}>
                       <LangNavLink to={route.to} exact>
                         <span>{t(route.label)}</span>
