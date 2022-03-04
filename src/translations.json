@@ -14,7 +14,8 @@
         "articleHermeneuticsData": "hermeneutic layer",
         "articleData": "data",
         "issue":"Articles & Issues",
-        "releaseNotes": "Release notes"
+        "releaseNotes": "Release notes",
+        "faq": "Frequently asked questions"
       },
       "title": "Journal of <br/>Digital History",
       "titleInline": "Journal of Digital History",
@@ -47,6 +48,9 @@
         "releaseNotes": {
           "title": "Release notes",
           "subheading": "{{n}} releases so far."
+        },
+        "faq": {
+          "title": "Frequently asked questions"
         },
         "errorViewer": {
           "title": "Ouch! Something wrong happened...",

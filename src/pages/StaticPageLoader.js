@@ -5,11 +5,12 @@ import ErrorViewer from './ErrorViewer'
 import { useSpring, animated, config } from 'react-spring'
 
 
-const StaticPageLoader = ({ url, delay=0, Component, fakeData, ...rest }) => {
+const StaticPageLoader = ({ url, delay=0, Component, fakeData, raw=false, ...rest }) => {
   const [animatedLine, apiAnimatedLine] = useSpring(() => ({ width : 0, opacity:1, config: config.slow }))
   const { data, error, status } = useGetJSON({
     url,
     delay,
+    raw,
     onDownloadProgress: (e) => {
       console.debug('onDownloadProgress', e, e.total, e.loaded)
       if (e.total && e.loaded) {
