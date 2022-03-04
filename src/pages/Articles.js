@@ -34,9 +34,9 @@ const ArticlesGrid = ({
   const history = useHistory()
   const animatedRef = useRef({ idx: '', length: '', datum:{}});
   const [animatedProps, setAnimatedProps] = useSpring(() => ({
-    from: { x: 0, y: 0, id: [0, 0], color: 'red' },
+    from: { x: 0, y: 0, id: '0-0', color: 'red', backgroundColor: 'transparent' },
     x : 0, y: 0, opacity:0,
-    id: [0, 0],
+    id: '0-0',
     color: 'var(--white)',
     backgroundColor: 'var(--secondary)',
     config: config.stiff
@@ -73,7 +73,7 @@ const ArticlesGrid = ({
     setAnimatedProps.start({
       x,
       y,
-      id: [article.abstract.id || 0, isNaN(idx) ? 0 : idx],
+      id: [article.abstract.id || 0, isNaN(idx) ? 0 : idx].join('-'),
       color: datum.type === 'code'
         ? 'var(--white)'
         : datum.isHermeneutic
@@ -117,6 +117,10 @@ const ArticlesGrid = ({
       })
     }
   }, [status])
+
+  useLayoutEffect(() => {
+    setAnimatedProps.start({ opacity: 0 })
+  }, [selected])
   console.debug('[Articles] \n- data:', Array.isArray(data), '\n- issueId:', issueId)
 
 

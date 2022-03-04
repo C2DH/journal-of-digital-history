@@ -13,7 +13,7 @@
     position: relative;
     &.narrative ul {
       .DimensionGroupListItem.active{
-        box-shadow: 0 0 0px 3px var(--gray-500);
+        box-shadow: 0 0 0px 3px var(--gray-200);
       }
     }
     &.hermeneutic ul {
@@ -64,8 +64,8 @@
   }
 
   .DimensionGroupListItem {
-    color: var(--gray-600);
-    border: 1px solid var(--gray-600);
+    color: var(--gray-500);
+    border: 1px solid var(--gray-500);
     margin: var(--spacer-1);
     padding: 1px 8px;
     border-radius: 4px;
