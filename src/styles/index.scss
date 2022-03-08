@@ -491,3 +491,10 @@ blockquote.code{
   will-change: opacity;
   transition: opacity 0.5s cubic-bezier(0.85, 0, 0.15, 1);
 }
+
+.plain-a{
+  box-shadow: none;
+  &:hover{
+    box-shadow:  0px 1px 0px var(--secondary);
+  }
+}
