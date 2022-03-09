@@ -50,7 +50,8 @@ function useFacetsSelection(dimensions = []) {
     dims: dimensions.reduce((acc, d) => {
       acc[d.name] = {
         selected: [],
-        keys: []
+        keys: [],
+        values: {}
       }
       return acc
     }, {})
@@ -74,6 +75,7 @@ function useFacetsSelection(dimensions = []) {
     }
     console.debug('[useFacetsSelection]', {name, key, indices, method})
     if (method === MethodFilter) {
+      _dims[name].values[key] = indices
       if (_dims[name].selected.length) {
         _dims[name].selected = _dims[name].selected.filter(d => indices.includes(d))
       } else {
@@ -89,10 +91,20 @@ function useFacetsSelection(dimensions = []) {
         _dims[name].keys.push(key)
       }
     } else if (method === MethodRemove) {
-      _dims[name].selected = _dims[name].selected.filter(d => !indices.includes(d))
+      delete _dims[name].values[key]
       const keyToRemove = _dims[name].keys.indexOf(key)
       if(keyToRemove > -1) {
         _dims[name].keys.splice(keyToRemove, 1)
+      }
+      if (!_dims[name].keys.length) {
+        _dims[name].selected = []
+      } else {
+        _dims[name].selected = Object.values(_dims[name].values).reduce((acc, values) => {
+          if(!acc.length) {
+            return values
+          }
+          return acc.filter(d => !values.includes(d))
+        }, [])
       }
     } else if (method === MethodReset) {
       _dims[name].selected = []
@@ -138,6 +150,7 @@ const Facets = ({
   // memoid='',
   onSelect,
   onInit,
+  onMouseEnter,
   className, style,
 }) => {
   const { t } = useTranslation()
@@ -161,6 +174,12 @@ const Facets = ({
         [dimension.name]: groups.length,
         completed: state.completed.concat([dimension.name])
     }))
+  }
+
+  const onMouseEnterHandler = (e, name, key, indices) => {
+    if (typeof onMouseEnter === 'function') {
+      onMouseEnter(e, name, key, indices)
+    }
   }
 
   const onResetHandler = (e, name) => {
@@ -213,6 +232,8 @@ const Facets = ({
             fixed={dimension.fixed}
             onSelect={onSelectHandler}
             onInit={onInitHandler}
+            onMouseEnter={onMouseEnterHandler}
+            ListItem={dimension.ListItem}
           >
             {reset === true && dims[dimension.name].selected.length > 0 && (
               <Button

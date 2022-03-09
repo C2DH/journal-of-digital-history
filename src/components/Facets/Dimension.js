@@ -84,7 +84,9 @@ const Dimension = ({
   fixed=false,
   onInit,
   onSelect,
-  children
+  onMouseEnter,
+  children,
+  ListItem=DimensionGroupListItem
 }) => {
   const { t } = useTranslation()
   const [showMore, setShowMore] = useState(false)
@@ -113,6 +115,12 @@ const Dimension = ({
         indices,
         count === 0 ? MethodReplace : MethodFilter
       )
+    }
+  }
+
+  const onMouseEnterHandler = (e, { key, indices }) => {
+    if (typeof onMouseEnter === 'function') {
+      onMouseEnter(e, name, key, indices)
     }
   }
 
@@ -146,29 +154,35 @@ const Dimension = ({
         showMore ? 'expanded': ''
       ].join(' ')}>
         {activeGroups.map((group) => (
-          <DimensionGroupListItem
+          <ListItem
             key={group.key}
+            name={name}
             isActive
             onRemove={(e) => onRemoveHandler(e, group)}
             onClick={(e) => onClickHandler(e, group)}
+            onMouseEnter={(e) => onMouseEnterHandler(e, group)}
             group={group}
           />
         ))}
         {topGroups.map((group) => (
-          <DimensionGroupListItem
+          <ListItem
             key={group.key}
+            name={name}
             isActive={activeKeys.includes(group.key)}
             onRemove={(e) => onRemoveHandler(e, group)}
             onClick={(e) => onClickHandler(e, group)}
+            onMouseEnter={(e) => onMouseEnterHandler(e, group)}
             group={group}
           />
         ))}
         {showMore && restGroups.map((group) => (
-          <DimensionGroupListItem
+          <ListItem
             key={group.key}
+            name={name}
             isActive={activeKeys.includes(group.key)}
             onRemove={(e) => onRemoveHandler(e, group)}
             onClick={(e) => onClickHandler(e, group)}
+            onMouseEnter={(e) => onMouseEnterHandler(e, group)}
             group={group}
           />
         ))}
