@@ -36,7 +36,7 @@ const Footer = ({ hideOnRoutes=[]}) => {
         <Row>
           <Col {...BootstrapFullColumLayout}>
             <div className="d-md-flex justify-content-between">
-              <div>
+              <div className="mt-2">
                 © <a href="https://www.uni.lu/" target="_blank" rel="noopener noreferrer">University of Luxembourg</a><br/>
                 © <a href="https://www.degruyter.com" target="_blank" rel="noopener noreferrer"> De Gruyter</a> {now.getFullYear()}
                 <p className="mt-2" dangerouslySetInnerHTML={{__html: t('contactUsingEmail')}}></p>
