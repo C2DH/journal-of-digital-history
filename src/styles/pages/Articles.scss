@@ -55,6 +55,7 @@
     flex-wrap: wrap;
     padding-left: 10px;
     border-left: 2px solid var(--dark);
+    list-style: none;
   }
 
 
@@ -78,6 +79,11 @@
     &.with-count, &.active{
       border: 1px solid var(--dark);
       color: var(--dark);
+
+      .badge{
+        border-color: var(--gray-400);
+        color: var(--gray-600);
+      }
     }
     &.active{
       font-weight: bold;
@@ -87,6 +93,14 @@
 
   .DimensionGroupListItem_label{
     cursor: pointer;
+    .badge{
+      display: inline-block;
+      border: 1px solid var(--gray-200);
+      line-height: 14px;
+      color: var(--gray-300);
+      padding: 0 4px;
+      border-radius: 3px;
+    }
   }
   .DimensionGroupListItem_actions{
     padding-top: 0px;
@@ -102,7 +116,9 @@
     flex-shrink: 1;
     width: 18px;
     height: 18px;
-
+    border: 0;
+    background: transparent;
+    border: 1px solid var(--dark) !important;
     svg {
       position: absolute;
       // optical alignement to the center of the button
