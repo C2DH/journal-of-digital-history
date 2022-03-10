@@ -75,29 +75,31 @@ const Footer = ({ hideOnRoutes=[]}) => {
           */}
         </Row>
         <Row>
-          <Col {...BootstrapFullColumLayout} className="border-top pt-3 mt-3 d-flex justify-content-center">
-            <div className="me-3">
+          <Col {...BootstrapFullColumLayout}>
+            <div className="border-top pt-3 mt-3 d-md-flex justify-content-center">
+            <div className="me-3 mb-3 mb-md-0 ">
               <a className="plain-a" href={`https://twitter.com/${process.env.REACT_APP_TWITTER}`} target="_blank" rel="noreferrer">
                 <Twitter size={15}/> @{process.env.REACT_APP_TWITTER}
               </a>
             </div>
-            &middot;
-            <div className="mx-3">
+            <div className="d-none d-md-block"> &middot;</div>
+            <div className="mx-md-3 mb-3 mb-md-0">
               <a className="plain-a" href={`https://www.facebook.com/${process.env.REACT_APP_FACEBOOK}`} target="_blank" rel="noreferrer">
                 <Facebook size={15}/> {process.env.REACT_APP_FACEBOOK}
               </a>
             </div>
-            &middot;
-            <div className="ms-3">
+            <div className="d-none d-md-block">&middot;</div>
+            <div className="ms-md-3 mb-2 mb-md-0">
               <a className="plain-a" href={`${process.env.REACT_APP_GITHUB}/commit/${process.env.REACT_APP_GIT_REVISION}`} target="_blank" rel="noreferrer">
                 <GitHub size={15}/> {process.env.REACT_APP_GIT_TAG}
               </a>
             </div>
+            </div>
           </Col>
         </Row>
         <Row>
-          <Col {...BootstrapFullColumLayout} className="border-top border-dark pt-3 mt-3">
-            <div className="position-relative" style={{minHeight:200}}>
+          <Col {...BootstrapFullColumLayout}>
+            <div className="position-relative border-top border-dark pt-3 mt-3 " style={{minHeight:200}}>
               <a className="Footer_logoLink" href="https://c2dh.uni.lu" target="_blank" rel="noopener noreferrer" style={{
                 left: 0,
                 marginLeft: -20
