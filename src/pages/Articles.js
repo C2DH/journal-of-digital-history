@@ -135,7 +135,7 @@ const ArticlesGrid = ({
       animatedRef.current.length = article.fingerprint.cells.length
       animatedRef.current.datum = datum
     }
-    const x = Math.min(width - 200, e.clientX - bounds.left)
+    const x = Math.min(width - 250, e.clientX - bounds.left)
     const y = e.clientY + 50
     // this will change only animated toltip stuff
     setAnimatedProps.start({
