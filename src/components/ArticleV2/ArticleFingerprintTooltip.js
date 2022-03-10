@@ -18,7 +18,7 @@ const ArticleFingerprintTooltip = ({ animatedProps, forwardedRef }) => {
           {animatedProps.id.to(() => {
             return (
               forwardedRef.current.datum.isMetadata
-                ? '(metadata)'
+                ? forwardedRef.current.datum.tags?.join(', ')
                 : forwardedRef.current.datum.isHermeneutic
                   ? 'Hermeneutics'
                   : 'Narrative'
