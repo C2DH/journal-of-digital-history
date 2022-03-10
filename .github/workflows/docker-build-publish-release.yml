@@ -34,5 +34,5 @@ jobs:
         name: c2dhunilu/journal-of-digital-history
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
-        buildargs: GIT_BRANCH,GIT_REVISION
+        buildargs: GIT_TAG,GIT_BRANCH,GIT_REVISION
         tags: "${{ env.RELEASE_VERSION }}"
