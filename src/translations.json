@@ -25,6 +25,10 @@
       "Navigation_NotebookViewer": "Preview Notebook",
       "Pages_NotebookViewer_Title": "Jupyter notebook viewer",
       "pages": {
+        "about": {
+          "title": "About the <em>Journal of Digital History</em>",
+          "subheading": "The Journal of Digital History (JDH) is a joint initiative of the Luxembourg Centre for Contemporary and Digital History (C²DH) at the University of Luxembourg and the De Gruyter publishing group."
+        },
         "articles": {
           "title": "Articles & Issues",
           "subheading": "Filter by keywords, libraries or browse the articles."
@@ -48,6 +52,9 @@
         "releaseNotes": {
           "title": "Release notes",
           "subheading": "{{n}} releases so far."
+        },
+        "termsOfUse": {
+          "title": "Terms Of Use"
         },
         "faq": {
           "title": "Frequently asked questions"
