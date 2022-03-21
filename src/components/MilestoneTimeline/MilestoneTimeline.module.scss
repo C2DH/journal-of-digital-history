@@ -1,7 +1,7 @@
 $labelWidth: 100px;
 $labelFontSize: 11px;
 $labelLineHeight: 10px;
-$milestoneRadius: 5px;
+$milestoneRadius: 4px;
 
 
 
@@ -85,12 +85,17 @@ $milestoneRadius: 5px;
 
 .MilestoneCircle{
   position: absolute;
+}
+.MilestoneCircle::after{
+  content: '';
+  position: absolute;
   width: $milestoneRadius*2;
   height: $milestoneRadius*2;
-  margin-top: -$milestoneRadius;
-  margin-left: -$milestoneRadius;
+  top: -$milestoneRadius;
+  left: 0;
   border-radius: $milestoneRadius;
-  background-color: var(--primary);
+  background-color: rgba(0,0,0,.2);
+  border: 1px solid var(--dark);
 }
 
 .MilestoneLabel{
@@ -100,5 +105,11 @@ $milestoneRadius: 5px;
   padding-left: var(--spacer-2);
   line-height: $labelFontSize * 1.5;
   font-size: $labelFontSize;
-  border-left: 1px solid var(--primary);
+  border-left: 1px solid var(--dark);
+}
+.MilestoneLine{
+  position: absolute;
+  width: 1px;
+  left: $milestoneRadius;
+  border-left: 1px dotted var(--dark);
 }
