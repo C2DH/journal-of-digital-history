@@ -1,24 +1,19 @@
 import React from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
-import { getArticleTreeFromIpynb } from '../logic/ipynb'
-import pageContents from '../data/mock-api/mock-about-ipynb.json'
-import ArticleCellContent from '../components/Article/ArticleCellContent'
+import WikiStaticPage from './WikiStaticPage'
+import { useTranslation } from 'react-i18next'
 
-const { paragraphs } = getArticleTreeFromIpynb(pageContents)
 
 const About = () => {
+  const { t } = useTranslation()
   return (
-    <>
-      <Container className="page">
-        <Row>
-          <Col md={{offset: 2, span:8}}>
-          {paragraphs.map((props, i) => (
-            <ArticleCellContent hideIdx hideNum {...props} key={i} idx=""/>
-          ))}
-          </Col>
-        </Row>
-      </Container>
-    </>
+    <WikiStaticPage
+      url={process.env.REACT_APP_WIKI_ABOUT}
+    >
+      <h1 className="my-5" dangerouslySetInnerHTML={{
+        __html: t('pages.about.title')
+      }} />
+      <h2 className="my-5">{t('pages.about.subheading')}</h2>
+    </WikiStaticPage>
   )
 }
 

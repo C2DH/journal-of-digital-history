@@ -50,7 +50,7 @@ const Faq = () => {
         console.debug('[Faq] useGetRawContents', sections)
 
         return (
-        <Container className="ReleaseNotes page" style={{minHeight:'100vh'}}>
+        <Container className="Faq page" style={{minHeight:'100vh'}}>
           <Row>
             <Col {...BootstrapFullColumLayout}>
               <h1 className="my-5">{t('pages.faq.title')}</h1>
