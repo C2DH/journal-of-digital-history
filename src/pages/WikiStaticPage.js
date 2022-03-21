@@ -1,8 +1,9 @@
 import React from 'react'
+import MarkdownIt from 'markdown-it'
 import { Container, Row, Col } from 'react-bootstrap'
 import StaticPageLoader from './StaticPageLoader'
 import { BootstrapFullColumLayout, StatusSuccess } from '../constants'
-import MarkdownIt from 'markdown-it'
+import '../styles/pages/WikiStaticPage.scss'
 
 const markdownParser = MarkdownIt({
   html: false,
