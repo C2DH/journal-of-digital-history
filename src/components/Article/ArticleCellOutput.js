@@ -35,7 +35,7 @@ const ArticleCellOutput = ({ output, height, width, hideLabel=false, isJavascrip
       )
     }
     return (
-      <div className={`ArticleCellOutput withHTML mb-3 ${outputTypeClassName}`}
+      <div className={`ArticleCellOutput withHTML mb-3 ${outputTypeClassName} ${isJavascriptTrusted ? 'withJS' : 'noJS'}`}
         style={style}
         dangerouslySetInnerHTML={{
         __html: getOutput(output.data['text/html'])
