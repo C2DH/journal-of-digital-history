@@ -51,6 +51,9 @@ const ArticleCellOutput = ({ output, height, width, hideLabel=false, isJavascrip
           <div className="label">{t(outputTypeClassName)}</div>
         </div>
       )}
+      {output.output_type === 'error' && (
+        <pre style={{whiteSpace: 'pre-wrap'}}className=" hljs d-block bg-dark text-white">{JSON.stringify(output, null, 2)} </pre>
+      )}
       {output.output_type === 'stream' && (
         <details>
           <summary>...</summary>
