@@ -23,10 +23,18 @@ export function sortFn({
   if (!dimension) {
     return
   }
+
   return (a, b) => {
-    const aValue = dimension.fn(a)
-    const bValue = dimension.fn(b)
+    let aValue = dimension.fn(a)
+    let bValue = dimension.fn(b)
+    if (dimension.isArray) {
+      aValue = aValue.join('')
+      bValue = bValue.join('')
+    }
     if (aValue && bValue) {
+      if (typeof aValue === 'string') {
+        return aValue.localeCompare(String(bValue)) * direction
+      }
       return aValue > bValue ? -direction : direction
     } else if (aValue) {
       return -direction
