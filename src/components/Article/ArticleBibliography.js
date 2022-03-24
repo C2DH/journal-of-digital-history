@@ -20,6 +20,10 @@ const Dimensions = [
       if (Array.isArray(d.author)) {
         return d.author.map(a => [a.family, a.given].join(', '))
       }
+      if (Array.isArray(d.editor)){
+        return d.editor.map(a => [a.family, a.given].join(', '))
+      }
+      
       return []
     },
     sortFn: (a,b) => {
