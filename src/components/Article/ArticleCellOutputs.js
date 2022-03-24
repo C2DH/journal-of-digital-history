@@ -37,10 +37,6 @@ const ArticleCellOutputs = ({
     isTrusted: isJavascriptTrusted
   })
 
-  if (cellIdx === 47) {
-    console.debug('[ArticleCellOutputs] cellIdx:', cellIdx, isJavascriptTrusted)
-  }
-
   return (
     <div className="ArticleCellOutputs" ref={refTrustedJavascript}>
       {outputs.map((output,i) => (
