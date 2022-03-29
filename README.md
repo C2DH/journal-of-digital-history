@@ -1,4 +1,6 @@
 # journal of digital history
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FC2DH%2Fjournal-of-digital-history.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FC2DH%2Fjournal-of-digital-history?ref=badge_shield)
+
 Frontend app (React) for the JDH journal: journal issues, write and read scholar publication on digital history
 
 ## installation
@@ -127,3 +129,7 @@ for images:
   }
 }
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FC2DH%2Fjournal-of-digital-history.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FC2DH%2Fjournal-of-digital-history?ref=badge_large)
