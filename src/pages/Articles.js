@@ -37,7 +37,7 @@ const ShowMoreLabel = ({ active, n }) => {
 
 
 const ArticlesGrid = ({
-  data,
+  data:response=[],
   url,
   issueId,
   status,
@@ -46,7 +46,8 @@ const ArticlesGrid = ({
 }) => {
   const { t } = useTranslation()
   const [selected, setSelected] = useState(null)
-
+  // pagination api contains results in data
+  const data = response.results || []
   const [{  width }, ref] = useBoundingClientRect()
   const history = useHistory()
   const animatedRef = useRef({ idx: '', length: '', datum:{}});
