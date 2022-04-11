@@ -25,6 +25,9 @@ import '../styles/pages/Articles.scss'
 
 const ShowMoreLabel = ({ active, n }) => {
   const { t } = useTranslation()
+  if (n === 0) {
+    return null
+  }
   return (
     <span>{t(active ? 'dimensions.actions.showLess': 'dimensions.actions.showMore', { n })}</span>
   )
