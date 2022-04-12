@@ -148,7 +148,7 @@ const ArticleCell = ({
               <div className="ArticleCellContent_num"></div>
               <ArticleCellSourceCode visible content={content} language="python" />
               <ArticleCellOutputs
-                isJavascriptTrusted={false}
+                isJavascriptTrusted={isJavascriptTrusted}
                 cellIdx={idx}
                 outputs={outputs}
               />

@@ -1,25 +1,16 @@
 import React from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
-import { getArticleTreeFromIpynb } from '../logic/ipynb'
+import WikiStaticPage from './WikiStaticPage'
+import { useTranslation } from 'react-i18next'
 
-import pageContents from '../data/mock-api/mock-terms-of-use-ipynb.json'
-import ArticleCellContent from '../components/Article/ArticleCellContent'
-
-const {paragraphs} = getArticleTreeFromIpynb(pageContents)
 
 const TermsOfUse = () => {
+  const { t } = useTranslation()
   return (
-    <>
-      <Container className="page">
-        <Row>
-          <Col md={{offset: 2, span:8}}>
-          {paragraphs.map((props, i) => (
-            <ArticleCellContent hideNum hideIdx {...props} idx="" key={i}/>
-          ))}
-          </Col>
-        </Row>
-      </Container>
-    </>
+    <WikiStaticPage
+      url={process.env.REACT_APP_WIKI_TERMS_OF_USE}
+    >
+      <h1 className="my-5">{t('pages.termsOfUse.title')}</h1>
+    </WikiStaticPage>
   )
 }
 

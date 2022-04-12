@@ -1,0 +1,13 @@
+.WikiStaticPage blockquote{
+  border-left: 2px solid var(--secondary);
+  padding-left: var(--spacer-3);
+  margin-left: 0;
+}
+
+@media (min-width: 768px) {
+  .WikiStaticPage blockquote {
+      border-left: 2px solid var(--secondary);
+      padding-left: var(--spacer-3);
+      margin-left: var(--spacer-2);
+  }
+}

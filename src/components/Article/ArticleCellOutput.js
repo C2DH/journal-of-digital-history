@@ -35,7 +35,7 @@ const ArticleCellOutput = ({ output, height, width, hideLabel=false, isJavascrip
       )
     }
     return (
-      <div className={`ArticleCellOutput withHTML mb-3 ${outputTypeClassName}`}
+      <div className={`ArticleCellOutput withHTML mb-3 ${outputTypeClassName} ${isJavascriptTrusted ? 'withJS' : 'noJS'}`}
         style={style}
         dangerouslySetInnerHTML={{
         __html: getOutput(output.data['text/html'])
@@ -50,6 +50,14 @@ const ArticleCellOutput = ({ output, height, width, hideLabel=false, isJavascrip
         <div>
           <div className="label">{t(outputTypeClassName)}</div>
         </div>
+      )}
+      {output.output_type === 'error' && (
+        <pre
+          style={{whiteSpace: 'pre-wrap'}}
+          className=" hljs d-block bg-dark text-white"
+        >
+          {JSON.stringify(output, null, 2)} 
+        </pre>
       )}
       {output.output_type === 'stream' && (
         <details>
