@@ -23,7 +23,7 @@ const Dimensions = [
       if (Array.isArray(d.editor)){
         return d.editor.map(a => [a.family, a.given].join(', '))
       }
-      
+
       return []
     },
     sortFn: (a,b) => {
@@ -47,7 +47,7 @@ const Dimensions = [
     fixed: true,
     fn: (d) => d.issued?.year || 0,
     sortFn: (a,b) => {
-      return a > b ? -1 : 1
+      return a.key > b.key ? -1 : 1
     }
   }
 ]
@@ -94,6 +94,7 @@ const ArticleBilbiography = ({
     direction: sortDirection,
     dimensions,
   }))
+
 
   return (
     <>
