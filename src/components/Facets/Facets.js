@@ -35,7 +35,7 @@ export function sortFn({
       if (typeof aValue === 'string') {
         return aValue.localeCompare(String(bValue)) * direction
       }
-      return aValue > bValue ? -direction : direction
+      return aValue > bValue ? direction : -direction
     } else if (aValue) {
       return -direction
     } else if (bValue) {
