@@ -1,10 +1,11 @@
 import React from 'react'
+import { ArrowDown, ArrowUp } from 'react-feather'
 
 const Sorting = ({
   options=[],
   directions=[
-    { label: 'ASC', value: 1 },
-    { label: 'DESC', value: -1 }
+    { label: <ArrowUp size={13}/>, value: 1 },
+    { label: <ArrowDown size={13}/>, value: -1 }
   ],
   currentOption,
   currentDirection,
