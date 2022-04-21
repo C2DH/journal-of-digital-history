@@ -4,16 +4,19 @@ import Citation from '../Citation'
 // import CopyToClipboardTrigger from '../CopyToClipboardTrigger'
 // import { CopyToClipboard } from 'react-copy-to-clipboard'
 // import {OverlayTrigger, Tooltip, Button} from 'react-bootstrap'
-
+const ReplaceSpecialChars = (text) => {
+  return text.replace(/&#38;quot;/g, "&quot;")
+}
 const ArticleCitationModal = (props) => {
   const choices = [
     { format: 'bibtex', label: 'bibtex' },
-    { format: 'html', template: 'apa', label: 'APA', replaceFn: (text) => {
-      return text.replace(/&#38;quot;/g, "\"")
-    } },
+    { format: 'html', template: 'apa', label: 'APA',
+      replaceFn: ReplaceSpecialChars
+    },
     // { format: 'html', template: 'mla', label: 'MLA' },
     // { format: 'html', template: 'vancouver', label: 'vancouver' },
-    { format: 'html', template: 'harvard1', label: 'harvard' }
+    { format: 'html', template: 'harvard1',
+      label: 'harvard', replaceFn:ReplaceSpecialChars }
   ]
   const [value, setValue] = useState(1);
   const handleChange = (val) => {
