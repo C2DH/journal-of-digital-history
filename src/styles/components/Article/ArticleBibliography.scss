@@ -85,6 +85,7 @@
     margin-right: var(--spacer-2);
     cursor: pointer;
     &.active{
+      font-weight: bold;
       box-shadow: 0px 1px 0 var(--dark);
     }
   }
