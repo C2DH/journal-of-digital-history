@@ -1,0 +1,124 @@
+@mixin styling($full-width, $aside-width) {
+  $iframe-height: ($full-width - $aside-width) * .5625;
+  $description-height: 50px;
+
+  .VideoRelease__modal{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    overflow: hidden;
+    background-color: white;
+    height: $iframe-height + $description-height;
+    width: $full-width;
+    margin-left: -$full-width * 0.5;
+    margin-top: -$iframe-height * 0.5;
+  }
+
+  .VideoRelease__modal__video{
+    position: absolute;
+    top: 0;
+    left: $aside-width;
+    width: $full-width - $aside-width;
+    height: $iframe-height;
+  }
+
+  .VideoRelease__modal aside{
+    width: $aside-width;
+    height: $iframe-height + $description-height;
+    left: 0;
+  }
+
+
+  .VideoRelease__modal__description{
+    width: $full-width - $aside-width;
+    height: $description-height;
+
+  }
+}
+
+.VideoRelease__modal{
+  pointer-events: all;
+}
+.VideoReleaseButton{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 11;
+  border: 2px solid;
+  width: 30px;height: 30px;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  line-height: 15px;
+  border-radius: 20px;
+  background: white;
+}
+
+.VideoRelease{
+  z-index: 10;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  // border: 2px solid var(--dark);
+}
+
+.VideoRelease__modal__description{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: var(--dark);
+  color: var(--white);
+  margin: 0;
+  font-size: .8em;
+}
+
+.VideoRelease__modal__aside{
+  h1{
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 1em;
+    padding: 0;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  li{
+    border-left: 3px solid white;
+    transition: border-color .15s ease-in-out;
+    padding-left: 12px;
+    line-height: 1.15em;
+    margin-bottom: 10px;
+    cursor: pointer;
+    &:hover span{
+      box-shadow: 0px 1px 0px black;
+    }
+  }
+  li.active{
+    border-color: var(--dark);
+    font-weight: bold
+  }
+}
+@include styling($full-width:500px, $aside-width:150px);
+
+
+
+
+@media screen and (min-width: 768px) {
+    @include styling($full-width: 650px, $aside-width: 200px);
+}
+@media screen and (min-width: 992px) {
+    @include styling($full-width: 850px, $aside-width: 250px);
+}
+
+@media screen and (min-width: 1200px) {
+    @include styling($full-width: 1000px, $aside-width: 250px);
+}
+
+@media screen and (min-width: 1400px) {
+    @include styling($full-width: 1200px, $aside-width: 350px);
+}
