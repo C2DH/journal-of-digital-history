@@ -1,5 +1,6 @@
 import React, {useRef, useState} from 'react'
 import Vimeo from '@u-wave/react-vimeo'
+import {useStore} from '../../store'
 import { useBoundingClientRect } from '../../hooks/graphics'
 import VideoReleaseButton from './VideoReleaseButton'
 import '../../styles/components/VideoRelease.scss'
@@ -12,6 +13,7 @@ const VideoRelease= ({
   chaptersContents={},
   vimeoPlayerUrl,
 }) => {
+  const setReleaseNotified = useStore((state) => state.setReleaseNotified)
   const [{width, height}, ref] = useBoundingClientRect()
   const playerRef = useRef()
   const [chapters, setChapters] = useState([])
@@ -46,10 +48,15 @@ const VideoRelease= ({
       })
   }
 
+  const onClose = () => {
+    console.debug('[VideoReleaseLazy] setReleaseNotified:', new Date())
+    setReleaseNotified()
+  }
+
   return (
     <div className="VideoRelease">
       <div className="VideoRelease__modal shadow-lg">
-        <VideoReleaseButton />
+        <VideoReleaseButton onClick={onClose}/>
         <aside className="VideoRelease__modal__aside p-4">
           <p>{releaseName}</p>
           <h1>{title}</h1>

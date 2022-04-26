@@ -71,6 +71,7 @@ export const useStore = create(persist(
     backgroundColor: '#ffffff',
     acceptAnalyticsCookies: true,
     acceptCookies: false, // cookies should be accepted, session is stored locally
+    releaseNotified: false,
     mode: 'dark', // or light
     displayLayer: 'narrative',
     temporaryAbstractSubmission: new AbstractSubmission(),
@@ -118,7 +119,14 @@ export const useStore = create(persist(
       const state = get();
       console.info('setDisplayLayer', value)
       set({ ...state, displayLayer: value })
-    }
+    },
+    setReleaseNotified: (releaseNotifiedDate=new Date()) => {
+      const state = get();
+      set({
+        ...state,
+        releaseNotified: releaseNotifiedDate.toISOString()
+      })
+    },
   }),
   {
     name: 'JournalOfDigitalHistory',

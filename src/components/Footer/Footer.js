@@ -3,6 +3,7 @@ import LangNavLink from '../LangNavLink'
 import { useLocation } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { Container, Row, Col, Nav } from 'react-bootstrap'
+import VideoReleaseTrigger from '../VideoRelease/VideoReleaseTrigger'
 import {
   BootstrapFullColumLayout,
   HomeRoute,
@@ -89,10 +90,14 @@ const Footer = ({ hideOnRoutes=[]}) => {
               </a>
             </div>
             <div className="d-none d-md-block">&middot;</div>
-            <div className="ms-md-3 mb-2 mb-md-0">
+            <div className="mx-md-3 mb-3 mb-md-0">
               <a className="plain-a" href={`${process.env.REACT_APP_GITHUB}/commit/${process.env.REACT_APP_GIT_REVISION}`} target="_blank" rel="noreferrer">
                 <GitHub size={15}/> {process.env.REACT_APP_GIT_TAG}
               </a>
+            </div>
+            <div className="d-none d-md-block">&middot;</div>
+            <div className="ms-md-3 mb-2 mb-md-0">
+            <VideoReleaseTrigger />
             </div>
             </div>
           </Col>

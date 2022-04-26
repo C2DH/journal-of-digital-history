@@ -10,8 +10,7 @@ const VideoReleaseLazy = ({
   // delay, in ms. By default it appears 1s after
   delay=2000,
 }) => {
-  const releaseNotified =  useStore((state) => state.releaseNotified)
-
+  const releaseNotified = useStore((state) => state.releaseNotified)
   // load video release JSON from wiki
   const { data, error, status } = useGetJSON({
     url,
@@ -20,7 +19,6 @@ const VideoReleaseLazy = ({
     allowCached: false
   })
   let releases = []
-  console.debug('[VideoReleaseLazy] releaseNotified:', releaseNotified, url, status)
   if (error) {
     console.warn('Error loading VideoReleaseLazy JSON data:', error)
     return null
@@ -42,9 +40,21 @@ const VideoReleaseLazy = ({
     console.warn('Error parsing VideoReleaseLazy data: must be a valid array, received:', releases)
     return null
   }
+  const currentRelease = releases[0]
+  console.debug(
+    '[VideoReleaseLazy]',
+    '\n - releaseNotified date:', releaseNotified,
+    '\n - currentRelease.startTime:', currentRelease.startDate,
+    currentRelease.startDate < releaseNotified
+  )
+
+  if (currentRelease.startDate < releaseNotified) {
+    console.info('%creleaseNotified', 'font-weight: bold', 'already notified, skipping.')
+    return null
+  }
   // if everything is fin, load the VideoRelease__modal
   const VideoRelease = lazy(() => import("./VideoRelease"));
-  const currentRelease = releases[0]
+
   return (
     <Suspense fallback={null}>
       <VideoRelease
@@ -52,7 +62,6 @@ const VideoReleaseLazy = ({
         releaseName={currentRelease.release}
         title={currentRelease.title}
         chaptersContents={currentRelease.chapterContents}
-        releaseNotified={releaseNotified}
       />
     </Suspense>
   )
