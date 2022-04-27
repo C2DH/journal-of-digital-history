@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>Multiple Resolution template file</title>
+  <link rel="icon" type="image/x-icon" href="https://journalofdigitalhistory.org/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap" rel="stylesheet">
@@ -19,6 +20,31 @@
       border: none;
       height:1px; margin:0px;
     }
+    a{
+      color: #1e152a;
+    }
+    #highlight{
+      border: 2px solid #5e2bff;
+      color: #5e2bff;
+      padding: 1rem;
+    }
+    #highlight a{
+      color: #5e2bff
+    }
+    .my-3{
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+    .m-3{
+      margin: 1rem;
+    }
+    .m-5{
+      margin: 2rem;
+    }
+    .my-5{
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
   </style>
 </head>
 <body leftmargin="10" topmargin="10" bgcolor="#f8f9fa">
@@ -32,11 +58,8 @@
       </td>
   	</tr>
  	</table>
-	<table width="650" cellpadding="10" bgcolor="#f8f9fa" border="0">
-   	<tr>
-      	<td colspan="4">
-          <hr />
-        <table width="450">
+  <section class="m-3 my-5">
+	<table width="650" >
           <tr>
  <td><b>Article Title example</b></td>
  </tr>
@@ -47,33 +70,27 @@
  <td><a href='https://doi.org/10.1177/152216280100400206'>https://doi.org/10.1177/152216280100400206</td>
  </tr>
           	<!--metadata-->
-       	</table>
-          	<hr />
-     	</td>
-  	</tr>
+</table>
+</section>
+<table width="650" >
 <span class="article">
 	<tr>
-    	<td align="center" valign="bottom" width="200">
-    	<a href=<!--link-prime-->>| Article Available - Portico |</a>
+    	<td valign="bottom" width="200">
+        <div id="highlight">
+    	<a href=<!--link-prime-->Read article (<b>full version</b>, interactive)</a>
+        </div>
     	</td>
-    	<td align="center" valign="bottom" width="200">
-    	<a href=<!--link label="CLOCKSS_EDINA"-->>| Free Article - EDINA |</a>
-        	<br /><br />
-    	<a href=<!--link label="CLOCKSS_SU"-->>| Free Article - Stanford University |</a>
-     	</td>
-    	<td align="center" valign="bottom">
-    	<a href=<!--link label="KB_fulltext"-->>| Article Available - Koninklijke Bibliotheek|</a>
-     	</td>
+  </tr>
+  <tr>
+    	<td valign="bottom" width="200">
+        <div class="m-3">
+    	<a href=<!--link label="CLOCKSS_EDINA"-->Article also available in PDF - <i>limited</i></a>
+      </div>
+      </td>
    </tr>
  </span>
-   <tr>
-   	<td align="center" valign="top" ><a href="http://www.portico.org"><img src="/iPage/docs/images/portico.gif" align="top" alt="Portico Logo" border="0"></a><br /><br /></td>
-	<td align="center" valign="top" ><a href="http://www.clockss.org"><img src="/iPage/docs/images/CLOCKSS.gif" align="top" alt="CLOCKSS logo" border="0"></a><br /><br /></td>
-<td align="center" valign="top" ><img src="/iPage/docs/images/KB.gif" align="top" alt="KB Logo" border="0"><br /><br /></td>
-	</tr>
-	<tr>
-    	<td colspan="4"><hr /></td>
-	</tr>
+
+
 	</table>
 </body>
 </html>
