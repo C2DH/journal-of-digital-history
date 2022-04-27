@@ -2,7 +2,8 @@ import {
   useRef,
   useState,
   useEffect,
-  useCallback
+  useCallback,
+  useLayoutEffect
 } from 'react'
 
 /**
@@ -33,7 +34,7 @@ export const useBoundingClientRect = () => {
       })
     }
   };
-  useEffect(() => {
+  useLayoutEffect(() => {
     setCurrentBoundingClientRect()
     window.addEventListener('resize', setCurrentBoundingClientRect);
     return () => window.removeEventListener('resize', setCurrentBoundingClientRect);
