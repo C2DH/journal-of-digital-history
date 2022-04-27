@@ -41,16 +41,14 @@ const VideoReleaseLazy = ({
     return null
   }
   const currentRelease = releases[0]
-  console.debug(
-    '[VideoReleaseLazy]',
-    '\n - releaseNotified date:', releaseNotified,
-    '\n - currentRelease.startTime:', currentRelease.startDate,
-    currentRelease.startDate < releaseNotified
-  )
 
   if (currentRelease.startDate < releaseNotified) {
     console.info('%creleaseNotified', 'font-weight: bold', 'already notified, skipping.')
     return null
+  } else {
+    console.info('%creleaseNotified', 'font-weight: bold', 'please notify!',
+      '\n - releaseNotified date:', releaseNotified,
+      '\n - currentRelease.startTime:', currentRelease.startDate)
   }
   // if everything is fin, load the VideoRelease__modal
   const VideoRelease = lazy(() => import("./VideoRelease"));

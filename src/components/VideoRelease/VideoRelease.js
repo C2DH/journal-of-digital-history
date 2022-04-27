@@ -1,7 +1,8 @@
 import React, {useRef, useState} from 'react'
 import Vimeo from '@u-wave/react-vimeo'
+import {animated, useSpring, config} from 'react-spring'
 import {useStore} from '../../store'
-import { useBoundingClientRect } from '../../hooks/graphics'
+import {useBoundingClientRect} from '../../hooks/graphics'
 import VideoReleaseButton from './VideoReleaseButton'
 import '../../styles/components/VideoRelease.scss'
 
@@ -18,27 +19,37 @@ const VideoRelease= ({
   const playerRef = useRef()
   const [chapters, setChapters] = useState([])
   const [currentChapter, setCurrentChapter] = useState(null)
-  console.debug('[VideoRelease__modal] bbox:', width, height)
+  const [modalStyle, apiModalStyle] = useSpring(() => ({
+    opacity: 0,
+    y: 50,
+    config: config.gentle,
+    onRest: ({ value }) => {
+      console.debug('[VideoRelease] animation done.', value)
+      if (value.opacity === 0) {
+        // remove!
+        setReleaseNotified()
+      }
+    }
+  }))
 
   const onReady = (player) => {
-    if(!playerRef.current) {
+    if (!playerRef.current) {
       player.on('chapterchange', (c) => {
-        console.debug('[VideoRelease__modal] chapter changed:', c)
+        console.debug('[VideoRelease] chapter changed:', c)
         setCurrentChapter(c)
       })
       player.getChapters().then(function(chapters) {
         // `chapters` indicates an array of chapter objects
-        console.debug('[VideoRelease__modal] player.getChapters():', chapters)
+        console.debug('[VideoRelease] player.getChapters():', chapters)
         setChapters(chapters)
 
       }).catch(function(error) {
         // An error occurred
-        console.warn('[VideoRelease__modal] error playback', error)
+        console.warn('[VideoRelease] error playback', error)
       });
       playerRef.current = player
+      apiModalStyle.start({ opacity: 1,y: 0 })
     }
-
-
   }
 
   const gotoChapter = (chapter) => {
@@ -49,12 +60,12 @@ const VideoRelease= ({
   }
 
   const onClose = () => {
-    console.debug('[VideoReleaseLazy] setReleaseNotified:', new Date())
-    setReleaseNotified()
+    console.debug('[VideoRelease] @onClose, setReleaseNotified:', new Date())
+    apiModalStyle.start({ opacity: 0, y: 50 })
   }
 
   return (
-    <div className="VideoRelease">
+    <animated.div style={modalStyle} className="VideoRelease">
       <div className="VideoRelease__modal shadow-lg">
         <VideoReleaseButton onClick={onClose}/>
         <aside className="VideoRelease__modal__aside p-4">
@@ -74,7 +85,9 @@ const VideoRelease= ({
           })}
           </ul>
         </aside>
-        <div className="VideoRelease__modal__video" ref={ref}>
+        <animated.div className="VideoRelease__modal__video" ref={ref} style={{
+          opcity: modalStyle.opacity
+        }}>
           <Vimeo
             video={vimeoPlayerUrl}
             responsive
@@ -86,7 +99,7 @@ const VideoRelease= ({
             onReady={onReady}
             autoplay
           />
-        </div>
+        </animated.div>
         <div className="d-flex align-items-center px-3 VideoRelease__modal__description">
           {currentChapter ? (
             <span dangerouslySetInnerHTML={{
@@ -97,7 +110,7 @@ const VideoRelease= ({
           ): null}
         </div>
       </div>
-    </div>
+    </animated.div>
   )
 }
 
