@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+  <base href="https://journalofdigitalhistory.org" target="_blank">
 	<title>Multiple Resolution template file</title>
   <link rel="icon" type="image/x-icon" href="https://journalofdigitalhistory.org/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,12 +39,18 @@
     .m-3{
       margin: 1rem;
     }
+    .ml-3{
+      margin-left: 1rem;
+    }
     .m-5{
       margin: 2rem;
     }
     .my-5{
       margin-top: 2rem;
       margin-bottom: 2rem;
+    }
+    .linkLogo{
+      text-decoration: none;
     }
   </style>
 </head>
@@ -52,7 +59,8 @@
   	<tr>
       <td><img src="https://journalofdigitalhistory.org/logo192.png" alt="Journal of Digital History" align="left" height="60" /></td>
     	<td>
-        The Journal of Digital History (JDH) is a joint initiative of the Luxembourg Centre for Contemporary and Digital History (C²DH) at the University of Luxembourg and the <a href="">De Gruyter</a> publishing group.
+        The Journal of Digital History (JDH) is a joint initiative of the <a href="https://c2dh.uni.lu" target="_blank" rel="noopener noreferrer">Luxembourg Centre for Contemporary and
+        Digital History (C²DH) at the University of Luxembourg</a> and the <a href="https://www.degruyter.com" target="_blank" rel="noopener noreferrer">De Gruyter</a> publishing group.
       </td>
     	<td>
       </td>
@@ -84,13 +92,21 @@
   <tr>
     	<td valign="bottom" width="200">
         <div class="m-3">
-    	<a href=<!--link label="CLOCKSS_EDINA"-->Article also available in PDF - <i>limited</i></a>
+    	<a href=<!--link label="CLOCKSS_EDINA"-->This article is also available as PDF - <i>limited version</i></a>
       </div>
       </td>
    </tr>
  </span>
-
-
+ <tr>
+     <td valign="bottom">
+       <a class="linkLogo" href="https://c2dh.uni.lu" target="_blank" rel="noopener noreferrer">
+         <img alt='C²DH - University of Luxembourg' src="/mr/assets/images/unilu-c2dh-logo.svg" style="width: 250px"/>
+       </a>
+       <a class="linkLogo ml-3" href="https://www.degruyter.com" target="_blank" rel="noopener noreferrer">
+         <img alt='De Gruyter Publisher' src="/mr/assets/images/Verlag_Walter_de_Gruyter_Logo_Oldenbourg.svg" style="width: 150px"/>
+      </a>
+    </td>
+  </tr>
 	</table>
 </body>
 </html>
