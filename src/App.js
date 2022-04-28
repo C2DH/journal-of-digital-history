@@ -224,6 +224,7 @@ export default function App() {
         <Footer hideOnRoutes={NotebookPoweredPaths}/>
         <ScrollToTop />
         <VideoReleaseLazy
+          isMobile={IsMobile}
           url={process.env.REACT_APP_WIKI_VIDEO_RELEASES}
         />
       </Auth0ProviderWithHistory>

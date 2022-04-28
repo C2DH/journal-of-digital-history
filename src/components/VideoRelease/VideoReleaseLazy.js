@@ -5,6 +5,7 @@ import { useGetJSON } from '../../logic/api/fetchData'
 
 
 const VideoReleaseLazy = ({
+  isMobile=false,
   // the wiki page where all the releases are
   url,
   // delay, in ms. By default it appears 1s after
@@ -13,10 +14,10 @@ const VideoReleaseLazy = ({
   const releaseNotified = useStore((state) => state.releaseNotified)
   // load video release JSON from wiki
   const { data, error, status } = useGetJSON({
-    url,
+    url: isMobile ? null : url,
     delay,
     raw: true,
-    allowCached: false
+    allowCached: false,
   })
   let releases = []
   if (error) {
