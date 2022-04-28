@@ -12,6 +12,7 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Cookies from './components/Cookies'
 import ScrollToTop from './components/ScrollToTop'
+import VideoReleaseLazy from './components/VideoRelease/VideoReleaseLazy'
 import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
 import Loading from './pages/Loading'
 import ReactGA from 'react-ga';
@@ -222,6 +223,10 @@ export default function App() {
         </main>
         <Footer hideOnRoutes={NotebookPoweredPaths}/>
         <ScrollToTop />
+        <VideoReleaseLazy
+          isMobile={IsMobile}
+          url={process.env.REACT_APP_WIKI_VIDEO_RELEASES}
+        />
       </Auth0ProviderWithHistory>
       </QueryParamProvider>
     </BrowserRouter>
