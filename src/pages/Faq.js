@@ -1,7 +1,8 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Container, Row, Col } from 'react-bootstrap'
-import { BootstrapColumLayout } from '../constants'
-import { useGetRawContents } from '../logic/api/fetchData'
+import { BootstrapFullColumLayout, StatusSuccess } from '../constants'
+import StaticPageLoader from './StaticPageLoader'
 import MarkdownIt from 'markdown-it'
 
 const markdownParser = MarkdownIt({
@@ -19,61 +20,69 @@ function chunkReducer(acc, d, i) {
 }
 
 const Faq = () => {
-  console.debug('[Faq] REACT_APP_GITHUB_WIKI_FAQ', process.env.REACT_APP_GITHUB_WIKI_FAQ)
-
-  const { data, error } = useGetRawContents({
-    url: process.env.REACT_APP_GITHUB_WIKI_FAQ,
-  })
-  // get sections, delimited by H2
-  const sections = (data || '')
-    .split(/\n(## [^\n]*)\n/g)
-    .slice(1)
-    .reduce(chunkReducer, [])
-    .map(([title, content]) => {
-      // question+/answer pairs
-      const qa = (content || '').split(/\n(### [^\n]*)\n/g)
-      const introduction = qa.shift().trim()
-
-      return {
-        title,
-        introduction,
-        paragraphs: qa.reduce(chunkReducer, [])
-      }
-    })
-  console.debug('[Faq] useGetRawContents', error, sections)
-
+  const { t } = useTranslation()
   return (
-    <Container className="Faq page">
-      <Row>
-        <Col {...BootstrapColumLayout}>
-          <h1 className="my-5">Faq</h1>
-        </Col>
-      </Row>
-      {sections.map((section, i) => (
-        <Row key={i} className="mb-3">
-          <Col {...BootstrapColumLayout}>
+    <StaticPageLoader
+      url={process.env.REACT_APP_GITHUB_WIKI_FAQ}
+      raw
+      fakeData=''
+      delay={0}
+      Component={({ data='', status }) => {
+        // get sections, delimited by H2
+        let sections = []
+        if (status == StatusSuccess) {
+          sections = data
+            .split(/\n(## [^\n]*)\n/g)
+            .slice(1)
+            .reduce(chunkReducer, [])
+            .map(([title, content]) => {
+              // question+/answer pairs
+              const qa = (content || '').split(/\n(### [^\n]*)\n/g)
+              const introduction = qa.shift().trim()
 
-            <div dangerouslySetInnerHTML={{
-              __html: markdownParser.render(section.title)
-            }} />
-            <blockquote dangerouslySetInnerHTML={{
-              __html: markdownParser.render(section.introduction)
-            }} />
+              return {
+                title,
+                introduction,
+                paragraphs: qa.reduce(chunkReducer, [])
+              }
+            })
+        }
+        console.debug('[Faq] useGetRawContents', sections)
 
-            {section.paragraphs.map((p,j) => (
-              <React.Fragment key={j}>
-                <p dangerouslySetInnerHTML={{
-                  __html: markdownParser.render(p[0])
+        return (
+        <Container className="Faq page" style={{minHeight:'100vh'}}>
+          <Row>
+            <Col {...BootstrapFullColumLayout}>
+              <h1 className="my-5">{t('pages.faq.title')}</h1>
+            </Col>
+          </Row>
+          {sections.map((section, i) => (
+            <Row key={i} className="mb-3">
+              <Col {...BootstrapFullColumLayout}>
+
+                <div dangerouslySetInnerHTML={{
+                  __html: markdownParser.render(section.title)
                 }} />
-                <p key={j} dangerouslySetInnerHTML={{
-                  __html: markdownParser.render(p[1])
+                <blockquote dangerouslySetInnerHTML={{
+                  __html: markdownParser.render(section.introduction)
                 }} />
-              </React.Fragment>
-            ))}
-          </Col>
-        </Row>
-      ))}
-    </Container>
+
+                {section.paragraphs.map((p,j) => (
+                  <React.Fragment key={j}>
+                    <p dangerouslySetInnerHTML={{
+                      __html: markdownParser.render(p[0])
+                    }} />
+                    <p key={j} dangerouslySetInnerHTML={{
+                      __html: markdownParser.render(p[1])
+                    }} />
+                  </React.Fragment>
+                ))}
+              </Col>
+            </Row>
+          ))}
+        </Container>
+      )}}
+    />
   )
 }
 

@@ -6,9 +6,13 @@ import LangLink from '../components/LangLink'
 import homePageContents from '../data/mock-api/mock-home-ipynb.json'
 import {getArticleTreeFromIpynb} from '../logic/ipynb'
 import ArticleCellContent from '../components/Article/ArticleCellContent'
-import MilestoneTimeline from '../components/MilestoneTimeline'
 import HomeReel from '../components/HomeReel'
-import { IsPortrait, BootstrapColumLayout, IsMobile } from '../constants'
+import HomeMilestones from '../components/HomeMilestones'
+import {
+  IsPortrait, BootstrapColumLayout,
+  BootstrapFullColumLayout,
+  IsMobile
+} from '../constants'
 
 
 const articleTree = getArticleTreeFromIpynb(homePageContents)
@@ -17,7 +21,6 @@ const {
   'editorial-board': editorialBoardCells,
   'editorial-team': editorialTeamCells,
   'call-for-papers': callForPapers,
-  'milestones': milestones
 } = groupBy(articleTree.paragraphs, ({ metadata }) => metadata?.jdh?.section)
 
 
@@ -98,19 +101,18 @@ const Home = () => {
           </Col>
         ))}
       </Row>
+    </Container>
+
+    <Container>
       <Row>
-        <Col md={{offset:2, span:8}}>
+        <Col {...BootstrapFullColumLayout}>
           <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
-          <h4 className="mb-3 d-none d-md-block" >{t('pages.home.editorialRoadmap')} ⤵</h4>
-          {milestones.map((milestone, i) => (
-            <MilestoneTimeline key={i}
-              isPortrait={IsPortrait}
-              milestones={milestone.metadata?.jdh?.dataset}
-              extent={milestone.metadata?.jdh?.extent?.date}
-              showToday
-            />
-          ))}
-          <h4 className="mt-3 d-none d-md-block">{t('pages.home.technicalRoadmap')} ⤴</h4>
+          <p className="mb-3 d-none d-md-block" >{t('pages.home.editorialRoadmap')} ⤵</p>
+          <HomeMilestones
+            isPortrait={IsPortrait}
+            extent={['2020-09-30', '2022-11-30']}
+          />
+          <p className="mt-3 d-none d-md-block">{t('pages.home.technicalRoadmap')} ⤴</p>
         </Col>
       </Row>
     </Container>
@@ -119,71 +121,3 @@ const Home = () => {
 }
 
 export default Home
-//     <div className="page">
-//       <Container>
-//       <Row>
-//         <Col md={{span:8, offset:4}} lg={{span:6, offset:3}}>
-//         <h1 className="display-3 m-0">Make <i>History</i><br/> Awesome Again</h1>
-//         <h2><LangLink to='/submit' style={{color: 'var(--secondary)', textDecoration: 'underline'}}>submit a paper &rarr;</LangLink></h2>
-//         </Col>
-//       </Row>
-//       </Container>
-//       <div>
-//         <div style={{ position: 'sticky', top: '50vh', marginTop:'-50px', zIndex: 1}}>
-//           <div className="position-absolute animate-transform w-100" style={{
-//             transform: `translate(0, ${stepTitleSlide}px`}}>
-//             <Container>
-//             <Row>
-//               <Col md={{span:4, offset:0}} lg={{span:3, offset:0}}>
-//             {STEPS.map(({ title, backgroundColor}, stepIndex) => (
-//               <div key={stepIndex} className="position-absolute" style={{
-//                 height: `${stepSize}px`,
-//                 opacity: stepIndex === currentStepIndex ? 1 : .5,
-//                 top: `${stepSize*stepIndex}px`,
-//               }}>
-//                 <h2 className="p-2">{t(title)}</h2>
-//               </div>
-//             ))}
-//               </Col></Row>
-//               </Container>
-//           </div>
-//         </div>
-//         <Scrollama className="pt-5" onStepEnter={onStepEnter} onStepProgress={onStepProgress} threshold={0} offset={0.5}>
-//         {STEPS.map((step, stepIndex) => (
-//           <Step data={stepIndex} key={stepIndex}>
-//             <div
-//               style={{
-//                 minHeight: '60vh',
-//                 paddingTop: '10vh',
-//                 paddingBottom: '10vh',
-//                 opacity: currentStepIndex === stepIndex ? 1 : 0.2,
-//               }}
-//             >
-//               <Container>
-//                 <Row>
-//                   <Col md={{span:8, offset:4}} lg={{span:6, offset:3}}>
-//                     <h3 dangerouslySetInnerHTML={{ __html: step.subheading }} />
-//                   </Col>
-//                 </Row>
-//                 {step.paragraphs.map(paragraph => (
-//                   <Row>
-//                     <Col md={{span:8, offset:4}} lg={{span:6, offset:3}}>
-//                       <p className="serif lead my-3" dangerouslySetInnerHTML={{ __html: paragraph.text }}/>
-//                     </Col>
-//                   </Row>
-//                 ))}
-//               </Container>
-//             </div>
-//           </Step>
-//         ))}
-//       </Scrollama>
-//       </div>
-//     </div>
-//   );
-// };
-// <ScrollableGallery
-//   id='latestIssues'
-//   offsetTop='70px'
-//   title={t('pages.home.latestIssues')}
-//   steps={issues?.results}
-//   stepComponent=''/>

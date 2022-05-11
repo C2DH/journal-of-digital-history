@@ -16,6 +16,8 @@ const BootstrapColumLayout = Object.freeze({
  */
 const IssueArticles = ({
   data,
+  // null or array of data indices
+  selected,
   // function (e, datum, idx) { ... }
   onArticleMouseMove,
   // function (e, datum, idx) { ... }
@@ -53,31 +55,44 @@ const IssueArticles = ({
   }
   return (
     <Row ref={ref}>
-      {editorials.map((article, i) => (
-        <Col key={i} {...BootstrapColumLayout} >
-          {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
-          <IssueArticleGridItem
-            onMouseMove={(e, datum, idx) => onMouseMoveHandler(e, datum, idx, article)}
-            onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
-            onMouseOut={onMouseOutHandler}
-            article={article}
-            isEditorial
-          />
-        </Col>
-      ))}
-      {articles.map((article, i) => (
-        <Col key={i + editorials.length} {...BootstrapColumLayout}>
-          {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
-          <IssueArticleGridItem
-            onMouseMove={(e, datum, idx) => onMouseMoveHandler(e, datum, idx, article)}
-            onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
-            onMouseOut={onMouseOutHandler}
-            article={article}
-            num={i+1}
-            total={articles.length}
-          />
-        </Col>
-      ))}
+      {editorials.map((article, i) => {
+        if (Array.isArray(selected) && selected.indexOf(article.idx) === -1 ) {
+          return null
+        }
+        return (
+          <Col key={i} {...BootstrapColumLayout} >
+            {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
+            <IssueArticleGridItem
+              onMouseMove={(e, datum, idx) => onMouseMoveHandler(e, datum, idx, article)}
+              onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
+              onMouseOut={onMouseOutHandler}
+              article={article}
+              isEditorial
+            />
+          </Col>
+        )
+      })}
+      {articles.map((article, i) => {
+        let display = 'block'
+        if (Array.isArray(selected) && selected.indexOf(article.idx) === -1 ) {
+          display = 'none'
+        }
+        return (
+          <Col key={i + editorials.length} {...BootstrapColumLayout} style={{
+            display
+          }}>
+            {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
+            <IssueArticleGridItem
+              onMouseMove={(e, datum, idx) => onMouseMoveHandler(e, datum, idx, article)}
+              onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
+              onMouseOut={onMouseOutHandler}
+              article={article}
+              num={i+1}
+              total={articles.length}
+            />
+          </Col>
+        )
+      })}
     </Row>
   )
 }

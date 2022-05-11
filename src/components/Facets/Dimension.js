@@ -65,7 +65,7 @@ const Dimension = ({
   name = '',
   fn,
   // function shoud return the nuber of elements to put in advance
-  thresholdFn = (groups, isActive) => {
+  thresholdFn = (groups, activeGroups, isActive) => {
     if (isActive) {
       return 10
     }
@@ -81,9 +81,12 @@ const Dimension = ({
         ? 1 : -1
       : a.count > b.count ? -1 : 1
   },
+  fixed=false,
   onInit,
   onSelect,
-  children
+  onMouseEnter,
+  children,
+  ListItem=DimensionGroupListItem
 }) => {
   const { t } = useTranslation()
   const [showMore, setShowMore] = useState(false)
@@ -91,13 +94,15 @@ const Dimension = ({
   const groups = Object.values(groupsIndex).sort(sortFn)
   let activeGroups = []
   // remove active elments from the list:
-  activeKeys.forEach((activeKey) => {
-    const idx = groups.findIndex((d) => d.key === activeKey)
-    if (idx !== -1) {
-      activeGroups = activeGroups.concat(groups.splice(idx, 1))
-    }
-  })
-  const threshold = thresholdFn(groups, activeGroups)
+  if(!fixed) {
+    activeKeys.forEach((activeKey) => {
+      const idx = groups.findIndex((d) => d.key === activeKey)
+      if (idx !== -1) {
+        activeGroups = activeGroups.concat(groups.splice(idx, 1))
+      }
+    })
+  }
+  const threshold = thresholdFn(groups, activeGroups, isActive)
   const topGroups = groups.slice(0, threshold)
   const restGroups = groups.slice(threshold)
 
@@ -110,6 +115,12 @@ const Dimension = ({
         indices,
         count === 0 ? MethodReplace : MethodFilter
       )
+    }
+  }
+
+  const onMouseEnterHandler = (e, { key, indices }) => {
+    if (typeof onMouseEnter === 'function') {
+      onMouseEnter(e, name, key, indices)
     }
   }
 
@@ -138,31 +149,40 @@ const Dimension = ({
   return (
     <div className="Dimension">
       {children}
-      <ul>
+      <ul className={[
+        isActive ? 'active': '',
+        showMore ? 'expanded': ''
+      ].join(' ')}>
         {activeGroups.map((group) => (
-          <DimensionGroupListItem
+          <ListItem
             key={group.key}
+            name={name}
             isActive
             onRemove={(e) => onRemoveHandler(e, group)}
             onClick={(e) => onClickHandler(e, group)}
+            onMouseEnter={(e) => onMouseEnterHandler(e, group)}
             group={group}
           />
         ))}
         {topGroups.map((group) => (
-          <DimensionGroupListItem
+          <ListItem
             key={group.key}
+            name={name}
             isActive={activeKeys.includes(group.key)}
             onRemove={(e) => onRemoveHandler(e, group)}
             onClick={(e) => onClickHandler(e, group)}
+            onMouseEnter={(e) => onMouseEnterHandler(e, group)}
             group={group}
           />
         ))}
         {showMore && restGroups.map((group) => (
-          <DimensionGroupListItem
+          <ListItem
             key={group.key}
+            name={name}
             isActive={activeKeys.includes(group.key)}
             onRemove={(e) => onRemoveHandler(e, group)}
             onClick={(e) => onClickHandler(e, group)}
+            onMouseEnter={(e) => onMouseEnterHandler(e, group)}
             group={group}
           />
         ))}

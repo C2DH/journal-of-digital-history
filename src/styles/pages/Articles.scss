@@ -1,0 +1,162 @@
+
+
+@media (min-width: 768px) {
+  .Articles{
+    padding-top: 100px;
+  }
+}
+
+.Articles_facets{
+  font-size: 0.8em;
+
+  .Facets_dimension{
+    position: relative;
+    &.narrative ul {
+      .DimensionGroupListItem.active{
+        box-shadow: 0 0 0px 3px var(--gray-200);
+      }
+    }
+    &.hermeneutic ul {
+      border-left-color: var(--primary);
+
+      .DimensionGroupListItem.active{
+        color: var(--primary-dark);
+
+        box-shadow: 0 0 0px 3px var(--primary);
+      }
+    }
+    &.tool ul {
+      border-left-color: var(--accent);
+      .DimensionGroupListItem.active{
+        border: 1px solid var(--accent);
+        color: var(--accent);
+        box-shadow: 0 0 0px 3px var(--accent-light);
+      }
+    }
+  }
+  .Facets_dimensionHeading{
+    position: absolute;
+    left: -100px;
+    width: 100px;
+    margin-left: -15px;
+    text-align: right;
+    top: 50%;
+    line-height: 20px;
+    margin-top: -10px;
+    height: 20px;
+  }
+
+  // .Dimension{
+  //   max-width: 100%;
+  //   overflow: hidden;
+  // }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 10px;
+    border-left: 2px solid var(--dark);
+    list-style: none;
+  }
+
+
+  li{
+    height: 25px;
+    white-space: nowrap;
+  }
+
+  .DimensionGroupListItem {
+    color: var(--gray-500);
+    border: 1px solid var(--gray-500);
+    margin: var(--spacer-1);
+    padding: 1px 8px;
+    border-radius: 4px;
+    display: flex;
+
+
+    &:hover{
+      background-color: var(--gray-200);
+    }
+    &.with-count, &.active{
+      border: 1px solid var(--dark);
+      color: var(--dark);
+
+      .badge{
+        border-color: var(--gray-400);
+        color: var(--gray-600);
+      }
+    }
+    &.active{
+      font-weight: bold;
+      box-shadow: 0 0 0px 3px var(--primary);
+    }
+  }
+
+  .DimensionGroupListItem_label{
+    cursor: pointer;
+    .badge{
+      display: inline-block;
+      border: 1px solid var(--gray-200);
+      line-height: 14px;
+      color: var(--gray-300);
+      padding: 0 4px;
+      border-radius: 3px;
+    }
+  }
+  .DimensionGroupListItem_actions{
+    padding-top: 0px;
+    margin-left: var(--spacer-2);
+    width: 18px;
+    height: 18px;
+    position: relative;
+  }
+  .DimensionGroupListItem_actions_removeBtn{
+    border-radius: 10px;
+    position: absolute;
+    top: 2px;
+    flex-shrink: 1;
+    width: 18px;
+    height: 18px;
+    border: 0;
+    background: transparent;
+    border: 1px solid var(--dark) !important;
+    svg {
+      position: absolute;
+      // optical alignement to the center of the button
+      top: 1px;
+      left: 1px;
+      padding: 0;
+    }
+  }
+
+  .Dimension_toggleShowMoreBtn{
+    background: transparent;
+    border: 1px solid transparent;
+    font-size: inherit;
+    height: 100%;
+
+    &:hover span{
+      box-shadow: 0px 1px 0 var(--dark);
+    }
+  }
+}
+
+.ArticleBilbiography_Sorting{
+  font-size: 0.8em;
+  display: flex;
+  ul{
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin-right: var(--spacer-2);
+  }
+  li{
+    margin-right: var(--spacer-2);
+    cursor: pointer;
+    &.active{
+      box-shadow: 0px 1px 0 var(--dark);
+    }
+  }
+  label{
+    font-weight: bold;
+  }
+}

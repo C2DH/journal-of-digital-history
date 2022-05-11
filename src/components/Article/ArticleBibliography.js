@@ -15,27 +15,39 @@ import '../../styles/components/Article/ArticleBibliography.scss'
 const Dimensions = [
   {
     name: 'authors',
+    fixed: true,
     fn: (d) => {
       if (Array.isArray(d.author)) {
         return d.author.map(a => [a.family, a.given].join(', '))
       }
+      if (Array.isArray(d.editor)){
+        return d.editor.map(a => [a.family, a.given].join(', '))
+      }
+      
       return []
+    },
+    sortFn: (a,b) => {
+      return a.indices.length === b.indices.length
+        ? a.key > b.key
+          ? 1 : -1
+        : a.indices.length > b.indices.length ? -1 : 1
     },
     // each group has these props:
     // key: k, count: 0, indices: [], selected: []
-    sortFn: (a,b) => {
-      return a.count === b.count
-        ? a.key > b.key
-          ? 1 : -1
-        : a.count > b.count ? -1 : 1
-    },
+    // sortFn: (a,b) => {
+    //   return a.count === b.count
+    //     ? a.key > b.key
+    //       ? 1 : -1
+    //     : a.count > b.count ? -1 : 1
+    // },
     isArray: true
   },
   {
     name: 'issued.year',
+    fixed: true,
     fn: (d) => d.issued?.year || 0,
     sortFn: (a,b) => {
-      return a.count > b.count ? -1 : 1
+      return a > b ? -1 : 1
     }
   }
 ]

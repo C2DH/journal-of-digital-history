@@ -23,10 +23,18 @@ export function sortFn({
   if (!dimension) {
     return
   }
+
   return (a, b) => {
-    const aValue = dimension.fn(a)
-    const bValue = dimension.fn(b)
+    let aValue = dimension.fn(a)
+    let bValue = dimension.fn(b)
+    if (dimension.isArray) {
+      aValue = aValue.join('')
+      bValue = bValue.join('')
+    }
     if (aValue && bValue) {
+      if (typeof aValue === 'string') {
+        return aValue.localeCompare(String(bValue)) * direction
+      }
       return aValue > bValue ? -direction : direction
     } else if (aValue) {
       return -direction
@@ -50,7 +58,8 @@ function useFacetsSelection(dimensions = []) {
     dims: dimensions.reduce((acc, d) => {
       acc[d.name] = {
         selected: [],
-        keys: []
+        keys: [],
+        values: {}
       }
       return acc
     }, {})
@@ -74,19 +83,36 @@ function useFacetsSelection(dimensions = []) {
     }
     console.debug('[useFacetsSelection]', {name, key, indices, method})
     if (method === MethodFilter) {
-      _dims[name].selected = _dims[name].selected
-        // add indices
-        .concat(indices)
-        // remove dupes
-        .filter((d, i, arr) => arr.indexOf(d) === i)
+      _dims[name].values[key] = indices
+      if (_dims[name].selected.length) {
+        _dims[name].selected = _dims[name].selected.filter(d => indices.includes(d))
+      } else {
+        _dims[name].selected = indices
+      }
+      // this would be for MethodAdd
+      // _dims[name].selected = _dims[name].selected
+      //   // add indices
+      //   .concat(indices)
+      //   // remove dupes
+      //   .filter((d, i, arr) => arr.indexOf(d) === i)
       if (!_dims[name].keys.includes(key)) {
         _dims[name].keys.push(key)
       }
     } else if (method === MethodRemove) {
-      _dims[name].selected = _dims[name].selected.filter(d => !indices.includes(d))
+      delete _dims[name].values[key]
       const keyToRemove = _dims[name].keys.indexOf(key)
       if(keyToRemove > -1) {
         _dims[name].keys.splice(keyToRemove, 1)
+      }
+      if (!_dims[name].keys.length) {
+        _dims[name].selected = []
+      } else {
+        _dims[name].selected = Object.values(_dims[name].values).reduce((acc, values) => {
+          if(!acc.length) {
+            return values
+          }
+          return acc.filter(d => !values.includes(d))
+        }, [])
       }
     } else if (method === MethodReset) {
       _dims[name].selected = []
@@ -132,7 +158,8 @@ const Facets = ({
   // memoid='',
   onSelect,
   onInit,
-  className
+  onMouseEnter,
+  className, style,
 }) => {
   const { t } = useTranslation()
   // Resulting state: { selected: [0, 14, 15 ...]}
@@ -155,6 +182,12 @@ const Facets = ({
         [dimension.name]: groups.length,
         completed: state.completed.concat([dimension.name])
     }))
+  }
+
+  const onMouseEnterHandler = (e, name, key, indices) => {
+    if (typeof onMouseEnter === 'function') {
+      onMouseEnter(e, name, key, indices)
+    }
   }
 
   const onResetHandler = (e, name) => {
@@ -191,9 +224,9 @@ const Facets = ({
   )
 
   return (
-    <div className={`${className}`}>
+    <div className={`${className}`} style={style}>
       {dimensions.map((dimension) => (
-        <React.Fragment key={dimension.name}>
+        <div className={`Facets_dimension ${dimension.name}`} key={dimension.name}>
           <h3 className="Facets_dimensionHeading">{t(`dimensions.${dimension.name}`)}</h3>
           <Dimension
             items={items}
@@ -203,8 +236,12 @@ const Facets = ({
             name={dimension.name}
             fn={dimension.fn}
             sortFn={dimension.sortFn}
+            thresholdFn={dimension.thresholdFn}
+            fixed={dimension.fixed}
             onSelect={onSelectHandler}
             onInit={onInitHandler}
+            onMouseEnter={onMouseEnterHandler}
+            ListItem={dimension.ListItem}
           >
             {reset === true && dims[dimension.name].selected.length > 0 && (
               <Button
@@ -214,7 +251,7 @@ const Facets = ({
                 onClick={(e) => onResetHandler(e, dimension.name)}>reset</Button>
             )}
           </Dimension>
-        </React.Fragment>
+        </div>
       ))}
     </div>
   )

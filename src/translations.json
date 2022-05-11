@@ -13,7 +13,9 @@
         "articleHermeneutics": "hermeneutic layer",
         "articleHermeneuticsData": "hermeneutic layer",
         "articleData": "data",
-        "issue":"Issues"
+        "issue":"Articles & Issues",
+        "releaseNotes": "Release notes",
+        "faq": "Frequently asked questions"
       },
       "title": "Journal of <br/>Digital History",
       "titleInline": "Journal of Digital History",
@@ -23,6 +25,14 @@
       "Navigation_NotebookViewer": "Preview Notebook",
       "Pages_NotebookViewer_Title": "Jupyter notebook viewer",
       "pages": {
+        "about": {
+          "title": "About the <em>Journal of Digital History</em>",
+          "subheading": "The Journal of Digital History (JDH) is a joint initiative of the Luxembourg Centre for Contemporary and Digital History (C²DH) at the University of Luxembourg and the De Gruyter publishing group."
+        },
+        "articles": {
+          "title": "Articles & Issues",
+          "subheading": "Filter by keywords, libraries or browse the articles."
+        },
         "loading": {
           "title": "loading...",
           "subheading": "..."
@@ -42,6 +52,12 @@
         "releaseNotes": {
           "title": "Release notes",
           "subheading": "{{n}} releases so far."
+        },
+        "termsOfUse": {
+          "title": "Terms Of Use"
+        },
+        "faq": {
+          "title": "Frequently asked questions"
         },
         "errorViewer": {
           "title": "Ouch! Something wrong happened...",
@@ -206,6 +222,7 @@
         "instance-githubId": "A valid <em>github user identifier</em> contains only numbers and letters"
       },
       "numbers": {
+        "issue": "Issue n.{{n}}",
         "figure": "figure {{ n }}",
         "table": "table {{ n }}",
         "yExponent": "Power scale exponent (y axis): <b>{{n}}</b>",
@@ -237,6 +254,9 @@
       "HelloWorldTitle": "The first issue of the Journal of Digital History has been released!",
       "HelloWorldAvailableHere": "Available here!",
       "dimensions": {
+        "tool": "libraries",
+        "hermeneutic": "hermeneutics",
+        "narrative": "keywords",
         "authors": "Authors cited",
         "issued": {
           "year": "Year of publication"

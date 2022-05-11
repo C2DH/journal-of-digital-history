@@ -13,6 +13,26 @@ const ArticleCellOutputs = ({
     if (typeof output.data === 'object') {
       if (Array.isArray(output.data['application/javascript'])) {
         return acc.concat(output.data['application/javascript'])
+      } else if (Array.isArray(output.data['text/html'])) {
+        // view if there are any candidate
+
+        if (output.data['text/html'].some(d => d.indexOf('/script>') !== -1)) {
+          // we should alert somehow.
+          // eslint-disable-next-line
+          const htmlScript = output.data['text/html'].join('')
+            .match(/\x3Cscript[^>]*>([\s\S]*?)\x3C\/script>/m)
+          if (htmlScript) {
+            if (htmlScript[1].indexOf('\x3Cscript') !== -1) {
+              console.warn('multiple scripts in text/html, skipping.')
+              return acc
+            }
+            console.debug('[ArticleCellOutputs] cellIdx:', cellIdx, 'contains:', htmlScript[2])
+            return acc.concat(htmlScript[1])
+          }
+        }
+        // // eslint-disable-next-line
+        // debugger
+        // output.data['text/html'].match('\x3Cscript')
       }
     }
     return acc

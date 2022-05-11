@@ -3,6 +3,7 @@ import { a, animated } from 'react-spring'
 
 
 const ArticleFingerprintTooltip = ({ animatedProps, forwardedRef }) => {
+  try{
   return (
     <a.div className="ArticleFingerprintTooltip shadow pointer-events-none position-fixed top-0" style={{
       ...animatedProps,
@@ -40,7 +41,7 @@ const ArticleFingerprintTooltip = ({ animatedProps, forwardedRef }) => {
           {animatedProps.id.to(() => {
             return (
               forwardedRef.current.datum.isMetadata
-                ? '(metadata)'
+                ? forwardedRef.current.datum.tags?.join(', ')
                 : forwardedRef.current.datum.isHermeneutic
                   ? 'Hermeneutics'
                   : 'Narrative'
@@ -49,7 +50,7 @@ const ArticleFingerprintTooltip = ({ animatedProps, forwardedRef }) => {
         </a.span>
       </div>
       <a.div
-        classname="ArticleFingerprintTooltip_content"
+        className="ArticleFingerprintTooltip_content"
         style={{
           fontFamily: animatedProps.id.to(() => {
             return String(forwardedRef.current.datum.type) === 'code'
@@ -72,6 +73,11 @@ const ArticleFingerprintTooltip = ({ animatedProps, forwardedRef }) => {
       </a.div>
     </a.div>
   )
+  } catch(e) {
+    console.debug('[ArticleFingerprintTooltip] current', forwardedRef.current, animatedProps )
+    console.warn('[ArticleFingerprintTooltip] threw an error, skip', e);
+    return null
+  }
 }
 
 export default animated(ArticleFingerprintTooltip)

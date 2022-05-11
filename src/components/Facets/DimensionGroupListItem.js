@@ -2,18 +2,22 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import { X } from 'react-feather'
 
-const DimensionGroupListItem = ({ group, isActive, onClick, onRemove }) => (
+const DimensionGroupListItem = ({ name, group, isActive, onClick, onMouseEnter, onRemove, children }) => (
   <li
-    className={`DimensionGroupListItem ${group.count > 0 && 'with-count'} ${isActive && 'active'}`}
+    className={`DimensionGroupListItem${group.count > 0 ? ' with-count' : ''}${isActive ? ' active' : ''}`}
   >
     <div
       className="DimensionGroupListItem_label"
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
     >
-    {group.count > 0
+    {typeof children === 'function'
+    ? children({ group, name })
+    : group.count > 0
       ? <span>{group.key}&nbsp;({group.count})</span>
       : <span>{group.key}&nbsp;({group.count})</span>
     }
+
     </div>
     {isActive && (
       <div className="DimensionGroupListItem_actions">

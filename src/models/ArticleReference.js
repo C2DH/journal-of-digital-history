@@ -42,6 +42,10 @@ export default class ArticleReference {
   }
 
   getAuthorNames(ref) {
+    if (!ref) {
+      console.warn(`[ArticleReference] Ref not found for id: ${this.id}, num: ${this.num}`)
+      return ''
+    }
     // add editors as authors when there are no authors
     let authorNames = !ref.author && Array.isArray(ref.editor)
       ? ref.editor

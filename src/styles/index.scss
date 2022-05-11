@@ -11,6 +11,8 @@
   --white: white;
   --dark: #{map-get($theme-colors, 'dark')};
   --accent: #{map-get($theme-colors, 'accent')};
+  --accent-light: #{map-get($theme-colors, 'accent-light')};
+  --accent-dark: #{map-get($theme-colors, 'accent-dark')};
   --primary:  #{map-get($theme-colors, 'primary')};
   --secondary: #{map-get($theme-colors, 'secondary')};
   --hermeneutics: #8bffef;
@@ -488,4 +490,11 @@ blockquote.code{
 .transition-opacity{
   will-change: opacity;
   transition: opacity 0.5s cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+.plain-a{
+  box-shadow: none;
+  &:hover{
+    box-shadow:  0px 1px 0px var(--secondary);
+  }
 }

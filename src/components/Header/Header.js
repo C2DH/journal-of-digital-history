@@ -84,16 +84,27 @@ const MobileHeader = ({ langs, displayLangs }) => {
 
 
 const NavPrimaryRoutes = ({ routes, ...props}) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const { pathname } = useLocation()
+  const lang = i18n.language.split('-')[0]
+  const isActive = (to, alias) => {
+    if (!alias.length) {
+      return `/${lang}${to}` === pathname
+    }
+    return alias.some((d) => {
+      const re = new RegExp(d)
+      return re.test(pathname)
+    })
+  }
   return (
-    <Nav className="align-items-end" {...props}>
-      {routes.map(({to, label}) => {
+    <Nav className="NavPrimaryRoutes justify-content-between align-items-end" {...props}>
+      {routes.map(({to, label, alias=[] }) => {
         if (to === '/issues') {
           return <IssueBreadcrumb key={to} to={to} label={label}/>
         }
         return(
           <Nav.Item key={to} >
-            <LangNavLink to={to} className="px-0" exact>
+            <LangNavLink to={to} exact className="NavPrimaryRoutes_link px-0" active={isActive(to, alias)}>
               <span>{t(label)}</span>
             </LangNavLink>
           </Nav.Item>
@@ -122,9 +133,12 @@ const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs, displayLo
         __html: t('title')
       }}></span>
     </Navbar.Brand>
-    <Container className="d-block" style={{height:80}}>
+    <Container className="d-block w-100" style={{height:80}}>
       <Row className="d-md-flex d-none align-items-center h-100">
-        <Col md={{offset: 2, span: 8}}>
+        <Col md={{offset: 1, span: 11}} lg={{
+          offset: 2,
+          span: 8
+        }}>
           <NavPrimaryRoutes routes={PrimaryRoutes} />
         </Col>
         {displayLogin || displayLangs ?(
