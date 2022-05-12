@@ -53,7 +53,7 @@ const NotebookViewer = ({
     }
   }, [ encodedUrl ])
   const onDownloadProgress = (e) => {
-    console.debug('onDownloadProgress', e.total, e.loaded)
+    console.debug('[NotebookViewer] onDownloadProgress', e.total, e.loaded)
     if (e.total && e.loaded) {
       if (e.loaded < e.total) {
         api.start({ width: 100 * e.loaded / e.total })
@@ -97,6 +97,7 @@ const NotebookViewer = ({
           <ArticleComponent
             ipynb={data}
             memoid={encodedUrl}
+            isLocal={data.content !== 'undefined'}
             binderUrl={binderUrl}
             emailAddress={emailAddress}
             publicationDate={publicationDate}
