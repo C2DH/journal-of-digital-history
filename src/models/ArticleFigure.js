@@ -16,7 +16,7 @@ export default class ArticleFigure {
     this.isTable = isTable
     this.isCover = isCover
     this.label = this.ref.lastIndexOf('-*') === this.ref.length - 2
-      ? this.num // automatic numbering using num
+      ? 'Figure ' + this.num // automatic numbering using num
       : this.ref.split('-').pop()
   }
 }
