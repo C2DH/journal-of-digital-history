@@ -12,8 +12,11 @@ export default class ArticleFigure {
     this.module = module
     this.idx = idx
     this.num = num
-    this.ref = ref
+    this.ref = String(ref)
     this.isTable = isTable
     this.isCover = isCover
+    this.label = this.ref.lastIndexOf('-*') === this.ref.length - 2
+      ? this.num // automatic numbering using num
+      : this.ref.split('-').pop()
   }
 }
