@@ -1,6 +1,6 @@
 export default class ArticleFigure {
   constructor({
-    ref = 'figure-', // 'figure-12a' figure identifier. Must start with constants/FigureRefPrefix
+    ref = null, // 'figure-', // 'figure-12a' figure identifier. Must start with constants/FigureRefPrefix
     type = '', // constants FigureImage, FigureVideo or FigureDatavis,
     module = '', // ModuleTextObject, ModuleObject or ModuleText
     idx = -1,
@@ -12,11 +12,14 @@ export default class ArticleFigure {
     this.module = module
     this.idx = idx
     this.num = num
-    this.ref = String(ref)
+    this.ref = ref
     this.isTable = isTable
     this.isCover = isCover
-    this.label = this.ref.lastIndexOf('-*') === this.ref.length - 2
-      ? 'Figure ' + this.num // automatic numbering using num
-      : this.ref.split('-').pop()
+    this.tNLabel = this.isTable ? 'numbers.table': 'numbers.figure'
+    this.tNum = typeof this.ref === 'string'
+      ? this.ref.lastIndexOf('-*') !== -1
+        ? this.num
+        : this.ref.split('-').pop()
+      : this.num
   }
 }
