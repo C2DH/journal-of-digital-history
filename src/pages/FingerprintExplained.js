@@ -23,7 +23,7 @@ const FingerprintExplained = () => {
 
   const { data, status } = useGetJSON({
     url: submitedNotebookUrl,
-    delay: 0,
+    delay: 100,
   })
 
 
