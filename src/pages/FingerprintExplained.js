@@ -11,6 +11,7 @@ import { useGetJSON } from '../logic/api/fetchData'
 import { useBoundingClientRect } from '../hooks/graphics'
 import { useSpring, config } from 'react-spring'
 
+
 const FingerprintExplained = () => {
   const [{ width:size }, ref] = useBoundingClientRect()
   const { t } = useTranslation()
@@ -97,8 +98,8 @@ const FingerprintExplained = () => {
         <Col md={{span:7}}>
           <h2 className="my-5">The Cell</h2>
 
-          <Form className="boxed" onSubmit={onSubmitHandler}>
-            <Form.Group className="mt-3 mb-3" controlId="">
+          <Form className="shadow p-3" onSubmit={onSubmitHandler}>
+            <Form.Group  controlId="">
               <Form.Label>Go ahead! Test your notebook test, you can add the text of the new cell above, OR load your favorite:</Form.Label>
               <Form.Control
                 defaultValue={notebookUrl}
