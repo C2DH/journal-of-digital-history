@@ -124,7 +124,7 @@
       },
       "source": [
         "### Stefano Dall'Aglio \n",
-        "[Stefano Dall'Aglio](https://www.unive.it/data/people/20962884) is Assistant Professor of Early Modern History at the Venice Centre for Digital and Public Humanities at Ca' Foscari University of Venice."
+        "[Stefano Dall'Aglio](https://www.unive.it/data/people/20962884) is Associate Professor of Early Modern History at the Venice Centre for Digital and Public Humanities at Ca' Foscari University of Venice."
       ]
     },
     {
@@ -270,6 +270,18 @@
       "source": [
         "### Valérie Schafer\n",
         "[Valérie Schafer](https://www.c2dh.uni.lu/people/valerie-schafer) is Professor at the C²DH, University of Luxembourg."
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata" : {
+        "jdh": {
+          "section": "editorial-board"
+        }
+      },
+      "source": [
+        "### Silke Schwandt\n",
+        "[Silke Schwandt]( https://digital-history.uni-bielefeld.de/silke-schwandt) is Professor for Digital History in the Department for History, Philosophy and Theology at Bielefeld University."
       ]
     },
     {
