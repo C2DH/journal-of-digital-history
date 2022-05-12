@@ -38,7 +38,8 @@ export const NotebookPoweredPaths = [
   '/article/',
   '/notebook-viewer/',
   '/cfp/',
-  '/guidelines/'
+  '/guidelines/',
+  '/guidelines'
 ]
 export const ReCaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
 export const GaTrackingId = process.env.REACT_APP_GA_TRACKING_ID
