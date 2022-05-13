@@ -33,9 +33,12 @@ export function sortFn({
     }
     if (aValue && bValue) {
       if (typeof aValue === 'string') {
-        return aValue.localeCompare(String(bValue)) * direction
+        // get the first uppercase letter
+        const aValueStr = aValue.split(/([A-Z\u00C0-\u00DC].*)/, 2).pop()
+        const bValueStr = String(bValue).split(/([A-Z\u00C0-\u00DC].*)/, 2).pop()
+        return aValueStr.localeCompare(bValueStr) * direction
       }
-      return aValue > bValue ? -direction : direction
+      return aValue > bValue ? direction : -direction
     } else if (aValue) {
       return -direction
     } else if (bValue) {

@@ -7,7 +7,8 @@ import {
   StatusSuccess,
   StatusError,
   StatusFetching,
-  ArticleVersionQueryParam
+  ArticleVersionQueryParam,
+  URLPathsAlwaysTrustJS
 } from '../constants'
 import Article from '../components/Article'
 import ArticleV2 from '../components/ArticleV2'
@@ -52,6 +53,9 @@ const NotebookViewer = ({
       console.warn(e)
     }
   }, [ encodedUrl ])
+
+  const isJavascriptTrustedByOrigin = URLPathsAlwaysTrustJS.some(d => url.indexOf(d) === 0)
+
   const onDownloadProgress = (e) => {
     console.debug('onDownloadProgress', e.total, e.loaded)
     if (e.total && e.loaded) {
@@ -109,7 +113,7 @@ const NotebookViewer = ({
             excerpt={excerpt}
             plainKeywords={keywords}
             plainContributor={plainContributor}
-            isJavascriptTrusted={isJavascriptTrusted}
+            isJavascriptTrusted={isJavascriptTrustedByOrigin || isJavascriptTrusted}
           />
         )
         : (

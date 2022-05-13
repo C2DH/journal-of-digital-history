@@ -186,14 +186,16 @@ const Dimension = ({
             group={group}
           />
         ))}
-        <li>
-          <button className="Dimension_toggleShowMoreBtn" onClick={() => setShowMore(!showMore)}>
-            <span>{t(showMore ? 'dimensions.actions.showLess': 'dimensions.actions.showMore', {
-              n: restGroups.length
-            })}
-            </span>
-          </button>
-        </li>
+        {restGroups.length > 0 && (
+          <li>
+            <button className="Dimension_toggleShowMoreBtn" onClick={() => setShowMore(!showMore)}>
+              <span>{t(showMore ? 'dimensions.actions.showLess': 'dimensions.actions.showMore', {
+                n: restGroups.length
+              })}
+              </span>
+            </button>
+          </li>
+        )}
       </ul>
     </div>
   )
