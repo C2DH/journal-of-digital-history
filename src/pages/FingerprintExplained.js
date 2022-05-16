@@ -117,7 +117,7 @@ const FingerprintExplainedContents = ({ status:contentsStatus }) => {
 
   const onCellMouseEnterHandler = (e, idx) => {
     console.debug("[FingerprintExplained] @onCellMouseEnterHandler:", idx, )
-    if(!parsedCells[idx]) {
+    if(!ref.current || !parsedCells.length || !parsedCells[idx]) {
       return
     }
     animatedRef.current.idx = idx
@@ -129,12 +129,11 @@ const FingerprintExplainedContents = ({ status:contentsStatus }) => {
     setAnimatedProps.start({
       opacity: 1,
       id: [idx],
-      x: left + (Math.cos(theta) * (size/2)),
+      x: Math.min(left + size/4, left + (Math.cos(theta) * (size/2))),
       y: top + size/2 + (Math.sin(theta) * (size/2))
     })
   }
   const onChangeHandler=(idx, cell) => {
-    console.debug("[FingerprintExplained] @onChange:", idx, cell, cell.source)
     const updatedNotebookCells = notebookCells.map((d, i) => {
       if (i === idx) {
         return cell
@@ -146,13 +145,15 @@ const FingerprintExplainedContents = ({ status:contentsStatus }) => {
     setNotebookCells(updatedNotebookCells)
     setParsedCells(fingerprintData.cells)
     setParsedStats(fingerprintData.stats)
-    animatedRef.current.idx = idx
-    animatedRef.current.length = updatedNotebookCells.length
-    animatedRef.current.datum = fingerprintData.cells[idx]
-    setAnimatedProps.start({
-      opacity: 1,
-      id: [idx],
-    })
+    console.debug("[FingerprintExplained] @onChange:", idx, cell, fingerprintData.cells[idx])
+    // if()
+    // animatedRef.current.idx = idx
+    // animatedRef.current.length = updatedNotebookCells.length
+    // animatedRef.current.datum = fingerprintData.cells[idx]
+    // setAnimatedProps.start({
+    //   opacity: 1,
+    //   id: [idx],
+    // })
 
   }
 
