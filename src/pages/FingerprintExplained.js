@@ -115,6 +115,24 @@ const FingerprintExplainedContents = ({ status:contentsStatus }) => {
     })
   }
 
+  const onCellMouseEnterHandler = (e, idx) => {
+    console.debug("[FingerprintExplained] @onCellMouseEnterHandler:", idx, )
+    if(!parsedCells[idx]) {
+      return
+    }
+    animatedRef.current.idx = idx
+    animatedRef.current.length = notebookCells.length
+    animatedRef.current.datum = parsedCells[idx]
+    const { left, top } = ref.current.getBoundingClientRect()
+    const angleD = (Math.PI * 2) / (notebookCells.length + 1)
+    const theta = (idx) * angleD - Math.PI/2
+    setAnimatedProps.start({
+      opacity: 1,
+      id: [idx],
+      x: left + (Math.cos(theta) * (size/2)),
+      y: top + size/2 + (Math.sin(theta) * (size/2))
+    })
+  }
   const onChangeHandler=(idx, cell) => {
     console.debug("[FingerprintExplained] @onChange:", idx, cell, cell.source)
     const updatedNotebookCells = notebookCells.map((d, i) => {
@@ -123,10 +141,19 @@ const FingerprintExplainedContents = ({ status:contentsStatus }) => {
       }
       return d
     })
+
     const fingerprintData = parseNotebook({ cells: updatedNotebookCells })
     setNotebookCells(updatedNotebookCells)
     setParsedCells(fingerprintData.cells)
     setParsedStats(fingerprintData.stats)
+    animatedRef.current.idx = idx
+    animatedRef.current.length = updatedNotebookCells.length
+    animatedRef.current.datum = fingerprintData.cells[idx]
+    setAnimatedProps.start({
+      opacity: 1,
+      id: [idx],
+    })
+
   }
 
   const onNewCellClickHandler = () => {
@@ -170,6 +197,7 @@ const FingerprintExplainedContents = ({ status:contentsStatus }) => {
     <ArticleFingerprintTooltip
       forwardedRef={animatedRef}
       animatedProps={animatedProps} />
+
     <Container>
       <Row style={{
         minHeight: size*2.5
@@ -212,7 +240,10 @@ const FingerprintExplainedContents = ({ status:contentsStatus }) => {
                 key={i}
                 className="my-3"
                 cell={cell}
+                idx={i}
                 parsedCell={parsedCells[i]}
+                onMouseEnter={onCellMouseEnterHandler}
+                onMouseLeave={() => setAnimatedProps.start({ opacity: 0 })}
                 onChange={(changedCell) => onChangeHandler(i, changedCell)}
                 num={`${i+1} / ${notebookCells.length}`}
               />

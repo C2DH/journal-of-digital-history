@@ -5,8 +5,11 @@ const JupyterCell = ({
   cell = {},
   parsedCell = {},
   className='',
+  idx,
   num,
   onChange,
+  onMouseLeave,
+  onMouseEnter,
 }) => {
   const tags = Array.isArray(cell.metadata?.tags)
     ? cell.metadata?.tags
@@ -34,7 +37,11 @@ const JupyterCell = ({
     <label className="fw-bold small">
       {num}
     </label>
-    <div className={`JupyterCell shadow-sm ${className} `}>
+    <div
+      className={`JupyterCell shadow-sm ${className} `}
+      onMouseEnter={(e) => onMouseEnter(e, idx)}
+      onMouseLeave={onMouseLeave}
+    >
       <div className="JupyterCell__header">
 
       </div>
