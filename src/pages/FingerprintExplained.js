@@ -8,7 +8,8 @@ import {
   StatusSuccess,
   StatusError
 } from '../constants'
-import JupiterCellListItem from '../components/FingerprintComposer/JupiterCellListItem'
+import { useQueryParam, StringParam, withDefault, } from 'use-query-params'
+import JupyterCell from '../components/FingerprintExplained/JupyterCell'
 import '../styles/components/FingerprintComposer/FingerprintComposer.scss'
 import ArticleFingerprint from '../components/Article/ArticleFingerprint'
 import ArticleFingerprintTooltip from '../components/ArticleV2/ArticleFingerprintTooltip'
@@ -30,7 +31,7 @@ const FingerprintExplained = () => {
   const { t } = useTranslation()
   return (
     <>
-    <Container className="FingerprintExplained page">
+    <Container className="FingerprintExplained page" >
       <Row>
         <Col {...BootstrapFullColumLayout}>
           <h1 className="mt-5 mb-0" dangerouslySetInnerHTML={{
@@ -45,7 +46,7 @@ const FingerprintExplained = () => {
       fakeData=''
       delay={0}
       Component={({ data='', status }) => (
-        <>
+        <div style={{minHeight: '100vh'}}>
         <Container>
           <Row>
             <Col {...BootstrapFullColumLayout} dangerouslySetInnerHTML={{
@@ -54,7 +55,7 @@ const FingerprintExplained = () => {
           </Row>
         </Container>
         <FingerprintExplainedContents status={status}/>
-        </>
+        </div>
       )}
     />
     </>
@@ -64,12 +65,18 @@ const FingerprintExplained = () => {
 const FingerprintExplainedContents = ({ status:contentsStatus }) => {
   const [{ width:size }, ref] = useBoundingClientRect()
   const { t } = useTranslation()
-  const [cells, setCells] = useState([]);
-  const [stats, setStats] = useState({});
-  const [value, setValue] = useState("");
+  // original notebook cells
+  const [notebookCells, setNotebookCells] = useState([]);
+  const [parsedCells, setParsedCells] = useState([]);
+  const [parsedStats, setParsedStats] = useState({});
   const [notebookUrl, setNotebookUrl] = useState(null);
-  const [submitedNotebookUrl, setSubmitedNotebookUrl] = useState(
-    process.env.REACT_APP_NOTEBOOK_FINGERPRINT_EXPLAINED_URL
+
+  const [submitedNotebookUrl, setSubmitedNotebookUrl] = useQueryParam(
+    'ipynb',
+    withDefault(
+      StringParam,
+      process.env.REACT_APP_NOTEBOOK_FINGERPRINT_EXPLAINED_URL
+    ),
   );
 
   const { data, status } = useGetJSON({
@@ -97,7 +104,7 @@ const FingerprintExplainedContents = ({ status:contentsStatus }) => {
   const onMouseMoveHandler = (e, datum, idx) => {
     // console.debug('@onMouseMoveHandler', datum, idx)
     animatedRef.current.idx = idx
-    animatedRef.current.length = cells.length
+    animatedRef.current.length = notebookCells.length
     animatedRef.current.datum = datum
     // this will change only animated toltip stuff
     setAnimatedProps.start({
@@ -109,26 +116,54 @@ const FingerprintExplainedContents = ({ status:contentsStatus }) => {
   }
 
   const onChangeHandler=(idx, cell) => {
-    console.debug("[FingerprintExplained] @onChange:", idx, cell)
-    setCells((state) => state.map((d, i) => {
+    console.debug("[FingerprintExplained] @onChange:", idx, cell, cell.source)
+    const updatedNotebookCells = notebookCells.map((d, i) => {
       if (i === idx) {
-        return {
-          ...d,
-          ...cell
-        }
+        return cell
       }
       return d
-    }))
+    })
+    const fingerprintData = parseNotebook({ cells: updatedNotebookCells })
+    setNotebookCells(updatedNotebookCells)
+    setParsedCells(fingerprintData.cells)
+    setParsedStats(fingerprintData.stats)
+  }
+
+  const onNewCellClickHandler = () => {
+    const updatedNotebookCells = notebookCells.concat([
+      {
+        cell_type: 'code',
+        source: [],
+        metadata: {
+          tags: []
+        }
+      },
+    ])
+    const fingerprintData = parseNotebook({ cells: updatedNotebookCells })
+    setNotebookCells(updatedNotebookCells)
+    setParsedCells(fingerprintData.cells)
+    setParsedStats(fingerprintData.stats)
   }
 
   useEffect(() => {
     if (status === StatusSuccess) {
-      const fingerprintData = parseNotebook(data)
+      const cells = data.cells.map((c) => {
+        // lighter version of cell, remove OUTPUTS!
+        return {
+          cell_type: c.cell_type,
+          source: c.source,
+          metadata: c.metadata
+        }
+      })
+      const fingerprintData = parseNotebook({ cells })
       console.info('[FingerprintExplained] @useEffect StatusSuccess, notebook loaded.')
-      setCells(fingerprintData.cells)
-      setStats(fingerprintData.stats)
+      setNotebookCells(cells)
+      setParsedCells(fingerprintData.cells)
+      setParsedStats(fingerprintData.stats)
     }
-  }, [status])
+  }, [submitedNotebookUrl, status])
+
+  console.info('[FingerprintExplained] RENDERED')
 
   return (
     <>
@@ -170,51 +205,39 @@ const FingerprintExplainedContents = ({ status:contentsStatus }) => {
               <Cpu size="16"/>
             </Button>
           </Form>
-          <h2 className="my-5">The Cell</h2>
 
-
-
-          {cells.map((d,i) => {
+          {notebookCells.map((cell,i) => {
             return (
-              <JupiterCellListItem
+              <JupyterCell
                 key={i}
-                num={`${i+1} / ${cells.length}`}
-                initial={d}
-                type={d.code}
-                isHermeneutic={d.isHermeneutic}
-                isHeading={d.isHeading}
-                data={d.data}
-                onChange={(cell) => onChangeHandler(i, cell)}
-              >
-                {d.firstWords}
-              </JupiterCellListItem>
+                className="my-3"
+                cell={cell}
+                parsedCell={parsedCells[i]}
+                onChange={(changedCell) => onChangeHandler(i, changedCell)}
+                num={`${i+1} / ${notebookCells.length}`}
+              />
+              // <JupiterCellListItem
+              //   key={i}
+              //   num={`${i+1} / ${cells.length}`}
+              //   initial={d}
+              //   type={d.code}
+              //   isHermeneutic={d.isHermeneutic}
+              //   isHeading={d.isHeading}
+              //   data={d.data}
+              //   onChange={(cell) => onChangeHandler(i, cell)}
+              // >
+              //   {d.firstWords}
+              // </JupiterCellListItem>
             )
           })}
 
-          <Container className="AddNewCell">
-          <Row>
-
-              <label className="form-label"> Experiment with the fingerprint visualization by adding more cells </label>
-              <textarea className="form-control-fp"
-                onChange={(e) => setValue(e.target.value)}
-                type="textarea"
-                id="name"
-                name="name"
-                rows={3}
-                placeholder="In commodo ipsum pulvinar quam faucibus, sed rhoncus ligula faucibus. Proin bibendum non ipsum in bibendum. Nam sit amet lacus lectus. "
-                required
-              />
-              <Button className="JupitercellAddButton" variant="outline-dark" size="sm" onClick={() => setCells(cells.concat([
-                {
-                  hermeneutics: false,
-                  firstWords: value
-                },
-              ]))}>
-                add new cell
-              </Button>
-              </Row>
-
-          </Container>
+          <Button
+            className="JupitercellAddButton"
+            variant="outline-dark"
+            size="sm"
+            onClick={onNewCellClickHandler}>
+          add new cell
+          </Button>
         </Col>
         <Col>
           <div ref={ref}
@@ -228,8 +251,8 @@ const FingerprintExplainedContents = ({ status:contentsStatus }) => {
           <ArticleFingerprint
             onMouseMove={onMouseMoveHandler}
             debug={true}
-            stats={stats}
-            cells={cells}
+            stats={parsedStats}
+            cells={parsedCells}
             size={size}
             margin={20}
           />
@@ -239,9 +262,9 @@ const FingerprintExplainedContents = ({ status:contentsStatus }) => {
               }}
               dangerouslySetInnerHTML={{
                 __html: t('pages.fingerprintExplained.legend', {
-                  count: cells.length,
-                  countHermeneutics: cells.filter(d=>d.isHermeneutic).length,
-                  countData: cells.filter(d=>d.type==='code').length
+                  count: parsedCells.length,
+                  countHermeneutics: parsedCells.filter(d=>d.isHermeneutic).length,
+                  countData: parsedCells.filter(d=>d.type==='code').length
                 })
               }}
             />
