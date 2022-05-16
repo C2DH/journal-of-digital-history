@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Cpu } from 'react-feather'
+import MarkdownIt from 'markdown-it'
 import { Container, Row, Col, Button, Form } from 'react-bootstrap'
-import { BootstrapColumLayout,StatusSuccess,StatusError } from '../constants'
+import {
+  BootstrapFullColumLayout,
+  StatusSuccess,
+  StatusError
+} from '../constants'
 import JupiterCellListItem from '../components/FingerprintComposer/JupiterCellListItem'
 import '../styles/components/FingerprintComposer/FingerprintComposer.scss'
 import ArticleFingerprint from '../components/Article/ArticleFingerprint'
@@ -10,19 +16,64 @@ import { parseNotebook } from '../logic/fingerprint'
 import { useGetJSON } from '../logic/api/fetchData'
 import { useBoundingClientRect } from '../hooks/graphics'
 import { useSpring, config } from 'react-spring'
+import StaticPageLoader from './StaticPageLoader'
+
+
+const markdownParser = MarkdownIt({
+  html: false,
+  linkify: true,
+  typographer: true
+})
 
 
 const FingerprintExplained = () => {
+  const { t } = useTranslation()
+  return (
+    <>
+    <Container className="FingerprintExplained page">
+      <Row>
+        <Col {...BootstrapFullColumLayout}>
+          <h1 className="mt-5 mb-0" dangerouslySetInnerHTML={{
+            __html: t('pages.fingerprintExplained.title')
+          }} />
+        </Col>
+      </Row>
+    </Container>
+    <StaticPageLoader
+      url={process.env.REACT_APP_WIKI_FINGERPRINT_EXPLAINED}
+      raw
+      fakeData=''
+      delay={0}
+      Component={({ data='', status }) => (
+        <>
+        <Container>
+          <Row>
+            <Col {...BootstrapFullColumLayout} dangerouslySetInnerHTML={{
+              __html: status === StatusSuccess ? markdownParser.render(data) : ''
+            }} />
+          </Row>
+        </Container>
+        <FingerprintExplainedContents status={status}/>
+        </>
+      )}
+    />
+    </>
+  )
+}
+
+const FingerprintExplainedContents = ({ status:contentsStatus }) => {
   const [{ width:size }, ref] = useBoundingClientRect()
   const { t } = useTranslation()
   const [cells, setCells] = useState([]);
   const [stats, setStats] = useState({});
   const [value, setValue] = useState("");
   const [notebookUrl, setNotebookUrl] = useState(null);
-  const [submitedNotebookUrl, setSubmitedNotebookUrl] = useState('https://raw.githubusercontent.com/C2DH/jdh-notebook/master/examples/hermeneutic-layer.ipynb');
+  const [submitedNotebookUrl, setSubmitedNotebookUrl] = useState(
+    process.env.REACT_APP_NOTEBOOK_FINGERPRINT_EXPLAINED_URL
+  );
 
   const { data, status } = useGetJSON({
-    url: submitedNotebookUrl,
+    url: contentsStatus === StatusSuccess ? submitedNotebookUrl : null,
     delay: 100,
   })
 
@@ -84,23 +135,14 @@ const FingerprintExplained = () => {
     <ArticleFingerprintTooltip
       forwardedRef={animatedRef}
       animatedProps={animatedProps} />
-    <Container className="FingerprintExplained page">
-      <Row>
-        <Col {...BootstrapColumLayout}>
-          <h1 className="my-5">Fingerprint, explained</h1>
-          <p> This would be a paragraph explaining the concept behind the Markdown cell language Fusce turpis tortor, efficitur et turpis a, congue sagittis elit. Nullam quis metus tortor. Vivamus ut porta dolor. Vestibulum malesuada neque at turpis tincidunt, in sagittis neque semper. Suspendisse posuere ornare lacus vel placerat. Cras lobortis luctus feugiat. Donec interdum est non lectus vehicula pharetra. Sed convallis dui quam, a elementum tortor pharetra id. Vivamus vel fermentum odio. In commodo ipsum pulvinar quam faucibus, sed rhoncus ligula faucibus. Proin bibendum non ipsum in bibendum. Nam sit amet lacus lectus. Integer vitae tellus sit amet felis efficitur maximus. Etiam iaculis ultricies leo, sit amet varius neque euismod in. </p>
-
-        </Col>
-      </Row>
+    <Container>
       <Row style={{
         minHeight: size*2.5
       }}>
         <Col md={{span:7}}>
-          <h2 className="my-5">The Cell</h2>
-
           <Form className="shadow p-3" onSubmit={onSubmitHandler}>
-            <Form.Group  controlId="">
-              <Form.Label>Go ahead! Test your notebook test, you can add the text of the new cell above, OR load your favorite:</Form.Label>
+            <Form.Group className="mb-3" controlId="">
+              <Form.Label>{t('pages.fingerprintExplained.formLabel')}</Form.Label>
               <Form.Control
                 defaultValue={notebookUrl}
                 onChange={(e) => setNotebookUrl(e.target.value)}
@@ -114,7 +156,19 @@ const FingerprintExplained = () => {
                 __html: ("Use a well formed URL pointing to the <code>.ipynb</code> notebook file. For instance use to the <b>raw</b> url of the ipynb file for notebook hosted on Github.")
               }}/>
             </Form.Group>
-            <Button type="submit" variant="outline-secondary" size="sm">Preview Fingerprint</Button>
+            <Button
+              type="submit"
+              variant="secondary"
+
+              style={{
+                borderRadius: '5px',
+                paddingLeft: '1rem',
+                paddingRight: '1rem'
+              }}
+            >
+              <span className="me-2">{t('FormNotebookUrl_GenerateLink')}</span>
+              <Cpu size="16"/>
+            </Button>
           </Form>
           <h2 className="my-5">The Cell</h2>
 
