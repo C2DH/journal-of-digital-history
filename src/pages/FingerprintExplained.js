@@ -246,7 +246,7 @@ const FingerprintExplainedContents = ({ status:contentsStatus }) => {
                 onMouseEnter={onCellMouseEnterHandler}
                 onMouseLeave={() => setAnimatedProps.start({ opacity: 0 })}
                 onChange={(changedCell) => onChangeHandler(i, changedCell)}
-                num={`${i+1} / ${notebookCells.length}`}
+                num={`${i+1}/${notebookCells.length}`}
               />
               // <JupiterCellListItem
               //   key={i}

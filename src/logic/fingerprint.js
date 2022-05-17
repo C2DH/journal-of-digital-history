@@ -13,6 +13,7 @@ export function parseNotebook({ cells=[] }={}) {
     const tags = cell.metadata.tags ?? []
     const sources = cell.source.join('')
     c.type = cell.cell_type
+    c.tags = tags
     c.idx = i
     c.countChars = sources.length
     // does it contains a cite2c marker?
