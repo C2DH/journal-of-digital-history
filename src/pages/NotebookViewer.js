@@ -83,7 +83,7 @@ const NotebookViewer = ({
     }
   }, [status])
 
-  // console.info('Notebook render:', url ,'from', encodedUrl, status)
+  console.debug('[NotebookViewer] javascript support by origin:', isJavascriptTrustedByOrigin,  'by db:', isJavascriptTrusted)
   return (
     <>
       <div className="NotebookViewer_loadingWrapper position-fixed w-100 top-0 left-0">
