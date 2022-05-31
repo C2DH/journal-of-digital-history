@@ -13,6 +13,9 @@ const ArticleCellOutputs = ({
     if (typeof output.data === 'object') {
       if (Array.isArray(output.data['application/javascript'])) {
         return acc.concat(output.data['application/javascript'])
+      } else if(typeof output.data['application/javascript'] === 'string') {
+        // sometimes output.data['application/javascript'] is not an array...
+        return acc.concat([output.data['application/javascript']])
       } else if (Array.isArray(output.data['text/html'])) {
         // view if there are any candidate
 
@@ -43,6 +46,10 @@ const ArticleCellOutputs = ({
     contents: trustedScripts,
     isTrusted: isJavascriptTrusted
   })
+
+  if (trustedScripts.length) {
+    console.debug('[ArticleCellOutputs] cellidx:',cellIdx,' - isJavascriptTrusted:', isJavascriptTrusted, '- n. script(s) to inject:', trustedScripts.length)
+  }
 
   return (
     <div className="ArticleCellOutputs" ref={refTrustedJavascript}>
