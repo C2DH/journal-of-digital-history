@@ -1,0 +1,96 @@
+.JupyterCell{
+  border: 1px solid var(--gray-300);
+  border-radius: 4px;
+  transition: border-color .2s ease-in-out, margin-bottom .2s ease-in-out;
+  &.code{
+    border-top-color: var(--accent);
+    border-top-width: 2px;
+  }
+  &.hermeneutics{
+    border-top-color: var(--primary);
+    border-top-width: 2px;
+  }
+  &.hermeneutics.code{
+    border-top-color: var(--primary);
+    border-bottom-color: var(--accent);
+    border-bottom-width: 2px;
+  }
+  &:hover{
+    border-color: var(--gray-700);
+    margin-bottom: 50px;
+  }
+}
+.JupyterCell__tags{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap:5px;
+}
+.JupyterCell__cellTypeSwitch,
+.JupyterCell__tag,
+.JupyterCell__tagLabel{
+  font-size: 11px;
+  line-height: 12px;
+  margin-right:5px;
+  padding: 3px 5px;
+  height: 20px;
+}
+
+.JupyterCell__cellTypeSwitch > div {
+  padding: 0px 4px;
+  border-radius: 2px;
+  line-height: 14px;
+  font-family: var(--font-family-monospace);
+}
+.JupyterCell__cellTypeSwitch > div.active{
+  background: var(--dark);
+  color: white;
+}
+.JupyterCell.code .JupyterCell__cellTypeSwitch > div.active{
+  background: var(--accent);
+}
+
+.JupyterCell__cellTypeSwitch{
+  border: 1px solid var(--gray-600);
+  border-radius: 3px;
+  padding: 2px 2px;
+  gap: 3px;
+  cursor: pointer;
+}
+
+
+.JupyterCell__tag{
+  border: 1px solid var(--gray-600);
+  border-radius: 3px;
+  font-family: var(--font-family-monospace);
+  padding: 2px 2px;
+  > span{
+    padding: 0 2px 1px;
+    border-radius: 3px;
+  }
+  &.hermeneutics > span{
+    background-color: var(--primary);
+  }
+}
+
+.JupyterCell__source{
+  display: block;
+  width: 100%;
+  border: 1px solid var(--gray-300);
+  padding: 6px;
+  font-size: 12px;
+  line-height: 18px;
+  font-family: var(--font-family-monospace);
+
+  &.multiple-rows{
+    height: 56px;
+  }
+}
+
+.JupyterCell__rendered{
+  background: white;
+  border-top: 1px solid var(--gray-300);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  font-size: 12px;
+}

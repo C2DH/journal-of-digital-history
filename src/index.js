@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import WebFontLoader from 'webfontloader'
 
 // replace console.* for disable log debug on production
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' && process.env.REACT_APP_BASEURL === location.origin) {
   console.debug = () => {}
 }
 

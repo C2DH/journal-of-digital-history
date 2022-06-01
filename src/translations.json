@@ -110,6 +110,11 @@
         "fingerprintViewerForm": {
           "title": "Preview Fingerprint"
         },
+        "fingerprintExplained": {
+          "title": "Fingerprint, explained.",
+          "formLabel": "Go ahead! Test your own notebook or start adding and changing the cells below:",
+          "legend": "{{ count }} cell(s) in total, {{ countHermeneutics }} tagged as <code>hermeneutics</code>, {{ countData }} using code (data)"
+        },
         "issue": {
           "title": "Issue {{ id }}"
         },

@@ -166,3 +166,5 @@ export const ArticleStatusPublished = 'PUBLISHED'
 export const ArticleStatusDraft = 'Draft'
 // article component version
 export const ArticleVersionQueryParam = 'v'
+
+export const URLPathsAlwaysTrustJS = (process.env.REACT_APP_ALWAYS_JS_FROM_URL_PATH_PREFIX || '').split(',')

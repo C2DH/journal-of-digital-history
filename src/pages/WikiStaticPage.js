@@ -17,7 +17,7 @@ const WikiStaticPage = ({ url='', children }) => (
     raw
     fakeData=''
     delay={0}
-    Component={({ data='', status }) => (
+    Component={({ data='ciccio', status }) => (
       <Container className="WikiStaticPage page" style={{ minHeight:'100vh' }}>
         <Row>
           <Col {...BootstrapFullColumLayout}>
