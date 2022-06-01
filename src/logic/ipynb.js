@@ -50,6 +50,16 @@ const renderMarkdownWithReferences = ({
   // console.info('markdownParser.render', markdownParser.render(sources))
   const content = markdownParser.render(sources)
     .replace(/&lt;a[^&]*&gt;(.*)&lt;\/a&gt;/g, '')
+    // replace links "figure-*" ending with automatic numbering syntax
+    .replace(/<a href="#((figure|table|anchor)-[^"]+-\*)">([^<]+)<\/a>/g, (m, anchorRef, c, content) => {
+      const ref = anchorRef.indexOf('anchor-') !== -1
+        ? anchors.find(d => d.ref === anchorRef)
+        : figures.find(d => d.ref === anchorRef)
+      if (ref) {
+        return `<a data-idx="${ref.idx}" href="#${anchorRef}"  data-ref-type="${ref.type}">figure ${ref.num}</a>`
+      }
+      return `<a data-idx-notfound href="#${anchorRef}">${content}</a>`
+    })
     // replace links "figure-" add data-idx attribute containing a figure id
     .replace(/<a href="#((figure|table|anchor)-[^"]+)">/g, (m, anchorRef) => {
       const ref = anchorRef.indexOf('anchor-') !== -1
@@ -222,7 +232,10 @@ const getArticleTreeFromIpynb = ({ id, cells=[], metadata={} }) => {
       cell.role = RoleCitation
     } else if (figureRef) {
       // this is a proper figure, nothing to say about it.
-      figures.push(new ArticleFigure({ ref: figureRef, idx }))
+      figures.push(new ArticleFigure({
+        ref: figureRef, idx ,
+        num: figures.length + 1
+      }))
       cell.role = RoleFigure
     } else if (coverRef) {
       figures.push(new ArticleFigure({ ref: coverRef, idx, isCover:true }))

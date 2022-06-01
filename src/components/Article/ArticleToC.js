@@ -83,7 +83,7 @@ const ArticleToC = ({ paragraphs=[], headingsPositions=[], height=0, width=0, ha
             {cell.isHeading
               ? cell.heading.content
               : cell.isFigure
-                ? cell.figure.ref
+                ? t(cell.figure.tNLabel, {n: cell.figure.tNum})
                 : '(na)'
             }
           </ArticleToCStep>

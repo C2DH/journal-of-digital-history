@@ -4,18 +4,19 @@ import { useHistory, generatePath } from 'react-router'
 import { BootstrapColumLayout } from '../constants'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
 import { encodeNotebookURL } from '../logic/ipynb'
+import { Cpu } from 'react-feather'
 
 
 const LocalNotebook = () => {
   const history = useHistory()
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [value, setValue] = useState({})
 
 
   const handleSubmit = () => {
     if (value.isValid) {
       history.push({
-        pathname: generatePath("/:lang/notebook/:encodedUrl", {
+        pathname: generatePath("/:lang/notebook-viewer/:encodedUrl", {
           encodedUrl: value.encodedURL,
           lang: i18n.language.split('-')[0]
         })
@@ -111,10 +112,17 @@ const LocalNotebook = () => {
               : (<p className="text-danger">not valid!</p>)
             }
             </div>
-            <Button onClick={handleSubmit} variant="primary" type="submit">
-              get the notebook!
+            <Button onClick={handleSubmit}
+              variant="secondary" type="submit"
+              style={{
+                borderRadius: '5px',
+                paddingLeft: '1rem',
+                paddingRight: '1rem'
+              }}
+            >
+              <span className="me-2">{t('FormNotebookUrl_GenerateLink')}</span>
+              <Cpu size="16"/>
             </Button>
-            <pre>{JSON.stringify(value, null, 2)}</pre>
           </Form>
         </Col>
       </Row>
