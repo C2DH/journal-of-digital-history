@@ -4,6 +4,35 @@ import './styles/index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import WebFontLoader from 'webfontloader'
+import { MatomoProvider, createInstance } from '@jonkoops/matomo-tracker-react'
+import { AcceptAnalyticsCookies } from './logic/tracking'
+
+
+const matomo = createInstance({
+  urlBase: process.env.REACT_APP_MATOMO_URLBASE,
+  siteId: process.env.REACT_APP_MATOMO_SITEID,
+  // userId: 'UIDC2DH', // optional, default value: `undefined`.
+  // trackerUrl: 'https://LINK.TO.DOMAIN/tracking.php', // optional, default value: `${urlBase}matomo.php`
+  // srcUrl: 'https://LINK.TO.DOMAIN/tracking.js', // optional, default value: `${urlBase}matomo.js`
+  disabled: !AcceptAnalyticsCookies, // optional, false by default. Makes all tracking calls no-ops if set to true.
+  heartBeat: { // optional, enabled by default
+    active: true, // optional, default value: true
+    seconds: 10 // optional, default value: `15
+  },
+  // linkTracking: false, // optional, default value: true
+  configurations: { // optional, default value: {}
+    // any valid matomo configuration, all below are optional
+    disableCookies: true,
+    setSecureCookie: window.location.protocol === 'https:',
+    setRequestMethod: 'POST'
+  }
+})
+
+// console.info('initial saved state', persistentState)
+console.info(
+  AcceptAnalyticsCookies ? '%cMatomo enabled': '%cMatomo disabled', 'font-weight: bold',
+  process.env.REACT_APP_MATOMO_URLBASE
+)
 
 // replace console.* for disable log debug on production
 if (process.env.NODE_ENV === 'production' && process.env.REACT_APP_BASEURL === location.origin) {
@@ -22,7 +51,9 @@ WebFontLoader.load({
 
 ReactDOM.render(
   // <React.StrictMode>
-    <App />,
+  <MatomoProvider value={matomo}>
+    <App />
+  </MatomoProvider>,
   // </React.StrictMode>,
   document.getElementById('root')
 );

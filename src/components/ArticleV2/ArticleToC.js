@@ -222,7 +222,7 @@ const ArticleToC = ({
             {step.cell.isHeading
               ? step.cell.heading.content
               : step.cell.isFigure
-                ? step.cell.figure.ref
+                ? t(step.cell.figure.tNLabel, {n: step.cell.figure.tNum})
                 : '(na)'
             }
           </ArticleToCStep>

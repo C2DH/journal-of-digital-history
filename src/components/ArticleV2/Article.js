@@ -13,6 +13,7 @@ import Logo from '../Logo'
 
 const Article = ({
   memoid='',
+  isLocal = false,
   // pid,
   // Notebook instance, an object containing {cells:[], metadata:{}}
   ipynb,
@@ -49,10 +50,11 @@ const Article = ({
   const { t } = useTranslation()
   const [selectedDataHref, setSelectedDataHref] = useState(null)
   const { height, width } =  useCurrentWindowDimensions()
+
   const articleTree = useIpynbNotebookParagraphs({
     id: memoid || url,
-    cells: ipynb?.cells ?? [],
-    metadata: ipynb?.metadata ?? {}
+    cells: ipynb?.content?.cells ?? ipynb?.cells ?? [],
+    metadata: ipynb?.content?.metadata ?? ipynb?.metadata ?? {}
   })
   const {
     title,
@@ -62,7 +64,6 @@ const Article = ({
     collaborators,
     disclaimer = []
   } = articleTree.sections
-
 
   console.debug(`[Article] component rendered ${width}x${height}px`)
   console.debug('[Article] binderUrl:', binderUrl)
@@ -103,7 +104,7 @@ const Article = ({
       <a id="top" className="anchor"></a>
       <ArticleFlow
         layers={layers}
-        memoid={memoid || articleTree.id}
+        memoid={isLocal ? ipynb.last_modified : memoid}
         height={height}
         width={width}
         paragraphs={articleTree.paragraphs}

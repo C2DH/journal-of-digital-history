@@ -13,37 +13,26 @@ import Footer from './components/Footer'
 import Cookies from './components/Cookies'
 import ScrollToTop from './components/ScrollToTop'
 import VideoReleaseLazy from './components/VideoRelease/VideoReleaseLazy'
-import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
+// import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
 import Loading from './pages/Loading'
-import ReactGA from 'react-ga';
-// Getting non-reactive fresh state
-let persistentState = useStore.getState()
+import ReactGA from 'react-ga'
+import { useMatomo } from '@jonkoops/matomo-tracker-react'
+import { AcceptAnalyticsCookies, AcceptCookies} from './logic/tracking'
 
-try {
-  const localStorageState = JSON.parse(localStorage.getItem('JournalOfDigitalHistory'));
-  console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___|       \n\n')
-  console.info('%cinitial available state', 'font-weight: bold', 'in localStorage:', localStorageState !== null)
-  if (localStorageState) {
-    persistentState = localStorageState
-  }
-} catch(e) {
-  console.warn(e)
-}
+console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___|       \n\n')
 
-const acceptAnalyticsCookies = Boolean(persistentState.state?.acceptAnalyticsCookies)
-const acceptCookies = Boolean(persistentState.state?.acceptCookies)
 // console.info('initial saved state', persistentState)
-console.info('%cacceptAnalyticsCookies', 'font-weight: bold', acceptAnalyticsCookies)
-console.info('%cacceptCookies', 'font-weight: bold', acceptCookies)
+console.info('%cacceptAnalyticsCookies', 'font-weight: bold', AcceptAnalyticsCookies)
+console.info('%cacceptCookies', 'font-weight: bold', AcceptCookies)
 
 // integrate history \w Google Analytics
-if (GaTrackingId && acceptAnalyticsCookies) {
+if (GaTrackingId && AcceptAnalyticsCookies) {
   ReactGA.initialize(GaTrackingId);
   console.info('%cGA enabled by user choice', 'font-weight: bold', GaTrackingId)
 } else if(GaTrackingId) {
   console.info(
     '%cGA disabled by user choice:', 'font-weight: bold',
-    'acceptAnalyticsCookies:', acceptAnalyticsCookies
+    'AcceptAnalyticsCookies:', AcceptAnalyticsCookies
   )
 } else {
   console.info('%cGA GaTrackingId not set', 'font-weight: bold', 'disabled by config.')
@@ -95,9 +84,9 @@ i18n
     }
   })
 
-const isUnsafeEnvironment = process.env.NODE_ENV !== 'development' && window.location.protocol === 'http:'
-const isAuth0Enabled = process.env.REACT_APP_ENABLE_AUTH_0 !== 'false'
-console.info('Auth0Provider:', isUnsafeEnvironment ? 'disabled' : 'enabled')
+// const isUnsafeEnvironment = process.env.NODE_ENV !== 'development' && window.location.protocol === 'http:'
+// const isAuth0Enabled = process.env.REACT_APP_ENABLE_AUTH_0 !== 'false'
+// console.info('Auth0Provider:', isUnsafeEnvironment ? 'disabled' : 'enabled')
 console.info('IsMobile:', IsMobile)
 
 function LangRoutes() {
@@ -154,6 +143,8 @@ function LangRoutes() {
 }
 
 function usePageViews() {
+  const { trackPageView } = useMatomo()
+
   const { pathname, search } = useLocation()
   const changeBackgroundColor = useStore(state => state.changeBackgroundColor)
 
@@ -177,6 +168,9 @@ function usePageViews() {
       //   changeBackgroundColor('var(--gray-100)')
       // }
       ReactGA.pageview(url)
+      trackPageView({
+        href: url
+      })
     },
     [pathname, search, changeBackgroundColor]
   )
@@ -204,18 +198,20 @@ function AppRoutes() {
 
 
 export default function App() {
-
+  // Removed Auth0ProviderWithHistory 30 Jun 2022
+  //
+  // <Auth0ProviderWithHistory
+  //   disabled={!isAuth0Enabled || isUnsafeEnvironment}
+  //   domain="dev-cy19cq3w.eu.auth0.com"
+  //   clientId="NSxE7D46GRk9nh32wdvbtBUy7bLLQnZL"
+  //   redirectUri={`${window.location.origin}/authorized`}
+  // >
+  // <Header availableLanguages={LANGUAGES} isAuthDisabled={!isAuth0Enabled || isUnsafeEnvironment}/>
   return (
     <BrowserRouter>
       <QueryParamProvider ReactRouterRoute={Route}>
-      <Auth0ProviderWithHistory
-        disabled={!isAuth0Enabled || isUnsafeEnvironment}
-        domain="dev-cy19cq3w.eu.auth0.com"
-        clientId="NSxE7D46GRk9nh32wdvbtBUy7bLLQnZL"
-        redirectUri={`${window.location.origin}/authorized`}
-      >
-        <Header availableLanguages={LANGUAGES} isAuthDisabled={!isAuth0Enabled || isUnsafeEnvironment}/>
-        <Cookies defaultAcceptCookies={acceptCookies}/>
+        <Header availableLanguages={LANGUAGES} isAuthDisabled/>
+        <Cookies defaultAcceptCookies={AcceptCookies}/>
         <main>
           <Suspense fallback={<Loading/>}>
             <AppRoutes />
@@ -227,7 +223,6 @@ export default function App() {
           isMobile={IsMobile}
           url={process.env.REACT_APP_WIKI_VIDEO_RELEASES}
         />
-      </Auth0ProviderWithHistory>
       </QueryParamProvider>
     </BrowserRouter>
   )
