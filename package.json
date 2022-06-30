@@ -6,6 +6,7 @@
     "@auth0/auth0-react": "^1.1.0",
     "@c2dh/react-facets": "^1.1.0",
     "@gerhobbelt/markdown-it-attrs": "^3.0.3-20",
+    "@jonkoops/matomo-tracker-react": "^0.7.0",
     "@react-spring/web": "^9.1.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
