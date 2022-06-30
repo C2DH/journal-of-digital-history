@@ -19,8 +19,13 @@ const HorizontalTimeline = ({
   maxHeight
 }) => {
   const { t } = useTranslation()
+  if(!size.length || isNaN(size[0])) {
+    return null
+  }
   const height = Math.abs(size[0]) + Math.abs(size[1])
   const origin = Math.abs(size[0])
+  // esling-disable-next-line
+  console.debug('[HorizontalTimeline] rendered', size, values)
   return (
     <div className="position-relative" style={{
       height,
