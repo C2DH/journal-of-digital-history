@@ -93,9 +93,8 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^7.30.0",
-    "eslint-plugin-react": "^7.24.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "http-proxy-middleware": "^1.0.6"
+    "eslint": "^8.19.0",
+    "http-proxy-middleware": "^1.0.6",
+    "prettier": "^2.7.1"
   }
 }
