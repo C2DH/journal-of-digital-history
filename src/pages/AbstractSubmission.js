@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from "react-router-dom";
+import { useHistory } from 'react-router-dom'
 import { Container, Form, Button, Col, Row } from 'react-bootstrap'
+import { useQueryParam, withDefault } from 'use-query-params'
 import LangLink from '../components/LangLink'
+import { CfpParam } from '../logic/params'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { useStore } from '../store'
 import { getValidatorResultWithAbstractSchema } from '../logic/validation'
 import Author from '../models/Author'
 import Dataset from '../models/Dataset'
-import {default as AbstractSubmissionModel} from '../models/AbstractSubmission'
+import { default as AbstractSubmissionModel } from '../models/AbstractSubmission'
 import FormGroupWrapper from '../components/Forms/FormGroupWrapper'
 import FormGroupWrapperPreview from '../components/Forms/FormGroupWrapperPreview'
 import FormAuthorContact from '../components/Forms/FormAuthorContact'
@@ -16,60 +18,84 @@ import FormAbstractGenericSortableList from '../components/Forms/FormAbstractGen
 import FormAbstractResultModal from '../components/Forms/FormAbstractResultModal'
 import FormJSONSchemaErrorListItem from '../components/Forms/FormJSONSchemaErrorListItem'
 import AbstractSubmissionPreview from '../components/AbstractSubmissionPreview'
+import AbstractSubmissionCallForPapers from '../components/AbstractSubmissionCallForPapers'
 import { ReCaptchaSiteKey } from '../constants'
 import { createAbstractSubmission } from '../logic/api/postData'
 
 console.info('%cRecaptcha site key', 'font-weight:bold', ReCaptchaSiteKey)
 
-
-const AbstractSubmission = ({
-  allowGithubId=false
-}) => {
+const AbstractSubmission = ({ allowGithubId = false }) => {
   const { t } = useTranslation()
-  const history = useHistory();
+  const history = useHistory()
+  const [cfp] = useQueryParam('cfp', withDefault(CfpParam, ''))
   const [isPreviewMode, setPreviewMode] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [confirmModalShow, setConfirmModalShow] = useState(false);
-  const temporaryAbstractSubmission = useStore((state) => state.temporaryAbstractSubmission);
-  const setTemporaryAbstractSubmission = useStore((state) => state.setTemporaryAbstractSubmission);
+  const [confirmModalShow, setConfirmModalShow] = useState(false)
+  const temporaryAbstractSubmission = useStore((state) => state.temporaryAbstractSubmission)
+  const setTemporaryAbstractSubmission = useStore((state) => state.setTemporaryAbstractSubmission)
   // const [authors, setAuthors] = useState([])
-  const recaptchaRef = React.useRef();
-  const [ results, setResults ] = useState([
+  const recaptchaRef = React.useRef()
+  const [results, setResults] = useState([
     {
       id: 'title',
       value: temporaryAbstractSubmission.title,
       isValid: null,
-      label: 'pages.abstractSubmission.articleTitle' },
-    { id: 'abstract', value: temporaryAbstractSubmission.abstract, label: 'pages.abstractSubmission.articleAbstract' },
-    { id: 'contact', value: temporaryAbstractSubmission.contact, label: 'pages.abstractSubmission.articleContact' },
-    { id: 'authors', value: temporaryAbstractSubmission.authors, label: 'pages.abstractSubmission.AuthorsSectionTitle' },
+      label: 'pages.abstractSubmission.articleTitle',
+    },
+    {
+      id: 'abstract',
+      value: temporaryAbstractSubmission.abstract,
+      label: 'pages.abstractSubmission.articleAbstract',
+    },
+    {
+      id: 'contact',
+      value: temporaryAbstractSubmission.contact,
+      label: 'pages.abstractSubmission.articleContact',
+    },
+    {
+      id: 'authors',
+      value: temporaryAbstractSubmission.authors,
+      label: 'pages.abstractSubmission.AuthorsSectionTitle',
+    },
     {
       id: 'githubId',
       value: temporaryAbstractSubmission.githubId,
-      label: 'pages.abstractSubmission.githubId' },
-    { id: 'datasets', value: temporaryAbstractSubmission.datasets, label: 'pages.abstractSubmission.DataSectionTitle' },
+      label: 'pages.abstractSubmission.githubId',
+    },
     {
-      id: 'acceptConditions', value: temporaryAbstractSubmission.acceptConditions
-    }
+      id: 'datasets',
+      value: temporaryAbstractSubmission.datasets,
+      label: 'pages.abstractSubmission.DataSectionTitle',
+    },
+    {
+      id: 'acceptConditions',
+      value: temporaryAbstractSubmission.acceptConditions,
+    },
+    {
+      id: 'callForPapers',
+      value: cfp,
+    },
   ])
-  const [ validatorResult, setValidatorResult ] = useState(null)
+  const [validatorResult, setValidatorResult] = useState(null)
   useEffect(() => {
-    console.info("useEffect setValidatorResult")
-    const { title, abstract, contact, authors, datasets, githubId, acceptConditions } = temporaryAbstractSubmission
-    setValidatorResult(getValidatorResultWithAbstractSchema({
-      title,
-      abstract,
-      contact,
-      authors,
-      datasets,
-      githubId,
-      acceptConditions
-    }))
-  }, [temporaryAbstractSubmission]);
+    console.info('useEffect setValidatorResult')
+    const { title, abstract, contact, authors, datasets, githubId, acceptConditions } =
+      temporaryAbstractSubmission
+    setValidatorResult(
+      getValidatorResultWithAbstractSchema({
+        title,
+        abstract,
+        contact,
+        authors,
+        datasets,
+        githubId,
+        acceptConditions,
+      }),
+    )
+  }, [temporaryAbstractSubmission])
 
-
-  const handleSubmit = async(event) => {
-    event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault()
     if (isSubmitting) {
       console.warn('already busy submitting the form!')
       return
@@ -80,11 +106,11 @@ const AbstractSubmission = ({
       }
       acc[el.id] = el.value
       return acc
-    } , {})
+    }, {})
     // const result = getValidatorResultWithAbstractSchema(submission)
     setTemporaryAbstractSubmission({
       ...submission,
-      dateCreated: temporaryAbstractSubmission.dateCreated
+      dateCreated: temporaryAbstractSubmission.dateCreated,
     })
     console.info('handleSubmit: validatorResult', validatorResult)
     if (validatorResult.valid) {
@@ -99,22 +125,24 @@ const AbstractSubmission = ({
     // }
   }
 
-  const handleConfirmCreateAbstractSubmission = async() => {
+  const handleConfirmCreateAbstractSubmission = async () => {
     console.debug('handleConfirmCreateAbstractSubmission', temporaryAbstractSubmission)
     const token = await recaptchaRef.current.executeAsync()
     console.debug('%cRecaptcha', 'font-weight:bold', 'token:', token)
     createAbstractSubmission({
       item: temporaryAbstractSubmission,
       token,
-    }).then((res) => {
-      // console.log('received', res)
-      if(res?.status === 200 || res?.status ===201) {
-        history.push('/en/abstract-submitted');
-      }
-    }).catch((err) => {
-      console.info(err.message, 'status=', err.response.status)
-      setIsSubmitting(false)
     })
+      .then((res) => {
+        // console.log('received', res)
+        if (res?.status === 200 || res?.status === 201) {
+          history.push('/en/abstract-submitted')
+        }
+      })
+      .catch((err) => {
+        console.info(err.message, 'status=', err.response.status)
+        setIsSubmitting(false)
+      })
   }
 
   const handleChange = ({ id, value, isValid }) => {
@@ -127,7 +155,7 @@ const AbstractSubmission = ({
     const submission = _results.reduce((acc, el) => {
       acc[el.id] = el.value
       return acc
-    } , {})
+    }, {})
     console.debug('[AbstractSubmission] @handleChange submission:', submission)
     // todo add creation date if a temporaryAbstractSubmission object is available.
     setTemporaryAbstractSubmission({
@@ -140,21 +168,23 @@ const AbstractSubmission = ({
   const handleAddContactAsAuthor = (author) => {
     console.info('@todo', author)
     const authors = temporaryAbstractSubmission.authors
-      .filter(d => d.id !== author.id)
-      .concat([{...author }])
+      .filter((d) => d.id !== author.id)
+      .concat([{ ...author }])
     setTemporaryAbstractSubmission({
       ...temporaryAbstractSubmission,
       authors,
     })
-    setResults(results.map(d => {
-      if(d.id === 'authors') {
-        return {
-          ...d,
-          value: authors
+    setResults(
+      results.map((d) => {
+        if (d.id === 'authors') {
+          return {
+            ...d,
+            value: authors,
+          }
         }
-      }
-      return d;
-    }))
+        return d
+      }),
+    )
     // setAuthors(authors.filter(d => d.id !== author.id).concat([author]))
   }
 
@@ -171,77 +201,99 @@ const AbstractSubmission = ({
   return (
     <Container className="page mb-5">
       <Row>
-        <Col md={{span: 6, offset:2}}>
+        <Col md={{ span: 6, offset: 2 }}>
           <h1 className="my-5">{t('pages.abstractSubmission.title')}</h1>
         </Col>
       </Row>
+      <AbstractSubmissionCallForPapers cfp={cfp} />
       <br />
       <Form noValidate onSubmit={handleSubmit}>
         <Row>
-          <Col md={{span: 6, offset:2}}>
+          <Col md={{ span: 6, offset: 2 }}>
             <h3 className="progressiveHeading">Title and Abstract</h3>
-            <p dangerouslySetInnerHTML={{
-              __html: t('pages.abstractSubmission.articleAbstractHelpText')
-            }}></p>
-            {!isPreviewMode && <FormGroupWrapper as='textarea' schemaId='#/definitions/title' rows={3}
-              initialValue={temporaryAbstractSubmission.title}
-              label='pages.abstractSubmission.articleTitle'
-              ignoreWhenLengthIslessThan={1}
-              onChange={({ value, isValid }) => handleChange({ id: 'title', value, isValid })}
-            />}
+            <p
+              dangerouslySetInnerHTML={{
+                __html: t('pages.abstractSubmission.articleAbstractHelpText'),
+              }}
+            ></p>
+            {!isPreviewMode && (
+              <FormGroupWrapper
+                as="textarea"
+                schemaId="#/definitions/title"
+                rows={3}
+                initialValue={temporaryAbstractSubmission.title}
+                label="pages.abstractSubmission.articleTitle"
+                ignoreWhenLengthIslessThan={1}
+                onChange={({ value, isValid }) => handleChange({ id: 'title', value, isValid })}
+              />
+            )}
 
             {isPreviewMode && (
-              <FormGroupWrapperPreview
-                label='pages.abstractSubmission.articleTitle'>
+              <FormGroupWrapperPreview label="pages.abstractSubmission.articleTitle">
                 {temporaryAbstractSubmission.title}
               </FormGroupWrapperPreview>
             )}
 
             {!isPreviewMode && (
-              <FormGroupWrapper as='textarea' schemaId='#/definitions/abstract' rows={5} placeholder={t('pages.abstractSubmission.articleAbstractPlaceholder')}
+              <FormGroupWrapper
+                as="textarea"
+                schemaId="#/definitions/abstract"
+                rows={5}
+                placeholder={t('pages.abstractSubmission.articleAbstractPlaceholder')}
                 initialValue={temporaryAbstractSubmission.abstract}
-                label='pages.abstractSubmission.articleAbstract'
+                label="pages.abstractSubmission.articleAbstract"
                 ignoreWhenLengthIslessThan={1}
                 onChange={({ value, isValid }) => handleChange({ id: 'abstract', value, isValid })}
               />
             )}
-            {isPreviewMode &&
-              <FormGroupWrapperPreview
-              label='pages.abstractSubmission.articleAbstract'
-              >{temporaryAbstractSubmission.abstract}
-              </FormGroupWrapperPreview>}
+            {isPreviewMode && (
+              <FormGroupWrapperPreview label="pages.abstractSubmission.articleAbstract">
+                {temporaryAbstractSubmission.abstract}
+              </FormGroupWrapperPreview>
+            )}
             <hr />
             <h3 className="progressiveHeading">{t('pages.abstractSubmission.DataSectionTitle')}</h3>
-            {allowGithubId && isPreviewMode &&
-              <FormGroupWrapperPreview
-              label='pages.abstractSubmission.githubId'
-              >{temporaryAbstractSubmission.githubId}
-              </FormGroupWrapperPreview>}
+            {allowGithubId && isPreviewMode && (
+              <FormGroupWrapperPreview label="pages.abstractSubmission.githubId">
+                {temporaryAbstractSubmission.githubId}
+              </FormGroupWrapperPreview>
+            )}
             {allowGithubId && !isPreviewMode && (
-              <FormGroupWrapper schemaId='#/definitions/githubId' rows={5} placeholder={t('pages.abstractSubmission.githubIdPlaceholder')}
+              <FormGroupWrapper
+                schemaId="#/definitions/githubId"
+                rows={5}
+                placeholder={t('pages.abstractSubmission.githubIdPlaceholder')}
                 initialValue={temporaryAbstractSubmission.githubId}
-                label='pages.abstractSubmission.githubId'
+                label="pages.abstractSubmission.githubId"
                 onChange={({ value, isValid }) => handleChange({ id: 'githubId', value, isValid })}
               />
             )}
 
-            {!isPreviewMode && <FormAbstractGenericSortableList
-              onChange={({ items, isValid }) => handleChange({
-                id: 'datasets',
-                value: items,
-                isValid
-              })}
-              initialItems={temporaryAbstractSubmission.datasets}
-              ItemClass={Dataset}
-              addNewItemLabel={t('actions.addDataset')}
-              listItemComponentTagName='FormAbstractDatasetsListItem' />}
-              {isPreviewMode && temporaryAbstractSubmission.datasets.map((d, i) => (
+            {!isPreviewMode && (
+              <FormAbstractGenericSortableList
+                onChange={({ items, isValid }) =>
+                  handleChange({
+                    id: 'datasets',
+                    value: items,
+                    isValid,
+                  })
+                }
+                initialItems={temporaryAbstractSubmission.datasets}
+                ItemClass={Dataset}
+                addNewItemLabel={t('actions.addDataset')}
+                listItemComponentTagName="FormAbstractDatasetsListItem"
+              />
+            )}
+            {isPreviewMode &&
+              temporaryAbstractSubmission.datasets.map((d, i) => (
                 <FormGroupWrapperPreview key={i}>
-                  {(new Dataset({...d }).asText())}
+                  {new Dataset({ ...d }).asText()}
                 </FormGroupWrapperPreview>
               ))}
             <hr />
-            <h3 className="progressiveHeading">{t('pages.abstractSubmission.ContactPointSectionTitle')}</h3>
+            <h3 className="progressiveHeading">
+              {t('pages.abstractSubmission.ContactPointSectionTitle')}
+            </h3>
             {!isPreviewMode && (
               <FormAuthorContact
                 initialValue={temporaryAbstractSubmission.contact}
@@ -249,79 +301,108 @@ const AbstractSubmission = ({
                 onSelectAsAuthor={handleAddContactAsAuthor}
               />
             )}
-            {isPreviewMode &&
+            {isPreviewMode && (
               <FormGroupWrapperPreview>
-                {(new Author({...temporaryAbstractSubmission.contact }).asText())}
-              </FormGroupWrapperPreview>}
+                {new Author({ ...temporaryAbstractSubmission.contact }).asText()}
+              </FormGroupWrapperPreview>
+            )}
 
             <hr />
 
-            <h3 className="progressiveHeading">{t('pages.abstractSubmission.AuthorsSectionTitle')}</h3>
-            {!isPreviewMode && <FormAbstractGenericSortableList
-              onChange={({ items, isValid }) => handleChange({
-                id: 'authors',
-                value: items,
-                isValid
-              })}
-              ItemClass={Author}
-              initialItems={temporaryAbstractSubmission.authors}
-              addNewItemLabel={t('actions.addAuthor')}
-              listItemComponentTagName='FormAbstractAuthorsListItem' />}
-            {isPreviewMode && temporaryAbstractSubmission.authors.map((d, i) => (
-              <FormGroupWrapperPreview key={i}>
-                {(new Author({...d }).asText())}
-              </FormGroupWrapperPreview>
-            ))}
+            <h3 className="progressiveHeading">
+              {t('pages.abstractSubmission.AuthorsSectionTitle')}
+            </h3>
+            {!isPreviewMode && (
+              <FormAbstractGenericSortableList
+                onChange={({ items, isValid }) =>
+                  handleChange({
+                    id: 'authors',
+                    value: items,
+                    isValid,
+                  })
+                }
+                ItemClass={Author}
+                initialItems={temporaryAbstractSubmission.authors}
+                addNewItemLabel={t('actions.addAuthor')}
+                listItemComponentTagName="FormAbstractAuthorsListItem"
+              />
+            )}
+            {isPreviewMode &&
+              temporaryAbstractSubmission.authors.map((d, i) => (
+                <FormGroupWrapperPreview key={i}>
+                  {new Author({ ...d }).asText()}
+                </FormGroupWrapperPreview>
+              ))}
 
             <hr />
           </Col>
           <Col md={4} lg={3}>
-            <div style={{
-              position: 'sticky',
-              top: 120,
-              background: 'var(--gray-100)'
-            }}>
-            {validatorResult && <AbstractSubmissionPreview
-              validatorResult={validatorResult}
-              submission={temporaryAbstractSubmission}
-              isPreviewMode={isPreviewMode}
-              onChangeMode={handleToggleMode}
-              onReset={handleReset}
-            />}
+            <div
+              style={{
+                position: 'sticky',
+                top: 120,
+                background: 'var(--gray-100)',
+              }}
+            >
+              {validatorResult && (
+                <AbstractSubmissionPreview
+                  validatorResult={validatorResult}
+                  submission={temporaryAbstractSubmission}
+                  isPreviewMode={isPreviewMode}
+                  onChangeMode={handleToggleMode}
+                  onReset={handleReset}
+                />
+              )}
             </div>
           </Col>
         </Row>
 
         <Row>
-          <Col md={{span: 6, offset:2}} className="">
-            <Form.Group size="md"  onChange={(e) => handleChange({
-              id: 'acceptConditions',
-              value: e.target.checked,
-              isValid: e.target.checked
-            })} controlId="formBasicCheckbox">
-              <Form.Check size="md" >
-              <Form.Check.Input type="checkbox" defaultChecked={temporaryAbstractSubmission.acceptConditions}/>
-              <Form.Check.Label>
-                <span dangerouslySetInnerHTML={{__html: t('labels.acceptConditions') }} />&nbsp;
-                <LangLink to="/terms" target="_blank">Terms of Use</LangLink>
-              </Form.Check.Label>
+          <Col md={{ span: 6, offset: 2 }} className="">
+            <Form.Group
+              size="md"
+              onChange={(e) =>
+                handleChange({
+                  id: 'acceptConditions',
+                  value: e.target.checked,
+                  isValid: e.target.checked,
+                })
+              }
+              controlId="formBasicCheckbox"
+            >
+              <Form.Check size="md">
+                <Form.Check.Input
+                  type="checkbox"
+                  defaultChecked={temporaryAbstractSubmission.acceptConditions}
+                />
+                <Form.Check.Label>
+                  <span dangerouslySetInnerHTML={{ __html: t('labels.acceptConditions') }} />
+                  &nbsp;
+                  <LangLink to="/terms" target="_blank">
+                    Terms of Use
+                  </LangLink>
+                </Form.Check.Label>
               </Form.Check>
             </Form.Group>
-            <p className="my-3" dangerouslySetInnerHTML={{__html: t('pages.abstractSubmission.recaptchaDisclaimer')}}/><ReCAPTCHA
-              ref={recaptchaRef}
-              size="invisible"
-              sitekey={ReCaptchaSiteKey}
+            <p
+              className="my-3"
+              dangerouslySetInnerHTML={{
+                __html: t('pages.abstractSubmission.recaptchaDisclaimer'),
+              }}
             />
+            <ReCAPTCHA ref={recaptchaRef} size="invisible" sitekey={ReCaptchaSiteKey} />
 
             {!isEmpty && validatorResult?.errors.length > 0 && (
               <ol className="m-0 pe-2 py-2 ps-4 border border-dark rounded">
-              {validatorResult?.errors.map((error,i) =>
-                <li key={i}><FormJSONSchemaErrorListItem error={error} debug={false}/></li>
-              )}
+                {validatorResult?.errors.map((error, i) => (
+                  <li key={i}>
+                    <FormJSONSchemaErrorListItem error={error} debug={false} />
+                  </li>
+                ))}
               </ol>
             )}
             <div className="text-center mt-5">
-            {/* isEmpty
+              {/* isEmpty
               ? (<Button disabled
                   variant="primary" size="lg"
                   type="submit">{t('actions.submit')}</Button>)
@@ -338,9 +419,14 @@ const AbstractSubmission = ({
                   } {t('actions.submit')}
                 </Button>
             */}
-            <Button disabled={isEmpty || validatorResult?.errors.length > 0}
-                variant="primary" size="lg"
-                type="submit">{t('actions.submit')}</Button>
+              <Button
+                disabled={isEmpty || validatorResult?.errors.length > 0}
+                variant="primary"
+                size="lg"
+                type="submit"
+              >
+                {t('actions.submit')}
+              </Button>
             </div>
           </Col>
         </Row>
