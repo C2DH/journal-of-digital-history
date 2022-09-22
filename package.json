@@ -73,7 +73,7 @@
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "start": "react-scripts start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "build-noindex": "react-scripts build && echo 'User-agent: *\nDisallow: /' | cat > build/robots.txt && echo '/* /index.html  200' | cat >build/_redirects && cp -r src/data/mock-api build",
     "test": "react-scripts test",
