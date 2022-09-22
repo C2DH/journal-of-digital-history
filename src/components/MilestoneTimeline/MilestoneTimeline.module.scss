@@ -1,20 +1,20 @@
+@use 'sass:math';
+
 $labelWidth: 100px;
 $labelFontSize: 11px;
 $labelLineHeight: 10px;
 $milestoneRadius: 4px;
 
-
-
-.AxisEdge{
+.AxisEdge {
   position: absolute;
   border-color: var(--secondary);
   line-height: $labelLineHeight;
-  margin-top: -$labelLineHeight/2;
+  margin-top: math.div(-$labelLineHeight, 2);
 
   font-family: var(--font-family-monospace);
   font-size: $labelFontSize;
 }
-.left{
+.left {
   left: -$labelWidth;
   width: $labelWidth;
   top: 50%;
@@ -22,7 +22,7 @@ $milestoneRadius: 4px;
   text-align: right;
   border-right: 1px solid;
 }
-.right{
+.right {
   right: -$labelWidth;
   width: $labelWidth;
   top: 50%;
@@ -30,9 +30,9 @@ $milestoneRadius: 4px;
   text-align: left;
   border-left: 1px solid;
 }
-.top{
-  top: -$labelLineHeight*2;
-  height: $labelLineHeight*2.5;
+.top {
+  top: -$labelLineHeight * 2;
+  height: $labelLineHeight * 2.5;
   overflow: hidden;
   left: 0;
   padding-left: 0;
@@ -41,9 +41,9 @@ $milestoneRadius: 4px;
   text-align: left;
   border-bottom: 1px solid;
 }
-.bottom{
-  bottom: -$labelLineHeight*2;
-  height: $labelLineHeight*2;
+.bottom {
+  bottom: -$labelLineHeight * 2;
+  height: $labelLineHeight * 2;
   left: 0;
   padding-right: 0;
   padding-left: 0;
@@ -52,15 +52,15 @@ $milestoneRadius: 4px;
   border-top: 1px solid;
 }
 
-.MilestonePointer{
+.MilestonePointer {
   position: absolute;
   height: 100%;
-  background-color:  var(--dark);
+  background-color: var(--dark);
   width: 1px;
-  opacity: .5;
+  opacity: 0.5;
 }
 
-.MilestoneVerticalWrapper{
+.MilestoneVerticalWrapper {
   position: sticky;
   left: 0;
   top: 100px;
@@ -68,37 +68,37 @@ $milestoneRadius: 4px;
   height: 200px;
 }
 
-.MilestoneVerticalPointer{
+.MilestoneVerticalPointer {
   position: absolute;
   height: 1px;
   background-color: var(--dark);
   width: $labelWidth;
-  opacity: .5;
+  opacity: 0.5;
 }
 
 @media (min-height: 600px) {
-  .MilestoneVerticalWrapper{
+  .MilestoneVerticalWrapper {
     top: 100px;
     height: 400px;
   }
 }
 
-.MilestoneCircle{
+.MilestoneCircle {
   position: absolute;
 }
-.MilestoneCircle::after{
+.MilestoneCircle::after {
   content: '';
   position: absolute;
-  width: $milestoneRadius*2;
-  height: $milestoneRadius*2;
+  width: $milestoneRadius * 2;
+  height: $milestoneRadius * 2;
   top: -$milestoneRadius;
   left: 0;
   border-radius: $milestoneRadius;
-  background-color: rgba(0,0,0,.2);
+  background-color: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--dark);
 }
 
-.MilestoneLabel{
+.MilestoneLabel {
   position: absolute;
   left: $milestoneRadius;
   width: $labelWidth;
@@ -107,7 +107,7 @@ $milestoneRadius: 4px;
   font-size: $labelFontSize;
   border-left: 1px solid var(--dark);
 }
-.MilestoneLine{
+.MilestoneLine {
   position: absolute;
   width: 1px;
   left: $milestoneRadius;
