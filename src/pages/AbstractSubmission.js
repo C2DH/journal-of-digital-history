@@ -27,7 +27,7 @@ console.info('%cRecaptcha site key', 'font-weight:bold', ReCaptchaSiteKey)
 const AbstractSubmission = ({ allowGithubId = false }) => {
   const { t } = useTranslation()
   const history = useHistory()
-  const [cfp] = useQueryParam('cfp', withDefault(CfpParam, ''))
+  const [callForPapers] = useQueryParam('cfp', withDefault(CfpParam, ''))
   const [isPreviewMode, setPreviewMode] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [confirmModalShow, setConfirmModalShow] = useState(false)
@@ -77,7 +77,7 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
     },
     {
       id: 'callForPapers',
-      value: cfp,
+      value: callForPapers,
     },
   ])
   const [validatorResult, setValidatorResult] = useState(null)
@@ -91,6 +91,7 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
       datasets,
       githubId,
       acceptConditions,
+      callForPapers,
     } = temporaryAbstractSubmission
     setValidatorResult(
       getValidatorResultWithAbstractSchema({
@@ -101,6 +102,7 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
         datasets,
         githubId,
         acceptConditions,
+        callForPapers,
       })
     )
   }, [temporaryAbstractSubmission])
@@ -221,7 +223,7 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
           <h1 className='my-5'>{t('pages.abstractSubmission.title')}</h1>
         </Col>
       </Row>
-      <AbstractSubmissionCallForPapers cfp={cfp} />
+      <AbstractSubmissionCallForPapers cfp={callForPapers} />
       <br />
       <Form noValidate onSubmit={handleSubmit}>
         <Row>
@@ -465,6 +467,7 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
               >
                 {t('actions.submit')}
               </Button>
+              {/* <pre>{JSON.stringify(temporaryAbstractSubmission, null, 2)}</pre> */}
             </div>
           </Col>
         </Row>
