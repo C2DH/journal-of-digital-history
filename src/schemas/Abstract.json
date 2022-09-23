@@ -8,7 +8,7 @@
   "definitions": {
     "id": {
       "$id": "#/definitions/id",
-      "type": ["string","number"],
+      "type": ["string", "number"],
       "title": "An usual ID string",
       "default": "",
       "examples": ["ieoryY78", 1],
@@ -31,9 +31,7 @@
       "title": "The article abstract",
       "description": "The article abstract",
       "default": "",
-      "examples": [
-        "article abstract"
-      ],
+      "examples": ["article abstract"],
       "minLength": 100,
       "maxLength": 10000
     },
@@ -43,7 +41,9 @@
       "title": "A short text",
       "description": "A short text, max 250 characters",
       "default": "",
-      "examples": ["Once Upon a Time in Belval, theere was a little house on a little hill"],
+      "examples": [
+        "Once Upon a Time in Belval, theere was a little house on a little hill"
+      ],
       "maxLength": 250
     },
     "text500": {
@@ -52,7 +52,9 @@
       "title": "A medium text",
       "description": "A medium text, max 500 characters",
       "default": "",
-      "examples": ["Once Upon a Time in Belval, theere was a little house on a little hill"],
+      "examples": [
+        "Once Upon a Time in Belval, theere was a little house on a little hill"
+      ],
       "maxLength": 500
     },
     "token": {
@@ -61,7 +63,9 @@
       "title": "A recaptcha token",
       "description": "Max 1000 characters",
       "default": "",
-      "examples": ["03AGdBq25p8daIHp8-V7dvO3MEOshLJphGtGIEfymURe1Sq2VSgmL87MYi..."],
+      "examples": [
+        "03AGdBq25p8daIHp8-V7dvO3MEOshLJphGtGIEfymURe1Sq2VSgmL87MYi..."
+      ],
       "maxLength": 1000
     },
     "datetime": {
@@ -76,9 +80,7 @@
       "title": "A first name",
       "description": "Person first name, up to 50 letters",
       "default": "",
-      "examples": [
-        "Joe"
-      ],
+      "examples": ["Joe"],
       "maxLength": 100
     },
     "lastname": {
@@ -87,15 +89,13 @@
       "title": "A last name",
       "description": "Person last name, up to 50 letters",
       "default": "",
-      "examples": [
-        "De Filippo"
-      ],
+      "examples": ["De Filippo"],
       "maxLength": 100
     },
     "email": {
       "$id": "#/definitions/email",
       "type": "string",
-      "pattern": "^[a-z0-9\\._%+!$&*=^|~#%{}\/\\-]+@([a-z0-9\\-]+\\.){1,}([a-z]{2,22})$",
+      "pattern": "^[a-z0-9\\._%+!$&*=^|~#%{}/\\-]+@([a-z0-9\\-]+\\.){1,}([a-z]{2,22})$",
       "title": "An Email",
       "description": "Personal email for authors, users etc...",
       "default": "",
@@ -117,9 +117,7 @@
       "title": "a name of an Institution",
       "description": "Author current affiliation",
       "default": "",
-      "examples": [
-        "University of Minnesota, LUxembourg"
-      ],
+      "examples": ["University of Minnesota, LUxembourg"],
       "maxLength": 250
     },
     "url": {
@@ -128,9 +126,7 @@
       "title": "The dataset url schema",
       "description": "An explanation about the purpose of this instance.",
       "default": "",
-      "examples": [
-        "dataset url"
-      ],
+      "examples": ["dataset url"],
       "minLength": 7,
       "maxLength": 500,
       "pattern": "^(https?|http?)://"
@@ -141,9 +137,7 @@
       "title": "The orcid schema",
       "description": "The ORCID ID is a 16-digit number that is compatible with the ISO Standard (ISO 27729). ORCID IDs will be randomly assigned by the ORCID Registry and will be expressed as a URI.",
       "default": "",
-      "examples": [
-        "https://orcid.org/0000-0002-0237-2532"
-      ],
+      "examples": ["https://orcid.org/0000-0002-0237-2532"],
       "pattern": "^https?://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9X]{4}$"
     },
     "isValid": {
@@ -153,24 +147,36 @@
     "acceptConditions": {
       "$id": "#/definitions/acceptConditions",
       "type": "boolean",
-      "enum": [ true ]
+      "enum": [true]
+    },
+    "callForPapers": {
+      "$id": "#/definitions/callForPapers",
+      "type": "string",
+      "default": "",
+      "pattern": "^[0-9a-zA-Z-]*$",
+      "minLength": 0,
+      "maxLength": 100
     }
   },
-  "examples": [{
-    "title": "article title",
-    "abstract": "article abstract",
-    "contact": {
-      "firstname": "John",
-      "lastname": "Foo",
-      "affiliation": "University of Minnesota"
-    },
-    "authors": [{
-      "firstname": "John",
-      "lastname": "Foo",
-      "email": "john.fooooooo@uni.lu",
-      "affiliation": "University of Minnesota"
-    }]
-  }],
+  "examples": [
+    {
+      "title": "article title",
+      "abstract": "article abstract",
+      "contact": {
+        "firstname": "John",
+        "lastname": "Foo",
+        "affiliation": "University of Minnesota"
+      },
+      "authors": [
+        {
+          "firstname": "John",
+          "lastname": "Foo",
+          "email": "john.fooooooo@uni.lu",
+          "affiliation": "University of Minnesota"
+        }
+      ]
+    }
+  ],
   "required": [
     "title",
     "abstract",
@@ -207,14 +213,13 @@
         "title": "A dataset description, with links",
         "description": "An explanation about the purpose of this instance.",
         "default": {},
-        "examples": [{
-          "url": "https://google.com",
-          "description": "Open source search engine used"
-        }],
-        "required": [
-          "url",
-          "description"
+        "examples": [
+          {
+            "url": "https://google.com",
+            "description": "Open source search engine used"
+          }
         ],
+        "required": ["url", "description"],
         "additionalProperties": false,
         "properties": {
           "id": {
@@ -242,12 +247,7 @@
       "$id": "#/properties/contact",
       "type": "object",
       "title": "Basic contact info",
-      "required": [
-        "firstname",
-        "lastname",
-        "email",
-        "orcid"
-      ],
+      "required": ["firstname", "lastname", "email", "orcid"],
       "additionalProperties": false,
       "properties": {
         "firstname": {
@@ -282,12 +282,14 @@
       "minItems": 1,
       "maxItems": 10,
       "examples": [
-        [{
-          "firstname": "John",
-          "lastname": "Foo",
-          "email": "john.fooooooooo@uni.lu",
-          "affiliation": "University of Minnesota, Luxembourg"
-        }]
+        [
+          {
+            "firstname": "John",
+            "lastname": "Foo",
+            "email": "john.fooooooooo@uni.lu",
+            "affiliation": "University of Minnesota, Luxembourg"
+          }
+        ]
       ],
       "additionalItems": true,
       "items": {
@@ -296,16 +298,14 @@
         "title": "An author of a paper",
         "description": "An explanation about the purpose of this instance.",
         "default": {},
-        "examples": [{
-          "firstname": "John",
-          "lastname": "Foo",
-          "affiliation": "University of Minnesota"
-        }],
-        "required": [
-          "firstname",
-          "lastname",
-          "affiliation"
+        "examples": [
+          {
+            "firstname": "John",
+            "lastname": "Foo",
+            "affiliation": "University of Minnesota"
+          }
         ],
+        "required": ["firstname", "lastname", "affiliation"],
         "additionalProperties": false,
         "properties": {
           "firstname": {
@@ -350,6 +350,9 @@
     },
     "acceptConditions": {
       "$ref": "#/definitions/acceptConditions"
+    },
+    "callForPapers": {
+      "$ref": "#/definitions/callForPapers"
     }
   }
 }
