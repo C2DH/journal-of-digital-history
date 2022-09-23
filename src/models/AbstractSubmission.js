@@ -1,6 +1,5 @@
 import Author from './Author'
 
-
 export default class AbstractSubmission {
   constructor({
     id,
@@ -12,26 +11,28 @@ export default class AbstractSubmission {
     datasets = [],
     dateLastModified,
     dateCreated,
-    acceptConditions = false
+    acceptConditions = false,
+    callForPapers = '',
   } = {}) {
     this.id = id
     this.title = String(title)
     this.abstract = String(abstract)
+    this.callForPapers = String(callForPapers)
     this.contact = contact
     // this.githubId = String(githubId)
     this.authors = authors
     this.datasets = datasets
     if (dateLastModified) {
-      this.dateLastModified = dateLastModified instanceof Date
-        ? dateLastModified
-        : new Date(dateLastModified)
+      this.dateLastModified =
+        dateLastModified instanceof Date
+          ? dateLastModified
+          : new Date(dateLastModified)
     } else {
       this.dateLastModified = new Date()
     }
     if (dateCreated) {
-      this.dateCreated = dateCreated instanceof Date
-        ? dateCreated
-        : new Date(dateCreated)
+      this.dateCreated =
+        dateCreated instanceof Date ? dateCreated : new Date(dateCreated)
     } else {
       this.dateCreated = new Date()
     }
@@ -56,19 +57,20 @@ export default class AbstractSubmission {
   isEmpty() {
     return (
       this.title.length +
-      this.abstract.length +
-      this.contact.firstname?.length +
-      this.contact.lastname?.length +
-      this.contact.email?.length +
-      this.contact.affiliation?.length +
-      this.contact.orcid?.length +
-      this.authors.length +
-      this.datasets.length
-    ) === 0
+        this.abstract.length +
+        this.contact.firstname?.length +
+        this.contact.lastname?.length +
+        this.contact.email?.length +
+        this.contact.affiliation?.length +
+        this.contact.orcid?.length +
+        this.authors.length +
+        this.datasets.length ===
+      0
+    )
   }
 
   static isPayloadEmpty(payload) {
-    const abstractSubmission = new AbstractSubmission({...payload})
+    const abstractSubmission = new AbstractSubmission({ ...payload })
     return abstractSubmission.isEmpty()
   }
 }
