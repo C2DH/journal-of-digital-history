@@ -1,4 +1,4 @@
-FROM node:14-alpine as builder
+FROM node:16.7-alpine as builder
 
 ARG GIT_TAG
 ARG GIT_BRANCH
