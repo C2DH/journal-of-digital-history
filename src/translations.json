@@ -13,7 +13,7 @@
         "articleHermeneutics": "hermeneutic layer",
         "articleHermeneuticsData": "hermeneutic layer",
         "articleData": "data",
-        "issue":"Articles & Issues",
+        "issue": "Articles & Issues",
         "releaseNotes": "Release notes",
         "faq": "Frequently asked questions"
       },
@@ -23,6 +23,7 @@
       "contactUsingEmail": "Contact us at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>",
       "FormNotebookUrl_GenerateLink": "View notebook as journal article!",
       "Navigation_NotebookViewer": "Preview Notebook",
+      "openCallForPapers": "Open call for papers",
       "Pages_NotebookViewer_Title": "Jupyter notebook viewer",
       "pages": {
         "about": {
@@ -46,7 +47,7 @@
           "subheading": "You will soon be contacted by our editors via the email you have indicated in the contact form.",
           "moreInfo": "If any information needs to be changed, please contact us via email at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>"
         },
-        "cfp":{
+        "cfp": {
           "applyCallForPapers": "Submit an Abstract"
         },
         "releaseNotes": {
@@ -209,6 +210,7 @@
         "enum": "not valid",
         "binderUrlNotAvailable": "Binder is not available for this notebook ..."
       },
+      "selectCallForPapers": "Please select the relevant <b class='text-accent'>call for papers<b>:",
       "schemaErrors": {
         "instance-acceptConditions": "... and don't forget to check the <b>terms and conditions</b>",
         "instance-contact": "Please fill the \"Contact\" section with your <b>email</b> and <b>ORCID URL</b>",
