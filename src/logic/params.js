@@ -7,4 +7,7 @@ export const CfpParam = {
     }
     return null
   },
+  encode(value) {
+    return value
+  },
 }
