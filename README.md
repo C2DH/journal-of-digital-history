@@ -1,7 +1,7 @@
 # journal of digital history
 Frontend app (React) for the JDH journal: journal issues, write and read scholar publication on digital history
 
-## run via docker en development
+## run via docker in development mode
 ```
    docker-compose up 
 ```
