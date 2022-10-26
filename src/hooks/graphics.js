@@ -3,7 +3,7 @@ import {
   useState,
   useEffect,
   useCallback,
-  useLayoutEffect
+  useLayoutEffect,
 } from 'react'
 
 /**
@@ -14,45 +14,59 @@ import {
  *     return (<div ref="ref"></div>)
  */
 export const useBoundingClientRect = () => {
-  const ref = useRef();
+  const ref = useRef()
   const [bbox, setBbox] = useState({
-    width: 0, height: 0, windowDimensions: '0x0'
-  });
+    width: 0,
+    height: 0,
+    windowDimensions: '0x0',
+  })
   const setCurrentBoundingClientRect = () => {
-    const boundingClientRect = ref && ref.current
-      ? ref.current.getBoundingClientRect()
-      : { width: 0, height: 0, windowDimensions: '0x0' }
+    const boundingClientRect =
+      ref && ref.current
+        ? ref.current.getBoundingClientRect()
+        : { width: 0, height: 0, windowDimensions: '0x0' }
     const windowDimensions = `${boundingClientRect.width}x${boundingClientRect.height}`
     if (windowDimensions !== bbox.windowDimensions) {
       // extract one dimension by one dimension, the only way
       // as the result of el.getBoundingClientRect() returns a special object
       // of type ClientRect (or DomRect apparently)
-      const {top, right, bottom, left, width, height, x, y} = boundingClientRect
+      const { top, right, bottom, left, width, height, x, y } =
+        boundingClientRect
       setBbox({
-        top, right, bottom, left, width, height, x, y,
+        top,
+        right,
+        bottom,
+        left,
+        width,
+        height,
+        x,
+        y,
         windowDimensions,
       })
     }
-  };
+  }
   useLayoutEffect(() => {
     setCurrentBoundingClientRect()
-    window.addEventListener('resize', setCurrentBoundingClientRect);
-    return () => window.removeEventListener('resize', setCurrentBoundingClientRect);
-  });
-  return [bbox, ref];
-};
+    window.addEventListener('resize', setCurrentBoundingClientRect)
+    return () =>
+      window.removeEventListener('resize', setCurrentBoundingClientRect)
+  })
+  return [bbox, ref]
+}
 
-const getWidth = () => window.innerWidth
-  || document.documentElement.clientWidth
-  || document.body.clientWidth;
+const getWidth = () =>
+  window.innerWidth ||
+  document.documentElement.clientWidth ||
+  document.body.clientWidth
 
-const getHeight = () => window.innerHeight
-    || document.documentElement.clientHeight
-    || document.body.clientHeight;
+const getHeight = () =>
+  window.innerHeight ||
+  document.documentElement.clientHeight ||
+  document.body.clientHeight
 
 const getWindowDimensions = () => ({
   width: getWidth(),
-  height: getHeight()
+  height: getHeight(),
 })
 
 /*
@@ -61,24 +75,23 @@ const getWindowDimensions = () => ({
   consulted on 2021-02-26
 */
 export const useCurrentWindowDimensions = () => {
-  let [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  let [windowDimensions, setWindowDimensions] = useState(getWindowDimensions())
   useEffect(() => {
-    let timeoutId = null;
+    let timeoutId = null
     const resizeListener = () => {
-      clearTimeout(timeoutId);
+      clearTimeout(timeoutId)
       const dims = getWindowDimensions()
-      timeoutId = setTimeout(() => setWindowDimensions(dims), 150);
+      timeoutId = setTimeout(() => setWindowDimensions(dims), 150)
       // console.info('setWindowDimensions', dims)
-    };
-    window.addEventListener('resize', resizeListener);
+    }
+    window.addEventListener('resize', resizeListener)
 
     return () => {
-      window.removeEventListener('resize', resizeListener);
+      window.removeEventListener('resize', resizeListener)
     }
   }, [])
-  return windowDimensions;
+  return windowDimensions
 }
-
 
 /*
   Based on https://gist.github.com/whoisryosuke/99f23c9957d90e8cc3eb7689ffa5757c
@@ -87,52 +100,64 @@ export const useCurrentWindowDimensions = () => {
   const { x, y } = useMousePosition();
 */
 export function useMousePosition() {
-  const [mousePosition, setMousePosition] = useState({ x: null, y: null, isValid: false });
-  const updateMousePosition = ev => {
+  const [mousePosition, setMousePosition] = useState({
+    x: null,
+    y: null,
+    isValid: false,
+  })
+  const updateMousePosition = (ev) => {
     if (!ev) {
       return
     }
-    setMousePosition({ x: ev.clientX, y: ev.clientY, isValid: true, event: ev });
-  };
+    setMousePosition({ x: ev.clientX, y: ev.clientY, isValid: true, event: ev })
+  }
   useEffect(() => {
-    window.addEventListener("mousemove", updateMousePosition);
-    return () => window.removeEventListener("mousemove", updateMousePosition);
-  }, []);
-  return mousePosition;
+    window.addEventListener('mousemove', updateMousePosition)
+    return () => window.removeEventListener('mousemove', updateMousePosition)
+  }, [])
+  return mousePosition
 }
 
 /**
-  * @method useOnScreen
-  * Based on https://stackoverflow.com/questions/45514676/react-check-if-element-is-visible-in-dom
-  * consulted on 2021-04-26
-  *
-  * Possible values: entry.boundingClientRect
-  * entry.intersectionRatio
-  * entry.intersectionRect, entry.isIntersecting, entry.rootBounds,
-  * entry.target,
-  * entry.time
-  * usage
-  *   const [entry, ref] = useOnScreen()
-  *   <div ref={ref}>trigger {entry.isIntersecting? 'visisble': 'not visible'}</div>
-  *
-*/
-export function useOnScreen({ threshold = [0, 1], rootMargin='0% 0% 0% 0%'} = {}) {
-  const ref = useRef();
+ * @method useOnScreen
+ * Based on https://stackoverflow.com/questions/45514676/react-check-if-element-is-visible-in-dom
+ * consulted on 2021-04-26
+ *
+ * Possible values: entry.boundingClientRect
+ * entry.intersectionRatio
+ * entry.intersectionRect, entry.isIntersecting, entry.rootBounds,
+ * entry.target,
+ * entry.time
+ * usage
+ *   const [entry, ref] = useOnScreen()
+ *   <div ref={ref}>trigger {entry.isIntersecting? 'visisble': 'not visible'}</div>
+ *
+ */
+export function useOnScreen({
+  threshold = [0, 1],
+  rootMargin = '0% 0% 0% 0%',
+} = {}) {
+  const ref = useRef()
   const [entry, setEntry] = useState({
     intersectionRatio: 0, // this avoid entry is null error
     isIntersecting: false,
   })
-  const observer = new IntersectionObserver(([b]) => {
-    // add debounce
-    setEntry(b)
-  }, {
-    threshold,
-    rootMargin
-  })
+  const observer = new IntersectionObserver(
+    ([b]) => {
+      // add debounce
+      setEntry(b)
+    },
+    {
+      threshold,
+      rootMargin,
+    }
+  )
   useEffect(() => {
     observer.observe(ref.current, { threshold })
     // Remove the observer as soon as the component is unmounted
-    return () => { observer.disconnect() }
+    return () => {
+      observer.disconnect()
+    }
     // eslint-disable-next-line
   }, [])
 
@@ -143,75 +168,107 @@ export function useOnScreen({ threshold = [0, 1], rootMargin='0% 0% 0% 0%'} = {}
         observer.observe(ref.current, { threshold })
       }
     }
-    window.addEventListener('refreshIntersectionObserver', refreshIntersectionObserverHandler)
+    window.addEventListener(
+      'refreshIntersectionObserver',
+      refreshIntersectionObserverHandler
+    )
     // Remove the observer as soon as the component is unmounted
     return () => {
-      window.removeEventListener('refreshIntersectionObserver', refreshIntersectionObserverHandler)
+      window.removeEventListener(
+        'refreshIntersectionObserver',
+        refreshIntersectionObserverHandler
+      )
       observer.disconnect()
     }
     // eslint-disable-next-line
   }, [])
-  return [entry, ref];
+  return [entry, ref]
 }
-
 
 /**
-  * @method useRefWithCallback
-  * Guarantees that the DOM is ready before calling the
-  * onMount callback.
-  * Usage:
-  * ```
-  * const refWithCallback = useRefWithCallback(...)
-  *
-  * return (
-  *   <div ref={refWithCallback}> ...</div>
-  * )
-  * ```
-  * @return
-  */
+ * @method useRefWithCallback
+ * Guarantees that the DOM is ready before calling the
+ * onMount callback.
+ * Usage:
+ * ```
+ * const refWithCallback = useRefWithCallback(...)
+ *
+ * return (
+ *   <div ref={refWithCallback}> ...</div>
+ * )
+ * ```
+ * @return
+ */
 export function useRefWithCallback(onMount, onUnmount) {
-  const nodeRef = useRef(null);
-  const setRef = useCallback(node => {
-    if (nodeRef.current && typeof onUnmount === 'function') {
-      onUnmount(nodeRef.current);
-    }
-    nodeRef.current = node;
-    if (nodeRef.current && typeof onMount === 'function') {
-      onMount(nodeRef.current);
-    }
-  }, [onMount, onUnmount]);
-  return setRef;
+  const nodeRef = useRef(null)
+  const setRef = useCallback(
+    (node) => {
+      if (nodeRef.current && typeof onUnmount === 'function') {
+        onUnmount(nodeRef.current)
+      }
+      nodeRef.current = node
+      if (nodeRef.current && typeof onMount === 'function') {
+        onMount(nodeRef.current)
+      }
+    },
+    [onMount, onUnmount]
+  )
+  return setRef
 }
 
-
-export function useInjectTrustedJavascript({ id='', isTrusted=false, contents=[], onMount, onUnmount }) {
-  const setRefWithCallback = useRefWithCallback((node) => {
-    if (isTrusted && contents.length) {
-      console.debug('useInjectTrustedJavascript', id, contents.length)
-      let scriptDomElement = document.getElementById(id)
-      if (scriptDomElement === null) {
-        const script = document.createElement('script')
-        script.setAttribute('id', id)
-        script.appendChild(document.createTextNode(contents.join('\n')))
-        node.appendChild(script)
+export function useInjectTrustedJavascript({
+  id = '',
+  isTrusted = false,
+  contents = [],
+  onMount,
+  onUnmount,
+}) {
+  const setRefWithCallback = useRefWithCallback(
+    (node) => {
+      if (isTrusted && contents.length) {
+        console.debug('useInjectTrustedJavascript', id, contents.length)
+        let scriptDomElement = document.getElementById(id)
+        if (scriptDomElement === null) {
+          const script = document.createElement('script')
+          script.setAttribute('id', id)
+          script.appendChild(
+            document.createTextNode(
+              [
+                'try{',
+                ...contents,
+                '} catch(e) { console.error("Error inside the script attached useInjectTrustedJavascript!\\n\\n", e)}',
+              ].join('\n')
+            )
+          )
+          try {
+            node.appendChild(script)
+          } catch (e) {
+            console.error(e)
+          }
+        }
+      }
+      if (node && typeof onMount === 'function') {
+        onMount(node)
+      }
+    },
+    (node) => {
+      if (isTrusted && contents.length) {
+        let scriptDomElement = document.getElementById(id)
+        try {
+          node.removeChild(scriptDomElement)
+        } catch (e) {
+          console.warn(
+            'document.body.removeChild failed with id:',
+            id,
+            e.message
+          )
+        }
+        if (node && typeof onUnmount === 'function') {
+          onUnmount(node)
+        }
       }
     }
-    if (node && typeof onMount === 'function') {
-      onMount(node)
-    }
-  }, (node) => {
-    if (isTrusted && contents.length) {
-      let scriptDomElement = document.getElementById(id)
-      try {
-        node.removeChild(scriptDomElement)
-      } catch(e) {
-        console.warn('document.body.removeChild failed with id:', id, e.message)
-      }
-      if (node && typeof onUnmount === 'function') {
-        onUnmount(node)
-      }
-    }
-  })
+  )
 
   return setRefWithCallback
 }
