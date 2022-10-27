@@ -12,7 +12,7 @@ import LangNavLink from '../LangNavLink'
 import Logo from '../Logo'
 
 const Article = ({
-  memoid='',
+  memoid = '',
   isLocal = false,
   // pid,
   // Notebook instance, an object containing {cells:[], metadata:{}}
@@ -30,11 +30,11 @@ const Article = ({
   binderUrl,
   bibjson,
   emailAddress,
-  isJavascriptTrusted=false,
+  isJavascriptTrusted = false,
   // used to remove publication info from ArticleHeader
-  ignorePublicationStatus=false,
+  ignorePublicationStatus = false,
   // used to put page specific helmet in the parent component
-  ignoreHelmet=false,
+  ignoreHelmet = false,
   // if it is defined, will override the style of the ArticleLayout pushFixed
   // header
   pageBackgroundColor,
@@ -43,18 +43,20 @@ const Article = ({
   // a translatable string that defines the article header if ignorePublicationStatus is true
   category,
   // if false, binder url notice will be hidden
-  ignoreBinder=false,
+  ignoreBinder = false,
+  // if true, force table of contetts to hide figures.
+  hideFigures = false,
   // Children will be put right aftr the ArticleHeader.
   children,
 }) => {
   const { t } = useTranslation()
   const [selectedDataHref, setSelectedDataHref] = useState(null)
-  const { height, width } =  useCurrentWindowDimensions()
+  const { height, width } = useCurrentWindowDimensions()
 
   const articleTree = useIpynbNotebookParagraphs({
     id: memoid || url,
     cells: ipynb?.content?.cells ?? ipynb?.cells ?? [],
-    metadata: ipynb?.content?.metadata ?? ipynb?.metadata ?? {}
+    metadata: ipynb?.content?.metadata ?? ipynb?.metadata ?? {},
   })
   const {
     title,
@@ -62,91 +64,103 @@ const Article = ({
     keywords,
     contributor,
     collaborators,
-    disclaimer = []
+    disclaimer = [],
   } = articleTree.sections
 
   console.debug(`[Article] component rendered ${width}x${height}px`)
   console.debug('[Article] binderUrl:', binderUrl)
   console.debug('[Article] loading articleTree anchors:', articleTree.anchors)
-  console.debug('[Article] loading articleTree paragraphs:',  articleTree.paragraphs.length)
+  console.debug(
+    '[Article] loading articleTree paragraphs:',
+    articleTree.paragraphs.length
+  )
 
   const onDataHrefClickHandler = (d) => {
     console.debug('DataHref click handler')
     setSelectedDataHref(d)
   }
   const renderedBibliographyComponent = (
-    <ArticleBibliography articleTree={articleTree} noAnchor className="mt-0"/>
+    <ArticleBibliography articleTree={articleTree} noAnchor className='mt-0' />
   )
-  const renderedFooterComponent = (<Footer />)
-  const renderedLogoComponent =(
-    <LangNavLink to="/" className="MobileHeaderBrand d-flex d-md-none position-absolute" >
-    <div style={{width:60}}><Logo color="var(--secondary)" size={35}/>
-    </div>
-    <div dangerouslySetInnerHTML={{__html: t('title')}} style={{lineHeight: '18px', fontSize:'14px', marginTop: 2}}></div>
-  </LangNavLink>)
-
+  const renderedFooterComponent = <Footer />
+  const renderedLogoComponent = (
+    <LangNavLink
+      to='/'
+      className='MobileHeaderBrand d-flex d-md-none position-absolute'
+    >
+      <div style={{ width: 60 }}>
+        <Logo color='var(--secondary)' size={35} />
+      </div>
+      <div
+        dangerouslySetInnerHTML={{ __html: t('title') }}
+        style={{ lineHeight: '18px', fontSize: '14px', marginTop: 2 }}
+      ></div>
+    </LangNavLink>
+  )
 
   return (
     <>
-    {!ignoreHelmet && (
-      <ArticleHelmet
-        url={url}
-        imageUrl={imageUrl}
-        plainTitle={plainTitle}
-        plainContributor={plainContributor}
-        plainKeywords={plainKeywords}
-        publicationDate={publicationDate}
-        issue={issue}
-        excerpt={excerpt}
-      />
-    )}
-    <div className="page">
-      <a id="top" className="anchor"></a>
-      <ArticleFlow
-        layers={layers}
-        memoid={isLocal ? ipynb.last_modified : memoid}
-        height={height}
-        width={width}
-        paragraphs={articleTree.paragraphs}
-        headingsPositions={articleTree.headingsPositions}
-        hasBibliography={!!articleTree.bibliography}
-        binderUrl={binderUrl}
-        emailAddress={emailAddress}
-        onDataHrefClick={onDataHrefClickHandler}
-        isJavascriptTrusted={isJavascriptTrusted}
-        articleTree={articleTree}
-        pageBackgroundColor={pageBackgroundColor}
-        ignoreBinder={ignoreBinder}
-        renderedBibliographyComponent={renderedBibliographyComponent}
-        renderedFooterComponent={renderedFooterComponent}
-        renderedLogoComponent={renderedLogoComponent}
-      >
-        <ArticleHeader
-          className="page mt-5 pb-0"
-          title={title}
-          abstract={abstract}
-          keywords={keywords}
-          collaborators={collaborators}
-          contributor={contributor}
-          publicationDate={publicationDate}
+      {!ignoreHelmet && (
+        <ArticleHelmet
           url={url}
-          disclaimer={disclaimer}
-          publicationStatus={publicationStatus}
-          ignorePublicationStatus={ignorePublicationStatus}
-          category={category}
+          imageUrl={imageUrl}
+          plainTitle={plainTitle}
+          plainContributor={plainContributor}
+          plainKeywords={plainKeywords}
+          publicationDate={publicationDate}
           issue={issue}
-          doi={doi}
-          bibjson={bibjson}
-          isPreview={false}
+          excerpt={excerpt}
         />
-        {typeof children === 'function' ? children(articleTree) : children}
-      </ArticleFlow>
-      {articleTree.citationsFromMetadata
-        ? <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref}/>
-        : null
-      }
-
-    </div>
+      )}
+      <div className='page'>
+        <a id='top' className='anchor'></a>
+        <ArticleFlow
+          layers={layers}
+          memoid={isLocal ? ipynb.last_modified : memoid}
+          height={height}
+          width={width}
+          paragraphs={articleTree.paragraphs}
+          headingsPositions={articleTree.headingsPositions}
+          hasBibliography={!!articleTree.bibliography}
+          binderUrl={binderUrl}
+          emailAddress={emailAddress}
+          onDataHrefClick={onDataHrefClickHandler}
+          isJavascriptTrusted={isJavascriptTrusted}
+          articleTree={articleTree}
+          pageBackgroundColor={pageBackgroundColor}
+          ignoreBinder={ignoreBinder}
+          renderedBibliographyComponent={renderedBibliographyComponent}
+          renderedFooterComponent={renderedFooterComponent}
+          renderedLogoComponent={renderedLogoComponent}
+          hideFigures={hideFigures}
+        >
+          <ArticleHeader
+            className='page mt-5 pb-0'
+            title={title}
+            abstract={abstract}
+            keywords={keywords}
+            collaborators={collaborators}
+            contributor={contributor}
+            publicationDate={publicationDate}
+            url={url}
+            disclaimer={disclaimer}
+            publicationStatus={publicationStatus}
+            ignorePublicationStatus={ignorePublicationStatus}
+            category={category}
+            issue={issue}
+            doi={doi}
+            bibjson={bibjson}
+            isPreview={false}
+          />
+          {typeof children === 'function' ? children(articleTree) : children}
+        </ArticleFlow>
+        {articleTree.citationsFromMetadata ? (
+          <ArticleNote
+            articleTree={articleTree}
+            selectedDataHref={selectedDataHref}
+          />
+        ) : null}
+      </div>
     </>
   )
 }
