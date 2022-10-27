@@ -27,7 +27,10 @@ console.info('%cRecaptcha site key', 'font-weight:bold', ReCaptchaSiteKey)
 const AbstractSubmission = ({ allowGithubId = false }) => {
   const { t } = useTranslation()
   const history = useHistory()
-  const [callForPapers] = useQueryParam('cfp', withDefault(CfpParam, ''))
+  const [callForPapers, setCallForPapers] = useQueryParam(
+    'cfp',
+    withDefault(CfpParam, '')
+  )
   const [isPreviewMode, setPreviewMode] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [confirmModalShow, setConfirmModalShow] = useState(false)
@@ -107,6 +110,17 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
     )
   }, [temporaryAbstractSubmission])
 
+  useEffect(() => {
+    console.info(
+      '[AbstractSubmission] @useEffect \n - callForPapers:',
+      callForPapers
+    )
+    handleChange({
+      id: 'callForPapers',
+      value: callForPapers,
+      isValid: true,
+    })
+  }, [callForPapers])
   const handleSubmit = async (event) => {
     event.preventDefault()
     if (isSubmitting) {
@@ -223,7 +237,10 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
           <h1 className='my-5'>{t('pages.abstractSubmission.title')}</h1>
         </Col>
       </Row>
-      <AbstractSubmissionCallForPapers cfp={callForPapers} />
+      <AbstractSubmissionCallForPapers
+        onChange={(cfp) => setCallForPapers(cfp)}
+        cfp={callForPapers}
+      />
       <br />
       <Form noValidate onSubmit={handleSubmit}>
         <Row>
