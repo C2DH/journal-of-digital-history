@@ -74,6 +74,8 @@ const ArticleFlow = ({
         style={{
           height,
           width,
+
+          overflow: 'hidden',
         }}
       ></div>
       <div
