@@ -17,9 +17,7 @@ import {
   ArticleCellContainerClassNames,
 } from '../../constants'
 
-const ArticleCellVisualisation = lazy(() =>
-  import('./ArticleCellVisualisation')
-)
+const ArticleCellVisualisation = lazy(() => import('./ArticleCellVisualisation'))
 const ArticleCellTextObject = lazy(() => import('./ArticleCellTextObject'))
 const ArticleCellObject = lazy(() => import('./ArticleCellObject'))
 
@@ -40,9 +38,9 @@ const ArticleCell = ({
   headingLevel = 0, // if isHeading, set this to its ArticleHeading.level value
   isJavascriptTrusted = false,
   onNumClick,
+  windowHeight = 0,
 }) => {
-  let cellBootstrapColumnLayout =
-    metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout
+  let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout
   // we override or set the former layout if it appears in narrative-step
   if (isNarrativeStep) {
     cellBootstrapColumnLayout = BootstrapNarrativeStepColumnLayout
@@ -56,28 +54,18 @@ const ArticleCell = ({
   const cellModule = metadata.jdh?.module
 
   const containerClassNames = (metadata.tags ?? []).filter((d) =>
-    ArticleCellContainerClassNames.includes(d)
+    ArticleCellContainerClassNames.includes(d),
   )
 
   if (cellModule === ModuleStack) {
-    return (
-      <ArticleCellVisualisation
-        metadata={metadata}
-        progress={progress}
-        active={active}
-      />
-    )
+    return <ArticleCellVisualisation metadata={metadata} progress={progress} active={active} />
   }
   if (cellModule === ModuleTextObject) {
     return (
       <Container className={containerClassNames.join(' ')}>
         <Row>
           <Col {...cellBootstrapColumnLayout}>
-            <ArticleCellTextObject
-              metadata={metadata}
-              progress={progress}
-              active={active}
-            />
+            <ArticleCellTextObject metadata={metadata} progress={progress} active={active} />
           </Col>
           <Col {...cellObjectBootstrapColumnLayout}>
             <ArticleCellObject
@@ -111,7 +99,7 @@ const ArticleCell = ({
     return (
       <Container className={containerClassNames.join(' ')}>
         <Row>
-          <Col className='ArticleCellQuote' {...BootstrapQuoteColumLayout}>
+          <Col className="ArticleCellQuote" {...BootstrapQuoteColumLayout}>
             <ArticleCellContent
               onNumClick={onNumClick}
               layer={layer}
@@ -136,6 +124,8 @@ const ArticleCell = ({
           isJavascriptTrusted={isJavascriptTrusted}
           isNarrativeStep={isNarrativeStep}
           containerClassName={containerClassNames.join(' ')}
+          windowHeight={windowHeight}
+          active={active}
         >
           <ArticleCellContent
             onNumClick={onNumClick}
@@ -175,12 +165,10 @@ const ArticleCell = ({
           isNarrativeStep={isNarrativeStep}
           figureColumnLayout={cellObjectBootstrapColumnLayout}
           isJavascriptTrusted={isJavascriptTrusted}
+          windowHeight={windowHeight}
+          active={active}
           sourceCode={
-            <ArticleCellSourceCode
-              toggleVisibility
-              content={content}
-              language='python'
-            />
+            <ArticleCellSourceCode toggleVisibility content={content} language="python" />
           }
           containerClassName={containerClassNames.join(' ')}
         ></ArticleCellFigure>
@@ -191,13 +179,9 @@ const ArticleCell = ({
       <Container className={containerClassNames.join(' ')}>
         <Row>
           <Col {...cellBootstrapColumnLayout}>
-            <div className='ArticleCellContent'>
-              <div className='ArticleCellContent_num'></div>
-              <ArticleCellSourceCode
-                visible
-                content={content}
-                language='python'
-              />
+            <div className="ArticleCellContent">
+              <div className="ArticleCellContent_num"></div>
+              <ArticleCellSourceCode visible content={content} language="python" />
               <ArticleCellOutputs
                 isJavascriptTrusted={isJavascriptTrusted}
                 cellIdx={idx}
@@ -213,10 +197,7 @@ const ArticleCell = ({
 }
 
 export default React.memo(ArticleCell, (prevProps, nextProps) => {
-  if (
-    prevProps.memoid === nextProps.memoid ||
-    prevProps.active === nextProps.active
-  ) {
+  if (prevProps.memoid === nextProps.memoid || prevProps.active === nextProps.active) {
     return true // props are equal
   }
   return false // props are not equal -> update the component
