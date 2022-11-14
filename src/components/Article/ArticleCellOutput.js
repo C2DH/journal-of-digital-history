@@ -38,6 +38,9 @@ const ArticleCellOutput = ({
         }
     : {}
 
+  if (output.name !== 'stdout' && !output?.data) {
+    console.warn('Output data is undefined for cell:', cellIdx, 'output:', output)
+  }
   if (output.output_type === 'display_data' && output.data['text/markdown']) {
     return (
       <div
