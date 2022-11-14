@@ -1,0 +1,10 @@
+.ArticleCellFigure.with-aspect-ratio figure {
+  position: relative;
+  overflow: 'hidden';
+  height: 0;
+
+  .ArticleCellOutputs {
+    position: absolute;
+    top: 0;
+  }
+}
