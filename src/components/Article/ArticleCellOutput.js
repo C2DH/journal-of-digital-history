@@ -17,16 +17,19 @@ const ArticleCellOutput = ({
 }) => {
   const outputTypeClassName = `ArticleCellOutput_${output.output_type}`
   const { t } = useTranslation()
-  let style = !isNaN(height)
+  const style = !isNaN(height)
     ? !isNaN(width)
       ? {
           // constrain output to this size. used for images.
           width,
           height,
+          objectFit: 'contain',
+          display: 'block',
+          margin: '0 auto',
         }
       : {
           height,
-          objectFit: 'scale-down',
+          objectFit: 'contain',
           display: 'block',
           margin: '0 auto',
           // background: '#0000000c',
@@ -34,7 +37,6 @@ const ArticleCellOutput = ({
           // backgroundClip: 'content-box',
         }
     : {}
-  style = null
 
   if (output.output_type === 'display_data' && output.data['text/markdown']) {
     return (
