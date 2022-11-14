@@ -30,7 +30,7 @@ const ArticleCellFigure = ({
     if (!ratio) {
       return acc
     }
-    return ratio[1] / (ratio[2] || 1)
+    return ratio[2] / (ratio[1] || 1)
   }, undefined)
   // get figure height if any has been specified with the tags. Otherwise default is windowHeight * .5
   let figureHeight = tags.reduce((acc, tag) => {
