@@ -71,7 +71,7 @@ const ArticleCellOutput = ({
     )
   }
 
-  const encodedImages = Object.keys(output.data)
+  const encodedImages = Object.keys(output?.data ?? {})
     .filter((mimetype) => mimetype.indexOf('image/') === 0)
     .map((mimetype) => `data:${mimetype};base64,${output.data[mimetype]}`)
 
