@@ -15,7 +15,6 @@ const ArticleCellFigure = ({
   figureColumnLayout,
   children,
   containerClassName,
-  active,
   windowHeight = 100,
 }) => {
   const tags = Array.isArray(metadata.tags) ? metadata.tags : []
@@ -72,7 +71,14 @@ const ArticleCellFigure = ({
     }
   }
 
-  console.debug('[ArticleCellFigure] active, idx:', figure.idx, active)
+  console.debug(
+    '[ArticleCellFigure] \n - idx:',
+    figure.idx,
+    '\n - aspectRatio:',
+    aspectRatio,
+    '\n - tags:',
+    tags,
+  )
 
   return (
     <div className={`ArticleCellFigure ${aspectRatio ? 'with-aspect-ratio' : ''}`}>
@@ -96,7 +102,7 @@ const ArticleCellFigure = ({
                 isJavascriptTrusted={isJavascriptTrusted}
                 cellIdx={figure.idx}
                 outputs={outputs}
-                height={figureHeight}
+                height={!isNaN(aspectRatio) ? 'auto' : figureHeight}
               />
             </figure>
             {children}
