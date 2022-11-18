@@ -86,7 +86,6 @@ const Home = ({ data = '', status }) => {
     })
   }, [status, data])
 
-  console.debug('[Home]', editorialBoard, editorialTeam, steps, callForPapers)
   return (
     <>
       <Container className={`page Home ${status !== StatusSuccess ? 'is-fake' : ''}`}>
