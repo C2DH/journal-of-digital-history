@@ -1,123 +1,179 @@
-import React from 'react'
-import groupBy from 'lodash/groupBy'
+import React, { useMemo } from 'react'
+import MarkdownIt from 'markdown-it'
 import { useTranslation } from 'react-i18next'
-import { Container, Row, Col, } from 'react-bootstrap'
+import { Container, Row, Col } from 'react-bootstrap'
 import LangLink from '../components/LangLink'
-import homePageContents from '../data/mock-api/mock-home-ipynb.json'
-import {getArticleTreeFromIpynb} from '../logic/ipynb'
 import ArticleCellContent from '../components/Article/ArticleCellContent'
 import HomeReel from '../components/HomeReel'
 import HomeMilestones from '../components/HomeMilestones'
 import {
-  IsPortrait, BootstrapColumLayout,
+  IsPortrait,
+  BootstrapColumLayout,
   BootstrapFullColumLayout,
-  IsMobile
+  IsMobile,
+  StatusSuccess,
 } from '../constants'
+import StaticPageLoader from './StaticPageLoader'
+import '../styles/pages/Home.scss'
 
+const markdownParser = MarkdownIt({
+  html: false,
+  linkify: false,
+  typographer: true,
+})
 
-const articleTree = getArticleTreeFromIpynb(homePageContents)
-const {
-  'journal': journalCells,
-  'editorial-board': editorialBoardCells,
-  'editorial-team': editorialTeamCells,
-  'call-for-papers': callForPapers,
-} = groupBy(articleTree.paragraphs, ({ metadata }) => metadata?.jdh?.section)
+const randomFakeSentence = (num) => {
+  let t = '▤'
+  const characters = ' .!,◎,;▤▤ ▫▫◮◪ ◍◘◎▚▤'
 
+  const charactersLength = characters.length
+  for (let i = 0; i < num; i++) {
+    t += characters.charAt(Math.floor(Math.random() * charactersLength))
+  }
 
-const Home = () => {
+  return t
+}
+
+const Home = ({ data = '', status }) => {
   const { t } = useTranslation()
+  console.debug('[Home] loaded: ', status)
 
+  const [intro, steps, editorialTeam, editorialBoard, callForPapers] = useMemo(() => {
+    if (status !== StatusSuccess) {
+      // return preloaded, partial data
+      return [
+        // fake intro. ↓
+        [
+          'Write Digital History.',
+          'As an international, academic, peer-reviewed and open-access journal, the Journal of Digital History (JDH) will set new standards in history publishing based on the principle of multi-layered articles.',
+          randomFakeSentence(200),
+        ],
+        // fake steps. ↓
+        [
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        ],
+        // fake editorialTeam. ↓
+        [
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        ],
+        // fake editorialBoard. ↓
+        [
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        ],
+        // fake call for papers
+        [randomFakeSentence(10) + '\n' + randomFakeSentence(60)],
+      ]
+    }
+    return data.split('---').map((d) => {
+      return d
+        .trim()
+        .split(/\n\n/)
+        .map((source) => markdownParser.render(source))
+    })
+  }, [status, data])
+
+  console.debug('[Home]', editorialBoard, editorialTeam, steps, callForPapers)
   return (
     <>
-    <Container className="page">
-
-      <Row>
-        <Col {...BootstrapColumLayout}>
-          <h1 className="my-5">Write (Digital) History.</h1>
-          <h2 className="my-5 mb-3-sm">
-            As an international, academic, peer-reviewed and open-access journal,
-            the Journal of Digital History (JDH) will set new standards in history publishing
-            based on the principle of multi-layered articles.
-          </h2>
-          <HomeReel
-            height={IsMobile ? 250 : 180}
-          />
-          <h2 className="mt-5" style={{
-            fontFamily: 'var(--font-family-sans-serif)',
-            lineHeight: '1.75',
-            marginBottom: '2rem',
-            fontSize: 'inherit',
-            fontWeight: 'normal',
-          }}>
-            Our journal aims to become the central
-            hub of critical debate and discussion in
-            the field of Digital History by offering an innovative
-            publication platform, promoting a new form of data-driven scholarship
-            and of <span style={{background:'var(--primary)'}}>transmedia storytelling</span>&nbsp;
-            in the historical sciences. <LangLink to="/about">Read More</LangLink>
-          </h2>
-
-
-        </Col>
-      </Row>
-      <Row>
-        <Col md={{span:4, offset:2}}>
-        {journalCells.map((props, i) => (
-          <ArticleCellContent key={i} hideNum hideIdx={false} {...props} idx={i+1}/>
-        ))}
-        </Col>
-        <Col md={{span:4, offset:0}}>
-        <div className="border border-dark p-4" style={{
-          position: 'sticky',
-          top: '120px'
-        }}>
-        <h2 className="mb-4">{t('pages.home.callForPaper')}</h2>
-        {callForPapers.map((props, i) => (
-          <ArticleCellContent key={i} {...props} idx={i+1} hideIdx hideNum style={{lineHeight: 1.75}}/>
-        ))}
-        <LangLink to='/submit' className="btn btn-block btn-primary btn-lg">{t('pages.home.submitAbstract')}</LangLink>
-        </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col md={{offset:2}}>
-          <h2 className="my-5">{t('pages.home.editorialBoardMembers')}</h2>
-        </Col>
-      </Row>
-      <Row>
-        {editorialTeamCells.map((props, i) => (
-          <Col key={i} md={{span:4, offset: i % 2 === 0 ? 2 : 0}}>
-          <ArticleCellContent hideNum hideIdx={false} {...props} idx="▲"/>
+      <Container className={`page Home ${status !== StatusSuccess ? 'is-fake' : ''}`}>
+        <Row>
+          <Col {...BootstrapColumLayout}>
+            <h1 className="my-5">{intro[0].replace(/<[^>]+>/g, '')}</h1>
+            <h2 className="my-5 mb-3-sm">{intro[1].replace(/<[^>]+>/g, '')}</h2>
+            <HomeReel height={IsMobile ? 250 : 180} />
+            <h2
+              className="mt-5"
+              style={{
+                fontFamily: 'var(--font-family-sans-serif)',
+                lineHeight: '1.75',
+                marginBottom: '2rem',
+                fontSize: 'inherit',
+                fontWeight: 'normal',
+              }}
+            >
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: intro[2].replace(
+                    'transmedia storytelling',
+                    '<span class="bg-primary">transmedia storytelling</span>',
+                  ),
+                }}
+              />
+              <LangLink to="/about">Read More</LangLink>
+            </h2>
           </Col>
-        ))}
-      </Row>
-      <Row className="mt-5">
-        {/* }<Col md={{ offset: 2, span:10 }}>
+        </Row>
+        <Row>
+          <Col md={{ span: 4, offset: 2 }}>
+            {steps.map((content, i) => (
+              <ArticleCellContent key={i} content={content} hideNum hideIdx={false} idx={i + 1} />
+            ))}
+          </Col>
+          <Col md={{ span: 4, offset: 0 }}>
+            <div className="Home__callForPaper p-4">
+              <h2 className="mb-4">{t('pages.home.callForPaper')}</h2>
+              {callForPapers.map((source, i) => (
+                <div dangerouslySetInnerHTML={{ __html: source }} key={i} />
+              ))}
+              <LangLink to="/submit" className="btn btn-block btn-primary btn-lg">
+                {t('pages.home.submitAbstract')}
+              </LangLink>
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={{ offset: 2 }}>
+            <h2 className="my-5">{t('pages.home.editorialBoardMembers')}</h2>
+          </Col>
+        </Row>
+        <Row>
+          {editorialTeam.map((person, i) => (
+            <Col key={i} md={{ span: 4, offset: i % 2 === 0 ? 2 : 0 }}>
+              <ArticleCellContent hideNum hideIdx={false} content={person} idx="▲" />
+            </Col>
+          ))}
+        </Row>
+        <Row className="mt-5">
+          {/* }<Col md={{ offset: 2, span:10 }}>
           <h4 className="mt-5 mb-3 font-italic">{t('pages.home.editorialBoardMembersAlphabeticList')}</h4>
         </Col>*/}
-        {editorialBoardCells.map((props, i) => (
-          <Col key={i} md={{span:4, offset: i % 2 === 0 ? 2 : 0}}>
-          <ArticleCellContent hideNum hideIdx={false} {...props} idx="▲"/>
-          </Col>
-        ))}
-      </Row>
-    </Container>
+          {editorialBoard.map((content, i) => (
+            <Col key={i} md={{ span: 4, offset: i % 2 === 0 ? 2 : 0 }}>
+              <ArticleCellContent hideNum hideIdx={false} content={content} idx="▲" />
+            </Col>
+          ))}
+        </Row>
+      </Container>
 
-    <Container>
-      <Row>
-        <Col {...BootstrapFullColumLayout}>
-          <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
-          <p className="mb-3 d-none d-md-block" >{t('pages.home.editorialRoadmap')} ⤵</p>
-          <HomeMilestones
-            isPortrait={IsPortrait}
-            extent={['2020-09-30', '2022-11-30']}
-          />
-          <p className="mt-3 d-none d-md-block">{t('pages.home.technicalRoadmap')} ⤴</p>
-        </Col>
-      </Row>
-    </Container>
+      <Container>
+        <Row>
+          <Col {...BootstrapFullColumLayout}>
+            <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
+            <p className="mb-3 d-none d-md-block">{t('pages.home.editorialRoadmap')} ⤵</p>
+            <HomeMilestones isPortrait={IsPortrait} extent={['2020-09-30', '2023-11-30']} />
+            <p className="mt-3 d-none d-md-block">{t('pages.home.technicalRoadmap')} ⤴</p>
+          </Col>
+        </Row>
+      </Container>
     </>
   )
 }
 
-export default Home
+const PrefetchHome = () => (
+  <StaticPageLoader url={process.env.REACT_APP_WIKI_HOMEPAGE} delay={150} Component={Home} />
+)
+export default PrefetchHome
