@@ -1,0 +1,15 @@
+.Home__callForPaper {
+  position: sticky;
+  top: 120px;
+  border: 2px solid var(--dark);
+  border-radius: 2px;
+  > div {
+    line-height: 1.75em;
+  }
+}
+.Home {
+  transition: color 0.25s ease-in-out;
+}
+.Home.is-fake {
+  color: var(--gray-400);
+}
