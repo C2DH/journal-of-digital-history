@@ -1,25 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from 'react-bootstrap'
-import Dimension, {
-  MethodFilter,
-  MethodReplace,
-  MethodRemove,
-  MethodReset,
-} from './Dimension'
+import Dimension, { MethodFilter, MethodReplace, MethodRemove, MethodReset } from './Dimension'
 import '../../styles/components/Facets.scss'
 
 /**
  * sort function a
  * @return [{ selected, isActive, dims }]
  */
-export function sortFn({
-  by='authors',
-  direction=1,
-  dimensions=[]
-} = {}) {
+export function sortFn({ by = 'authors', direction = 1, dimensions = [] } = {}) {
   // get dimension
-  const dimension = dimensions.find(d => d.name === by)
+  const dimension = dimensions.find((d) => d.name === by)
   if (!dimension) {
     return
   }
@@ -35,7 +26,9 @@ export function sortFn({
       if (typeof aValue === 'string') {
         // get the first uppercase letter
         const aValueStr = aValue.split(/([A-Z\u00C0-\u00DC].*)/, 2).pop()
-        const bValueStr = String(bValue).split(/([A-Z\u00C0-\u00DC].*)/, 2).pop()
+        const bValueStr = String(bValue)
+          .split(/([A-Z\u00C0-\u00DC].*)/, 2)
+          .pop()
         return aValueStr.localeCompare(bValueStr) * direction
       }
       return aValue > bValue ? direction : -direction
@@ -62,19 +55,14 @@ function useFacetsSelection(dimensions = []) {
       acc[d.name] = {
         selected: [],
         keys: [],
-        values: {}
+        values: {},
       }
       return acc
-    }, {})
+    }, {}),
   })
 
-  const changeSelection = ({
-    name='',
-    key='',
-    indices=[],
-    method
-  }) => {
-    const _dims = { ... dims }
+  const changeSelection = ({ name = '', key = '', indices = [], method }) => {
+    const _dims = { ...dims }
     const dimsKeys = Object.keys(dims)
     if (!dimsKeys.includes(name)) {
       console.error('[useFacetsSelection] {name} is not a valid dimension:', name)
@@ -84,11 +72,11 @@ function useFacetsSelection(dimensions = []) {
       console.error('[useFacetsSelection] {method} is not a valid dimension:', method)
       return
     }
-    console.debug('[useFacetsSelection]', {name, key, indices, method})
+    console.debug('[useFacetsSelection]', { name, key, indices, method })
     if (method === MethodFilter) {
       _dims[name].values[key] = indices
       if (_dims[name].selected.length) {
-        _dims[name].selected = _dims[name].selected.filter(d => indices.includes(d))
+        _dims[name].selected = _dims[name].selected.filter((d) => indices.includes(d))
       } else {
         _dims[name].selected = indices
       }
@@ -104,17 +92,17 @@ function useFacetsSelection(dimensions = []) {
     } else if (method === MethodRemove) {
       delete _dims[name].values[key]
       const keyToRemove = _dims[name].keys.indexOf(key)
-      if(keyToRemove > -1) {
+      if (keyToRemove > -1) {
         _dims[name].keys.splice(keyToRemove, 1)
       }
       if (!_dims[name].keys.length) {
         _dims[name].selected = []
       } else {
         _dims[name].selected = Object.values(_dims[name].values).reduce((acc, values) => {
-          if(!acc.length) {
+          if (!acc.length) {
             return values
           }
-          return acc.filter(d => !values.includes(d))
+          return acc.filter((d) => !values.includes(d))
         }, [])
       }
     } else if (method === MethodReset) {
@@ -136,54 +124,56 @@ function useFacetsSelection(dimensions = []) {
           return _dims[k].selected
         }
         // do intersection between previous acc and current selection
-        return acc.filter(d => _dims[k].selected.includes(d))
+        return acc.filter((d) => _dims[k].selected.includes(d))
       }, []),
       isActive: dimsKeys.reduce((acc, k) => {
         return acc || _dims[k].selected.length > 0
       }, false),
-      dims: _dims
+      dims: _dims,
     })
   }
 
-  console.debug('[useFacetsSelection]', {selected, isActive, dims})
+  console.debug('[useFacetsSelection]', { selected, isActive, dims })
 
-  return [
-    { selected, isActive, dims },
-    changeSelection
-  ]
+  return [{ selected, isActive, dims }, changeSelection]
 }
-
 
 const Facets = ({
   dimensions = [], // ['tags', 'author.orcid']
   items = [],
-  reset=false,
+  reset = false,
   // memoid='',
   onSelect,
   onInit,
   onMouseEnter,
-  className, style,
+  className,
+  style,
 }) => {
   const { t } = useTranslation()
   // Resulting state: { selected: [0, 14, 15 ...]}
   const [{ selected, isActive, dims }, setSelection] = useFacetsSelection(dimensions)
-  const [stats,setStats] = useState(dimensions.reduce((acc, d) => {
-    acc[d.name] = 0
-    return acc
-  },{
-    total: items.length,
-    completed: [],
-    available: dimensions.map(d => d.name)
-  }))
+  const [stats, setStats] = useState(
+    dimensions.reduce(
+      (acc, d) => {
+        acc[d.name] = 0
+        return acc
+      },
+      {
+        total: items.length,
+        completed: [],
+        available: dimensions.map((d) => d.name),
+      },
+    ),
+  )
 
   const onInitHandler = (dimension, groups) => {
     console.debug('[Facets] @onInit', dimension.name, groups.length)
     // merge as there are concurrent onInit events
     // https://fr.reactjs.org/docs/hooks-faq.html#should-i-use-one-or-many-state-variables
-    setStats(state => ({
-        ...state,
-        [dimension.name]: groups.length,
-        completed: state.completed.concat([dimension.name])
+    setStats((state) => ({
+      ...state,
+      [dimension.name]: groups.length,
+      completed: state.completed.concat([dimension.name]),
     }))
   }
 
@@ -198,32 +188,40 @@ const Facets = ({
     console.debug('[Facets] @onResetHandler', name)
     setSelection({
       name,
-      method: MethodReset
+      method: MethodReset,
     })
   }
 
-  const onSelectHandler = (name, key, indices, method='filter') => {
+  const onSelectHandler = (name, key, indices, method = 'filter') => {
     setSelection({ name, key, indices, method })
+    if (typeof onSelect === 'function') {
+      onSelect(name, isActive ? indices : null, key)
+    }
   }
 
   useEffect(() => {
     console.debug('[Facets] @useEffect stats', stats)
     if (typeof onInit === 'function' && stats.completed.length === stats.available.length) {
-      onInit({...stats})
+      onInit({ ...stats })
     }
   }, [stats])
 
-  useEffect(() => {
-    console.debug('[Facets] @useEffect selected:', selected, 'isActive:', isActive)
-    if (typeof onSelect === 'function') {
-      onSelect(name, isActive ? selected: null)
-    }
-  }, [selected])
+  // useEffect(() => {
+  //   console.debug('[Facets] @useEffect selected:', selected, 'isActive:', isActive)
+  //   if (typeof onSelect === 'function') {
+  //     onSelect(name, isActive ? selected: null)
+  //   }
+  // }, [selected])
 
-  console.debug('[Facets] rendered, isActive: ', isActive,
-    'n.items:', items.length, 'n. selected:',
+  console.debug(
+    '[Facets] rendered, isActive: ',
+    isActive,
+    'n.items:',
+    items.length,
+    'n. selected:',
     selected.length,
-    'dimensions:', dimensions.length
+    'dimensions:',
+    dimensions.length,
   )
 
   return (
@@ -251,7 +249,10 @@ const Facets = ({
                 className="py-0 mb-2"
                 variant="outline-secondary"
                 size="sm"
-                onClick={(e) => onResetHandler(e, dimension.name)}>reset</Button>
+                onClick={(e) => onResetHandler(e, dimension.name)}
+              >
+                reset
+              </Button>
             )}
           </Dimension>
         </div>
@@ -259,7 +260,6 @@ const Facets = ({
     </div>
   )
 }
-
 
 // export default React.memo(Facets, (prevProps, nextProps) => prevProps.memoid === nextProps.memoid)
 export default Facets

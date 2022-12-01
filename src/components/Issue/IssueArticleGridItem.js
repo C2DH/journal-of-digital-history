@@ -5,62 +5,93 @@ import ArticleKeywords from '../Article/ArticleKeywords'
 import ArticleCellContent from '../Article/ArticleCellContent'
 import LangLink from '../LangLink'
 import { Badge } from 'react-bootstrap'
-import {useBoundingClientRect} from '../../hooks/graphics'
+import { useBoundingClientRect } from '../../hooks/graphics'
 import { extractMetadataFromArticle, stripHtml } from '../../logic/api/metadata'
 import { IsMobile } from '../../constants'
 import '../../styles/components/IssueArticleGridItem.scss'
-
+import { ArrowRightCircle } from 'react-feather'
 
 const IssueArticleGridItem = ({
-  article={}, isFake=false, num=0, isEditorial,
-    onMouseMove,
-    onMouseOut,
-    onClick,
-  }) => {
-  const [{width: size }, ref] = useBoundingClientRect()
+  article = {},
+  isFake = false,
+  // num = 0,
+  isEditorial,
+  onMouseMove,
+  onMouseOut,
+  onClick,
+  onKeywordClick,
+}) => {
+  const [{ width: size }, ref] = useBoundingClientRect()
   const { title, keywords, excerpt, contributor } = extractMetadataFromArticle(article)
   const { t } = useTranslation()
   return (
     <div className="IssueArticleGridItem" ref={ref} onMouseOut={onMouseOut}>
-        <div
-          className={IsMobile ? 'half-squared': 'squared'}
-          onMouseOut={onMouseOut}
-          style={{
-            backgroundColor: 'transparent',
-            overflow: 'hidden'
-          }}
-        >
-          <ArticleFingerprint
-            onMouseMove={onMouseMove}
-            onClick={onClick}
-            stats={article.fingerprint?.stats}
-            cells={article.fingerprint?.cells}
-            size={IsMobile ? size/2 : size}
-          />
+      <div
+        className={IsMobile ? 'half-squared' : 'squared'}
+        onMouseOut={onMouseOut}
+        style={{
+          backgroundColor: 'transparent',
+          overflow: 'hidden',
+        }}
+      >
+        <ArticleFingerprint
+          onMouseMove={onMouseMove}
+          onClick={onClick}
+          stats={article.fingerprint?.stats}
+          cells={article.fingerprint?.cells}
+          size={IsMobile ? size / 2 : size}
+        />
+      </div>
+      {isEditorial && (
+        <Badge bg="secondary" className="rounded me-2">
+          {t('editorial')}
+        </Badge>
+      )}
+      <Badge bg="transparent" className="rounded border text-dark">
+        {article.issue.pid.replace(/jdh0+(\d+)/, (m, n) => t('numbers.issue', { n }))}
+        &nbsp;&middot;&nbsp;
+        {new Date(article.issue.publication_date).getFullYear()}
+      </Badge>
+      {article.publication_date ? (
+        <div className="IssueArticleGridItem_date">
+          {t('dates.short', { date: new Date(article.publication_date) })}
         </div>
-        {isEditorial ? <Badge bg="secondary" className="rounded">{t('editorial')}</Badge>: num}
-        <h3 className="d-block mt-1 pb-0">
-          <LangLink to={isFake ? '#' : `/article/${article.abstract.pid}`}>
-          {title.map(({content}, i) => (
-            <ArticleCellContent key={i} content={stripHtml(content)} hideIdx hideNum/>
+      ) : (
+        ''
+      )}
+      <h3>
+        <LangLink to={isFake ? '#' : `/article/${article.abstract.pid}`}>
+          {title.map(({ content }, i) => (
+            <span key={i}>{stripHtml(content)}</span>
           ))}
-          </LangLink>
-        </h3>
-
-        {contributor.map(({content},i) => (
-          <ArticleCellContent className="IssueArticleGridItem_contributor" key={i} content={content} hideIdx hideNum/>
-        ))}
-
-        <LangLink to={isFake ? '#' : `/article/${article.abstract.pid}`} className="mb-2">
-
-        <ArticleKeywords keywords={keywords}/>
-        <blockquote className="d-none d-md-block" dangerouslySetInnerHTML={{
-          __html: excerpt
-        }} />
         </LangLink>
+      </h3>
+      {contributor.map(({ content }, i) => (
+        <React.Fragment key={i}>
+          <ArticleCellContent
+            className="IssueArticleGridItem_contributor"
+            key={i}
+            content={content}
+            hideIdx
+            hideNum
+          />
+          {i < contributor.length - 1 && ', '}
+        </React.Fragment>
+      ))}
+
+      <ArticleKeywords onKeywordClick={onKeywordClick} className="mt-3" keywords={keywords} />
+      <blockquote className="IssueArticleGridItem_excerpt d-none d-md-flex ">
+        <span
+          dangerouslySetInnerHTML={{
+            __html: excerpt,
+          }}
+        ></span>
+        <LangLink to={isFake ? '#' : `/article/${article.abstract.pid}`} className="ms-2">
+          <ArrowRightCircle size={18} />
+        </LangLink>
+      </blockquote>
     </div>
   )
 }
-
 
 export default IssueArticleGridItem

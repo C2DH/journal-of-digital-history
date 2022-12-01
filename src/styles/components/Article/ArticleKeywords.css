@@ -1,0 +1,20 @@
+.ArticleKeywords_keyword {
+  color: var(--dark);
+  transition: background-color 0.21s ease-in-out;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.8em;
+  display: inline-block;
+  border: 1px solid var(--dark);
+  margin: var(--spacer-1);
+  padding: 1px 8px;
+  border-radius: 4px;
+}
+
+.ArticleKeywords_keyword:hover {
+  background-color: var(--gray-400);
+}
+
+.ArticleKeywords {
+  white-space: auto;
+}
