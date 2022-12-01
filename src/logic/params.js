@@ -11,3 +11,15 @@ export const CfpParam = {
     return value
   },
 }
+
+export const asEnumParam = (values) => ({
+  decode(value) {
+    if (values.includes(value)) {
+      return value
+    }
+    return null
+  },
+  encode(value) {
+    return value
+  },
+})
