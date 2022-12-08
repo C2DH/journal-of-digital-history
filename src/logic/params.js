@@ -23,3 +23,15 @@ export const asEnumParam = (values) => ({
     return value
   },
 })
+
+export const asRegexArrayParam = (regex = RegexSlugParam) => ({
+  decode(value) {
+    if (value && regex.test(value)) {
+      return value.split(',')
+    }
+    return null
+  },
+  encode(value) {
+    return value
+  },
+})

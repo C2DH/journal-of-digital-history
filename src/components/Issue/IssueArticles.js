@@ -58,6 +58,7 @@ const IssueArticles = ({
       onArticleMouseMove(e, datum, idx, article, { top, left })
     }
   }
+  console.debug('[IssueArticles] selected', selected, articles)
   return (
     <Row ref={ref}>
       {editorials.map((article, i) => {

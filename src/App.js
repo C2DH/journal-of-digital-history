@@ -1,12 +1,19 @@
 import React, { Suspense, lazy, useEffect } from 'react'
-import { BrowserRouter, Switch, Route, Redirect, useRouteMatch, useLocation } from "react-router-dom"
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  Redirect,
+  useRouteMatch,
+  useLocation,
+} from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import i18n from 'i18next'
 import moment from 'moment'
 import { initReactI18next } from 'react-i18next'
 import { getStartLang, LANGUAGE_PATH, LANGUAGES } from './logic/language'
 import translations from './translations'
-import {useStore} from './store'
+import { useStore } from './store'
 import { IsMobile, GaTrackingId, NotebookPoweredPaths } from './constants'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -17,7 +24,8 @@ import VideoReleaseLazy from './components/VideoRelease/VideoReleaseLazy'
 import Loading from './pages/Loading'
 import ReactGA from 'react-ga'
 import { useMatomo } from '@jonkoops/matomo-tracker-react'
-import { AcceptAnalyticsCookies, AcceptCookies} from './logic/tracking'
+import { AcceptAnalyticsCookies, AcceptCookies } from './logic/tracking'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___|       \n\n')
 
@@ -27,12 +35,14 @@ console.info('%cacceptCookies', 'font-weight: bold', AcceptCookies)
 
 // integrate history \w Google Analytics
 if (GaTrackingId && AcceptAnalyticsCookies) {
-  ReactGA.initialize(GaTrackingId);
+  ReactGA.initialize(GaTrackingId)
   console.info('%cGA enabled by user choice', 'font-weight: bold', GaTrackingId)
-} else if(GaTrackingId) {
+} else if (GaTrackingId) {
   console.info(
-    '%cGA disabled by user choice:', 'font-weight: bold',
-    'AcceptAnalyticsCookies:', AcceptAnalyticsCookies
+    '%cGA disabled by user choice:',
+    'font-weight: bold',
+    'AcceptAnalyticsCookies:',
+    AcceptAnalyticsCookies,
   )
 } else {
   console.info('%cGA GaTrackingId not set', 'font-weight: bold', 'disabled by config.')
@@ -59,11 +69,28 @@ const NotFound = lazy(() => import('./pages/NotFound'))
 const ArticleViewer = lazy(() => import('./pages/ArticleViewer'))
 const Fingerprint = lazy(() => import('./pages/Fingerprint'))
 const FingerprintViewer = lazy(() => import('./pages/FingerprintViewer'))
-const FingerprintExplained = lazy(() => import ('./pages/FingerprintExplained'))
-const ReleaseNotes = lazy(() => import ('./pages/ReleaseNotes'))
-const Faq = lazy(() => import ('./pages/Faq'))
+const FingerprintExplained = lazy(() => import('./pages/FingerprintExplained'))
+const ReleaseNotes = lazy(() => import('./pages/ReleaseNotes'))
+const Faq = lazy(() => import('./pages/Faq'))
 
 const { startLangShort, lang } = getStartLang()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: Infinity,
+      refetchOnWindowFocus: false,
+      // refetchOnReconnect: false,
+      // refetchInterval: false,
+      // refetchIntervalInBackground: false,
+      // refetchOnMount: false,
+      // staleTime: Infinity,
+      // retry: false,
+      // suspense: false,
+      keepPreviousData: true,
+    },
+  },
+})
+
 console.info('start language:', lang, startLangShort)
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
@@ -72,16 +99,16 @@ i18n
     lng: lang,
     interpolation: {
       escapeValue: false, // react already safes from xss
-      format: function(value, format) {
-          if (value instanceof Date) {
-            if (format === 'fromNow') {
-              return moment(value).fromNow()
-            }
-            return moment(value).format(format)
+      format: function (value, format) {
+        if (value instanceof Date) {
+          if (format === 'fromNow') {
+            return moment(value).fromNow()
           }
-          return value;
-      }
-    }
+          return moment(value).format(format)
+        }
+        return value
+      },
+    },
   })
 
 // const isUnsafeEnvironment = process.env.NODE_ENV !== 'development' && window.location.protocol === 'http:'
@@ -111,7 +138,7 @@ function LangRoutes() {
       <Route path={`${path}/article/:pid`} component={ArticleViewer} />
       <Route exact path={`${path}/articles`} component={ArticlesPage} />
       <Route path={`${path}/abstract-submitted`} component={AbstractSubmitted} />
-      <Route exact path={`${path}/terms`} component={TermsOfUse}/>
+      <Route exact path={`${path}/terms`} component={TermsOfUse} />
       <Route exact path={`${path}/submit`}>
         <AbstractSubmission />
       </Route>
@@ -125,18 +152,16 @@ function LangRoutes() {
       <Route path={`${path}/fingerprint-explained`} component={FingerprintExplained} />
       <Route path={`${path}/release-notes`} component={ReleaseNotes} />
       <Route path={`${path}/faq`} component={Faq} />
-      <Route path={`${path}/notebook-viewer/:encodedUrl`}
-        component={NotebookViewer}
-      />
+      <Route path={`${path}/notebook-viewer/:encodedUrl`} component={NotebookViewer} />
       <Route path={`${path}/local-notebook`}>
         <LocalNotebook />
       </Route>
-      <Route exact path={`${path}/playground`} component={Playground}/>
+      <Route exact path={`${path}/playground`} component={Playground} />
       <Route exact path={`${path}/fingerprint`} component={Fingerprint} />
       <Route exact path={`${path}/guidelines`} component={Guidelines} />
       <Route exact path={`${path}/cfp/:permalink`} component={CallForPapers} />
       <Route path={`${path}*`}>
-        <NotFound path={path}/>
+        <NotFound path={path} />
       </Route>
     </Switch>
   )
@@ -146,34 +171,31 @@ function usePageViews() {
   const { trackPageView } = useMatomo()
 
   const { pathname, search } = useLocation()
-  const changeBackgroundColor = useStore(state => state.changeBackgroundColor)
+  const changeBackgroundColor = useStore((state) => state.changeBackgroundColor)
 
-  useEffect(
-    () => {
-      const url = [pathname, search].join('')
-      console.info('pageview', url)
-      changeBackgroundColor('var(--gray-100)')
-      // // based on the pathname, change the background
-      // if (pathname.indexOf('/notebook') !== -1 || pathname.indexOf('/article') !== -1) {
-      //   changeBackgroundColor('#F4F1F8')
-      // } else if (pathname.indexOf('/issue') !== -1) {
-      //   changeBackgroundColor('#F4F1F8')
-      // } else if (pathname.indexOf('/submit') !== -1) {
-      //   changeBackgroundColor('var(--gray-100)')
-      // } else if (pathname.indexOf('/about') !== -1) {
-      //   changeBackgroundColor('var(--linen)')
-      // } else if (pathname.indexOf('/terms') !== -1) {
-      //   changeBackgroundColor('var(--peachpuff)')
-      // } else {
-      //   changeBackgroundColor('var(--gray-100)')
-      // }
-      ReactGA.pageview(url)
-      trackPageView({
-        href: url
-      })
-    },
-    [pathname, search, changeBackgroundColor]
-  )
+  useEffect(() => {
+    const url = [pathname, search].join('')
+    console.info('pageview', url)
+    changeBackgroundColor('var(--gray-100)')
+    // // based on the pathname, change the background
+    // if (pathname.indexOf('/notebook') !== -1 || pathname.indexOf('/article') !== -1) {
+    //   changeBackgroundColor('#F4F1F8')
+    // } else if (pathname.indexOf('/issue') !== -1) {
+    //   changeBackgroundColor('#F4F1F8')
+    // } else if (pathname.indexOf('/submit') !== -1) {
+    //   changeBackgroundColor('var(--gray-100)')
+    // } else if (pathname.indexOf('/about') !== -1) {
+    //   changeBackgroundColor('var(--linen)')
+    // } else if (pathname.indexOf('/terms') !== -1) {
+    //   changeBackgroundColor('var(--peachpuff)')
+    // } else {
+    //   changeBackgroundColor('var(--gray-100)')
+    // }
+    ReactGA.pageview(url)
+    trackPageView({
+      href: url,
+    })
+  }, [pathname, search, changeBackgroundColor])
 }
 
 function AppRoutes() {
@@ -195,8 +217,6 @@ function AppRoutes() {
   )
 }
 
-
-
 export default function App() {
   // Removed Auth0ProviderWithHistory 30 Jun 2022
   //
@@ -209,21 +229,20 @@ export default function App() {
   // <Header availableLanguages={LANGUAGES} isAuthDisabled={!isAuth0Enabled || isUnsafeEnvironment}/>
   return (
     <BrowserRouter>
-      <QueryParamProvider ReactRouterRoute={Route}>
-        <Header availableLanguages={LANGUAGES} isAuthDisabled/>
-        <Cookies defaultAcceptCookies={AcceptCookies}/>
-        <main>
-          <Suspense fallback={<Loading/>}>
-            <AppRoutes />
-          </Suspense>
-        </main>
-        <Footer hideOnRoutes={NotebookPoweredPaths}/>
-        <ScrollToTop />
-        <VideoReleaseLazy
-          isMobile={IsMobile}
-          url={process.env.REACT_APP_WIKI_VIDEO_RELEASES}
-        />
-      </QueryParamProvider>
+      <QueryClientProvider client={queryClient}>
+        <QueryParamProvider ReactRouterRoute={Route}>
+          <Header availableLanguages={LANGUAGES} isAuthDisabled />
+          <Cookies defaultAcceptCookies={AcceptCookies} />
+          <main>
+            <Suspense fallback={<Loading />}>
+              <AppRoutes />
+            </Suspense>
+          </main>
+          <Footer hideOnRoutes={NotebookPoweredPaths} />
+          <ScrollToTop />
+          <VideoReleaseLazy isMobile={IsMobile} url={process.env.REACT_APP_WIKI_VIDEO_RELEASES} />
+        </QueryParamProvider>
+      </QueryClientProvider>
     </BrowserRouter>
   )
 }

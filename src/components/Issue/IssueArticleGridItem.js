@@ -10,6 +10,7 @@ import { extractMetadataFromArticle, stripHtml } from '../../logic/api/metadata'
 import { IsMobile } from '../../constants'
 import '../../styles/components/IssueArticleGridItem.scss'
 import { ArrowRightCircle } from 'react-feather'
+import IssueLabel from './IssueLabel'
 
 const IssueArticleGridItem = ({
   article = {},
@@ -48,9 +49,7 @@ const IssueArticleGridItem = ({
         </Badge>
       )}
       <Badge bg="transparent" className="rounded border text-dark">
-        {article.issue.pid.replace(/jdh0+(\d+)/, (m, n) => t('numbers.issue', { n }))}
-        &nbsp;&middot;&nbsp;
-        {new Date(article.issue.publication_date).getFullYear()}
+        <IssueLabel publication_date={article.issue.publication_date} pid={article.issue.pid} />
       </Badge>
       {article.publication_date ? (
         <div className="IssueArticleGridItem_date">

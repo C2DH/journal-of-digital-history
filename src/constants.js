@@ -107,11 +107,11 @@ export const BootstrapNarrativeStepCaptionColumnLayout = Object.freeze({
   lg: { span: 4, offset: 1 },
 })
 
-export const StatusIdle = 'IDLE'
-export const StatusFetching = 'FETCHING'
-export const StatusSuccess = 'OK'
-export const StatusError = 'ERR'
-export const StatusNone = 'NONE'
+export const StatusIdle = 'idle'
+export const StatusFetching = 'loading'
+export const StatusSuccess = 'success'
+export const StatusError = 'error'
+export const StatusNone = 'none'
 
 export const ModuleStack = 'stack'
 export const ModuleTextObject = 'text_object'

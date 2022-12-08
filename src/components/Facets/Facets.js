@@ -194,9 +194,9 @@ const Facets = ({
 
   const onSelectHandler = (name, key, indices, method = 'filter') => {
     setSelection({ name, key, indices, method })
-    if (typeof onSelect === 'function') {
-      onSelect(name, isActive ? indices : null, key)
-    }
+    // if (typeof onSelect === 'function') {
+    //   onSelect(name, isActive ? indices : null, key)
+    // }
   }
 
   useEffect(() => {
@@ -206,12 +206,12 @@ const Facets = ({
     }
   }, [stats])
 
-  // useEffect(() => {
-  //   console.debug('[Facets] @useEffect selected:', selected, 'isActive:', isActive)
-  //   if (typeof onSelect === 'function') {
-  //     onSelect(name, isActive ? selected: null)
-  //   }
-  // }, [selected])
+  useEffect(() => {
+    console.debug('[Facets] @useEffect selected:', selected, 'isActive:', isActive)
+    if (typeof onSelect === 'function') {
+      onSelect('name', isActive ? selected : null)
+    }
+  }, [selected])
 
   console.debug(
     '[Facets] rendered, isActive: ',

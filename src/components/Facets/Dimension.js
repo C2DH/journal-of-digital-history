@@ -17,7 +17,7 @@ const reductor = (fn, selected, isActive) => (acc, item, idx) => {
           key: k,
           count: 0,
           indices: [],
-          selected: []
+          selected: [],
         }
       }
       acc[k].indices.push(idx)
@@ -34,7 +34,7 @@ const reductor = (fn, selected, isActive) => (acc, item, idx) => {
     return acc
   }
   if (!acc[key]) {
-    acc[key] = { key, count: 0, indices:[], selected: [] }
+    acc[key] = { key, count: 0, indices: [], selected: [] }
   }
   // we store all indices
   acc[key].indices.push(idx)
@@ -49,8 +49,6 @@ const reductor = (fn, selected, isActive) => (acc, item, idx) => {
   }
   return acc
 }
-
-
 
 const Dimension = ({
   items = [],
@@ -75,18 +73,15 @@ const Dimension = ({
     }).length
     return Math.min(10, Math.max(wished, 10))
   },
-  sortFn = (a,b) => {
-    return a.count === b.count
-      ? a.key > b.key
-        ? 1 : -1
-      : a.count > b.count ? -1 : 1
+  sortFn = (a, b) => {
+    return a.count === b.count ? (a.key > b.key ? 1 : -1) : a.count > b.count ? -1 : 1
   },
-  fixed=false,
+  fixed = false,
   onInit,
   onSelect,
   onMouseEnter,
   children,
-  ListItem=DimensionGroupListItem
+  ListItem = DimensionGroupListItem,
 }) => {
   const { t } = useTranslation()
   const [showMore, setShowMore] = useState(false)
@@ -94,7 +89,7 @@ const Dimension = ({
   const groups = Object.values(groupsIndex).sort(sortFn)
   let activeGroups = []
   // remove active elments from the list:
-  if(!fixed) {
+  if (!fixed) {
     activeKeys.forEach((activeKey) => {
       const idx = groups.findIndex((d) => d.key === activeKey)
       if (idx !== -1) {
@@ -109,12 +104,7 @@ const Dimension = ({
   const onClickHandler = (e, { key, indices, count }) => {
     e.stopPropagation()
     if (typeof onSelect === 'function') {
-      onSelect(
-        name,
-        key,
-        indices,
-        count === 0 ? MethodReplace : MethodFilter
-      )
+      onSelect(name, key, indices, count === 0 ? MethodReplace : MethodFilter)
     }
   }
 
@@ -127,12 +117,7 @@ const Dimension = ({
   const onRemoveHandler = (e, { key, indices }) => {
     e.stopPropagation()
     if (typeof onSelect === 'function') {
-      onSelect(
-        name,
-        key,
-        indices,
-        MethodRemove
-      )
+      onSelect(name, key, indices, MethodRemove)
     }
   }
 
@@ -149,14 +134,12 @@ const Dimension = ({
   return (
     <div className="Dimension">
       {children}
-      <ul className={[
-        isActive ? 'active': '',
-        showMore ? 'expanded': ''
-      ].join(' ')}>
+      <ul className={[isActive ? 'active' : '', showMore ? 'expanded' : ''].join(' ')}>
         {activeGroups.map((group) => (
           <ListItem
             key={group.key}
             name={name}
+            items={items}
             isActive
             onRemove={(e) => onRemoveHandler(e, group)}
             onClick={(e) => onClickHandler(e, group)}
@@ -168,6 +151,7 @@ const Dimension = ({
           <ListItem
             key={group.key}
             name={name}
+            items={items}
             isActive={activeKeys.includes(group.key)}
             onRemove={(e) => onRemoveHandler(e, group)}
             onClick={(e) => onClickHandler(e, group)}
@@ -175,23 +159,26 @@ const Dimension = ({
             group={group}
           />
         ))}
-        {showMore && restGroups.map((group) => (
-          <ListItem
-            key={group.key}
-            name={name}
-            isActive={activeKeys.includes(group.key)}
-            onRemove={(e) => onRemoveHandler(e, group)}
-            onClick={(e) => onClickHandler(e, group)}
-            onMouseEnter={(e) => onMouseEnterHandler(e, group)}
-            group={group}
-          />
-        ))}
+        {showMore &&
+          restGroups.map((group) => (
+            <ListItem
+              key={group.key}
+              name={name}
+              items={items}
+              isActive={activeKeys.includes(group.key)}
+              onRemove={(e) => onRemoveHandler(e, group)}
+              onClick={(e) => onClickHandler(e, group)}
+              onMouseEnter={(e) => onMouseEnterHandler(e, group)}
+              group={group}
+            />
+          ))}
         {restGroups.length > 0 && (
           <li>
             <button className="Dimension_toggleShowMoreBtn" onClick={() => setShowMore(!showMore)}>
-              <span>{t(showMore ? 'dimensions.actions.showLess': 'dimensions.actions.showMore', {
-                n: restGroups.length
-              })}
+              <span>
+                {t(showMore ? 'dimensions.actions.showLess' : 'dimensions.actions.showMore', {
+                  n: restGroups.length,
+                })}
               </span>
             </button>
           </li>

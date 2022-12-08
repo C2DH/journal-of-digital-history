@@ -264,6 +264,7 @@
         "tool": "libraries",
         "hermeneutic": "hermeneutics",
         "narrative": "keywords",
+        "issue": "issues",
         "authors": "Authors cited",
         "issued": {
           "year": "Year of publication"
