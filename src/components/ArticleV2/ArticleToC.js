@@ -223,7 +223,7 @@ const ArticleToC = ({
         )}
       </div>
       <div
-        className="flex-grow-1 ps-2 pt-2 pb-2 mb-2 border-bottom border-top border-dark"
+        className="flex-grow-1 ps-2 pt-2 pb-2 mb-2 pointer-events-auto border-bottom border-top border-dark"
         style={{ overflow: 'scroll' }}
       >
         {steps.map((step, i) => {

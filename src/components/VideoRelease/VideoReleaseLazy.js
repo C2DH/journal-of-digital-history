@@ -1,15 +1,14 @@
-import React, { Suspense, lazy} from 'react'
-import {useStore} from '../../store'
-import { StatusSuccess }  from '../../constants'
+import React, { Suspense, lazy } from 'react'
+import { useStore } from '../../store'
+import { StatusSuccess } from '../../constants'
 import { useGetJSON } from '../../logic/api/fetchData'
 
-
 const VideoReleaseLazy = ({
-  isMobile=false,
+  isMobile = false,
   // the wiki page where all the releases are
   url,
   // delay, in ms. By default it appears 1s after
-  delay=2000,
+  delay = 2000,
 }) => {
   const releaseNotified = useStore((state) => state.releaseNotified)
   // load video release JSON from wiki
@@ -27,12 +26,10 @@ const VideoReleaseLazy = ({
   if (status !== StatusSuccess) {
     return null
   }
-  console.debug('[VideoReleaseLazy] received data :',data)
+  console.debug('[VideoReleaseLazy] received data :', data.length)
 
   try {
-    releases = JSON.parse(data
-      .replace(/^```json\n/, '')
-      .replace(/\n```$/, ''))
+    releases = JSON.parse(data.replace(/^```json\n/, '').replace(/\n```$/, ''))
   } catch (e) {
     console.warn('Error parsing VideoReleaseLazy JSON data:', error)
     return null
@@ -47,12 +44,18 @@ const VideoReleaseLazy = ({
     console.info('%creleaseNotified', 'font-weight: bold', 'already notified, skipping.')
     return null
   } else {
-    console.info('%creleaseNotified', 'font-weight: bold', 'please notify!',
-      '\n - releaseNotified date:', releaseNotified,
-      '\n - currentRelease.startTime:', currentRelease.startDate)
+    console.info(
+      '%creleaseNotified',
+      'font-weight: bold',
+      'please notify!',
+      '\n - releaseNotified date:',
+      releaseNotified,
+      '\n - currentRelease.startTime:',
+      currentRelease.startDate,
+    )
   }
   // if everything is fin, load the VideoRelease__modal
-  const VideoRelease = lazy(() => import("./VideoRelease"));
+  const VideoRelease = lazy(() => import('./VideoRelease'))
 
   return (
     <Suspense fallback={null}>

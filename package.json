@@ -54,6 +54,7 @@
     "react-google-recaptcha": "^2.1.0",
     "react-helmet": "^6.1.0",
     "react-i18next": "^11.7.3",
+    "react-query": "^3.39.2",
     "react-rocketjump": "^2.6.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
