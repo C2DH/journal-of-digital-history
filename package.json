@@ -81,8 +81,8 @@
     "lint": "node ./node_modules/.bin/eslint --fix src/**/**/*.js src/**/*.js",
     "eject": "react-scripts eject",
     "storybook": "NODE_OPTIONS=--openssl-legacy-provider  start-storybook -p 6006 -s public",
-    "build-storybook": "NODE_OPTIONS=--openssl-legacy-provider build-storybook -s public",
-    "test-storybook": "NODE_OPTIONS=--openssl-legacy-provider test-storybook"
+    "build-storybook": "build-storybook -s public",
+    "test-storybook": "test-storybook"
   },
   "browserslist": {
     "production": [
