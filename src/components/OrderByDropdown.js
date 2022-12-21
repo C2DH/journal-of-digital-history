@@ -31,9 +31,7 @@ const OrderByDropdown = ({
           active={selectedValue === item.value}
           onClick={() => onChange(item)}
         >
-          <span>
-            {selectedValue} {t(item.label ?? item.value)}
-          </span>
+          <span>{t(item.label ?? item.value)}</span>
         </Dropdown.Item>
       ))}
     </DropdownButton>
