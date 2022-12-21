@@ -7,3 +7,4 @@ node_modules
 .development.env
 .env.development
 .vscode/settings.json
+storybook-static
