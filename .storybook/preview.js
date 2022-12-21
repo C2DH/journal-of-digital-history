@@ -1,6 +1,7 @@
 import WebFontLoader from 'webfontloader'
+import { themes } from '@storybook/theming'
 
-import '../src/styles/index.scss'
+// import '../src/styles/index.scss'
 
 WebFontLoader.load({
   google: {
@@ -19,5 +20,11 @@ export const parameters = {
       color: /(background|color)$/i,
       date: /Date$/,
     },
+  },
+  darkMode: {
+    // Override the default dark theme
+    dark: { ...themes.dark, appBg: 'black', classTarget: '#root', stylePreview: true },
+    // Override the default light theme
+    light: { ...themes.normal, appBg: 'lightgrey' },
   },
 }
