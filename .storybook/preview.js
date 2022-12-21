@@ -1,7 +1,7 @@
 import WebFontLoader from 'webfontloader'
 import { themes } from '@storybook/theming'
 
-// import '../src/styles/index.scss'
+import '../src/styles/index.scss'
 
 WebFontLoader.load({
   google: {
