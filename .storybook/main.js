@@ -9,6 +9,7 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     '@storybook/preset-create-react-app',
+    'storybook-dark-mode',
   ],
   framework: '@storybook/react',
 }
