@@ -1,5 +1,6 @@
 import React from 'react'
 import ToCStep from './ToCStep'
+import '../styles/components/ToC.scss'
 
 const ToC = ({ steps = [], width = 200, onClick, className = '' }) => {
   return (

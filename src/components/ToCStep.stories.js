@@ -5,8 +5,15 @@ export default {
   component: ToCStep,
   title: 'ToCStep',
   argTypes: {
-    step: {
+    id: {
       required: true,
+      control: { type: 'number' },
+      defaultValue: 1,
+    },
+    label: {
+      required: true,
+      control: { type: 'text' },
+      defaultValue: 'Very long step label, that could be a very long subheading',
     },
     className: {
       required: false,
@@ -18,9 +25,19 @@ export default {
       control: { type: 'boolean' },
       defaultValue: false,
     },
+    isVisible: { control: { type: 'boolean' }, defaultValue: false },
+    isHermeneutics: { control: { type: 'boolean' }, defaultValue: false },
+    isTable: { control: { type: 'boolean' }, defaultValue: false },
+    isFigure: { control: { type: 'boolean' }, defaultValue: false },
+    level: {
+      defaultValue: 'CODE',
+      required: false,
+      options: ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'CODE'],
+      control: { type: 'select' },
+    },
     isSectionStart: { control: { type: 'boolean' }, defaultValue: false },
     isSectionEnd: { control: { type: 'boolean' }, defaultValue: false },
-    onclick: { action: 'clicked' },
+    onClick: { action: 'clicked' },
   },
 }
 
@@ -33,31 +50,30 @@ export const LevelH2 = Template.bind({})
 export const LevelH3 = Template.bind({})
 
 Default.args = {
-  step: { isFigure: true, level: 'CODE', isHermeneutics: true },
+  isFigure: true,
+  level: 'CODE',
+  isHermeneutics: true,
   isSectionStart: false,
   isSectionEnd: false,
   width: 200,
-  children: 'Figure 4',
+  label: 'Figure 4',
 }
 
 LevelH3.args = {
-  step: { level: 'H3' },
+  level: 'H3',
   isSectionStart: true,
   width: 140,
-  children: <>This is a basic content, limited</>,
 }
 
 LevelH3.args = {
-  step: { level: 'H3' },
+  level: 'H3',
   isSectionStart: true,
   width: 140,
-  children: <>This is a basic content, limited</>,
 }
 LevelH2.args = {
-  step: { level: 'H2' },
+  level: 'H2',
   isSectionStart: true,
   width: 140,
-  children: <>This is a basic content, limited</>,
 }
 
 // const argTypes = {
