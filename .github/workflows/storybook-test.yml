@@ -1,8 +1,7 @@
 name: 'Storybook Tests'
 on:
-  push:
-    branches:
-      - develop
+  pull_request:
+    types: [opened, reopened]
 jobs:
   test:
     timeout-minutes: 60
