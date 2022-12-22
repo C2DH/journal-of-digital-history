@@ -116,7 +116,7 @@
     "storybook-dark-mode": "^2.0.4"
   },
   "resolutions": {
-    "jest": "26.6.0",
+    "jest": "28.0.0",
     "babel-loader": "8.1.0",
     "webpack": "4.44.2",
     "sass": "1.39.2"
