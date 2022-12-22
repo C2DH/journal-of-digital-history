@@ -1,0 +1,141 @@
+.ToCStep {
+  position: relative;
+  font-size: 0.8em;
+  height: 20px;
+  pointer-events: auto;
+
+  label {
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: right;
+    line-height: 20px;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  &:hover label {
+    text-decoration: underline;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+}
+.ToCStep_Level_H1,
+.ToCStep_Level_H2,
+.ToCStep_Level_H3,
+.ToCStep_Level_H4,
+.ToCStep_Level_H5,
+.ToCStep_Level_H6 {
+  cursor: pointer;
+}
+
+.ToCStep_icon {
+  position: absolute;
+  right: -24px;
+  top: 0;
+  svg {
+    position: absolute;
+    top: 5px;
+    left: -6px;
+  }
+  &::before {
+    position: absolute;
+    left: 0px;
+    height: 6px;
+    top: 0;
+    width: 1px;
+    background-color: var(--dark);
+    content: '';
+  }
+  &::after {
+    position: absolute;
+    left: 0px;
+    height: 6px;
+    top: 17px;
+    width: 1px;
+    background-color: var(--dark);
+    content: '';
+  }
+}
+
+.ToCStep_icon_circle {
+  position: absolute;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+.ToCStep_Level_H2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  .ToCStep_icon::after {
+    top: 17px;
+    height: 14px;
+  }
+  .ToCStep_icon_circle {
+    width: 15px;
+    height: 15px;
+    top: 3px;
+    left: -7px;
+  }
+}
+
+.ToCStep_Level_H3 {
+  .ToCStep_icon::before {
+    top: 0px;
+    height: 7px;
+  }
+  .ToCStep_icon::after {
+    top: 14px;
+  }
+  .ToCStep_icon_circle {
+    width: 9px;
+    height: 9px;
+    left: -4px;
+    top: 6px;
+  }
+}
+
+.ToCStep_Level_H4,
+.ToCStep_Level_H5,
+.ToCStep_Level_H6 {
+  .ToCStep_icon::before {
+    top: 0px;
+    height: 8px;
+  }
+  .ToCStep_icon::after {
+    top: 13px;
+    height: 7px;
+  }
+  .ToCStep_icon_circle {
+    width: 5px;
+    height: 5px;
+    left: -2px;
+    top: 8px;
+  }
+}
+
+.ToCStep.active {
+  label {
+    font-weight: bold;
+  }
+  .ToCStep_icon_circle {
+    background-color: var(--dark);
+  }
+}
+
+.ToCStep.start .ToCStep_icon::before {
+  display: none;
+}
+.ToCStep.end .ToCStep_icon::after {
+  display: none;
+}
+
+.ToCStep.hermeneutics {
+  color: var(--primary-dark);
+}

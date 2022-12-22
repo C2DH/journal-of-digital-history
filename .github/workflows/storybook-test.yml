@@ -1,8 +1,7 @@
 name: 'Storybook Tests'
 on:
-  push:
-    branches:
-      - develop
+  pull_request:
+    types: [opened, reopened]
 jobs:
   test:
     timeout-minutes: 60
@@ -21,8 +20,6 @@ jobs:
           NODE_OPTIONS: '--openssl-legacy-provider'
         run: yarn build-storybook --quiet
       - name: Serve Storybook and run tests
-        env:
-          NODE_OPTIONS: '--openssl-legacy-provider'
         run: |
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "npx http-server storybook-static --port 6006 --silent" \
