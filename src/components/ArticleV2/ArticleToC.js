@@ -133,7 +133,7 @@ const ArticleToC = ({
     }
   }, [firstVisibleCellIdx, lastVisibleCellIdx])
 
-  const onStepClickHandler = ({ id, label }) => {
+  const onStepClickHandler = (e, { id, label }) => {
     console.debug('[ArticleToC] @onClickHandler step:', id, label, selectedLayer)
     // go to the cell
     setQuery({
@@ -206,7 +206,12 @@ const ArticleToC = ({
     }
   }, [visibleCellsIdx, selectedLayer])
 
-  console.info('STEPS', JSON.stringify(steps))
+  console.info(
+    'ArticleToC visibleCellsIdx',
+    visibleCellsIdx,
+    firstVisibleCellIdx,
+    lastVisibleCellIdx,
+  )
   return (
     <>
       <div className="flex-shrink-1 py-3 mb-0 pointer-events-auto text-end">
@@ -235,12 +240,14 @@ const ArticleToC = ({
       <ToC
         className="flex-grow-1 ps-2 pt-2 pb-2 mb-2 pointer-events-auto border-bottom border-top border-dark"
         steps={steps.map((step) => {
-          if (step.cellIdx === selectedCellIdx) {
+          if (step.id === selectedCellIdx) {
             step.isSelected = true
           }
-          if (step.cellIdx >= previousHeadingIdx && step.cellIdx <= lastVisibleCellIdx) {
-            step.isVisible = true
+          if (step.id === previousHeadingIdx) {
+            step.isSelected = true
           }
+          step.active = step.id >= previousHeadingIdx && step.id <= lastVisibleCellIdx
+
           return step
         })}
         width={width * 0.16}
