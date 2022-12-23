@@ -14,14 +14,14 @@ const ToCStep = ({
   level = 'CODE',
   label = '',
   width = 100,
-  marginLeft = 50,
+  marginEnd = 50,
   className = '',
   onClick,
   iconSize = 13,
 }) => {
   const displayLayer = useArticleStore((state) => state.displayLayer)
 
-  const availableWidth = width - marginLeft
+  const availableWidth = width - marginEnd
   const levelClassName = `ToCStep_Level_${level}`
   const labelClassName = isHermeneutics
     ? 'ToCStep_labelHermeneutics'

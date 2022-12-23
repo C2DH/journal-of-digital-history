@@ -1,0 +1,31 @@
+.ToCStepGroup {
+  position: relative;
+}
+.ToCStepGroup_collapsible {
+  position: relative;
+  overflow: hidden;
+}
+.ToCStepGroup_toggleButtonWrapper {
+  // position: absolute;
+  // bottom: -1px;
+  // right: 0;
+  position: relative;
+  height: 17px;
+}
+.ToCStepGroup_toggleButton {
+  position: absolute;
+  overflow: hidden;
+  top: 0px;
+
+  // right: 25px;
+  height: 17px;
+  width: 17px;
+  border-radius: 2px;
+  border: 1px solid;
+  padding: 0;
+  svg {
+    position: absolute;
+    top: 2.5px;
+    left: 2.5px;
+  }
+}
