@@ -4,54 +4,56 @@ import { useArticleStore } from '../store'
 import '../styles/components/ToCStep.scss'
 
 const ToCStep = ({
-  step,
+  id = -1,
   active = false,
+  isFigure = false,
+  isTable = false,
+  isHermeneutics = false,
   isSectionStart = false,
   isSectionEnd = false,
-  children,
+  level = 'CODE',
+  label = '',
   width = 100,
-  marginLeft = 0,
+  marginEnd = 50,
   className = '',
   onClick,
   iconSize = 13,
 }) => {
   const displayLayer = useArticleStore((state) => state.displayLayer)
 
-  const availableWidth = width - marginLeft
-  const levelClassName = `ToCStep_Level_${step.level}`
-  const labelClassName = step.isHermeneutics
+  const availableWidth = width - marginEnd
+  const levelClassName = `ToCStep_Level_${level}`
+  const labelClassName = isHermeneutics
     ? 'ToCStep_labelHermeneutics'
-    : !step.isHermeneutics && !step.isTable && !step.isFigure
+    : !isHermeneutics && !isTable && !isFigure
     ? 'ToCStep_labelCircle'
-    : step.isFigure && !step.isTable
+    : isFigure && !isTable
     ? 'ToCStep_labelFigure'
     : 'ToCStep_labelTable'
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     if (typeof onClick === 'function') {
-      onClick({ step })
+      onClick(e, { id, label })
     }
   }
   return (
     <div
       className={`ToCStep ${active ? 'active' : ''} ${className} ${levelClassName} ${
         isSectionEnd ? 'end' : ''
-      } ${isSectionStart ? 'start' : ''} ${displayLayer}`}
+      } ${isSectionStart ? 'start' : ''} ${displayLayer} ${isHermeneutics ? 'hermeneutics' : ''}`}
       onClick={handleClick}
       style={{
         width: availableWidth,
       }}
     >
-      <label className={labelClassName} title={children}>
-        {children}
+      <label className={labelClassName} title={label}>
+        {label}
       </label>
       <div className="ToCStep_icon">
-        {step.isHermeneutics && !step.isTable && !step.isFigure && <Layers size={iconSize} />}
-        {!step.isHermeneutics && !step.isTable && !step.isFigure && (
-          <div className="ToCStep_icon_circle" />
-        )}
-        {step.isFigure && !step.isTable && <Image size={iconSize} />}
-        {step.isTable && <Grid size={iconSize} />}
+        {isHermeneutics && !isTable && !isFigure && <Layers size={iconSize} />}
+        {!isHermeneutics && !isTable && !isFigure && <div className="ToCStep_icon_circle" />}
+        {isFigure && !isTable && <Image size={iconSize} />}
+        {isTable && <Grid size={iconSize} />}
       </div>
     </div>
   )

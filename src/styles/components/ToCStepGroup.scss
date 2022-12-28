@@ -1,0 +1,44 @@
+.ToCStepGroup {
+  position: relative;
+}
+.ToCStepGroup_collapsible {
+  position: relative;
+  overflow: hidden;
+}
+.ToCStepGroup_toggleButtonWrapper {
+  // position: absolute;
+  // bottom: -1px;
+  // right: 0;
+  position: relative;
+  height: 17px;
+}
+.ToCStepGroup_toggleButton:hover > span {
+  background: var(--dark);
+  color: var(--white);
+}
+.ToCStepGroup_toggleButton {
+  position: absolute;
+  top: -3px;
+  background: transparent;
+  // right: 25px;
+  height: 17px;
+  width: 17px;
+  border: 1px solid transparent;
+  > span {
+    position: absolute;
+    background: var(--gray-300);
+    top: 3px;
+    left: 2px;
+    border-radius: 12px;
+    border: 1px solid var(--dark);
+    height: 12px;
+    width: 12px;
+  }
+
+  padding: 0;
+  svg {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+}
