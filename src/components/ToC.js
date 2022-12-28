@@ -21,7 +21,7 @@ const ToC = ({
   const groups = shouldCollapse
     ? steps.reduce(
         (acc, d, i, arr) => {
-          if (d.level.indexOf('H') !== 0) {
+          if (d.level.indexOf('H2') !== 0) {
             acc.buffer.push(d)
             // if this is the last one
             if (i + 1 === arr.length) {
