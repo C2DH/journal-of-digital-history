@@ -66,11 +66,12 @@ const ToC = ({
     '\n - selected index:',
     selected,
   )
+  const stepGroups = Array.isArray(groups) ? groups : []
 
   return (
     <div className={`ToC ${className}`}>
       <div ref={ref} style={{ height: visibleHeight, overflow: 'scroll' }}>
-        {groups.map((step, i) => {
+        {stepGroups.map((step, i) => {
           if (!Array.isArray(step)) {
             return <ToCStep key={i} {...step} width={width} onClick={onClick} />
           } else if (step.length > aboveTheFoldSteps) {
