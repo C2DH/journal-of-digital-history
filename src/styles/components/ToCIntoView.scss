@@ -1,0 +1,33 @@
+.ToCIntoView {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -25%;
+  width: 50%;
+  text-align: center;
+}
+
+.ToCIntoView_message {
+  background: var(--dark);
+  border-radius: 3px;
+  color: var(--white);
+  font-size: 0.8em;
+  display: inline-block;
+  overflow: hidden;
+  width: 24px;
+  cursor: pointer;
+  > div {
+    position: relative;
+  }
+}
+
+svg.ToCIntoView_message_arrowdown {
+  position: absolute;
+  top: 28px;
+  left: 4px;
+}
+svg.ToCIntoView_message_arrowup {
+  position: absolute;
+  top: -20px;
+  left: 4px;
+}

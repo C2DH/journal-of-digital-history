@@ -1,30 +1,33 @@
 import React, { useEffect } from 'react'
-import { a, useSpring } from '@react-spring/web'
+import { a, useSpring, config } from '@react-spring/web'
 import ToCStep from './ToCStep'
 import { ChevronDown } from 'react-feather'
 import '../styles/components/ToCStepGroup.scss'
 
 const ToCStepGroup = ({
   steps = [],
-  aboveTheFoldSteps = 3,
+  aboveTheFoldSteps = 2,
   width = 200,
   marginEnd = 50,
   stepHeight = 20,
-  active = false,
+  isSelected = false,
   onClick,
 }) => {
+  // const isExpanded = useRef(false)
   const minHeight = aboveTheFoldSteps * stepHeight
   const maxHeight = steps.length * stepHeight
+  const angleCoeff = 180 / (maxHeight - minHeight)
   const [{ height }, api] = useSpring(() => ({
     height: minHeight,
+    config: config.stiff,
   }))
 
   useEffect(() => {
-    if (active) {
+    if (isSelected) {
       api.start({ height: maxHeight })
     }
-  }, [active])
-
+  }, [isSelected])
+  console.debug('[ToCStepGroup] isSelected:', isSelected)
   return (
     <div className="ToCStepGroup">
       <a.div className="ToCStepGroup_collapsible" style={{ width, minHeight, height }}>
@@ -35,7 +38,7 @@ const ToCStepGroup = ({
       <div className="ToCStepGroup_toggleButtonWrapper" style={{ width }}>
         <button
           className="ToCStepGroup_toggleButton"
-          style={{ right: marginEnd / 2 - 8 }}
+          style={{ right: marginEnd / 2 - 4 }}
           onClick={() => {
             if (height.get() === minHeight) {
               api.start({ height: maxHeight })
@@ -44,7 +47,17 @@ const ToCStepGroup = ({
             }
           }}
         >
-          <ChevronDown size={10} />
+          <a.span
+            style={{
+              transform: height.to((d) => {
+                const angle = (d - minHeight) * angleCoeff
+
+                return `rotate(${angle}deg)`
+              }),
+            }}
+          >
+            <ChevronDown size={10} />
+          </a.span>
         </button>
       </div>
     </div>

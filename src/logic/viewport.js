@@ -6,6 +6,17 @@ export const scrollToElementById = (id) => {
   console.info('scrollToElementById', id)
   const element = document.getElementById(id)
   if (element) {
-    element.scrollIntoView();
+    element.scrollIntoView()
+  }
+}
+
+export const debounce = (fn, ms) => {
+  let timer
+  return (event) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => {
+      timer = null
+      fn(event)
+    }, ms)
   }
 }

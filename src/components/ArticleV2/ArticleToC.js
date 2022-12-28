@@ -15,6 +15,7 @@ import {
 import ToCStep from '../ToCStep'
 // import ArticleToCBookmark from './ArticleToCBookmark'
 import ToC from '../ToC'
+import { useBoundingClientRect } from '../../hooks/graphics'
 
 const ArticleToC = ({
   memoid = '',
@@ -29,6 +30,7 @@ const ArticleToC = ({
   hasBibliography = false,
 }) => {
   const { t } = useTranslation()
+  const [{ height: toCHeight }, toCref] = useBoundingClientRect()
   const visibleCellsIdx = useArticleToCStore((state) => state.visibleCellsIdx)
   const setVisibleCellsIdx = useArticleToCStore((state) => state.setVisibleCellsIdx)
   const [
@@ -206,15 +208,19 @@ const ArticleToC = ({
     }
   }, [visibleCellsIdx, selectedLayer])
 
-  console.info(
-    'ArticleToC visibleCellsIdx',
+  console.debug(
+    '[ArticleToC]',
+    '\n - visibleCellsIdx',
     visibleCellsIdx,
     firstVisibleCellIdx,
     lastVisibleCellIdx,
+    '\n - selectedCellIdx:',
+    selectedCellIdx,
+    steps,
   )
   return (
     <>
-      <div className="flex-shrink-1 py-3 mb-0 pointer-events-auto text-end">
+      <div className="flex-shrink-1 py-3 pointer-events-auto text-end">
         {layers.length > 1 &&
           layers.map((d, i) => (
             <div
@@ -237,22 +243,25 @@ const ArticleToC = ({
           />
         )}
       </div>
-      <ToC
-        className="flex-grow-1 ps-2 pt-2 pb-2 mb-2 pointer-events-auto border-bottom border-top border-dark"
-        steps={steps.map((step) => {
-          if (step.id === selectedCellIdx) {
-            step.isSelected = true
-          }
-          if (step.id === previousHeadingIdx) {
-            step.isSelected = true
-          }
-          step.active = step.id >= previousHeadingIdx && step.id <= lastVisibleCellIdx
-
-          return step
-        })}
-        width={width * 0.16}
-        onClick={onStepClickHandler}
-      />
+      <div
+        ref={toCref}
+        className="flex-grow-1 pointer-events-auto border-bottom border-top border-dark"
+      >
+        <ToC
+          className="position-absolute w-100"
+          visibleHeight={toCHeight - 2}
+          selectedId={selectedCellIdx}
+          steps={steps.map((step) => {
+            if (step.id === selectedCellIdx) {
+              step.isSelected = true
+            }
+            step.active = step.id >= previousHeadingIdx && step.id <= lastVisibleCellIdx
+            return step
+          })}
+          width={width * 0.16}
+          onClick={onStepClickHandler}
+        />
+      </div>
       {/* <div
         className="flex-grow-1 ps-2 pt-2 pb-2 mb-2 pointer-events-auto border-bottom border-top border-dark"
         style={{ overflow: 'scroll' }}
