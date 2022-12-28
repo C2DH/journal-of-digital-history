@@ -10,13 +10,13 @@ export const scrollToElementById = (id) => {
   }
 }
 
-export const debounce = (fn, ms) => {
+export const debounce = (fn, ms, deps) => {
   let timer
   return (event) => {
     clearTimeout(timer)
     timer = setTimeout(() => {
       timer = null
-      fn(event)
+      fn(event, deps)
     }, ms)
   }
 }

@@ -1,5 +1,5 @@
 import { a, useSpring } from '@react-spring/web'
-import React, { useLayoutEffect, useEffect, useRef, useCallback } from 'react'
+import React, { useLayoutEffect, useRef, useCallback } from 'react'
 import { ArrowDown, ArrowUp } from 'react-feather'
 import { debounce } from '../logic/viewport'
 import '../styles/components/ToCIntoView.scss'
@@ -19,8 +19,8 @@ const ToCIntoView = ({
   const [styles, api] = useSpring(() => ({ opacity: 0, y: 0, direction: IsVisible }))
   const previousDirection = useRef(IsVisible)
   const onTargetScroll = useCallback(
-    () =>
-      debounce(() => {
+    debounce(
+      () => {
         if (targetRef.current) {
           const { height } = targetRef.current.getBoundingClientRect()
           const isDownBelow = targetOffsetTop + targetHeight - targetRef.current.scrollTop > height
@@ -53,11 +53,11 @@ const ToCIntoView = ({
           console.debug(
             '[ToCintoView] onTargetScroll',
             '\n- scrollTop:',
-            targetRef.current.scrollTop,
-            '\n- scrollHeight:',
-            targetRef.current.scrollHeight,
-            '\n- height',
-            height,
+            // targetRef.current.scrollTop,
+            // '\n- scrollHeight:',
+            // targetRef.current.scrollHeight,
+            // '\n- height',
+            // height,
             '\n- targetOffsetTop',
             targetOffsetTop,
             '\n- isDownBelow',
@@ -68,7 +68,10 @@ const ToCIntoView = ({
             previousDirection,
           )
         }
-      }, 150),
+      },
+      150,
+      [targetOffsetTop, targetHeight],
+    ),
     [targetOffsetTop, targetHeight],
   )
 
@@ -93,12 +96,12 @@ const ToCIntoView = ({
         targetRef.current.removeEventListener('scroll', onTargetScroll)
       }
     }
-  }, [])
-
-  useEffect(() => {
-    console.debug('[ToCintoView] @useEffect for targetOffsetTop')
-    onTargetScroll(targetOffsetTop)
   }, [targetOffsetTop])
+
+  // useEffect(() => {
+  //   console.debug('[ToCintoView] @useEffect for targetOffsetTop', targetOffsetTop)
+  //   onTargetScroll()
+  // }, [targetOffsetTop])
   return (
     <a.div
       style={{ ...styles, pointerEvents: styles.opacity.to((v) => (v < 1 ? 'none' : 'auto')) }}
