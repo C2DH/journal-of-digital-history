@@ -23,7 +23,6 @@ const GuidelinesArticle = ({ data, status, isFake = false, showTemplateLink = fa
         plainTitle="Guidelines"
         ignoreHelmet
         ignoreBinder
-        hideFigures
       >
         {status === StatusSuccess && (
           <NotebookHelmet
