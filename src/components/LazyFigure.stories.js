@@ -3,7 +3,7 @@ import LazyFigure from './LazyFigure'
 
 export default {
   component: LazyFigure,
-  title: 'Lazy loading Figure',
+  title: 'components/Lazy loading Figure',
   argTypes: {
     src: {
       required: false,
