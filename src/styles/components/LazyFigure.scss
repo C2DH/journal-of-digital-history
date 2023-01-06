@@ -2,8 +2,6 @@
   position: relative;
 }
 
-.LazyFigure_preloader {
-}
 .LazyFigure_preloader::after {
   content: '';
   left: 0;
@@ -22,11 +20,19 @@
   height: 100%;
   top: 0;
   left: 0;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   opacity: 0;
-  will-change: opacity;
-  transition: opacity 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
   &.active {
     opacity: 1;
   }
+  &.with-transition {
+    will-change: opacity;
+    transition: opacity 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+}
+
+.LazyFigure_image.with-transition {
+  transition-delay: 0.2s;
 }

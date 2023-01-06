@@ -259,6 +259,7 @@ export const useImage = ({ src, initialize = true, delay = 1000 }) => {
 
   useEffect(() => {
     if (!initialize || !src || src.length === 0) {
+      console.debug('[useImage] not initialized or src is empty.')
       return
     }
     if (consumed.current === src) {
