@@ -85,26 +85,28 @@ const ArticleCellFigure = ({
       <Container className={containerClassName} fluid={isFluidContainer}>
         <Row>
           <Col {...columnLayout}>
-            <figure
-              style={
-                !isNaN(aspectRatio)
-                  ? {
-                      paddingTop: `${aspectRatio * 100}%`,
-                    }
-                  : {
-                      minHeight: figureHeight,
-                    }
-              }
-            >
-              <div className="anchor" id={figure.ref} />
-              <ArticleCellOutputs
-                hideLabel
-                isJavascriptTrusted={isJavascriptTrusted}
-                cellIdx={figure.idx}
-                outputs={outputs}
-                height={!isNaN(aspectRatio) ? 'auto' : figureHeight}
-              />
-            </figure>
+            {outputs.length > 0 && (
+              <figure
+                style={
+                  !isNaN(aspectRatio)
+                    ? {
+                        paddingTop: `${aspectRatio * 100}%`,
+                      }
+                    : {
+                        minHeight: figureHeight,
+                      }
+                }
+              >
+                <div className="anchor" id={figure.ref} />
+                <ArticleCellOutputs
+                  hideLabel
+                  isJavascriptTrusted={isJavascriptTrusted}
+                  cellIdx={figure.idx}
+                  outputs={outputs}
+                  height={!isNaN(aspectRatio) ? 'auto' : figureHeight}
+                />
+              </figure>
+            )}
             {children}
           </Col>
         </Row>
