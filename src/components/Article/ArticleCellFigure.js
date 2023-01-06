@@ -18,6 +18,7 @@ const ArticleCellFigure = ({
   containerClassName,
   windowHeight = 100,
   lazy = true,
+  withTransition = false,
 }) => {
   const tags = Array.isArray(metadata.tags) ? metadata.tags : []
   const isFluidContainer = figure.isCover || tags.includes('full-width')
@@ -109,6 +110,7 @@ const ArticleCellFigure = ({
                   key={i}
                   src={src}
                   base64={base64}
+                  withTransition={withTransition}
                 />
               ))
             ) : outputs.length === 0 ? null : (
