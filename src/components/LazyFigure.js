@@ -19,7 +19,7 @@ const LazyFigure = ({
 
   console.debug('[LazyFigure] \n - src:', src)
   return (
-    <figure
+    <div
       ref={ref}
       className="LazyFigure"
       style={
@@ -49,7 +49,7 @@ const LazyFigure = ({
             : {}
         }
       />
-    </figure>
+    </div>
   )
 }
 

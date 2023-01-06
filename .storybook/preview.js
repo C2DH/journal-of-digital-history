@@ -1,4 +1,5 @@
 import WebFontLoader from 'webfontloader'
+import i18n from './i18next.js'
 import { themes } from '@storybook/theming'
 
 import '../src/styles/index.scss'
@@ -14,6 +15,11 @@ WebFontLoader.load({
 })
 
 export const parameters = {
+  i18n,
+  locale: 'en-US',
+  locales: {
+    'en-US': 'English',
+  },
   actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
     matchers: {
