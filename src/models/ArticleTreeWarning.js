@@ -1,5 +1,6 @@
-export const MarkdownParserWarningCode = 'markdownParserWarning'
-export const ReferenceWarningCode = 'referenceWarning'
+export const MarkdownParserWarningCode = 'markdownParser'
+export const ReferenceWarningCode = 'reference'
+export const FigureAnchorWarningCode = 'figureAnchor'
 
 export default class ArticleTreeWarning {
   constructor({ idx = '', code = '', message = '', context, error }) {
