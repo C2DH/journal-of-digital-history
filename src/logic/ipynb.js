@@ -30,6 +30,7 @@ import {
   AnchorRefPrefix,
 } from '../constants'
 import ArticleTreeWarning, {
+  FigureAnchorWarningCode,
   MarkdownParserWarningCode,
   ReferenceWarningCode,
 } from '../models/ArticleTreeWarning'
@@ -88,6 +89,14 @@ const renderMarkdownWithReferences = ({
       if (ref) {
         return `<a href="#${anchorRef}" data-idx="${ref.idx}" data-ref-type="${ref.type}">`
       }
+      warnings.push(
+        new ArticleTreeWarning({
+          idx,
+          code: FigureAnchorWarningCode,
+          message: `missing anchor or figure for ref "${anchorRef}" in notebook metadata`,
+          context: anchorRef,
+        }),
+      )
       return `<a href="#${anchorRef}" data-idx-notfound>`
     })
     // replace sup

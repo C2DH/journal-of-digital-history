@@ -60,6 +60,27 @@ const Component = ({ id, cells, metadata }) => {
           ))}
         </tbody>
       </table>
+      <h3>figures: {tree.figures.length}</h3>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>cell index</th>
+            <th>level</th>
+            <th>original ipynb cell</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tree.figures.map((d, i) => (
+            <tr key={i}>
+              <td>{d.idx}</td>
+              <td>{JSON.stringify(d, null, 2)}</td>
+              <td>
+                <pre>{JSON.stringify(cells[d.idx], null, 2)}</pre>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <h3>paragraphs: {tree.paragraphs.length}</h3>
       <table className="table">
         <thead>
@@ -106,6 +127,8 @@ export default {
 const Template = (args) => <Component {...args} />
 export const Default = Template.bind({})
 export const WithWarnings = Template.bind({})
+export const WithFigure = Template.bind({})
+
 Default.args = {
   id: '',
   metadata: {},
@@ -187,6 +210,39 @@ WithWarnings.args = {
         '> [hacktivism is defined] as the nonviolent use of illegal or legally ambiguous digital tools in pursuit of political ends. These tools include web site defacements, redirects, denial-of-service attacks, information theft, web site parodies, virtual sit-ins, virtual sabotage, and software development. (<cite data-cite="1878900/W9UM4VQS"></cite>) \n',
         '\n',
         'Another Paragraph.\n',
+      ],
+    },
+  ],
+}
+
+WithFigure.args = {
+  id: '',
+  metadata: {},
+  cells: [
+    {
+      cell_type: 'markdown',
+      id: 'dc8ff971',
+      metadata: {
+        jdh: {
+          object: {
+            source: ["Author's search in SHINE, 14 November 2022."],
+          },
+        },
+        tags: ['table-1', 'hermeneutics'],
+      },
+      source: [
+        'Year|Results\n',
+        '---|---\n',
+        '1996|5\n',
+        '1997|134\n',
+        '1998|82\n',
+        '1999|326\n',
+        '2000|743\n',
+        '2001|1687\n',
+        '2002|2978\n',
+        '2003|6512\n',
+        '2004|10449\n',
+        '2005|9114',
       ],
     },
   ],
