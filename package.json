@@ -84,7 +84,8 @@
     "eject": "react-scripts eject",
     "storybook": "NODE_OPTIONS=--openssl-legacy-provider  start-storybook -p 6006 -s public",
     "build-storybook": "NODE_OPTIONS=--openssl-legacy-provider build-storybook -s public",
-    "test-storybook": "test-storybook"
+    "test-storybook": "test-storybook",
+    "test-storybook:ci": "npx concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx http-server storybook-static --port 6006 --silent\" \"npx wait-on tcp:6006 && yarn test-storybook\""
   },
   "browserslist": {
     "production": [
