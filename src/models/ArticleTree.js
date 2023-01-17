@@ -1,6 +1,6 @@
 export default class ArticleTree {
   constructor({
-    id='',
+    id = '',
     headings = [],
     paragraphs = [],
     sections = {},
@@ -10,10 +10,11 @@ export default class ArticleTree {
     headingsPositions = [],
     paragraphsPositions = [],
     citationsFromMetadata,
-    bibliography
+    bibliography,
+    warnings = [],
   }) {
-    this.id=id
-    this.headings= headings
+    this.id = id
+    this.headings = headings
     this.paragraphs = paragraphs
     this.figures = figures
     this.anchors = anchors
@@ -23,9 +24,10 @@ export default class ArticleTree {
     this.paragraphsPositions = paragraphsPositions
     this.bibliography = bibliography
     this.citationsFromMetadata = citationsFromMetadata
+    this.warnings = warnings
   }
 
-  formatBibliograhpy({ template='apa', format='html' } = {}) {
+  formatBibliograhpy({ template = 'apa', format = 'html' } = {}) {
     if (this.bibliography) {
       return this.bibliography.format('bibliography', {
         format,

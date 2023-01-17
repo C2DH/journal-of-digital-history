@@ -5,6 +5,7 @@ import { markdownParser } from '../../logic/ipynb'
 import { BootstrapColumLayout } from '../../constants'
 import { Container, Row, Col } from 'react-bootstrap'
 import '../../styles/components/Article/ArticleCellFigure.scss'
+import LazyFigure from '../LazyFigure'
 
 const ArticleCellFigure = ({
   figure,
@@ -16,6 +17,8 @@ const ArticleCellFigure = ({
   children,
   containerClassName,
   windowHeight = 100,
+  lazy = true,
+  withTransition = false,
 }) => {
   const tags = Array.isArray(metadata.tags) ? metadata.tags : []
   const isFluidContainer = figure.isCover || tags.includes('full-width')
@@ -40,15 +43,27 @@ const ArticleCellFigure = ({
     return m[1]
   }, Math.max(200, windowHeight * 0.5))
 
-  const captions = useMemo(
+  const { captions, pictures } = useMemo(
     () =>
-      outputs.reduce((acc, output) => {
-        if (output.metadata && Array.isArray(output.metadata?.jdh?.object?.source)) {
-          acc.push(markdownParser.render(output.metadata.jdh.object.source.join('\n')))
-        }
-        return acc
-      }, []),
-    outputs,
+      outputs.reduce(
+        (acc, output = {}) => {
+          if (output.metadata && Array.isArray(output.metadata?.jdh?.object?.source)) {
+            acc.captions.push(markdownParser.render(output.metadata.jdh.object.source.join('\n')))
+          }
+          // get pictures as dict of encoded and src
+          acc.pictures.push(
+            ...Object.keys(output.data ?? {})
+              .filter((mimetype) => mimetype.indexOf('image/') === 0)
+              .map((mimetype) => ({
+                src: output.metadata?.jdh?.object?.src,
+                base64: `data:${mimetype};base64,${output.data[mimetype]}`,
+              })),
+          )
+          return acc
+        },
+        { captions: [], pictures: [] },
+      ),
+    [figure.idx],
   )
 
   if (Array.isArray(metadata.jdh?.object?.source)) {
@@ -78,6 +93,8 @@ const ArticleCellFigure = ({
     aspectRatio,
     '\n - tags:',
     tags,
+    '\n - n.pictures:',
+    pictures.length,
   )
 
   return (
@@ -85,26 +102,39 @@ const ArticleCellFigure = ({
       <Container className={containerClassName} fluid={isFluidContainer}>
         <Row>
           <Col {...columnLayout}>
-            <figure
-              style={
-                !isNaN(aspectRatio)
-                  ? {
-                      paddingTop: `${aspectRatio * 100}%`,
-                    }
-                  : {
-                      minHeight: figureHeight,
-                    }
-              }
-            >
-              <div className="anchor" id={figure.ref} />
-              <ArticleCellOutputs
-                hideLabel
-                isJavascriptTrusted={isJavascriptTrusted}
-                cellIdx={figure.idx}
-                outputs={outputs}
-                height={!isNaN(aspectRatio) ? 'auto' : figureHeight}
-              />
-            </figure>
+            {pictures.length > 0 && lazy ? (
+              pictures.map(({ src, base64 }, i) => (
+                <LazyFigure
+                  aspectRatio={aspectRatio}
+                  height={figureHeight}
+                  key={i}
+                  src={src}
+                  base64={base64}
+                  withTransition={withTransition}
+                />
+              ))
+            ) : outputs.length === 0 ? null : (
+              <figure
+                style={
+                  !isNaN(aspectRatio)
+                    ? {
+                        paddingTop: `${aspectRatio * 100}%`,
+                      }
+                    : {
+                        minHeight: figureHeight,
+                      }
+                }
+              >
+                <div className="anchor" id={figure.ref} />
+                <ArticleCellOutputs
+                  hideLabel
+                  isJavascriptTrusted={isJavascriptTrusted}
+                  cellIdx={figure.idx}
+                  outputs={outputs}
+                  height={!isNaN(aspectRatio) ? 'auto' : figureHeight}
+                />
+              </figure>
+            )}
             {children}
           </Col>
         </Row>

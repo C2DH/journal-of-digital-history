@@ -1,10 +1,4 @@
-import {
-  useRef,
-  useState,
-  useEffect,
-  useCallback,
-  useLayoutEffect,
-} from 'react'
+import { useRef, useState, useEffect, useCallback, useLayoutEffect } from 'react'
 
 /**
  * Calculate available rectangle for the given ref.
@@ -30,8 +24,7 @@ export const useBoundingClientRect = () => {
       // extract one dimension by one dimension, the only way
       // as the result of el.getBoundingClientRect() returns a special object
       // of type ClientRect (or DomRect apparently)
-      const { top, right, bottom, left, width, height, x, y } =
-        boundingClientRect
+      const { top, right, bottom, left, width, height, x, y } = boundingClientRect
       setBbox({
         top,
         right,
@@ -48,21 +41,16 @@ export const useBoundingClientRect = () => {
   useLayoutEffect(() => {
     setCurrentBoundingClientRect()
     window.addEventListener('resize', setCurrentBoundingClientRect)
-    return () =>
-      window.removeEventListener('resize', setCurrentBoundingClientRect)
+    return () => window.removeEventListener('resize', setCurrentBoundingClientRect)
   })
   return [bbox, ref]
 }
 
 const getWidth = () =>
-  window.innerWidth ||
-  document.documentElement.clientWidth ||
-  document.body.clientWidth
+  window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
 
 const getHeight = () =>
-  window.innerHeight ||
-  document.documentElement.clientHeight ||
-  document.body.clientHeight
+  window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
 
 const getWindowDimensions = () => ({
   width: getWidth(),
@@ -133,10 +121,7 @@ export function useMousePosition() {
  *   <div ref={ref}>trigger {entry.isIntersecting? 'visisble': 'not visible'}</div>
  *
  */
-export function useOnScreen({
-  threshold = [0, 1],
-  rootMargin = '0% 0% 0% 0%',
-} = {}) {
+export function useOnScreen({ threshold = [0, 1], rootMargin = '0% 0% 0% 0%' } = {}) {
   const ref = useRef()
   const [entry, setEntry] = useState({
     intersectionRatio: 0, // this avoid entry is null error
@@ -150,7 +135,7 @@ export function useOnScreen({
     {
       threshold,
       rootMargin,
-    }
+    },
   )
   useEffect(() => {
     observer.observe(ref.current, { threshold })
@@ -168,16 +153,10 @@ export function useOnScreen({
         observer.observe(ref.current, { threshold })
       }
     }
-    window.addEventListener(
-      'refreshIntersectionObserver',
-      refreshIntersectionObserverHandler
-    )
+    window.addEventListener('refreshIntersectionObserver', refreshIntersectionObserverHandler)
     // Remove the observer as soon as the component is unmounted
     return () => {
-      window.removeEventListener(
-        'refreshIntersectionObserver',
-        refreshIntersectionObserverHandler
-      )
+      window.removeEventListener('refreshIntersectionObserver', refreshIntersectionObserverHandler)
       observer.disconnect()
     }
     // eslint-disable-next-line
@@ -211,7 +190,7 @@ export function useRefWithCallback(onMount, onUnmount) {
         onMount(nodeRef.current)
       }
     },
-    [onMount, onUnmount]
+    [onMount, onUnmount],
   )
   return setRef
 }
@@ -237,8 +216,8 @@ export function useInjectTrustedJavascript({
                 'try{',
                 ...contents,
                 '} catch(e) { console.error("Error inside the script attached useInjectTrustedJavascript!\\n\\n", e)}',
-              ].join('\n')
-            )
+              ].join('\n'),
+            ),
           )
           try {
             node.appendChild(script)
@@ -257,18 +236,78 @@ export function useInjectTrustedJavascript({
         try {
           node.removeChild(scriptDomElement)
         } catch (e) {
-          console.warn(
-            'document.body.removeChild failed with id:',
-            id,
-            e.message
-          )
+          console.warn('document.body.removeChild failed with id:', id, e.message)
         }
         if (node && typeof onUnmount === 'function') {
           onUnmount(node)
         }
       }
-    }
+    },
   )
 
   return setRefWithCallback
+}
+
+export const useImage = ({ src, initialize = true, delay = 1000 }) => {
+  const consumed = useRef(false)
+  const [result, setResult] = useState({
+    isLoading: false,
+    isLoaded: false,
+    error: null,
+    hasStartedInitialFetch: false,
+  })
+
+  useEffect(() => {
+    if (!initialize || !src || src.length === 0) {
+      console.debug('[useImage] not initialized or src is empty.')
+      return
+    }
+    if (consumed.current === src) {
+      console.debug('[useImage] already loaded...')
+      return
+    }
+    setResult({
+      isLoading: true,
+      isLoaded: false,
+      error: null,
+      hasStartedInitialFetch: true,
+    })
+    console.debug('[useImage] @useEffect start fetching...')
+    // Here's where the magic happens.
+    const image = new Image()
+
+    consumed.current = src
+    let timer1 = setTimeout(() => {
+      image.src = src
+    }, delay)
+
+    const handleError = (err) => {
+      setResult({
+        isLoading: true,
+        isLoaded: false,
+        error: err,
+        hasStartedInitialFetch: true,
+      })
+    }
+
+    const handleLoad = () => {
+      setResult({
+        isLoading: false,
+        isLoaded: true,
+        error: null,
+        hasStartedInitialFetch: false,
+      })
+    }
+
+    image.onerror = handleError
+    image.onload = handleLoad
+
+    return () => {
+      clearTimeout(timer1)
+      image.removeEventListener('error', handleError)
+      image.removeEventListener('load', handleLoad)
+    }
+  }, [src, initialize, delay])
+
+  return result
 }

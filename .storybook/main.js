@@ -13,6 +13,7 @@ module.exports = {
     '@storybook/addon-interactions',
     '@storybook/preset-create-react-app',
     'storybook-dark-mode',
+    'storybook-react-i18next',
   ],
   framework: '@storybook/react',
   core: {
