@@ -18,4 +18,8 @@
   &.with-cover {
     background-size: cover;
   }
+  &.with-aspect-ratio {
+    position: absolute;
+    top: 0;
+  }
 }

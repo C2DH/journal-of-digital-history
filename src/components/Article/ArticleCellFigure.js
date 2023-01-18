@@ -106,33 +106,18 @@ const ArticleCellFigure = ({
   )
 
   return (
-    <div
-      className={`ArticleCellFigure ${aspectRatio ? 'with-aspect-ratio' : ''} ${
-        active ? 'active' : ''
-      }`}
-    >
+    <div className={`ArticleCellFigure ${active ? 'active' : ''}`}>
       <Container className={containerClassName} fluid={isFluidContainer}>
         <Row>
           <Col {...columnLayout}>
             {otherOutputs.length > 0 && (
-              <figure
-                style={
-                  !isNaN(aspectRatio)
-                    ? {
-                        paddingTop: `${aspectRatio * 100}%`,
-                      }
-                    : {
-                        minHeight: figureHeight,
-                      }
-                }
-              >
+              <figure>
                 <div className="anchor" id={figure.ref} />
                 <ArticleCellOutputs
                   hideLabel
                   isJavascriptTrusted={isJavascriptTrusted}
                   cellIdx={figure.idx}
                   outputs={otherOutputs}
-                  height={!isNaN(aspectRatio) ? 'auto' : figureHeight}
                 />
               </figure>
             )}
@@ -143,6 +128,7 @@ const ArticleCellFigure = ({
                   !isNaN(aspectRatio)
                     ? {
                         paddingTop: `${aspectRatio * 100}%`,
+                        position: 'relative',
                       }
                     : {
                         height: parseInt(figureHeight),
@@ -150,7 +136,9 @@ const ArticleCellFigure = ({
                 }
               >
                 <div
-                  className={`ArticleCellFigure_picture ${figure.isCover ? 'with-cover' : ''}`}
+                  className={`ArticleCellFigure_picture ${figure.isCover ? 'with-cover' : ''} ${
+                    !isNaN(aspectRatio) ? 'with-aspect-ratio' : ''
+                  }`}
                   style={{
                     backgroundImage: `url(${base64})`,
                   }}
