@@ -39,7 +39,14 @@ Default.args = {
             type: 'image',
           },
         },
-        tags: ['narrative', 'hermeneutics', 'figure-1', 'h-362px', 'w-354px'],
+        tags: [
+          'narrative',
+          'hermeneutics',
+          'figure-1',
+          'aspect-ratio-856-481',
+          'h-481px',
+          'w-856px',
+        ],
       },
       outputs: [
         {
@@ -112,7 +119,7 @@ Default.args = {
           'hermeneutics',
           'figure-5',
           'aspect-ratio-1074-360',
-          'hhh-360px',
+          'h-360px',
           'w-1074px',
         ],
       },
