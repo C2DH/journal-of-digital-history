@@ -29,6 +29,11 @@ import {
   QuoteRefPrefix,
   AnchorRefPrefix,
 } from '../constants'
+import ArticleTreeWarning, {
+  FigureAnchorWarningCode,
+  MarkdownParserWarningCode,
+  ReferenceWarningCode,
+} from '../models/ArticleTreeWarning'
 
 const encodeNotebookURL = (url) => btoa(encodeURIComponent(url))
 const decodeNotebookURL = (encodedUrl) => decodeURIComponent(atob(encodedUrl))
@@ -48,6 +53,7 @@ markdownParser.use(MarkdownItAttrs, {
 markdownParser.use(MarkdownItMathjax)
 
 const renderMarkdownWithReferences = ({
+  idx = -1,
   sources = '',
   referenceIndex = {},
   citationsFromMetadata = {},
@@ -55,6 +61,7 @@ const renderMarkdownWithReferences = ({
   anchors = [],
 }) => {
   const references = []
+  const warnings = []
   // console.info('markdownParser.render', markdownParser.render(sources))
   const content = markdownParser
     .render(sources)
@@ -71,7 +78,7 @@ const renderMarkdownWithReferences = ({
           return `<a data-idx="${ref.idx}" href="#${anchorRef}"  data-ref-type="${ref.type}">figure ${ref.num}</a>`
         }
         return `<a data-idx-notfound href="#${anchorRef}">${content}</a>`
-      }
+      },
     )
     // replace links "figure-" add data-idx attribute containing a figure id
     .replace(/<a href="#((figure|table|anchor)-[^"]+)">/g, (m, anchorRef) => {
@@ -82,6 +89,14 @@ const renderMarkdownWithReferences = ({
       if (ref) {
         return `<a href="#${anchorRef}" data-idx="${ref.idx}" data-ref-type="${ref.type}">`
       }
+      warnings.push(
+        new ArticleTreeWarning({
+          idx,
+          code: FigureAnchorWarningCode,
+          message: `missing anchor or figure for ref "${anchorRef}" in notebook metadata`,
+          context: anchorRef,
+        }),
+      )
       return `<a href="#${anchorRef}" data-idx-notfound>`
     })
     // replace sup
@@ -95,22 +110,27 @@ const renderMarkdownWithReferences = ({
     // "Compiling a collection of tweets of this nature raises considerable methodological issues.
     // While we will not go into detail, we would refer our readers to previous publications
     // that touches on these subjects <cite data-cite="7009778/GBFQ2FF7"></cite>."
-    .replace(
-      /&lt;cite\s+data-cite=.([/\dA-Z]+).&gt;&lt;\/cite&gt;/g,
-      (m, id) => {
-        const reference = new ArticleReference({
-          ref: citationsFromMetadata[id],
-        })
-        references.push(reference)
-        return `<span class="ArticleReference d-inline-block">
+    .replace(/&lt;cite\s+data-cite=.([/\dA-Z]+).&gt;&lt;\/cite&gt;/g, (m, id) => {
+      const reference = new ArticleReference({
+        ref: citationsFromMetadata[id],
+      })
+      if (!citationsFromMetadata[id]) {
+        warnings.push(
+          new ArticleTreeWarning({
+            idx,
+            code: ReferenceWarningCode,
+            message: `missing citation id ${id} in notebook metadata`,
+            context: id,
+          }),
+        )
+      }
+      references.push(reference)
+      return `<span class="ArticleReference d-inline-block">
         <span class=" d-inline-block">
-          <span class="ArticleReference_shortRef">${
-            reference.shortRef || '[' + id + ']'
-          }</span>
+          <span class="ArticleReference_shortRef">${reference.shortRef || '[' + id + ']'}</span>
         </span>
         </span>`
-      }
-    )
+    })
     // look for footnotes
     .replace(/&lt;sup&gt;(\d+)&lt;\/sup&gt;/g, (m, num) => {
       // add footnote nuber and optionally the Author, year
@@ -128,7 +148,7 @@ const renderMarkdownWithReferences = ({
         </span>
         </span>`
     })
-  return { content, references }
+  return { content, references, warnings }
 }
 
 /**
@@ -142,11 +162,7 @@ const renderMarkdownWithReferences = ({
  * @param {Array} defaultChoice - optional. Section default choice
  * @return {Number|String} - Return one and only one valid value among the choices or the defaultChoice
  */
-const getFirstValidMatchFromChoices = (
-  candidates = [],
-  choiches = [],
-  defaultChoice = null
-) => {
+const getFirstValidMatchFromChoices = (candidates = [], choiches = [], defaultChoice = null) => {
   for (let i = 0; i < candidates.length; i++) {
     if (choiches.includes(candidates[i])) {
       return candidates[i]
@@ -168,7 +184,7 @@ const getSectionFromCellMetadata = (metadata) =>
   getFirstValidMatchFromChoices(
     [].concat(metadata.tags, metadata.jdh?.section),
     SectionChoices,
-    SectionDefault
+    SectionDefault,
   )
 /**
  * getLayerFromCellMetadata
@@ -184,7 +200,7 @@ const getLayerFromCellMetadata = (metadata) =>
   getFirstValidMatchFromChoices(
     [].concat(metadata.tags, metadata.jdh?.layer),
     LayerChoices,
-    LayerNarrative
+    LayerNarrative,
   )
 
 const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
@@ -195,6 +211,7 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
   const articleParagraphs = []
   const anchors = []
   const sectionsIndex = {}
+  const warnings = []
   let citationsFromMetadata = metadata?.cite2c?.citations
   let tableAutonumbering = 0
 
@@ -204,31 +221,24 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
       delete citationsFromMetadata.undefined
     }
     // add property issued to correct Cite library bug on date-parts
-    citationsFromMetadata = Object.keys(citationsFromMetadata).reduce(
-      (acc, k) => {
-        const d = citationsFromMetadata[k]
-        if (!d.id) {
-          d.id = k
+    citationsFromMetadata = Object.keys(citationsFromMetadata).reduce((acc, k) => {
+      const d = citationsFromMetadata[k]
+      if (!d.id) {
+        d.id = k
+      }
+      if (typeof d.issued === 'object' && d.issued.year && !d.issued['date-parts']) {
+        acc[d.id] = {
+          ...d,
+          issued: {
+            ...d.issued,
+            ['date-parts']: [[d.issued.year]],
+          },
         }
-        if (
-          typeof d.issued === 'object' &&
-          d.issued.year &&
-          !d.issued['date-parts']
-        ) {
-          acc[d.id] = {
-            ...d,
-            issued: {
-              ...d.issued,
-              ['date-parts']: [[d.issued.year]],
-            },
-          }
-        } else {
-          acc[d.id] = d
-        }
-        return acc
-      },
-      {}
-    )
+      } else {
+        acc[d.id] = d
+      }
+      return acc
+    }, {})
   }
   // this contain footnotes => zotero id to remap reference at paragraph level
   const referenceIndex = {}
@@ -236,36 +246,20 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
   let bibliography = null
   // parse biobliographic elements
   if (citationsFromMetadata instanceof Object) {
-    bibliography = new Cite(
-      Object.values(citationsFromMetadata).filter((d) => d)
-    )
+    bibliography = new Cite(Object.values(citationsFromMetadata).filter((d) => d))
   }
   let paragraphNumber = 0
   // cycle through notebook cells to fill ArticleCells, figures, headings
   cells
     .map((cell, idx) => {
-      const sources = Array.isArray(cell.source)
-        ? cell.source.join('\n')
-        : cell.source
+      const sources = Array.isArray(cell.source) ? cell.source.join('\n') : cell.source
       // find footnote citations (with the number)
-      const footnote = sources.match(
-        /<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/
-      )
-      const coverRef = cell.metadata.tags?.find(
-        (d) => d.indexOf(CoverRefPrefix) === 0
-      )
-      const figureRef = cell.metadata.tags?.find(
-        (d) => d.indexOf(FigureRefPrefix) === 0
-      )
-      const tableRef = cell.metadata.tags?.find(
-        (d) => d.indexOf(TableRefPrefix) === 0
-      )
-      const quoteRef = cell.metadata.tags?.find(
-        (d) => d.indexOf(QuoteRefPrefix) === 0
-      )
-      const anchorRef = cell.metadata.tags?.find(
-        (d) => d.indexOf(AnchorRefPrefix) === 0
-      )
+      const footnote = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
+      const coverRef = cell.metadata.tags?.find((d) => d.indexOf(CoverRefPrefix) === 0)
+      const figureRef = cell.metadata.tags?.find((d) => d.indexOf(FigureRefPrefix) === 0)
+      const tableRef = cell.metadata.tags?.find((d) => d.indexOf(TableRefPrefix) === 0)
+      const quoteRef = cell.metadata.tags?.find((d) => d.indexOf(QuoteRefPrefix) === 0)
+      const anchorRef = cell.metadata.tags?.find((d) => d.indexOf(AnchorRefPrefix) === 0)
       // get section and layer from metadata
       cell.section = getSectionFromCellMetadata(cell.metadata)
       cell.layer = getLayerFromCellMetadata(cell.metadata)
@@ -291,7 +285,7 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
             ref: figureRef,
             idx,
             num: figures.length + 1,
-          })
+          }),
         )
         cell.role = RoleFigure
       } else if (coverRef) {
@@ -306,7 +300,7 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
             idx,
             isTable: true,
             num: +tableAutonumbering,
-          })
+          }),
         )
         cell.role = RoleFigure
       } else if (quoteRef) {
@@ -319,9 +313,7 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
       ) {
         // this is a "Figure" candindate.
         // Let's check whether the cell outputs JDH metadata and if jdh namespace contains **module**;
-        const cellOutputJdhMetadata = cell.outputs.find(
-          (d) => d.metadata?.jdh?.module
-        )
+        const cellOutputJdhMetadata = cell.outputs.find((d) => d.metadata?.jdh?.module)
         if (cellOutputJdhMetadata) {
           // if yes, these metadata AND its output will be added to this cell.
           cell.metadata = {
@@ -339,7 +331,7 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
               type: cell.metadata.jdh.object?.type,
               idx,
               num: figures.length + 1,
-            })
+            }),
           )
           cell.role = RoleFigure
         }
@@ -366,15 +358,30 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
         try {
           tokens = markdownParser.parse(sources)
         } catch (err) {
-          console.warn("Couldn't parse cell markdown tokens", cell, err)
+          warnings.push(
+            new ArticleTreeWarning({
+              idx,
+              code: MarkdownParserWarningCode,
+              message: err.message,
+              error: err,
+            }),
+          )
         }
-        const { content, references } = renderMarkdownWithReferences({
+        const {
+          content,
+          references,
+          warnings: postRenderWarnings = [],
+        } = renderMarkdownWithReferences({
+          idx,
           sources,
           referenceIndex,
           citationsFromMetadata,
           figures,
           anchors,
         })
+        if (postRenderWarnings.length) {
+          warnings.push(...postRenderWarnings)
+        }
         // get tokens 'heading_open' to get the first h1,h2,h3 in source.
         const headerIdx = tokens.findIndex((t) => t.type === 'heading_open')
         if (headerIdx > -1) {
@@ -398,9 +405,7 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
           //
           // Hence, if we want to have only the plain text content,
           // we have to join the content of the children of the next token...
-          const headingContent = tokens[headerIdx + 1].children
-            .map((d) => d.content)
-            .join('')
+          const headingContent = tokens[headerIdx + 1].children.map((d) => d.content).join('')
 
           headings.push(
             new ArticleHeading({
@@ -408,7 +413,7 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
               tag: tokens[headerIdx].tag,
               content: headingContent,
               idx,
-            })
+            }),
           )
         }
         if (headerIdx > -1 || cell.role === RoleFigure) {
@@ -429,11 +434,8 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
             hidden: !!cell.hidden,
             heading: headerIdx > -1 ? headings[headings.length - 1] : null,
             level: headerIdx > -1 ? tokens[headerIdx].tag : 'p',
-            figure:
-              cell.role === RoleFigure
-                ? figures.find((d) => d.idx === idx)
-                : null,
-          })
+            figure: cell.role === RoleFigure ? figures.find((d) => d.idx === idx) : null,
+          }),
         )
       } else if (cell.cell_type === CellTypeCode) {
         articleCells.push(
@@ -450,11 +452,8 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
             outputs: cell.outputs,
             hidden: !!cell.hidden,
             level: 'code',
-            figure:
-              cell.role === RoleFigure
-                ? figures.find((d) => d.idx === idx)
-                : null,
-          })
+            figure: cell.role === RoleFigure ? figures.find((d) => d.idx === idx) : null,
+          }),
         )
         if (cell.role === RoleFigure) {
           headingsPositions.push(idx)
@@ -508,6 +507,7 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
     figures,
     anchors,
     citationsFromMetadata,
+    warnings,
   })
 }
 

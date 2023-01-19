@@ -4,19 +4,18 @@ import ArticleCell from '../Article/ArticleCell'
 import ArticleCellObserver from './ArticleCellObserver'
 import ArticleCellPlaceholder from './ArticleCellPlaceholder'
 import ArticleCellPopup from './ArticleCellPopup'
-import {a, useSpring, config} from 'react-spring'
+import { a, useSpring, config } from 'react-spring'
 import { useRefWithCallback } from '../../hooks/graphics'
 import { Button } from 'react-bootstrap'
 import { ArrowRight, ArrowLeft } from 'react-feather'
 import {
   DisplayLayerSectionBibliography,
   DisplayLayerSectionFooter,
-  IsMobile
+  IsMobile,
 } from '../../constants'
 import '../../styles/components/Article2/ArticleLayer.scss'
 
-
-function getCellAnchorFromIdx(idx, prefix='c') {
+function getCellAnchorFromIdx(idx, prefix = 'c') {
   return `${prefix}${idx}`
 }
 
@@ -25,36 +24,37 @@ function layerTransition(x, y, width, height) {
 }
 
 const ArticleLayer = ({
-  memoid='',
-  layer=LayerNarrative,
+  memoid = '',
+  layer = LayerNarrative,
   // previousLayer=null,
   // nextLayer=null,
-  paragraphsGroups=[],
-  paragraphs=[],
+  paragraphsGroups = [],
+  paragraphs = [],
   // index of selected cell  (cell.idx)
-  selectedCellIdx=-1,
-  selectedCellTop=0,
-  selectedLayerHeight=-1,
+  selectedCellIdx = -1,
+  selectedCellTop = 0,
+  selectedLayerHeight = -1,
   onDataHrefClick,
   onCellPlaceholderClick,
   onCellIntersectionChange,
   onAnchorClick,
-  isSelected=false,
-  selectedLayer='',
-  previousLayer='',
-  selectedSection=null,
-  previousCellIdx=-1,
-  layers=[],
+  isSelected = false,
+  selectedLayer = '',
+  previousLayer = '',
+  selectedSection = null,
+  previousCellIdx = -1,
+  layers = [],
   children,
-  width=0, height=0,
-  isJavascriptTrusted=false,
+  width = 0,
+  height = 0,
+  isJavascriptTrusted = false,
   style,
   // if it is defined, will override the style of the
   // ArticleLayout pushFixed header
   pageBackgroundColor,
-  renderedBibliographyComponent=null,
-  renderedFooterComponent=null,
-  renderedLogoComponent=null
+  renderedBibliographyComponent = null,
+  renderedFooterComponent = null,
+  renderedLogoComponent = null,
 }) => {
   const [popupProps, setPopupProps] = useSpring(() => ({
     x: 0,
@@ -62,29 +62,36 @@ const ArticleLayer = ({
     opacity: 0,
     cellIdx: -1,
     cellLayer: '',
-    config: config.stiff
+    config: config.stiff,
   }))
   const [mask, setMask] = useSpring(() => ({
-    clipPath: [width, 0, width, height], x:0, y:0,
-    config: config.slow
+    clipPath: [width, 0, width, height],
+    x: 0,
+    y: 0,
+    config: config.slow,
   }))
   const layerRef = useRefWithCallback((layerDiv) => {
     if (selectedSection) {
-      console.info('[ArticleLayer] @useRefWithCallback on selectedSection selected:', selectedSection)
+      console.info(
+        '[ArticleLayer] @useRefWithCallback on selectedSection selected:',
+        selectedSection,
+      )
       // get section offset
       const sectionElement = document.getElementById(getCellAnchorFromIdx(selectedSection, layer))
       if (!sectionElement) {
-        console.warn('[ArticleLayer] @useRefWithCallback could not find any sectionElement with given id:', selectedSection)
+        console.warn(
+          '[ArticleLayer] @useRefWithCallback could not find any sectionElement with given id:',
+          selectedSection,
+        )
         return
       }
       layerDiv.scrollTo({
         top: sectionElement.offsetTop + layerDiv.offsetTop - 150,
-        behavior: previousLayer === selectedLayer
-          ? 'smooth'
-          : 'instant'
+        behavior: previousLayer === selectedLayer ? 'smooth' : 'instant',
       })
       return
-    } else if (!isSelected || selectedCellIdx === -1) { // discard
+    } else if (!isSelected || selectedCellIdx === -1) {
+      // discard
       return
     }
     // get cellEmeemnt in current layer (as it can be just a placeholder,too)
@@ -95,22 +102,31 @@ const ArticleLayer = ({
     }
     // if the current layer height is greater than the height ref in the URL params,
     // it means we can safely scroll to the selectedcellTop position displayed in the URL.
-    const cellElementRefTop = height >= selectedLayerHeight
-      ? selectedCellTop
-      : selectedLayerHeight/2
+    const cellElementRefTop =
+      height >= selectedLayerHeight ? selectedCellTop : selectedLayerHeight / 2
     const top = cellElement.offsetTop + layerDiv.offsetTop - cellElementRefTop
     console.debug(
       '[ArticleLayer] useRefWithCallback',
-      '\n selectedCellIdx:', selectedCellIdx,
-      '\n layer', layer,
-      '\n scrollTo:', top
-    )
-    layerDiv.scrollTo({
+      '\n selectedCellIdx:',
+      selectedCellIdx,
+      '\n layer',
+      layer,
+      '\n scrollTo:',
       top,
-      behavior: !previousLayer || previousLayer === selectedLayer
-        ? 'smooth'
-        : 'instant'
-    })
+    )
+    setTimeout(() => {
+      const top = cellElement.offsetTop + layerDiv.offsetTop - cellElementRefTop
+
+      layerDiv.scrollTo({
+        top,
+        behavior: !previousLayer || previousLayer === selectedLayer ? 'smooth' : 'instant',
+      })
+    }, 10)
+    // layerDiv.scrollTo({
+    //   top,
+    //   behavior: !previousLayer || previousLayer === selectedLayer ? 'smooth' : 'instant',
+    // })
+    // cellElement.scrollIntoView()
   })
 
   const onCellPlaceholderClickHandler = (e, cell) => {
@@ -122,7 +138,7 @@ const ArticleLayer = ({
         previousIdx: cell.idx,
         previousLayer: layer,
         height, // ref height
-        y: wrapper.offsetTop - wrapper.parentNode.scrollTop - 15
+        y: wrapper.offsetTop - wrapper.parentNode.scrollTop - 15,
       })
     } else {
       console.warn('[ArticleLayer] misses a onCellPlaceholderClick listener')
@@ -143,7 +159,12 @@ const ArticleLayer = ({
         layer: previousLayer,
         idx: previousCellIdx > -1 ? previousCellIdx : cell.idx,
         height, // ref height
-        y: previousCellIdx > -1 ? selectedCellTop : e.currentTarget.parentNode.parentNode.offsetTop - e.currentTarget.parentNode.parentNode.parentNode.scrollTop - 15
+        y:
+          previousCellIdx > -1
+            ? selectedCellTop
+            : e.currentTarget.parentNode.parentNode.offsetTop -
+              e.currentTarget.parentNode.parentNode.parentNode.scrollTop -
+              15,
       })
     }
   }
@@ -153,23 +174,23 @@ const ArticleLayer = ({
    * update the Animatable properties of ArticleCellPopup component. We add there also
    * the current cell idx and cell layer (yes, it should be better placed in a ref @todo)
    */
-  const onNumClickHandler = (e, cell) =>  {
+  const onNumClickHandler = (e, cell) => {
     const wrapper = e.currentTarget.closest('.ArticleLayer_paragraphWrapper')
     setPopupProps.start({
       from: {
         x: e.currentTarget.parentNode.offsetLeft,
         y: wrapper.offsetTop,
-        opacity:.6,
+        opacity: 0.6,
         cellIdx: cell.idx,
         cellLayer: cell.layer,
       },
-      to:{
+      to: {
         x: e.currentTarget.parentNode.offsetLeft,
         y: wrapper.offsetTop - 10,
-        opacity:1,
+        opacity: 1,
         cellIdx: cell.idx,
-        cellLayer: cell.layer
-      }
+        cellLayer: cell.layer,
+      },
     })
     onAnchorClick(e, {
       layer: cell.layer,
@@ -177,7 +198,7 @@ const ArticleLayer = ({
       previousLayer: cell.layer,
       previousIdx: cell.idx,
       height, // ref height
-      y: wrapper.offsetTop - wrapper.parentNode.scrollTop - 15
+      y: wrapper.offsetTop - wrapper.parentNode.scrollTop - 15,
     })
   }
 
@@ -191,7 +212,7 @@ const ArticleLayer = ({
       height, // ref height
       y: wrapper.offsetTop - wrapper.parentNode.scrollTop - 15,
       previousLayer: selectedLayer,
-      previousIdx: cell.idx
+      previousIdx: cell.idx,
     })
   }
 
@@ -201,7 +222,7 @@ const ArticleLayer = ({
       layer: cell.layer,
       idx: cell.idx,
       height, // ref height
-      y: 100
+      y: 100,
     })
   }
 
@@ -219,25 +240,34 @@ const ArticleLayer = ({
       } else if (e.target.hasAttribute('data-idx')) {
         e.preventDefault()
         const targetCellIdx = parseInt(e.target.getAttribute('data-idx'), 10)
-        const targetCell = paragraphs.find(p => p.idx === targetCellIdx)
-        const cellElement = document.getElementById(getCellAnchorFromIdx(targetCellIdx, targetCell.layer))
+        const targetCell = paragraphs.find((p) => p.idx === targetCellIdx)
+        const cellElement = document.getElementById(
+          getCellAnchorFromIdx(targetCellIdx, targetCell.layer),
+        )
         if (!cellElement) {
           console.warn('Not found! celleElment with given id:', selectedCellIdx)
           return
         }
         // get cell idx where the event was generated.
         const wrapper = e.target.closest('.ArticleLayer_paragraphWrapper')
-        if (!wrapper){
+        if (!wrapper) {
           // nothing to do :(
-          console.warn('ArticleLayer_paragraphWrapper Not found! Element is maybe a placeholder.', selectedCellIdx)
+          console.warn(
+            'ArticleLayer_paragraphWrapper Not found! Element is maybe a placeholder.',
+            selectedCellIdx,
+          )
           return
         }
         const sourceCellidx = parseInt(wrapper.getAttribute('data-cell-idx'), 10)
         const sourceCellLayer = wrapper.getAttribute('data-cell-layer')
         console.debug(
           '[ArticleLayer] @onLayerClickHandler:',
-          '\n - target:', targetCellIdx, targetCell.layer,
-          '\n - source:', sourceCellidx, sourceCellLayer
+          '\n - target:',
+          targetCellIdx,
+          targetCell.layer,
+          '\n - source:',
+          sourceCellidx,
+          sourceCellLayer,
         )
         onAnchorClick(e, {
           layer: targetCell.layer,
@@ -245,7 +275,7 @@ const ArticleLayer = ({
           previousIdx: sourceCellidx,
           previousLayer: sourceCellLayer,
           height, // ref height
-          y: wrapper.offsetTop - wrapper.parentNode.scrollTop - 15
+          y: wrapper.offsetTop - wrapper.parentNode.scrollTop - 15,
         })
       }
     } else {
@@ -254,7 +284,7 @@ const ArticleLayer = ({
 
     if (!e.target.classList.contains('ArticleCellContent_num')) {
       setPopupProps.start({
-        opacity: 0
+        opacity: 0,
       })
     }
   }
@@ -262,28 +292,46 @@ const ArticleLayer = ({
   useEffect(() => {
     const layerLevel = layers.indexOf(layer)
     if (layerLevel === 0) {
-      setMask.set({ clipPath: [0, 0, width, height], x:-width, y:0 })
+      setMask.set({ clipPath: [0, 0, width, height], x: -width, y: 0 })
     } else if (layerLevel <= layers.indexOf(selectedLayer)) {
-      console.debug('[ArticleLayer] @useEffect open', layer, layers.indexOf(selectedLayer), layerLevel)
-      setMask.start({ clipPath: [0, 0, width, height], x:-width, y:0 })
+      console.debug(
+        '[ArticleLayer] @useEffect open',
+        layer,
+        layers.indexOf(selectedLayer),
+        layerLevel,
+      )
+      setMask.start({ clipPath: [0, 0, width, height], x: -width, y: 0 })
     } else if (layerLevel > layers.indexOf(selectedLayer)) {
-      console.debug('[ArticleLayer] @useEffect close', layer, layers.indexOf(selectedLayer), layerLevel)
-      setMask.start({ clipPath: [width, 0, width, height], x:0, y:0 })
+      console.debug(
+        '[ArticleLayer] @useEffect close',
+        layer,
+        layers.indexOf(selectedLayer),
+        layerLevel,
+      )
+      setMask.start({ clipPath: [width, 0, width, height], x: 0, y: 0 })
     }
   }, [isSelected, layer, layers])
 
-  console.debug('[ArticleLayer] rendered: ',layer,'- n. groups:', paragraphsGroups.length)
+  console.debug('[ArticleLayer] rendered: ', layer, '- n. groups:', paragraphsGroups.length)
 
   return (
-    <a.div ref={layerRef} className={`text-old-${layer} ArticleLayer_mask ${layer}`} style={{
-      ...style,
-      clipPath: mask.clipPath.to(layerTransition),
-    }} onClick={onLayerClickHandler}>
-      <div className={`ArticleLayer_pushFixed ${layer}`} style={{
-        backgroundColor: pageBackgroundColor,
-        height: IsMobile ? 0: 100
-      }}></div>
-      <ArticleCellPopup style={popupProps} onClick={onCellPopupClickHandler}/>
+    <a.div
+      ref={layerRef}
+      className={`text-old-${layer} ArticleLayer_mask ${layer}`}
+      style={{
+        ...style,
+        clipPath: mask.clipPath.to(layerTransition),
+      }}
+      onClick={onLayerClickHandler}
+    >
+      <div
+        className={`ArticleLayer_pushFixed ${layer}`}
+        style={{
+          backgroundColor: pageBackgroundColor,
+          height: IsMobile ? 0 : 100,
+        }}
+      ></div>
+      <ArticleCellPopup style={popupProps} onClick={onCellPopupClickHandler} />
       {renderedLogoComponent}
 
       {children}
@@ -295,15 +343,25 @@ const ArticleLayer = ({
           return (
             <React.Fragment key={i}>
               {paragraphsIndices.map((k) => (
-                <a key={['a', k].join('-')} className="ArticleLayer_anchor" id={getCellAnchorFromIdx(paragraphs[k].idx, layer)}></a>
+                <a
+                  key={['a', k].join('-')}
+                  className="ArticleLayer_anchor"
+                  id={getCellAnchorFromIdx(paragraphs[k].idx, layer)}
+                ></a>
               ))}
-              <div className={`ArticleLayer_placeholderWrapper position-relative ArticleLayer_placeholder ${layer}_${firstCellInGroup.layer}`}>
-                <div className={`ArticleLayer_placeholderActive ${layer} ${firstCellInGroup.idx ===  selectedCellIdx? 'on' : 'off'}`}/>
-                {paragraphsIndices.slice(0,2).map((j) => (
+              <div
+                className={`ArticleLayer_placeholderWrapper position-relative ArticleLayer_placeholder ${layer}_${firstCellInGroup.layer}`}
+              >
+                <div
+                  className={`ArticleLayer_placeholderActive ${layer} ${
+                    firstCellInGroup.idx === selectedCellIdx ? 'on' : 'off'
+                  }`}
+                />
+                {paragraphsIndices.slice(0, 2).map((j) => (
                   <ArticleCellObserver
                     onCellIntersectionChange={onCellIntersectionChange}
                     cell={paragraphs[j]}
-                    key={[i,j].join('-')}
+                    key={[i, j].join('-')}
                     className="ArticleStream_paragraph"
                   >
                     <ArticleCellPlaceholder
@@ -311,79 +369,104 @@ const ArticleLayer = ({
                       memoid={memoid}
                       {...paragraphs[j]}
                       headingLevel={paragraphs[j].isHeading ? paragraphs[j].heading.level : 0}
-                      nums={firstCellInGroup.idx !== paragraphs[j].idx ? [] : paragraphsIndices.map(d => paragraphs[d].num)}
+                      nums={
+                        firstCellInGroup.idx !== paragraphs[j].idx
+                          ? []
+                          : paragraphsIndices.map((d) => paragraphs[d].num)
+                      }
                     />
                   </ArticleCellObserver>
                 ))}
-                <div className={`ArticleLayer_placeholderGradient ${layer}_${firstCellInGroup.layer}`} />
+                <div
+                  className={`ArticleLayer_placeholderGradient ${layer}_${firstCellInGroup.layer}`}
+                />
                 <div className="ArticleLayer_placeholderButton">
-                  <Button variant="outline-secondary" size="sm" className="d-flex align-items-center" onClick={(e) => onCellPlaceholderClickHandler(e, firstCellInGroup)}>
-                    read in {firstCellInGroup.layer} layer
-                    &nbsp;
-                    <ArrowRight size={12}/>
+                  <Button
+                    variant="outline-secondary"
+                    size="sm"
+                    className="d-flex align-items-center"
+                    onClick={(e) => onCellPlaceholderClickHandler(e, firstCellInGroup)}
+                  >
+                    read in {firstCellInGroup.layer} layer &nbsp;
+                    <ArrowRight size={12} />
                   </Button>
                 </div>
-            </div>
+              </div>
             </React.Fragment>
           )
         }
 
         return (
           <React.Fragment key={i}>
-          {paragraphsIndices.map((j) => {
-            const cell = paragraphs[j]
-            if(!cell) {
-              // eslint-disable-next-line
-              debugger
-            }
-            return (
-              <React.Fragment  key={[i,j].join('-')}>
-              <a className="ArticleLayer_anchor" id={getCellAnchorFromIdx(cell.idx,layer)}></a>
-              <div
-                className="ArticleLayer_paragraphWrapper"
-                data-cell-idx={cell.idx}
-                data-cell-layer={cell.layer}
-              >
-                <div className={`ArticleLayer_cellActive ${firstCellInGroup.idx === selectedCellIdx || cell.idx === selectedCellIdx ? 'on' : 'off'}`} />
-                <ArticleCellObserver
-                  onCellIntersectionChange={onCellIntersectionChange}
-                  cell={cell}
-                  className="ArticleStream_paragraph"
-                >
-                  { cell.idx === selectedCellIdx && previousLayer !== '' && previousLayer !== layer && (
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      className="ArticleLayer_paragraphWrapper_backBtn"
-                      onClick={(e) => onSelectedCellClickHandler(e, cell)}
+            {paragraphsIndices.map((j) => {
+              const cell = paragraphs[j]
+              if (!cell) {
+                // eslint-disable-next-line
+                debugger
+              }
+              return (
+                <React.Fragment key={[i, j].join('-')}>
+                  <a className="ArticleLayer_anchor" id={getCellAnchorFromIdx(cell.idx, layer)}></a>
+                  <div
+                    className="ArticleLayer_paragraphWrapper"
+                    data-cell-idx={cell.idx}
+                    data-cell-layer={cell.layer}
+                  >
+                    <div
+                      className={`ArticleLayer_cellActive ${
+                        firstCellInGroup.idx === selectedCellIdx || cell.idx === selectedCellIdx
+                          ? 'on'
+                          : 'off'
+                      }`}
+                    />
+                    <ArticleCellObserver
+                      onCellIntersectionChange={onCellIntersectionChange}
+                      cell={cell}
+                      className="ArticleStream_paragraph"
                     >
-                      <ArrowLeft size={16} /> back
-                    </Button>
-                  )}
-                  <ArticleCell
-                    isJavascriptTrusted={isJavascriptTrusted}
-                    onNumClick={onNumClickHandler}
-                    memoid={memoid}
-                    {...cell}
-                    num={cell.num}
-                    idx={cell.idx}
-                    role={cell.role}
-                    layer={cell.layer}
-                    headingLevel={cell.isHeading ? cell.heading.level : 0}
-                  />
-                </ArticleCellObserver>
-              </div>
-              </React.Fragment>
-            )
-          })}
+                      {cell.idx === selectedCellIdx &&
+                        previousLayer !== '' &&
+                        previousLayer !== layer && (
+                          <Button
+                            size="sm"
+                            variant="secondary"
+                            className="ArticleLayer_paragraphWrapper_backBtn"
+                            onClick={(e) => onSelectedCellClickHandler(e, cell)}
+                          >
+                            <ArrowLeft size={16} /> back
+                          </Button>
+                        )}
+                      <ArticleCell
+                        isJavascriptTrusted={isJavascriptTrusted}
+                        onNumClick={onNumClickHandler}
+                        memoid={memoid}
+                        {...cell}
+                        num={cell.num}
+                        idx={cell.idx}
+                        role={cell.role}
+                        layer={cell.layer}
+                        headingLevel={cell.isHeading ? cell.heading.level : 0}
+                        windowHeight={height}
+                      />
+                    </ArticleCellObserver>
+                  </div>
+                </React.Fragment>
+              )
+            })}
           </React.Fragment>
         )
       })}
       <div className="ArticleLayer_push"></div>
-      <a className='ArticleLayer_anchor' id={getCellAnchorFromIdx(DisplayLayerSectionBibliography,layer)}></a>
+      <a
+        className="ArticleLayer_anchor"
+        id={getCellAnchorFromIdx(DisplayLayerSectionBibliography, layer)}
+      ></a>
       {renderedBibliographyComponent}
       <div className="my-5" />
-      <a className='ArticleLayer_anchor' id={getCellAnchorFromIdx(DisplayLayerSectionFooter,layer)}></a>
+      <a
+        className="ArticleLayer_anchor"
+        id={getCellAnchorFromIdx(DisplayLayerSectionFooter, layer)}
+      ></a>
       {renderedFooterComponent}
     </a.div>
   )

@@ -1,4 +1,4 @@
-FROM node:16.7-alpine as builder
+FROM node:18.12-alpine as builder
 
 ARG GIT_TAG
 ARG GIT_BRANCH
@@ -13,6 +13,7 @@ COPY .eslintrc.json .
 RUN yarn install
 
 COPY public ./public
+COPY .storybook ./.storybook
 COPY src ./src
 COPY .env .
 COPY src/schemas ./public/schemas
@@ -26,7 +27,9 @@ ENV REACT_APP_GIT_BRANCH=${GIT_BRANCH}
 ENV REACT_APP_GIT_REVISION=${GIT_REVISION}
 
 RUN yarn build
+RUN yarn build-storybook 
 
 FROM busybox
 WORKDIR /jdh
 COPY --from=builder /jdh/build ./
+COPY --from=builder /jdh/storybook-static ./storybook

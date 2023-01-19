@@ -12,8 +12,10 @@ import {
   DisplayLayerSectionParam,
   DisplayLayerSectionBibliography,
 } from '../../constants'
-import ArticleToCStep from './ArticleToCStep'
-import ArticleToCBookmark from './ArticleToCBookmark'
+import ToCStep from '../ToCStep'
+// import ArticleToCBookmark from './ArticleToCBookmark'
+import ToC from '../ToC'
+import { useBoundingClientRect } from '../../hooks/graphics'
 
 const ArticleToC = ({
   memoid = '',
@@ -28,6 +30,7 @@ const ArticleToC = ({
   hasBibliography = false,
 }) => {
   const { t } = useTranslation()
+  const [{ height: toCHeight }, toCref] = useBoundingClientRect()
   const visibleCellsIdx = useArticleToCStore((state) => state.visibleCellsIdx)
   const setVisibleCellsIdx = useArticleToCStore((state) => state.setVisibleCellsIdx)
   const [
@@ -88,13 +91,20 @@ const ArticleToC = ({
 
         count++
         // is last only if next heading is higher than this one, or it is a hermeneutic
-        const isHermeneutics = cell.layer === LayerHermeneutics
         return acc.concat([
           {
+            id: cell.idx,
+            label: cell.isHeading
+              ? cell.heading.content
+              : cell.isFigure
+              ? t(cell.figure.tNLabel, { n: cell.figure.tNum })
+              : '(na)',
+            isFigure: cell.isFigure,
+            isTable: cell.isTable,
+            isHermeneutics: cell.layer === LayerHermeneutics,
+            level: cell.level,
             isSectionStart,
             isSectionEnd,
-            isHermeneutics,
-            cell,
             count,
           },
         ])
@@ -125,24 +135,24 @@ const ArticleToC = ({
     }
   }, [firstVisibleCellIdx, lastVisibleCellIdx])
 
-  const onStepClickHandler = (step) => {
-    console.debug('[ArticleToC] @onClickHandler step:', step, selectedLayer)
+  const onStepClickHandler = (e, { id, label }) => {
+    console.debug('[ArticleToC] @onClickHandler step:', id, label, selectedLayer)
     // go to the cell
     setQuery({
-      [DisplayLayerCellIdxQueryParam]: step.cell.idx,
+      [DisplayLayerCellIdxQueryParam]: id,
       [DisplayPreviousLayerQueryParam]: undefined,
       [DisplayLayerSectionParam]: undefined,
     })
   }
 
-  const onBookmarkClickHandler = () => {
-    setQuery({
-      [DisplayLayerCellIdxQueryParam]: selectedCellIdx,
-      [DisplayPreviousLayerQueryParam]: undefined,
-      [DisplayLayerCellTopQueryParam]: 100,
-      [DisplayLayerSectionParam]: undefined,
-    })
-  }
+  // const onBookmarkClickHandler = () => {
+  //   setQuery({
+  //     [DisplayLayerCellIdxQueryParam]: selectedCellIdx,
+  //     [DisplayPreviousLayerQueryParam]: undefined,
+  //     [DisplayLayerCellTopQueryParam]: 100,
+  //     [DisplayLayerSectionParam]: undefined,
+  //   })
+  // }
 
   // this listens to click on Bibliography or other extra section (author bio?)
   const onSectionClickHandler = (e, section) => {
@@ -197,9 +207,20 @@ const ArticleToC = ({
       clearTimeout(timer)
     }
   }, [visibleCellsIdx, selectedLayer])
+
+  console.debug(
+    '[ArticleToC]',
+    '\n - visibleCellsIdx',
+    visibleCellsIdx,
+    firstVisibleCellIdx,
+    lastVisibleCellIdx,
+    '\n - selectedCellIdx:',
+    selectedCellIdx,
+    steps,
+  )
   return (
     <>
-      <div className="flex-shrink-1 py-3 mb-0 pointer-events-auto text-end">
+      <div className="flex-shrink-1 py-3 pointer-events-auto text-end">
         {layers.length > 1 &&
           layers.map((d, i) => (
             <div
@@ -223,7 +244,26 @@ const ArticleToC = ({
         )}
       </div>
       <div
-        className="flex-grow-1 ps-2 pt-2 pb-2 mb-2 border-bottom border-top border-dark"
+        ref={toCref}
+        className="flex-grow-1 pointer-events-auto border-bottom border-top border-dark"
+      >
+        <ToC
+          className="position-absolute w-100"
+          visibleHeight={toCHeight - 2}
+          selectedId={selectedCellIdx}
+          steps={steps.map((step) => {
+            if (step.id === selectedCellIdx) {
+              step.isSelected = true
+            }
+            step.active = step.id >= previousHeadingIdx && step.id <= lastVisibleCellIdx
+            return step
+          })}
+          width={width * 0.16}
+          onClick={onStepClickHandler}
+        />
+      </div>
+      {/* <div
+        className="flex-grow-1 ps-2 pt-2 pb-2 mb-2 pointer-events-auto border-bottom border-top border-dark"
         style={{ overflow: 'scroll' }}
       >
         {steps.map((step, i) => {
@@ -266,23 +306,20 @@ const ArticleToC = ({
             </div>
           )
         })}
-      </div>
+      </div> */}
       {hasBibliography && (
         <div className="flex-shrink-1 ps-2 mb-3">
-          <ArticleToCStep
-            cell={{
-              level: 'H2',
-            }}
+          <ToCStep
+            level="H2"
+            label={t('bibliography')}
             width={width * 0.16}
             isSectionStart
             isSectionEnd
             selected
             active={false}
             className=""
-            onStepClick={(e) => onSectionClickHandler(e, DisplayLayerSectionBibliography)}
-          >
-            {t('bibliography')}
-          </ArticleToCStep>
+            onClick={(e) => onSectionClickHandler(e, DisplayLayerSectionBibliography)}
+          ></ToCStep>
         </div>
       )}
     </>

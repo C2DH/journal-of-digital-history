@@ -1,0 +1,32 @@
+name: 'Storybook Tests'
+on:
+  pull_request:
+    types: [opened, reopened]
+  workflow_dispatch:
+
+jobs:
+  test:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '^18.9.0'
+      - name: Setup yarn
+        run: npm install -g yarn
+      - name: Install dependencies
+        env:
+          NODE_OPTIONS: '--openssl-legacy-provider'
+        run: yarn install
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+      - name: Build Storybook
+        env:
+          NODE_OPTIONS: '--openssl-legacy-provider'
+        run: yarn build-storybook --quiet
+      # - name: Serve Storybook and run tests
+      #   run: |
+      #     npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+      #       "npx http-server storybook-static --port 6006" \
+      #       "npx wait-on tcp:6006 && yarn test-storybook"

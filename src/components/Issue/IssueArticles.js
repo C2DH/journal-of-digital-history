@@ -1,11 +1,11 @@
 import React from 'react'
-import { Row, Col} from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 import IssueArticleGridItem from './IssueArticleGridItem'
-import {useBoundingClientRect} from '../../hooks/graphics'
+import { useBoundingClientRect } from '../../hooks/graphics'
 
 const BootstrapColumLayout = Object.freeze({
-  lg: {span: 4, offset:0},
-  md: {span:6, offset:0}
+  lg: { span: 4, offset: 0 },
+  md: { span: 6, offset: 0 },
 })
 
 /**
@@ -23,20 +23,25 @@ const IssueArticles = ({
   // function (e, datum, idx) { ... }
   onArticleClick,
 
-  onArticleMouseOut
- }) => {
+  onArticleMouseOut,
+
+  respectOrdering = false,
+}) => {
   const [{ top, left }, ref] = useBoundingClientRect()
   const editorials = []
-  const articles = []
+  const articles = respectOrdering ? data : []
 
-  for (let i=0,j=data.length; i < j; i++) {
-    if (data[i].tags.some((t) => t.name === process.env.REACT_APP_TAG_EDITORIAL)) {
-      editorials.push(data[i])
-    } else {
-      articles.push(data[i])
+  if (!respectOrdering) {
+    for (let i = 0, j = data.length; i < j; i++) {
+      console.debug('[IssueArticles] data:', +data[i].publication_date)
+
+      if (data[i].tags.some((t) => t.name === process.env.REACT_APP_TAG_EDITORIAL)) {
+        editorials.push(data[i])
+      } else {
+        articles.push(data[i])
+      }
     }
   }
-
   const onClickHandler = (e, datum, idx, article) => {
     if (typeof onArticleClick === 'function') {
       onArticleClick(e, datum, idx, article)
@@ -53,14 +58,15 @@ const IssueArticles = ({
       onArticleMouseMove(e, datum, idx, article, { top, left })
     }
   }
+  console.debug('[IssueArticles] selected', selected, articles)
   return (
     <Row ref={ref}>
       {editorials.map((article, i) => {
-        if (Array.isArray(selected) && selected.indexOf(article.idx) === -1 ) {
+        if (Array.isArray(selected) && selected.indexOf(article.idx) === -1) {
           return null
         }
         return (
-          <Col key={i} {...BootstrapColumLayout} >
+          <Col key={i} {...BootstrapColumLayout}>
             {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
             <IssueArticleGridItem
               onMouseMove={(e, datum, idx) => onMouseMoveHandler(e, datum, idx, article)}
@@ -74,20 +80,24 @@ const IssueArticles = ({
       })}
       {articles.map((article, i) => {
         let display = 'block'
-        if (Array.isArray(selected) && selected.indexOf(article.idx) === -1 ) {
+        if (Array.isArray(selected) && selected.indexOf(article.idx) === -1) {
           display = 'none'
         }
         return (
-          <Col key={i + editorials.length} {...BootstrapColumLayout} style={{
-            display
-          }}>
+          <Col
+            key={i + editorials.length}
+            {...BootstrapColumLayout}
+            style={{
+              display,
+            }}
+          >
             {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
             <IssueArticleGridItem
               onMouseMove={(e, datum, idx) => onMouseMoveHandler(e, datum, idx, article)}
               onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
               onMouseOut={onMouseOutHandler}
               article={article}
-              num={i+1}
+              num={i + 1}
               total={articles.length}
             />
           </Col>

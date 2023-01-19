@@ -1,0 +1,16 @@
+.OrderByDropdown {
+  .dropdown-menu {
+    border-color: var(--dark);
+    border-radius: 3px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  }
+  a.dropdown-item {
+    box-shadow: none;
+    font-size: 0.8em;
+  }
+  a.dropdown-item.active {
+    font-weight: bold;
+    background-color: transparent;
+    color: var(--dark);
+  }
+}

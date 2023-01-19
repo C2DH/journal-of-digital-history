@@ -24,6 +24,9 @@
       "FormNotebookUrl_GenerateLink": "View notebook as journal article!",
       "Navigation_NotebookViewer": "Preview Notebook",
       "openCallForPapers": "Open call for papers",
+      "orderBydateAsc": "Sort by publication date, oldest to newest",
+      "orderBydateDesc": "Sort by publication date, newest to oldest",
+      "orderByissue": "Sort by issue",
       "Pages_NotebookViewer_Title": "Jupyter notebook viewer",
       "pages": {
         "about": {
@@ -261,6 +264,7 @@
         "tool": "libraries",
         "hermeneutic": "hermeneutics",
         "narrative": "keywords",
+        "issue": "issues",
         "authors": "Authors cited",
         "issued": {
           "year": "Year of publication"
