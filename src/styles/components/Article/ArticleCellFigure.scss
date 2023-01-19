@@ -8,3 +8,18 @@
     top: 0;
   }
 }
+
+.ArticleCellFigure_picture {
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  &.with-cover {
+    background-size: cover;
+  }
+  &.with-aspect-ratio {
+    position: absolute;
+    top: 0;
+  }
+}
