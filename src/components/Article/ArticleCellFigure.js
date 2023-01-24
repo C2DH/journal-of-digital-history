@@ -17,6 +17,7 @@ const ArticleCellFigure = ({
   children,
   containerClassName,
   windowHeight = 100,
+  isMagic = false,
   // lazy = false,
   // withTransition = false,
   active = false,
@@ -114,10 +115,13 @@ const ArticleCellFigure = ({
               <figure>
                 <div className="anchor" id={figure.ref} />
                 <ArticleCellOutputs
+                  isMagic={isMagic}
                   hideLabel
                   isJavascriptTrusted={isJavascriptTrusted}
                   cellIdx={figure.idx}
                   outputs={otherOutputs}
+                  windowHeight={windowHeight}
+                  height={parseInt(figureHeight)}
                 />
               </figure>
             )}
