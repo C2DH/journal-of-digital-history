@@ -1,14 +1,17 @@
 import React from 'react'
 import ArticleCellOutput from './ArticleCellOutput'
 import { useInjectTrustedJavascript } from '../../hooks/graphics'
+import ArticleCellIframeOutputs from './ArticleCellIframeOutputs'
 
-const ArticleCellOutputs = ({
+const ArticleCellJavascriptOutputs = ({
   isJavascriptTrusted,
   outputs = [],
   cellIdx,
   hideLabel,
   height = 'auto',
 }) => {
+  // use iframe to render magic stuff (starting with %%javascript)
+
   // use scripts if there areany
   const trustedScripts = isJavascriptTrusted
     ? outputs.reduce((acc, output) => {
@@ -76,6 +79,37 @@ const ArticleCellOutputs = ({
       ))}
     </div>
   )
+}
+
+const ArticleCellOutputs = ({
+  isMagic,
+  isJavascriptTrusted,
+  outputs = [],
+  cellIdx,
+  hideLabel,
+  height,
+}) => {
+  if (isMagic) {
+    return (
+      <ArticleCellIframeOutputs
+        isJavascriptTrusted={isJavascriptTrusted}
+        outputs={outputs}
+        cellIdx={cellIdx}
+        hideLabel={hideLabel}
+        height={height}
+      />
+    )
+  } else {
+    return (
+      <ArticleCellJavascriptOutputs
+        isJavascriptTrusted={isJavascriptTrusted}
+        outputs={outputs}
+        cellIdx={cellIdx}
+        hideLabel={hideLabel}
+        height={height}
+      />
+    )
+  }
 }
 
 export default ArticleCellOutputs
