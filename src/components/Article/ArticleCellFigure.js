@@ -6,6 +6,13 @@ import { BootstrapColumLayout } from '../../constants'
 import { Container, Row, Col } from 'react-bootstrap'
 import '../../styles/components/Article/ArticleCellFigure.scss'
 // import LazyFigure from '../LazyFigure'
+// const ArticleCellFigure = ({ outputs }) => {
+//   return (
+//     <Container fluid className="article-cell-figure">
+//       <pre>{JSON.stringify(outputs, null, 2)}</pre>
+//     </Container>
+//   )
+// }
 
 const ArticleCellFigure = ({
   figure,
@@ -59,7 +66,7 @@ const ArticleCellFigure = ({
           const mimetype = mimetypes.find((d) => d.indexOf('image/') === 0)
           if (mimetype) {
             acc.pictures.push({
-              ...output,
+              // ...output,
               src: output.metadata?.jdh?.object?.src,
               base64: `data:${mimetype};base64,${output.data[mimetype]}`,
             })
@@ -144,7 +151,7 @@ const ArticleCellFigure = ({
                     !isNaN(aspectRatio) ? 'with-aspect-ratio' : ''
                   }`}
                   style={{
-                    backgroundImage: `url(${base64})`,
+                    backgroundImage: `url(${base64.replace(/\n/g, '')})`,
                   }}
                 />
               </figure>
