@@ -20,7 +20,7 @@ import {
 const ArticleCellVisualisation = lazy(() => import('./ArticleCellVisualisation'))
 const ArticleCellTextObject = lazy(() => import('./ArticleCellTextObject'))
 const ArticleCellObject = lazy(() => import('./ArticleCellObject'))
-
+const RegexIsMagic = /^%%(javascript|js)/
 const ArticleCell = ({
   type,
   layer,
@@ -40,6 +40,8 @@ const ArticleCell = ({
   onNumClick,
   windowHeight = 0,
 }) => {
+  const isMagic = RegexIsMagic.test(content)
+  console.debug('[ArticleCell] isMagic:', isMagic, '- isJavascriptTrusted:', isJavascriptTrusted)
   let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout
   // we override or set the former layout if it appears in narrative-step
   if (isNarrativeStep) {
@@ -122,6 +124,7 @@ const ArticleCell = ({
           figure={figure}
           figureColumnLayout={cellObjectBootstrapColumnLayout}
           isJavascriptTrusted={isJavascriptTrusted}
+          isMagic={isMagic}
           isNarrativeStep={isNarrativeStep}
           containerClassName={containerClassNames.join(' ')}
           windowHeight={windowHeight}
@@ -162,6 +165,7 @@ const ArticleCell = ({
           metadata={metadata}
           outputs={outputs}
           figure={figure}
+          isMagic={isMagic}
           isNarrativeStep={isNarrativeStep}
           figureColumnLayout={cellObjectBootstrapColumnLayout}
           isJavascriptTrusted={isJavascriptTrusted}
@@ -183,6 +187,7 @@ const ArticleCell = ({
               <div className="ArticleCellContent_num"></div>
               <ArticleCellSourceCode visible content={content} language="python" />
               <ArticleCellOutputs
+                isMagic={isMagic}
                 isJavascriptTrusted={isJavascriptTrusted}
                 cellIdx={idx}
                 outputs={outputs}
