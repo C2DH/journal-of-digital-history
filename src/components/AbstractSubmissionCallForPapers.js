@@ -31,40 +31,32 @@ const AbstractSubmissionCallForPapers = ({
     delay: 100,
   })
 
-  console.debug(
-    '[AbstractSubmissionCallForPapers] url:',
-    url,
-    data,
-    error,
-    status
-  )
+  console.debug('[AbstractSubmissionCallForPapers] url:', url, data, error, status)
   console.debug(
     '[AbstractSubmissionCallForPapers] url:',
     '/api/callofpaper',
     listOfCfps,
     errorListOfCfps,
-    statusListofCfps
+    statusListofCfps,
   )
   const dropdownButtonTitle = cfp.length
-    ? status === StatusSuccess
-      ? data.metadata.title
+    ? statusListofCfps === StatusSuccess
+      ? listOfCfps.results.find((item) => item.folder_name === cfp).title
       : t('loading')
     : t('openCallForPapers')
 
   return (
-    <Row className='AbstractSubmissionCallForPapers'>
+    <Row className="AbstractSubmissionCallForPapers">
       <Col {...BootstrapColumLayout}>
-        <div className='mb-3'>
-          <label
-            dangerouslySetInnerHTML={{ __html: t('selectCallForPapers') }}
-          />
+        <div className="mb-3">
+          <label dangerouslySetInnerHTML={{ __html: t('selectCallForPapers') }} />
           <DropdownButton
             disabled={statusListofCfps !== StatusSuccess}
-            id='dropdown-basic-button'
+            id="dropdown-basic-button"
             onChange={onChange}
             title={dropdownButtonTitle}
-            variant='outline-accent'
-            size='sm'
+            variant="outline-accent"
+            size="sm"
           >
             {statusListofCfps === StatusSuccess &&
               listOfCfps.results.map((item, i) => (
@@ -76,31 +68,24 @@ const AbstractSubmissionCallForPapers = ({
                   <span>{item.title}</span>
                 </Dropdown.Item>
               ))}
-            <Dropdown.Item
-              active={cfp === ''}
-              onClick={() => onChange(undefined)}
-            >
+            <Dropdown.Item active={cfp === ''} onClick={() => onChange(undefined)}>
               <span>{t('openCallForPapers')}</span>
             </Dropdown.Item>
           </DropdownButton>
         </div>
         {cfp.length > 0 && (
-          <div className='AbstractSubmissionCallForPapers_reel'>
+          <div className="AbstractSubmissionCallForPapers_reel">
             {status === StatusSuccess ? (
-              <div className='AbstractSubmissionCallForPapers_cfp'>
+              <div className="AbstractSubmissionCallForPapers_cfp">
                 <h3>
                   Call for papers:&nbsp;
-                  <LangLink to={`cfp/${cfp}`}>{data.metadata.title}</LangLink>
+                  <LangLink to={`cfp/${cfp}`}>{dropdownButtonTitle}</LangLink>
                 </h3>
-                <div className='border-top border-accent pt-2'>
-                  <label>
-                    {data.metadata.jdh.helmet['twitter:label1']}:&nbsp;
-                  </label>
+                <div className="border-top border-accent pt-2">
+                  <label>{data.metadata.jdh.helmet['twitter:label1']}:&nbsp;</label>
                   {data.metadata.jdh.helmet['twitter:data1']}
                   <br />
-                  <label>
-                    {data.metadata.jdh.helmet['twitter:label2']}: &nbsp;
-                  </label>
+                  <label>{data.metadata.jdh.helmet['twitter:label2']}: &nbsp;</label>
                   {data.metadata.jdh.helmet['twitter:data2']}
                 </div>
               </div>
@@ -114,9 +99,6 @@ const AbstractSubmissionCallForPapers = ({
   )
 }
 
-export default React.memo(
-  AbstractSubmissionCallForPapers,
-  (prevProps, nextProps) => {
-    return prevProps.cfp === nextProps.cfp
-  }
-)
+export default React.memo(AbstractSubmissionCallForPapers, (prevProps, nextProps) => {
+  return prevProps.cfp === nextProps.cfp
+})
