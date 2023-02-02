@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Cpu } from 'react-feather'
+import { Aperture } from 'react-feather'
 import MarkdownIt from 'markdown-it'
 import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import { BootstrapFullColumLayout, StatusSuccess, StatusError } from '../constants'
@@ -246,8 +246,8 @@ const FingerprintExplainedContents = ({ status: contentsStatus, notebookUrl = ''
                   paddingRight: '1rem',
                 }}
               >
-                <span className="me-2">{t('FormNotebookUrl_GenerateLink')}</span>
-                <Cpu size="16" />
+                <span className="me-2">{t('FormNotebookUrl_PreviewFingerprint')}</span>
+                <Aperture size="16" />
               </Button>
             </Form>
 
