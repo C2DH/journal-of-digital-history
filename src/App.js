@@ -149,7 +149,8 @@ function LangRoutes() {
         <NotebookViewerForm />
       </Route>
       <Route path={`${path}/fingerprint-viewer`} component={FingerprintViewer} />
-      <Route path={`${path}/fingerprint-explained`} component={FingerprintExplained} />
+      <Route path={`${path}/fingerprint-explained/:encodedUrl?`} component={FingerprintExplained} />
+
       <Route path={`${path}/release-notes`} component={ReleaseNotes} />
       <Route path={`${path}/faq`} component={Faq} />
       <Route path={`${path}/notebook-viewer/:encodedUrl`} component={NotebookViewer} />
