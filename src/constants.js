@@ -33,8 +33,16 @@ export const GuidelinesRoute = {
   to: '/guidelines',
   label: 'navigation.guidelines',
 }
-export const NotebookViewerRoute = {
+export const FingerprintExplainedRoute = {
+  to: '/fingerprint-explained',
+  label: 'navigation.fingerprintExplained',
+}
+export const NotebookViewerFormRoute = {
   to: '/notebook-viewer-form',
+  label: 'Navigation_NotebookViewer',
+}
+export const NotebookViewerRoute = {
+  to: '/notebook-viewer',
   label: 'Navigation_NotebookViewer',
 }
 export const IssueRoute = { to: '/issues', label: 'navigation.issue' }
@@ -57,7 +65,7 @@ export const PrimaryRoutes = [
   // DatasetsRoute,
   AbstractSubmissionRoute,
   GuidelinesRoute,
-  NotebookViewerRoute,
+  NotebookViewerFormRoute,
   AboutRoute,
 ]
 

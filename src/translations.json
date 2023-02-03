@@ -22,6 +22,7 @@
       "visibleOnlyByYou": "(only visible to you)",
       "contactUsingEmail": "Contact us at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>",
       "FormNotebookUrl_GenerateLink": "View notebook as journal article!",
+      "FormNotebookUrl_PreviewFingerprint": "View notebook as fingerprint",
       "Navigation_NotebookViewer": "Preview Notebook",
       "openCallForPapers": "Open call for papers",
       "orderBydateAsc": "Sort by publication date, oldest to newest",
