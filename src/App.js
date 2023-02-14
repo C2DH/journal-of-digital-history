@@ -77,7 +77,7 @@ const { startLangShort, lang } = getStartLang()
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      cacheTime: Infinity,
+      cacheTime: 1000 * 60 * 60 * 24, // 24 hours
       refetchOnWindowFocus: false,
       // refetchOnReconnect: false,
       // refetchInterval: false,

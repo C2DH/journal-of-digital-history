@@ -19,7 +19,7 @@ export const decodeNotebookUrl = (encodedUrl) => decodeURIComponent(window.atob(
 export const getRawNotebookUrl = (url) => {
   // transform url only if it is a raw github url
   const isGithub = url.match(
-    /https?:\/\/(github\.com|raw\.githubusercontent\.com)\/([A-Za-z0-9-_]+)\/([A-Za-z0-9-_]+)\/(blob\/)?(.*)/,
+    /https?:\/\/(github\.com|raw\.githubusercontent\.com)\/([A-Za-z0-9-_.]+)\/([A-Za-z0-9-_.]+)\/(blob\/)?(.*)/,
   )
   if (isGithub) {
     const [, , username, repo, , filepath] = isGithub
@@ -28,7 +28,7 @@ export const getRawNotebookUrl = (url) => {
   }
   // if it's mybinder or colab
   const isJupyter = url.match(
-    /https:\/\/(mybinder.org|colab.research.google.com)\/(v2\/)?(gh\/)?([a-zA-Z0-9-_]+)\/([a-zA-Z0-9-_]+)\/(.*)/,
+    /https:\/\/(mybinder.org|colab.research.google.com)\/(v2\/)?(gh\/)?([a-zA-Z0-9-_.]+)\/([a-zA-Z0-9-_.]+)\/(.*)/,
   )
   if (isJupyter) {
     const [, domain, , , username, repo, filepath] = isJupyter

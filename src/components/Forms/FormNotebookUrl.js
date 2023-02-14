@@ -10,7 +10,7 @@ const FormNotebookUrl = ({ initialValue = '', onSubmit }) => {
   const [value, setValue] = useState(initialValue)
   const handleSubmit = (e) => {
     const isGithub = value.match(
-      /https?:\/\/(github\.com|raw\.githubusercontent\.com)\/([A-Za-z0-9-_]+)\/([A-Za-z0-9-_]+)\/(blob\/)?(.*)/,
+      /https?:\/\/(github\.com|raw\.githubusercontent\.com)\/([A-Za-z0-9-_.]+)\/([A-Za-z0-9-_.]+)\/(blob\/)?(.*)/,
     )
     if (isGithub) {
       const [, domain, username, repo, , filepath] = isGithub
