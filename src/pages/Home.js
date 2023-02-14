@@ -158,16 +158,18 @@ const Home = ({ data = '', status }) => {
         </Row>
       </Container>
 
-      <Container>
-        <Row>
-          <Col {...BootstrapFullColumLayout}>
-            <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
-            <p className="mb-3 d-none d-md-block">{t('pages.home.editorialRoadmap')} ⤵</p>
-            <HomeMilestones isPortrait={IsPortrait} extent={['2020-09-30', '2023-11-30']} />
-            <p className="mt-3 d-none d-md-block">{t('pages.home.technicalRoadmap')} ⤴</p>
-          </Col>
-        </Row>
-      </Container>
+      {!IsMobile && (
+        <Container>
+          <Row>
+            <Col {...BootstrapFullColumLayout}>
+              <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
+              <p className="mb-3 d-none d-md-block">{t('pages.home.editorialRoadmap')} ⤵</p>
+              <HomeMilestones isPortrait={IsPortrait} extent={['2020-09-30', '2023-11-30']} />
+              <p className="mt-3 d-none d-md-block">{t('pages.home.technicalRoadmap')} ⤴</p>
+            </Col>
+          </Row>
+        </Container>
+      )}
     </>
   )
 }
