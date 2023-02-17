@@ -1,0 +1,61 @@
+.Me {
+  position: fixed;
+  right: 0;
+  width: 16%;
+  z-index: 1031;
+  height: var(--header-height);
+
+  align-items: center;
+  justify-content: end;
+  text-align: start;
+  padding-right: var(--spacer-4);
+  font-size: smaller;
+  display: none;
+}
+
+.Me > div {
+  margin: 0;
+  margin-left: 2rem;
+  padding-left: var(--spacer-3);
+  position: relative;
+  line-height: 1.5em;
+}
+
+.Me a {
+  font-weight: bold;
+  display: block;
+  max-width: 100px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  box-shadow: none;
+  text-decoration: underline;
+}
+
+.Me_avatar {
+  position: absolute;
+  left: -2rem;
+  width: 2rem;
+  min-width: 2rem;
+  top: 50%;
+  margin-top: -1rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: blue;
+  border: 2px solid;
+}
+
+/* media query for medium to xxxl screen */
+@media (min-width: 768px) {
+  .Me {
+    display: flex;
+    width: 10%;
+  }
+}
+
+@media (min-width: 992px) {
+  .Me {
+    display: flex;
+    width: 16%;
+  }
+}
