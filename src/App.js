@@ -10,6 +10,7 @@ import {
 import { QueryParamProvider } from 'use-query-params'
 import i18n from 'i18next'
 import moment from 'moment'
+import UniversalCookie from 'universal-cookie'
 import { initReactI18next } from 'react-i18next'
 import { getStartLang, LANGUAGE_PATH, LANGUAGES } from './logic/language'
 import translations from './translations'
@@ -26,6 +27,7 @@ import ReactGA from 'react-ga'
 import { useMatomo } from '@jonkoops/matomo-tracker-react'
 import { AcceptAnalyticsCookies, AcceptCookies } from './logic/tracking'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import Me from './components/Me'
 
 console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___|       \n\n')
 
@@ -33,6 +35,9 @@ console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___
 console.info('%cacceptAnalyticsCookies', 'font-weight: bold', AcceptAnalyticsCookies)
 console.info('%cacceptCookies', 'font-weight: bold', AcceptCookies)
 
+// check if there is a crfs cookie
+const csrfToken = new UniversalCookie().get('csrftoken')
+console.info('%ccsrftoken', 'font-weight: bold', csrfToken)
 // integrate history \w Google Analytics
 if (GaTrackingId && AcceptAnalyticsCookies) {
   ReactGA.initialize(GaTrackingId)
@@ -87,6 +92,9 @@ const queryClient = new QueryClient({
       // retry: false,
       // suspense: false,
       keepPreviousData: true,
+      headers: {
+        'X-CSRFToken': csrfToken,
+      },
     },
   },
 })
@@ -233,6 +241,7 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <QueryParamProvider ReactRouterRoute={Route}>
           <Header availableLanguages={LANGUAGES} isAuthDisabled />
+          {typeof csrfToken === 'string' && <Me />}
           <Cookies defaultAcceptCookies={AcceptCookies} />
           <main>
             <Suspense fallback={<Loading />}>
