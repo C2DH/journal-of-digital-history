@@ -65,6 +65,13 @@ const renderMarkdownWithReferences = ({
   // console.info('markdownParser.render', markdownParser.render(sources))
   const content = markdownParser
     .render(sources)
+    // add target blank for all external links
+    .replace(/<a href="([^"]+)"/g, (m, href) => {
+      if (href.indexOf('http') === 0) {
+        return `<a target="_blank" href="${href}"`
+      }
+      return m
+    })
     .replace(/&lt;a[^&]*&gt;(.*)&lt;\/a&gt;/g, '')
     // replace links "figure-*" ending with automatic numbering syntax
     .replace(
