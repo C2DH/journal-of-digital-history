@@ -1,0 +1,46 @@
+import React from 'react'
+import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
+import ArticleCell from '../components/Article/ArticleCell'
+
+// Stories for hoks and methds, following Josh Farrant https://farrant.me/posts/documenting-react-hooks-with-storybook
+// accessed 04 01 2023
+export default {
+  title: 'ArticleCell/links',
+  component: ArticleCell,
+  argTypes: {
+    metadata: { control: { type: 'object' }, defaultValue: {} },
+  },
+}
+
+const Template = ({ cells, metadata, isJavascriptTrusted }) => {
+  const articleTree = useIpynbNotebookParagraphs({
+    id: 'memoid',
+    cells,
+    metadata,
+  })
+  return [
+    articleTree.paragraphs.map((p, i) => (
+      <ArticleCell isJavascriptTrusted={isJavascriptTrusted} key={i} {...p} />
+    )),
+  ]
+}
+export const Default = Template.bind({})
+
+Default.args = {
+  isJavascriptTrusted: true,
+  metadata: {},
+  cells: [
+    {
+      cell_type: 'markdown',
+      metadata: {
+        tags: ['narrative'],
+      },
+      source: [
+        'Markdown links must always be [external Tieghemella](https://en.wikipedia.org/wiki/Tieghemella)\n',
+        '\n',
+        'This is a simple example of a notebook with external links.\n',
+        '\n',
+      ],
+    },
+  ],
+}
