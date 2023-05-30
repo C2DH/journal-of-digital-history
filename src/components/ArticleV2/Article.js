@@ -28,6 +28,7 @@ const Article = ({
   excerpt,
   doi,
   binderUrl,
+  repositoryUrl,
   bibjson,
   emailAddress,
   isJavascriptTrusted = false,
@@ -70,26 +71,20 @@ const Article = ({
   console.debug(`[Article] component rendered ${width}x${height}px`)
   console.debug('[Article] binderUrl:', binderUrl)
   console.debug('[Article] loading articleTree anchors:', articleTree.anchors)
-  console.debug(
-    '[Article] loading articleTree paragraphs:',
-    articleTree.paragraphs.length
-  )
+  console.debug('[Article] loading articleTree paragraphs:', articleTree.paragraphs.length)
 
   const onDataHrefClickHandler = (d) => {
     console.debug('DataHref click handler')
     setSelectedDataHref(d)
   }
   const renderedBibliographyComponent = (
-    <ArticleBibliography articleTree={articleTree} noAnchor className='mt-0' />
+    <ArticleBibliography articleTree={articleTree} noAnchor className="mt-0" />
   )
   const renderedFooterComponent = <Footer />
   const renderedLogoComponent = (
-    <LangNavLink
-      to='/'
-      className='MobileHeaderBrand d-flex d-md-none position-absolute'
-    >
+    <LangNavLink to="/" className="MobileHeaderBrand d-flex d-md-none position-absolute">
       <div style={{ width: 60 }}>
-        <Logo color='var(--secondary)' size={35} />
+        <Logo color="var(--secondary)" size={35} />
       </div>
       <div
         dangerouslySetInnerHTML={{ __html: t('title') }}
@@ -112,8 +107,8 @@ const Article = ({
           excerpt={excerpt}
         />
       )}
-      <div className='page'>
-        <a id='top' className='anchor'></a>
+      <div className="page">
+        <a id="top" className="anchor"></a>
         <ArticleFlow
           layers={layers}
           memoid={isLocal ? ipynb.last_modified : memoid}
@@ -123,6 +118,7 @@ const Article = ({
           headingsPositions={articleTree.headingsPositions}
           hasBibliography={!!articleTree.bibliography}
           binderUrl={binderUrl}
+          repositoryUrl={repositoryUrl}
           emailAddress={emailAddress}
           onDataHrefClick={onDataHrefClickHandler}
           isJavascriptTrusted={isJavascriptTrusted}
@@ -135,7 +131,7 @@ const Article = ({
           hideFigures={hideFigures}
         >
           <ArticleHeader
-            className='page mt-5 pb-0'
+            className="page mt-5 pb-0"
             title={title}
             abstract={abstract}
             keywords={keywords}
@@ -155,10 +151,7 @@ const Article = ({
           {typeof children === 'function' ? children(articleTree) : children}
         </ArticleFlow>
         {articleTree.citationsFromMetadata ? (
-          <ArticleNote
-            articleTree={articleTree}
-            selectedDataHref={selectedDataHref}
-          />
+          <ArticleNote articleTree={articleTree} selectedDataHref={selectedDataHref} />
         ) : null}
       </div>
     </>
