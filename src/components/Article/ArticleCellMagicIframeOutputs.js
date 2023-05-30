@@ -23,6 +23,13 @@ const ArticleCellIframeOutputs = ({
           '</script>',
         )
       }
+      if (output.output_type === 'display_data' && output.data['text/html']) {
+        if (Array.isArray(output.data['text/html'])) {
+          acc.push(...output.data['text/html'])
+        } else {
+          acc.push(output.data['text/html'])
+        }
+      }
       if (i === outputs.length - 1) {
         acc.push('</body></html>')
       }

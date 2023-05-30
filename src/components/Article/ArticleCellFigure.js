@@ -25,6 +25,7 @@ const ArticleCellFigure = ({
   containerClassName,
   windowHeight = 100,
   isMagic = false,
+  isolationMode = false,
   // lazy = false,
   // withTransition = false,
   active = false,
@@ -123,6 +124,7 @@ const ArticleCellFigure = ({
                 <div className="anchor" id={figure.ref} />
                 <ArticleCellOutputs
                   isMagic={isMagic}
+                  isolationMode={isolationMode}
                   hideLabel
                   isJavascriptTrusted={isJavascriptTrusted}
                   cellIdx={figure.idx}

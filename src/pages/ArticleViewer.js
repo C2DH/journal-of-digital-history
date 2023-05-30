@@ -7,7 +7,7 @@ import {
   StatusSuccess,
   StatusFetching,
   StatusIdle,
-  StatusError
+  StatusError,
 } from '../constants'
 import Loading from '../components/Loading'
 import ErrorViewer from './ErrorViewer'
@@ -16,32 +16,41 @@ import { extractMetadataFromArticle } from '../logic/api/metadata'
 import { useIssueStore } from '../store'
 import { setBodyNoScroll } from '../logic/viewport'
 
-const ArticleViewer = ({ match: { params: { pid }}}) => {
+const ArticleViewer = ({
+  match: {
+    params: { pid },
+  },
+}) => {
   const { t } = useTranslation()
-  const setIssue = useIssueStore(state => state.setIssue)
-  const { data:article, error, status, errorCode} = useGetJSON({
-    url:`/api/articles/${pid}`,
-    delay: 0
+  const setIssue = useIssueStore((state) => state.setIssue)
+  const {
+    data: article,
+    error,
+    status,
+    errorCode,
+  } = useGetJSON({
+    url: `/api/articles/${pid}`,
+    delay: 0,
   })
 
   useEffect(() => {
     setBodyNoScroll(true)
-    return function() {
+    return function () {
       setBodyNoScroll(false)
     }
-  },[])
+  }, [])
 
   useEffect(() => {
     if (status === StatusError) {
       setBodyNoScroll(false)
     }
-  },[status])
+  }, [status])
 
   useEffect(() => {
     if (article && article.issue) {
       setIssue(article.issue)
     } else {
-      setIssue({pid: '...'})
+      setIssue({ pid: '...' })
     }
     return () => {
       // clear
@@ -57,12 +66,12 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
       <Container className="page">
         <Row>
           <Col {...BootstrapColumLayout}>
-          {(status === StatusFetching || status === StatusIdle) && (
-            <>
-            <h1 className="my-5">{t('pages.loading.title')}</h1>
-            <Loading />
-            </>
-          )}
+            {(status === StatusFetching || status === StatusIdle) && (
+              <>
+                <h1 className="my-5">{t('pages.loading.title')}</h1>
+                <Loading />
+              </>
+            )}
           </Col>
         </Row>
       </Container>
@@ -70,14 +79,31 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
   }
   // status is success, metadata is ready.
   const {
-    title, plainTitle, abstract, excerpt,
-    keywords, contributor,
-    plainContributor, collaborators
+    title,
+    plainTitle,
+    abstract,
+    excerpt,
+    keywords,
+    contributor,
+    plainContributor,
+    collaborators,
   } = extractMetadataFromArticle(article)
   console.info(
-    '%cArticleViewer', 'font-weight: bold','rendered with metadata\n- title:', title, plainTitle,
-    '\n- excerpt:', excerpt, '\n- contributors:', plainContributor,
-    '\n- collaborators:', collaborators, '\n- keywords', keywords
+    '%cArticleViewer',
+    'font-weight: bold',
+    'rendered with metadata\n- title:',
+    title,
+    plainTitle,
+    '\n - excerpt:',
+    excerpt,
+    '\n - contributors:',
+    plainContributor,
+    '\n - collaborators:',
+    collaborators,
+    '\n - keywords',
+    keywords,
+    '\n - repository_url:',
+    article.repository_url,
   )
   return (
     <NotebookViewer
@@ -93,16 +119,18 @@ const ArticleViewer = ({ match: { params: { pid }}}) => {
       publicationStatus={article.status}
       publicationDate={new Date(article.issue?.publication_date)}
       binderUrl={article.binder_url}
+      repositoryUrl={article.repository_url}
       emailAddress={article.abstract?.contact_email}
       doi={article.doi}
       issue={article.issue}
       bibjson={article.citation}
       isJavascriptTrusted
       match={{
-      params: {
-        encodedUrl: article.notebook_url
-      }
-    }}/>
+        params: {
+          encodedUrl: article.notebook_url,
+        },
+      }}
+    />
   )
 }
 

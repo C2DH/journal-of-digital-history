@@ -23,6 +23,7 @@ const ArticleToC = ({
   paragraphs = [],
   headingsPositions = [],
   binderUrl = null,
+  repositoryUrl = null,
   ignoreBinder = false,
   width = 100,
   height = 100,
@@ -241,6 +242,19 @@ const ArticleToC = ({
                 : t('errors.binderUrlNotAvailable'),
             }}
           />
+        )}
+        {repositoryUrl !== null && (
+          <p
+            className="text-dark py-2 mb-0 me-5"
+            style={{ fontSize: '10px' }}
+            dangerouslySetInnerHTML={{
+              // change repository url into something simpler, e.g on github
+              __html: t('actions.gotoRepository', {
+                url: repositoryUrl,
+                label: repositoryUrl.replace('https://', ''),
+              }),
+            }}
+          ></p>
         )}
       </div>
       <div

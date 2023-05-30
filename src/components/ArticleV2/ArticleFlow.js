@@ -17,6 +17,7 @@ const ArticleFlow = ({
   hasBibliography,
   onDataHrefClick,
   binderUrl = null,
+  repositoryUrl = null,
   // emailAddress,
   headingsPositions = [],
   tocOffset = 99,
@@ -88,6 +89,7 @@ const ArticleFlow = ({
         {!IsMobile && (
           <ArticleToC
             binderUrl={binderUrl}
+            repositoryUrl={repositoryUrl}
             ignoreBinder={ignoreBinder}
             layers={layers}
             memoid={memoid}
