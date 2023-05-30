@@ -41,7 +41,35 @@ const ArticleCell = ({
   windowHeight = 0,
 }) => {
   const isMagic = RegexIsMagic.test(content)
-  console.debug('[ArticleCell] isMagic:', isMagic, '- isJavascriptTrusted:', isJavascriptTrusted)
+  const isolationMode = outputs.some(
+    (d) => typeof d.metadata === 'object' && d.metadata['text/html']?.isolated,
+  )
+
+  if (figure) {
+    console.debug(
+      '[ArticleCell] \n - figure:',
+      figure.ref,
+      '\n - isMagic:',
+      isMagic,
+      '\n - isJavascriptTrusted:',
+      isJavascriptTrusted,
+      '\n - isolationMode:',
+      isolationMode,
+      '\n - cellIdx:',
+      idx,
+    )
+  } else {
+    console.debug(
+      '[ArticleCell] \n - isMagic:',
+      isMagic,
+      '\n - isJavascriptTrusted:',
+      isJavascriptTrusted,
+      '\n - isolationMode:',
+      isolationMode,
+      '\n - cellIdx:',
+      idx,
+    )
+  }
   let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout
   // we override or set the former layout if it appears in narrative-step
   if (isNarrativeStep) {
@@ -125,6 +153,7 @@ const ArticleCell = ({
           figureColumnLayout={cellObjectBootstrapColumnLayout}
           isJavascriptTrusted={isJavascriptTrusted}
           isMagic={isMagic}
+          isolationMode={isolationMode}
           isNarrativeStep={isNarrativeStep}
           containerClassName={containerClassNames.join(' ')}
           windowHeight={windowHeight}
@@ -166,6 +195,7 @@ const ArticleCell = ({
           outputs={outputs}
           figure={figure}
           isMagic={isMagic}
+          isolationMode={isolationMode}
           isNarrativeStep={isNarrativeStep}
           figureColumnLayout={cellObjectBootstrapColumnLayout}
           isJavascriptTrusted={isJavascriptTrusted}
@@ -188,6 +218,7 @@ const ArticleCell = ({
               <ArticleCellSourceCode visible content={content} language="python" />
               <ArticleCellOutputs
                 isMagic={isMagic}
+                isolationMode={isolationMode}
                 isJavascriptTrusted={isJavascriptTrusted}
                 cellIdx={idx}
                 outputs={outputs}
