@@ -1,113 +1,79 @@
-import React from 'react'
-import ArticleCellOutput from './ArticleCellOutput'
-import { useInjectTrustedJavascript } from '../../hooks/graphics'
-import ArticleCellIframeOutputs from './ArticleCellIframeOutputs'
+import React, { Suspense } from 'react'
 
-const ArticleCellJavascriptOutputs = ({
-  isJavascriptTrusted,
-  outputs = [],
-  cellIdx,
-  hideLabel,
-  height = 'auto',
-}) => {
-  // use iframe to render magic stuff (starting with %%javascript)
+const ArticleCellMagicIframeOutputs = React.lazy(() => import('./ArticleCellMagicIframeOutputs'))
+const ArticleCellOutputsAsIframe = React.lazy(() => import('./ArticleCellOutputsAsIframe'))
+const ArticleCellJavascriptOutputs = React.lazy(() => import('./ArticleCellJavascriptOutputs'))
 
-  // use scripts if there areany
-  const trustedScripts = isJavascriptTrusted
-    ? outputs.reduce((acc, output) => {
-        if (typeof output.data === 'object') {
-          if (Array.isArray(output.data['application/javascript'])) {
-            return acc.concat(output.data['application/javascript'])
-          } else if (typeof output.data['application/javascript'] === 'string') {
-            // sometimes output.data['application/javascript'] is not an array...
-            return acc.concat([output.data['application/javascript']])
-          } else if (Array.isArray(output.data['text/html'])) {
-            // view if there are any candidate
-
-            if (output.data['text/html'].some((d) => d.indexOf('/script>') !== -1)) {
-              // we should alert somehow.
-              // eslint-disable-next-line
-              const htmlScript = output.data['text/html']
-                .join('')
-                .match(/\x3Cscript[^>]*>([\s\S]*?)\x3C\/script>/m)
-              if (htmlScript) {
-                if (htmlScript[1].indexOf('\x3Cscript') !== -1) {
-                  console.warn('multiple scripts in text/html, skipping.')
-                  return acc
-                }
-                console.debug('[ArticleCellOutputs] cellIdx:', cellIdx, 'contains:', htmlScript[2])
-                return acc.concat(htmlScript[1])
-              }
-            }
-            // // eslint-disable-next-line
-            // debugger
-            // output.data['text/html'].match('\x3Cscript')
-          }
-        }
-        return acc
-      }, [])
-    : []
-
-  const refTrustedJavascript = useInjectTrustedJavascript({
-    id: `trusted-script-for-${cellIdx}`,
-    contents: trustedScripts,
-    isTrusted: isJavascriptTrusted,
-  })
-
-  if (trustedScripts.length) {
-    console.debug(
-      '[ArticleCellOutputs] cellidx:',
-      cellIdx,
-      ' - isJavascriptTrusted:',
-      isJavascriptTrusted,
-      '- n. script(s) to inject:',
-      trustedScripts.length,
-    )
-  }
-
-  return (
-    <div className="ArticleCellOutputs" ref={refTrustedJavascript}>
-      {outputs.map((output, i) => (
-        <ArticleCellOutput
-          hideLabel={hideLabel}
-          isJavascriptTrusted={false}
-          cellIdx={cellIdx}
-          output={output}
-          key={i}
-          height={height}
-        />
-      ))}
-    </div>
-  )
-}
+const SupportedVndMimeTypes = [
+  'application/vnd.plotly.v1+json',
+  'application/vnd.vega.v4+json',
+  'application/vnd.vegalite.v2+json',
+]
 
 const ArticleCellOutputs = ({
-  isMagic,
-  isJavascriptTrusted,
+  isMagic = false,
+  isolationMode = false,
+  isJavascriptTrusted = false,
   outputs = [],
   cellIdx,
   hideLabel,
   height,
 }) => {
+  // get the full list of vnd mime types
+  const vndMimeTypes = outputs
+    .reduce((acc, output) => {
+      if (typeof output.data === 'object') {
+        return acc.concat(
+          Object.keys(output.data).filter(
+            (mimeType) => mimeType.indexOf('application/vnd.') !== -1,
+          ),
+        )
+      }
+      return acc
+    }, [])
+    // we can remove this filtering as soon as we know that all vnd mime types are supported
+    .filter((mimeType) => SupportedVndMimeTypes.indexOf(mimeType) !== -1)
+
+  if (isolationMode || vndMimeTypes.length) {
+    return (
+      <Suspense fallback={<div style={{ height }}>Loading...</div>}>
+        <ArticleCellOutputsAsIframe
+          isJavascriptTrusted={isJavascriptTrusted}
+          isolationMode={isolationMode}
+          outputs={outputs}
+          cellIdx={cellIdx}
+          hideLabel={hideLabel}
+          height={height}
+          vndMimeTypes={vndMimeTypes}
+        />
+      </Suspense>
+    )
+  }
+
+  // use iframe to render magic stuff (starting with %%javascript)
   if (isMagic) {
     return (
-      <ArticleCellIframeOutputs
-        isJavascriptTrusted={isJavascriptTrusted}
-        outputs={outputs}
-        cellIdx={cellIdx}
-        hideLabel={hideLabel}
-        height={height}
-      />
+      <Suspense fallback={<div style={{ height }}>Loading...</div>}>
+        <ArticleCellMagicIframeOutputs
+          isJavascriptTrusted={isJavascriptTrusted}
+          outputs={outputs}
+          cellIdx={cellIdx}
+          hideLabel={hideLabel}
+          height={height}
+        />
+      </Suspense>
     )
   } else {
     return (
-      <ArticleCellJavascriptOutputs
-        isJavascriptTrusted={isJavascriptTrusted}
-        outputs={outputs}
-        cellIdx={cellIdx}
-        hideLabel={hideLabel}
-        height={height}
-      />
+      <Suspense fallback={<div style={{ height }}>Loading...</div>}>
+        <ArticleCellJavascriptOutputs
+          isJavascriptTrusted={isJavascriptTrusted}
+          outputs={outputs}
+          cellIdx={cellIdx}
+          hideLabel={hideLabel}
+          height={height}
+        />
+      </Suspense>
     )
   }
 }
