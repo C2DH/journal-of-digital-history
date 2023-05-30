@@ -11,7 +11,7 @@ import { BootstrapColumLayout, StatusSuccess } from '../constants'
 
 const GuidelinesArticle = ({ data, status, isFake = false, showTemplateLink = false }) => {
   const { t } = useTranslation()
-  console.debug('[GuidelinesArticle] props:', { status, isFake })
+  console.debug('[GuidelinesArticle] props:', { status, isFake }, data)
   const memoid = process.env.REACT_APP_NOTEBOOK_GUIDELINES_URL + (isFake ? '-fake' : '')
   return (
     <>
