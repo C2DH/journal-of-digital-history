@@ -94,9 +94,13 @@ export const useGetJSON = ({
     queryFn: () =>
       axios
         .get(url, { timeout, onDownloadProgress })
-        .then(({ data }) => data)
+        .then(({ data }) => {
+          console.debug('[fetchData useGetJSON] received data', data)
+          return data
+        })
         .catch((err) => {
           console.warn('[fetchData useGetJSON] error on url:', url, ' - error', err)
+          throw err
         }),
     enabled: url !== null && enabled,
   })
