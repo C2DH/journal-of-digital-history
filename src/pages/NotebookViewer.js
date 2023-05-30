@@ -34,6 +34,7 @@ const NotebookViewer = ({
   plainContributor = '',
   excerpt,
   binderUrl,
+  repositoryUrl,
   emailAddress,
   issue,
   doi,
@@ -129,6 +130,7 @@ const NotebookViewer = ({
           memoid={encodedUrl}
           isLocal={data.content !== 'undefined'}
           binderUrl={binderUrl}
+          repositoryUrl={repositoryUrl}
           emailAddress={emailAddress}
           publicationDate={publicationDate}
           publicationStatus={publicationStatus}
