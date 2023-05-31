@@ -179,7 +179,7 @@
         "showShadowLayer": "show",
         "mailtoAuthors": "<a href='mailto:{{emailAddress}}' target='_blank' rel='noreferrer'>Contact the authors</a> to get full access to the data behind the notebook",
         "gotoBinder": "Use this notebook:<br/><a target='_blank' rel='noreferrer' href='{{binderUrl}}'><img src='https://mybinder.org/static/images/badge_logo.svg'/></a>",
-        "gotoRepository": "play with this notebook on <a href=\"{{url}}\" target=\"_blank\">{{url}}</a>"
+        "gotoRepository": "Play with this notebook on <a href=\"{{url}}\" target=\"_blank\">{{label}}</a>"
       },
       "badge": {
         "warning": "∅",

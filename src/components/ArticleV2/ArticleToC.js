@@ -249,7 +249,10 @@ const ArticleToC = ({
             style={{ fontSize: '10px' }}
             dangerouslySetInnerHTML={{
               // change repository url into something simpler, e.g on github
-              __html: t('actions.gotoRepository', { url: repositoryUrl.replace('https://', '') }),
+              __html: t('actions.gotoRepository', {
+                url: repositoryUrl,
+                label: repositoryUrl.replace('https://', ''),
+              }),
             }}
           ></p>
         )}
