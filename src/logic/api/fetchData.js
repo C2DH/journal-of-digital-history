@@ -86,6 +86,7 @@ export const useGetJSON = ({
   delay = 0,
   timeout = process.env.REACT_APP_API_TIMEOUT || 0,
   onDownloadProgress,
+  failSilently = false,
 }) => {
   const [enabled, setEnabled] = useState(false)
   console.debug('[fetchData useGetJSON] url:', url, 'enabled', enabled)
@@ -100,6 +101,7 @@ export const useGetJSON = ({
         })
         .catch((err) => {
           console.warn('[fetchData useGetJSON] error on url:', url, ' - error', err)
+          if (failSilently) return null
           throw err
         }),
     enabled: url !== null && enabled,
