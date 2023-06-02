@@ -89,14 +89,14 @@ export const useGetJSON = ({
   failSilently = false,
 }) => {
   const [enabled, setEnabled] = useState(false)
-  console.debug('[fetchData useGetJSON] url:', url, 'enabled', enabled)
+  console.debug('[fetchData useGetJSON] Request \n - url:', url, '\n - enabled: ', enabled)
   const response = useQuery({
     queryKey: [url, memoid],
     queryFn: () =>
       axios
         .get(url, { timeout, onDownloadProgress })
         .then(({ data }) => {
-          console.debug('[fetchData useGetJSON] received data', data)
+          console.debug('[fetchData useGetJSON] received data', data.length)
           return data
         })
         .catch((err) => {
@@ -112,7 +112,7 @@ export const useGetJSON = ({
     }
   }, delay)
   if (enabled && process.env.NODE_ENV === 'development') {
-    console.debug('[fetchData useGetJSON] url:', url, 'status', response.status)
+    console.debug('[fetchData useGetJSON] Response \n - url:', url, '\n - status', response.status)
   }
   return response
 }
