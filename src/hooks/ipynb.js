@@ -1,17 +1,12 @@
 import { useMemo } from 'react'
 import { getArticleTreeFromIpynb } from '../logic/ipynb'
 
-export const useIpynbNotebookParagraphs = ({ id, cells, metadata }) => {
-  console.info('[useIpynbNotebookParagraphs] id:', id, 'n. cells:', cells.length)
+export const useIpynbNotebookParagraphs = ({ disabled = true, id, cells, metadata }) => {
+  console.info('[useIpynbNotebookParagraphs] \n - id:', id, '\n - n. cells:', cells.length)
   const tree = useMemo(() => {
-    console.debug(
-      '[useIpynbNotebookParagraphs] getArticleTreeFromIpynb id:',
-      id,
-      'n. cells:',
-      cells.length,
-    )
+    console.debug('[useIpynbNotebookParagraphs] fresh!')
     return getArticleTreeFromIpynb({ id, cells, metadata })
-  }, [id])
+  }, [id, disabled])
   // const treeRef = useRef(null)
   // if (!treeRef.current || treeRef.current.id !== id) {
   //   console.debug(
