@@ -28,7 +28,7 @@ const markdownParser = MarkdownIt({
 //   )
 // }
 
-const GuidelinesShuffler = ({ data = '' }) => {
+const GuidelinesShuffler = ({ data = '', isFake }) => {
   const { width, height } = useCurrentWindowDimensions()
   const { notebook = '' } = useParams()
   const safeNotebookId = notebook.replace(/[^A-Za-z_-]/g, '')
@@ -61,9 +61,17 @@ const GuidelinesShuffler = ({ data = '' }) => {
     '\n - notebookUrl:',
     notebookUrl,
   )
-
+  const memoid = [
+    safeNotebookId.length > 0 ? safeNotebookId : 'guidelines',
+    isFake ? 'fake' : '',
+  ].join('-')
   return (
-    <GuidelinesNotebookViewer notebookUrl={notebookUrl} width={width} height={height}>
+    <GuidelinesNotebookViewer
+      memoid={memoid}
+      notebookUrl={notebookUrl}
+      width={width}
+      height={height}
+    >
       <Container className="Guidelines page">
         <Row>
           <Col {...BootstrapFullColumLayout} dangerouslySetInnerHTML={{ __html: html }} />
