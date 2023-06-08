@@ -6,7 +6,14 @@ import ArticleFlow from './ArticleV2/ArticleFlow'
 import ErrorViewer from '../pages/ErrorViewer'
 // import ArticleCell from './Article/ArticleCell'
 
-const GuidelinesNotebookViewer = ({ memoid = '', notebookUrl = '', height, width, children }) => {
+const GuidelinesNotebookViewer = ({
+  memoid = '',
+  notebookUrl = '',
+  plainTitle = null,
+  height,
+  width,
+  children,
+}) => {
   const { status, error, data } = useGetJSON({
     url: notebookUrl.length === 0 ? null : getRawNotebookUrl(notebookUrl),
     delay: 0,
@@ -40,6 +47,7 @@ const GuidelinesNotebookViewer = ({ memoid = '', notebookUrl = '', height, width
         isJavascriptTrusted={true}
         articleTree={articleTree}
         ignoreBinder={true}
+        plainTitle={plainTitle}
       >
         {children}
       </ArticleFlow>
