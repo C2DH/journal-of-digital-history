@@ -19,7 +19,7 @@ const GuidelinesNotebookViewer = ({
     delay: 0,
   })
   const articleTree = useIpynbNotebookParagraphs({
-    id: memoid + notebookUrl + status,
+    id: memoid + status,
     cells: data?.cells || [],
     metadata: data?.metadata || {},
   })
@@ -38,7 +38,7 @@ const GuidelinesNotebookViewer = ({
   return (
     <div className="page">
       <ArticleFlow
-        memoid={memoid + notebookUrl + status}
+        memoid={memoid + status}
         height={height}
         width={width}
         paragraphs={articleTree.paragraphs}

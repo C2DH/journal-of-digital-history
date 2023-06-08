@@ -109,6 +109,7 @@ const ArticleFlow = ({
         }}
       >
         <ArticleLayers
+          memoid={memoid}
           layers={layers}
           onPlaceholderClick={onPlaceholderClickHandler}
           onDataHrefClick={onDataHrefClick}
