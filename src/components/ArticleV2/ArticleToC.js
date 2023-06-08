@@ -222,16 +222,19 @@ const ArticleToC = ({
   )
   return (
     <>
-      <div className="flex-shrink-1 py-3 pointer-events-auto text-end">
+      <div className="flex-shrink-1 pb-3 pointer-events-auto text-end">
         {typeof plainTitle === 'string' && (
-          <h1 className="h5 text-dark mb-0 pe-2" style={{ fontSize: '1.25rem' }}>
+          <h1
+            className="h5 text-dark mb-3 pe-3"
+            style={{ fontSize: '1.25rem', lineHeight: '1.5em' }}
+          >
             {plainTitle}
           </h1>
         )}
         {layers.length > 1 &&
           layers.map((d, i) => (
             <div
-              className={`me-5 ArticleToC_layerSelector ${selectedLayer === d ? 'active' : ''}`}
+              className={`me-3 ArticleToC_layerSelector ${selectedLayer === d ? 'active' : ''}`}
               key={i}
               onClick={() => setQuery({ [DisplayLayerQueryParam]: d })}
             >

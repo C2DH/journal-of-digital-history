@@ -30,8 +30,8 @@ const markdownParser = MarkdownIt({
 
 const GuidelinesShuffler = ({ data = '', isFake }) => {
   const { width, height } = useCurrentWindowDimensions()
-  const { notebook = '' } = useParams()
-  const safeNotebookId = notebook.replace(/[^A-Za-z_-]/g, '')
+  const { notebook: notebookId = '' } = useParams()
+  const safeNotebookId = notebookId.replace(/[^A-Za-z_-]/g, '')
 
   let sections = (data || '').split(/##\s/g)
   // parse html
@@ -52,7 +52,8 @@ const GuidelinesShuffler = ({ data = '', isFake }) => {
             return { key, label, url: link.match(/\(([^)]+)\)/).pop() }
           })
   const availableNotebookIds = availableNotebooks.map((n) => n.key)
-  const notebookUrl = availableNotebooks.find((n) => n.key === safeNotebookId)?.url
+  const notebook = availableNotebooks.find((n) => n.key === safeNotebookId)
+  const notebookUrl = notebook?.url
   console.info(
     '[Guidelines] \n - safeNotebookId:',
     safeNotebookId,
@@ -69,6 +70,7 @@ const GuidelinesShuffler = ({ data = '', isFake }) => {
     <GuidelinesNotebookViewer
       memoid={memoid}
       notebookUrl={notebookUrl}
+      plainTitle={notebook?.label}
       width={width}
       height={height}
     >
