@@ -21,6 +21,7 @@ const ArticleFlow = ({
   // emailAddress,
   headingsPositions = [],
   tocOffset = 99,
+  tocOffsetBottom = 5,
   layers = [LayerNarrative, LayerHermeneutics],
   isJavascriptTrusted = false,
   ignoreBinder = false,
@@ -32,6 +33,7 @@ const ArticleFlow = ({
   pageBackgroundColor,
   // article on mobile must have the logo visible somewhere
   renderedLogoComponent = null,
+  plainTitle = null,
   children,
 }) => {
   const setVisibleCell = useArticleToCStore((store) => store.setVisibleCell)
@@ -72,18 +74,10 @@ const ArticleFlow = ({
   return (
     <>
       <div
-        style={{
-          height,
-          width,
-
-          overflow: 'hidden',
-        }}
-      ></div>
-      <div
         className={styles.tocWrapper}
         style={{
-          top: IsMobile ? 0 : tocOffset,
-          height: IsMobile ? height : height - tocOffset,
+          top: tocOffset,
+          height: IsMobile ? height : height - tocOffset - tocOffsetBottom,
         }}
       >
         {!IsMobile && (
@@ -99,6 +93,7 @@ const ArticleFlow = ({
             height={height}
             hasBibliography={hasBibliography}
             hideFigures={hideFigures}
+            plainTitle={plainTitle}
           />
         )}
       </div>
@@ -108,7 +103,7 @@ const ArticleFlow = ({
         style={{
           top: 0,
           zIndex: 3,
-          height,
+          height: height,
           width,
           overflow: 'hidden',
         }}
