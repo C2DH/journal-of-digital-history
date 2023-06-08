@@ -25,6 +25,15 @@ Makefile contains a couple of useful commands that inject local environmental va
 
 In development environment, to add a PROXY api different than `http://localhost` add the REACT_APP_PROXY as env variable (it can be stored in a local `.env.development` file)
 
+## Branch test on netlify
+
+This mimic a production ready _frontend_ app. The data comes from the production website as the api is proxied by netlify.
+It requries a netlify identifier stored locally in the `.netlify` git-ignored folder and a `_redirects` file that is used by netlify to redirect the api calls to the production website. Check the netlify documentation for more details.
+
+```bash
+BUILD_TAG=your-branch-name make run-build-netlify
+```
+
 ## Production environment
 
 We use docker [c2dhunilu/journal-of-digital-history](https://hub.docker.com/repository/docker/c2dhunilu/journal-of-digital-history)
