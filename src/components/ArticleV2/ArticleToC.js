@@ -29,6 +29,7 @@ const ArticleToC = ({
   height = 100,
   hideFigures = false,
   hasBibliography = false,
+  plainTitle = null,
 }) => {
   const { t } = useTranslation()
   const [{ height: toCHeight }, toCref] = useBoundingClientRect()
@@ -222,6 +223,11 @@ const ArticleToC = ({
   return (
     <>
       <div className="flex-shrink-1 py-3 pointer-events-auto text-end">
+        {typeof plainTitle === 'string' && (
+          <h1 className="h5 text-dark mb-0 pe-2" style={{ fontSize: '1.25rem' }}>
+            {plainTitle}
+          </h1>
+        )}
         {layers.length > 1 &&
           layers.map((d, i) => (
             <div
