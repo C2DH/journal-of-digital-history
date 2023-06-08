@@ -397,7 +397,7 @@ const ArticleLayer = ({
         }
 
         return (
-          <React.Fragment key={i}>
+          <React.Fragment key={[memoid, i].join('-')}>
             {paragraphsIndices.map((j) => {
               const cell = paragraphs[j]
               if (!cell) {
@@ -405,7 +405,7 @@ const ArticleLayer = ({
                 debugger
               }
               return (
-                <React.Fragment key={[i, j].join('-')}>
+                <React.Fragment key={[memoid, i, j].join('-')}>
                   <a className="ArticleLayer_anchor" id={getCellAnchorFromIdx(cell.idx, layer)}></a>
                   <div
                     className="ArticleLayer_paragraphWrapper"
