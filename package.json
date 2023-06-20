@@ -68,6 +68,8 @@
     "react-window": "^1.8.5",
     "sass": "^1.39.2",
     "source-map-explorer": "^2.4.2",
+    "thebe-core": "^0.2.3",
+    "thebe-react": "^0.2.3",
     "typescript": "^3.9.7",
     "universal-cookie": "^4.0.4",
     "use-query-params": "^1.2.2",
