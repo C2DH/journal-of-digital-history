@@ -30,6 +30,10 @@ export const ArticleThebeProvider = ({
   const [statusEvent, setStatusEvent] = React.useState({ status: 'idle', message: '' })
   const onErrorHandler = (event, d) => {
     console.info('[ArticleV3] @handler', event, d)
+    setStatusEvent(() => ({
+      status: d.status,
+      message: d.message,
+    }))
   }
   const onStatusHandler = (e, d) => {
     console.info('[ArticleV3] @handler', d)
