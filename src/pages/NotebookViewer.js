@@ -12,6 +12,7 @@ import {
 } from '../constants'
 import Article from '../components/Article'
 import ArticleV2 from '../components/ArticleV2'
+import ArticleV3 from '../components/ArticleV3'
 import ArticleHeader from '../components/Article/ArticleHeader'
 import ErrorViewer from './ErrorViewer'
 /**
@@ -45,7 +46,7 @@ const NotebookViewer = ({
   const [{ [ArticleVersionQueryParam]: version }] = useQueryParams({
     [ArticleVersionQueryParam]: withDefault(NumberParam, 2),
   })
-  const ArticleComponent = version === 2 ? ArticleV2 : Article
+  const ArticleComponent = version === 3 ? ArticleV3 : version === 2 ? ArticleV2 : Article
   const [animatedProps, api] = useSpring(() => ({ width: 0, opacity: 1, config: config.slow }))
 
   const url = useMemo(() => {
