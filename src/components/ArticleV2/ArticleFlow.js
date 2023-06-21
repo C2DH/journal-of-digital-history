@@ -70,7 +70,11 @@ const ArticleFlow = ({
     // console.debug('[ArticleFlow] @onCellIntersectionChangeHandler', idx)
     setVisibleCell(idx, isIntersecting)
   }
-  console.debug(`[ArticleFlow] component rendered, size: ${width}x${height}px`)
+  console.debug(
+    `[ArticleFlow] component rendered\n - size: ${width}x${height}px`,
+    '\n - memoid:',
+    memoid,
+  )
   return (
     <>
       <div
