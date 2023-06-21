@@ -69,7 +69,7 @@ const Notebook = lazy(() => import('./pages/Notebook'))
 const LocalNotebook = lazy(() => import('./pages/LocalNotebook'))
 const NotebookViewer = lazy(() => import('./pages/NotebookViewer'))
 const NotebookViewerForm = lazy(() => import('./pages/NotebookViewerForm'))
-const Guidelines = lazy(() => import('./pages/Guidelines'))
+const Guidelines = lazy(() => import('./pages/Guidelines.v2'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const ArticleViewer = lazy(() => import('./pages/ArticleViewer'))
 const Fingerprint = lazy(() => import('./pages/Fingerprint'))
@@ -167,7 +167,7 @@ function LangRoutes() {
       </Route>
       <Route exact path={`${path}/playground`} component={Playground} />
       <Route exact path={`${path}/fingerprint`} component={Fingerprint} />
-      <Route exact path={`${path}/guidelines`} component={Guidelines} />
+      <Route exact path={`${path}/guidelines/:notebook?`} component={Guidelines} />
       <Route exact path={`${path}/cfp/:permalink`} component={CallForPapers} />
       <Route path={`${path}*`}>
         <NotFound path={path} />
