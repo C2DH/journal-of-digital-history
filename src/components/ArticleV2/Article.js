@@ -68,10 +68,19 @@ const Article = ({
     disclaimer = [],
   } = articleTree.sections
 
-  console.debug(`[Article] component rendered ${width}x${height}px`)
-  console.debug('[Article] binderUrl:', binderUrl)
-  console.debug('[Article] loading articleTree anchors:', articleTree.anchors)
-  console.debug('[Article] loading articleTree paragraphs:', articleTree.paragraphs.length)
+  console.debug(
+    `[Article] component rendered. \n - size: ${width}x${height}px`,
+    '\n - plainTitle:',
+    plainTitle,
+    '\n - memoid:',
+    memoid,
+    '\n - binderUrl:',
+    binderUrl,
+    '\n - anchors:',
+    articleTree.anchors,
+    '\n - n. paragraphs:',
+    articleTree.paragraphs.length,
+  )
 
   const onDataHrefClickHandler = (d) => {
     console.debug('DataHref click handler')
@@ -118,6 +127,7 @@ const Article = ({
           headingsPositions={articleTree.headingsPositions}
           hasBibliography={!!articleTree.bibliography}
           binderUrl={binderUrl}
+          plainTitle={plainTitle}
           repositoryUrl={repositoryUrl}
           emailAddress={emailAddress}
           onDataHrefClick={onDataHrefClickHandler}
