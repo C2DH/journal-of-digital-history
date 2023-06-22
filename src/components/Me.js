@@ -89,6 +89,7 @@ const Me = () => {
   const { t } = useTranslation()
   const { data, error } = useGetJSON({
     url: '/api/me',
+    failSilently: true,
   })
   console.debug('[Me]', error, data)
   if (error) return null
