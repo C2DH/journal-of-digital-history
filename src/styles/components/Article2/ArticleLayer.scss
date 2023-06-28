@@ -1,14 +1,14 @@
-.ArticleLayer_mask{
+.ArticleLayer_mask {
   position: absolute;
-  &.hermeneutics{
-    background-color: #B1FBEC;
+  &.hermeneutics {
+    background-color: #b1fbec;
   }
-  &.data{
+  &.data {
     background-color: #cccfff;
   }
 }
 
-.ArticleLayer_anchor{
+.ArticleLayer_anchor {
   position: relative;
   height: 0;
   overflow: hidden;
@@ -35,8 +35,9 @@
   }
 }
 
-.ArticleLayer_placeholder{
-  max-height: 200px;
+.ArticleLayer_placeholder {
+  max-height: 240px;
+  min-height: 125px;
   overflow: hidden;
   position: relative;
 
@@ -50,29 +51,28 @@
   }
 }
 
-
-.ArticleLayer_pushFixed{
+.ArticleLayer_pushFixed {
   position: fixed;
   background-color: transparent;
   top: 0;
   height: 0px;
-  width:100%;
-  z-index:1;
+  width: 100%;
+  z-index: 1;
   transition: background-color 1s ease-in-out;
   /* border-bottom: 1px solid var(--secondary); */
-  &.narrative{
+  &.narrative {
     background-color: var(--gray-100);
   }
-  &.data{
+  &.data {
     background-color: #cccfff;
   }
-  &.hermeneutics{
-    background-color: #B1FBEC;
+  &.hermeneutics {
+    background-color: #b1fbec;
   }
 }
 
 .ArticleLayer_placeholderActive,
-.ArticleLayer_cellActive{
+.ArticleLayer_cellActive {
   position: absolute;
   left: 0;
   background: transparent;
@@ -81,7 +81,7 @@
   z-index: -1;
   top: 0;
 
-  &:after{
+  &:after {
     content: '';
     position: absolute;
     top: 0px;
@@ -91,14 +91,13 @@
     bottom: 0px;
     z-index: 1000;
   }
-  &.off{
+  &.off {
     background: transparent;
     opacity: 0;
   }
 }
 
-
-.ArticleLayer_placeholderButton{
+.ArticleLayer_placeholderButton {
   position: absolute;
   z-index: 0;
   left: 50%;
@@ -107,24 +106,24 @@
   bottom: var(--spacer-3);
 }
 
-.ArticleLayer_placeholderGradient{
+.ArticleLayer_placeholderGradient {
   position: absolute;
-  z-index:0;
+  z-index: 0;
   bottom: 0;
   pointer-events: none;
   left: 0;
-  right:0;
+  right: 0;
   height: 50%;
   background: transparent;
 
-  &.narrative_hermeneutics{
-    background: linear-gradient(180deg, rgb(244, 241, 248, 0) 0%, rgb(244, 241, 248, .8) 50%);
+  &.narrative_hermeneutics {
+    background: linear-gradient(180deg, rgb(244, 241, 248, 0) 0%, rgb(244, 241, 248, 0.8) 50%);
   }
 
-  &.hermeneutics_narrative{
-    background: linear-gradient(180deg, #B1FBEC00 0%, #B1FBECff 50%);
+  &.hermeneutics_narrative {
+    background: linear-gradient(180deg, #b1fbec00 0%, #b1fbecff 50%);
   }
-  &.data_narrative{
+  &.data_narrative {
     background: linear-gradient(180deg, #cccfff99 0%, #cccfffff 90%);
   }
   &.data_hermeneutics {
@@ -132,7 +131,7 @@
   }
 }
 
-.ArticleLayer_push{
+.ArticleLayer_push {
   /* equals the top header */
   height: 0px;
 }
