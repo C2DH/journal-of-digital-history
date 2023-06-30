@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
 import AbstractSubmission from '../../models/AbstractSubmission'
 import { StatusIdle, StatusFetching, StatusSuccess, StatusNone } from '../../constants'
@@ -92,18 +92,25 @@ export const useGetJSON = ({
   console.debug('[fetchData useGetJSON] Request \n - url:', url, '\n - enabled: ', enabled)
   const response = useQuery({
     queryKey: [url, memoid],
-    queryFn: () =>
-      axios
+    queryFn: () => {
+      console.debug('[fetchData useGetJSON] Request \n - url:', url, '\n - status: fetching...')
+
+      return axios
         .get(url, { timeout, onDownloadProgress })
         .then(({ data }) => {
-          console.debug('[fetchData useGetJSON] received data', data.length)
+          console.debug(
+            '[fetchData useGetJSON] Request FRESH \n - url:',
+            url,
+            '\n - status: finalising...',
+          )
           return data
         })
         .catch((err) => {
-          console.warn('[fetchData useGetJSON] error on url:', url, ' - error', err)
+          console.warn('[fetchData useGetJSON] Request ERROR \n - url:', url, '\n - error', err)
           if (failSilently) return null
           throw err
-        }),
+        })
+    },
     enabled: url !== null && enabled,
   })
   useTimeout(() => {
