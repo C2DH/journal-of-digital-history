@@ -86,12 +86,13 @@ export const useGetJSON = ({
   delay = 0,
   timeout = process.env.REACT_APP_API_TIMEOUT || 0,
   onDownloadProgress,
+  onCompleted,
   failSilently = false,
 }) => {
   const [enabled, setEnabled] = useState(false)
   console.debug('[fetchData useGetJSON] Request \n - url:', url, '\n - enabled: ', enabled)
   const response = useQuery({
-    queryKey: [url, memoid],
+    queryKey: [url ?? '', memoid],
     queryFn: () =>
       axios
         .get(url, { timeout, onDownloadProgress })
@@ -113,6 +114,9 @@ export const useGetJSON = ({
   }, delay)
   if (enabled && process.env.NODE_ENV === 'development') {
     console.debug('[fetchData useGetJSON] Response \n - url:', url, '\n - status', response.status)
+  }
+  if (typeof onCompleted === 'function' && response.status === 'success') {
+    onCompleted()
   }
   return response
 }
