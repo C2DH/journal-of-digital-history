@@ -21,6 +21,7 @@ import Footer from './components/Footer'
 import Cookies from './components/Cookies'
 import ScrollToTop from './components/ScrollToTop'
 import VideoReleaseLazy from './components/VideoRelease/VideoReleaseLazy'
+import PercentLoader from './components/PercentLoader'
 // import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
 import Loading from './pages/Loading'
 import ReactGA from 'react-ga'
@@ -240,6 +241,7 @@ export default function App() {
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <QueryParamProvider ReactRouterRoute={Route}>
+          <PercentLoader />
           <Header availableLanguages={LANGUAGES} isAuthDisabled />
           {typeof csrfToken === 'string' && <Me />}
           <Cookies defaultAcceptCookies={AcceptCookies} />
