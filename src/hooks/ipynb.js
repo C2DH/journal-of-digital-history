@@ -21,6 +21,7 @@ export const useIpynbNotebookParagraphs = ({ id, cells, metadata }) => {
 export const useIpynbNotebook = ({ id, cells, metadata, enabled }) => {
   const [status, setStatus] = useState(StatusIdle)
   const treeId = useRef(null)
+  const propsRef = useRef({ id, cells, metadata })
   const timer = useRef(null)
   const timerStatus = useRef(null)
   const [tree, setTree] = useState(null)
@@ -28,7 +29,9 @@ export const useIpynbNotebook = ({ id, cells, metadata, enabled }) => {
   useEffect(() => {
     clearTimeout(timer.current)
     clearTimeout(timerStatus.current)
+    propsRef.current = { id, cells, metadata }
     if (!enabled) {
+      setStatus(StatusIdle)
       return
     }
     if (treeId.current === id) {
@@ -37,10 +40,11 @@ export const useIpynbNotebook = ({ id, cells, metadata, enabled }) => {
     setStatus(StatusFetching)
 
     timer.current = setTimeout(() => {
-      setTree(getArticleTreeFromIpynb({ id, cells, metadata }))
-    }, 0)
+      setTree(getArticleTreeFromIpynb(propsRef.current))
+    }, 2)
 
     timerStatus.current = setTimeout(() => {
+      treeId.current === id
       setStatus(StatusSuccess)
     }, 100)
     return () => {
