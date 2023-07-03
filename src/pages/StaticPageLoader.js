@@ -2,14 +2,11 @@ import React, { useEffect } from 'react'
 import { useGetJSON } from '../logic/api/fetchData'
 import { StatusSuccess, StatusFetching, StatusError } from '../constants'
 import ErrorViewer from './ErrorViewer'
-import { useSpring, animated, config } from 'react-spring'
+import { usePropsStore } from '../store'
 
 const StaticPageLoader = ({ url, delay = 0, Component, fakeData, raw = false, ...rest }) => {
-  const [animatedLine, apiAnimatedLine] = useSpring(() => ({
-    width: 0,
-    opacity: 1,
-    config: config.slow,
-  }))
+  const setLoadingProgress = usePropsStore((state) => state.setLoadingProgress)
+
   const { data, error, status } = useGetJSON({
     url,
     delay,
@@ -17,10 +14,11 @@ const StaticPageLoader = ({ url, delay = 0, Component, fakeData, raw = false, ..
     onDownloadProgress: (e) => {
       console.debug('[StaticPageLoader] onDownloadProgress url', url, e.total, e.loaded)
       if (!e.total && e.loaded > 0) {
-        apiAnimatedLine.start({ width: Math.min(100, (100 * e.loaded) / 23810103) })
+        // euristic average zise of a notebook
+        setLoadingProgress(e.loaded / 23810103, url)
       } else if (e.total && e.loaded) {
         if (e.loaded < e.total) {
-          apiAnimatedLine.start({ width: (100 * e.loaded) / e.total })
+          setLoadingProgress(e.loaded / e.total, url)
         }
       }
     },
@@ -28,50 +26,16 @@ const StaticPageLoader = ({ url, delay = 0, Component, fakeData, raw = false, ..
 
   useEffect(() => {
     if (status === StatusFetching) {
-      apiAnimatedLine.start({
-        width: 10,
-        opacity: 1,
-      })
+      setLoadingProgress(0.05, url)
     } else if (status === StatusSuccess) {
-      apiAnimatedLine.start({
-        width: 100,
-        opacity: 0,
-      })
+      setLoadingProgress(1, url)
     } else if (status === StatusError) {
-      apiAnimatedLine.start({
-        width: 0,
-        opacity: 0,
-      })
+      setLoadingProgress(0, url)
     }
   }, [status])
-  console.debug('[StaticPageLoader] status:', status)
+  console.info('[StaticPageLoader] url:', url)
   return (
     <>
-      <div
-        className="position-fixed w-100"
-        style={{
-          top: 0,
-          left: 0,
-          zIndex: 10,
-        }}
-      >
-        <animated.div
-          className="NotebookViewer_loading position-absolute"
-          style={{
-            opacity: animatedLine.opacity,
-            width: animatedLine.width.to((x) => `${x}%`),
-          }}
-        />
-        <animated.span
-          className="NotebookViewer_loadingPercentage monospace"
-          style={{
-            opacity: animatedLine.opacity,
-          }}
-        >
-          {animatedLine.width.to((x) => `${Math.round(x * 10000) / 10000}%`)}
-        </animated.span>
-      </div>
-
       {status === StatusError && <ErrorViewer error={error} errorCode={error.code} />}
       {status !== StatusError && (
         <Component
