@@ -26,7 +26,7 @@ import Loading from './pages/Loading'
 import ReactGA from 'react-ga'
 import { useMatomo } from '@jonkoops/matomo-tracker-react'
 import { AcceptAnalyticsCookies, AcceptCookies } from './logic/tracking'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Me from './components/Me'
 
 console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___|       \n\n')

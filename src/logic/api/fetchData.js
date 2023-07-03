@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
 import AbstractSubmission from '../../models/AbstractSubmission'
 import { StatusIdle, StatusFetching, StatusSuccess, StatusNone } from '../../constants'
