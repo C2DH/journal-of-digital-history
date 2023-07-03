@@ -92,7 +92,7 @@ const queryClient = new QueryClient({
       // staleTime: Infinity,
       // retry: false,
       // suspense: false,
-      keepPreviousData: true,
+      // keepPreviousData: true,
       headers: {
         'X-CSRFToken': csrfToken,
       },
