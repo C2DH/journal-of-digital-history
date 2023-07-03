@@ -59,16 +59,16 @@ const ArticleCell = ({
       idx,
     )
   } else {
-    console.debug(
-      '[ArticleCell] \n - isMagic:',
-      isMagic,
-      '\n - isJavascriptTrusted:',
-      isJavascriptTrusted,
-      '\n - isolationMode:',
-      isolationMode,
-      '\n - cellIdx:',
-      idx,
-    )
+    // console.debug(
+    //   '[ArticleCell] \n - isMagic:',
+    //   isMagic,
+    //   '\n - isJavascriptTrusted:',
+    //   isJavascriptTrusted,
+    //   '\n - isolationMode:',
+    //   isolationMode,
+    //   '\n - cellIdx:',
+    //   idx,
+    // )
   }
   let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout
   // we override or set the former layout if it appears in narrative-step
