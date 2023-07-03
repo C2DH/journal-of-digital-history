@@ -13,7 +13,7 @@ const PercentLoader = () => {
   const [animatedProps, api] = useSpring(() => ({
     width: 0,
     opacity: 1,
-    config: config.slow,
+    config: config.gentle,
   }))
   // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
   useEffect(
