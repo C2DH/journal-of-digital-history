@@ -68,6 +68,7 @@ const TermsOfUse = lazy(() => import('./pages/TermsOfUse'))
 const Playground = lazy(() => import('./pages/Playground'))
 const Notebook = lazy(() => import('./pages/Notebook'))
 const LocalNotebook = lazy(() => import('./pages/LocalNotebook'))
+const CheckNotebook = lazy(() => import('./pages/CheckNotebook'))
 const NotebookViewer = lazy(() => import('./pages/NotebookViewer'))
 const NotebookViewerForm = lazy(() => import('./pages/NotebookViewerForm'))
 const Guidelines = lazy(() => import('./pages/Guidelines.v2'))
@@ -159,7 +160,7 @@ function LangRoutes() {
       </Route>
       <Route path={`${path}/fingerprint-viewer`} component={FingerprintViewer} />
       <Route path={`${path}/fingerprint-explained/:encodedUrl?`} component={FingerprintExplained} />
-
+      <Route path={`${path}/check-notebook/:encodedUrl?`} component={CheckNotebook} />
       <Route path={`${path}/release-notes`} component={ReleaseNotes} />
       <Route path={`${path}/faq`} component={Faq} />
       <Route path={`${path}/notebook-viewer/:encodedUrl`} component={NotebookViewer} />
