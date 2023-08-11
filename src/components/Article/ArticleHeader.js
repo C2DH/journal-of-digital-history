@@ -5,7 +5,13 @@ import ArticleCellContent from './ArticleCellContent'
 import ArticleCitation from './ArticleCitation'
 import ArticleKeywords from './ArticleKeywords'
 import LangLink from '../../components/LangLink'
-import { BootstrapColumLayout, ArticleStatusDraft, ArticleStatusPublished } from '../../constants'
+import {
+  BootstrapColumLayout,
+  ArticleStatusDraft,
+  ArticleStatusPublished,
+  BootstrapMainColumLayout,
+  BootstrapSideColumLayout,
+} from '../../constants'
 import '../../styles/components/Article/ArticleHeader.scss'
 
 const ArticleHeader = ({
@@ -38,7 +44,7 @@ const ArticleHeader = ({
   return (
     <Container className={`ArticleHeader ${className}`}>
       <Row>
-        <Col {...BootstrapColumLayout}>
+        <Col {...BootstrapMainColumLayout}>
           {!ignorePublicationStatus && (
             <div className="mb-3">
               {t(`pages.article.status.${publicationStatus}`)}
@@ -66,6 +72,10 @@ const ArticleHeader = ({
               <ArticleCellContent key={i} {...paragraph} hideIdx hideNum />
             ))}
           </div>
+        </Col>
+        <Col className="text-end" {...BootstrapSideColumLayout}>
+          {/* align righ */}
+          <button className="btn btn-secondary btn-sm">Play with code</button>
         </Col>
       </Row>
       <Row>
