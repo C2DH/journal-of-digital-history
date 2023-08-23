@@ -118,6 +118,7 @@ const Article = ({
           headingsPositions={articleTree.headingsPositions}
           hasBibliography={!!articleTree.bibliography}
           binderUrl={binderUrl}
+          plainTitle={plainTitle}
           repositoryUrl={repositoryUrl}
           emailAddress={emailAddress}
           onDataHrefClick={onDataHrefClickHandler}
