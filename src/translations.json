@@ -29,6 +29,7 @@
       "orderBydateDesc": "Sort by publication date, newest to oldest",
       "orderByissue": "Sort by issue",
       "Pages_NotebookViewer_Title": "Jupyter notebook viewer",
+      "playWithCode": "Play with the code",
       "pages": {
         "about": {
           "title": "About the <em>Journal of Digital History</em>",
