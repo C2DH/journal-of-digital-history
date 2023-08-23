@@ -29,6 +29,7 @@ import { useMatomo } from '@jonkoops/matomo-tracker-react'
 import { AcceptAnalyticsCookies, AcceptCookies } from './logic/tracking'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Me from './components/Me'
+import WindowEvents from './components/WindowEvents'
 
 console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___|       \n\n')
 
@@ -252,6 +253,7 @@ export default function App() {
           </main>
           <Footer hideOnRoutes={NotebookPoweredPaths} />
           <ScrollToTop />
+          <WindowEvents />
           <VideoReleaseLazy isMobile={IsMobile} url={process.env.REACT_APP_WIKI_VIDEO_RELEASES} />
         </QueryParamProvider>
       </QueryClientProvider>

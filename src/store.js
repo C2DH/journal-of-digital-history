@@ -28,6 +28,8 @@ export const useArticleToCStore = create((set) => ({
     set(() => ({
       visibleCellsIdx: [...visibleCellsIdx],
     })),
+  selectedCellIdx: -1,
+  setSelectedCellIdx: (selectedCellIdx) => set(() => ({ selectedCellIdx })),
 }))
 
 export const useArticleStore = create((set) => ({
@@ -147,4 +149,13 @@ export const usePropsStore = create((set) => ({
   loadingLabel: '',
   setLoadingProgress: (loadingProgress, loadingLabel = '') =>
     set({ loadingProgress, loadingLabel }),
+}))
+
+export const useWindowStore = create((set) => ({
+  windowWidth: 0,
+  windowHeight: 0,
+  setWindowDimensions: (windowWidth, windowHeight) => set({ windowWidth, windowHeight }),
+  scrollY: 0,
+  scrollX: 0,
+  setScrollPosition: (scrollX, scrollY) => set({ scrollX, scrollY }),
 }))
