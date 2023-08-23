@@ -312,7 +312,13 @@ const ArticleLayer = ({
     }
   }, [isSelected, layer, layers])
 
-  console.debug('[ArticleLayer] rendered: ', layer, '- n. groups:', paragraphsGroups.length)
+  console.debug(
+    '[ArticleLayer] rendered: ',
+    layer,
+    '- n. groups:',
+    paragraphsGroups.length + '\n memoid:',
+    memoid,
+  )
 
   return (
     <a.div
@@ -341,7 +347,7 @@ const ArticleLayer = ({
         const isPlaceholder = firstCellInGroup.layer !== layer
         if (isPlaceholder) {
           return (
-            <React.Fragment key={i}>
+            <React.Fragment key={['pl', memoid, i].join('-')}>
               {paragraphsIndices.map((k) => (
                 <a
                   key={['a', k].join('-')}
@@ -361,12 +367,12 @@ const ArticleLayer = ({
                   <ArticleCellObserver
                     onCellIntersectionChange={onCellIntersectionChange}
                     cell={paragraphs[j]}
-                    key={[i, j].join('-')}
+                    key={['pl', memoid, i, j].join('-')}
                     className="ArticleStream_paragraph"
                   >
                     <ArticleCellPlaceholder
                       onNumClick={onCellPlaceholderNumClickHandler}
-                      memoid={memoid}
+                      memoid={['pl', memoid, i, j].join('-')}
                       {...paragraphs[j]}
                       headingLevel={paragraphs[j].isHeading ? paragraphs[j].heading.level : 0}
                       nums={
@@ -397,7 +403,7 @@ const ArticleLayer = ({
         }
 
         return (
-          <React.Fragment key={i}>
+          <React.Fragment key={[memoid, i].join('-')}>
             {paragraphsIndices.map((j) => {
               const cell = paragraphs[j]
               if (!cell) {
@@ -405,7 +411,7 @@ const ArticleLayer = ({
                 debugger
               }
               return (
-                <React.Fragment key={[i, j].join('-')}>
+                <React.Fragment key={[memoid, i, j].join('-')}>
                   <a className="ArticleLayer_anchor" id={getCellAnchorFromIdx(cell.idx, layer)}></a>
                   <div
                     className="ArticleLayer_paragraphWrapper"
@@ -439,7 +445,7 @@ const ArticleLayer = ({
                       <ArticleCell
                         isJavascriptTrusted={isJavascriptTrusted}
                         onNumClick={onNumClickHandler}
-                        memoid={memoid}
+                        memoid={[memoid, i, j].join('-')}
                         {...cell}
                         num={cell.num}
                         idx={cell.idx}

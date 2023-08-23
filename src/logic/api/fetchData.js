@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
 import AbstractSubmission from '../../models/AbstractSubmission'
 import { StatusIdle, StatusFetching, StatusSuccess, StatusNone } from '../../constants'
@@ -86,17 +86,24 @@ export const useGetJSON = ({
   delay = 0,
   timeout = process.env.REACT_APP_API_TIMEOUT || 0,
   onDownloadProgress,
+  onCompleted,
+  failSilently = false,
 }) => {
   const [enabled, setEnabled] = useState(false)
-  console.debug('[fetchData useGetJSON] url:', url, 'enabled', enabled)
+  console.debug('[fetchData useGetJSON] Request \n - url:', url, '\n - enabled: ', enabled)
   const response = useQuery({
-    queryKey: [url, memoid],
+    queryKey: [url ?? '', memoid],
     queryFn: () =>
       axios
         .get(url, { timeout, onDownloadProgress })
-        .then(({ data }) => data)
+        .then(({ data }) => {
+          console.debug('[fetchData useGetJSON] received data', data.length)
+          return data
+        })
         .catch((err) => {
           console.warn('[fetchData useGetJSON] error on url:', url, ' - error', err)
+          if (failSilently) return null
+          throw err
         }),
     enabled: url !== null && enabled,
   })
@@ -106,7 +113,10 @@ export const useGetJSON = ({
     }
   }, delay)
   if (enabled && process.env.NODE_ENV === 'development') {
-    console.debug('[fetchData useGetJSON] url:', url, 'status', response.status)
+    console.debug('[fetchData useGetJSON] Response \n - url:', url, '\n - status', response.status)
+  }
+  if (typeof onCompleted === 'function' && response.status === 'success') {
+    onCompleted()
   }
   return response
 }

@@ -21,12 +21,13 @@ import Footer from './components/Footer'
 import Cookies from './components/Cookies'
 import ScrollToTop from './components/ScrollToTop'
 import VideoReleaseLazy from './components/VideoRelease/VideoReleaseLazy'
+import PercentLoader from './components/PercentLoader'
 // import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
 import Loading from './pages/Loading'
 import ReactGA from 'react-ga'
 import { useMatomo } from '@jonkoops/matomo-tracker-react'
 import { AcceptAnalyticsCookies, AcceptCookies } from './logic/tracking'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Me from './components/Me'
 
 console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___|       \n\n')
@@ -69,7 +70,7 @@ const Notebook = lazy(() => import('./pages/Notebook'))
 const LocalNotebook = lazy(() => import('./pages/LocalNotebook'))
 const NotebookViewer = lazy(() => import('./pages/NotebookViewer'))
 const NotebookViewerForm = lazy(() => import('./pages/NotebookViewerForm'))
-const Guidelines = lazy(() => import('./pages/Guidelines'))
+const Guidelines = lazy(() => import('./pages/Guidelines.v2'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const ArticleViewer = lazy(() => import('./pages/ArticleViewer'))
 const Fingerprint = lazy(() => import('./pages/Fingerprint'))
@@ -91,7 +92,7 @@ const queryClient = new QueryClient({
       // staleTime: Infinity,
       // retry: false,
       // suspense: false,
-      keepPreviousData: true,
+      // keepPreviousData: true,
       headers: {
         'X-CSRFToken': csrfToken,
       },
@@ -167,7 +168,7 @@ function LangRoutes() {
       </Route>
       <Route exact path={`${path}/playground`} component={Playground} />
       <Route exact path={`${path}/fingerprint`} component={Fingerprint} />
-      <Route exact path={`${path}/guidelines`} component={Guidelines} />
+      <Route exact path={`${path}/guidelines/:notebook?`} component={Guidelines} />
       <Route exact path={`${path}/cfp/:permalink`} component={CallForPapers} />
       <Route path={`${path}*`}>
         <NotFound path={path} />
@@ -240,6 +241,7 @@ export default function App() {
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <QueryParamProvider ReactRouterRoute={Route}>
+          <PercentLoader />
           <Header availableLanguages={LANGUAGES} isAuthDisabled />
           {typeof csrfToken === 'string' && <Me />}
           <Cookies defaultAcceptCookies={AcceptCookies} />

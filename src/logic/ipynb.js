@@ -1,7 +1,5 @@
-import MarkdownIt from 'markdown-it'
 import Cite from 'citation-js'
-import MarkdownItAttrs from '@gerhobbelt/markdown-it-attrs'
-import MarkdownItMathjax from 'markdown-it-mathjax3'
+import { markdownParser } from './markdown'
 // import { groupBy } from 'lodash'
 import ArticleTree from '../models/ArticleTree'
 import ArticleHeading from '../models/ArticleHeading'
@@ -11,10 +9,7 @@ import ArticleReference from '../models/ArticleReference'
 import ArticleFigure from '../models/ArticleFigure'
 import ArticleAnchor from '../models/ArticleAnchor'
 import {
-  SectionChoices,
   SectionDefault,
-  LayerChoices,
-  LayerNarrative, // LayerHermeneuticsStep,
   RoleHidden,
   RoleFigure,
   RoleMetadata,
@@ -35,22 +30,10 @@ import ArticleTreeWarning, {
   ReferenceWarningCode,
 } from '../models/ArticleTreeWarning'
 
+import { getSectionFromCellMetadata, getLayerFromCellMetadata } from './utils'
+
 const encodeNotebookURL = (url) => btoa(encodeURIComponent(url))
 const decodeNotebookURL = (encodedUrl) => decodeURIComponent(atob(encodedUrl))
-
-const markdownParser = MarkdownIt({
-  html: false,
-  linkify: true,
-  typographer: true,
-})
-
-markdownParser.use(MarkdownItAttrs, {
-  // optional, these are default options
-  leftDelimiter: '{',
-  rightDelimiter: '}',
-  allowedAttributes: ['class', 'id'], // empty array = all attributes are allowed
-})
-markdownParser.use(MarkdownItMathjax)
 
 const renderMarkdownWithReferences = ({
   idx = -1,
@@ -157,58 +140,6 @@ const renderMarkdownWithReferences = ({
     })
   return { content, references, warnings }
 }
-
-/**
- * getFirstValidMatchFromChoices
- *
- * This funciton return one and only one valid choice (scalar value) given a list of `choices`
- * and a list of possible candidates (scalar values only)
- *
- * @param {Object} candidates - list of strings, numbers etc..
- * @param {Array} choices - list of possible valid outputs
- * @param {Array} defaultChoice - optional. Section default choice
- * @return {Number|String} - Return one and only one valid value among the choices or the defaultChoice
- */
-const getFirstValidMatchFromChoices = (candidates = [], choiches = [], defaultChoice = null) => {
-  for (let i = 0; i < candidates.length; i++) {
-    if (choiches.includes(candidates[i])) {
-      return candidates[i]
-    }
-  }
-  return defaultChoice
-}
-/**
- * getSectionFromCellMetadata
- *
- * This funciton returns one and only one valid section given a list of `choices`.
- * Cell tags are parsed, but also jdh special metadata section. The
- * jdh.section idea is taken from [ipypublish](https://ipypublish.readthedocs.io/en/latest/metadata_tags.html)
- *
- * @param {Object} metadata - Notebook cell metadata object
- * @return {null|String} - Return one and only one valid section or undefined
- */
-const getSectionFromCellMetadata = (metadata) =>
-  getFirstValidMatchFromChoices(
-    [].concat(metadata.tags, metadata.jdh?.section),
-    SectionChoices,
-    SectionDefault,
-  )
-/**
- * getLayerFromCellMetadata
- *
- * This funciton returns one and only one valid `layer` from the list of `LayerChoices`.
- * Cell tags are parsed, but also jdh special metadata layer. The
- * jdh.layer idea is taken from [ipypublish](https://ipypublish.readthedocs.io/en/latest/metadata_tags.html)
- *
- * @param {Object} metadata - Notebook cell metadata object
- * @return {null|String} - Return one and only one valid section or undefined
- */
-const getLayerFromCellMetadata = (metadata) =>
-  getFirstValidMatchFromChoices(
-    [].concat(metadata.tags, metadata.jdh?.layer),
-    LayerChoices,
-    LayerNarrative,
-  )
 
 const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
   const headings = []

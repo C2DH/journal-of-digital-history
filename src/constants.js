@@ -32,6 +32,7 @@ export const TermsOfUseRoute = { to: '/terms', label: 'navigation.termsOfUse' }
 export const GuidelinesRoute = {
   to: '/guidelines',
   label: 'navigation.guidelines',
+  alias: ['/guidelines/'],
 }
 export const FingerprintExplainedRoute = {
   to: '/fingerprint-explained',
