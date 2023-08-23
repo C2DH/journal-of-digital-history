@@ -1,5 +1,4 @@
 import React, { useMemo, useEffect } from 'react'
-import { useSpring, animated, config } from 'react-spring'
 import { useQueryParams, NumberParam, withDefault } from 'use-query-params'
 import { useGetJSON } from '../logic/api/fetchData'
 import { decodeNotebookURL } from '../logic/ipynb'
@@ -14,6 +13,7 @@ import Article from '../components/Article'
 import ArticleV2 from '../components/ArticleV2'
 import ArticleHeader from '../components/Article/ArticleHeader'
 import ErrorViewer from './ErrorViewer'
+import { usePropsStore } from '../store'
 /**
  * Loading bar inspired by
  * https://codesandbox.io/s/github/pmndrs/react-spring/tree/master/demo/src/sandboxes/animating-auto
@@ -46,7 +46,7 @@ const NotebookViewer = ({
     [ArticleVersionQueryParam]: withDefault(NumberParam, 2),
   })
   const ArticleComponent = version === 2 ? ArticleV2 : Article
-  const [animatedProps, api] = useSpring(() => ({ width: 0, opacity: 1, config: config.slow }))
+  const setLoadingProgress = usePropsStore((state) => state.setLoadingProgress)
 
   const url = useMemo(() => {
     if (!encodedUrl || !encodedUrl.length) {
@@ -71,10 +71,13 @@ const NotebookViewer = ({
     typeof url === 'string' ? URLPathsAlwaysTrustJS.some((d) => url.indexOf(d) === 0) : false
 
   const onDownloadProgress = (e) => {
-    console.debug('[NotebookViewer] onDownloadProgress', e.total, e.loaded)
-    if (e.total && e.loaded) {
+    console.debug('[NotebookViewer] onDownloadProgress url', url, e.total, e.loaded)
+    if (!e.total && e.loaded > 0) {
+      // euristic average zise of a notebook
+      setLoadingProgress(e.loaded / 23810103, url)
+    } else if (e.total && e.loaded) {
       if (e.loaded < e.total) {
-        api.start({ width: (100 * e.loaded) / e.total })
+        setLoadingProgress(e.loaded / e.total, url)
       }
     }
   }
@@ -87,14 +90,11 @@ const NotebookViewer = ({
 
   useEffect(() => {
     if (status === StatusFetching) {
-      api.start({ width: 10, opacity: 1 })
+      setLoadingProgress(0.05, url)
     } else if (status === StatusSuccess) {
-      api.start({ width: 100, opacity: 0 })
+      setLoadingProgress(1, url)
     } else if (status === StatusError) {
-      api.start({
-        width: 0,
-        opacity: 0,
-      })
+      setLoadingProgress(0, url)
     }
   }, [status])
 
@@ -106,23 +106,6 @@ const NotebookViewer = ({
   )
   return (
     <>
-      <div className="NotebookViewer_loadingWrapper position-fixed w-100 top-0 left-0">
-        <animated.div
-          className="NotebookViewer_loading position-absolute"
-          style={{
-            width: animatedProps.width.to((x) => `${x}%`),
-            opacity: animatedProps.opacity,
-          }}
-        />
-        <animated.span
-          className="NotebookViewer_loadingPercentage monospace"
-          style={{
-            opacity: animatedProps.opacity,
-          }}
-        >
-          {animatedProps.width.to((x) => `${Math.round(x * 10000) / 10000}%`)}
-        </animated.span>
-      </div>
       {status === StatusError && <ErrorViewer error={error} errorCode={error.code} />}
       {status === StatusSuccess ? (
         <ArticleComponent
