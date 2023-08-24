@@ -132,7 +132,7 @@ const Article = ({
           hideFigures={hideFigures}
         >
           <ArticleHeader
-            className="page mt-5 pb-0"
+            className="page mt-0 pb-0"
             title={title}
             abstract={abstract}
             keywords={keywords}
@@ -140,6 +140,8 @@ const Article = ({
             contributor={contributor}
             publicationDate={publicationDate}
             url={url}
+            repositoryUrl={repositoryUrl}
+            binderUrl={binderUrl}
             disclaimer={disclaimer}
             publicationStatus={publicationStatus}
             ignorePublicationStatus={ignorePublicationStatus}
