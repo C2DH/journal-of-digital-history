@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react'
-import { useQueryParams, StringParam, NumberParam, withDefault } from 'use-query-params'
-import {
-  DisplayLayerQueryParam,
-  DisplayLayerNarrative,
-  DisplayLayerCellIdxQueryParam,
-} from '../../constants'
+import { useQueryParams, StringParam, withDefault } from 'use-query-params'
+import { DisplayLayerQueryParam, LayerNarrative } from '../../constants'
+import '../../styles/components/Article2/ArticleLayerSwitch.scss'
 
 const ArticleLayerSwitch = ({ layers = [], className = '', onChange }) => {
   const [{ [DisplayLayerQueryParam]: layer }, setQuery] = useQueryParams({
     // [DisplayLayerCellIdxQueryParam]: withDefault(NumberParam, 0),
-    [DisplayLayerQueryParam]: withDefault(StringParam, DisplayLayerNarrative),
+    [DisplayLayerQueryParam]: withDefault(StringParam, LayerNarrative),
   })
   useEffect(() => {
     if (typeof onChange === 'function') {
@@ -18,11 +15,11 @@ const ArticleLayerSwitch = ({ layers = [], className = '', onChange }) => {
   }, [layer])
 
   return (
-    <>
+    <div className={`ArticleLayerSwitch btn-group ${className}`}>
       {layers.map((d, i) => (
-        <div
+        <button
           key={i}
-          className={[className, layer === d ? 'active' : ''].join('')}
+          className={['btn btn-sm btn-outline-secondary', layer === d ? 'active' : ''].join(' ')}
           onClick={() =>
             setQuery({
               [DisplayLayerQueryParam]: d,
@@ -30,9 +27,9 @@ const ArticleLayerSwitch = ({ layers = [], className = '', onChange }) => {
           }
         >
           {d}
-        </div>
+        </button>
       ))}
-    </>
+    </div>
   )
 }
 

@@ -129,7 +129,7 @@ const NotebookViewer = ({
         />
       ) : (
         <ArticleHeader
-          className="page mt-5"
+          className="page mt-2"
           title={title}
           abstract={abstract}
           keywords={keywords}

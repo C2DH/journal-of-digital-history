@@ -132,7 +132,7 @@ const Article = ({
           hideFigures={hideFigures}
         >
           <ArticleHeader
-            className="page mt-5 pb-0"
+            className="page mt-2 pb-0"
             title={title}
             abstract={abstract}
             keywords={keywords}

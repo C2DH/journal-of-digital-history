@@ -16,6 +16,9 @@ import ToCStep from '../ToCStep'
 // import ArticleToCBookmark from './ArticleToCBookmark'
 import ToC from '../ToC'
 import { useBoundingClientRect } from '../../hooks/graphics'
+import ArticleLayerSwitch from './ArticleLayerSwitch'
+import ArticleDataModal from '../Article/ArticleDataModal'
+import ArticleToCTitle from './ArticleToCTitle'
 
 const ArticleToC = ({
   memoid = '',
@@ -24,7 +27,6 @@ const ArticleToC = ({
   headingsPositions = [],
   binderUrl = null,
   repositoryUrl = null,
-  ignoreBinder = false,
   width = 100,
   height = 100,
   hideFigures = false,
@@ -222,129 +224,53 @@ const ArticleToC = ({
   )
   return (
     <>
-      <div className="flex-shrink-1 pb-3 pointer-events-auto text-end">
-        {typeof plainTitle === 'string' && (
-          <h1
-            className="h5 text-dark mb-3 pe-3"
-            style={{ fontSize: '1.25rem', lineHeight: '1.5em' }}
-          >
-            {plainTitle}
-          </h1>
-        )}
-        {layers.length > 1 &&
-          layers.map((d, i) => (
-            <div
-              className={`me-3 ArticleToC_layerSelector ${selectedLayer === d ? 'active' : ''}`}
-              key={i}
-              onClick={() => setQuery({ [DisplayLayerQueryParam]: d })}
-            >
-              {d}
-            </div>
-          ))}
-        {!ignoreBinder && (
-          <p
-            className="text-dark py-2 mb-0 me-5"
-            style={{ fontSize: '10px' }}
-            dangerouslySetInnerHTML={{
-              __html: binderUrl
-                ? t('actions.gotoBinder', { binderUrl })
-                : t('errors.binderUrlNotAvailable'),
-            }}
-          />
-        )}
-        {repositoryUrl !== null && (
-          <p
-            className="text-dark py-2 mb-0 me-5"
-            style={{ fontSize: '10px' }}
-            dangerouslySetInnerHTML={{
-              // change repository url into something simpler, e.g on github
-              __html: t('actions.gotoRepository', {
-                url: repositoryUrl,
-                label: repositoryUrl.replace('https://', ''),
-              }),
-            }}
-          ></p>
-        )}
-      </div>
-      <div
-        ref={toCref}
-        className="flex-grow-1 pointer-events-auto border-bottom border-top border-dark"
-      >
-        <ToC
-          className="position-absolute w-100"
-          visibleHeight={toCHeight - 2}
-          selectedId={selectedCellIdx}
-          steps={steps.map((step) => {
-            if (step.id === selectedCellIdx) {
-              step.isSelected = true
-            }
-            step.active = step.id >= previousHeadingIdx && step.id <= lastVisibleCellIdx
-            return step
-          })}
-          width={width * 0.16}
-          onClick={onStepClickHandler}
-        />
-      </div>
-      {/* <div
-        className="flex-grow-1 ps-2 pt-2 pb-2 mb-2 pointer-events-auto border-bottom border-top border-dark"
-        style={{ overflow: 'scroll' }}
-      >
-        {steps.map((step, i) => {
-          const showBookmark =
-            i < steps.length - 1
-              ? selectedCellIdx >= step.cell.idx && selectedCellIdx < steps[i + 1].cell.idx
-              : false
-          return (
-            <div className="position-relative" key={i}>
-              {showBookmark ? (
-                <ArticleToCBookmark
-                  onClick={onBookmarkClickHandler}
-                  style={{
-                    top:
-                      selectedCellIdx > step.cell.idx
-                        ? '100%'
-                        : selectedCellIdx < step.cell.idx
-                        ? 0
-                        : '50%',
-                  }}
-                />
-              ) : null}
-              <ArticleToCStep
-                width={width * 0.16}
-                cell={step.cell}
-                isSectionStart={step.isSectionStart}
-                isSectionEnd={step.isSectionEnd}
-                isHermeneutics={step.isHermeneutics}
-                onStepClick={onStepClickHandler}
-                selected={step.cell.idx === selectedCellIdx}
-                active={step.cell.idx >= previousHeadingIdx && step.cell.idx <= lastVisibleCellIdx}
-                className={step.isHermeneutics ? 'hermeneutics' : ''}
-              >
-                {step.cell.isHeading
-                  ? step.cell.heading.content
-                  : step.cell.isFigure
-                  ? t(step.cell.figure.tNLabel, { n: step.cell.figure.tNum })
-                  : '(na)'}
-              </ArticleToCStep>
-            </div>
-          )
-        })}
-      </div> */}
-      {hasBibliography && (
-        <div className="flex-shrink-1 ps-2 mb-3">
-          <ToCStep
-            level="H2"
-            label={t('bibliography')}
-            width={width * 0.16}
-            isSectionStart
-            isSectionEnd
-            selected
-            active={false}
-            className=""
-            onClick={(e) => onSectionClickHandler(e, DisplayLayerSectionBibliography)}
-          ></ToCStep>
+      {/* ArticleToCTitle would open / collapse and push the fixed height Toc to the bottom */}
+      <ArticleToCTitle plainTitle={plainTitle}>
+        <div className="me-3 text-end">
+          <ArticleDataModal binderUrl={binderUrl} repositoryUrl={repositoryUrl} />
         </div>
-      )}
+      </ArticleToCTitle>
+      <div style={{ height: 500 }} className="d-flex flex-column position-relative">
+        <div className="flex-shrink-1 pb-3 pointer-events-auto text-end">
+          <div className="me-3">
+            <ArticleLayerSwitch layers={layers} />
+          </div>
+        </div>
+        <div
+          ref={toCref}
+          className="flex-grow-1 pointer-events-auto border-bottom border-top border-dark"
+        >
+          <ToC
+            className="position-absolute w-100"
+            visibleHeight={toCHeight - 2}
+            selectedId={selectedCellIdx}
+            steps={steps.map((step) => {
+              if (step.id === selectedCellIdx) {
+                step.isSelected = true
+              }
+              step.active = step.id >= previousHeadingIdx && step.id <= lastVisibleCellIdx
+              return step
+            })}
+            width={width * 0.16}
+            onClick={onStepClickHandler}
+          />
+        </div>
+        {hasBibliography && (
+          <div className="flex-shrink-1 ps-2 mb-3">
+            <ToCStep
+              level="H2"
+              label={t('bibliography')}
+              width={width * 0.16}
+              isSectionStart
+              isSectionEnd
+              selected
+              active={false}
+              className=""
+              onClick={(e) => onSectionClickHandler(e, DisplayLayerSectionBibliography)}
+            ></ToCStep>
+          </div>
+        )}
+      </div>
     </>
   )
 }
