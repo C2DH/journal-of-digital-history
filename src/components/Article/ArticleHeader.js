@@ -29,6 +29,8 @@ const ArticleHeader = ({
   issue,
   variant,
   url,
+  binderUrl,
+  repositoryUrl,
   bibjson,
   children,
   isPreview = true,
@@ -72,7 +74,7 @@ const ArticleHeader = ({
         >
           <ArticleCitation disabled={isPreview} bibjson={bibjson} />
           <span className="mx-1"></span>
-          <ArticleDataModal url={url} />
+          <ArticleDataModal url={url} binderUrl={binderUrl} repositoryUrl={repositoryUrl} />
         </Col>
       </Row>
       <Row>

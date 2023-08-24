@@ -3,16 +3,16 @@ import { Modal } from 'react-bootstrap'
 import { Code, GitHub } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 
-const ArticleDataModal = ({ url = '' }) => {
+const ArticleDataModal = ({ binderUrl, repositoryUrl, dataverseUrl }) => {
   const { t } = useTranslation()
   const [isVisible, setIsVisible] = React.useState(false)
-  const handleClose = () => setIsVisible(false)
+  // const handleClose = () => setIsVisible(false)
   return (
     <>
       {/* trigger button */}
-      <button className="btn btn-actions btn-sm" onClick={() => setIsVisible(true)}>
+      <button className="btn btn-outline-accent btn-sm" onClick={() => setIsVisible(true)}>
         <Code size={13} />
-        <span className="ms-2">{t('playWithCode')}</span>
+        <span className="ms-2">{t('actions.playWithArticle')}</span>
       </button>
       <Modal
         animation={false}
@@ -25,28 +25,46 @@ const ArticleDataModal = ({ url = '' }) => {
         onHide={() => setIsVisible(false)}
       >
         <Modal.Header closeButton>
-          <Modal.Title id="article-data-modal-title-vcenter">Play with data!</Modal.Title>
+          <Modal.Title id="article-data-modal-title-vcenter">
+            {t('actions.playWithArticle')}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h4>play online</h4>
           <p>
-            blab labllblalb{' '}
-            <a href="github.com" className="btn btn-sm btn-dark-outline">
-              {' '}
-              <GitHub size={12} className="me-2" />
-              gihtub {url}
-            </a>
+            {typeof binderUrl === 'string' && binderUrl.length > 0 ? (
+              <a href={binderUrl} className="btn btn-sm btn-dark-outline">
+                <GitHub size={12} className="me-2" />
+                <span className="ms-2">Open in Binder</span>
+              </a>
+            ) : null}
           </p>
-          <h4>have a look at the dataset</h4>
-          <p>blab labllblalb</p>
-          <h4>play online</h4>
+
+          <p>
+            {typeof repositoryUrl === 'string' && repositoryUrl.length > 0 ? (
+              <a href={repositoryUrl} className="btn btn-sm btn-dark-outline">
+                <GitHub size={12} className="me-2" />
+                <span className="ms-2">Open in GitHub</span>
+              </a>
+            ) : null}
+          </p>
+
+          <p>
+            {typeof dataverseUrl === 'string' && dataverseUrl.length > 0 ? (
+              <a href={repositoryUrl} className="btn btn-sm btn-dark-outline">
+                <GitHub size={12} className="me-2" />
+                <span className="ms-2">browse the dataset in Dataverse </span>
+              </a>
+            ) : (
+              <span className="text-muted">Dataverse not available</span>
+            )}
+          </p>
         </Modal.Body>
 
-        <Modal.Footer>
+        {/* <Modal.Footer>
           <button className="btn btn-sm btn-secondary" onClick={handleClose}>
             Close plugin
           </button>
-        </Modal.Footer>
+        </Modal.Footer> */}
       </Modal>
     </>
   )
