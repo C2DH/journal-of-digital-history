@@ -3,7 +3,7 @@ import { useArticleToCStore } from '../../store'
 import { useSpring, a } from '@react-spring/web'
 import '../../styles/components/Article2/ArticleToCTitle.scss'
 
-function reduceTitleWithEllipsis(title) {
+function reduceTitleWithEllipsis(title = '') {
   const maxTitleLength = 50
   if (title.length > maxTitleLength) {
     return title.slice(0, title.lastIndexOf(' ', maxTitleLength)) + '...'
