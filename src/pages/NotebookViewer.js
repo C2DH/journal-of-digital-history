@@ -35,6 +35,7 @@ const NotebookViewer = ({
   excerpt,
   binderUrl,
   repositoryUrl,
+  dataverseUrl,
   emailAddress,
   issue,
   doi,
@@ -114,6 +115,7 @@ const NotebookViewer = ({
           isLocal={data.content !== 'undefined'}
           binderUrl={binderUrl}
           repositoryUrl={repositoryUrl}
+          dataverseUrl={dataverseUrl}
           emailAddress={emailAddress}
           publicationDate={publicationDate}
           publicationStatus={publicationStatus}

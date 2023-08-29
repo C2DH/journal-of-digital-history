@@ -75,7 +75,7 @@ const ArticleHeader = ({
               url={url}
               binderUrl={binderUrl}
               repositoryUrl={repositoryUrl}
-              dataverseUrl={{ dataverseUrl }}
+              dataverseUrl={dataverseUrl}
             />
           </div>
         </Col>

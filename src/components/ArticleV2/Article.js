@@ -29,6 +29,7 @@ const Article = ({
   doi,
   binderUrl,
   repositoryUrl,
+  dataverseUrl,
   bibjson,
   emailAddress,
   isJavascriptTrusted = false,
@@ -141,6 +142,7 @@ const Article = ({
             publicationDate={publicationDate}
             url={url}
             repositoryUrl={repositoryUrl}
+            dataverseUrl={dataverseUrl}
             binderUrl={binderUrl}
             disclaimer={disclaimer}
             publicationStatus={publicationStatus}
