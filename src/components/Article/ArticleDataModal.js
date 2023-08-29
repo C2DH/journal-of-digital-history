@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal } from 'react-bootstrap'
+import { Col, Container, Modal, Row } from 'react-bootstrap'
 import { Code, GitHub } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 
@@ -30,34 +30,34 @@ const ArticleDataModal = ({ binderUrl, repositoryUrl, dataverseUrl }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>
-            {typeof binderUrl === 'string' && binderUrl.length > 0 ? (
-              <a href={binderUrl} className="btn btn-sm btn-dark-outline">
-                <GitHub size={12} className="me-2" />
-                <span className="ms-2">Open in Binder</span>
-              </a>
-            ) : null}
-          </p>
-
-          <p>
-            {typeof repositoryUrl === 'string' && repositoryUrl.length > 0 ? (
-              <a href={repositoryUrl} className="btn btn-sm btn-dark-outline">
-                <GitHub size={12} className="me-2" />
-                <span className="ms-2">Open in GitHub</span>
-              </a>
-            ) : null}
-          </p>
-
-          <p>
-            {typeof dataverseUrl === 'string' && dataverseUrl.length > 0 ? (
-              <a href={repositoryUrl} className="btn btn-sm btn-dark-outline">
-                <GitHub size={12} className="me-2" />
-                <span className="ms-2">browse the dataset in Dataverse </span>
-              </a>
-            ) : (
-              <span className="text-muted">Dataverse not available</span>
-            )}
-          </p>
+          <Container>
+            {[
+              { url: binderUrl, key: 'Binder' },
+              { url: repositoryUrl, key: 'Repository' },
+              { url: dataverseUrl, key: 'Dataverse' },
+            ]
+              .filter((d) => typeof d.url === 'string' && d.url.length > 0)
+              .map((d, i) => (
+                <Row key={i} className="my-3 ">
+                  <Col
+                    sm={{ span: 7 }}
+                    className="small ps-0"
+                    dangerouslySetInnerHTML={{ __html: t(`openNotebookIn${d.key}Label`) }}
+                  />
+                  <Col className="text-end">
+                    <a
+                      href={d.url}
+                      rel="noreferrer"
+                      target="_blank"
+                      className="btn btn-sm btn-outline-dark px-2 py-0"
+                    >
+                      {d.key === 'Repository' ? <GitHub size={12} className="me-2" /> : null}
+                      <span className="ms-2">{t(`openNotebookIn${d.key}Button`)}</span>
+                    </a>
+                  </Col>
+                </Row>
+              ))}
+          </Container>
         </Modal.Body>
 
         {/* <Modal.Footer>
