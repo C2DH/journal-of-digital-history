@@ -76,7 +76,7 @@ const ArticleToCTitle = ({
 
   return (
     <a.div style={style} ref={ref} className="ArticleToCTitle text-end">
-      <h1 className=" h5 text-dark mb-0 pe-3">{reduceTitleWithEllipsis(plainTitle)}</h1>
+      <h1 className=" h5 text-dark mb-2 pe-3">{reduceTitleWithEllipsis(plainTitle)}</h1>
       {children}
     </a.div>
   )
