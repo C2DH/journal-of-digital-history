@@ -30,6 +30,7 @@ const ArticleHeader = ({
   url,
   binderUrl,
   repositoryUrl,
+  dataverseUrl,
   bibjson,
   children,
   isPreview = true,
@@ -59,17 +60,23 @@ const ArticleHeader = ({
               ) : null}
               <br />
               <b>{publicationDate !== null && publicationDate.getFullYear()}</b>
+              {typeof category === 'string' && (
+                <div className="mb-3">
+                  <em>{t(category)}</em>
+                </div>
+              )}
             </div>
           )}
-          {typeof category === 'string' && (
-            <div className="mb-3">
-              <em>{t(category)}</em>
-            </div>
-          )}
-          <div className="align-items-start d-flex justify-content-end">
+
+          <div className="ArticleHeader_actions ms-2 align-items-start d-flex justify-content-end">
             <ArticleCitation disabled={isPreview} bibjson={bibjson} />
             <span className="mx-1"></span>
-            <ArticleDataModal url={url} binderUrl={binderUrl} repositoryUrl={repositoryUrl} />
+            <ArticleDataModal
+              url={url}
+              binderUrl={binderUrl}
+              repositoryUrl={repositoryUrl}
+              dataverseUrl={{ dataverseUrl }}
+            />
           </div>
         </Col>
       </Row>

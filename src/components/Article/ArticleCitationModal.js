@@ -8,7 +8,7 @@ import '../../styles/components/Article/ArticleCitationModal.scss'
 const ReplaceSpecialChars = (text) => {
   return text.replace(/&#38;quot;/g, '&quot;')
 }
-const ArticleCitationModal = (props) => {
+const ArticleCitationModal = ({ bibjson, ...props }) => {
   const choices = [
     { format: 'bibtex', label: 'bibtex' },
     { format: 'html', template: 'apa', label: 'APA', replaceFn: ReplaceSpecialChars },
@@ -48,7 +48,7 @@ const ArticleCitationModal = (props) => {
         <div className="ArticleCitationModal_field mt-3 position-relative">
           <Citation
             {...choices[value]}
-            bibjson={props.bibjson}
+            bibjson={bibjson}
             className="p-2 rounded all-copy"
             style={{
               backgroundColor: 'var(--gray-400)',
