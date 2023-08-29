@@ -10,8 +10,7 @@ import {
   ArticleStatusDraft,
   ArticleStatusPublished,
   BootstrapMainColumnLayout,
-  BootstrapMainColumnAltLayout,
-  BootstrapSideColumnAltLayout,
+  BootstrapFullColumLayout,
 } from '../../constants'
 import '../../styles/components/Article/ArticleHeader.scss'
 import ArticleDataModal from './ArticleDataModal'
@@ -48,7 +47,7 @@ const ArticleHeader = ({
   return (
     <Container className={`ArticleHeader ${className}`}>
       <Row>
-        <Col {...BootstrapMainColumnAltLayout}>
+        <Col {...BootstrapFullColumLayout} className="d-flex  justify-content-between">
           {!ignorePublicationStatus && (
             <div className="mb-3">
               {t(`pages.article.status.${publicationStatus}`)}
@@ -67,14 +66,11 @@ const ArticleHeader = ({
               <em>{t(category)}</em>
             </div>
           )}
-        </Col>
-        <Col
-          className="align-items-start d-flex justify-content-end"
-          {...BootstrapSideColumnAltLayout}
-        >
-          <ArticleCitation disabled={isPreview} bibjson={bibjson} />
-          <span className="mx-1"></span>
-          <ArticleDataModal url={url} binderUrl={binderUrl} repositoryUrl={repositoryUrl} />
+          <div className="align-items-start d-flex justify-content-end">
+            <ArticleCitation disabled={isPreview} bibjson={bibjson} />
+            <span className="mx-1"></span>
+            <ArticleDataModal url={url} binderUrl={binderUrl} repositoryUrl={repositoryUrl} />
+          </div>
         </Col>
       </Row>
       <Row>

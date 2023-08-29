@@ -32,6 +32,7 @@ const ArticleToC = ({
   hideFigures = false,
   hasBibliography = false,
   plainTitle = null,
+  showData = false,
 }) => {
   const { t } = useTranslation()
   const [{ height: toCHeight }, toCref] = useBoundingClientRect()
@@ -226,9 +227,11 @@ const ArticleToC = ({
     <>
       {/* ArticleToCTitle would open / collapse and push the fixed height Toc to the bottom */}
       <ArticleToCTitle plainTitle={plainTitle}>
-        <div className="me-3 text-end">
-          <ArticleDataModal binderUrl={binderUrl} repositoryUrl={repositoryUrl} />
-        </div>
+        {showData ? (
+          <div className="me-3 text-end">
+            <ArticleDataModal binderUrl={binderUrl} repositoryUrl={repositoryUrl} />
+          </div>
+        ) : null}
       </ArticleToCTitle>
       <div style={{ height: 500 }} className="d-flex flex-column position-relative">
         <div className="flex-shrink-1 pb-3 pointer-events-auto text-end">

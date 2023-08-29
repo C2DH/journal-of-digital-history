@@ -1,2 +1,11 @@
-.ArticleLayerSwitch {
+.ArticleLayerSwitch button {
+}
+// for media screen smaller than bootstrap lg, reduce the text
+@media (max-width: 1199px) {
+  .ArticleLayerSwitch button {
+    max-width: 45%;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
 }

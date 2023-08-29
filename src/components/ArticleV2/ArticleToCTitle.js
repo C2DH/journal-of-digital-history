@@ -75,10 +75,10 @@ const ArticleToCTitle = ({
   )
 
   return (
-    <a.h1 style={style} ref={ref} className="ArticleToCTitle text-end">
+    <a.div style={style} ref={ref} className="ArticleToCTitle text-end">
       <h1 className=" h5 text-dark mb-0 pe-3">{reduceTitleWithEllipsis(plainTitle)}</h1>
       {children}
-    </a.h1>
+    </a.div>
   )
 }
 
