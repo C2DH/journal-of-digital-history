@@ -5,7 +5,7 @@ import '../../styles/components/Article2/ArticleToCTitle.scss'
 
 function reduceTitleWithEllipsis(title = '') {
   const maxTitleLength = 50
-  if (title.length > maxTitleLength) {
+  if (typeof title === 'string' && title.length > maxTitleLength) {
     return title.slice(0, title.lastIndexOf(' ', maxTitleLength)) + '...'
   }
   return title
