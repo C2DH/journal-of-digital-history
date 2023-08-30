@@ -26,7 +26,7 @@ const ArticleDataModal = ({ binderUrl, repositoryUrl, dataverseUrl }) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="article-data-modal-title-vcenter">
-            {t('actions.playWithArticle')}
+            <b>{t('actions.playWithArticle')}</b>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
