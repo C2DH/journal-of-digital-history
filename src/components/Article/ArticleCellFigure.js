@@ -81,9 +81,9 @@ const ArticleCellFigure = ({
     [figure.idx],
   )
 
-  if (Array.isArray(metadata.jdh?.object?.source)) {
-    captions.push(markdownParser.render(metadata.jdh.object.source.join('\n')))
-  }
+  // if (Array.isArray(metadata.jdh?.object?.source)) {
+  //   captions.push(markdownParser.render(metadata.jdh.object.source.join('\n')))
+  // }
 
   let columnLayout =
     figureColumnLayout ??

@@ -81,7 +81,7 @@ const ArticleFlow = ({
         className={styles.tocWrapper}
         style={{
           top: tocOffset,
-          height: IsMobile ? height : height - tocOffset - tocOffsetBottom,
+          height: IsMobile ? height : height - tocOffset - tocOffsetBottom - 100,
         }}
       >
         {!IsMobile && (
@@ -94,7 +94,7 @@ const ArticleFlow = ({
             paragraphs={paragraphs}
             headingsPositions={headingsPositions}
             width={width}
-            height={height}
+            height={height - 100}
             hasBibliography={hasBibliography}
             hideFigures={hideFigures}
             plainTitle={plainTitle}

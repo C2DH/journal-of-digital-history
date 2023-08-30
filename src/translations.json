@@ -29,6 +29,12 @@
       "orderBydateDesc": "Sort by publication date, newest to oldest",
       "orderByissue": "Sort by issue",
       "Pages_NotebookViewer_Title": "Jupyter notebook viewer",
+      "openNotebookInBinderLabel": "<b>Live interaction</b> &mdash; run notebooks in your browser, no installation needed!",
+      "openNotebookInBinderButton": "Launch",
+      "openNotebookInRepositoryLabel": "<b>Play with the code</b> &mdash; Clone the repository from Github and open in Jupyter, locally",
+      "openNotebookInRepositoryButton": "Open in Github",
+      "openNotebookInDataverseLabel": "<b>Explore the datasets</b> &mdash; dive deeper into the article data",
+      "openNotebookInDataverseButton": "Open in Dataverse",
       "pages": {
         "about": {
           "title": "About the <em>Journal of Digital History</em>",
@@ -165,6 +171,8 @@
         }
       },
       "actions": {
+        "cite": "Cite",
+        "playWithArticle": "Play with the article",
         "logout": "(log out)",
         "submit": "Submit your Contribution",
         "addLink": "Add Link",
@@ -177,6 +185,11 @@
         "showsourceCode": "show source code",
         "hideShadowLayer": "collapse",
         "showShadowLayer": "show",
+        "switchLayer": {
+          "narrative": "switch to narrative layer",
+          "hermeneutics": "switch to hermeneutic layer",
+          "data": "switch to data layer"
+        },
         "mailtoAuthors": "<a href='mailto:{{emailAddress}}' target='_blank' rel='noreferrer'>Contact the authors</a> to get full access to the data behind the notebook",
         "gotoBinder": "Use this notebook:<br/><a target='_blank' rel='noreferrer' href='{{binderUrl}}'><img src='https://mybinder.org/static/images/badge_logo.svg'/></a>",
         "gotoRepository": "Play with this notebook on <a href=\"{{url}}\" target=\"_blank\">{{label}}</a>"
