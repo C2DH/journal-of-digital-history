@@ -49,9 +49,15 @@ const ArticleDataModal = ({ binderUrl, repositoryUrl, dataverseUrl }) => {
                       href={d.url}
                       rel="noreferrer"
                       target="_blank"
-                      className="btn btn-sm btn-outline-dark px-2 py-0"
+                      className="btn btn-sm btn-outline-dark px-1 py-0 d-flex-inline align-items-center"
                     >
-                      {d.key === 'Repository' ? <GitHub size={12} className="me-2" /> : null}
+                      {d.key === 'Repository' ? <GitHub size={12} /> : null}
+                      {d.key === 'Binder' ? (
+                        <img
+                          style={{ height: 18 }}
+                          src={process.env.REACT_APP_LAUNCH_BINDER_BADGE_URL}
+                        />
+                      ) : null}
                       <span className="ms-2">{t(`openNotebookIn${d.key}Button`)}</span>
                     </a>
                   </Col>
