@@ -1,7 +1,7 @@
 import React from 'react'
-import ArticleFigure from '../../models/ArticleFigure'
-import ArticleCellContent from './ArticleCellContent'
-import ArticleCellFigure from './ArticleCellFigure'
+import ArticleFigure from '../models/ArticleFigure'
+import ArticleCellContent from '../components/Article/ArticleCellContent'
+import ArticleCellFigure from '../components/Article/ArticleCellFigure'
 
 // Stories for hoks and methds, following Josh Farrant https://farrant.me/posts/documenting-react-hooks-with-storybook
 // accessed 04 01 2023
