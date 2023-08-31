@@ -30,7 +30,7 @@
       "orderByissue": "Sort by issue",
       "Pages_NotebookViewer_Title": "Jupyter notebook viewer",
       "openNotebookInBinderLabel": "<b>Live interaction</b> &mdash; run notebooks in your browser, no installation needed!",
-      "openNotebookInBinderButton": "Launch",
+      "openNotebookInBinderButton": "Open in Binder",
       "openNotebookInRepositoryLabel": "<b>Play with the code</b> &mdash; Clone the repository from Github and open in Jupyter, locally",
       "openNotebookInRepositoryButton": "Open in Github",
       "openNotebookInDataverseLabel": "<b>Explore the datasets</b> &mdash; dive deeper into the article data",
