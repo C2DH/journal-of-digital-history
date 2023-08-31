@@ -104,6 +104,10 @@ const ArticleViewer = ({
     keywords,
     '\n - repository_url:',
     article.repository_url,
+    '\n - binder_url:',
+    article.binder_url,
+    '\n - dataverse_url:',
+    article.dataverse_url,
   )
   return (
     <NotebookViewer
@@ -120,6 +124,7 @@ const ArticleViewer = ({
       publicationDate={new Date(article.issue?.publication_date)}
       binderUrl={article.binder_url}
       repositoryUrl={article.repository_url}
+      dataverseUrl={article.dataverse_url}
       emailAddress={article.abstract?.contact_email}
       doi={article.doi}
       issue={article.issue}

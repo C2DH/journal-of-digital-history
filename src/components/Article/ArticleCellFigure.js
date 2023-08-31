@@ -5,14 +5,6 @@ import { markdownParser } from '../../logic/ipynb'
 import { BootstrapColumLayout } from '../../constants'
 import { Container, Row, Col } from 'react-bootstrap'
 import '../../styles/components/Article/ArticleCellFigure.scss'
-// import LazyFigure from '../LazyFigure'
-// const ArticleCellFigure = ({ outputs }) => {
-//   return (
-//     <Container fluid className="article-cell-figure">
-//       <pre>{JSON.stringify(outputs, null, 2)}</pre>
-//     </Container>
-//   )
-// }
 
 const ArticleCellFigure = ({
   figure,
@@ -55,15 +47,19 @@ const ArticleCellFigure = ({
         return m[1]
       }, Math.max(200, windowHeight * 0.5))
 
+  /**
+   * useMemo hook that processes the outputs of an article figure to extract captions, pictures and other outputs.
+   * It checks if a caption has been added to the cell metadata.
+   * */
   const { captions, pictures, otherOutputs } = useMemo(
     () =>
-      outputs.reduce(
+      [{ metadata }].concat(outputs).reduce(
         (acc, output = {}) => {
           if (output.metadata && Array.isArray(output.metadata?.jdh?.object?.source)) {
             // look for catpions in the outputs metadata
             acc.captions.push(markdownParser.render(output.metadata.jdh.object.source.join('\n')))
           }
-          const mimetypes = Object.keys(output.data ?? {})
+          const mimetypes = Object.keys(output.data ?? [])
           const mimetype = mimetypes.find((d) => d.indexOf('image/') === 0)
           if (mimetype) {
             acc.pictures.push({
@@ -81,25 +77,14 @@ const ArticleCellFigure = ({
     [figure.idx],
   )
 
-  if (Array.isArray(metadata.jdh?.object?.source)) {
-    captions.push(markdownParser.render(metadata.jdh.object.source.join('\n')))
-  }
-
   let columnLayout =
     figureColumnLayout ??
     outputs.reduce((acc, output) => {
-      if (output.metadata && output.metadata.jdh?.object?.bootstrapColumLayout) {
+      if (output.metadata?.jdh?.object?.bootstrapColumLayout) {
         acc = { acc, ...output.metadata.jdh?.object?.bootstrapColumLayout }
       }
       return acc
     }, BootstrapColumLayout)
-
-  if (metadata.jdh?.object?.bootstrapColumLayout) {
-    figureColumnLayout = {
-      ...figureColumnLayout,
-      ...metadata.jdh?.object?.bootstrapColumLayout,
-    }
-  }
 
   console.debug(
     '[ArticleCellFigure] \n - idx:',
@@ -112,6 +97,7 @@ const ArticleCellFigure = ({
     pictures.length,
     '\n - active:',
     active,
+    captions,
   )
 
   return (

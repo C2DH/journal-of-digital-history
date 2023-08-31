@@ -29,6 +29,7 @@ const Article = ({
   doi,
   binderUrl,
   repositoryUrl,
+  dataverseUrl,
   bibjson,
   emailAddress,
   isJavascriptTrusted = false,
@@ -118,6 +119,7 @@ const Article = ({
           headingsPositions={articleTree.headingsPositions}
           hasBibliography={!!articleTree.bibliography}
           binderUrl={binderUrl}
+          plainTitle={plainTitle}
           repositoryUrl={repositoryUrl}
           emailAddress={emailAddress}
           onDataHrefClick={onDataHrefClickHandler}
@@ -131,7 +133,7 @@ const Article = ({
           hideFigures={hideFigures}
         >
           <ArticleHeader
-            className="page mt-5 pb-0"
+            className="page mt-2 pb-0"
             title={title}
             abstract={abstract}
             keywords={keywords}
@@ -139,6 +141,9 @@ const Article = ({
             contributor={contributor}
             publicationDate={publicationDate}
             url={url}
+            repositoryUrl={repositoryUrl}
+            dataverseUrl={dataverseUrl}
+            binderUrl={binderUrl}
             disclaimer={disclaimer}
             publicationStatus={publicationStatus}
             ignorePublicationStatus={ignorePublicationStatus}
