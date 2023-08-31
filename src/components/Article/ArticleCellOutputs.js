@@ -5,7 +5,7 @@ const ArticleCellOutputsAsIframe = React.lazy(() => import('./ArticleCellOutputs
 const ArticleCellJavascriptOutputs = React.lazy(() => import('./ArticleCellJavascriptOutputs'))
 
 const SupportedVndMimeTypes = [
-  'application/vnd.plotly.v1+json',
+  // 'application/vnd.plotly.v1+json',
   'application/vnd.vega.v4+json',
   'application/vnd.vegalite.v2+json',
 ]

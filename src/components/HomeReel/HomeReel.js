@@ -9,10 +9,7 @@ import '../../styles/components/HomeReel.scss'
 const Forward = 1
 const Backward = 0
 
-const HomeReel = ({
-  height=180,
-  delay=1500
-}) => {
+const HomeReel = ({ height = 180, delay = 1500 }) => {
   const [{ width, left }, ref] = useBoundingClientRect()
   const sliderTimer = useRef(null)
   const sliderDirection = useRef(1)
@@ -20,37 +17,42 @@ const HomeReel = ({
   // load items
   const { data, status, error } = useGetRawContents({
     url: process.env.REACT_APP_GITHUB_WIKI_NEWS,
-    raw: true
+    raw: true,
   })
   let items = []
-  if(status === StatusSuccess) {
+  if (status === StatusSuccess) {
     try {
       items = JSON.parse(data.match(/```json([^`]*)```/)[1])
-      console.debug('[HomeReel] items loaded:', items.length, '\n from:', process.env.REACT_APP_GITHUB_WIKI_NEWS)
+      console.debug(
+        '[HomeReel] items loaded:',
+        items.length,
+        '\n from:',
+        process.env.REACT_APP_GITHUB_WIKI_NEWS,
+      )
       if (window.location.protocol !== 'http:') {
         items = items.filter(({ draft }) => !draft)
       }
     } catch (err) {
       if (err instanceof SyntaxError) {
         console.warn(
-          '[HomeReel] SyntaxError in JSON. Couldn\'t load items from',
-            process.env.REACT_APP_GITHUB_WIKI_NEWS,
-            data,
-            err
+          "[HomeReel] SyntaxError in JSON. Couldn't load items from",
+          process.env.REACT_APP_GITHUB_WIKI_NEWS,
+          data,
+          err,
         )
       } else {
         console.warn(
-          '[HomeReel] Couldn\'t load items from',
+          "[HomeReel] Couldn't load items from",
           process.env.REACT_APP_GITHUB_WIKI_NEWS,
-          err
+          err,
         )
       }
     }
   } else if (error) {
     console.warn(
-      '[HomeReel] Couldn\'t load items from',
+      "[HomeReel] Couldn't load items from",
       process.env.REACT_APP_GITHUB_WIKI_NEWS,
-      error
+      error,
     )
   }
 
@@ -60,13 +62,13 @@ const HomeReel = ({
     }
   }
 
-  const onInitHandler = (args) => {
-    console.debug('[HomeReel] @onInitHandler', args)
+  const onInitHandler = () => {
+    // console.debug('[HomeReel] @onInitHandler', args)
     // stat timer
     playInfiniteSwingingTimer()
   }
   const stopInfiniteSwingingTimer = () => {
-    console.debug('[HomeReel] .stopInfiniteSwingingTimer')
+    // console.debug('[HomeReel] .stopInfiniteSwingingTimer')
     clearTimeout(sliderTimer.current)
   }
   const playInfiniteSwingingTimer = () => {
@@ -75,11 +77,11 @@ const HomeReel = ({
       sliderTimer.current = setTimeout(playInfiniteSwingingTimer, 100)
       return
     }
-    console.debug('[HomeReel] .playInfiniteSwingingTimer() scheduled.')
+    // console.debug('[HomeReel] .playInfiniteSwingingTimer() scheduled.')
     sliderTimer.current = setTimeout(() => {
       const idx = slider.current.innerSlider.state.currentSlide
       const l = slider.current.innerSlider.state.slideCount
-      console.debug('[HomeReel] .playInfiniteSwingingTimer() current:', idx, l, sliderDirection.current)
+      // console.debug('[HomeReel] .playInfiniteSwingingTimer() current:', idx, l, sliderDirection.current)
 
       if (sliderDirection.current === Forward) {
         if (idx + 1 < l) {
@@ -109,17 +111,13 @@ const HomeReel = ({
   }, [])
 
   return (
-    <div className="HomeReel position-relative"
-      ref={ref} style={{height}}>
+    <div className="HomeReel position-relative" ref={ref} style={{ height }}>
       {width > 0 && items.length === 1 && (
-        <HomeReelItem
-          width={width}
-          height={height}
-          item={items[0]}
-        />
+        <HomeReelItem width={width} height={height} item={items[0]} />
       )}
       {width > 0 && items.length > 1 && (
-        <div className="HomeReel_rail position-absolute"
+        <div
+          className="HomeReel_rail position-absolute"
           onMouseEnter={stopInfiniteSwingingTimer}
           onMouseLeave={playInfiniteSwingingTimer}
           style={{
@@ -127,7 +125,7 @@ const HomeReel = ({
             left: -left,
             right: -left,
             height,
-            paddingTop: 'var(--spacer-2)'
+            paddingTop: 'var(--spacer-2)',
           }}
         >
           <Slider

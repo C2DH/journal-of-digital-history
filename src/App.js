@@ -21,13 +21,15 @@ import Footer from './components/Footer'
 import Cookies from './components/Cookies'
 import ScrollToTop from './components/ScrollToTop'
 import VideoReleaseLazy from './components/VideoRelease/VideoReleaseLazy'
+import PercentLoader from './components/PercentLoader'
 // import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
 import Loading from './pages/Loading'
 import ReactGA from 'react-ga'
 import { useMatomo } from '@jonkoops/matomo-tracker-react'
 import { AcceptAnalyticsCookies, AcceptCookies } from './logic/tracking'
-import { QueryClient, QueryClientProvider } from 'react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Me from './components/Me'
+import WindowEvents from './components/WindowEvents'
 
 console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___|       \n\n')
 
@@ -91,7 +93,7 @@ const queryClient = new QueryClient({
       // staleTime: Infinity,
       // retry: false,
       // suspense: false,
-      keepPreviousData: true,
+      // keepPreviousData: true,
       headers: {
         'X-CSRFToken': csrfToken,
       },
@@ -240,6 +242,7 @@ export default function App() {
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <QueryParamProvider ReactRouterRoute={Route}>
+          <PercentLoader />
           <Header availableLanguages={LANGUAGES} isAuthDisabled />
           {typeof csrfToken === 'string' && <Me />}
           <Cookies defaultAcceptCookies={AcceptCookies} />
@@ -250,6 +253,7 @@ export default function App() {
           </main>
           <Footer hideOnRoutes={NotebookPoweredPaths} />
           <ScrollToTop />
+          <WindowEvents />
           <VideoReleaseLazy isMobile={IsMobile} url={process.env.REACT_APP_WIKI_VIDEO_RELEASES} />
         </QueryParamProvider>
       </QueryClientProvider>

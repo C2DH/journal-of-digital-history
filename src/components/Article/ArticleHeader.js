@@ -5,8 +5,15 @@ import ArticleCellContent from './ArticleCellContent'
 import ArticleCitation from './ArticleCitation'
 import ArticleKeywords from './ArticleKeywords'
 import LangLink from '../../components/LangLink'
-import { BootstrapColumLayout, ArticleStatusDraft, ArticleStatusPublished } from '../../constants'
+import {
+  BootstrapColumLayout,
+  ArticleStatusDraft,
+  ArticleStatusPublished,
+  BootstrapMainColumnLayout,
+  BootstrapFullColumLayout,
+} from '../../constants'
 import '../../styles/components/Article/ArticleHeader.scss'
+import ArticleDataModal from './ArticleDataModal'
 
 const ArticleHeader = ({
   title = [],
@@ -21,6 +28,9 @@ const ArticleHeader = ({
   issue,
   variant,
   url,
+  binderUrl,
+  repositoryUrl,
+  dataverseUrl,
   bibjson,
   children,
   isPreview = true,
@@ -38,7 +48,7 @@ const ArticleHeader = ({
   return (
     <Container className={`ArticleHeader ${className}`}>
       <Row>
-        <Col {...BootstrapColumLayout}>
+        <Col {...BootstrapFullColumLayout} className="d-flex  justify-content-between">
           {!ignorePublicationStatus && (
             <div className="mb-3">
               {t(`pages.article.status.${publicationStatus}`)}
@@ -50,13 +60,28 @@ const ArticleHeader = ({
               ) : null}
               <br />
               <b>{publicationDate !== null && publicationDate.getFullYear()}</b>
+              {typeof category === 'string' && (
+                <div className="mb-3">
+                  <em>{t(category)}</em>
+                </div>
+              )}
             </div>
           )}
-          {typeof category === 'string' && (
-            <div className="mb-3">
-              <em>{t(category)}</em>
-            </div>
-          )}
+
+          <div className="ArticleHeader_actions ms-2 align-items-start d-flex justify-content-end">
+            <ArticleCitation disabled={isPreview} bibjson={bibjson} />
+            <span className="mx-1"></span>
+            <ArticleDataModal
+              url={url}
+              binderUrl={binderUrl}
+              repositoryUrl={repositoryUrl}
+              dataverseUrl={dataverseUrl}
+            />
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col {...BootstrapMainColumnLayout}>
           <div
             className={`ArticleHeader_title ${
               ignorePublicationStatus ? 'mb-3' : 'my-3'
@@ -91,7 +116,7 @@ const ArticleHeader = ({
           <Col {...BootstrapColumLayout}>
             <h3>{t('pages.article.abstract')}</h3>
             <ArticleKeywords keywords={keywordsCleaned} />
-            <ArticleCitation disabled={isPreview} bibjson={bibjson} className="my-4 w-100" />
+
             <div className="ArticleHeader_abstract">
               {abstract.map((paragraph, i) => (
                 <ArticleCellContent key={i} {...paragraph} hideIdx hideNum />
