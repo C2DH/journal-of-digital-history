@@ -1,7 +1,10 @@
 import React from 'react'
 import { Col, Container, Modal, Row } from 'react-bootstrap'
-import { Code, GitHub } from 'react-feather'
+import { Code } from 'react-feather'
 import { useTranslation } from 'react-i18next'
+import GithubLogo from '../../assets/images/github.ico'
+import BinderLogo from '../../assets/images/mybinder.ico'
+import DataverseLogo from '../../assets/images/dataverse.ico'
 
 const ArticleDataModal = ({ binderUrl, repositoryUrl, dataverseUrl }) => {
   const { t } = useTranslation()
@@ -32,9 +35,9 @@ const ArticleDataModal = ({ binderUrl, repositoryUrl, dataverseUrl }) => {
         <Modal.Body>
           <Container>
             {[
-              { url: binderUrl, key: 'Binder' },
-              { url: repositoryUrl, key: 'Repository' },
-              { url: dataverseUrl, key: 'Dataverse' },
+              { url: binderUrl, key: 'Binder', img: BinderLogo },
+              { url: repositoryUrl, key: 'Repository', img: GithubLogo },
+              { url: dataverseUrl, key: 'Dataverse', img: DataverseLogo },
             ]
               .filter((d) => typeof d.url === 'string' && d.url.length > 0)
               .map((d, i) => (
@@ -51,13 +54,7 @@ const ArticleDataModal = ({ binderUrl, repositoryUrl, dataverseUrl }) => {
                       target="_blank"
                       className="btn btn-sm btn-outline-dark px-1 py-0 d-flex-inline align-items-center"
                     >
-                      {d.key === 'Repository' ? <GitHub size={12} /> : null}
-                      {d.key === 'Binder' ? (
-                        <img
-                          style={{ height: 18 }}
-                          src={process.env.REACT_APP_LAUNCH_BINDER_BADGE_URL}
-                        />
-                      ) : null}
+                      <img style={{ height: 15 }} src={d.img} />
                       <span className="ms-2">{t(`openNotebookIn${d.key}Button`)}</span>
                     </a>
                   </Col>
