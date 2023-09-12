@@ -10,6 +10,10 @@ import { useWindowStore } from '../store'
  * @returns {Object} - An object containing the window dimensions and scroll position.
  */
 const WindowEvents = ({ debounceTime = 150, debounceResize = true, debounceScroll = true }) => {
+  const { setWindowDimensions, setScrollPosition } = useWindowStore((state) => ({
+    setWindowDimensions: state.setWindowDimensions,
+    setScrollPosition: state.setScrollPosition,
+  }))
   /**
    * This React component reacts to window resize event and scrolling event. it implements debounce to prevent too many calls for both events and store the results in the useWindowStore.
    */
@@ -22,7 +26,7 @@ const WindowEvents = ({ debounceTime = 150, debounceResize = true, debounceScrol
         '\n - window.innerHeight',
         window.innerHeight,
       )
-      useWindowStore.setWindowDimensions(window.innerWidth, window.innerHeight)
+      setWindowDimensions(window.innerWidth, window.innerHeight)
     }, debounceTime)
     const handleScroll = debounce(() => {
       console.debug(
@@ -32,20 +36,20 @@ const WindowEvents = ({ debounceTime = 150, debounceResize = true, debounceScrol
         '\n - window.scrollY',
         window.scrollY,
       )
-      useWindowStore.setScrollPosition(window.scrollX, window.scrollY)
+      setScrollPosition(window.scrollX, window.scrollY)
     }, debounceTime)
     if (debounceResize) {
       window.addEventListener('resize', handleResize)
     } else {
       window.addEventListener('resize', () => {
-        useWindowStore.setWindowDimensions(window.innerWidth, window.innerHeight)
+        setWindowDimensions(window.innerWidth, window.innerHeight)
       })
     }
     if (debounceScroll) {
       window.addEventListener('scroll', handleScroll)
     } else {
       window.addEventListener('scroll', () => {
-        useWindowStore.setScrollPosition(window.scrollX, window.scrollY)
+        setScrollPosition(window.scrollX, window.scrollY)
       })
     }
     return () => {
