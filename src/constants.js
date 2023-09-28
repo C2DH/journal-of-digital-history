@@ -203,15 +203,17 @@ export const DialogRefPrefix = 'dialog-'
 export const SoundRefPrefix = 'sound-'
 export const VideoRefPrefix = 'video-'
 export const AnchorRefPrefix = 'anchor-'
-export const AvailableRefPrefixes = [
+export const GalleryRefPrefix = 'gallery-'
+export const AvailableFigureRefPrefixes = [
   FigureRefPrefix,
   TableRefPrefix,
   QuoteRefPrefix,
   DialogRefPrefix,
   SoundRefPrefix,
   VideoRefPrefix,
-  AnchorRefPrefix,
+  GalleryRefPrefix,
 ]
+export const AvailableRefPrefixes = AvailableFigureRefPrefixes.concat([AnchorRefPrefix])
 
 // display Layer to enable switch between layers
 export const DisplayLayerHermeneutics = 'h'

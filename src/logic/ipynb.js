@@ -6,8 +6,6 @@ import ArticleHeading from '../models/ArticleHeading'
 import ArticleCell from '../models/ArticleCell'
 // import ArticleCellGroup from '../models/ArticleCellGroup'
 import ArticleReference from '../models/ArticleReference'
-import ArticleFigure from '../models/ArticleFigure'
-import ArticleAnchor from '../models/ArticleAnchor'
 import {
   SectionDefault,
   RoleHidden,
@@ -15,17 +13,11 @@ import {
   RoleMetadata,
   RoleCitation,
   RoleDefault,
-  RoleQuote,
   CellTypeMarkdown,
   CellTypeCode,
-  FigureRefPrefix,
-  TableRefPrefix,
-  CoverRefPrefix,
-  QuoteRefPrefix,
   AnchorRefPrefix,
   AvailableRefPrefixes,
-  DialogRefPrefix,
-  SoundRefPrefix,
+  AvailableFigureRefPrefixes,
 } from '../constants'
 import ArticleTreeWarning, {
   FigureAnchorWarningCode,
@@ -33,7 +25,12 @@ import ArticleTreeWarning, {
   ReferenceWarningCode,
 } from '../models/ArticleTreeWarning'
 
-import { getSectionFromCellMetadata, getLayerFromCellMetadata } from './utils'
+import {
+  getSectionFromCellMetadata,
+  getLayerFromCellMetadata,
+  getFigureFromCell,
+  getAnchorFromCell,
+} from './utils'
 
 const encodeNotebookURL = (url) => btoa(encodeURIComponent(url))
 const decodeNotebookURL = (encodedUrl) => decodeURIComponent(atob(encodedUrl))
@@ -154,13 +151,16 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
   const anchors = []
   const sectionsIndex = {}
   const warnings = []
+  // this contain footnotes => zotero id to remap reference at paragraph level
+  const referenceIndex = {}
+  let bibliography = null
   let citationsFromMetadata = metadata?.cite2c?.citations
-  let tableAutonumbering = 0
-  let figureAutonumbering = 0
+  // initialize figure numbering using constants/AvailableFigureRefPrefixes
+  const figureNumberingByRefPrefix = AvailableFigureRefPrefixes.reduce((acc, prefix) => {
+    acc[prefix] = 0
+    return acc
+  }, {})
   let paragraphNumber = 0
-  let soundAutoNumbering = 0
-  let dialogAutoNumbering = 0
-
   // parse citations
   if (citationsFromMetadata) {
     // if one of the key is named "udefined" (sic)
@@ -187,10 +187,7 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
       return acc
     }, {})
   }
-  // this contain footnotes => zotero id to remap reference at paragraph level
-  const referenceIndex = {}
-  //
-  let bibliography = null
+
   // parse biobliographic elements
   if (citationsFromMetadata instanceof Object) {
     bibliography = new Cite(Object.values(citationsFromMetadata).filter((d) => d))
@@ -199,45 +196,31 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
   // cycle through notebook cells to fill ArticleCells, figures, headings
   cells
     .map((cell, idx) => {
-      const sources = Array.isArray(cell.source) ? cell.source.join('\n') : cell.source
-      // find footnote citations (with the number)
-      const footnote = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
-
-      let coverRef = null
-      let figureRef = null
-      let tableRef = null
-      let quoteRef = null
-      let anchorRef = null
-      let soundRef = null
-      let dialogRef = null
-
-      cell.metadata.tags.forEach((d) => {
-        if (d.indexOf(CoverRefPrefix) === 0) {
-          coverRef = d
-        } else if (d.indexOf(FigureRefPrefix) === 0) {
-          figureRef = d
-        } else if (d.indexOf(TableRefPrefix) === 0) {
-          tableRef = d
-        } else if (d.indexOf(QuoteRefPrefix) === 0) {
-          quoteRef = d
-        } else if (d.indexOf(AnchorRefPrefix) === 0) {
-          anchorRef = d
-        } else if (d.indexOf(DialogRefPrefix) === 0) {
-          dialogRef = d
-        } else if (d.indexOf(SoundRefPrefix) === 0) {
-          soundRef = d
-        }
-      })
-      // get section and layer from metadata
+      cell.idx = idx
+      // get section and layer from cell metadata
       cell.section = getSectionFromCellMetadata(cell.metadata)
       cell.layer = getLayerFromCellMetadata(cell.metadata)
       cell.role = RoleDefault
-      // get role in a secont step
-      if (
-        sources.length === 0 ||
-        cell.metadata.tags?.includes('hidden') ||
-        cell.metadata.jdh?.hidden
-      ) {
+
+      const sources = Array.isArray(cell.source) ? cell.source.join('\n') : cell.source
+      // find footnote citations (with the number)
+      const footnote = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
+      const figure = getFigureFromCell(cell, AvailableFigureRefPrefixes)
+      const anchor = getAnchorFromCell(cell, [AnchorRefPrefix])
+      const isHidden =
+        sources.length === 0 || cell.metadata.tags?.includes('hidden') || cell.metadata.jdh?.hidden
+
+      if (figure) {
+        // update global index of figure numbering for this specific prefix and forward it to the figure
+        figureNumberingByRefPrefix[figure.refPrefix] += 1
+        figure.setNum(+figureNumberingByRefPrefix[figure.refPrefix])
+        figures.push(figure)
+        cell.figure = figure
+        cell.role = RoleFigure
+      } else if (anchor) {
+        cell.anchor = anchor
+        anchors.push(anchor)
+      } else if (isHidden) {
         // is hidden (e.g. uninteresting code, like pip install)
         cell.hidden = true
         cell.role = RoleHidden
@@ -246,92 +229,10 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
         referenceIndex[footnote[1]] = footnote[2]
         cell.hidden = true
         cell.role = RoleCitation
-      } else if (figureRef) {
-        // this is a proper figure, nothing to say about it.
-        figures.push(
-          new ArticleFigure({
-            ref: figureRef,
-            idx,
-            num: figures.length + 1,
-          }),
-        )
-        cell.role = RoleFigure
-      } else if (coverRef) {
-        figures.push(new ArticleFigure({ ref: coverRef, idx, isCover: true }))
-        cell.role = RoleFigure
-      } else if (tableRef) {
-        tableAutonumbering += 1
-        // this is a proper figure, nothing to say about it.
-        figures.push(
-          new ArticleFigure({
-            ref: tableRef,
-            idx,
-            isTable: true,
-            num: +tableAutonumbering,
-          }),
-        )
-        cell.role = RoleFigure
-      } else if (soundRef) {
-        soundAutoNumbering += 1
-        figures.push(
-          new ArticleFigure({
-            ref: soundRef,
-            idx,
-            isSound: true,
-            num: +soundAutoNumbering,
-          }),
-        )
-        cell.role = RoleFigure
-      } else if (dialogRef) {
-        dialogAutoNumbering += 1
-        figures.push(
-          new ArticleFigure({
-            ref: dialogRef,
-            idx,
-            isDialog: true,
-            num: +dialogAutoNumbering,
-          }),
-        )
-        cell.role = RoleFigure
-      } else if (quoteRef) {
-        cell.role = RoleQuote
-      } else if (
-        idx < cells.length &&
-        cell.cell_type === 'code' &&
-        Array.isArray(cell.outputs) &&
-        cell.outputs.length
-      ) {
-        // this is a "Figure" candindate.
-        // Let's check whether the cell outputs JDH metadata and if jdh namespace contains **module**;
-        const cellOutputJdhMetadata = cell.outputs.find((d) => d.metadata?.jdh?.module)
-        if (cellOutputJdhMetadata) {
-          // if yes, these metadata AND its output will be added to this cell.
-          cell.metadata = {
-            ...cell.metadata,
-            jdh: {
-              ...cell.metadata.jdh,
-              ...cellOutputJdhMetadata.metadata.jdh,
-              ref: idx,
-              outputs: cell.outputs,
-            },
-          }
-          figures.push(
-            new ArticleFigure({
-              module: cell.metadata.jdh.module,
-              type: cell.metadata.jdh.object?.type,
-              idx,
-              num: figures.length + 1,
-            }),
-          )
-          cell.role = RoleFigure
-        }
-        // this is not a real "Figure", just a "Data..."
       } else if (cell.section !== SectionDefault) {
         cell.role = RoleMetadata
       }
-      if (anchorRef) {
-        anchors.push(new ArticleAnchor({ ref: anchorRef, idx }))
-      }
+
       cell.source = Array.isArray(cell.source) ? cell.source : [cell.source]
       if (cell.role !== RoleMetadata) {
         paragraphNumber += 1
@@ -424,7 +325,8 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
             hidden: !!cell.hidden,
             heading: headerIdx > -1 ? headings[headings.length - 1] : null,
             level: headerIdx > -1 ? tokens[headerIdx].tag : 'p',
-            figure: cell.role === RoleFigure ? figures.find((d) => d.idx === idx) : null,
+            figure: cell.figure,
+            anchor: cell.anchor,
           }),
         )
       } else if (cell.cell_type === CellTypeCode) {
