@@ -1,8 +1,8 @@
 import { isMobile, isTablet } from 'react-device-detect'
 
 export const IsPortrait = window.innerWidth < window.innerHeight
-export const IsMobile = isMobile ? true : false
-export const IsTablet = isTablet ? true : false
+export const IsMobile = Boolean(isMobile)
+export const IsTablet = Boolean(isTablet)
 
 export const HomeRoute = { to: '/', label: 'navigation.home' }
 export const ReferencesRoute = {
@@ -199,7 +199,20 @@ export const FigureRefPrefix = 'figure-'
 export const CoverRefPrefix = 'cover'
 export const TableRefPrefix = 'table-'
 export const QuoteRefPrefix = 'quote-'
+export const DialogRefPrefix = 'dialog-'
+export const SoundRefPrefix = 'sound-'
+export const VideoRefPrefix = 'video-'
 export const AnchorRefPrefix = 'anchor-'
+export const AvailableRefPrefixes = [
+  FigureRefPrefix,
+  TableRefPrefix,
+  QuoteRefPrefix,
+  DialogRefPrefix,
+  SoundRefPrefix,
+  VideoRefPrefix,
+  AnchorRefPrefix,
+]
+
 // display Layer to enable switch between layers
 export const DisplayLayerHermeneutics = 'h'
 export const DisplayLayerNarrative = 'n'

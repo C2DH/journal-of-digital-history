@@ -23,6 +23,9 @@ import {
   CoverRefPrefix,
   QuoteRefPrefix,
   AnchorRefPrefix,
+  AvailableRefPrefixes,
+  DialogRefPrefix,
+  SoundRefPrefix,
 } from '../constants'
 import ArticleTreeWarning, {
   FigureAnchorWarningCode,
@@ -45,6 +48,10 @@ const renderMarkdownWithReferences = ({
 }) => {
   const references = []
   const warnings = []
+  const prefixRegex = new RegExp(
+    '<a href="#((' + AvailableRefPrefixes.join('|') + ')[^"]+-*)">([^<]+)</a>',
+    'ig',
+  )
   // console.info('markdownParser.render', markdownParser.render(sources))
   const content = markdownParser
     .render(sources)
@@ -57,19 +64,16 @@ const renderMarkdownWithReferences = ({
     })
     .replace(/&lt;a[^&]*&gt;(.*)&lt;\/a&gt;/g, '')
     // replace links "figure-*" ending with automatic numbering syntax
-    .replace(
-      /<a href="#((figure|table|anchor)-[^"]+-\*)">([^<]+)<\/a>/g,
-      (m, anchorRef, c, content) => {
-        const ref =
-          anchorRef.indexOf('anchor-') !== -1
-            ? anchors.find((d) => d.ref === anchorRef)
-            : figures.find((d) => d.ref === anchorRef)
-        if (ref) {
-          return `<a data-idx="${ref.idx}" href="#${anchorRef}"  data-ref-type="${ref.type}">figure ${ref.num}</a>`
-        }
-        return `<a data-idx-notfound href="#${anchorRef}">${content}</a>`
-      },
-    )
+    .replace(prefixRegex, (m, anchorRef, c, content) => {
+      const ref =
+        anchorRef.indexOf('anchor-') !== -1
+          ? anchors.find((d) => d.ref === anchorRef)
+          : figures.find((d) => d.ref === anchorRef)
+      if (ref) {
+        return `<a data-idx="${ref.idx}" href="#${anchorRef}"  data-ref-type="${ref.type}">figure ${ref.num}</a>`
+      }
+      return `<a data-idx-notfound href="#${anchorRef}">${content}</a>`
+    })
     // replace links "figure-" add data-idx attribute containing a figure id
     .replace(/<a href="#((figure|table|anchor)-[^"]+)">/g, (m, anchorRef) => {
       const ref =
@@ -152,7 +156,12 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
   const warnings = []
   let citationsFromMetadata = metadata?.cite2c?.citations
   let tableAutonumbering = 0
+  let figureAutonumbering = 0
+  let paragraphNumber = 0
+  let soundAutoNumbering = 0
+  let dialogAutoNumbering = 0
 
+  // parse citations
   if (citationsFromMetadata) {
     // if one of the key is named "udefined" (sic)
     if (citationsFromMetadata.undefined) {
@@ -186,18 +195,39 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
   if (citationsFromMetadata instanceof Object) {
     bibliography = new Cite(Object.values(citationsFromMetadata).filter((d) => d))
   }
-  let paragraphNumber = 0
+
   // cycle through notebook cells to fill ArticleCells, figures, headings
   cells
     .map((cell, idx) => {
       const sources = Array.isArray(cell.source) ? cell.source.join('\n') : cell.source
       // find footnote citations (with the number)
       const footnote = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
-      const coverRef = cell.metadata.tags?.find((d) => d.indexOf(CoverRefPrefix) === 0)
-      const figureRef = cell.metadata.tags?.find((d) => d.indexOf(FigureRefPrefix) === 0)
-      const tableRef = cell.metadata.tags?.find((d) => d.indexOf(TableRefPrefix) === 0)
-      const quoteRef = cell.metadata.tags?.find((d) => d.indexOf(QuoteRefPrefix) === 0)
-      const anchorRef = cell.metadata.tags?.find((d) => d.indexOf(AnchorRefPrefix) === 0)
+
+      let coverRef = null
+      let figureRef = null
+      let tableRef = null
+      let quoteRef = null
+      let anchorRef = null
+      let soundRef = null
+      let dialogRef = null
+
+      cell.metadata.tags.forEach((d) => {
+        if (d.indexOf(CoverRefPrefix) === 0) {
+          coverRef = d
+        } else if (d.indexOf(FigureRefPrefix) === 0) {
+          figureRef = d
+        } else if (d.indexOf(TableRefPrefix) === 0) {
+          tableRef = d
+        } else if (d.indexOf(QuoteRefPrefix) === 0) {
+          quoteRef = d
+        } else if (d.indexOf(AnchorRefPrefix) === 0) {
+          anchorRef = d
+        } else if (d.indexOf(DialogRefPrefix) === 0) {
+          dialogRef = d
+        } else if (d.indexOf(SoundRefPrefix) === 0) {
+          soundRef = d
+        }
+      })
       // get section and layer from metadata
       cell.section = getSectionFromCellMetadata(cell.metadata)
       cell.layer = getLayerFromCellMetadata(cell.metadata)
@@ -238,6 +268,28 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
             idx,
             isTable: true,
             num: +tableAutonumbering,
+          }),
+        )
+        cell.role = RoleFigure
+      } else if (soundRef) {
+        soundAutoNumbering += 1
+        figures.push(
+          new ArticleFigure({
+            ref: soundRef,
+            idx,
+            isSound: true,
+            num: +soundAutoNumbering,
+          }),
+        )
+        cell.role = RoleFigure
+      } else if (dialogRef) {
+        dialogAutoNumbering += 1
+        figures.push(
+          new ArticleFigure({
+            ref: dialogRef,
+            idx,
+            isDialog: true,
+            num: +dialogAutoNumbering,
           }),
         )
         cell.role = RoleFigure
