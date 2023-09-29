@@ -25,15 +25,15 @@ export default class ArticleFigure {
 
   setNum(num) {
     this.num = num
-    if (typeof this.ref !== 'string') {
+    if (typeof this.ref !== 'string' || this.ref.lastIndexOf('-*') !== -1) {
       this.tNum = this.num
-    } else if (this.ref.lastIndexOf('-*') !== -1) {
-      this.tNum = this.num
+      return
     }
     const refNum = this.ref.split('-').pop()
     if (isNaN(refNum)) {
-      return this.num
+      this.tNum = this.num
+    } else {
+      this.tNum = parseInt(refNum)
     }
-    return parseInt(refNum)
   }
 }

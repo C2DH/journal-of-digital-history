@@ -1,17 +1,19 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-
+import { DisplayLayerCellIdxQueryParam } from '../../constants'
+import { useQueryParam, NumberParam } from 'use-query-params'
+import './ArticleFigure.scss'
 const ArticleFigure = ({ figure, children }) => {
   const { t } = useTranslation()
+  const [, set] = useQueryParam(DisplayLayerCellIdxQueryParam, NumberParam)
   // figure number, for translation label.
   return (
     <figcaption className="ArticleFigure position-relative">
-      <pre>{JSON.stringify(figure, null, 2)}</pre>
-      <div className="ArticleFigure_figcaption_num">
+      <div className="ArticleFigure__figcaption_num">
         {figure.ref ? (
-          <a href={`#${figure.idx}`} className="mr-2">
+          <button onClick={() => set(figure.idx)} className="btn btn-link mr-2">
             {t(figure.tNLabel, { n: figure.tNum })}
-          </a>
+          </button>
         ) : (
           <div className="mr-2">{t(figure.tNLabel, { n: figure.tNum })}</div>
         )}

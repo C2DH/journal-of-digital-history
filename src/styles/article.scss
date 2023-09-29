@@ -398,21 +398,6 @@ ArticleShadowLayer_animatedLabel {
   height: 20px;
 }
 
-.ArticleFigure {
-  min-height: 50px;
-  margin-top: var(--spacer-3);
-}
-
-.ArticleFigure_figcaption_num {
-  position: absolute;
-  left: -140px;
-  width: 140px;
-  text-align: right;
-  padding-right: var(--spacer-3);
-  font-family: var(--font-family-monospace);
-  font-weight: bold;
-}
-
 svg.ArticleFingerprint {
   g.type-code {
     // is type===cell
