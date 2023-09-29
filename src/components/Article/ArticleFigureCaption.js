@@ -2,8 +2,9 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { DisplayLayerCellIdxQueryParam } from '../../constants'
 import { useQueryParam, NumberParam } from 'use-query-params'
-import './ArticleFigure.scss'
-const ArticleFigure = ({ figure, children }) => {
+import './ArticleFigureCaption.scss'
+
+const ArticleFigureCaption = ({ figure, children }) => {
   const { t } = useTranslation()
   const [, set] = useQueryParam(DisplayLayerCellIdxQueryParam, NumberParam)
   // figure number, for translation label.
@@ -23,4 +24,4 @@ const ArticleFigure = ({ figure, children }) => {
   )
 }
 
-export default ArticleFigure
+export default ArticleFigureCaption

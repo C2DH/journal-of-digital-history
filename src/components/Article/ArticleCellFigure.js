@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import ArticleCellOutputs from './ArticleCellOutputs'
-import ArticleFigure from './ArticleFigure'
+import ArticleFigureCaption from './ArticleFigureCaption'
 import { markdownParser } from '../../logic/ipynb'
 import { BootstrapColumLayout } from '../../constants'
 import { Container, Row, Col } from 'react-bootstrap'
@@ -164,7 +164,7 @@ const ArticleCellFigure = ({
           <Row className="small">
             <Col {...BootstrapColumLayout}>
               {sourceCode}
-              <ArticleFigure figure={figure}>
+              <ArticleFigureCaption figure={figure}>
                 <p
                   dangerouslySetInnerHTML={{
                     __html: captions
@@ -172,7 +172,7 @@ const ArticleCellFigure = ({
                       .replace(/(Fig.|figure|table)\s+[\da-z-]+\s*:\s+/i, ''),
                   }}
                 />
-              </ArticleFigure>
+              </ArticleFigureCaption>
             </Col>
           </Row>
         </Container>
