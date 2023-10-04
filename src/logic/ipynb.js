@@ -54,6 +54,7 @@ const renderMarkdownWithReferences = ({
     .render(sources)
     // enable <br />
     .replace(/&lt;br\/&gt;/g, '<br/>')
+    .replace(/&lt;br&gt;/g, '<br/>')
     // add target blank for all external links
     .replace(/<a href="([^"]+)"/g, (m, href) => {
       if (href.indexOf('http') === 0) {
