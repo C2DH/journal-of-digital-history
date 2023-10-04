@@ -23,6 +23,10 @@ export default class ArticleFigure {
     this.refPrefix = refPrefix
   }
 
+  getPrefix() {
+    return this.refPrefix.substring(0, this.refPrefix.length - 1)
+  }
+
   setNum(num) {
     this.num = num
     if (typeof this.ref !== 'string' || this.ref.lastIndexOf('-*') !== -1) {
