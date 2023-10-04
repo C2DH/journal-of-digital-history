@@ -104,6 +104,7 @@ const ArticleToC = ({
               : cell.isFigure
               ? t(cell.figure.tNLabel, { n: cell.figure.tNum })
               : '(na)',
+            figureRefPrefix: cell.isFigure ? cell.figure.refPrefix : null,
             isFigure: cell.isFigure,
             isTable: cell.isTable,
             isHermeneutics: cell.layer === LayerHermeneutics,
