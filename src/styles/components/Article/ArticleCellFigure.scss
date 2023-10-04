@@ -23,3 +23,33 @@
     top: 0;
   }
 }
+.ArticleCellFigure.figure {
+  display: block;
+}
+.ArticleCellFigure.dialog {
+  table {
+    background: transparent;
+    border: none;
+    border-collapse: separate;
+    border-spacing: 5px;
+    td span {
+      border-radius: 5px;
+      padding: 5px 10px;
+      display: inline-block;
+      background-color: rgba(255, 255, 255, 0.5);
+      // simple box shadow
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+    td.empty {
+      box-shadow: none;
+      background: transparent;
+    }
+  }
+  table tbody tr:nth-of-type(2n + 1) {
+    background-color: transparent;
+  }
+
+  table td {
+    padding: 5px;
+  }
+}
