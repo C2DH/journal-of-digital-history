@@ -165,7 +165,7 @@ const ArticleCellFigure = ({
             <Col {...BootstrapColumLayout}>
               {sourceCode}
               <ArticleFigureCaption figure={figure}>
-                <p
+                <div
                   dangerouslySetInnerHTML={{
                     __html: captions
                       .join('<br />')
