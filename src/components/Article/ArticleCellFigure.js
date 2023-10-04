@@ -101,7 +101,7 @@ const ArticleCellFigure = ({
   )
 
   return (
-    <div className={`ArticleCellFigure ${active ? 'active' : ''}`}>
+    <div className={`ArticleCellFigure ${active ? 'active' : ''} ${figure.getPrefix()}`}>
       <Container className={containerClassName} fluid={isFluidContainer}>
         <Row>
           <Col {...columnLayout}>
