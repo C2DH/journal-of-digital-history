@@ -15,7 +15,6 @@ import {
   BootstrapNarrativeStepFigureColumnLayout,
   RoleQuote,
   ArticleCellContainerClassNames,
-  DialogRefPrefix,
 } from '../../constants'
 
 const ArticleCellVisualisation = lazy(() => import('./ArticleCellVisualisation'))
@@ -147,14 +146,6 @@ const ArticleCell = ({
 
   if (type === 'markdown') {
     if (figure) {
-      let cellContent = content
-      if (figure.refPrefix === DialogRefPrefix) {
-        // eslint-disable-next-line
-        cellContent = content
-          .replace(/<td>\s*<\/td>/g, '<td class="empty"></td>')
-          .replace(/<td>\s*&nbsp;\s*<\/td>/g, '<td class="empty"></td>')
-          .replace(/<td>(.*)<\/td>/g, '<td><div>$1</div></td>')
-      }
       return (
         <ArticleCellFigure
           metadata={metadata}
@@ -171,7 +162,7 @@ const ArticleCell = ({
           <ArticleCellContent
             onNumClick={onNumClick}
             layer={layer}
-            content={cellContent}
+            content={content}
             idx={idx}
             num={num}
           />

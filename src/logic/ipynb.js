@@ -18,6 +18,7 @@ import {
   AnchorRefPrefix,
   AvailableRefPrefixes,
   AvailableFigureRefPrefixes,
+  DialogRefPrefix,
 } from '../constants'
 import ArticleTreeWarning, {
   FigureAnchorWarningCode,
@@ -42,6 +43,7 @@ const renderMarkdownWithReferences = ({
   citationsFromMetadata = {},
   figures = [],
   anchors = [],
+  figure = null, // ArticleFigure instance if any, null otherwise
 }) => {
   const references = []
   const warnings = []
@@ -50,7 +52,7 @@ const renderMarkdownWithReferences = ({
     'ig',
   )
   // console.info('markdownParser.render', markdownParser.render(sources))
-  const content = markdownParser
+  let content = markdownParser
     .render(sources)
     // enable <br />
     .replace(/&lt;br\/&gt;/g, '<br/>')
@@ -142,6 +144,15 @@ const renderMarkdownWithReferences = ({
         </span>
         </span>`
     })
+  // add specific replacement for specific figure RefPrefix
+  if (figure?.refPrefix === DialogRefPrefix) {
+    // eslint-disable-next-line
+    content = content
+      .replace(/<td>\s*<\/td>/g, '<td class="empty"></td>')
+      .replace(/<td>\s*&nbsp;\s*<\/td>/g, '<td class="empty"></td>')
+      .replace(/<td>(.*)<\/td>/g, '<td><div>$1</div></td>')
+  }
+
   return { content, references, warnings }
 }
 
@@ -272,6 +283,7 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
           citationsFromMetadata,
           figures,
           anchors,
+          figure: cell.figure,
         })
         if (postRenderWarnings.length) {
           warnings.push(...postRenderWarnings)
