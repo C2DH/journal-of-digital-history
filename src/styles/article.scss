@@ -279,9 +279,12 @@ $breakpoint-lg: 992px;
   tbody tr:nth-of-type(odd) {
     background-color: var(--gray-200);
   }
-  td,
-  th {
+
+  td {
     padding: var(--spacer-2);
+  }
+  th {
+    padding: 0 var(--spacer-2);
   }
 }
 
