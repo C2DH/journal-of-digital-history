@@ -32,7 +32,7 @@
     border: none;
     border-collapse: separate;
     border-spacing: 5px;
-    td span {
+    td > div {
       border-radius: 5px;
       padding: 5px 10px;
       display: inline-block;
@@ -43,6 +43,14 @@
     td.empty {
       box-shadow: none;
       background: transparent;
+    }
+    // last td in each row
+    td:last-child {
+      text-align: right;
+
+      div {
+        text-align: left;
+      }
     }
   }
   table tbody tr:nth-of-type(2n + 1) {

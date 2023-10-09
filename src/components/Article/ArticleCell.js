@@ -153,7 +153,7 @@ const ArticleCell = ({
         cellContent = content
           .replace(/<td>\s*<\/td>/g, '<td class="empty"></td>')
           .replace(/<td>\s*&nbsp;\s*<\/td>/g, '<td class="empty"></td>')
-          .replace(/<td>([^<]*)<\/td>/g, '<td><span>$1</span></td>')
+          .replace(/<td>(.*)<\/td>/g, '<td><div>$1</div></td>')
       }
       return (
         <ArticleCellFigure
