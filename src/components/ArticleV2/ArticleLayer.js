@@ -375,6 +375,7 @@ const ArticleLayer = ({
                       memoid={['pl', memoid, i, j].join('-')}
                       {...paragraphs[j]}
                       headingLevel={paragraphs[j].isHeading ? paragraphs[j].heading.level : 0}
+                      figure={paragraphs[j].figure}
                       nums={
                         firstCellInGroup.idx !== paragraphs[j].idx
                           ? []
