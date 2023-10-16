@@ -212,6 +212,7 @@ export const AvailableFigureRefPrefixes = [
   SoundRefPrefix,
   VideoRefPrefix,
   GalleryRefPrefix,
+  CoverRefPrefix,
 ]
 export const AvailableRefPrefixes = AvailableFigureRefPrefixes.concat([AnchorRefPrefix])
 
