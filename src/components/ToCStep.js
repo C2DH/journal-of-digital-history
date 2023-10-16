@@ -40,13 +40,16 @@ const ToCStep = ({
 
   const availableWidth = width - marginEnd
   const levelClassName = `ToCStep_Level_${level}`
-  const labelClassName = isHermeneutics
-    ? 'ToCStep_labelHermeneutics'
-    : !isHermeneutics && !isTable && !isFigure
-    ? 'ToCStep_labelCircle'
-    : isFigure && !isTable
-    ? 'ToCStep_labelFigure'
-    : 'ToCStep_labelTable'
+  let labelClassName = ''
+  if (isHermeneutics) {
+    labelClassName = 'ToCStep_labelHermeneutics'
+  } else if (!isHermeneutics && !isTable && !isFigure) {
+    labelClassName = 'ToCStep_labelCircle'
+  } else if (isFigure && !isTable) {
+    labelClassName = 'ToCStep_labelFigure'
+  } else {
+    labelClassName = 'ToCStep_labelTable'
+  }
 
   const handleClick = (e) => {
     if (typeof onClick === 'function') {
@@ -54,7 +57,7 @@ const ToCStep = ({
     }
   }
 
-  const Icon = isFigure ? FigureRefPrefixMapping[figureRefPrefix] || Image : null
+  const Icon = isFigure ? FigureRefPrefixMapping[figureRefPrefix] || MediaImage : null
 
   return (
     <div
