@@ -1,4 +1,4 @@
-import { FigureRefPrefix } from '../constants'
+import { CoverRefPrefix, FigureRefPrefix } from '../constants'
 
 export default class ArticleFigure {
   constructor({
@@ -8,7 +8,6 @@ export default class ArticleFigure {
     idx = -1,
     num = -1,
     isTable = false,
-    isCover = false,
     refPrefix = FigureRefPrefix,
   }) {
     this.type = type
@@ -17,8 +16,10 @@ export default class ArticleFigure {
     this.num = num
     this.ref = ref
     this.isTable = isTable
-    this.isCover = isCover
-    this.tNLabel = `numbers.${refPrefix.substring(0, refPrefix.length - 1)}`
+    this.isCover = refPrefix === CoverRefPrefix
+    this.tNLabel = this.isCover
+      ? 'cover'
+      : `numbers.${refPrefix.substring(0, refPrefix.length - 1)}`
     // number in the table of contents. It is more important than `num` because it is used to sort the figures
     this.refPrefix = refPrefix
   }
