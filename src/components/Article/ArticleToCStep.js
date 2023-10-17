@@ -1,36 +1,40 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Layers, Image, Grid } from 'react-feather'
+import { Layers, Grid } from 'react-feather'
 import { useArticleStore } from '../../store'
-
+import { MediaImage } from 'iconoir-react'
 
 const ArticleToCStep = ({
-  idx, active=false,
-  level='',
-  isFigure=false,
-  isTable=false,
-  isHermeneutics=false,
-  isAccordionOpen=false,
-  isSectionStart=false,
-  isSectionEnd=false,
+  idx,
+  active = false,
+  level = '',
+  isFigure = false,
+  isTable = false,
+  isHermeneutics = false,
+  isAccordionOpen = false,
+  isSectionStart = false,
+  isSectionEnd = false,
   children,
-  width=0,
-  marginLeft=70,
-  className=''
+  width = 0,
+  marginLeft = 70,
+  className = '',
 }) => {
   const history = useHistory()
-  const setVisibleShadowCell = useArticleStore(state=>state.setVisibleShadowCell)
-  const displayLayer = useArticleStore(state=>state.displayLayer)
+  const setVisibleShadowCell = useArticleStore((state) => state.setVisibleShadowCell)
+  const displayLayer = useArticleStore((state) => state.displayLayer)
 
   const availableWidth = width - marginLeft
   const levelClassName = `ArticleToCStep_Level_${level}`
-  const labelClassName = isHermeneutics
-    ? 'ArticleToCStep_labelHermeneutics'
-    : !isHermeneutics && !isTable && !isFigure
-      ? 'ArticleToCStep_labelCircle'
-      : isFigure && !isTable
-        ? 'ArticleToCStep_labelFigure'
-        : 'ArticleToCStep_labelTable'
+  let labelClassName = ''
+  if (isHermeneutics) {
+    labelClassName = 'ArticleToCStep_labelHermeneutics'
+  } else if (!isHermeneutics && !isTable && !isFigure) {
+    labelClassName = 'ArticleToCStep_labelCircle'
+  } else if (isFigure && !isTable) {
+    labelClassName = 'ArticleToCStep_labelFigure'
+  } else {
+    labelClassName = 'ArticleToCStep_labelTable'
+  }
 
   const handleClick = () => {
     // if the layer is hidden, opens it up and scroll to it on click.
@@ -44,17 +48,21 @@ const ArticleToCStep = ({
     }
   }
   return (
-    <div className={`ArticleToCStep ${active?'active':''} ${className} ${levelClassName} ${isSectionEnd?'end':''} ${isSectionStart?'start':''} ${displayLayer}`} onClick={handleClick} style={{
-      width: availableWidth
-    }}>
-      <label className={labelClassName}>
-      {children}
-      </label>
+    <div
+      className={`ArticleToCStep ${active ? 'active' : ''} ${className} ${levelClassName} ${
+        isSectionEnd ? 'end' : ''
+      } ${isSectionStart ? 'start' : ''} ${displayLayer}`}
+      onClick={handleClick}
+      style={{
+        width: availableWidth,
+      }}
+    >
+      <label className={labelClassName}>{children}</label>
       <div className="ArticleToCStep_icon">
         {isHermeneutics && !isTable && !isFigure && <Layers size={13} />}
         {!isHermeneutics && !isTable && !isFigure && <div className="ArticleToCStep_icon_circle" />}
-        {isFigure && !isTable && <Image size={13} />}
-        {isTable && <Grid  size={13} />}
+        {isFigure && !isTable && <MediaImage size={13} />}
+        {isTable && <Grid size={13} />}
       </div>
     </div>
   )

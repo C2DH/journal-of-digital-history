@@ -232,9 +232,8 @@ const ArticleCell = ({
   return <div>unknown type: {type}</div>
 }
 
-export default React.memo(ArticleCell, (prevProps, nextProps) => {
-  if (prevProps.memoid === nextProps.memoid || prevProps.active === nextProps.active) {
-    return true // props are equal
-  }
-  return false // props are not equal -> update the component
-})
+export default React.memo(
+  ArticleCell,
+  (prevProps, nextProps) =>
+    prevProps.memoid === nextProps.memoid || prevProps.active === nextProps.active,
+)

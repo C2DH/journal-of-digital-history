@@ -1,10 +1,9 @@
 import React, { useMemo, lazy } from 'react'
 import { markdownParser } from '../../logic/ipynb'
-import ArticleFigure from './ArticleFigure'
+import ArticleFigureCaption from './ArticleFigureCaption'
 
 const VegaWrapper = lazy(() => import('../Module/VegaWrapper'))
 const ImageWrapper = lazy(() => import('../Module/ImageWrapper'))
-
 
 const ArticleCellObject = ({ metadata, figure, children, progress }) => {
   const objectMetadata = useMemo(() => metadata.jdh?.object ?? {}, [metadata.jdh])
@@ -30,16 +29,21 @@ const ArticleCellObject = ({ metadata, figure, children, progress }) => {
     alignItems: 'center',
   }
   // flex alignment
-  if ([ 'start', 'flex-start', 'end', 'flex-end', 'center', 'space-between', 'space-around'].includes(objectMetadata.justifyContent)) {
+  if (
+    ['start', 'flex-start', 'end', 'flex-end', 'center', 'space-between', 'space-around'].includes(
+      objectMetadata.justifyContent,
+    )
+  ) {
     objectWrapperStyle = {
       ...objectWrapperStyle,
       justifyContent: objectMetadata.justifyContent,
     }
   }
-  if ([
-    'start', 'flex-start', 'end', 'flex-end', 'center',
-    'baseline', 'first baseline'
-  ].includes(objectMetadata.alignItems)) {
+  if (
+    ['start', 'flex-start', 'end', 'flex-end', 'center', 'baseline', 'first baseline'].includes(
+      objectMetadata.alignItems,
+    )
+  ) {
     objectWrapperStyle = {
       ...objectWrapperStyle,
       alignItems: objectMetadata.alignItems,
@@ -49,7 +53,7 @@ const ArticleCellObject = ({ metadata, figure, children, progress }) => {
   if (!isNaN(objectMetadata.heightRatio)) {
     objectWrapperStyle = {
       ...objectWrapperStyle,
-      height: window.innerHeight * objectMetadata.heightRatio
+      height: window.innerHeight * objectMetadata.heightRatio,
     }
   }
 
@@ -59,44 +63,38 @@ const ArticleCellObject = ({ metadata, figure, children, progress }) => {
       position: 'sticky',
       top: objectMetadata.top ?? 'var(--spacer-3)',
     }
-    if(isNaN(objectMetadata.heightRatio)) {
+    if (isNaN(objectMetadata.heightRatio)) {
       objectWrapperStyle.height = 'auto'
     }
   }
 
-  return (<>
-    <div style={objectWrapperStyle} className={objectClassName.join(' ')}>
-    {objectMetadata.type === 'image' && objectOutputs.map((output, i) => (
-      <ImageWrapper key={i}
-        metadata={objectMetadata}
-        output={output} figure={figure}/>
-    ))}
-    {['video', 'map'].includes(objectMetadata.type) && (
-      <>
-        {progress}
-        <div dangerouslySetInnerHTML={{__html: objectContents}}></div>
-      </>
-    )}
-    {['vega'].includes(objectMetadata.type)
-      ? (
-        <VegaWrapper
-          metadata={objectMetadata}
-          progress={progress}
-        >
-          <ArticleFigure figure={figure}>
-            <div dangerouslySetInnerHTML={{__html: objectContents}}></div>
-          </ArticleFigure>
-        </VegaWrapper>)
-      : null
-    }
-    {['text'].includes(objectMetadata.type) && (
-      <div dangerouslySetInnerHTML={{__html: objectContents}}></div>
-    )}
-    </div>
-    <div>{children}</div>
+  return (
+    <>
+      <div style={objectWrapperStyle} className={objectClassName.join(' ')}>
+        {objectMetadata.type === 'image' &&
+          objectOutputs.map((output, i) => (
+            <ImageWrapper key={i} metadata={objectMetadata} output={output} figure={figure} />
+          ))}
+        {['video', 'map'].includes(objectMetadata.type) && (
+          <>
+            {progress}
+            <div dangerouslySetInnerHTML={{ __html: objectContents }}></div>
+          </>
+        )}
+        {['vega'].includes(objectMetadata.type) ? (
+          <VegaWrapper metadata={objectMetadata} progress={progress}>
+            <ArticleFigureCaption figure={figure}>
+              <div dangerouslySetInnerHTML={{ __html: objectContents }}></div>
+            </ArticleFigureCaption>
+          </VegaWrapper>
+        ) : null}
+        {['text'].includes(objectMetadata.type) && (
+          <div dangerouslySetInnerHTML={{ __html: objectContents }}></div>
+        )}
+      </div>
+      <div>{children}</div>
     </>
   )
 }
-
 
 export default ArticleCellObject

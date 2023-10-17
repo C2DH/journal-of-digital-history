@@ -1,0 +1,29 @@
+.ArticleFigure {
+  min-height: 50px;
+  margin-top: var(--spacer-3);
+}
+
+.ArticleFigure__figcaption_num {
+  position: absolute;
+  left: -140px;
+  width: 140px;
+  text-align: right;
+  padding-right: var(--spacer-3);
+  font-family: var(--font-family-monospace);
+  font-weight: bold;
+}
+
+.ArticleFigure button.btn-link {
+  color: #000;
+  border-radius: 0;
+  font-size: inherit;
+  padding: 0;
+  line-height: 1.05em;
+  text-decoration: none;
+  box-shadow: 0 1px 0 var(--secondary);
+  font-weight: bold;
+  &:hover {
+    text-decoration: none;
+    color: #000;
+  }
+}

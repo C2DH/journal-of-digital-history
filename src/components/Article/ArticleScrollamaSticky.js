@@ -1,10 +1,10 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import ArticleFigure from './ArticleFigure'
+import ArticleFigureCaption from './ArticleFigureCaption'
 import ArticleCellOutput from './ArticleCellOutput'
 import {
   BootstrapNarrativeStepFigureColumnLayout,
-  BootstrapNarrativeStepCaptionColumnLayout
+  BootstrapNarrativeStepCaptionColumnLayout,
 } from '../../constants'
 import { markdownParser } from '../../logic/ipynb'
 import { useCurrentWindowDimensions, useBoundingClientRect } from '../../hooks/graphics'
@@ -18,8 +18,8 @@ import { useCurrentWindowDimensions, useBoundingClientRect } from '../../hooks/g
 const ArticleScrollamaSticky = ({
   cell,
   currentStep,
-  marginTop=100,
-  marginBottom=50,
+  marginTop = 100,
+  marginBottom = 50,
   // marginRight=100,
   // marginLeft=50
 }) => {
@@ -36,34 +36,51 @@ const ArticleScrollamaSticky = ({
   }, [])
   console.info('ArticleScrollamaSticky currentStep:', currentStep)
   return (
-    <div className="ArticleScrollamaSticky" style={{
-      position: 'sticky',
-      top: 100,
-      height: height - marginTop - marginBottom
-    }}>
-      <a className='anchor' id={`C-${cell.idx}`} />
+    <div
+      className="ArticleScrollamaSticky"
+      style={{
+        position: 'sticky',
+        top: 100,
+        height: height - marginTop - marginBottom,
+      }}
+    >
+      <a className="anchor" id={`C-${cell.idx}`} />
       <a className="anchor" id={cell.figure.ref} />
-      <Container className=" d-flex flex-column" style={{
-        height: height - marginTop - marginBottom
-      }}>
+      <Container
+        className=" d-flex flex-column"
+        style={{
+          height: height - marginTop - marginBottom,
+        }}
+      >
         <Row className="flex-grow-1">
-          <Col className="h-100 position-relative"  ref={ref} {...BootstrapNarrativeStepFigureColumnLayout}>
-            <div className="position-absolute h-100 w-100" style={{overflow: 'hidden'}}>
-              {!cell.outputs.length ? (
-                <div className="ArticleCellFigure_no_output">
-                </div>
-              ): null}
-              {cell.outputs.map((output,i) => (
-                <ArticleCellOutput hideLabel height={bbox.height} width={bbox.width} output={output} key={i} />
+          <Col
+            className="h-100 position-relative"
+            ref={ref}
+            {...BootstrapNarrativeStepFigureColumnLayout}
+          >
+            <div className="position-absolute h-100 w-100" style={{ overflow: 'hidden' }}>
+              {!cell.outputs.length ? <div className="ArticleCellFigure_no_output"></div> : null}
+              {cell.outputs.map((output, i) => (
+                <ArticleCellOutput
+                  hideLabel
+                  height={bbox.height}
+                  width={bbox.width}
+                  output={output}
+                  key={i}
+                />
               ))}
             </div>
           </Col>
         </Row>
         <Row className="flex-shrink-1">
           <Col {...BootstrapNarrativeStepCaptionColumnLayout}>
-            <ArticleFigure figure={cell.figure}><p dangerouslySetInnerHTML={{
-              __html: captions.join('<br />'),
-            }} /></ArticleFigure>
+            <ArticleFigureCaption figure={cell.figure}>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: captions.join('<br />'),
+                }}
+              />
+            </ArticleFigureCaption>
           </Col>
         </Row>
       </Container>

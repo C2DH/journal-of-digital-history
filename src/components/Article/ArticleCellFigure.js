@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import ArticleCellOutputs from './ArticleCellOutputs'
-import ArticleFigure from './ArticleFigure'
+import ArticleFigureCaption from './ArticleFigureCaption'
 import { markdownParser } from '../../logic/ipynb'
 import { BootstrapColumLayout } from '../../constants'
 import { Container, Row, Col } from 'react-bootstrap'
@@ -61,13 +61,18 @@ const ArticleCellFigure = ({
           }
           const mimetypes = Object.keys(output.data ?? [])
           const mimetype = mimetypes.find((d) => d.indexOf('image/') === 0)
+          const outputProps = output ? Object.keys(output) : []
+          const isOutputEmpty =
+            outputProps.length === 0 ||
+            (outputProps.length === 1 && outputProps.shift() === 'metadata')
+
           if (mimetype) {
             acc.pictures.push({
               // ...output,
               src: output.metadata?.jdh?.object?.src,
               base64: `data:${mimetype};base64,${output.data[mimetype]}`,
             })
-          } else {
+          } else if (!isOutputEmpty) {
             acc.otherOutputs.push(output)
           }
           return acc
@@ -101,7 +106,7 @@ const ArticleCellFigure = ({
   )
 
   return (
-    <div className={`ArticleCellFigure ${active ? 'active' : ''}`}>
+    <div className={`ArticleCellFigure ${active ? 'active' : ''} ${figure.getPrefix()}`}>
       <Container className={containerClassName} fluid={isFluidContainer}>
         <Row>
           <Col {...columnLayout}>
@@ -164,15 +169,15 @@ const ArticleCellFigure = ({
           <Row className="small">
             <Col {...BootstrapColumLayout}>
               {sourceCode}
-              <ArticleFigure figure={figure}>
-                <p
+              <ArticleFigureCaption figure={figure}>
+                <div
                   dangerouslySetInnerHTML={{
                     __html: captions
                       .join('<br />')
                       .replace(/(Fig.|figure|table)\s+[\da-z-]+\s*:\s+/i, ''),
                   }}
                 />
-              </ArticleFigure>
+              </ArticleFigureCaption>
             </Col>
           </Row>
         </Container>
