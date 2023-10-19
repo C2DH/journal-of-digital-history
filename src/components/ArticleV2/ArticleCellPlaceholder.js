@@ -48,11 +48,13 @@ const ArticleCellPlaceholder = ({
   const onNumClickHandler = (e) => {
     onNumClick(e, { layer, idx })
   }
+  const prefix = figure ? figure.getPrefix() : ''
+
   return (
     <Container>
       <Row>
         <Col
-          className={`ArticleCellPlaceholder  ${figure ? figure.getPrefix() : ''}`}
+          className={`ArticleCellPlaceholder  ${prefix === 'table' ? 'figuretable' : ''}`}
           {...BootstrapColumLayout}
         >
           {/* {figure ? (
