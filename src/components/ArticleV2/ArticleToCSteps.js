@@ -100,21 +100,44 @@ const ArticleToCSteps = ({
       useArticleToCStore.subscribe((state) => {
         const stepsToExpand = []
         // getStepIdx(state.visibleCellsIdx)
+        if (state.visibleCellsIdx.length === 0) {
+          console.debug('[ArticleToCSteps] visible cells reset.')
+          // if there are no visible cells, then we should collapse all steps
+          manuallyExpandedSteps.current = []
+          expandSteps([])
+          return
+        }
+        // check whether the first or last visible cell is in the step
+        const firstVisibleCellIdx = state.visibleCellsIdx[0]
+        const lastVisibleCellIdx = state.visibleCellsIdx[state.visibleCellsIdx.length - 1]
+
         for (let i = 0; i < steps.length; i++) {
-          const firstVisibleCellIdx = state.visibleCellsIdx[0]
-          const lastVisibleCellIdx = state.visibleCellsIdx[state.visibleCellsIdx.length - 1]
-          if (
-            (steps[i][0].cell.idx >= firstVisibleCellIdx &&
-              steps[i][0].cell.idx <= lastVisibleCellIdx) ||
-            (steps[i][steps[i].length - 1].cell.idx >= firstVisibleCellIdx &&
-              steps[i][steps[i].length - 1].cell.idx <= lastVisibleCellIdx)
-          ) {
+          const firstStepCellIdx = steps[i][0].cell.idx
+          const lastStepCellIdx = steps[i][steps[i].length - 1].cell.idx
+          const isIntersecting =
+            (firstVisibleCellIdx >= firstStepCellIdx && firstVisibleCellIdx <= lastStepCellIdx) ||
+            (firstVisibleCellIdx <= firstStepCellIdx && lastVisibleCellIdx >= firstStepCellIdx)
+          console.debug(
+            '[ArticleToCSteps]',
+            i,
+            firstStepCellIdx,
+            '->',
+            lastStepCellIdx,
+            ' WITH ',
+            firstVisibleCellIdx,
+            '->',
+            lastVisibleCellIdx,
+            isIntersecting,
+          )
+          if (isIntersecting) {
             stepsToExpand.push(i)
           }
         }
-        if (stepsToExpand.length > 0) expandSteps(stepsToExpand)
+        console.debug('[ArticleToCSteps] visibleCellsIdx:', state.visibleCellsIdx, stepsToExpand)
+
+        expandSteps(stepsToExpand)
       }),
-    [],
+    [selectedCellIdx],
   )
 
   return (
