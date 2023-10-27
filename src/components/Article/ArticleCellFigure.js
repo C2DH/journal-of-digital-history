@@ -2,9 +2,10 @@ import React, { useMemo } from 'react'
 import ArticleCellOutputs from './ArticleCellOutputs'
 import ArticleFigureCaption from './ArticleFigureCaption'
 import { markdownParser } from '../../logic/ipynb'
-import { BootstrapColumLayout } from '../../constants'
+import { BootstrapColumLayout, TableRefPrefix } from '../../constants'
 import { Container, Row, Col } from 'react-bootstrap'
 import '../../styles/components/Article/ArticleCellFigure.scss'
+import ArticleCellDataTable from './ArticleCellDataTable'
 
 const ArticleCellFigure = ({
   figure,
@@ -18,6 +19,7 @@ const ArticleCellFigure = ({
   windowHeight = 100,
   isMagic = false,
   isolationMode = false,
+  cellType = 'markdown',
   // lazy = false,
   // withTransition = false,
   active = false,
@@ -105,6 +107,8 @@ const ArticleCellFigure = ({
     captions,
   )
 
+  const isDataTable = figure.refPrefix === TableRefPrefix && cellType === 'markdown'
+
   return (
     <div className={`ArticleCellFigure ${active ? 'active' : ''} ${figure.getPrefix()}`}>
       <Container className={containerClassName} fluid={isFluidContainer}>
@@ -160,7 +164,15 @@ const ArticleCellFigure = ({
                   withTransition={withTransition}
                 />
               )) */}
-            {children}
+            {isDataTable ? (
+              <ArticleCellDataTable
+                cellType={cellType}
+                cellIdx={figure.idx}
+                htmlContent={children?.props?.content}
+              />
+            ) : (
+              children
+            )}
           </Col>
         </Row>
       </Container>
