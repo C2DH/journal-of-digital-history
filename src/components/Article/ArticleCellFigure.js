@@ -109,6 +109,10 @@ const ArticleCellFigure = ({
 
   const isDataTable = figure.refPrefix === TableRefPrefix && cellType === 'markdown'
 
+  if (isDataTable) {
+    columnLayout = { md: 10 }
+  }
+
   return (
     <div className={`ArticleCellFigure ${active ? 'active' : ''} ${figure.getPrefix()}`}>
       <Container className={containerClassName} fluid={isFluidContainer}>
