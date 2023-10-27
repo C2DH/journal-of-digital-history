@@ -108,42 +108,8 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '' }) => {
           }),
         }}
       />
-      <table>
-        <thead>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <th key={header.id}>
-                    {header.id}
-                    {header.column.getCanFilter() ? <ColumnFilter column={header.column} /> : null}
-                  </th>
-                )
-              })}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => {
-            return (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => {
-                  return (
-                    <td
-                      key={cell.id}
-                      dangerouslySetInnerHTML={{
-                        __html: cell.renderValue(),
-                      }}
-                    />
-                  )
-                })}
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
       {/* Pagination */}
-      <div className="d-flex align-items-center">
+      <section className="ArticleCellDataTable__pagination d-flex align-items-center w-100 content-space-between ">
         <button
           className="border rounded p-1"
           onClick={() => table.setPageIndex(0)}
@@ -202,7 +168,42 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '' }) => {
             </option>
           ))}
         </select>
-      </div>
+      </section>
+      {/* Table :) */}
+      <table>
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <th key={header.id}>
+                    {header.id}
+                    {header.column.getCanFilter() ? <ColumnFilter column={header.column} /> : null}
+                  </th>
+                )
+              })}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map((row) => {
+            return (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => {
+                  return (
+                    <td
+                      key={cell.id}
+                      dangerouslySetInnerHTML={{
+                        __html: cell.renderValue(),
+                      }}
+                    />
+                  )
+                })}
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
 
       <pre>{JSON.stringify(table.getState().pagination, null, 2)}</pre>
     </div>
