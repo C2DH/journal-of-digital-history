@@ -254,7 +254,9 @@
         "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",
         "currentCharactersWithCount": "(now: <b>{{count}}</b>)",
         "itemIdx": "(item #{{idx}})",
-        "articles": "{{ n }} articles"
+        "articles": "{{ n }} articles",
+        "datatableRows": "<b>{{ total }}</b> rows",
+        "datatableRowsFiltered": "<b>{{ n }}</b> / {{ total }} rows (filtered)"
       },
       "missingStepsWithCount": "<b>1</b> step missing",
       "missingStepsWithCount_plural": "<b>{{count}}</b> steps missing",
