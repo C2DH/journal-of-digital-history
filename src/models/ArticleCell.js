@@ -1,8 +1,4 @@
-import {
-  SectionDefault,
-  LayerNarrative,
-  RoleDefault
-} from '../constants'
+import { SectionDefault, LayerNarrative, RoleDefault, LayerHermeneutics } from '../constants'
 
 export default class ArticleCell {
   constructor({
@@ -41,6 +37,7 @@ export default class ArticleCell {
     this.figure = figure
     this.isFigure = figure !== null
     this.isTable = figure?.isTable
+    this.isHermeneutics = this.layer === LayerHermeneutics
     this.heading = heading
     this.isHeading = heading !== null
   }
