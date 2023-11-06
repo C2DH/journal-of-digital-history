@@ -46,15 +46,13 @@ const ArticleFlow = ({
       if (cell.layer === LayerHidden) {
         return
       }
-      if (
-        i > 0 &&
-        (cell.layer !== previousLayer || cell.isHeading || cell.isFigure || cell.isTable)
-      ) {
+      if (i > 0 && (cell.layer !== previousLayer || cell.isHeading || cell.figure !== null)) {
         buffers.push([...buffer])
         buffer = []
       }
       buffer.push(i)
-      // copy value
+      // update previous layer. If there is a figure and you want to isolate it, add figure suffix
+      // previousLayer = String(cell.layer) + (cell.figure !== null ? 'figure' : '')
       previousLayer = String(cell.layer)
     })
     if (buffer.length) {

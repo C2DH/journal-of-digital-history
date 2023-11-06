@@ -1,165 +1,50 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQueryParams, withDefault, NumberParam, StringParam } from 'use-query-params'
-import { useArticleToCStore } from '../../store'
+// import { useArticleToCStore } from '../../store'
 import {
-  LayerHermeneutics,
+  // LayerHermeneutics,
   LayerNarrative,
   DisplayLayerQueryParam,
   DisplayLayerCellIdxQueryParam,
-  DisplayLayerCellTopQueryParam,
+  // DisplayLayerCellTopQueryParam,
   DisplayPreviousLayerQueryParam,
   DisplayLayerSectionParam,
   DisplayLayerSectionBibliography,
+  DisplayLayerCellTopQueryParam,
 } from '../../constants'
 import ToCStep from '../ToCStep'
 // import ArticleToCBookmark from './ArticleToCBookmark'
-import ToC from '../ToC'
-import { useBoundingClientRect } from '../../hooks/graphics'
+// import ToC from '../ToC'
+// import { useBoundingClientRect } from '../../hooks/graphics'
 import ArticleLayerSwitch from './ArticleLayerSwitch'
 import ArticleDataModal from '../Article/ArticleDataModal'
 import ArticleToCTitle from './ArticleToCTitle'
+import ArticleToCSteps from './ArticleToCSteps'
 
 const ArticleToC = ({
   memoid = '',
+  // available layers for the article, would result in a layer switch between the layer options. Possible value are in constants module.
   layers = [],
   paragraphs = [],
   headingsPositions = [],
+  plainTitle = null,
   binderUrl = null,
   repositoryUrl = null,
+  showData = false,
+  hasBibliography = false,
+  // force hiding of figures in the ToC
+  hideFigures = false,
   width = 100,
   height = 100,
-  hideFigures = false,
-  hasBibliography = false,
-  plainTitle = null,
-  showData = false,
 }) => {
   const { t } = useTranslation()
-  const [{ height: toCHeight }, toCref] = useBoundingClientRect()
-  const visibleCellsIdx = useArticleToCStore((state) => state.visibleCellsIdx)
-  const setVisibleCellsIdx = useArticleToCStore((state) => state.setVisibleCellsIdx)
-  const [
-    { [DisplayLayerQueryParam]: selectedLayer, [DisplayLayerCellIdxQueryParam]: selectedCellIdx },
-    setQuery,
-  ] = useQueryParams({
+  const [{ [DisplayLayerCellIdxQueryParam]: selectedCellIdx }, setQuery] = useQueryParams({
     [DisplayLayerCellIdxQueryParam]: withDefault(NumberParam, -1),
     [DisplayLayerQueryParam]: withDefault(StringParam, LayerNarrative),
-    [DisplayLayerCellTopQueryParam]: withDefault(NumberParam, 100),
+    [DisplayPreviousLayerQueryParam]: withDefault(NumberParam, 100),
     [DisplayLayerSectionParam]: StringParam,
   })
-
-  let count = 0
-  const cellIndex = React.useMemo(
-    () =>
-      paragraphs.reduce((acc, cell) => {
-        acc[cell.idx] = cell
-        return acc
-      }, {}),
-    [memoid],
-  )
-
-  const steps = React.useMemo(
-    () =>
-      headingsPositions.reduce((acc, idx, i) => {
-        const cell = cellIndex[idx]
-        if (!cell) {
-          // is possible that there are headingPositions outside of the
-          // articleTree.paragraphs list (e.g in the metadata section).
-          // In this case, we just skip.
-          return acc
-        }
-        if (cell.hidden) {
-          // is possible that there are headingPositions within hidden cells.
-          // In this case, we just skip.
-          return acc
-        }
-        if (cell.figure && hideFigures) {
-          return acc
-        }
-        const nextCell =
-          i < headingsPositions.length - 1 ? cellIndex[headingsPositions[i + 1]] : null
-        let isSectionStart = false
-        let isSectionEnd = false
-        if (cell.isHeading && cell.heading.level === 2) {
-          isSectionStart = true
-        }
-        if (count === 0) {
-          isSectionEnd = true
-          isSectionStart = true
-        }
-        if (nextCell && nextCell.isHeading && nextCell.heading.level === 2) {
-          isSectionEnd = true
-        }
-        if (!nextCell) {
-          isSectionEnd = true
-        }
-
-        count++
-        // is last only if next heading is higher than this one, or it is a hermeneutic
-        return acc.concat([
-          {
-            id: cell.idx,
-            label: cell.isHeading
-              ? cell.heading.content
-              : cell.isFigure
-              ? t(cell.figure.tNLabel, { n: cell.figure.tNum })
-              : '(na)',
-            isFigure: cell.isFigure,
-            isTable: cell.isTable,
-            isHermeneutics: cell.layer === LayerHermeneutics,
-            level: cell.level,
-            isSectionStart,
-            isSectionEnd,
-            count,
-          },
-        ])
-      }, []),
-    [memoid, hideFigures],
-  )
-
-  const firstVisibleCellIdx = visibleCellsIdx.length ? visibleCellsIdx[0] : -1
-  const lastVisibleCellIdx = visibleCellsIdx.length
-    ? visibleCellsIdx[visibleCellsIdx.length - 1]
-    : -1
-
-  const { previousHeadingIdx } = React.useMemo(() => {
-    let previousHeadingIdx = -1
-    let nextHeadingIdx = -1
-    for (let i = 0; i < headingsPositions.length; i++) {
-      if (headingsPositions[i] <= firstVisibleCellIdx) {
-        previousHeadingIdx = headingsPositions[i]
-      }
-      if (nextHeadingIdx === -1 && headingsPositions[i] >= lastVisibleCellIdx) {
-        nextHeadingIdx = headingsPositions[i]
-        // nextVisibleLoopIndex = i
-      }
-    }
-    return {
-      previousHeadingIdx,
-      nextHeadingIdx,
-    }
-  }, [firstVisibleCellIdx, lastVisibleCellIdx])
-
-  const onStepClickHandler = (e, { id, label }) => {
-    console.debug('[ArticleToC] @onClickHandler step:', id, label, selectedLayer)
-    // go to the cell
-    setQuery({
-      [DisplayLayerCellIdxQueryParam]: id,
-      [DisplayPreviousLayerQueryParam]: undefined,
-      [DisplayLayerSectionParam]: undefined,
-    })
-  }
-
-  // const onBookmarkClickHandler = () => {
-  //   setQuery({
-  //     [DisplayLayerCellIdxQueryParam]: selectedCellIdx,
-  //     [DisplayPreviousLayerQueryParam]: undefined,
-  //     [DisplayLayerCellTopQueryParam]: 100,
-  //     [DisplayLayerSectionParam]: undefined,
-  //   })
-  // }
-
-  // this listens to click on Bibliography or other extra section (author bio?)
   const onSectionClickHandler = (e, section) => {
     setQuery({
       [DisplayLayerCellIdxQueryParam]: undefined,
@@ -167,65 +52,84 @@ const ArticleToC = ({
       [DisplayLayerSectionParam]: section,
     })
   }
+  const onStepClickHandler = (e, { id, label, layer }) => {
+    console.debug(
+      '[ArticleToC] @onClickHandler \n - cell idx: ',
+      id,
+      '\n - label:',
+      label,
+      '\n - layer:',
+      layer,
+    )
+    // go to the cell
+    setQuery({
+      // uncomment next line to go directly to the desired layer.
+      // [DisplayLayerQueryParam]: layer,
+      [DisplayLayerCellTopQueryParam]: undefined,
+      [DisplayLayerCellIdxQueryParam]: id,
+      [DisplayPreviousLayerQueryParam]: undefined,
+      [DisplayLayerSectionParam]: undefined,
+    })
+  }
+  // availble height for the toc
+  const toCHeight = height - 200
+  // mapping of cells using cell index
+  const cellsIndex = paragraphs.reduce((acc, cell) => {
+    acc[cell.idx] = cell
+    return acc
+  }, {})
 
-  React.useEffect(() => {
-    console.debug('[ArticleToC] @useEffect', visibleCellsIdx)
-    let timer = null
-
-    if (timer) {
-      clearTimeout(timer)
-    }
-    timer = setTimeout(() => {
-      console.debug('[ArticleToC] @useEffect @timeout!')
-      let visibilityChanged = false
-      const updatedVisibleCellsIdx = []
-      for (let i = 0, l = visibleCellsIdx.length; i < l; i++) {
-        const el = document.getElementById(selectedLayer + visibleCellsIdx[i])
-        if (el) {
-          const rect = el.getBoundingClientRect()
-          if (rect.top < 0 || rect.top > height) {
-            console.debug(
-              '[ArticleToC]',
-              visibleCellsIdx[i],
-              'is not visible anymore',
-              rect.top,
-              height,
-            )
-            visibilityChanged = true
-          } else {
-            updatedVisibleCellsIdx.push(visibleCellsIdx[i])
-          }
+  const { groups: steps } = headingsPositions
+    .reduce((acc, idx, i) => {
+      const cell = cellsIndex[idx]
+      if (!cell || cell.hidden || (cell.figure && hideFigures)) {
+        // it is possible that there are headingPositions outside of the
+        // articleTree.paragraphs list (e.g in the metadata section). In this case, we just skip.
+        return acc
+      }
+      const nextCell =
+        i < headingsPositions.length - 1 ? cellsIndex[headingsPositions[i + 1]] : null
+      let isSectionStart = acc.length === 0
+      let isSectionEnd = false
+      if (cell.isHeading && cell.heading.level === 2) {
+        isSectionStart = true
+      }
+      if (nextCell?.isHeading && nextCell.heading.level === 2) {
+        isSectionEnd = true
+      }
+      if (!nextCell) {
+        isSectionEnd = true
+      }
+      // is last only if next heading is higher than this one, or it is a hermeneutic
+      acc.push({
+        cell,
+        isSectionStart,
+        isSectionEnd,
+      })
+      return acc
+    }, [])
+    .reduce(
+      (acc, d) => {
+        console.debug('[ArticleToC] @render reduce \n - cell:', d.isSectionStart, d.isSectionEnd)
+        // whenever section start, create a new group
+        if (d.isSectionStart) {
+          acc.buffer = []
         }
-      }
-      if (visibilityChanged) {
-        console.debug(
-          '[ArticleToC] visibilityChanged from',
-          visibleCellsIdx,
-          'to',
-          updatedVisibleCellsIdx,
-        )
-        setVisibleCellsIdx(updatedVisibleCellsIdx)
-      }
-    }, 100)
-    // delay and double check if cell idx are still visible.
-    return function cleanup() {
-      clearTimeout(timer)
-    }
-  }, [visibleCellsIdx, selectedLayer])
+        // always add to the current group
+        acc.buffer.push(d)
+        // whenever section end, add the group to the list of groups
+        if (d.isSectionEnd) {
+          acc.groups.push(acc.buffer)
+        }
+        return acc
+      },
+      { buffer: [], groups: [] },
+    )
 
-  console.debug(
-    '[ArticleToC]',
-    '\n - visibleCellsIdx',
-    visibleCellsIdx,
-    firstVisibleCellIdx,
-    lastVisibleCellIdx,
-    '\n - selectedCellIdx:',
-    selectedCellIdx,
-    steps,
-  )
+  console.debug('[ArticleToC] @render \n - memoid:', memoid)
+
   return (
-    <>
-      {/* ArticleToCTitle would open / collapse and push the fixed height Toc to the bottom */}
+    <aside className="ArticleToC">
       <ArticleToCTitle plainTitle={plainTitle}>
         {showData ? (
           <div className="me-3 text-end">
@@ -233,50 +137,33 @@ const ArticleToC = ({
           </div>
         ) : null}
       </ArticleToCTitle>
-      <div style={{ height: 500 }} className="d-flex flex-column position-relative">
-        <div className="flex-shrink-1 pb-3 pointer-events-auto text-end">
-          <div className="me-3">
-            <ArticleLayerSwitch layers={layers} />
-          </div>
-        </div>
-        <div
-          ref={toCref}
-          className="flex-grow-1 pointer-events-auto border-bottom border-top border-dark"
-        >
-          <ToC
-            className="position-absolute w-100"
-            visibleHeight={toCHeight - 2}
-            selectedId={selectedCellIdx}
-            steps={steps.map((step) => {
-              if (step.id === selectedCellIdx) {
-                step.isSelected = true
-              }
-              step.active = step.id >= previousHeadingIdx && step.id <= lastVisibleCellIdx
-              return step
-            })}
-            width={width * 0.16}
-            onClick={onStepClickHandler}
-          />
-        </div>
-        {hasBibliography && (
-          <div className="flex-shrink-1 ps-2 mb-3">
-            <ToCStep
-              level="H2"
-              label={t('bibliography')}
-              width={width * 0.16}
-              isSectionStart
-              isSectionEnd
-              selected
-              active={false}
-              className=""
-              onClick={(e) => onSectionClickHandler(e, DisplayLayerSectionBibliography)}
-            ></ToCStep>
-          </div>
-        )}
+      <div className="pb-3 me-3 text-end pointer-events-auto">
+        <ArticleLayerSwitch layers={layers} />
       </div>
-    </>
+      <ArticleToCSteps
+        width={width * 0.16}
+        steps={steps}
+        selectedCellIdx={selectedCellIdx}
+        style={{ height: toCHeight, borderRight: '3px solid' }}
+        onClick={onStepClickHandler}
+      />
+      {hasBibliography && (
+        <ToCStep
+          level="H2"
+          label={t('bibliography')}
+          width={width * 0.16}
+          isSectionStart
+          isSectionEnd
+          selected
+          active={false}
+          className=""
+          onClick={(e) => onSectionClickHandler(e, DisplayLayerSectionBibliography)}
+        ></ToCStep>
+      )}
+    </aside>
   )
 }
+
 export default React.memo(ArticleToC, (prevProps, nextProps) => {
   if (prevProps.width !== nextProps.width) {
     return false

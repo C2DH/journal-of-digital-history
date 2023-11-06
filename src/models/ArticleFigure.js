@@ -1,3 +1,5 @@
+import { CoverRefPrefix, FigureRefPrefix } from '../constants'
+
 export default class ArticleFigure {
   constructor({
     ref = null, // 'figure-', // 'figure-12a' figure identifier. Must start with constants/FigureRefPrefix
@@ -6,7 +8,7 @@ export default class ArticleFigure {
     idx = -1,
     num = -1,
     isTable = false,
-    isCover = false
+    refPrefix = FigureRefPrefix,
   }) {
     this.type = type
     this.module = module
@@ -14,12 +16,29 @@ export default class ArticleFigure {
     this.num = num
     this.ref = ref
     this.isTable = isTable
-    this.isCover = isCover
-    this.tNLabel = this.isTable ? 'numbers.table': 'numbers.figure'
-    this.tNum = typeof this.ref === 'string'
-      ? this.ref.lastIndexOf('-*') !== -1
-        ? this.num
-        : this.ref.split('-').pop()
-      : this.num
+    this.isCover = refPrefix === CoverRefPrefix
+    this.tNLabel = this.isCover
+      ? 'cover'
+      : `numbers.${refPrefix.substring(0, refPrefix.length - 1)}`
+    // number in the table of contents. It is more important than `num` because it is used to sort the figures
+    this.refPrefix = refPrefix
+  }
+
+  getPrefix() {
+    return this.refPrefix.substring(0, this.refPrefix.length - 1)
+  }
+
+  setNum(num) {
+    this.num = num
+    if (typeof this.ref !== 'string' || this.ref.lastIndexOf('-*') !== -1) {
+      this.tNum = this.num
+      return
+    }
+    const refNum = this.ref.split('-').pop()
+    if (isNaN(refNum)) {
+      this.tNum = this.num
+    } else {
+      this.tNum = parseInt(refNum)
+    }
   }
 }

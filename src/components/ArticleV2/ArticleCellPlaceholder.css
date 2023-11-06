@@ -1,0 +1,44 @@
+.ArticleCellPlaceholder__figure {
+  white-space: nowrap;
+  position: absolute;
+  right: 0;
+  margin-top: 0.5rem;
+}
+.ArticleCellPlaceholder.table {
+  width: auto;
+}
+.ArticleCellPlaceholder.dialog table td > div {
+  border-radius: 5px;
+  padding: 5px 10px;
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.5);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.ArticleCellPlaceholder.dialog table {
+  border-collapse: separate;
+  border-spacing: 5px;
+}
+
+.ArticleCellPlaceholder table {
+  font-size: 0.8em;
+}
+
+.ArticleCellPlaceholder table td {
+  padding: var(--spacer-2);
+}
+
+.ArticleCellPlaceholder.dialog table td {
+  padding: 5px;
+}
+.ArticleCellPlaceholder table th {
+  padding: 0 var(--spacer-2);
+}
+
+.ArticleCellPlaceholder.dialog table td:last-child {
+  text-align: right;
+}
+.ArticleCellPlaceholder.dialog table td.empty {
+  box-shadow: none;
+  background: transparent;
+}

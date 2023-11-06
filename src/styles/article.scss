@@ -279,9 +279,12 @@ $breakpoint-lg: 992px;
   tbody tr:nth-of-type(odd) {
     background-color: var(--gray-200);
   }
-  td,
-  th {
+
+  td {
     padding: var(--spacer-2);
+  }
+  th {
+    padding: 0 var(--spacer-2);
   }
 }
 
@@ -396,21 +399,6 @@ $breakpoint-lg: 992px;
 
 ArticleShadowLayer_animatedLabel {
   height: 20px;
-}
-
-.ArticleFigure {
-  min-height: 50px;
-  margin-top: var(--spacer-3);
-}
-
-.ArticleFigure_figcaption_num {
-  position: absolute;
-  left: -140px;
-  width: 140px;
-  text-align: right;
-  padding-right: var(--spacer-3);
-  font-family: var(--font-family-monospace);
-  font-weight: bold;
 }
 
 svg.ArticleFingerprint {

@@ -1,4 +1,6 @@
 import { LayerChoices, LayerNarrative, SectionChoices, SectionDefault } from '../constants'
+import ArticleAnchor from '../models/ArticleAnchor'
+import ArticleFigure from '../models/ArticleFigure'
 import ArticleReference from '../models/ArticleReference'
 import ArticleTreeWarning, {
   FigureAnchorWarningCode,
@@ -60,6 +62,65 @@ export const getLayerFromCellMetadata = (metadata) =>
     LayerChoices,
     LayerNarrative,
   )
+
+/**
+ * getFigureFromCell
+ *
+ * Returns an ArticleFigure object based on the given cell's metadata tags.
+ * @param {Object} cell - The cell object to extract the figure from.
+ * @returns {ArticleFigure|null} - The ArticleFigure object if found, otherwise null.
+ */
+/**
+ * Returns an ArticleFigure object from a cell's metadata tags that match the given refPrefixes.
+ * @param {Object} cell - The cell object to extract the figure from.
+ * @param {Array} [refPrefixes=[]] - An array of reference prefixes to match against the cell's metadata tags.
+ * @returns {ArticleFigure|null} - An ArticleFigure object if a matching tag is found, otherwise null.
+ */
+export const getFigureFromCell = (cell, refPrefixes = []) => {
+  if (!cell.metadata?.tags) {
+    return null
+  }
+  let figure = null
+  for (const refPrefix of refPrefixes) {
+    for (const tag of cell.metadata.tags) {
+      if (tag.indexOf(refPrefix) === 0) {
+        figure = new ArticleFigure({
+          ref: tag,
+          idx: cell.idx,
+          refPrefix,
+        })
+        break
+      }
+    }
+  }
+  return figure
+}
+
+/**
+ * Returns an ArticleAnchor object from a cell's metadata tags that match the given refPrefixes.
+ * @param {Object} cell - The cell object to extract the anchor from.
+ * @param {Array} refPrefixes - An array of reference prefixes to match against the cell's metadata tags.
+ * @returns {ArticleAnchor|null} - An ArticleAnchor object if a matching tag is found, otherwise null.
+ */
+export const getAnchorFromCell = (cell, refPrefixes = []) => {
+  if (!cell.metadata?.tags) {
+    return null
+  }
+  let anchor = null
+  for (const refPrefix of refPrefixes) {
+    for (const tag of cell.metadata.tags) {
+      if (tag.indexOf(refPrefix) === 0) {
+        anchor = new ArticleAnchor({
+          ref: tag,
+          idx: cell.idx,
+          refPrefix,
+        })
+        break
+      }
+    }
+  }
+  return anchor
+}
 
 export const renderMarkdownWithReferences = ({
   idx = -1,

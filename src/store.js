@@ -25,9 +25,14 @@ export const useArticleToCStore = create((set) => ({
       return { visibleCellsIdx: copy }
     }),
   setVisibleCellsIdx: (visibleCellsIdx = []) =>
-    set(() => ({
-      visibleCellsIdx: [...visibleCellsIdx],
-    })),
+    set((state) => {
+      const copy = state.visibleCellsIdx.join('-')
+      const newCopy = visibleCellsIdx.join('-')
+      // compare the two strings
+      if (copy !== newCopy) {
+        return { visibleCellsIdx }
+      }
+    }),
   selectedCellIdx: -1,
   setSelectedCellIdx: (selectedCellIdx) => set(() => ({ selectedCellIdx })),
 }))
