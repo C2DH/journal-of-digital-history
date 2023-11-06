@@ -256,7 +256,9 @@
         "itemIdx": "(item #{{idx}})",
         "articles": "{{ n }} articles",
         "datatableRows": "<b>{{ total }}</b> rows",
-        "datatableRowsFiltered": "<b>{{ n }}</b> / {{ total }} rows (filtered)"
+        "datatableRowsFiltered": "<b>{{ n }}</b> / {{ total }} rows (filtered)",
+        "datatablePaginatedRows": "<label>{{startOffset}} - {{endOffset}}</label>&nbsp;of&nbsp;<b>{{ total }}</b>&nbsp;rows",
+        "datatablePaginatedRowsFiltered": "<label>{{startOffset}} - {{endOffset}}</label>&nbsp;of&nbsp;<b>{{ n }}</b>&nbsp;/ {{ total }} rows (filtered)"
       },
       "missingStepsWithCount": "<b>1</b> step missing",
       "missingStepsWithCount_plural": "<b>{{count}}</b> steps missing",

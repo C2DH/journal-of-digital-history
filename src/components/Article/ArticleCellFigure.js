@@ -53,7 +53,7 @@ const ArticleCellFigure = ({
    * useMemo hook that processes the outputs of an article figure to extract captions, pictures and other outputs.
    * It checks if a caption has been added to the cell metadata.
    * */
-  const { captions, pictures, otherOutputs } = useMemo(
+  const { captions, pictures, otherOutputs, htmlOutputs } = useMemo(
     () =>
       [{ metadata }].concat(outputs).reduce(
         (acc, output = {}) => {
@@ -67,7 +67,10 @@ const ArticleCellFigure = ({
           const isOutputEmpty =
             outputProps.length === 0 ||
             (outputProps.length === 1 && outputProps.shift() === 'metadata')
-
+          const isHTML = mimetypes.includes('text/html')
+          if (isHTML) {
+            acc.htmlOutputs.push(output)
+          }
           if (mimetype) {
             acc.pictures.push({
               // ...output,
@@ -79,7 +82,7 @@ const ArticleCellFigure = ({
           }
           return acc
         },
-        { captions: [], pictures: [], otherOutputs: [] },
+        { captions: [], pictures: [], otherOutputs: [], htmlOutputs: [] },
       ),
     [figure.idx],
   )
@@ -93,26 +96,42 @@ const ArticleCellFigure = ({
       return acc
     }, BootstrapColumLayout)
 
-  console.debug(
-    '[ArticleCellFigure] \n - idx:',
-    figure.idx,
-    '\n - aspectRatio:',
-    aspectRatio,
-    '\n - tags:',
-    tags,
-    '\n - n.pictures:',
-    pictures.length,
-    '\n - active:',
-    active,
-    captions,
-  )
+  // console.debug(
+  //   '[ArticleCellFigure] \n - idx:',
+  //   figure.idx,
+  //   '\n - aspectRatio:',
+  //   aspectRatio,
+  //   '\n - tags:',
+  //   tags,
+  //   '\n - n.pictures:',
+  //   pictures.length,
+  //   '\n - active:',
+  //   active,
+  //   captions,
+  // )
 
   const isDataTable = figure.refPrefix === TableRefPrefix && cellType === 'markdown'
-
+  let dataTableContent = ''
   if (isDataTable) {
     columnLayout = { md: 10 }
-  }
 
+    if (htmlOutputs.length > 0) {
+      dataTableContent = htmlOutputs[0].data['text/html'].join('\n')
+    } else {
+      dataTableContent = children?.props?.content
+    }
+  }
+  if (figure.idx === 22) {
+    console.debug(
+      '[ArticleCellFigure] \n - idx:',
+      figure.idx,
+      cellType,
+      'dataTableContent',
+      dataTableContent.length,
+    )
+    // eslint-disable-next-line no-debugger
+    // debugger
+  }
   return (
     <div className={`ArticleCellFigure ${active ? 'active' : ''} ${figure.getPrefix()}`}>
       <Container className={containerClassName} fluid={isFluidContainer}>
@@ -172,7 +191,7 @@ const ArticleCellFigure = ({
               <ArticleCellDataTable
                 cellType={cellType}
                 cellIdx={figure.idx}
-                htmlContent={children?.props?.content}
+                htmlContent={dataTableContent}
               />
             ) : (
               children

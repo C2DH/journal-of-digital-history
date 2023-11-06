@@ -33,7 +33,7 @@ const ColumnFilter = ({ column }) => {
   )
 }
 
-const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '' }) => {
+const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '', allowFilterColumn = false }) => {
   const { t } = useTranslation()
   const [columnFilters, setColumnFilters] = React.useState([])
   // htmlContent is "<table>\n<thead>\n<tr>\n<th>Use Case</th>\n<th>Cell Type</th>\n<th>Content Type</th>\n<th>Tag</th>\n<th>Caption</th>\n</tr>\n</thead>"
@@ -41,10 +41,15 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '' }) => {
   // const tableHeaders = htmlContent.split('<th>')
   const thValues = React.useMemo(
     () =>
-      htmlContent.match(/<th>(.*?)<\/th>/g)?.map((th) => {
-        const v = th.replace(/<\/?th>/g, '')
-        return v
-      }),
+      // e.g. test with '<th class="">Titolo</th>'.match(/<th[^>]*>(.*?)<\/th>/g)
+      htmlContent
+        .split('</tr>')
+        .shift()
+        .match(/<th[^>]*>(.*?)<\/th>/g)
+        ?.map((th) => {
+          const v = th.replace(/<th[^>]*>/g, '').replace(/<\/?th>/g, '')
+          return v
+        }) || [],
     [],
   )
   // Create the table and pass your options
@@ -55,15 +60,17 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '' }) => {
       htmlContent
         .split('<tbody>')
         .pop()
-        .match(/<tr>[\s\S]*?<\/tr>/g)
+        .match(/<tr[^>]*>[\s\S]*?<\/tr>/g)
         ?.map((tr) => {
-          const v = tr.replace(/<\/?tr>/g, '')
-          const tdValues = v.match(/<td>(.*?)<\/td>/g).reduce((acc, td, i) => {
-            const v = td.replace(/<\/?td>/g, '')
-            const header = thValues[i]
-            acc[header] = v
-            return acc
-          }, {})
+          const v = tr.replace(/<tr[^>]*>/g, '').replace(/<\/?tr>/g, '')
+
+          const tdValues =
+            v.match(/<t[dh][^>]*>(.*?)<\/t[dh]>/g)?.reduce((acc, td, i) => {
+              const v = td.replace(/<t[dh][^>]*>/g, '').replace(/<\/?t[dh]>/g, '')
+              const header = thValues[i]
+              acc[header] = v
+              return acc
+            }, {}) || {}
           return tdValues
         }) || [],
     [],
@@ -87,8 +94,11 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '' }) => {
     console.debug(
       '[ArticleCellDataTable] @useEffect \n - cellIdx:',
       cellIdx,
+      '\n - columns:',
+      columns,
       '\n - columnFilterId:',
       columnFilterId,
+      htmlContent,
     )
     if (table.getState().columnFilters[0]?.id === 'fullName') {
       if (table.getState().sorting[0]?.id !== 'fullName') {
@@ -106,8 +116,8 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '' }) => {
     <div className="ArticleCellDataTable">
       {/* Pagination */}
       {data.length > 10 ? (
-        <section className="ArticleCellDataTable__pagination d-flex align-items-center px-2 justify-content-between ">
-          <p
+        <section className="ArticleCellDataTable__pagination p-2">
+          {/* <p
             className="text-small px-2"
             dangerouslySetInnerHTML={{
               __html: t(
@@ -118,7 +128,7 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '' }) => {
                 },
               ),
             }}
-          />
+          /> */}
           <div className="input-group input-group-sm ">
             <button
               className="btn btn-sm btn-outline-secondary"
@@ -134,9 +144,22 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '' }) => {
             >
               <ChevronLeft size={15} />
             </button>
-            <span className="input-group-text">
-              {startOffset} - {endOffset} of <b>{data.length}</b> rows
-            </span>
+            <span
+              className="input-group-text"
+              dangerouslySetInnerHTML={{
+                __html: t(
+                  columnFilterId
+                    ? 'numbers.datatablePaginatedRowsFiltered'
+                    : 'numbers.datatablePaginatedRows',
+                  {
+                    total: data.length,
+                    n: displayedRows.length,
+                    startOffset,
+                    endOffset,
+                  },
+                ),
+              }}
+            ></span>
             {/* <input
               type="number"
               defaultValue={(table.getState().pagination.pageIndex + 1) * 10}
@@ -161,14 +184,9 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '' }) => {
               <ChevronsRight size={15} />
             </button>
           </div>
-          <span className="flex items-center gap-1">
-            <div>Page</div>
-            <strong>
-              {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-            </strong>
-          </span>
-          <span className="flex items-center gap-1">| Go to page:</span>
+
           <select
+            className="form-select form-select-sm"
             value={table.getState().pagination.pageSize}
             onChange={(e) => {
               table.setPageSize(Number(e.target.value))
@@ -191,7 +209,9 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '' }) => {
                 return (
                   <th key={header.id}>
                     {header.id}
-                    {header.column.getCanFilter() ? <ColumnFilter column={header.column} /> : null}
+                    {allowFilterColumn && header.column.getCanFilter() ? (
+                      <ColumnFilter column={header.column} />
+                    ) : null}
                   </th>
                 )
               })}
