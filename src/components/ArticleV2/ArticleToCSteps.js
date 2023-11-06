@@ -170,6 +170,7 @@ const ArticleToCSteps = ({
                       width={width - 10}
                       active={selectedCellIdx === step.cell.idx}
                       isFigure={!!step.cell.figure}
+                      isHermeneutics={step.cell.isHermeneutics}
                       layer={step.cell.layer}
                       isSectionEnd={step.isSectionEnd}
                       isSectionStart={step.isSectionStart}
