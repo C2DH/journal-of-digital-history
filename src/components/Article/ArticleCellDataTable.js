@@ -1,4 +1,5 @@
 import React from 'react'
+import { ChevronLeft, ChevronsLeft, ChevronRight, ChevronsRight } from 'react-feather'
 import {
   createColumnHelper,
   getCoreRowModel,
@@ -97,48 +98,67 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '' }) => {
   }, [columnFilterId])
 
   const displayedRows = table.getRowModel().rows
+  const pageSize = table.getState().pagination.pageSize
+  const currentPage = table.getState().pagination.pageIndex
+  const startOffset = currentPage * pageSize
+  const endOffset = Math.min((currentPage + 1) * pageSize, data.length)
   return (
     <div className="ArticleCellDataTable">
-      <p
-        className="text-small px-2"
-        dangerouslySetInnerHTML={{
-          __html: t(columnFilterId ? 'numbers.datatableRowsFiltered' : 'numbers.datatableRows', {
-            total: data.length,
-            n: displayedRows.length,
-          }),
-        }}
-      />
       {/* Pagination */}
       {data.length > 10 ? (
         <section className="ArticleCellDataTable__pagination d-flex align-items-center px-2 justify-content-between ">
-          <div>
+          <p
+            className="text-small px-2"
+            dangerouslySetInnerHTML={{
+              __html: t(
+                columnFilterId ? 'numbers.datatableRowsFiltered' : 'numbers.datatableRows',
+                {
+                  total: data.length,
+                  n: displayedRows.length,
+                },
+              ),
+            }}
+          />
+          <div className="input-group input-group-sm ">
             <button
-              className="border rounded p-1"
+              className="btn btn-sm btn-outline-secondary"
               onClick={() => table.setPageIndex(0)}
               disabled={!table.getCanPreviousPage()}
             >
-              {'<<'}
+              <ChevronsLeft size={15} />
             </button>
             <button
-              className="border rounded p-1"
+              className="btn btn-sm  btn-outline-secondary"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
-              {'<'}
+              <ChevronLeft size={15} />
             </button>
+            <span className="input-group-text">
+              {startOffset} - {endOffset} of <b>{data.length}</b> rows
+            </span>
+            {/* <input
+              type="number"
+              defaultValue={(table.getState().pagination.pageIndex + 1) * 10}
+              onChange={(e) => {
+                const page = e.target.value ? Number(e.target.value) - 1 : 0
+                table.setPageIndex(page)
+              }}
+              className="form-control"
+            /> */}
             <button
-              className="border rounded p-1"
+              className="btn btn-sm btn-outline-secondary"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
             >
-              {'>'}
+              <ChevronRight size={15} />
             </button>
             <button
-              className="border rounded p-1"
+              className="btn btn-sm btn-outline-secondary"
               onClick={() => table.setPageIndex(table.getPageCount() - 1)}
               disabled={!table.getCanNextPage()}
             >
-              {'>>'}
+              <ChevronsRight size={15} />
             </button>
           </div>
           <span className="flex items-center gap-1">
@@ -147,18 +167,7 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '' }) => {
               {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
             </strong>
           </span>
-          <span className="flex items-center gap-1">
-            | Go to page:
-            <input
-              type="number"
-              defaultValue={table.getState().pagination.pageIndex + 1}
-              onChange={(e) => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0
-                table.setPageIndex(page)
-              }}
-              className="border p-1 rounded w-16"
-            />
-          </span>
+          <span className="flex items-center gap-1">| Go to page:</span>
           <select
             value={table.getState().pagination.pageSize}
             onChange={(e) => {
