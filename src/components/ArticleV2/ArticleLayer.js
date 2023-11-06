@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react'
-import { LayerNarrative } from '../../constants'
+import React, { useEffect, useRef } from 'react'
 import ArticleCell from '../Article/ArticleCell'
-import ArticleCellObserver from './ArticleCellObserver'
+// import ArticleCellObserver from './ArticleCellObserver'
 import ArticleCellPlaceholder from './ArticleCellPlaceholder'
 import ArticleCellPopup from './ArticleCellPopup'
 import { a, useSpring, config } from 'react-spring'
@@ -9,11 +8,13 @@ import { useRefWithCallback } from '../../hooks/graphics'
 import { Button } from 'react-bootstrap'
 import { ArrowRight, ArrowLeft } from 'react-feather'
 import {
+  LayerNarrative,
   DisplayLayerSectionBibliography,
   DisplayLayerSectionFooter,
   IsMobile,
 } from '../../constants'
 import '../../styles/components/Article2/ArticleLayer.scss'
+import { useArticleToCStore } from '../../store'
 
 function getCellAnchorFromIdx(idx, prefix = 'c') {
   return `${prefix}${idx}`
@@ -23,6 +24,13 @@ function layerTransition(x, y, width, height) {
   return `polygon(${x}px 0px, ${x}px ${height}px, ${width}px ${height}px, ${width}px 0px)`
 }
 
+const ArticleCellObserver = ({ cell, className, children }) => {
+  return (
+    <div className={className} data-cell-idx={cell.idx}>
+      {children}
+    </div>
+  )
+}
 const ArticleLayer = ({
   memoid = '',
   layer = LayerNarrative,
@@ -56,6 +64,8 @@ const ArticleLayer = ({
   renderedFooterComponent = null,
   renderedLogoComponent = null,
 }) => {
+  const paragraphsOffsetsRef = useRef([])
+  const setVisibleCellsIdx = useArticleToCStore((state) => state.setVisibleCellsIdx)
   const [popupProps, setPopupProps] = useSpring(() => ({
     x: 0,
     y: 0,
@@ -70,64 +80,112 @@ const ArticleLayer = ({
     y: 0,
     config: config.slow,
   }))
-  const layerRef = useRefWithCallback((layerDiv) => {
-    if (selectedSection) {
-      console.info(
-        '[ArticleLayer] @useRefWithCallback on selectedSection selected:',
-        selectedSection,
-      )
-      // get section offset
-      const sectionElement = document.getElementById(getCellAnchorFromIdx(selectedSection, layer))
-      if (!sectionElement) {
-        console.warn(
-          '[ArticleLayer] @useRefWithCallback could not find any sectionElement with given id:',
+  let timeoutId
+  const scrollListener = (event) => {
+    clearTimeout(timeoutId)
+    const scrollTop = event.currentTarget.scrollTop
+    timeoutId = setTimeout(() => {
+      const visibleCellsIdx = []
+      // loop through the paragraphsOffsetsRef list nd find all the paragraphs into the viewport.
+      for (let i = 0; i < paragraphsOffsetsRef.current.length; ++i) {
+        const paragraphOffset = paragraphsOffsetsRef.current[i]
+        if (paragraphOffset.y > scrollTop && paragraphOffset.y < scrollTop + height) {
+          visibleCellsIdx.push(paragraphOffset.idx)
+          console.info('paragraphOffset in view', paragraphOffset)
+        }
+      }
+      setVisibleCellsIdx(visibleCellsIdx)
+    }, 50)
+  }
+  const setParagraphOffsets = (layerDiv) => {
+    const paragraphWrappers = layerDiv.querySelectorAll('.ArticleStream_paragraph')
+    console.info('[ArticleLayer] setParagraphOffsets', paragraphWrappers.length)
+    paragraphsOffsetsRef.current = []
+    // record offset related to the layerDiv
+    for (let i = 0; i < paragraphWrappers.length; ++i) {
+      // console.info(
+      //   '[ArticleLayer] setParagraphOffsets',
+      //   paragraphWrappers[i].dataset.cellIdx,
+      //   paragraphWrappers[i].parentNode.offsetTop,
+
+      // )
+      paragraphsOffsetsRef.current.push({
+        h: paragraphWrappers[i].parentNode.offsetHeight,
+        y: paragraphWrappers[i].parentNode.offsetTop,
+        idx: +paragraphWrappers[i].dataset.cellIdx,
+      })
+    }
+  }
+  const layerRef = useRefWithCallback(
+    (layerDiv) => {
+      setParagraphOffsets(layerDiv)
+      // add listener to scroll event on layeref
+      layerDiv.addEventListener('scroll', scrollListener)
+
+      if (selectedSection) {
+        console.info(
+          '[ArticleLayer] @useRefWithCallback on selectedSection selected:',
           selectedSection,
         )
+        // get section offset
+        const sectionElement = document.getElementById(getCellAnchorFromIdx(selectedSection, layer))
+        if (!sectionElement) {
+          console.warn(
+            '[ArticleLayer] @useRefWithCallback could not find any sectionElement with given id:',
+            selectedSection,
+          )
+          return
+        }
+        layerDiv.scrollTo({
+          top: sectionElement.offsetTop + layerDiv.offsetTop - 150,
+          behavior: previousLayer === selectedLayer ? 'smooth' : 'instant',
+        })
+        return
+      } else if (!isSelected || selectedCellIdx === -1) {
+        // discard
         return
       }
-      layerDiv.scrollTo({
-        top: sectionElement.offsetTop + layerDiv.offsetTop - 150,
-        behavior: previousLayer === selectedLayer ? 'smooth' : 'instant',
-      })
-      return
-    } else if (!isSelected || selectedCellIdx === -1) {
-      // discard
-      return
-    }
-    // get cellEmeemnt in current layer (as it can be just a placeholder,too)
-    const cellElement = document.getElementById(getCellAnchorFromIdx(selectedCellIdx, layer))
-    if (!cellElement) {
-      console.warn('Not found! celleElment with given id:', selectedCellIdx)
-      return
-    }
-    // if the current layer height is greater than the height ref in the URL params,
-    // it means we can safely scroll to the selectedcellTop position displayed in the URL.
-    const cellElementRefTop =
-      height >= selectedLayerHeight ? selectedCellTop : selectedLayerHeight / 2
-    const top = cellElement.offsetTop + layerDiv.offsetTop - cellElementRefTop
-    console.debug(
-      '[ArticleLayer] useRefWithCallback',
-      '\n selectedCellIdx:',
-      selectedCellIdx,
-      '\n layer',
-      layer,
-      '\n scrollTo:',
-      top,
-    )
-    setTimeout(() => {
+      // get cellEmeemnt in current layer (as it can be just a placeholder,too)
+      const cellElement = document.getElementById(getCellAnchorFromIdx(selectedCellIdx, layer))
+      if (!cellElement) {
+        console.warn('Not found! celleElment with given id:', selectedCellIdx)
+        return
+      }
+      // if the current layer height is greater than the height ref in the URL params,
+      // it means we can safely scroll to the selectedcellTop position displayed in the URL.
+      const cellElementRefTop =
+        height >= selectedLayerHeight ? selectedCellTop : selectedLayerHeight / 2
       const top = cellElement.offsetTop + layerDiv.offsetTop - cellElementRefTop
-
-      layerDiv.scrollTo({
+      console.debug(
+        '[ArticleLayer] useRefWithCallback',
+        '\n selectedCellIdx:',
+        selectedCellIdx,
+        '\n layer',
+        layer,
+        '\n scrollTo:',
         top,
-        behavior: !previousLayer || previousLayer === selectedLayer ? 'smooth' : 'instant',
-      })
-    }, 10)
-    // layerDiv.scrollTo({
-    //   top,
-    //   behavior: !previousLayer || previousLayer === selectedLayer ? 'smooth' : 'instant',
-    // })
-    // cellElement.scrollIntoView()
-  })
+      )
+      setTimeout(() => {
+        const top = cellElement.offsetTop + layerDiv.offsetTop - cellElementRefTop
+
+        layerDiv.scrollTo({
+          top,
+          behavior: !previousLayer || previousLayer === selectedLayer ? 'smooth' : 'instant',
+        })
+      }, 10)
+      // layerDiv.scrollTo({
+      //   top,
+      //   behavior: !previousLayer || previousLayer === selectedLayer ? 'smooth' : 'instant',
+      // })
+      // cellElement.scrollIntoView()
+    },
+    (layerDiv) => {
+      if (layerDiv) {
+        // add listener to scroll event on layeref
+        layerDiv.removeEventListener('scroll', scrollListener)
+      }
+    },
+  )
 
   const onCellPlaceholderClickHandler = (e, cell) => {
     if (typeof onCellPlaceholderClick === 'function') {
