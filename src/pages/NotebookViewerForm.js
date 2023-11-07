@@ -20,12 +20,16 @@ const NotebookViewerForm = () => {
   const handleNotebookUrlSubmit = ({ value, proxyValue }) => {
     // link to the notebbok viewer page with the right url link.
     if (proxyValue) {
-      console.info('handleNotebookUrlChange using local proxy', proxyValue, encodeNotebookURL(proxyValue))
+      console.info(
+        'handleNotebookUrlChange using local proxy',
+        proxyValue,
+        encodeNotebookURL(proxyValue),
+      )
       history.push({
-        pathname: generatePath("/:lang/notebook-viewer/:encodedUrl", {
+        pathname: generatePath('/:lang/notebook-viewer/:encodedUrl', {
           encodedUrl: encodeNotebookURL(proxyValue),
-          lang: i18n.language.split('-')[0]
-        })
+          lang: i18n.language.split('-')[0],
+        }),
       })
       // This rewrites URL from
       // https://github.com/C2DH/jdh-notebook/blob/features/template/author_guideline_template.ipynb
@@ -43,7 +47,7 @@ const NotebookViewerForm = () => {
       <Row>
         <Col {...BootstrapColumLayout}>
           <h1 className="my-5">{t('Pages_NotebookViewer_Title')}</h1>
-          <FormNotebookUrl onSubmit={handleNotebookUrlSubmit}/>
+          <FormNotebookUrl onSubmit={handleNotebookUrlSubmit} />
         </Col>
       </Row>
     </Container>

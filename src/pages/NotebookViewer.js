@@ -121,6 +121,7 @@ const NotebookViewer = ({
           publicationDate={publicationDate}
           publicationStatus={publicationStatus}
           issue={issue}
+          url={url}
           doi={doi}
           bibjson={bibjson}
           pid={pid}
