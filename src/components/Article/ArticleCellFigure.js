@@ -113,7 +113,7 @@ const ArticleCellFigure = ({
   const isDataTable = figure.refPrefix === DataTableRefPrefix && cellType === 'markdown'
   let dataTableContent = ''
   if (isDataTable) {
-    columnLayout = { md: 10 }
+    columnLayout = { md: 10, lg: 11 }
 
     if (htmlOutputs.length > 0) {
       dataTableContent = htmlOutputs[0].data['text/html'].join('\n')
