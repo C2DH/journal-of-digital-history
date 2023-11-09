@@ -198,6 +198,7 @@ export const FigureDatavis = 'vega'
 export const FigureRefPrefix = 'figure-'
 export const CoverRefPrefix = 'cover'
 export const TableRefPrefix = 'table-'
+export const DataTableRefPrefix = 'data-table-'
 export const QuoteRefPrefix = 'quote-'
 export const DialogRefPrefix = 'dialog-'
 export const SoundRefPrefix = 'sound-'
@@ -213,6 +214,7 @@ export const AvailableFigureRefPrefixes = [
   VideoRefPrefix,
   GalleryRefPrefix,
   CoverRefPrefix,
+  DataTableRefPrefix,
 ]
 export const AvailableRefPrefixes = AvailableFigureRefPrefixes.concat([AnchorRefPrefix])
 

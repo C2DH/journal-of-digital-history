@@ -6,6 +6,7 @@ import {
   DialogRefPrefix,
   FigureRefPrefix,
   TableRefPrefix,
+  DataTableRefPrefix,
   VideoRefPrefix,
   SoundRefPrefix,
   LayerNarrative,
@@ -16,6 +17,7 @@ const FigureRefPrefixMapping = {
   [FigureRefPrefix]: MediaImage,
   [DialogRefPrefix]: MessageText,
   [TableRefPrefix]: Table,
+  [DataTableRefPrefix]: Table,
   [SoundRefPrefix]: SoundMin,
   [VideoRefPrefix]: MediaVideo,
 }
@@ -76,7 +78,7 @@ const ToCStep = ({
       <label className={labelClassName} title={label}>
         {label}
       </label>
-      <div className="ToCStep_icon">
+      <div className={`ToCStep_icon ${figureRefPrefix}`}>
         {isHermeneutics && !isFigure && <Layers size={iconSize} />}
         {!isHermeneutics && !isFigure && <div className="ToCStep_icon_circle" />}
         {isFigure && <Icon size={iconSize} height={iconSize} width={iconSize} />}

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import ArticleCellOutputs from './ArticleCellOutputs'
 import ArticleFigureCaption from './ArticleFigureCaption'
 import { markdownParser } from '../../logic/ipynb'
-import { BootstrapColumLayout, TableRefPrefix } from '../../constants'
+import { BootstrapColumLayout, DataTableRefPrefix } from '../../constants'
 import { Container, Row, Col } from 'react-bootstrap'
 import '../../styles/components/Article/ArticleCellFigure.scss'
 import ArticleCellDataTable from './ArticleCellDataTable'
@@ -110,7 +110,7 @@ const ArticleCellFigure = ({
   //   captions,
   // )
 
-  const isDataTable = figure.refPrefix === TableRefPrefix && cellType === 'markdown'
+  const isDataTable = figure.refPrefix === DataTableRefPrefix && cellType === 'markdown'
   let dataTableContent = ''
   if (isDataTable) {
     columnLayout = { md: 10 }
