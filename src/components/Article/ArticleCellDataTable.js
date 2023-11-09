@@ -1,10 +1,18 @@
 import React from 'react'
-import { ChevronLeft, ChevronsLeft, ChevronRight, ChevronsRight } from 'react-feather'
+import {
+  ChevronLeft,
+  ChevronsLeft,
+  ChevronRight,
+  ChevronsRight,
+  ChevronDown,
+  ChevronUp,
+} from 'react-feather'
 import {
   createColumnHelper,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   // sortingFns,
   useReactTable,
   // PaginationState,
@@ -33,9 +41,49 @@ const ColumnFilter = ({ column }) => {
   )
 }
 
-const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '', allowFilterColumn = false }) => {
+const ColumnSorting = ({ column }) => {
+  const columnSortingValue = column.getIsSorted()
+  const sortBy = (direction) => {
+    console.debug('[ColumnSorting] sortBy', direction, 'columnSortingValue', columnSortingValue)
+    if (columnSortingValue === direction) {
+      column.clearSorting()
+    } else {
+      column.toggleSorting(direction !== 'asc')
+    }
+  }
+  return (
+    <div className={`ColumnSorting input-group input-group-sm ${columnSortingValue}`}>
+      <button
+        className={`btn btn-sm btn-outline-secondary p-1 ${
+          columnSortingValue === 'asc' ? 'active' : ''
+        }`}
+        onClick={() => sortBy('asc')}
+      >
+        <ChevronDown size={15} />
+      </button>
+      <button
+        className={`btn btn-sm btn-outline-secondary p-1 ${
+          columnSortingValue === 'desc' ? 'active' : ''
+        }`}
+        onClick={() => sortBy('desc')}
+      >
+        <ChevronUp size={15} />
+      </button>
+    </div>
+  )
+}
+
+const ArticleCellDataTable = ({
+  cellIdx = -1,
+  htmlContent = '',
+  allowFilterColumn = false,
+  allowSorting = true,
+}) => {
   const { t } = useTranslation()
   const [columnFilters, setColumnFilters] = React.useState([])
+  const [sorting, setSorting] = React.useState([])
+
+  const [globalFilter, setGlobalFilter] = React.useState('')
   // htmlContent is "<table>\n<thead>\n<tr>\n<th>Use Case</th>\n<th>Cell Type</th>\n<th>Content Type</th>\n<th>Tag</th>\n<th>Caption</th>\n</tr>\n</thead>"
   // get the table headers from the htmlContent"
   // const tableHeaders = htmlContent.split('<th>')
@@ -46,9 +94,9 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '', allowFilterColum
         .split('</tr>')
         .shift()
         .match(/<th[^>]*>(.*?)<\/th>/g)
-        ?.map((th) => {
+        ?.map((th, i) => {
           const v = th.replace(/<th[^>]*>/g, '').replace(/<\/?th>/g, '')
-          return v
+          return typeof v !== 'string' || v.length === 0 ? String('c' + i) : v
         }) || [],
     [],
   )
@@ -75,21 +123,36 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '', allowFilterColum
         }) || [],
     [],
   )
+
+  if (cellIdx === 86) {
+    console.debug(
+      '[ArticleCellDataTable] creating table ... \n - cellIdx:',
+      cellIdx,
+      '\n - columns:',
+      columns,
+      '\n - data:',
+      data,
+    )
+  }
+
   const table = useReactTable({
     data,
     columns,
     state: {
       columnFilters,
+      sorting,
+      globalFilter,
     },
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   })
 
   const columnFilterId = table.getState().columnFilters[0]?.id
-
+  const isFiltered = columnFilterId !== undefined || globalFilter !== ''
   React.useEffect(() => {
     console.debug(
       '[ArticleCellDataTable] @useEffect \n - cellIdx:',
@@ -98,7 +161,6 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '', allowFilterColum
       columns,
       '\n - columnFilterId:',
       columnFilterId,
-      htmlContent,
     )
     if (table.getState().columnFilters[0]?.id === 'fullName') {
       if (table.getState().sorting[0]?.id !== 'fullName') {
@@ -110,8 +172,13 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '', allowFilterColum
   const displayedRows = table.getRowModel().rows
   const pageSize = table.getState().pagination.pageSize
   const currentPage = table.getState().pagination.pageIndex
-  const startOffset = currentPage * pageSize
-  const endOffset = Math.min((currentPage + 1) * pageSize, data.length)
+  const startOffset = currentPage * pageSize + 1
+  const endOffset = Math.min(
+    (currentPage + 1) * pageSize,
+    isFiltered ? displayedRows.length : data.length,
+  )
+
+  console.debug('[ArticleCellDataTable] rendered \n - cellIdx:', cellIdx)
   return (
     <div className="ArticleCellDataTable">
       {/* Pagination */}
@@ -148,7 +215,7 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '', allowFilterColum
               className="input-group-text"
               dangerouslySetInnerHTML={{
                 __html: t(
-                  columnFilterId
+                  isFiltered
                     ? 'numbers.datatablePaginatedRowsFiltered'
                     : 'numbers.datatablePaginatedRows',
                   {
@@ -160,15 +227,7 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '', allowFilterColum
                 ),
               }}
             ></span>
-            {/* <input
-              type="number"
-              defaultValue={(table.getState().pagination.pageIndex + 1) * 10}
-              onChange={(e) => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0
-                table.setPageIndex(page)
-              }}
-              className="form-control"
-            /> */}
+
             <button
               className="btn btn-sm btn-outline-secondary"
               onClick={() => table.nextPage()}
@@ -184,7 +243,12 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '', allowFilterColum
               <ChevronsRight size={15} />
             </button>
           </div>
-
+          <DebouncedInput
+            value={globalFilter ?? ''}
+            onChange={(value) => setGlobalFilter(String(value))}
+            className="mx-2 border border-dark form-control form-control-sm"
+            placeholder="Search all columns..."
+          />
           <select
             className="form-select form-select-sm"
             value={table.getState().pagination.pageSize}
@@ -192,11 +256,23 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '', allowFilterColum
               table.setPageSize(Number(e.target.value))
             }}
           >
-            {[10, 20, 30, 40, 50].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                Show {pageSize}
-              </option>
-            ))}
+            {[10, 20, 50, 100, 200]
+              .filter((d) => {
+                return d <= data.length
+              })
+              .concat([data.length])
+              .map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  {t(
+                    pageSize === data.length
+                      ? 'numbers.datatableShowAllRows'
+                      : 'numbers.datatableShowRows',
+                    {
+                      n: pageSize,
+                    },
+                  )}
+                </option>
+              ))}
           </select>
         </section>
       ) : null}
@@ -211,6 +287,9 @@ const ArticleCellDataTable = ({ cellIdx = -1, htmlContent = '', allowFilterColum
                     {header.id}
                     {allowFilterColumn && header.column.getCanFilter() ? (
                       <ColumnFilter column={header.column} />
+                    ) : null}
+                    {allowSorting && header.column.getCanSort() ? (
+                      <ColumnSorting column={header.column} />
                     ) : null}
                   </th>
                 )

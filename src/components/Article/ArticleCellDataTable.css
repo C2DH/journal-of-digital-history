@@ -3,6 +3,7 @@
   padding: 0px;
   border-radius: 4px;
   border: 1px solid;
+  background-color: rgba(255, 255, 255, 0.65);
 }
 .ArticleCellDataTable > p {
   padding: var(--spacer-2);
@@ -12,7 +13,9 @@
   background-color: transparent;
   width: 100%;
 }
-
+.ArticleCellDataTable table tbody {
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+}
 .ArticleCellDataTable__header {
   position: sticky;
   top: 100px;
@@ -23,6 +26,9 @@
   align-items: center;
 }
 
+.ArticleCellDataTable__pagination .input-group {
+  z-index: 0;
+}
 .ArticleCellDataTable__pagination .input-group .input-group-text {
   background: transparent;
   border-top-color: inherit;
@@ -53,8 +59,21 @@
 
 .ArticleCellDataTable table thead {
   border-bottom: 1px solid;
+  border-top: 1px solid rgba(0, 0, 0, 0.186);
 }
 
 .ArticleCellDataTable table tbody tr:nth-of-type(2n + 1) {
   background-color: rgba(0, 0, 0, 0.05);
+}
+
+.ArticleCellDataTable .ColumnSorting {
+  margin-left: var(--spacer-1);
+  display: inline-block;
+  width: auto;
+}
+.ArticleCellDataTable .ColumnSorting button {
+  --bs-btn-line-height: 1.15;
+}
+.ArticleCellDataTable .ColumnSorting button.active {
+  box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.186);
 }
