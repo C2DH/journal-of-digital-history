@@ -55,6 +55,17 @@
 .ArticleCellDataTable table th {
   padding: var(--spacer-2);
   background-color: transparent;
+  vertical-align: bottom;
+  border: 1px solid rgba(0, 0, 0, 0.186);
+}
+.ArticleCellDataTable table td {
+  border: 1px solid rgba(0, 0, 0, 0.061);
+}
+.ArticleCellDataTable table th:first-child,
+.ArticleCellDataTable table td:first-child,
+.ArticleCellDataTable table td:last-child,
+.ArticleCellDataTable table th:last-child {
+  border-left: 0px solid transparent;
 }
 
 .ArticleCellDataTable table thead {
@@ -67,10 +78,15 @@
 }
 
 .ArticleCellDataTable .ColumnSorting {
-  margin-left: var(--spacer-1);
-  display: inline-block;
+  display: block;
   width: auto;
-  min-width: 45px;
+  min-width: 50px;
+  margin-top: var(--spacer-1);
+  opacity: 0.5;
+}
+.ArticleCellDataTable .ColumnSorting:hover,
+.ArticleCellDataTable .ColumnSorting.active {
+  opacity: 1;
 }
 .ArticleCellDataTable .ColumnSorting button {
   --bs-btn-line-height: 1.15;
