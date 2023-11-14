@@ -19757,10 +19757,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==
 
-thebe-core@^0.2.3, thebe-core@^0.2.9:
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/thebe-core/-/thebe-core-0.2.9.tgz#cc14c60d100aaef4a1609bd2acbc42c4f9a403a4"
-  integrity sha512-7h0DGzg94CiLQt03Ov3Az40jHEU6WrF36KYT1IOMSkfDAvtsT+DIy+TRQM/pizOUEBOLGRPJEumQ4qJ6Ba16Lw==
+thebe-core@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/thebe-core/-/thebe-core-0.3.5.tgz#bcecc4e4b192c44340b58680f6f2f9e3750dc6cf"
+  integrity sha512-FLka3VjW6E1z1jwCeqbep0io5IYsEqnUYtCYUL44tjfolLIjeja0+O1iLhzsko0ytX7rulrsJW1edsasj463qw==
   dependencies:
     "@jupyter-widgets/base" "^6.0.1"
     "@jupyter-widgets/controls" "^5.0.1"
@@ -19781,15 +19781,15 @@ thebe-core@^0.2.3, thebe-core@^0.2.9:
     lodash.merge "^4.6.2"
     nanoid "^3.2.0"
 
-thebe-react@^0.2.3:
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/thebe-react/-/thebe-react-0.2.9.tgz#93973ac64b1f42cf35f44a0e40a5c45cce24e102"
-  integrity sha512-r4mljA4rJ31BbuQiQ0CKVcaBaKMulBCduPsjdi7+/xjrGCQEsyzPMhhB7cw2H0YjMow4h68wG+N/u9NEX6aOyA==
+thebe-react@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/thebe-react/-/thebe-react-0.3.5.tgz#e6a7fbdd0ef625bbb3a0f0233d1434cdaed00212"
+  integrity sha512-5RzxpuC4sWpkxXX/rZqKOcuON+xX/TNEiG2QGNom1lCIzqa0DE1AoqdSV2GGeGg3NT33cExb61QFvw7T9spWCA==
   dependencies:
     "@jupyterlab/nbformat" "^3.5.0"
     react "^18.2.0"
     react-dom "^18.2.0"
-    thebe-core "^0.2.9"
+    thebe-core "^0.3.5"
 
 thenify-all@^1.0.0:
   version "1.6.0"
