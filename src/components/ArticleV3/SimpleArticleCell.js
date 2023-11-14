@@ -25,24 +25,45 @@ const ArticleCell = ({
   isJavascriptTrusted = false,
   onNumClick,
   thebeCell,
-  executing,
-  executeCell,
+  useThebeRendering,
+  notebookIsExecuting,
 }) => {
   const { ready, session } = useThebeSession()
 
+  const [results, setResults] = React.useState(outputs)
+  const [error, setError] = React.useState(undefined)
+  const [executing, setExecuting] = React.useState(false)
+  const busy = executing || notebookIsExecuting
+
+  const executeCell = useCallback(() => {
+    if (thebeCell) {
+      setExecuting(true)
+      thebeCell.execute().then((result) => {
+        console.log('ArticleCell executeCell', result)
+        setExecuting(false)
+        // errors is an array of https://nbformat.readthedocs.io/en/latest/format_description.html#error
+        // they will also be displayed in the cell output
+        if (result.error) setError(result.error)
+        if (!useThebeRendering) {
+          setResults(thebeCell.outputs)
+        }
+      })
+    }
+  }, [thebeCell])
+
   const ref = useCallback(
     (node) => {
-      console.log('ArticleCell ref callback', node, thebeCell)
-      if (thebeCell && node && ready) {
+      if (useThebeRendering && thebeCell && node && ready) {
         const verb = thebeCell.isAttachedToDOM ? 'reattaching' : 'attaching'
         console.debug(`${verb} cell ${thebeCell.id} to DOM at:`, {
           el: node,
           connected: node.isConnected,
         })
+
         thebeCell.attachToDOM(node)
       }
     },
-    [ready, session],
+    [ready, session, useThebeRendering, thebeCell],
   )
 
   let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout
@@ -85,7 +106,8 @@ const ArticleCell = ({
                 {ready && (
                   <div
                     style={{
-                      backgroundColor: 'lightgreen',
+                      color: error ? 'white' : 'inherit',
+                      backgroundColor: error ? 'red' : 'lightgreen',
                       paddingLeft: 4,
                       paddingRight: 4,
                       display: 'flex',
@@ -93,12 +115,12 @@ const ArticleCell = ({
                       gap: 4,
                     }}
                   >
-                    <div>thebe ready</div>
+                    <div>cell {error ? 'error' : 'ready'}</div>
                     <div style={{ flexGrow: 1 }} />
-                    <button onClick={() => thebeCell.execute()} disabled={executing}>
+                    <button onClick={executeCell} disabled={busy}>
                       run
                     </button>
-                    <button onClick={() => thebeCell.clear()} disabled={executing}>
+                    <button onClick={() => setResults([])} disabled={busy}>
                       clear
                     </button>
                   </div>
@@ -110,7 +132,7 @@ const ArticleCell = ({
                     isolationMode={false}
                     isJavascriptTrusted={isJavascriptTrusted}
                     cellIdx={idx}
-                    outputs={outputs}
+                    outputs={results}
                   />
                 </div>
               </div>
