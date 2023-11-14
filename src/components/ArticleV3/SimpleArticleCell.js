@@ -25,7 +25,7 @@ const ArticleCell = ({
   isJavascriptTrusted = false,
   onNumClick,
   thebeCell,
-  useThebeRendering,
+  renderUsingThebe,
   notebookIsExecuting,
 }) => {
   const { ready, session } = useThebeSession()
@@ -44,7 +44,7 @@ const ArticleCell = ({
         // errors is an array of https://nbformat.readthedocs.io/en/latest/format_description.html#error
         // they will also be displayed in the cell output
         if (result.error) setError(result.error)
-        if (!useThebeRendering) {
+        if (!renderUsingThebe) {
           setResults(thebeCell.outputs)
         }
       })
@@ -53,7 +53,7 @@ const ArticleCell = ({
 
   const ref = useCallback(
     (node) => {
-      if (useThebeRendering && thebeCell && node && ready) {
+      if (renderUsingThebe && thebeCell && node && ready) {
         const verb = thebeCell.isAttachedToDOM ? 'reattaching' : 'attaching'
         console.debug(`${verb} cell ${thebeCell.id} to DOM at:`, {
           el: node,
@@ -63,7 +63,7 @@ const ArticleCell = ({
         thebeCell.attachToDOM(node)
       }
     },
-    [ready, session, useThebeRendering, thebeCell],
+    [ready, session, renderUsingThebe, thebeCell],
   )
 
   let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout
