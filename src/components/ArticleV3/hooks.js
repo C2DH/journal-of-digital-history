@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { useNotebookBase, useThebeLoader, useThebeConfig, useRenderMimeRegistry } from 'thebe-react'
+import React, { useMemo } from 'react'
+import { useThebeLoader, useThebeConfig, useRenderMimeRegistry } from 'thebe-react'
 import { useIpynbNotebookParagraphs } from '../../hooks/ipynb'
 
 function useParagraphs(url, tree) {
@@ -38,6 +38,7 @@ export function useNotebook(url, ipynb) {
   const { core } = useThebeLoader()
   const { config } = useThebeConfig()
   const rendermime = useRenderMimeRegistry()
+
   const articleTree = useIpynbNotebookParagraphs({
     id: url,
     cells: ipynb?.content?.cells ?? ipynb?.cells ?? [],
@@ -46,35 +47,34 @@ export function useNotebook(url, ipynb) {
 
   const { paragraphs, paragraphsGroups } = useParagraphs(url, articleTree)
 
-  // QUESTION: we can create a custom hook here better suited to the article
-  const {
-    ready,
-    attached,
-    executing,
-    errors,
-    notebook,
-    setNotebook,
-    executeAll,
-    executeSome,
-    clear,
-  } = useNotebookBase()
+  // paragraphs are ArticleCell shaped plain objects?
 
-  useEffect(() => {
-    if (!core || !config) return
-    const nb = core?.ThebeNotebook.fromIpynb(ipynb, config, rendermime)
-    setNotebook(nb)
-  }, [core, config])
+  const executables = useMemo(() => {
+    if (!core || !config || !rendermime) return {}
+    return paragraphs
+      .filter((p) => p.type === 'code')
+      .reduce((acc, p) => {
+        acc[p.idx] = {
+          id: p.idx,
+          thebe: core?.ThebeCodeCell.fromICodeCell(
+            {
+              cell_type: p.type,
+              source: p.source,
+              metadata: {},
+            },
+            url,
+            config,
+            rendermime,
+          ),
+          outputs: p.outputs,
+        }
+        return acc
+      }, {})
+  }, [core, config, rendermime, url, paragraphs])
 
   return {
     paragraphs,
     paragraphsGroups,
-    ready,
-    executing,
-    attached,
-    errors,
-    notebook,
-    executeAll,
-    executeSome,
-    clear,
+    executables,
   }
 }

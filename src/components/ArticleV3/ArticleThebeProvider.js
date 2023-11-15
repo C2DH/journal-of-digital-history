@@ -33,12 +33,13 @@ export const ArticleThebeProvider = ({ children }) => {
 export function useArticleThebe() {
   const { core } = useThebeLoader()
   const { connecting, error: serverError, ready: serverReady, server, connect } = useThebeServer()
-  const { starting, error: sessionError, ready: sessionReady, start } = useThebeSession()
+  const { starting, error: sessionError, ready: sessionReady, start, session } = useThebeSession()
 
   return {
     starting: connecting || starting,
     ready: serverReady && sessionReady,
     error: serverError || sessionError,
+    session,
     connectAndStart: async () => {
       if (!core) {
         console.warn('[useArticleThebe]', 'thebe-core not loaded.')

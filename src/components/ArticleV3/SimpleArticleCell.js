@@ -9,7 +9,7 @@ import {
   BootstrapNarrativeStepColumnLayout,
   ArticleCellContainerClassNames,
 } from '../../constants'
-import { useThebeSession } from 'thebe-react'
+import { useExecutionScope } from './ExecutionScope'
 
 const ArticleCell = ({
   type,
@@ -17,53 +17,40 @@ const ArticleCell = ({
   num = 1,
   content = '',
   idx,
-  outputs = [],
   hideNum,
   metadata = {},
   isNarrativeStep,
   headingLevel = 0, // if isHeading, set this to its ArticleHeading.level value
   isJavascriptTrusted = false,
   onNumClick,
-  thebeCell,
   renderUsingThebe,
-  notebookIsExecuting,
+  ready,
 }) => {
-  const { ready, session } = useThebeSession()
+  const { executing, error, outputs, thebeCell, executeCell, clearCell, resetCell } =
+    useExecutionScope((state) => ({
+      executing: state.cells[idx]?.executing ?? false,
+      error: state.cells[idx]?.error,
+      outputs: state.cells[idx]?.outputs ?? [],
+      thebeCell: state.cells[idx]?.thebe,
+      executeCell: () => state.executeCell(idx), // curried to this cell idx
+      clearCell: () => state.clearCell(idx),
+      resetCell: () => state.resetCell(idx),
+    }))
 
-  const [results, setResults] = React.useState(outputs)
-  const [error, setError] = React.useState(undefined)
-  const [executing, setExecuting] = React.useState(false)
-  const busy = executing || notebookIsExecuting
-
-  const executeCell = useCallback(() => {
-    if (thebeCell) {
-      setExecuting(true)
-      thebeCell.execute().then((result) => {
-        console.log('ArticleCell executeCell', result)
-        setExecuting(false)
-        // errors is an array of https://nbformat.readthedocs.io/en/latest/format_description.html#error
-        // they will also be displayed in the cell output
-        if (result.error) setError(result.error)
-        if (!renderUsingThebe) {
-          setResults(thebeCell.outputs)
-        }
-      })
-    }
-  }, [thebeCell])
+  console.log(type, outputs, thebeCell?.outputs)
 
   const ref = useCallback(
     (node) => {
-      if (renderUsingThebe && thebeCell && node && ready) {
+      if (renderUsingThebe && thebeCell && node) {
         const verb = thebeCell.isAttachedToDOM ? 'reattaching' : 'attaching'
         console.debug(`${verb} cell ${thebeCell.id} to DOM at:`, {
           el: node,
           connected: node.isConnected,
         })
-
         thebeCell.attachToDOM(node)
       }
     },
-    [ready, session, renderUsingThebe, thebeCell],
+    [renderUsingThebe, thebeCell],
   )
 
   let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout
@@ -75,6 +62,15 @@ const ArticleCell = ({
   const containerClassNames = (metadata.tags ?? []).filter((d) =>
     ArticleCellContainerClassNames.includes(d),
   )
+
+  let statusMessage = ''
+  if (executing) {
+    statusMessage = 'running...'
+  } else if (error) {
+    statusMessage = 'error'
+  } else if (ready) {
+    statusMessage = 'ready'
+  }
 
   if (type === 'markdown') {
     return (
@@ -103,7 +99,7 @@ const ArticleCell = ({
             <div className="ArticleCellContent">
               <div className="ArticleCellContent_num"></div>
               <div style={{ position: 'relative' }}>
-                {ready && (
+                {ready && thebeCell && (
                   <div
                     style={{
                       color: error ? 'white' : 'inherit',
@@ -115,13 +111,16 @@ const ArticleCell = ({
                       gap: 4,
                     }}
                   >
-                    <div>cell {error ? 'error' : 'ready'}</div>
+                    <div>{statusMessage}</div>
                     <div style={{ flexGrow: 1 }} />
-                    <button onClick={executeCell} disabled={busy}>
+                    <button onClick={executeCell} disabled={executing}>
                       run
                     </button>
-                    <button onClick={() => setResults([])} disabled={busy}>
+                    <button onClick={clearCell} disabled={executing}>
                       clear
+                    </button>
+                    <button onClick={resetCell} disabled={executing}>
+                      reset
                     </button>
                   </div>
                 )}
@@ -132,7 +131,7 @@ const ArticleCell = ({
                     isolationMode={false}
                     isJavascriptTrusted={isJavascriptTrusted}
                     cellIdx={idx}
-                    outputs={results}
+                    outputs={outputs}
                   />
                 </div>
               </div>

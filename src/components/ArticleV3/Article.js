@@ -1,14 +1,43 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container } from 'react-bootstrap'
 import { ArticleThebeProvider, useArticleThebe } from './ArticleThebeProvider'
 import SimpleArticleCell from './SimpleArticleCell'
 import { useNotebook } from './hooks'
 import { ExampleErrorTray } from './ExampleErrorTray'
+import { useExecutionScope } from './ExecutionScope'
 
 const Article = ({ mode = 'local', url = '', ipynb = { cells: [], metadata: {} }, ...props }) => {
-  const { starting, error, ready, connectAndStart, restart } = useArticleThebe()
-  const { paragraphs, notebook, executing, executeAll, clear } = useNotebook(url, ipynb)
+  const {
+    starting,
+    error: connectionError,
+    ready,
+    connectAndStart,
+    restart,
+    session,
+  } = useArticleThebe()
+  const { paragraphs, executables } = useNotebook(url, ipynb)
+
+  const { executing, error, executeAll, clearAll, resetAll, initExecutionScope, attachSession } =
+    useExecutionScope((state) => ({
+      executing: state.executing,
+      error: state.error,
+      executeAll: state.executeAll,
+      clearAll: state.clearAll,
+      resetAll: state.resetAll,
+      initExecutionScope: state.initialise,
+      attachSession: state.attachSession,
+    }))
+
+  useEffect(() => {
+    initExecutionScope(executables)
+  }, [executables])
+
+  useEffect(() => {
+    if (!ready) return
+    attachSession(session)
+  }, [ready])
+
   return (
     <Container>
       <div style={{ paddingTop: 120 }}></div>
@@ -25,7 +54,7 @@ const Article = ({ mode = 'local', url = '', ipynb = { cells: [], metadata: {} }
         {starting && (
           <span style={{ display: 'inline-block', marginLeft: '4px' }}>Starting...</span>
         )}
-        {error && <ExampleErrorTray error={error} />}
+        {connectionError && <ExampleErrorTray error={connectionError} />}
         {ready && (
           <div
             style={{
@@ -43,15 +72,18 @@ const Article = ({ mode = 'local', url = '', ipynb = { cells: [], metadata: {} }
             <div style={{ flexGrow: 1 }} />
             <button
               onClick={() => {
-                clear()
+                clearAll()
                 executeAll()
               }}
               disabled={executing}
             >
               run all
             </button>
-            <button onClick={clear} disabled={executing}>
+            <button onClick={clearAll} disabled={executing}>
               clear all
+            </button>
+            <button onClick={resetAll} disabled={executing}>
+              reset all
             </button>
             <button onClick={restart} disabled={executing}>
               restart
@@ -60,8 +92,6 @@ const Article = ({ mode = 'local', url = '', ipynb = { cells: [], metadata: {} }
         )}
       </div>
       {paragraphs.map((cell, idx) => {
-        // QUESTION do paragraphs correspond directly to cells?
-        const thebeCell = notebook?.cells[idx]
         return (
           <React.Fragment key={[url, idx].join('-')}>
             <a className="ArticleLayer_anchor"></a>
@@ -82,8 +112,7 @@ const Article = ({ mode = 'local', url = '', ipynb = { cells: [], metadata: {} }
                 layer={cell.layer}
                 headingLevel={cell.isHeading ? cell.heading.level : 0}
                 windowHeight={800}
-                thebeCell={thebeCell}
-                executing={executing}
+                ready={ready}
               />
             </div>
           </React.Fragment>
