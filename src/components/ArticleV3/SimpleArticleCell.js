@@ -9,7 +9,7 @@ import {
   BootstrapNarrativeStepColumnLayout,
   ArticleCellContainerClassNames,
 } from '../../constants'
-import { useThebeSession } from 'thebe-react'
+import { useExecutionScope } from './ExecutionScope'
 
 const ArticleCell = ({
   type,
@@ -17,23 +17,31 @@ const ArticleCell = ({
   num = 1,
   content = '',
   idx,
-  outputs = [],
   hideNum,
   metadata = {},
   isNarrativeStep,
   headingLevel = 0, // if isHeading, set this to its ArticleHeading.level value
   isJavascriptTrusted = false,
   onNumClick,
-  thebeCell,
-  executing,
-  executeCell,
+  renderUsingThebe,
+  ready,
 }) => {
-  const { ready, session } = useThebeSession()
+  const { executing, error, outputs, thebeCell, executeCell, clearCell, resetCell } =
+    useExecutionScope((state) => ({
+      executing: state.cells[idx]?.executing ?? false,
+      error: state.cells[idx]?.error,
+      outputs: state.cells[idx]?.outputs ?? [],
+      thebeCell: state.cells[idx]?.thebe,
+      executeCell: () => state.executeCell(idx), // curried to this cell idx
+      clearCell: () => state.clearCell(idx),
+      resetCell: () => state.resetCell(idx),
+    }))
+
+  console.log(type, outputs, thebeCell?.outputs)
 
   const ref = useCallback(
     (node) => {
-      console.log('ArticleCell ref callback', node, thebeCell)
-      if (thebeCell && node && ready) {
+      if (renderUsingThebe && thebeCell && node) {
         const verb = thebeCell.isAttachedToDOM ? 'reattaching' : 'attaching'
         console.debug(`${verb} cell ${thebeCell.id} to DOM at:`, {
           el: node,
@@ -42,7 +50,7 @@ const ArticleCell = ({
         thebeCell.attachToDOM(node)
       }
     },
-    [ready, session],
+    [renderUsingThebe, thebeCell],
   )
 
   let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout
@@ -54,6 +62,15 @@ const ArticleCell = ({
   const containerClassNames = (metadata.tags ?? []).filter((d) =>
     ArticleCellContainerClassNames.includes(d),
   )
+
+  let statusMessage = ''
+  if (executing) {
+    statusMessage = 'running...'
+  } else if (error) {
+    statusMessage = 'error'
+  } else if (ready) {
+    statusMessage = 'ready'
+  }
 
   if (type === 'markdown') {
     return (
@@ -82,10 +99,11 @@ const ArticleCell = ({
             <div className="ArticleCellContent">
               <div className="ArticleCellContent_num"></div>
               <div style={{ position: 'relative' }}>
-                {ready && (
+                {ready && thebeCell && (
                   <div
                     style={{
-                      backgroundColor: 'lightgreen',
+                      color: error ? 'white' : 'inherit',
+                      backgroundColor: error ? 'red' : 'lightgreen',
                       paddingLeft: 4,
                       paddingRight: 4,
                       display: 'flex',
@@ -93,13 +111,16 @@ const ArticleCell = ({
                       gap: 4,
                     }}
                   >
-                    <div>thebe ready</div>
+                    <div>{statusMessage}</div>
                     <div style={{ flexGrow: 1 }} />
-                    <button onClick={() => thebeCell.execute()} disabled={executing}>
+                    <button onClick={executeCell} disabled={executing}>
                       run
                     </button>
-                    <button onClick={() => thebeCell.clear()} disabled={executing}>
+                    <button onClick={clearCell} disabled={executing}>
                       clear
+                    </button>
+                    <button onClick={resetCell} disabled={executing}>
+                      reset
                     </button>
                   </div>
                 )}
