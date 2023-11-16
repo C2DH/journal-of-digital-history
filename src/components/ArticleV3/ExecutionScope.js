@@ -9,7 +9,15 @@ export const useExecutionScope = create((set, get) => ({
   attached: false,
   executing: false,
   restarting: false,
-  errors: undefined,
+  error: undefined,
+  updateCellSource: (id, source) => {
+    const cell = get().cells[id]
+    // set(({ cells }) => ({
+    //   executing: true,
+    //   cells: { ...cells, [id]: { ...cell, source } },
+    // }))
+    cell.thebe.source = source
+  },
   executeCell: async (id) => {
     const cell = get().cells[id]
     set(({ cells }) => ({
