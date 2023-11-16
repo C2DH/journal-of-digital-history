@@ -30,21 +30,36 @@ const ArticleCell = ({
   ready,
 }) => {
   const [isEditing, setIsEditing] = React.useState(false)
+  const [currentCell, setCurrentCell] = React.useState(useExecutionScope.getState().cells[idx])
 
-  const { executing, errors, outputs, thebeCell, executeCell, clearCell, resetCell } =
-    useExecutionScope((state) => ({
-      executing: state.cells[idx]?.executing ?? false,
-      errors: state.cells[idx]?.errors,
-      outputs: state.cells[idx]?.outputs ?? [],
-      thebeCell: state.cells[idx]?.thebe,
-      executeCell: () => state.executeCell(idx), // curried to this cell idx
-      clearCell: () => state.clearCell(idx),
-      resetCell: () => state.resetCell(idx),
-    }))
-
-  const updateCellSource = useExecutionScope((state) => state.updateCellSource)
-
-  console.log(type, outputs, thebeCell?.outputs)
+  const executing = !!currentCell?.executing
+  const errors = currentCell?.errors
+  const outputs = currentCell?.outputs || []
+  const thebeCell = currentCell?.thebe
+  // Connect to the store on mount, disconnect on unmount, catch state-changes in a reference
+  React.useEffect(
+    () =>
+      useExecutionScope.subscribe((state) => {
+        const cell = state.cells[idx]
+        if (!cell) return
+        if (cell.executing !== !!currentCell?.executing) {
+          console.info(
+            '[ArticleCell] @useExecutionScope.subscribe',
+            idx,
+            currentCell?.executing,
+            cell.executing,
+          )
+          setCurrentCell(cell)
+        }
+      }),
+    [],
+  )
+  const [executeCell, clearCell, resetCell, updateCellSource] = useExecutionScope((state) => [
+    state.executeCell,
+    state.clearCell,
+    state.resetCell,
+    state.updateCellSource,
+  ])
 
   const toggleEditCell = () => {
     console.debug('editCell', idx, source)
@@ -132,17 +147,17 @@ const ArticleCell = ({
                   >
                     <div>{statusMessage}</div>
                     <div style={{ flexGrow: 1 }} />
-                    <button onClick={executeCell} disabled={executing}>
+                    <button onClick={() => executeCell(idx)} disabled={executing}>
                       run
                     </button>
-                    <button onClick={clearCell} disabled={executing}>
+                    <button onClick={() => clearCell(idx)} disabled={executing}>
                       clear
                     </button>
-                    <button onClick={resetCell} disabled={executing}>
+                    <button onClick={() => resetCell(idx)} disabled={executing}>
                       reset
                     </button>
                     <button onClick={toggleEditCell} disabled={executing}>
-                      edit
+                      {isEditing ? 'preview' : 'edit'}
                     </button>
                   </div>
                 )}
@@ -158,6 +173,7 @@ const ArticleCell = ({
                   <ArticleCellSourceCode visible content={source.join('')} language="python" />
                 )}
                 {errors && <ArticleCellError errors={errors} />}
+                <pre>{JSON.stringify()}</pre>
                 <div ref={ref}>
                   {!errors && (
                     <ArticleCellOutputs
