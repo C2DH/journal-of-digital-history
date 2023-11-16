@@ -5,6 +5,7 @@
   "dependencies": {
     "@auth0/auth0-react": "^1.1.0",
     "@c2dh/react-facets": "^1.1.0",
+    "@curvenote/ansi-to-react": "^7.0.0",
     "@gerhobbelt/markdown-it-attrs": "^3.0.3-20",
     "@jonkoops/matomo-tracker-react": "^0.7.0",
     "@react-spring/web": "^9.7.3",

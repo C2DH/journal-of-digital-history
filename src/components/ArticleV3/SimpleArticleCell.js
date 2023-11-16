@@ -4,6 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap'
 import ArticleCellOutputs from '../Article/ArticleCellOutputs'
 import ArticleCellContent from '../Article/ArticleCellContent'
 import ArticleCellSourceCode from '../Article/ArticleCellSourceCode'
+import ArticleCellError from './ArticleCellError'
 import {
   BootstrapColumLayout,
   BootstrapNarrativeStepColumnLayout,
@@ -26,18 +27,16 @@ const ArticleCell = ({
   renderUsingThebe,
   ready,
 }) => {
-  const { executing, error, outputs, thebeCell, executeCell, clearCell, resetCell } =
+  const { executing, errors, outputs, thebeCell, executeCell, clearCell, resetCell } =
     useExecutionScope((state) => ({
       executing: state.cells[idx]?.executing ?? false,
-      error: state.cells[idx]?.error,
+      errors: state.cells[idx]?.errors,
       outputs: state.cells[idx]?.outputs ?? [],
       thebeCell: state.cells[idx]?.thebe,
       executeCell: () => state.executeCell(idx), // curried to this cell idx
       clearCell: () => state.clearCell(idx),
       resetCell: () => state.resetCell(idx),
     }))
-
-  console.log(type, outputs, thebeCell?.outputs)
 
   const ref = useCallback(
     (node) => {
@@ -66,11 +65,13 @@ const ArticleCell = ({
   let statusMessage = ''
   if (executing) {
     statusMessage = 'running...'
-  } else if (error) {
+  } else if (errors) {
     statusMessage = 'error'
   } else if (ready) {
     statusMessage = 'ready'
   }
+
+  console.log('errors', errors)
 
   if (type === 'markdown') {
     return (
@@ -102,8 +103,8 @@ const ArticleCell = ({
                 {ready && thebeCell && (
                   <div
                     style={{
-                      color: error ? 'white' : 'inherit',
-                      backgroundColor: error ? 'red' : 'lightgreen',
+                      color: errors ? 'white' : 'inherit',
+                      backgroundColor: errors ? 'red' : 'lightgreen',
                       paddingLeft: 4,
                       paddingRight: 4,
                       display: 'flex',
@@ -126,13 +127,16 @@ const ArticleCell = ({
                 )}
                 <ArticleCellSourceCode visible content={content} language="python" />
                 <div ref={ref}>
-                  <ArticleCellOutputs
-                    isMagic={false}
-                    isolationMode={false}
-                    isJavascriptTrusted={isJavascriptTrusted}
-                    cellIdx={idx}
-                    outputs={outputs}
-                  />
+                  {errors && <ArticleCellError errors={errors} />}
+                  {!errors && (
+                    <ArticleCellOutputs
+                      isMagic={false}
+                      isolationMode={false}
+                      isJavascriptTrusted={isJavascriptTrusted}
+                      cellIdx={idx}
+                      outputs={outputs}
+                    />
+                  )}
                 </div>
               </div>
             </div>

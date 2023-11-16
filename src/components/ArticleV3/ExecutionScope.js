@@ -9,15 +9,15 @@ export const useExecutionScope = create((set, get) => ({
   attached: false,
   executing: false,
   restarting: false,
-  error: undefined,
+  errors: undefined,
   executeCell: async (id) => {
     const cell = get().cells[id]
     set(({ cells }) => ({
       executing: true,
       cells: { ...cells, [id]: { ...cell, executing: true } },
     }))
-    const { error } = await cell.thebe.execute()
-    if (error) console.error(`[useExecutionScope] executeCell error: ${error}`)
+    const { error: errors } = await cell.thebe.execute()
+    if (errors) console.error(`[useExecutionScope] executeCell error: ${errors}`)
     set(({ cells }) => {
       // eslint-disable-next-line no-unused-vars
       const { [id]: current, ...others } = cells
@@ -28,11 +28,11 @@ export const useExecutionScope = create((set, get) => ({
           [id]: {
             ...cell,
             executing: false,
-            error,
-            outputs: error ? [] : cell.thebe.outputs, // on error clear outputs?
+            errors,
+            outputs: errors ? [] : cell.thebe.outputs, // on error clear outputs?
           },
         },
-        error,
+        errors,
       }
     })
   },
@@ -47,9 +47,9 @@ export const useExecutionScope = create((set, get) => ({
 
     for (const id of orderedKeys) {
       const cell = get().cells[id]
-      const { error } = await cell.thebe.execute()
+      const { error: errors } = await cell.thebe.execute()
 
-      if (error) {
+      if (errors) {
         set(({ cells }) => {
           // eslint-disable-next-line no-unused-vars
           const { [id]: current, ...others } = cells
@@ -60,11 +60,11 @@ export const useExecutionScope = create((set, get) => ({
               [id]: {
                 ...cell,
                 executing: false,
-                error,
-                outputs: error ? [] : cell.thebe.outputs, // on error clear outputs?
+                errors,
+                outputs: errors ? [] : cell.thebe.outputs, // on error clear outputs?
               },
             },
-            error,
+            errors,
           }
         })
         break // stop execution
@@ -84,7 +84,7 @@ export const useExecutionScope = create((set, get) => ({
               outputs: cell.thebe.outputs,
             },
           },
-          error,
+          errors,
         }
       })
     }
@@ -93,13 +93,13 @@ export const useExecutionScope = create((set, get) => ({
     const cell = get().cells[id]
     cell.thebe.clear() // also clear thebe cell outputs, in case thebe is rendering
     set(({ cells }) => ({
-      cells: { ...cells, [id]: { ...cell, error: undefined, outputs: [] } },
+      cells: { ...cells, [id]: { ...cell, errors: undefined, outputs: [] } },
     }))
   },
   clearAll: () => {
     set(({ cells }) => ({
       cells: mapObject(cells, (cell) => {
-        return { ...cell, error: undefined, outputs: [] }
+        return { ...cell, errors: undefined, outputs: [] }
       }),
     }))
   },
@@ -107,14 +107,14 @@ export const useExecutionScope = create((set, get) => ({
     set(({ cells }) => ({
       cells: {
         ...cells,
-        [id]: { ...cells[id], error: undefined, outputs: cells[id].originals },
+        [id]: { ...cells[id], errors: undefined, outputs: cells[id].originals },
       },
     }))
   },
   resetAll: () => {
     set(({ cells }) => ({
       cells: mapObject(cells, (cell) => {
-        return { ...cell, error: undefined, outputs: cell.originals }
+        return { ...cell, errors: undefined, outputs: cell.originals }
       }),
     }))
   },
@@ -150,6 +150,6 @@ export const useExecutionScope = create((set, get) => ({
       attached: false,
       executing: false,
       restarting: false,
-      error: undefined,
+      errors: undefined,
     }),
 }))
