@@ -1,13 +1,13 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react'
 import { Container } from 'react-bootstrap'
 import { ArticleThebeProvider, useArticleThebe } from './ArticleThebeProvider'
 import SimpleArticleCell from './SimpleArticleCell'
 import { useNotebook } from './hooks'
-import { ExampleErrorTray } from './ExampleErrorTray'
+import ExampleErrorTray from './ExampleErrorTray'
 import { useExecutionScope } from './ExecutionScope'
 
-const Article = ({ mode = 'local', url = '', ipynb = { cells: [], metadata: {} }, ...props }) => {
+// const Article = ({ mode = 'local', url = '', ipynb = { cells: [], metadata: {} }, ...props }) => {
+const Article = ({ url = '', ipynb = { cells: [], metadata: {} } }) => {
   const {
     starting,
     error: connectionError,
@@ -18,10 +18,10 @@ const Article = ({ mode = 'local', url = '', ipynb = { cells: [], metadata: {} }
   } = useArticleThebe()
   const { paragraphs, executables } = useNotebook(url, ipynb)
 
-  const { executing, error, executeAll, clearAll, resetAll, initExecutionScope, attachSession } =
+  const { executing, executeAll, clearAll, resetAll, initExecutionScope, attachSession } =
     useExecutionScope((state) => ({
       executing: state.executing,
-      error: state.error,
+      errors: state.errors,
       executeAll: state.executeAll,
       clearAll: state.clearAll,
       resetAll: state.resetAll,
@@ -41,6 +41,7 @@ const Article = ({ mode = 'local', url = '', ipynb = { cells: [], metadata: {} }
   return (
     <Container>
       <div style={{ paddingTop: 120 }}></div>
+      {connectionError && <ExampleErrorTray error={connectionError} />}
       <div style={{ position: 'sticky', top: 100, zIndex: 10 }}>
         {!starting && !ready && (
           <button
@@ -54,7 +55,7 @@ const Article = ({ mode = 'local', url = '', ipynb = { cells: [], metadata: {} }
         {starting && (
           <span style={{ display: 'inline-block', marginLeft: '4px' }}>Starting...</span>
         )}
-        {connectionError && <ExampleErrorTray error={connectionError} />}
+
         {ready && (
           <div
             style={{
@@ -86,7 +87,7 @@ const Article = ({ mode = 'local', url = '', ipynb = { cells: [], metadata: {} }
               reset all
             </button>
             <button onClick={restart} disabled={executing}>
-              restart
+              restart kernel
             </button>
           </div>
         )}

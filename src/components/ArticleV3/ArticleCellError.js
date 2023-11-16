@@ -1,12 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import Ansi from '@curvenote/ansi-to-react'
+import ErrorContent from './ErrorContent'
 
 const ArticleCellError = ({ idx, errors, hideLabel = false }) => {
   const outputTypeClassName = `ArticleCellOutput_${errors[0].output_type}`
   const { t } = useTranslation()
-
-  console.log('ArticleCellError', errors)
 
   return (
     <blockquote
@@ -20,14 +18,7 @@ const ArticleCellError = ({ idx, errors, hideLabel = false }) => {
           </div>
         </div>
       )}
-      {errors.map((error, j) => (
-        <div key={`error-${idx}-${j}`}>
-          <div>
-            {error.ename} - {error.evalue}
-          </div>
-          <Ansi useClasses>{error.traceback.join('\n')}</Ansi>
-        </div>
-      ))}
+      <ErrorContent errors={errors} idx={idx} />
     </blockquote>
   )
 }

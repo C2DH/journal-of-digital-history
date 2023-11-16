@@ -12,10 +12,17 @@ import {
 export const ArticleThebeProvider = ({ children }) => {
   const options = useMemo(() => {
     return {
+      // example binder settings
+      // binderSettings: {
+      //   binderUrl: 'https://mybinder.org',
+      //   repo: 'jupyterlab/jupyterlab-demo', // github username/repo
+      //   ref: 'HEAD' or 'ref/branch name',
+      // },
       serverSettings: {
         baseUrl: 'http://localhost:8888',
         token: 'some-development-token',
       },
+      // TODO need to set kernelName
     }
   }, [])
 

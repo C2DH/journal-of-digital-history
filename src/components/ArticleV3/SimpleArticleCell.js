@@ -71,8 +71,6 @@ const ArticleCell = ({
     statusMessage = 'ready'
   }
 
-  console.log('errors', errors)
-
   if (type === 'markdown') {
     return (
       <Container className={containerClassNames.join(' ')}>
@@ -126,8 +124,13 @@ const ArticleCell = ({
                   </div>
                 )}
                 <ArticleCellSourceCode visible content={content} language="python" />
+                {/* QUESTION: on error, outputs are cleared and the error message displayed here, but should the error be trusted like this?
+                    alternatively, don't clear the outputs on error in ExecutionScope use the presence of errors to trigger some UX here
+                    BUT leave the outputs as-is (which will contain the error), and update the article output rendering to handle 
+                    output_type === 'error' appropriately and render something like the ArticleCellError, then isolationMode etc... will be honored
+                 */}
+                {errors && <ArticleCellError errors={errors} />}
                 <div ref={ref}>
-                  {errors && <ArticleCellError errors={errors} />}
                   {!errors && (
                     <ArticleCellOutputs
                       isMagic={false}

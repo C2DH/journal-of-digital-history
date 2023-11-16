@@ -16,8 +16,8 @@ export const useExecutionScope = create((set, get) => ({
       executing: true,
       cells: { ...cells, [id]: { ...cell, executing: true } },
     }))
-    const { error: errors } = await cell.thebe.execute()
-    if (errors) console.error(`[useExecutionScope] executeCell error: ${errors}`)
+    const result = await cell.thebe.execute()
+    if (result?.errors) console.error(`[useExecutionScope] executeCell error: ${result?.errors}`)
     set(({ cells }) => {
       // eslint-disable-next-line no-unused-vars
       const { [id]: current, ...others } = cells
@@ -28,11 +28,11 @@ export const useExecutionScope = create((set, get) => ({
           [id]: {
             ...cell,
             executing: false,
-            errors,
-            outputs: errors ? [] : cell.thebe.outputs, // on error clear outputs?
+            errors: result?.errors,
+            outputs: result?.errors ? [] : cell.thebe.outputs, // on error clear outputs?
           },
         },
-        errors,
+        errors: result?.errors,
       }
     })
   },
@@ -43,28 +43,27 @@ export const useExecutionScope = create((set, get) => ({
     }))
     // caution -  we are relying on a id being stable, sortable and
     // corresponding to the correct cell order for execution
-    const orderedKeys = Object.keys(get().cells).sort()
+    const orderedKeys = Object.keys(get().cells).map((k) => parseInt(k, 10))
+    orderedKeys.sort((a, b) => a - b)
 
     for (const id of orderedKeys) {
       const cell = get().cells[id]
-      const { error: errors } = await cell.thebe.execute()
+      const result = await cell.thebe.execute()
 
-      if (errors) {
+      if (result?.errors) {
         set(({ cells }) => {
-          // eslint-disable-next-line no-unused-vars
-          const { [id]: current, ...others } = cells
           return {
             executing: false,
             cells: {
-              ...cells.map((c) => ({ ...c, executing: false })),
+              ...mapObject(cells, (c) => ({ ...c, executing: false })),
               [id]: {
                 ...cell,
                 executing: false,
-                errors,
-                outputs: errors ? [] : cell.thebe.outputs, // on error clear outputs?
+                errors: result?.errors,
+                outputs: result?.errors ? [] : cell.thebe.outputs, // on error clear outputs?
               },
             },
-            errors,
+            errors: result?.errors,
           }
         })
         break // stop execution
@@ -84,7 +83,7 @@ export const useExecutionScope = create((set, get) => ({
               outputs: cell.thebe.outputs,
             },
           },
-          errors,
+          errors: result?.errors,
         }
       })
     }
