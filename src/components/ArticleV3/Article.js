@@ -111,6 +111,7 @@ const Article = ({ url = '', ipynb = { cells: [], metadata: {} } }) => {
                 idx={cell.idx}
                 role={cell.role}
                 layer={cell.layer}
+                source={cell.source}
                 headingLevel={cell.isHeading ? cell.heading.level : 0}
                 windowHeight={800}
                 ready={ready}
