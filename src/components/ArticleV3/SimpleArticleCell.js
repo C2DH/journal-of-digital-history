@@ -11,12 +11,14 @@ import {
   ArticleCellContainerClassNames,
 } from '../../constants'
 import { useExecutionScope } from './ExecutionScope'
+const ArticleCellEditor = React.lazy(() => import('./ArticleCellEditor'))
 
 const ArticleCell = ({
   type,
   layer,
   num = 1,
   content = '',
+  source = '',
   idx,
   hideNum,
   metadata = {},
@@ -27,6 +29,8 @@ const ArticleCell = ({
   renderUsingThebe,
   ready,
 }) => {
+  const [isEditing, setIsEditing] = React.useState(false)
+
   const { executing, errors, outputs, thebeCell, executeCell, clearCell, resetCell } =
     useExecutionScope((state) => ({
       executing: state.cells[idx]?.executing ?? false,
@@ -37,6 +41,20 @@ const ArticleCell = ({
       clearCell: () => state.clearCell(idx),
       resetCell: () => state.resetCell(idx),
     }))
+
+  const updateCellSource = useExecutionScope((state) => state.updateCellSource)
+
+  console.log(type, outputs, thebeCell?.outputs)
+
+  const toggleEditCell = () => {
+    console.debug('editCell', idx, source)
+    setIsEditing(!isEditing)
+  }
+
+  const onCellChangeHandler = (value) => {
+    console.debug('[ArticleCell] onCellChangeHandler', idx, { value })
+    updateCellSource(idx, value)
+  }
 
   const ref = useCallback(
     (node) => {
@@ -70,6 +88,8 @@ const ArticleCell = ({
   } else if (ready) {
     statusMessage = 'ready'
   }
+
+  console.debug('[ArticleCell]', idx, 'is rendering')
 
   if (type === 'markdown') {
     return (
@@ -121,14 +141,22 @@ const ArticleCell = ({
                     <button onClick={resetCell} disabled={executing}>
                       reset
                     </button>
+                    <button onClick={toggleEditCell} disabled={executing}>
+                      edit
+                    </button>
                   </div>
                 )}
-                <ArticleCellSourceCode visible content={content} language="python" />
-                {/* QUESTION: on error, outputs are cleared and the error message displayed here, but should the error be trusted like this?
-                    alternatively, don't clear the outputs on error in ExecutionScope use the presence of errors to trigger some UX here
-                    BUT leave the outputs as-is (which will contain the error), and update the article output rendering to handle 
-                    output_type === 'error' appropriately and render something like the ArticleCellError, then isolationMode etc... will be honored
-                 */}
+                {isEditing ? (
+                  <React.Suspense fallback={<div>loading...</div>}>
+                    <ArticleCellEditor
+                      cellIdx={idx}
+                      source={source.join('')}
+                      onChange={onCellChangeHandler}
+                    />
+                  </React.Suspense>
+                ) : (
+                  <ArticleCellSourceCode visible content={source.join('')} language="python" />
+                )}
                 {errors && <ArticleCellError errors={errors} />}
                 <div ref={ref}>
                   {!errors && (
