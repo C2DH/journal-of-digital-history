@@ -1,5 +1,5 @@
 import React from 'react'
-export function ExampleErrorTray({ error }) {
+export default function ExampleErrorTray({ error }) {
   const [show, setShow] = React.useState(!!error)
   if (!show) return null
   return (
@@ -14,6 +14,7 @@ export function ExampleErrorTray({ error }) {
         display: 'flex',
         flexDirection: 'column',
         padding: 12,
+        zIndex: 1040,
       }}
     >
       <button onClick={() => setShow(false)}>dismiss</button>
