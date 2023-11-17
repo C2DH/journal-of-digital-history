@@ -10,6 +10,7 @@ import {
 } from 'thebe-react'
 
 export const ArticleThebeProvider = ({ children }) => {
+  const binder = false // true for binder, false for local jupyter server
   const options = useMemo(() => {
     return {
       // example binder settings
@@ -28,7 +29,7 @@ export const ArticleThebeProvider = ({ children }) => {
 
   return (
     <ThebeLoaderProvider start>
-      <ThebeServerProvider connect={false} options={options}>
+      <ThebeServerProvider useBinder={binder} connect={false} options={options}>
         <ThebeRenderMimeRegistryProvider>
           <ThebeSessionProvider>{children}</ThebeSessionProvider>
         </ThebeRenderMimeRegistryProvider>
