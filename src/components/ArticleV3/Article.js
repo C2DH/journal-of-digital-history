@@ -4,10 +4,10 @@ import { ArticleThebeProvider, useArticleThebe } from './ArticleThebeProvider'
 import SimpleArticleCell from './SimpleArticleCell'
 import { useNotebook } from './hooks'
 import ExampleErrorTray from './ExampleErrorTray'
+import ArticleExecuteToolbar from './ArticleExecuteToolbar'
 import { useExecutionScope } from './ExecutionScope'
 
-// const Article = ({ mode = 'local', url = '', ipynb = { cells: [], metadata: {} }, ...props }) => {
-const Article = ({ url = '', ipynb = { cells: [], metadata: {} } }) => {
+const Article = ({ url = '', paragraphs }) => {
   const {
     starting,
     error: connectionError,
@@ -16,82 +16,26 @@ const Article = ({ url = '', ipynb = { cells: [], metadata: {} } }) => {
     restart,
     session,
   } = useArticleThebe()
-  const { paragraphs, executables } = useNotebook(url, ipynb)
 
-  const { executing, executeAll, clearAll, resetAll, initExecutionScope, attachSession } =
-    useExecutionScope((state) => ({
-      executing: state.executing,
-      errors: state.errors,
-      executeAll: state.executeAll,
-      clearAll: state.clearAll,
-      resetAll: state.resetAll,
-      initExecutionScope: state.initialise,
-      attachSession: state.attachSession,
-    }))
-
-  useEffect(() => {
-    initExecutionScope(executables)
-  }, [executables])
+  const attachSession = useExecutionScope((state) => state.attachSession)
 
   useEffect(() => {
     if (!ready) return
     attachSession(session)
   }, [ready])
 
+  console.debug('[Article]', url, 'is rendering')
+
   return (
     <Container>
       <div style={{ paddingTop: 120 }}></div>
       {connectionError && <ExampleErrorTray error={connectionError} />}
-      <div style={{ position: 'sticky', top: 100, zIndex: 10 }}>
-        {!starting && !ready && (
-          <button
-            style={{ margin: '4px', color: 'green' }}
-            disabled={starting || ready}
-            onClick={connectAndStart}
-          >
-            Start
-          </button>
-        )}
-        {starting && (
-          <span style={{ display: 'inline-block', marginLeft: '4px' }}>Starting...</span>
-        )}
-
-        {ready && (
-          <div
-            style={{
-              display: 'flex',
-              marginLeft: 4,
-              marginBottom: 12,
-              padding: 4,
-              backgroundColor: 'lightgreen',
-              width: '100%',
-              alignItems: 'center',
-              gap: 4,
-            }}
-          >
-            {executing ? 'RUNNING...' : 'READY'}
-            <div style={{ flexGrow: 1 }} />
-            <button
-              onClick={() => {
-                clearAll()
-                executeAll()
-              }}
-              disabled={executing}
-            >
-              run all
-            </button>
-            <button onClick={clearAll} disabled={executing}>
-              clear all
-            </button>
-            <button onClick={resetAll} disabled={executing}>
-              reset all
-            </button>
-            <button onClick={restart} disabled={executing}>
-              restart kernel
-            </button>
-          </div>
-        )}
-      </div>
+      <ArticleExecuteToolbar
+        starting={starting}
+        ready={ready}
+        connectAndStart={connectAndStart}
+        restart={restart}
+      />
       {paragraphs.map((cell, idx) => {
         return (
           <React.Fragment key={[url, idx].join('-')}>
@@ -124,10 +68,22 @@ const Article = ({ url = '', ipynb = { cells: [], metadata: {} } }) => {
   )
 }
 
-function ThebeArticle({ children, ...props }) {
+function ArticleWithContent({ url, ipynb }) {
+  const { paragraphs, executables } = useNotebook(url, ipynb)
+
+  const initExecutionScope = useExecutionScope((state) => state.initialise)
+
+  useEffect(() => {
+    initExecutionScope(executables)
+  }, [executables, initExecutionScope])
+
+  return <Article url={url} paragraphs={paragraphs} />
+}
+
+function ThebeArticle({ url = '', ipynb = { cells: [], metadata: {} } }) {
   return (
     <ArticleThebeProvider>
-      <Article {...props}>{children}</Article>
+      <ArticleWithContent url={url} ipynb={ipynb} />
     </ArticleThebeProvider>
   )
 }

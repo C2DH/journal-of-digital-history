@@ -9,7 +9,7 @@ export const useExecutionScope = create((set, get) => ({
   attached: false,
   executing: false,
   restarting: false,
-  error: undefined,
+  errors: undefined,
   updateCellSource: (id, source) => {
     const cell = get().cells[id]
     // set(({ cells }) => ({

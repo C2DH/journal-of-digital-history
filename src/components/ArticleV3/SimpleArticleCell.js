@@ -31,20 +31,14 @@ const ArticleCell = ({
 }) => {
   const [isEditing, setIsEditing] = React.useState(false)
 
-  const { executing, errors, outputs, thebeCell, executeCell, clearCell, resetCell } =
-    useExecutionScope((state) => ({
-      executing: state.cells[idx]?.executing ?? false,
-      errors: state.cells[idx]?.errors,
-      outputs: state.cells[idx]?.outputs ?? [],
-      thebeCell: state.cells[idx]?.thebe,
-      executeCell: () => state.executeCell(idx), // curried to this cell idx
-      clearCell: () => state.clearCell(idx),
-      resetCell: () => state.resetCell(idx),
-    }))
-
+  const executing = useExecutionScope((state) => state.cells[idx]?.executing)
+  const errors = useExecutionScope((state) => state.cells[idx]?.errors)
+  const outputs = useExecutionScope((state) => state.cells[idx]?.outputs) ?? []
+  const thebeCell = useExecutionScope((state) => state.cells[idx]?.thebe)
+  const executeCell = useExecutionScope((state) => state.executeCell)
+  const clearCell = useExecutionScope((state) => state.clearCell)
+  const resetCell = useExecutionScope((state) => state.resetCell)
   const updateCellSource = useExecutionScope((state) => state.updateCellSource)
-
-  console.log(type, outputs, thebeCell?.outputs)
 
   const toggleEditCell = () => {
     console.debug('editCell', idx, source)
@@ -132,13 +126,13 @@ const ArticleCell = ({
                   >
                     <div>{statusMessage}</div>
                     <div style={{ flexGrow: 1 }} />
-                    <button onClick={executeCell} disabled={executing}>
+                    <button onClick={() => executeCell(idx)} disabled={executing}>
                       run
                     </button>
-                    <button onClick={clearCell} disabled={executing}>
+                    <button onClick={() => clearCell(idx)} disabled={executing}>
                       clear
                     </button>
-                    <button onClick={resetCell} disabled={executing}>
+                    <button onClick={() => resetCell(idx)} disabled={executing}>
                       reset
                     </button>
                     <button onClick={toggleEditCell} disabled={executing}>
