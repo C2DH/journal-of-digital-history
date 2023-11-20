@@ -4,6 +4,11 @@ function mapObject(obj, fn) {
   return Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, fn(v)]))
 }
 
+function resolveExecuteErrors(result) {
+  if (result?.error) return result.error
+  return undefined // just for readability
+}
+
 export const useExecutionScope = create((set, get) => ({
   cells: {},
   attached: false,
@@ -24,8 +29,8 @@ export const useExecutionScope = create((set, get) => ({
       executing: true,
       cells: { ...cells, [id]: { ...cell, executing: true } },
     }))
-    const result = await cell.thebe.execute()
-    if (result?.errors) console.error(`[useExecutionScope] executeCell error: ${result?.errors}`)
+    const errors = resolveExecuteErrors(await cell.thebe.execute())
+    if (errors) console.error(`[useExecutionScope] executeCell error: ${errors}`)
     set(({ cells }) => {
       // eslint-disable-next-line no-unused-vars
       const { [id]: current, ...others } = cells
@@ -36,11 +41,11 @@ export const useExecutionScope = create((set, get) => ({
           [id]: {
             ...cell,
             executing: false,
-            errors: result?.errors,
-            outputs: result?.errors ? [] : cell.thebe.outputs, // on error clear outputs?
+            errors,
+            outputs: errors ? [] : cell.thebe.outputs, // on error clear outputs?
           },
         },
-        errors: result?.errors,
+        errors,
       }
     })
   },
@@ -56,9 +61,9 @@ export const useExecutionScope = create((set, get) => ({
 
     for (const id of orderedKeys) {
       const cell = get().cells[id]
-      const result = await cell.thebe.execute()
+      const errors = resolveExecuteErrors(await cell.thebe.execute())
 
-      if (result?.errors) {
+      if (errors) {
         set(({ cells }) => {
           return {
             executing: false,
@@ -67,11 +72,11 @@ export const useExecutionScope = create((set, get) => ({
               [id]: {
                 ...cell,
                 executing: false,
-                errors: result?.errors,
-                outputs: result?.errors ? [] : cell.thebe.outputs, // on error clear outputs?
+                errors,
+                outputs: errors ? [] : cell.thebe.outputs, // on error clear outputs?
               },
             },
-            errors: result?.errors,
+            errors,
           }
         })
         break // stop execution
@@ -91,7 +96,7 @@ export const useExecutionScope = create((set, get) => ({
               outputs: cell.thebe.outputs,
             },
           },
-          errors: result?.errors,
+          errors,
         }
       })
     }
