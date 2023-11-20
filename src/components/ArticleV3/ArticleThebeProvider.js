@@ -26,7 +26,7 @@ export const ArticleThebeProvider = ({ url = '', binderUrl, children }) => {
   console.log('URL', url)
 
   const binder =
-    process.env.NODE_ENV !== 'production' && process.env.REACT_APP_THEBE_DEV_BINDER === true
+    process.env.NODE_ENV !== 'production' && process.env.REACT_APP_THEBE_DEV_BINDER === 'true'
   const options = useMemo(() => {
     const repo = getRepoSpec(url, binderUrl)
     if (binder) {
@@ -42,6 +42,16 @@ export const ArticleThebeProvider = ({ url = '', binderUrl, children }) => {
         serverSettings: {
           baseUrl: 'http://localhost:8888',
           token: process.env.REACT_APP_THEBE_TOKEN,
+        },
+        kernelOptions: {
+          // path will default to '/' based on this filename, if notebooks are not in the root folder, this needs to be set to the correct path for the notebook
+          // using the same path for all notebooks is recommended will result in the same sesio being used on a single server for each reconnect
+          // if you want to use a different session for each page visit by the same user, you can use a unique path during each load
+          path: './jdh.ipynb',
+          // options here are to leave this undefined, so that the default session for the environment is used (e.g. python3) or to specify a kernel name
+          // based on the notebook metadata, e.g. kernelName: 'python3' this will cause issues **if** the kernel name for the notebook is not installed on the server
+          // or if there are slight variations in the kernel name, e.g. python3.7 vs python3.8
+          // kernelName: 'another-kernel',
         },
       }
     }
@@ -60,10 +70,18 @@ export const ArticleThebeProvider = ({ url = '', binderUrl, children }) => {
 
 export function useArticleThebe() {
   const { core } = useThebeLoader()
-  const { connecting, error: serverError, ready: serverReady, server, connect } = useThebeServer()
+  const {
+    config,
+    connecting,
+    error: serverError,
+    ready: serverReady,
+    server,
+    connect,
+  } = useThebeServer()
   const { starting, error: sessionError, ready: sessionReady, start, session } = useThebeSession()
 
   return {
+    config,
     starting: connecting || starting,
     ready: serverReady && sessionReady,
     error: serverError || sessionError,
