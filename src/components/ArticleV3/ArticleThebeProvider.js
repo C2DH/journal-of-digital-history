@@ -11,8 +11,16 @@ import {
 
 function getRepoSpec(url, binderUrl) {
   if (binderUrl) {
-    // TODO parse binderUrl
-    return 'username/repo'
+    // example https://mybinder.org/v2/gh/executablebooks/thebe-binder-base/HEAD
+    // Note: limited to 'github' repo provider
+    const rx = '^https://([^/]+)/v2/gh/([^/]+)/([^/]+)/([^/]+)'
+    const match = binderUrl.match(rx)
+    if (!match) {
+      console.error('[getRepoSpec]', `Invalid binderUrl: ${binderUrl}`)
+      return
+    }
+    const [, , username, repo, ref] = match
+    return `${username}/${repo}/${ref}`
   } else {
     const [, username, repo] = url.split('/')
     return `${username}/${repo}`
