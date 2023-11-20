@@ -124,6 +124,9 @@ const ArticleCell = ({
                       gap: 4,
                     }}
                   >
+                    {thebeCell?.executionCount > 0 && (
+                      <div title="execution count">[{thebeCell?.executionCount}]:</div>
+                    )}
                     <div>{statusMessage}</div>
                     <div style={{ flexGrow: 1 }} />
                     <button onClick={() => executeCell(idx)} disabled={executing}>
