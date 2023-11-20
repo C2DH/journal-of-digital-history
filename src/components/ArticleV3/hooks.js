@@ -59,13 +59,14 @@ export function useNotebook(url, ipynb) {
           thebe: core?.ThebeCodeCell.fromICodeCell(
             {
               cell_type: p.type,
-              source: p.source,
+              source: p.source.join(''),
               metadata: {},
             },
             url,
             config,
             rendermime,
           ),
+          source: p.source.join(''), // work with source as a string in state
           outputs: p.outputs,
         }
         return acc

@@ -17,11 +17,18 @@ export const useExecutionScope = create((set, get) => ({
   errors: undefined,
   updateCellSource: (id, source) => {
     const cell = get().cells[id]
-    // set(({ cells }) => ({
-    //   executing: true,
-    //   cells: { ...cells, [id]: { ...cell, source } },
-    // }))
-    cell.thebe.source = source
+    // NOTE: latest source is in state hre and we are using the cell[*].thebe.source to store the original
+    // if this becomes confusing, we can store the original in state and use thebe.source for the latest or ignore
+    // and pass latest to thebe.execute as we do now
+    set(({ cells }) => ({
+      cells: { ...cells, [id]: { ...cell, source } },
+    }))
+  },
+  resetCellSource: (id) => {
+    const cell = get().cells[id]
+    set(({ cells }) => ({
+      cells: { ...cells, [id]: { ...cell, source: cell.thebe.source } },
+    }))
   },
   executeCell: async (id) => {
     const cell = get().cells[id]
@@ -29,7 +36,7 @@ export const useExecutionScope = create((set, get) => ({
       executing: true,
       cells: { ...cells, [id]: { ...cell, executing: true } },
     }))
-    const errors = resolveExecuteErrors(await cell.thebe.execute())
+    const errors = resolveExecuteErrors(await cell.thebe.execute(cell.source)) // execute the latest source from state, this does not update thebe.source
     if (errors) console.error(`[useExecutionScope] executeCell error: ${errors}`)
     set(({ cells }) => {
       // eslint-disable-next-line no-unused-vars
@@ -61,7 +68,7 @@ export const useExecutionScope = create((set, get) => ({
 
     for (const id of orderedKeys) {
       const cell = get().cells[id]
-      const errors = resolveExecuteErrors(await cell.thebe.execute())
+      const errors = resolveExecuteErrors(await cell.thebe.execute(cell.source)) // execute the latest source from state, this does not update thebe.source
 
       if (errors) {
         set(({ cells }) => {
@@ -119,14 +126,19 @@ export const useExecutionScope = create((set, get) => ({
     set(({ cells }) => ({
       cells: {
         ...cells,
-        [id]: { ...cells[id], errors: undefined, outputs: cells[id].originals },
+        [id]: {
+          ...cells[id],
+          errors: undefined,
+          outputs: cells[id].originals,
+          source: cells[id].thebe.source,
+        },
       },
     }))
   },
   resetAll: () => {
     set(({ cells }) => ({
       cells: mapObject(cells, (cell) => {
-        return { ...cell, errors: undefined, outputs: cell.originals }
+        return { ...cell, errors: undefined, outputs: cell.originals, source: cell.thebe.source }
       }),
     }))
   },
@@ -152,6 +164,7 @@ export const useExecutionScope = create((set, get) => ({
         ? mapObject(executables, (v) => ({
             id: v.id,
             thebe: v.thebe,
+            source: v.source, // typeof v.source === 'string'
             outputs: v.outputs,
             originals: v.outputs, // restore outputs feature?
             attached: false,

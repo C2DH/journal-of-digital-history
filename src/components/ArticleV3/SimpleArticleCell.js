@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import ArticleCellOutputs from '../Article/ArticleCellOutputs'
 import ArticleCellContent from '../Article/ArticleCellContent'
-import ArticleCellSourceCode from '../Article/ArticleCellSourceCode'
+import ArticleCellSourceCodeWrapper from './ArticleCellSourceCodeWrapper'
 import ArticleCellError from './ArticleCellError'
 import {
   BootstrapColumLayout,
@@ -18,7 +18,7 @@ const ArticleCell = ({
   layer,
   num = 1,
   content = '',
-  source = '',
+
   idx,
   hideNum,
   metadata = {},
@@ -38,16 +38,9 @@ const ArticleCell = ({
   const executeCell = useExecutionScope((state) => state.executeCell)
   const clearCell = useExecutionScope((state) => state.clearCell)
   const resetCell = useExecutionScope((state) => state.resetCell)
-  const updateCellSource = useExecutionScope((state) => state.updateCellSource)
 
   const toggleEditCell = () => {
-    console.debug('editCell', idx, source)
     setIsEditing(!isEditing)
-  }
-
-  const onCellChangeHandler = (value) => {
-    console.debug('[ArticleCell] onCellChangeHandler', idx, { value })
-    updateCellSource(idx, value)
   }
 
   const ref = useCallback(
@@ -139,20 +132,16 @@ const ArticleCell = ({
                       reset
                     </button>
                     <button onClick={toggleEditCell} disabled={executing}>
-                      edit
+                      {isEditing ? 'stop editing' : 'edit'}
                     </button>
                   </div>
                 )}
                 {isEditing ? (
                   <React.Suspense fallback={<div>loading...</div>}>
-                    <ArticleCellEditor
-                      cellIdx={idx}
-                      source={source.join('')}
-                      onChange={onCellChangeHandler}
-                    />
+                    <ArticleCellEditor cellIdx={idx} />
                   </React.Suspense>
                 ) : (
-                  <ArticleCellSourceCode visible content={source.join('')} language="python" />
+                  <ArticleCellSourceCodeWrapper cellIdx={idx} />
                 )}
                 {errors && <ArticleCellError errors={errors} />}
                 <div ref={ref}>

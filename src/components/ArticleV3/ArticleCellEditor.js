@@ -1,12 +1,21 @@
 import React from 'react'
 import { Controlled as CodeMirror } from 'react-codemirror2'
+import { useExecutionScope } from './ExecutionScope'
 // import codemirror style
 import 'codemirror/lib/codemirror.css'
 // import codemirror dracula style
 import 'codemirror/theme/dracula.css'
 
-const ArticleCellEditor = ({ cellIdx = -1, source = '', options, onChange }) => {
+const ArticleCellEditor = ({ cellIdx = -1, options }) => {
+  const source = useExecutionScope((state) => state.cells[cellIdx]?.source) ?? ''
   const [value, setValue] = React.useState(source)
+
+  const updateCellSource = useExecutionScope((state) => state.updateCellSource)
+  const onCellChangeHandler = (value) => {
+    console.debug('[ArticleCell] onCellChangeHandler', cellIdx, { value })
+    updateCellSource(cellIdx, value)
+  }
+
   return (
     <CodeMirror
       value={value}
@@ -24,7 +33,7 @@ const ArticleCellEditor = ({ cellIdx = -1, source = '', options, onChange }) => 
       }}
       onChange={(editor, data, value) => {
         console.debug('[ArticleCellEditor]', cellIdx, { value })
-        typeof onChange === 'function' && onChange(value)
+        onCellChangeHandler(value)
       }}
     />
   )
