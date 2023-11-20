@@ -80,9 +80,9 @@ function ArticleWithContent({ url, ipynb }) {
   return <Article url={url} paragraphs={paragraphs} />
 }
 
-function ThebeArticle({ url = '', ipynb = { cells: [], metadata: {} } }) {
+function ThebeArticle({ url = '', ipynb = { cells: [], metadata: {} }, ...props }) {
   return (
-    <ArticleThebeProvider>
+    <ArticleThebeProvider url={url} binderUrl={props.binderUrl}>
       <ArticleWithContent url={url} ipynb={ipynb} />
     </ArticleThebeProvider>
   )

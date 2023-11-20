@@ -9,23 +9,43 @@ import {
   useThebeSession,
 } from 'thebe-react'
 
-export const ArticleThebeProvider = ({ children }) => {
-  const binder = false // true for binder, false for local jupyter server
+function getRepoSpec(url, binderUrl) {
+  if (binderUrl) {
+    // TODO parse binderUrl
+    return 'username/repo'
+  } else {
+    const [, username, repo] = url.split('/')
+    return `${username}/${repo}`
+  }
+}
+
+export const ArticleThebeProvider = ({ url = '', binderUrl, children }) => {
+  console.log('process.env.NODE_ENV', process.env.NODE_ENV)
+  console.log('process.env.REACT_APP_THEBE_DEV_BINDER', process.env.REACT_APP_THEBE_DEV_BINDER)
+  console.log('process.env.REACT_APP_THEBE_DEV_TOKEN', process.env.REACT_APP_THEBE_DEV_TOKEN)
+  console.log('URL', url)
+
+  const binder =
+    process.env.NODE_ENV !== 'production' && process.env.REACT_APP_THEBE_DEV_BINDER === true
   const options = useMemo(() => {
-    return {
-      // example binder settings
-      // binderSettings: {
-      //   binderUrl: 'https://mybinder.org',
-      //   repo: 'jupyterlab/jupyterlab-demo', // github username/repo
-      //   ref: 'HEAD' or 'ref/branch name',
-      // },
-      serverSettings: {
-        baseUrl: 'http://localhost:8888',
-        token: 'some-development-token',
-      },
-      // TODO need to set kernelName
+    const repo = getRepoSpec(url, binderUrl)
+    if (binder) {
+      return {
+        binderSettings: {
+          binderUrl: 'https://mybinder.org',
+          repo,
+          ref: undefined, // option ref / branch name (default: HEAD)
+        },
+      }
+    } else {
+      return {
+        serverSettings: {
+          baseUrl: 'http://localhost:8888',
+          token: process.env.REACT_APP_THEBE_TOKEN,
+        },
+      }
     }
-  }, [])
+  }, [binder, url, binderUrl])
 
   return (
     <ThebeLoaderProvider start>
