@@ -1,12 +1,22 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useExecutionScope } from './ExecutionScope'
 import ConnectionStatus from './ConnectionStatus'
+import { useThebeLoader } from 'thebe-react'
 
 export default function ArticleExecuteToolbar({ starting, ready, connectAndStart, restart }) {
+  const { core } = useThebeLoader()
   const executing = useExecutionScope((state) => state.executing)
   const executeAll = useExecutionScope((state) => state.executeAll)
   const clearAll = useExecutionScope((state) => state.clearAll)
   const resetAll = useExecutionScope((state) => state.resetAll)
+
+  const clearSavedSessions = useCallback(() => {
+    if (!core) return
+    core.clearAllSavedSessions()
+    // Note: is is possible to clear the saved session only for this article
+    // provided yo ucan supply the sotragePrefix and correct (repository) url
+    // to core.clearSavedSession(storagePrefix, url)
+  }, [core])
 
   console.log('[ArticleExecuteToolbar]', { starting, ready, executing }, 'rendering')
 
@@ -24,7 +34,7 @@ export default function ArticleExecuteToolbar({ starting, ready, connectAndStart
           <button
             style={{ margin: '4px', color: 'green' }}
             disabled={starting || ready}
-            onClick={connectAndStart}
+            onClick={clearSavedSessions}
             title="upon successful connection to binderhub the session connection information is saved in local storage. This button will clear that information and force new servers to be started."
           >
             Clear Saved Sessions
