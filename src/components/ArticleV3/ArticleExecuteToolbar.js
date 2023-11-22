@@ -13,13 +13,23 @@ export default function ArticleExecuteToolbar({ starting, ready, connectAndStart
   return (
     <div style={{ position: 'sticky', top: 100, zIndex: 10, marginBottom: 12 }}>
       {!starting && !ready && (
-        <button
-          style={{ margin: '4px', color: 'green' }}
-          disabled={starting || ready}
-          onClick={connectAndStart}
-        >
-          Start
-        </button>
+        <>
+          <button
+            style={{ margin: '4px', color: 'green' }}
+            disabled={starting || ready}
+            onClick={connectAndStart}
+          >
+            Start
+          </button>
+          <button
+            style={{ margin: '4px', color: 'green' }}
+            disabled={starting || ready}
+            onClick={connectAndStart}
+            title="upon successful connection to binderhub the session connection information is saved in local storage. This button will clear that information and force new servers to be started."
+          >
+            Clear Saved Sessions
+          </button>
+        </>
       )}
       {starting && (
         <span

@@ -4,11 +4,13 @@ import { useArticleThebe } from './ArticleThebeProvider'
 export default function ConnectionStatus() {
   const { starting, ready, connectionErrors, subscribe } = useArticleThebe()
   const [open, setOpen] = useState(false)
+  const [lastStatus, setLastStatus] = useState('')
   const [status, setStatus] = useState('')
 
   useEffect(() => {
     if (!subscribe) return
     subscribe((data) => {
+      setLastStatus(data.message)
       setStatus((s) => `${s}\n${data.message}`)
     })
   }, [subscribe])
@@ -23,6 +25,7 @@ export default function ConnectionStatus() {
         border: '1px solid lightgreen',
         cursor: 'pointer',
         minHeight: '1.6em',
+        backgroundColor: 'white',
       }}
       onClick={() => setOpen((o) => !o)}
     >
@@ -32,21 +35,27 @@ export default function ConnectionStatus() {
           padding: '2px 4px',
           color: 'black',
           backgroundColor: 'lightgreen',
-          fontSize: 8,
+          fontSize: 10,
         }}
       >
         connection status
       </div>
-      <pre
-        style={{
-          marginTop: '2em',
-          maxHeight: 200,
-          overflowY: 'auto',
-          display: open ? 'block' : 'none',
-        }}
-      >
-        {status}
-      </pre>
+      {open && (
+        <pre
+          style={{
+            marginTop: '2em',
+            maxHeight: 200,
+            overflowY: 'auto',
+          }}
+        >
+          {status}
+        </pre>
+      )}
+      {!open && (
+        <span style={{ display: 'inline-block', marginLeft: 100, height: '1.5em' }}>
+          {lastStatus}
+        </span>
+      )}
     </div>
   )
 }
