@@ -51,7 +51,6 @@ export default function ArticleExecuteToolbar({
         <span
           style={{
             display: 'inline-block',
-            marginLeft: '4px',
             padding: 4,
             width: '100%',
             backgroundColor: 'lightgreen',

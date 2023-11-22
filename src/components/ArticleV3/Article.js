@@ -38,7 +38,6 @@ const Article = ({ url = '', paragraphs }) => {
         restart={restart}
         openInJupyter={openInJupyter}
       />
-
       {paragraphs.map((cell, idx) => {
         return (
           <React.Fragment key={[url, idx].join('-')}>

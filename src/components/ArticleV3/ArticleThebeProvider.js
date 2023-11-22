@@ -13,17 +13,19 @@ function getRepoSpec(url, binderUrl) {
   if (binderUrl) {
     // example https://mybinder.org/v2/gh/executablebooks/thebe-binder-base/HEAD
     // Note: limited to 'github' repo provider
-    const rx = '^https://([^/]+)/v2/gh/([^/]+)/([^/]+)/([^/]+)'
-    const match = binderUrl.match(rx)
-    if (!match) {
-      console.error('[getRepoSpec]', `Invalid binderUrl: ${binderUrl}`)
-      return
-    }
-    const [, , username, repo, ref] = match
-    return `${username}/${repo}/${ref}`
+    const u = new URL(binderUrl)
+    const repoPathname = u.pathname.split('/v2/gh/')[1]
+    const [, username, repo, ref, ...path] = repoPathname.split('/')
+    // NOTE: most binder launch urls will not contain the path to the notebook!
+    return { repo: `${username}/${repo}/${ref}`, path }
   } else {
-    const [, username, repo] = url.split('/')
-    return `${username}/${repo}`
+    if (!url.startsWith('/proxy-githubusercontent')) throw new Error('invalid url')
+    // eslint-disable-next-line no-unused-vars
+    const [, username, repo, ref, ...path] = url.split('/proxy-githubusercontent')[1].split('/')
+    return {
+      repo: `${username}/${repo}`,
+      path: `/${path.join('/')}`,
+    }
   }
 }
 
@@ -36,7 +38,8 @@ export const ArticleThebeProvider = ({ url = '', binderUrl, children }) => {
   const binder =
     process.env.NODE_ENV !== 'production' && process.env.REACT_APP_THEBE_DEV_BINDER === 'true'
   const options = useMemo(() => {
-    const repo = getRepoSpec(url, binderUrl)
+    const { repo, path } = getRepoSpec(url, binderUrl)
+    console.log('[ArticleThebeProvider]', { repo, path })
     if (binder) {
       return {
         binderSettings: {
@@ -52,11 +55,15 @@ export const ArticleThebeProvider = ({ url = '', binderUrl, children }) => {
           token: process.env.REACT_APP_THEBE_TOKEN,
         },
         kernelOptions: {
-          // path will default to '/' based on this filename, if notebooks are not in the root folder, this needs to be set to the correct path for the notebook
-          // using the same path for all notebooks is recommended will result in the same sesio being used on a single server for each reconnect
-          // if you want to use a different session for each page visit by the same user, you can use a unique path during each load
-          path: './jdh.ipynb',
-          // options here are to leave this undefined, so that the default session for the environment is used (e.g. python3) or to specify a kernel name
+          // IMPORTANT: path will default to '/' based on this filename, if notebooks are not in the root folder, this being set to the correct path is very important
+          // as the notebook needs to be run from the correct relative location in order for relative file paths, imports, etc... to work correctly. This is working
+          // when url is used in preview notebook, but when the binderUrl is used will the path be included in the binderUrl??
+          //
+          // Also jupyter has the model of 1-notebook <=> 1-session/kernel, using the same path value for different for all notebooks is recommended will
+          // result in the same session being used on a single server for each reconnect using the path derived from the url if you want to use a different session
+          // for each page visit by the same user, you can use a unique path during each load
+          path: path ?? '/jdh-thebe-article.ipynb',
+          // kernelName - options here are to leave this undefined, so that the default session for the environment is used (e.g. python3) or to specify a kernel name
           // based on the notebook metadata, e.g. kernelName: 'python3' this will cause issues **if** the kernel name for the notebook is not installed on the server
           // or if there are slight variations in the kernel name, e.g. python3.7 vs python3.8
           // kernelName: 'another-kernel',
