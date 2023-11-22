@@ -7,5 +7,7 @@ node_modules
 .development.env
 .env.development
 .vscode/settings.json
+.yalc/*
+yalc.lock
 storybook-static
 _redirects

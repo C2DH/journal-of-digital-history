@@ -3,19 +3,19 @@ import { Container } from 'react-bootstrap'
 import { ArticleThebeProvider, useArticleThebe } from './ArticleThebeProvider'
 import SimpleArticleCell from './SimpleArticleCell'
 import { useNotebook } from './hooks'
-import ExampleErrorTray from './ExampleErrorTray'
+import ConnectionErrorTray from './ConnectionErrorTray'
+
 import ArticleExecuteToolbar from './ArticleExecuteToolbar'
 import { useExecutionScope } from './ExecutionScope'
 
 const Article = ({ url = '', paragraphs }) => {
-  const {
-    starting,
-    error: connectionError,
-    ready,
-    connectAndStart,
-    restart,
-    session,
-  } = useArticleThebe()
+  const { starting, connectionErrors, ready, connectAndStart, restart, session } = useArticleThebe()
+
+  useEffect(() => {
+    if (!connectionErrors) return
+    // if there is a connection error, we want to ensure that the compute UI is
+    // disabled or in an approprate state - set a disabled flag in the execution state?
+  }, [connectionErrors])
 
   const attachSession = useExecutionScope((state) => state.attachSession)
 
@@ -29,13 +29,15 @@ const Article = ({ url = '', paragraphs }) => {
   return (
     <Container>
       <div style={{ paddingTop: 120 }}></div>
-      {connectionError && <ExampleErrorTray error={connectionError} />}
+
+      <ConnectionErrorTray />
       <ArticleExecuteToolbar
         starting={starting}
         ready={ready}
         connectAndStart={connectAndStart}
         restart={restart}
       />
+
       {paragraphs.map((cell, idx) => {
         return (
           <React.Fragment key={[url, idx].join('-')}>

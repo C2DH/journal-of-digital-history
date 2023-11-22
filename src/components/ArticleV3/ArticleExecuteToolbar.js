@@ -1,5 +1,6 @@
 import React from 'react'
 import { useExecutionScope } from './ExecutionScope'
+import ConnectionStatus from './ConnectionStatus'
 
 export default function ArticleExecuteToolbar({ starting, ready, connectAndStart, restart }) {
   const executing = useExecutionScope((state) => state.executing)
@@ -10,7 +11,7 @@ export default function ArticleExecuteToolbar({ starting, ready, connectAndStart
   console.log('[ArticleExecuteToolbar]', { starting, ready, executing }, 'rendering')
 
   return (
-    <div style={{ position: 'sticky', top: 100, zIndex: 10 }}>
+    <div style={{ position: 'sticky', top: 100, zIndex: 10, marginBottom: 12 }}>
       {!starting && !ready && (
         <button
           style={{ margin: '4px', color: 'green' }}
@@ -20,14 +21,23 @@ export default function ArticleExecuteToolbar({ starting, ready, connectAndStart
           Start
         </button>
       )}
-      {starting && <span style={{ display: 'inline-block', marginLeft: '4px' }}>Starting...</span>}
-
+      {starting && (
+        <span
+          style={{
+            display: 'inline-block',
+            marginLeft: '4px',
+            padding: 4,
+            width: '100%',
+            backgroundColor: 'lightgreen',
+          }}
+        >
+          Starting...
+        </span>
+      )}
       {ready && (
         <div
           style={{
             display: 'flex',
-            marginLeft: 4,
-            marginBottom: 12,
             padding: 4,
             backgroundColor: 'lightgreen',
             width: '100%',
@@ -57,6 +67,7 @@ export default function ArticleExecuteToolbar({ starting, ready, connectAndStart
           </button>
         </div>
       )}
+      <ConnectionStatus />
     </div>
   )
 }

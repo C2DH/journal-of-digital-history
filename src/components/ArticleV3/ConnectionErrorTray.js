@@ -1,7 +1,12 @@
 import React from 'react'
-export default function ExampleErrorTray({ error }) {
-  const [show, setShow] = React.useState(!!error)
+import { useArticleThebe } from './ArticleThebeProvider'
+
+export default function ConnectionErrorTray() {
+  const { connectionErrors } = useArticleThebe()
+
+  const [show, setShow] = React.useState(!!connectionErrors)
   if (!show) return null
+
   return (
     <div
       style={{
@@ -27,7 +32,7 @@ export default function ExampleErrorTray({ error }) {
           flexGrow: 1,
         }}
       >
-        {error}
+        {connectionErrors}
       </div>
     </div>
   )

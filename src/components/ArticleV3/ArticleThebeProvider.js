@@ -83,8 +83,9 @@ export function useArticleThebe() {
     connecting,
     error: serverError,
     ready: serverReady,
-    server,
     connect,
+    subscribe,
+    unsubAll,
   } = useThebeServer()
   const { starting, error: sessionError, ready: sessionReady, start, session } = useThebeSession()
 
@@ -92,19 +93,22 @@ export function useArticleThebe() {
     config,
     starting: connecting || starting,
     ready: serverReady && sessionReady,
-    error: serverError || sessionError,
+    connectionErrors: serverError || sessionError,
     session,
+    subscribe,
+    unsubAll,
     connectAndStart: async () => {
       if (!core) {
         console.warn('[useArticleThebe]', 'thebe-core not loaded.')
         return
       }
       return new Promise((resolve) => {
-        connect() // TODO connect should return ready promise
-        server.ready.then(async () => {
-          await start()
-          resolve()
-        })
+        connect()
+          .then(async () => {
+            await start()
+            resolve()
+          })
+          .catch(() => null)
       })
     },
     restart: start,
