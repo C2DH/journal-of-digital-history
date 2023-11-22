@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useArticleThebe } from './ArticleThebeProvider'
 
-export default function ConnectionStatus() {
+export default function ConnectionStatusBox() {
   const { starting, ready, connectionErrors, subscribe } = useArticleThebe()
   const [open, setOpen] = useState(false)
   const [lastStatus, setLastStatus] = useState('')
@@ -36,6 +36,7 @@ export default function ConnectionStatus() {
           color: 'black',
           backgroundColor: 'lightgreen',
           fontSize: 10,
+          width: 90,
         }}
       >
         connection status

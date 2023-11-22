@@ -3,7 +3,7 @@ import { Container } from 'react-bootstrap'
 import { ArticleThebeProvider, useArticleThebe } from './ArticleThebeProvider'
 import SimpleArticleCell from './SimpleArticleCell'
 import { useNotebook } from './hooks'
-import ConnectionErrorTray from './ConnectionErrorTray'
+import ConnectionErrorBox from './ConnectionErrorBox'
 
 import ArticleExecuteToolbar from './ArticleExecuteToolbar'
 import { useExecutionScope } from './ExecutionScope'
@@ -30,7 +30,7 @@ const Article = ({ url = '', paragraphs }) => {
   return (
     <Container>
       <div style={{ paddingTop: 120 }}></div>
-      <ConnectionErrorTray />
+
       <ArticleExecuteToolbar
         starting={starting}
         ready={ready}
@@ -38,6 +38,7 @@ const Article = ({ url = '', paragraphs }) => {
         restart={restart}
         openInJupyter={openInJupyter}
       />
+      <ConnectionErrorBox />
       {paragraphs.map((cell, idx) => {
         return (
           <React.Fragment key={[url, idx].join('-')}>

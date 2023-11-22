@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useExecutionScope } from './ExecutionScope'
-import ConnectionStatus from './ConnectionStatus'
+import ConnectionStatusBox from './ConnectionStatusBox'
 import { useThebeLoader } from 'thebe-react'
 
 export default function ArticleExecuteToolbar({
@@ -96,7 +96,7 @@ export default function ArticleExecuteToolbar({
           </button>
         </div>
       )}
-      <ConnectionStatus />
+      <ConnectionStatusBox />
     </div>
   )
 }
