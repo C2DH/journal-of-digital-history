@@ -87,6 +87,7 @@ export function useArticleThebe() {
     subscribe,
     unsubAll,
   } = useThebeServer()
+  const { server } = useThebeServer()
   const { starting, error: sessionError, ready: sessionReady, start, session } = useThebeSession()
 
   return {
@@ -112,5 +113,16 @@ export function useArticleThebe() {
       })
     },
     restart: start,
+    openInJupyter: (notebook) => {
+      if (server && server.userServerUrl) {
+        let url = server.userServerUrl
+        if (notebook) {
+          const [path, query] = url.split('?')
+          url = `${path}lab/tree/${notebook}?${query}`
+        }
+        console.log(url)
+        window.open(url, '_blank', 'noopener noreferrer')
+      } else console.warn('[useArticleThebe]', 'server.userServerUrl not available')
+    },
   }
 }

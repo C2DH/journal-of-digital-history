@@ -3,7 +3,13 @@ import { useExecutionScope } from './ExecutionScope'
 import ConnectionStatus from './ConnectionStatus'
 import { useThebeLoader } from 'thebe-react'
 
-export default function ArticleExecuteToolbar({ starting, ready, connectAndStart, restart }) {
+export default function ArticleExecuteToolbar({
+  starting,
+  ready,
+  connectAndStart,
+  restart,
+  openInJupyter,
+}) {
   const { core } = useThebeLoader()
   const executing = useExecutionScope((state) => state.executing)
   const executeAll = useExecutionScope((state) => state.executeAll)
@@ -84,6 +90,10 @@ export default function ArticleExecuteToolbar({ starting, ready, connectAndStart
           </button>
           <button onClick={restart} disabled={executing}>
             restart kernel
+          </button>
+          {/* NOTE: feed notebook name in here if different */}
+          <button onClick={() => openInJupyter('article.ipynb')} disabled={executing}>
+            jupyter
           </button>
         </div>
       )}

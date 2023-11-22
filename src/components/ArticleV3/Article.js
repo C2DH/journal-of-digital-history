@@ -9,7 +9,8 @@ import ArticleExecuteToolbar from './ArticleExecuteToolbar'
 import { useExecutionScope } from './ExecutionScope'
 
 const Article = ({ url = '', paragraphs }) => {
-  const { starting, connectionErrors, ready, connectAndStart, restart, session } = useArticleThebe()
+  const { starting, connectionErrors, ready, connectAndStart, restart, session, openInJupyter } =
+    useArticleThebe()
 
   useEffect(() => {
     if (!connectionErrors) return
@@ -29,13 +30,13 @@ const Article = ({ url = '', paragraphs }) => {
   return (
     <Container>
       <div style={{ paddingTop: 120 }}></div>
-
       <ConnectionErrorTray />
       <ArticleExecuteToolbar
         starting={starting}
         ready={ready}
         connectAndStart={connectAndStart}
         restart={restart}
+        openInJupyter={openInJupyter}
       />
 
       {paragraphs.map((cell, idx) => {
