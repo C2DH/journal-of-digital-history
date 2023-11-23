@@ -95,8 +95,20 @@ export function useArticleThebe() {
     subscribe,
     unsubAll,
   } = useThebeServer()
-  const { server } = useThebeServer()
-  const { starting, error: sessionError, ready: sessionReady, start, session } = useThebeSession()
+  const { server, disconnect } = useThebeServer()
+  const {
+    starting,
+    error: sessionError,
+    ready: sessionReady,
+    start,
+    session,
+    shutdown: shutdownSession,
+  } = useThebeSession()
+
+  const shutdown = async () => {
+    await shutdownSession?.()
+    await disconnect?.()
+  }
 
   return {
     config,
@@ -132,5 +144,6 @@ export function useArticleThebe() {
         window.open(url, '_blank', 'noopener noreferrer')
       } else console.warn('[useArticleThebe]', 'server.userServerUrl not available')
     },
+    shutdown,
   }
 }

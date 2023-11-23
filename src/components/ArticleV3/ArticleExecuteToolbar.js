@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { useExecutionScope } from './ExecutionScope'
 import ConnectionStatusBox from './ConnectionStatusBox'
 import { useThebeLoader } from 'thebe-react'
+import { useArticleThebe } from './ArticleThebeProvider'
 
 export default function ArticleExecuteToolbar({
   starting,
@@ -11,10 +12,16 @@ export default function ArticleExecuteToolbar({
   openInJupyter,
 }) {
   const { core } = useThebeLoader()
+  const { shutdown } = useArticleThebe()
   const executing = useExecutionScope((state) => state.executing)
   const executeAll = useExecutionScope((state) => state.executeAll)
   const clearAll = useExecutionScope((state) => state.clearAll)
   const resetAll = useExecutionScope((state) => state.resetAll)
+
+  const shutdownAndReset = useCallback(() => {
+    resetAll()
+    shutdown()
+  }, [])
 
   const clearSavedSessions = useCallback(() => {
     if (!core) return
@@ -93,6 +100,9 @@ export default function ArticleExecuteToolbar({
           {/* NOTE: feed notebook name in here if different */}
           <button onClick={() => openInJupyter('article.ipynb')} disabled={executing}>
             jupyter
+          </button>
+          <button onClick={shutdownAndReset} disabled={executing}>
+            shutdown
           </button>
         </div>
       )}
