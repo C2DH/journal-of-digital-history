@@ -33,7 +33,6 @@ export const ArticleThebeProvider = ({ url = '', binderUrl, children }) => {
   console.log('process.env.NODE_ENV', process.env.NODE_ENV)
   console.log('process.env.REACT_APP_THEBE_DEV_BINDER', process.env.REACT_APP_THEBE_DEV_BINDER)
   console.log('process.env.REACT_APP_THEBE_DEV_TOKEN', process.env.REACT_APP_THEBE_DEV_TOKEN)
-  console.log('URL', url)
 
   const binder =
     process.env.NODE_ENV !== 'production' && process.env.REACT_APP_THEBE_DEV_BINDER === 'true'
@@ -42,7 +41,7 @@ export const ArticleThebeProvider = ({ url = '', binderUrl, children }) => {
     console.log('[ArticleThebeProvider]', { repo, path })
     if (binder) {
       return {
-        binderSettings: {
+        binderOptions: {
           binderUrl: 'https://mybinder.org',
           repo,
           ref: undefined, // option ref / branch name (default: HEAD)
@@ -66,7 +65,9 @@ export const ArticleThebeProvider = ({ url = '', binderUrl, children }) => {
           // kernelName - options here are to leave this undefined, so that the default session for the environment is used (e.g. python3) or to specify a kernel name
           // based on the notebook metadata, e.g. kernelName: 'python3' this will cause issues **if** the kernel name for the notebook is not installed on the server
           // or if there are slight variations in the kernel name, e.g. python3.7 vs python3.8
-          // kernelName: 'another-kernel',
+
+          // NOTE: for nont python kernels
+          // kernelName: 'IR', // TODO: get the appropriate kernel name from the notebook metadata
         },
       }
     }
