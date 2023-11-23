@@ -42,7 +42,7 @@ export const ArticleThebeProvider = ({ url = '', binderUrl, children }) => {
     if (binder) {
       return {
         binderOptions: {
-          binderUrl: 'https://mybinder.org',
+          binderUrl: 'https://jdh-binder.curvenote.dev/services/binder/',
           repo,
           ref: undefined, // option ref / branch name (default: HEAD)
         },
@@ -66,7 +66,7 @@ export const ArticleThebeProvider = ({ url = '', binderUrl, children }) => {
           // based on the notebook metadata, e.g. kernelName: 'python3' this will cause issues **if** the kernel name for the notebook is not installed on the server
           // or if there are slight variations in the kernel name, e.g. python3.7 vs python3.8
 
-          // NOTE: for nont python kernels
+          // NOTE: for non- python kernels
           // kernelName: 'IR', // TODO: get the appropriate kernel name from the notebook metadata
         },
       }
