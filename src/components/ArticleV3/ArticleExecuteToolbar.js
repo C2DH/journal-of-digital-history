@@ -97,7 +97,7 @@ export default function ArticleExecuteToolbar({
           <button onClick={restart} disabled={executing}>
             restart kernel
           </button>
-          {/* NOTE: feed notebook name in here if different */}
+          {/* TODO: feed notebook name in here if different */}
           <button onClick={() => openInJupyter('article.ipynb')} disabled={executing}>
             jupyter
           </button>

@@ -4731,15 +4731,10 @@
     "@lezer/highlight" "^1.0.0"
     "@lezer/lr" "^1.0.0"
 
-"@lumino/algorithm@^1.11.1 || ^2.0.0", "@lumino/algorithm@^2.0.1":
+"@lumino/algorithm@2.0.1", "@lumino/algorithm@^1.11.1 || ^2.0.0", "@lumino/algorithm@^1.9.1 || ^2.1", "@lumino/algorithm@^1.9.2", "@lumino/algorithm@^2.0.1":
   version "2.0.1"
-  resolved "https://registry.npmjs.org/@lumino/algorithm/-/algorithm-2.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/@lumino/algorithm/-/algorithm-2.0.1.tgz#1045f4629f96076b431fc1a8c0005e13d8b95a56"
   integrity sha512-iA+uuvA7DeNFB0/cQpIWNgO1c6z4pOSigifjstLy+rxf1U5ZzxIq+xudnEuTbWgKSTviG02j4cKwCyx1PO6rzA==
-
-"@lumino/algorithm@^1.9.1 || ^2.1", "@lumino/algorithm@^1.9.2":
-  version "1.9.2"
-  resolved "https://registry.npmjs.org/@lumino/algorithm/-/algorithm-1.9.2.tgz"
-  integrity sha512-Z06lp/yuhz8CtIir3PNTGnuk7909eXt4ukJsCzChsGuot2l5Fbs96RJ/FOHgwCedaX74CtxPjXHXoszFbUA+4A==
 
 "@lumino/application@^2.2.1":
   version "2.2.1"
