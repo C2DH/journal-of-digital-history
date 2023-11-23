@@ -45,6 +45,7 @@ export default function ConnectionStatusBox() {
         <pre
           style={{
             marginTop: '2em',
+            marginBottom: 0,
             maxHeight: 200,
             overflowY: 'auto',
           }}
