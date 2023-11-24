@@ -32,7 +32,7 @@ function getRepoSpec(url, binderUrl) {
 export const ArticleThebeProvider = ({ url = '', binderUrl, children }) => {
   console.log('process.env.NODE_ENV', process.env.NODE_ENV)
   console.log('process.env.REACT_APP_THEBE_DEV_BINDER', process.env.REACT_APP_THEBE_DEV_BINDER)
-  console.log('process.env.REACT_APP_THEBE_DEV_TOKEN', process.env.REACT_APP_THEBE_DEV_TOKEN)
+  console.log('process.env.REACT_APP_THEBE_TOKEN', process.env.REACT_APP_THEBE_TOKEN)
 
   const binder =
     process.env.NODE_ENV !== 'production' && process.env.REACT_APP_THEBE_DEV_BINDER === 'true'
