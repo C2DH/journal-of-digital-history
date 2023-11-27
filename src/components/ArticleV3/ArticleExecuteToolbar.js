@@ -21,7 +21,7 @@ export default function ArticleExecuteToolbar({
   const shutdownAndReset = useCallback(() => {
     resetAll()
     shutdown()
-  }, [])
+  }, [shutdown, resetAll])
 
   const clearSavedSessions = useCallback(() => {
     if (!core) return
