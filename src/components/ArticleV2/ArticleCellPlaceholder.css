@@ -4,7 +4,9 @@
   right: 0;
   margin-top: 0.5rem;
 }
-
+.ArticleCellPlaceholder.table {
+  width: auto;
+}
 .ArticleCellPlaceholder.dialog table td > div {
   border-radius: 5px;
   padding: 5px 10px;

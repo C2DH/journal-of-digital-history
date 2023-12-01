@@ -38,14 +38,14 @@
   top: 0;
   svg {
     position: absolute;
-    top: 5px;
+    top: 4px;
     left: -6px;
   }
   &::before {
     position: absolute;
     left: 0px;
     height: 6px;
-    top: 0;
+    top: -1;
     width: 1px;
     background-color: var(--dark);
     content: '';
@@ -71,12 +71,12 @@
 }
 
 .ToCStep_Level_H2 {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  .ToCStep_icon::after {
-    top: 17px;
-    height: 14px;
-  }
+  // margin-top: 20px;
+  // margin-bottom: 10px;
+  // .ToCStep_icon::after {
+  //   top: 17px;
+  //   height: 14px;
+  // }
   .ToCStep_icon_circle {
     width: 15px;
     height: 15px;
@@ -85,14 +85,15 @@
   }
 }
 
+.ToCStep_Level_H1,
 .ToCStep_Level_H3 {
-  .ToCStep_icon::before {
-    top: 0px;
-    height: 7px;
-  }
-  .ToCStep_icon::after {
-    top: 14px;
-  }
+  // .ToCStep_icon::before {
+  //   top: 0px;
+  //   height: 7px;
+  // }
+  // .ToCStep_icon::after {
+  //   top: 14px;
+  // }
   .ToCStep_icon_circle {
     width: 9px;
     height: 9px;
@@ -104,14 +105,14 @@
 .ToCStep_Level_H4,
 .ToCStep_Level_H5,
 .ToCStep_Level_H6 {
-  .ToCStep_icon::before {
-    top: 0px;
-    height: 8px;
-  }
-  .ToCStep_icon::after {
-    top: 13px;
-    height: 7px;
-  }
+  // .ToCStep_icon::before {
+  //   top: 0px;
+  //   height: 8px;
+  // }
+  // .ToCStep_icon::after {
+  //   top: 13px;
+  //   height: 7px;
+  // }
   .ToCStep_icon_circle {
     width: 5px;
     height: 5px;
