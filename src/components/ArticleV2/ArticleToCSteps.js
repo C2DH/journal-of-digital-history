@@ -141,7 +141,7 @@ const ArticleToCSteps = ({
   )
 
   return (
-    <ol style={style} className={`ArticleToCSteps ${className}`}>
+    <ol style={style} className={`ArticleToCSteps py-3 ${className}`}>
       {props.map(({ height, backgroundColor, rotation }, i) => {
         const nestedSteps = steps[i]
         return (
