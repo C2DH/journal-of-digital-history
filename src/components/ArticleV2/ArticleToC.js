@@ -72,7 +72,7 @@ const ArticleToC = ({
     })
   }
   // availble height for the toc
-  const toCHeight = height - 200
+  const toCHeight = hasBibliography ? height - 150 : height - 100
   // mapping of cells using cell index
   const cellsIndex = paragraphs.reduce((acc, cell) => {
     acc[cell.idx] = cell
@@ -156,7 +156,7 @@ const ArticleToC = ({
           isSectionEnd
           selected
           active={false}
-          className=""
+          className="mt-2"
           onClick={(e) => onSectionClickHandler(e, DisplayLayerSectionBibliography)}
         ></ToCStep>
       )}
