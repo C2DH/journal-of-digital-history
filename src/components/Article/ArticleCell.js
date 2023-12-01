@@ -158,6 +158,7 @@ const ArticleCell = ({
           containerClassName={containerClassNames.join(' ')}
           windowHeight={windowHeight}
           active={active}
+          cellType={type}
         >
           <ArticleCellContent
             onNumClick={onNumClick}

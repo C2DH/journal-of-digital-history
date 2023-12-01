@@ -166,7 +166,7 @@ const ArticleToCSteps = ({
                   <li key={j}>
                     <ToCStep
                       marginEnd={marginEnd}
-                      figureRefPrefix={step.cell.figureRefPrefix}
+                      figureRefPrefix={step.cell.figure?.refPrefix}
                       width={width - 10}
                       active={selectedCellIdx === step.cell.idx}
                       isFigure={!!step.cell.figure}

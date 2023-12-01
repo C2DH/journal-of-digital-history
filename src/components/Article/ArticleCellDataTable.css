@@ -1,0 +1,96 @@
+.ArticleCellDataTable {
+  box-shadow: rgba(50, 50, 93, 0.15) 0px 2px 12px -2px, rgba(0, 0, 0, 0.13) 0px 3px 7px -3px;
+  padding: 0px;
+  border-radius: 4px;
+  border: 1px solid;
+  background-color: rgba(255, 255, 255, 0.65);
+}
+.ArticleCellDataTable > p {
+  padding: var(--spacer-2);
+}
+.ArticleCellDataTable table {
+  border: 0px solid transparent;
+  background-color: transparent;
+  width: 100%;
+}
+.ArticleCellDataTable table tbody {
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+}
+.ArticleCellDataTable__header {
+  position: sticky;
+  top: 100px;
+}
+.ArticleCellDataTable__pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ArticleCellDataTable .input-group {
+  z-index: 0;
+}
+.ArticleCellDataTable__pagination .input-group .input-group-text {
+  background: transparent;
+  border-top-color: inherit;
+  border-bottom-color: inherit;
+  padding: 0 var(--spacer-2) 0 var(--spacer-1);
+}
+
+.ArticleCellDataTable__pagination .input-group .input-group-text label {
+  background: var(--dark);
+  color: white;
+  border-radius: 3px;
+  padding: 0 var(--spacer-2);
+  font-weight: bold;
+}
+
+.ArticleCellDataTable__pagination .form-select {
+  background-color: transparent;
+  border-color: inherit;
+  width: 100px;
+}
+.ArticleCellDataTable__pagination .form-select:focus {
+  box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.186);
+}
+.ArticleCellDataTable table th {
+  padding: var(--spacer-2);
+  background-color: transparent;
+  vertical-align: bottom;
+  border: 1px solid rgba(0, 0, 0, 0.186);
+}
+.ArticleCellDataTable table td {
+  border: 1px solid rgba(0, 0, 0, 0.061);
+}
+.ArticleCellDataTable table th:first-child,
+.ArticleCellDataTable table td:first-child,
+.ArticleCellDataTable table td:last-child,
+.ArticleCellDataTable table th:last-child {
+  border-left: 0px solid transparent;
+}
+
+.ArticleCellDataTable table thead {
+  border-bottom: 1px solid;
+  border-top: 1px solid rgba(0, 0, 0, 0.186);
+}
+
+.ArticleCellDataTable table tbody tr:nth-of-type(2n + 1) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.ArticleCellDataTable .ColumnSorting {
+  display: block;
+  width: auto;
+  min-width: 50px;
+  margin-top: var(--spacer-1);
+  opacity: 0.5;
+}
+.ArticleCellDataTable .ColumnSorting:hover,
+.ArticleCellDataTable .ColumnSorting.active {
+  opacity: 1;
+}
+.ArticleCellDataTable .ColumnSorting button {
+  --bs-btn-line-height: 1.15;
+}
+.ArticleCellDataTable .ColumnSorting button.active {
+  box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.186);
+}
