@@ -193,6 +193,12 @@ const ArticleCellFigure = ({
               <ArticleCellDataTable
                 cellType={cellType}
                 cellIdx={figure.idx}
+                initialPageSize={
+                  tags.find((d) => {
+                    const m = d.match(/^page-size-(\d+)$/)
+                    return m ? m[1] : false
+                  }) || -1
+                }
                 htmlContent={dataTableContent}
               />
             ) : (
