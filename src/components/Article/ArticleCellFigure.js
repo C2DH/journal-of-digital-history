@@ -110,10 +110,12 @@ const ArticleCellFigure = ({
   //   captions,
   // )
 
-  const isDataTable = figure.refPrefix === DataTableRefPrefix && cellType === 'markdown'
+  const isDataTable =
+    (tags.includes('data-table') || figure.refPrefix === DataTableRefPrefix) &&
+    cellType === 'markdown'
   let dataTableContent = ''
   if (isDataTable) {
-    columnLayout = { md: 10, lg: 11 }
+    columnLayout = { md: 10, xxl: 11 }
 
     if (htmlOutputs.length > 0) {
       dataTableContent = htmlOutputs[0].data['text/html'].join('\n')
@@ -191,6 +193,12 @@ const ArticleCellFigure = ({
               <ArticleCellDataTable
                 cellType={cellType}
                 cellIdx={figure.idx}
+                initialPageSize={
+                  tags.find((d) => {
+                    const m = d.match(/^page-size-(\d+)$/)
+                    return m ? m[1] : false
+                  }) || -1
+                }
                 htmlContent={dataTableContent}
               />
             ) : (
