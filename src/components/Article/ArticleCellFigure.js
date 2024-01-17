@@ -139,7 +139,7 @@ const ArticleCellFigure = ({
       <Container className={containerClassName} fluid={isFluidContainer}>
         <Row>
           <Col {...columnLayout}>
-            {otherOutputs.length > 0 && (
+            {!isDataTable && otherOutputs.length > 0 ? (
               <figure>
                 <div className="anchor" id={figure.ref} />
                 <ArticleCellOutputs
@@ -153,7 +153,7 @@ const ArticleCellFigure = ({
                   height={parseInt(figureHeight)}
                 />
               </figure>
-            )}
+            ) : null}
             {pictures.map(({ base64 }, i) => (
               <figure
                 key={i}
