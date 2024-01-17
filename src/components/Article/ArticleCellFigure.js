@@ -110,7 +110,9 @@ const ArticleCellFigure = ({
   //   captions,
   // )
 
-  const isDataTable = figure.refPrefix === DataTableRefPrefix && cellType === 'markdown'
+  const isDataTable =
+    (tags.includes('data-table') || figure.refPrefix === DataTableRefPrefix) &&
+    cellType === 'markdown'
   let dataTableContent = ''
   if (isDataTable) {
     columnLayout = { md: 10, lg: 11 }
