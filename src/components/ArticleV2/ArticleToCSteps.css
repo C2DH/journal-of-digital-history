@@ -1,5 +1,10 @@
 .ArticleToCSteps {
   overflow: hidden;
+  overflow-y: auto;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+
+  pointer-events: all;
 }
 .ArticleToCSteps,
 .ArticleToCSteps ul,
@@ -30,7 +35,6 @@
   width: 17px;
   border: 1px solid transparent;
   padding: 0;
-  pointer-events: all;
 }
 
 .ArticleToCSteps__nested__toggleCollapsed button > span {

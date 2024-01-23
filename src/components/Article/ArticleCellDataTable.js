@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   ChevronLeft,
   ChevronsLeft,
@@ -78,6 +78,7 @@ const ArticleCellDataTable = ({
   htmlContent = '',
   allowFilterColumn = false,
   allowSorting = true,
+  initialPageSize = -1,
 }) => {
   const { t } = useTranslation()
   const [columnFilters, setColumnFilters] = React.useState([])
@@ -179,6 +180,18 @@ const ArticleCellDataTable = ({
   )
 
   console.debug('[ArticleCellDataTable] rendered \n - cellIdx:', cellIdx)
+  useEffect(() => {
+    if (initialPageSize === -1) return
+    console.debug(
+      '[ArticleCellDataTable] @useEffect \n - cellIdx:',
+      cellIdx,
+      '\n - initialPageSize:',
+      initialPageSize,
+    )
+    // get number out of page-size-10
+    table.setPageSize(Number(initialPageSize.match(/\d+/)[0]))
+  }, [initialPageSize])
+
   return (
     <div className="ArticleCellDataTable">
       {/* Pagination */}
