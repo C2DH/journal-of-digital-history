@@ -155,6 +155,10 @@
         "notFound": {
           "title": "not Found",
           "subheading": "..."
+        },
+        "reviewPolicy": {
+          "title": "Journal Of Digital History Peer Review Ethics Declaration",
+          "subheading": ""
         }
       },
       "forms": {
