@@ -78,6 +78,7 @@ const Fingerprint = lazy(() => import('./pages/Fingerprint'))
 const FingerprintViewer = lazy(() => import('./pages/FingerprintViewer'))
 const FingerprintExplained = lazy(() => import('./pages/FingerprintExplained'))
 const ReleaseNotes = lazy(() => import('./pages/ReleaseNotes'))
+const ReviewPolicy = lazy(() => import('./pages/ReviewPolicy'))
 const Faq = lazy(() => import('./pages/Faq'))
 
 const { startLangShort, lang } = getStartLang()
@@ -162,6 +163,7 @@ function LangRoutes() {
       <Route path={`${path}/fingerprint-explained/:encodedUrl?`} component={FingerprintExplained} />
 
       <Route path={`${path}/release-notes`} component={ReleaseNotes} />
+      <Route path={`${path}/review-policy`} component={ReviewPolicy} />
       <Route path={`${path}/faq`} component={Faq} />
       <Route path={`${path}/notebook-viewer/:encodedUrl`} component={NotebookViewer} />
       <Route path={`${path}/local-notebook`}>

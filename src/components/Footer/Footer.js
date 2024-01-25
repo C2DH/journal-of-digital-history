@@ -13,6 +13,7 @@ import {
   AboutRoute,
   ReleaseNotesRoute,
   TermsOfUseRoute,
+  ReviewPolicy,
   FaqRoute
 } from '../../constants'
 import { Twitter, Facebook, GitHub } from 'react-feather'
@@ -44,7 +45,7 @@ const Footer = ({ hideOnRoutes=[]}) => {
               </div>
               <div>
                 <Nav className="flex-column">
-                  {[HomeRoute, AbstractSubmissionRoute, AboutRoute].map((route, i) => (
+                  {[HomeRoute, AbstractSubmissionRoute, AboutRoute, ReviewPolicy].map((route, i) => (
                     <Nav.Item key={i}>
                       <LangNavLink to={route.to} exact>
                         <span>{t(route.label)}</span>

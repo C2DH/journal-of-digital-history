@@ -15,7 +15,8 @@
         "articleData": "data",
         "issue": "Articles & Issues",
         "releaseNotes": "Release notes",
-        "faq": "Frequently asked questions"
+        "faq": "Frequently asked questions",
+        "reviewPolicy": "Peer Review Ethics Declaration"
       },
       "title": "Journal of <br/>Digital History",
       "titleInline": "Journal of Digital History",
@@ -155,6 +156,10 @@
         "notFound": {
           "title": "not Found",
           "subheading": "..."
+        },
+        "reviewPolicy": {
+          "title": "Journal Of Digital History Peer Review Ethics Declaration",
+          "subheading": ""
         }
       },
       "forms": {

@@ -56,6 +56,10 @@ export const ReleaseNotesRoute = {
   to: '/release-notes',
   label: 'navigation.releaseNotes',
 }
+export const ReviewPolicy = {
+  to: '/review-policy',
+  label: 'navigation.reviewPolicy',
+}
 export const FaqRoute = { to: '/faq', label: 'navigation.faq' }
 
 export const PrimaryRoutes = [
