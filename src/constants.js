@@ -254,3 +254,15 @@ export const ArticleCellContainerClassNames = [
   'alert-danger',
   'alert-warning',
 ]
+
+export const OrderByQueryParam = 'orderBy'
+export const FilterByQueryparam = 'f'
+export const OrderByIssue = 'issue'
+export const OrderByPublicationDateAsc = 'dateAsc'
+export const OrderByPublicationDateDesc = 'dateDesc'
+
+export const AvailablesOrderByComparators = {
+  [OrderByIssue]: () => {},
+  [OrderByPublicationDateAsc]: (a, b) => a.publication_date - b.publication_date,
+  [OrderByPublicationDateDesc]: (a, b) => b.publication_date - a.publication_date,
+}
