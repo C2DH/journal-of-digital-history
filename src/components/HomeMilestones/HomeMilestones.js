@@ -12,17 +12,32 @@ const HomeMilestones = ({ isPortrait, extent }) => {
     raw: true,
     allowCached: true,
   })
-
+  console.debug(
+    '[HomeMilestones]',
+    status,
+    status === StatusSuccess,
+    error,
+    'data:',
+    data,
+    process.env.REACT_APP_WIKI_EVENTS,
+  )
+  let jsondata = {}
   let values = []
+  let jsondataExtent = [...extent]
   try {
     if (status === StatusSuccess) {
-      values = JSON.parse(data.replace(/^```json\n/, '').replace(/\n```$/, ''))
+      jsondata = JSON.parse(data.replace(/^```json\n/, '').replace(/\n```$/, ''))
+      values = jsondata.values
     }
   } catch (e) {
     console.warn('Error loading timeline data:', e)
   }
 
-  console.debug('[HomeMilestones]', status, status === StatusSuccess, error, 'values:', values)
+  if (jsondata.startDate && jsondata.endDate) {
+    jsondataExtent = [new Date(jsondata.startDate), new Date(jsondata.endDate)]
+  }
+
+  console.debug('[HomeMilestones]', status, status === StatusSuccess, error, 'values:', jsondata)
 
   useEffect(() => {
     if (isIntersecting && !seenOnce) {
@@ -33,7 +48,7 @@ const HomeMilestones = ({ isPortrait, extent }) => {
   return (
     <div ref={ref}>
       {status === StatusSuccess && (
-        <MilestoneTimeline milestones={values} isPortrait={isPortrait} extent={extent} />
+        <MilestoneTimeline milestones={values} isPortrait={isPortrait} extent={jsondataExtent} />
       )}
     </div>
   )
