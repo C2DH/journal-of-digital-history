@@ -34,7 +34,10 @@ const HomeMilestones = ({ isPortrait, extent }) => {
   }
 
   if (jsondata.startDate && jsondata.endDate) {
-    jsondataExtent = [new Date(jsondata.startDate), new Date(jsondata.endDate)]
+    const startDate = new Date(jsondata.startDate)
+    const endDate = new Date(jsondata.endDate)
+    jsondataExtent = [startDate, endDate]
+    values = values.filter((d) => new Date(d.date) >= startDate && new Date(d.date) <= endDate)
   }
 
   console.debug('[HomeMilestones]', status, status === StatusSuccess, error, 'values:', jsondata)
