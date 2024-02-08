@@ -31,9 +31,10 @@ import { useHistory } from 'react-router'
 import { useBoundingClientRect } from '../../hooks/graphics'
 
 const ArticlesGrid = ({
-  data: response = [],
+  items = [],
   url,
   issueId,
+  issues = [],
   status,
   // tag ategories to keep
   categories = ['narrative', 'tool', 'issue'],
@@ -63,9 +64,9 @@ const ArticlesGrid = ({
     backgroundColor: 'var(--secondary)',
     config: config.stiff,
   }))
-  const data = (response.results || []).map((d, idx) => new Article({ ...d, idx }))
+  const data = (items || []).map((d, idx) => new Article({ ...d, idx }))
   const articles = sort(data, AvailablesOrderByComparators[orderBy])
-  const { articlesByIssue, issues, showFilters } = useMemo(() => {
+  const { articlesByIssue, showFilters } = useMemo(() => {
     if (status !== StatusSuccess) {
       return {
         articlesByIssue: {},
@@ -79,13 +80,11 @@ const ArticlesGrid = ({
       idx,
     }))
     const articlesByIssue = groupBy(sortedItems, 'issue.pid')
-    const issues = Object.keys(articlesByIssue).sort((a, b) => {
-      return articlesByIssue[a][0].issue.pid < articlesByIssue[b][0].issue.pid
-    })
+
     const showFilters = data.reduce((acc, d) => {
       return acc || d.tags.some((t) => categories.includes(t.category))
     }, false)
-    return { articlesByIssue, issues, showFilters }
+    return { articlesByIssue, showFilters }
   }, [url, status])
 
   const onArticleMouseMoveHandler = (e, datum, idx, article, bounds) => {
@@ -94,7 +93,7 @@ const ArticlesGrid = ({
       animatedRef.current.length = article.fingerprint.cells.length
       animatedRef.current.datum = datum
     }
-    const x = Math.min(width - 250, e.clientX - bounds.left)
+    const x = bounds.left + Math.min(width - 200, e.clientX - bounds.left)
     const y = e.clientY + 50
     // this will change only animated toltip stuff
     setAnimatedProps.start({
@@ -161,6 +160,7 @@ const ArticlesGrid = ({
     articles,
     '\n- issueId:',
     issueId,
+    selected,
   )
 
   return (
@@ -198,23 +198,23 @@ const ArticlesGrid = ({
       )}
 
       {orderBy === OrderByIssue &&
-        issues.map((id) => {
-          const issue = articlesByIssue[id][0].issue
+        issues.map((issue) => {
+          // const issue = articlesByIssue[id][0].issue
+
           return (
-            <React.Fragment key={id}>
-              <Row>
-                <Col {...BootstrapColumLayout}>
-                  <a className="anchor" id={`anchor-${id}`} />
-                  <Issue item={issue} />
-                </Col>
-              </Row>
+            <React.Fragment key={issue.pid}>
+              <hr />
+              <a className="anchor" id={`anchor-${issue.pid}`} />
+
               <IssueArticles
                 selected={selected}
-                data={articlesByIssue[id]}
+                data={articlesByIssue[issue.pid] || []}
                 onArticleMouseMove={onArticleMouseMoveHandler}
                 onArticleClick={onArticleClickHandler}
                 onArticleMouseOut={onArticleMouseOutHandler}
-              />
+              >
+                <Issue item={issue} className="my-2" />
+              </IssueArticles>
             </React.Fragment>
           )
         })}
