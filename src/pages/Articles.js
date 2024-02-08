@@ -41,7 +41,7 @@ const Articles = ({
     queryKey: ['/api/articles'],
     queryFn: () =>
       axios
-        .get('/api/articles', {
+        .get('/api/articles?limit=500', {
           timeout: 10000,
           onDownloadProgress: (e) => setLoadingProgressFromEvent(e, 'articles', 0.5, 0.5),
         })
