@@ -43,7 +43,10 @@
         },
         "articles": {
           "title": "Articles & Issues",
-          "subheading": "Filter by keywords, libraries or browse the articles."
+          "subheading": "Filter by keywords, libraries or browse the articles.",
+          "status": {
+            "PEER_REVIEW": "Currently under Peer Review"
+          }
         },
         "loading": {
           "title": "loading...",
@@ -312,6 +315,12 @@
           "options": "Order by",
           "directions": ""
         }
+      },
+      "status": {
+        "PEER_REVIEW": "Peer Review",
+        "PUBLISHED": "Published",
+        "DRAFT": "Coming soon",
+        "INTERNAL_REVIEW": "Internal Review"
       },
       "welcomeBack": "Logged in as"
     }

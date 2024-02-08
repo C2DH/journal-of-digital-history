@@ -27,8 +27,8 @@ const Articles = ({
     queryKey: ['/api/issues'],
     queryFn: () =>
       axios
-        .get('/api/issues', {
-          timeout: 20,
+        .get('/api/issues?ordering=-pid', {
+          timeout: 10000,
           onDownloadProgress: (e) => setLoadingProgressFromEvent(e, 'articles', 0.5, 0),
         })
         .then((res) => res.data.results),
@@ -42,7 +42,7 @@ const Articles = ({
     queryFn: () =>
       axios
         .get('/api/articles', {
-          timeout: 20,
+          timeout: 10000,
           onDownloadProgress: (e) => setLoadingProgressFromEvent(e, 'articles', 0.5, 0.5),
         })
         .then((res) => res.data.results),
@@ -81,7 +81,7 @@ const Articles = ({
         <ErrorViewer error={errorArticles} errorCode={errorArticles.code} />
       )}
       {statusIssues !== StatusError && statusArticles !== StatusError && (
-        <ArticlesGrid status={statusArticles} data={articles} issueId={issueId} issues={issues} />
+        <ArticlesGrid status={statusArticles} items={articles} issueId={issueId} issues={issues} />
       )}
     </>
   )
