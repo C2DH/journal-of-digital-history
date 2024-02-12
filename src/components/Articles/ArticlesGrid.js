@@ -23,12 +23,12 @@ import Article from '../../models/Article'
 import ArticlesFacets from '../Articles/ArticlesFacets'
 import Issue from '../Issue'
 import ArticleFingerprintTooltip from '../ArticleV2/ArticleFingerprintTooltip'
-
 import groupBy from 'lodash/groupBy'
 import { Container, Row, Col } from 'react-bootstrap'
-import { useSpring, config } from 'react-spring'
+import { useSpring, config, a } from '@react-spring/web'
 import { useHistory } from 'react-router'
 import { useBoundingClientRect } from '../../hooks/graphics'
+import { useWindowStore } from '../../store'
 
 const ArticlesGrid = ({
   items = [],
@@ -39,6 +39,8 @@ const ArticlesGrid = ({
   // tag ategories to keep
   categories = ['narrative', 'tool', 'issue'],
 }) => {
+  const facetsRef = useRef()
+  const timerRef = useRef()
   const { t } = useTranslation()
   const [{ [OrderByQueryParam]: orderBy }, setQuery] = useQueryParams({
     [OrderByQueryParam]: withDefault(
@@ -64,6 +66,10 @@ const ArticlesGrid = ({
     backgroundColor: 'var(--secondary)',
     config: config.stiff,
   }))
+  // animation properties to slide up and down the articleFacets block
+  const [facetsAnimatedProps, setFacetsAnimatedProps] = useSpring(() => ({
+    height: 0,
+  }))
   const data = (items || []).map((d, idx) => new Article({ ...d, idx }))
   const articles = sort(data, AvailablesOrderByComparators[orderBy])
   const { articlesByIssue, showFilters } = useMemo(() => {
@@ -78,6 +84,7 @@ const ArticlesGrid = ({
     const sortedItems = data.map((item, idx) => ({
       ...item,
       idx,
+      selected: selected?.includes(idx),
     }))
     const articlesByIssue = groupBy(sortedItems, 'issue.pid')
 
@@ -85,7 +92,7 @@ const ArticlesGrid = ({
       return acc || d.tags.some((t) => categories.includes(t.category))
     }, false)
     return { articlesByIssue, showFilters }
-  }, [url, status])
+  }, [url, selected, status])
 
   const onArticleMouseMoveHandler = (e, datum, idx, article, bounds) => {
     if (!isNaN(idx) && animatedRef.current.idx !== idx) {
@@ -154,14 +161,24 @@ const ArticlesGrid = ({
   useLayoutEffect(() => {
     setAnimatedProps.start({ opacity: 0 })
   }, [selected])
-  console.debug(
-    '[Articles] \n- articles:',
-    Array.isArray(articles),
-    articles,
-    '\n- issueId:',
-    issueId,
-    selected,
-  )
+
+  useLayoutEffect(() => {
+    if (status === StatusSuccess) {
+      setFacetsAnimatedProps.start({
+        height: facetsRef.current.firstChild.scrollHeight,
+        delay: 1000,
+      })
+      return useWindowStore.subscribe(() => {
+        clearTimeout(timerRef.current)
+        timerRef.current = setTimeout(() => {
+          setFacetsAnimatedProps.start({
+            height: facetsRef.current.firstChild.scrollHeight,
+            delay: 0,
+          })
+        }, 0)
+      })
+    }
+  }, [status])
 
   return (
     <Container ref={ref} className="Articles Issue page ">
@@ -183,27 +200,39 @@ const ArticlesGrid = ({
           </div>
         </Col>
       </Row>
-      {showFilters && (
-        <Row className="mb-3">
-          <Col md={{ offset: 1, span: 10 }}>
-            {status === StatusSuccess && (
-              <ArticlesFacets
-                items={data}
-                onSelect={onFacetsSelectHandler}
-                className="Articles_facets"
-              />
-            )}
-          </Col>
-        </Row>
-      )}
 
+      <a.div
+        className="row mb-1 position-relative overflow-hidden"
+        ref={facetsRef}
+        style={facetsAnimatedProps}
+      >
+        <Col md={{ offset: 1, span: 10 }} className="position-absolute">
+          {status === StatusSuccess && (
+            <ArticlesFacets
+              items={data}
+              onShowMore={() => {
+                console.info('[ArticlesGrid] @showMore')
+                clearTimeout(timerRef.current)
+                setTimeout(() => {
+                  setFacetsAnimatedProps.start({
+                    height: facetsRef.current.firstChild.scrollHeight,
+                    delay: 0,
+                  })
+                }, 0)
+              }}
+              onSelect={onFacetsSelectHandler}
+              className="Articles_facets "
+            />
+          )}
+        </Col>
+      </a.div>
       {orderBy === OrderByIssue &&
         issues.map((issue) => {
-          // const issue = articlesByIssue[id][0].issue
+          const numArticles = articlesByIssue[issue.pid]?.length
+          const numSelectedArticles = articlesByIssue[issue.pid]?.filter((d) => d.selected).length
 
           return (
             <React.Fragment key={issue.pid}>
-              <hr />
               <a className="anchor" id={`anchor-${issue.pid}`} />
 
               <IssueArticles
@@ -213,7 +242,14 @@ const ArticlesGrid = ({
                 onArticleClick={onArticleClickHandler}
                 onArticleMouseOut={onArticleMouseOutHandler}
               >
-                <Issue item={issue} className="my-2" />
+                <Issue
+                  numArticles={numArticles}
+                  isInFilterMode={Array.isArray(selected)}
+                  numSelectedArticles={numSelectedArticles}
+                  hasSelectedArticles={!!articlesByIssue[issue.pid]}
+                  item={issue}
+                  className="py-2 mb-1"
+                />
               </IssueArticles>
             </React.Fragment>
           )

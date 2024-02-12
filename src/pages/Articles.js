@@ -9,6 +9,8 @@ import { usePropsStore } from '../store'
 import { StatusError, StatusFetching, StatusSuccess } from '../constants'
 import ErrorViewer from './ErrorViewer'
 
+const ProgressLoadingId = 'articles'
+
 const Articles = ({
   match: {
     params: { id: issueId },
@@ -29,7 +31,7 @@ const Articles = ({
       axios
         .get('/api/issues?ordering=-pid', {
           timeout: 10000,
-          onDownloadProgress: (e) => setLoadingProgressFromEvent(e, 'articles', 0.5, 0),
+          onDownloadProgress: (e) => setLoadingProgressFromEvent(e, ProgressLoadingId, 0.5, 0),
         })
         .then((res) => res.data.results),
   })
@@ -43,7 +45,7 @@ const Articles = ({
       axios
         .get('/api/articles?limit=500', {
           timeout: 10000,
-          onDownloadProgress: (e) => setLoadingProgressFromEvent(e, 'articles', 0.5, 0.5),
+          onDownloadProgress: (e) => setLoadingProgressFromEvent(e, ProgressLoadingId, 0.5, 0.5),
         })
         .then((res) => res.data.results),
     enabled: statusIssues === StatusSuccess,
@@ -51,11 +53,11 @@ const Articles = ({
 
   useEffect(() => {
     if (statusIssues === StatusFetching) {
-      setLoadingProgress(0.05, 'articles')
+      setLoadingProgress(0.05, ProgressLoadingId)
     } else if (statusArticles === StatusSuccess) {
-      setLoadingProgress(1, 'articles')
+      setLoadingProgress(1, ProgressLoadingId)
     } else if (statusArticles === StatusError) {
-      setLoadingProgress(0, 'articles')
+      setLoadingProgress(0, ProgressLoadingId)
     }
   }, [statusIssues, statusArticles])
 

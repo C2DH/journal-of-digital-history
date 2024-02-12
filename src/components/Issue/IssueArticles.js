@@ -26,6 +26,7 @@ const IssueArticles = ({
 
   respectOrdering = false,
   children,
+  className = '',
 }) => {
   const ref = React.useRef()
   const bboxRef = React.useRef()
@@ -77,8 +78,9 @@ const IssueArticles = ({
   console.debug('[IssueArticles] rendered')
 
   return (
-    <Row ref={ref}>
+    <Row ref={ref} className={`IssueArticles ${className}`}>
       {children}
+      {data.length > 0 && <Col sm={{ span: 12 }} className="py-3"></Col>}
       {editorials.map((article, i) => {
         if (Array.isArray(selected) && selected.indexOf(article.idx) === -1) {
           return null

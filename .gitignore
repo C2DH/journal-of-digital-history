@@ -9,3 +9,4 @@ node_modules
 .vscode/settings.json
 storybook-static
 # _redirects
+journal-of-digital-history.code-workspace

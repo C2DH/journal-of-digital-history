@@ -1,0 +1,15 @@
+.Issue.disabled > div {
+  display: none !important;
+}
+.Issue {
+  border-top: 1px solid var(--gray-400);
+  position: sticky;
+  top: 99px;
+  background: var(--gray-100);
+  z-index: 1;
+}
+.Issue__numArticles b {
+  border: 1px solid;
+  padding: 0 6px 0 5px;
+  border-radius: 5px;
+}
