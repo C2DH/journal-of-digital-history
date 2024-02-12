@@ -57,7 +57,7 @@ const IssueListItem = (props) => {
         const issue = props.items[group.indices[0]].issue
         return (
           <div className="d-flex align-items-center flex-nowrap" title={issue.name || group.key}>
-            <IssueLabel pid={issue.pid} publication_date={issue.publication_date} />
+            <IssueLabel pid={issue.pid} name={issue.name} />
             <div>&nbsp;({group.count})</div>
           </div>
         )
