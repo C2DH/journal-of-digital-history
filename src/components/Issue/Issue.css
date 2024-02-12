@@ -1,0 +1,10 @@
+.Issue.disabled > div {
+  display: none !important;
+}
+.Issue {
+  border-top: 1px solid var(--gray-400);
+  position: sticky;
+  top: 99px;
+  background: var(--gray-100);
+  z-index: 1;
+}

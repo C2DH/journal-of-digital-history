@@ -3,16 +3,26 @@ import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { Col, Row } from 'react-bootstrap'
 import { a, useSpring } from '@react-spring/web'
+import './Issue.css'
 
-const Issue = ({ item, className = '' }) => {
+const Issue = ({
+  item,
+  numArticles = -1,
+  numSelectedArticles = -1,
+  isInFilterMode = false,
+  className = '',
+}) => {
   const ref = useRef()
+  const { t } = useTranslation()
   const descriptionRef = useRef()
   const buttonRef = useRef()
   const isOpen = useRef(false)
 
   const [{ height }, api] = useSpring(() => ({ height: 0 }))
-  const { t } = useTranslation()
   const label = item.pid.replace(/jdh0+(\d+)/, (m, n) => t('numbers.issue', { n }))
+
+  const activeClass = isInFilterMode && numSelectedArticles > 0 ? 'active' : ''
+  const disabledClass = isInFilterMode && numSelectedArticles < 1 ? 'disabled' : ''
 
   const toggleHeight = () => {
     isOpen.current = !isOpen.current
@@ -38,9 +48,32 @@ const Issue = ({ item, className = '' }) => {
   }, [ref])
 
   return (
-    <Row className={`Issue align-items-start ${className}`}>
+    <Row className={`Issue align-items-start ${className} ${activeClass} ${disabledClass}`}>
       <Col md={{ span: 11 }} lg={{ span: 5 }} ref={ref}>
-        {label} {item.status !== 'PUBLISHED' ? <b>&mdash; {t('status.' + item.status)}</b> : null}
+        {item.status !== 'PUBLISHED' ? <em>{t('status.' + item.status)}</em> : label}
+        {isInFilterMode && numSelectedArticles > 0 ? (
+          <>
+            &nbsp; &mdash; &nbsp;
+            <div
+              className="d-inline-block"
+              dangerouslySetInnerHTML={{
+                __html: t('numbers.articlesFiltered', {
+                  n: numSelectedArticles,
+                  total: numArticles,
+                }),
+              }}
+            />
+          </>
+        ) : null}
+        {!isInFilterMode && numArticles > 0 ? (
+          <>
+            &nbsp; &mdash; &nbsp;
+            <div
+              className="d-inline-block"
+              dangerouslySetInnerHTML={{ __html: t('numbers.articles', { n: numArticles }) }}
+            />{' '}
+          </>
+        ) : null}
         <h2>{item.name}</h2>
       </Col>
 
@@ -74,6 +107,9 @@ Issue.propTypes = {
     description: PropTypes.string,
     status: PropTypes.string.isRequired,
   }).isRequired,
+  numArticles: PropTypes.number,
+  numSelectedArticles: PropTypes.number,
+  isInFilterMode: PropTypes.bool,
   className: PropTypes.string,
 }
 
