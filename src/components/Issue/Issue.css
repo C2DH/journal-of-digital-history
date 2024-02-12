@@ -8,3 +8,8 @@
   background: var(--gray-100);
   z-index: 1;
 }
+.Issue__numArticles b {
+  border: 1px solid;
+  padding: 0 6px 0 5px;
+  border-radius: 5px;
+}

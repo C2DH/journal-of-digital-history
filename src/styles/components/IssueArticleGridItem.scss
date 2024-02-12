@@ -2,6 +2,8 @@
 .IssueArticleGridItem {
   margin: var(--spacer-3) 0;
   border-top: 1px solid var(--secondary);
+  border-radius: 10px;
+  padding: 10px;
   svg {
     cursor: pointer;
   }
@@ -18,6 +20,28 @@
 }
 .IssueArticleGridItem_date {
   padding: var(--spacer-1);
+}
+
+.IssueArticleGridItem.just-added {
+  position: relative;
+  border: 1px solid var(--accent);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+.IssueArticleGridItem.just-added::after {
+  position: absolute;
+  top: -15px;
+  left: 6px;
+  transform: rotate(-3deg);
+  font-size: 0.8em;
+  content: 'new';
+  color: var(--white);
+  text-transform: uppercase;
+  padding: 2px 8px;
+  letter-spacing: 1px;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: var(--accent);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
 .IssueArticleGridItem_contributor {
@@ -59,7 +83,7 @@
   .IssueArticleGridItem {
     margin: 0;
     margin-bottom: var(--spacer-5);
-    padding: 0;
+    // padding: 0;
     border-top-color: transparent;
   }
 }

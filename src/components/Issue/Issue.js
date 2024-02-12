@@ -55,7 +55,7 @@ const Issue = ({
           <>
             &nbsp; &mdash; &nbsp;
             <div
-              className="d-inline-block"
+              className="d-inline-block Issue__numArticles"
               dangerouslySetInnerHTML={{
                 __html: t('numbers.articlesFiltered', {
                   n: numSelectedArticles,
@@ -69,8 +69,8 @@ const Issue = ({
           <>
             &nbsp; &mdash; &nbsp;
             <div
-              className="d-inline-block"
-              dangerouslySetInnerHTML={{ __html: t('numbers.articles', { n: numArticles }) }}
+              className="d-inline-block Issue__numArticles"
+              dangerouslySetInnerHTML={{ __html: t('numbers.articlesInIssue', { n: numArticles }) }}
             />{' '}
           </>
         ) : null}
