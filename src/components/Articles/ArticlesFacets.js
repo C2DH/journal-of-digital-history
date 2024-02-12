@@ -105,7 +105,7 @@ const Dimensions = [
   },
 ]
 
-const ArticlesFacets = ({ items, onSelect, className }) => {
+const ArticlesFacets = ({ items, onSelect, onShowMore, className }) => {
   return (
     <Facets
       dimensions={Dimensions}
@@ -113,6 +113,7 @@ const ArticlesFacets = ({ items, onSelect, className }) => {
       onSelect={onSelect}
       onInit={(args) => console.debug('[ArticlesFacets] @init', args)}
       ShowMoreLabel={ShowMoreLabel}
+      onShowMore={onShowMore}
       className={className}
     />
   )

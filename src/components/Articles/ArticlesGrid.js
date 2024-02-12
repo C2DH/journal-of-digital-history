@@ -23,10 +23,9 @@ import Article from '../../models/Article'
 import ArticlesFacets from '../Articles/ArticlesFacets'
 import Issue from '../Issue'
 import ArticleFingerprintTooltip from '../ArticleV2/ArticleFingerprintTooltip'
-
 import groupBy from 'lodash/groupBy'
 import { Container, Row, Col } from 'react-bootstrap'
-import { useSpring, config } from 'react-spring'
+import { useSpring, config, a } from '@react-spring/web'
 import { useHistory } from 'react-router'
 import { useBoundingClientRect } from '../../hooks/graphics'
 
@@ -39,6 +38,7 @@ const ArticlesGrid = ({
   // tag ategories to keep
   categories = ['narrative', 'tool', 'issue'],
 }) => {
+  const facetsRef = useRef()
   const { t } = useTranslation()
   const [{ [OrderByQueryParam]: orderBy }, setQuery] = useQueryParams({
     [OrderByQueryParam]: withDefault(
@@ -63,6 +63,10 @@ const ArticlesGrid = ({
     color: 'var(--white)',
     backgroundColor: 'var(--secondary)',
     config: config.stiff,
+  }))
+  // animation properties to slide up and down the articleFacets block
+  const [facetsAnimatedProps, setFacetsAnimatedProps] = useSpring(() => ({
+    height: 0,
   }))
   const data = (items || []).map((d, idx) => new Article({ ...d, idx }))
   const articles = sort(data, AvailablesOrderByComparators[orderBy])
@@ -163,6 +167,15 @@ const ArticlesGrid = ({
     selected,
   )
 
+  useLayoutEffect(() => {
+    if (status === StatusSuccess) {
+      setFacetsAnimatedProps.start({
+        height: facetsRef.current.scrollHeight,
+        delay: 1000,
+      })
+    }
+  }, [status])
+
   return (
     <Container ref={ref} className="Articles Issue page ">
       <ArticleFingerprintTooltip forwardedRef={animatedRef} animatedProps={animatedProps} />
@@ -183,20 +196,32 @@ const ArticlesGrid = ({
           </div>
         </Col>
       </Row>
-      {showFilters && (
-        <Row className="mb-3">
-          <Col md={{ offset: 1, span: 10 }}>
-            {status === StatusSuccess && (
-              <ArticlesFacets
-                items={data}
-                onSelect={onFacetsSelectHandler}
-                className="Articles_facets"
-              />
-            )}
-          </Col>
-        </Row>
-      )}
 
+      <a.div
+        className="row mb-3 position-relative overflow-hidden"
+        ref={facetsRef}
+        style={facetsAnimatedProps}
+      >
+        <Col md={{ offset: 1, span: 10 }} className="position-absolute">
+          {status === StatusSuccess && (
+            <ArticlesFacets
+              items={data}
+              onShowMore={() => {
+                console.info('[ArticlesGrid] @showMore')
+                // eslint-disable-next-line
+                setTimeout(() => {
+                  setFacetsAnimatedProps.set({
+                    height: facetsRef.current.firstChild.scrollHeight,
+                    delay: 0,
+                  })
+                }, 0)
+              }}
+              onSelect={onFacetsSelectHandler}
+              className="Articles_facets "
+            />
+          )}
+        </Col>
+      </a.div>
       {orderBy === OrderByIssue &&
         issues.map((issue) => {
           // const issue = articlesByIssue[id][0].issue
