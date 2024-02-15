@@ -266,3 +266,5 @@ export const AvailablesOrderByComparators = {
   [OrderByPublicationDateAsc]: (a, b) => a.publication_date - b.publication_date,
   [OrderByPublicationDateDesc]: (a, b) => b.publication_date - a.publication_date,
 }
+
+export const IsPrettyRecentTagName = 'new'

@@ -7,12 +7,10 @@ import LangLink from '../LangLink'
 import { Badge } from 'react-bootstrap'
 import { useBoundingClientRect } from '../../hooks/graphics'
 import { extractMetadataFromArticle, stripHtml } from '../../logic/api/metadata'
-import { IsMobile } from '../../constants'
+import { IsMobile, IsPrettyRecentTagName } from '../../constants'
 import '../../styles/components/IssueArticleGridItem.scss'
 import { ArrowRightCircle } from 'react-feather'
 import IssueLabel from './IssueLabel'
-
-const JustAddedTimeInterval = 3600000 * 24 * 240
 
 const IssueArticleGridItem = ({
   article = {},
@@ -27,14 +25,8 @@ const IssueArticleGridItem = ({
   const [{ width: size }, ref] = useBoundingClientRect()
   const { title, keywords, excerpt, contributor } = extractMetadataFromArticle(article)
   const { t } = useTranslation()
-  const isPrettyRecent = new Date() - new Date(article.publication_date) < JustAddedTimeInterval
-  console.debug(
-    '[IssueArticleGridItem]',
-    article.publication_date,
-    new Date() - new Date(article.publication_date),
-    JustAddedTimeInterval,
-    isPrettyRecent,
-  )
+  const isPrettyRecent = article.tags.some((d) => d.name === IsPrettyRecentTagName)
+
   return (
     <div
       className={`IssueArticleGridItem ${isPrettyRecent ? 'just-added' : ''}`}
