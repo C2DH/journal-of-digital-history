@@ -146,6 +146,7 @@ const Facets = ({
   onSelect,
   onInit,
   onMouseEnter,
+  onShowMore,
   className,
   style,
 }) => {
@@ -242,6 +243,7 @@ const Facets = ({
             onSelect={onSelectHandler}
             onInit={onInitHandler}
             onMouseEnter={onMouseEnterHandler}
+            onShowMore={onShowMore}
             ListItem={dimension.ListItem}
           >
             {reset === true && dims[dimension.name].selected.length > 0 && (

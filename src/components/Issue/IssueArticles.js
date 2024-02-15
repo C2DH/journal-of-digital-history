@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import IssueArticleGridItem from './IssueArticleGridItem'
-import { useBoundingClientRect } from '../../hooks/graphics'
 
 const BootstrapColumLayout = Object.freeze({
   lg: { span: 4, offset: 0 },
@@ -26,8 +25,11 @@ const IssueArticles = ({
   onArticleMouseOut,
 
   respectOrdering = false,
+  children,
+  className = '',
 }) => {
-  const [{ top, left }, ref] = useBoundingClientRect()
+  const ref = React.useRef()
+  const bboxRef = React.useRef()
   const editorials = []
   const articles = respectOrdering ? data : []
 
@@ -54,13 +56,31 @@ const IssueArticles = ({
   }
   // eslint-disable-next-line no-unused-vars
   const onMouseMoveHandler = (e, datum, idx, article) => {
-    if (typeof onArticleMouseMove === 'function') {
-      onArticleMouseMove(e, datum, idx, article, { top, left })
+    if (typeof onArticleMouseMove === 'function' && bboxRef.current) {
+      onArticleMouseMove(e, datum, idx, article, {
+        top: bboxRef.current.top,
+        left: bboxRef.current.left,
+      })
     }
   }
-  console.debug('[IssueArticles] selected', selected, articles)
+  const updateBboxRef = () => {
+    bboxRef.current = ref.current.getBoundingClientRect()
+  }
+
+  useLayoutEffect(() => {
+    if (!ref.current) return
+    bboxRef.current = ref.current.getBoundingClientRect()
+    window.addEventListener('resize', updateBboxRef)
+    return () => {
+      window.removeEventListener('resize', updateBboxRef)
+    }
+  }, [ref])
+  console.debug('[IssueArticles] rendered')
+
   return (
-    <Row ref={ref}>
+    <Row ref={ref} className={`IssueArticles ${className}`}>
+      {children}
+      {data.length > 0 && <Col sm={{ span: 12 }} className="py-3"></Col>}
       {editorials.map((article, i) => {
         if (Array.isArray(selected) && selected.indexOf(article.idx) === -1) {
           return null

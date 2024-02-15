@@ -154,6 +154,11 @@ export const usePropsStore = create((set) => ({
   loadingLabel: '',
   setLoadingProgress: (loadingProgress, loadingLabel = '') =>
     set({ loadingProgress, loadingLabel }),
+  setLoadingProgressFromEvent: (e, loadingLabel = '', ratio = 1, initial = 0) => {
+    const { total, loaded } = e
+    const loadingProgress = Math.max(1, initial + ratio * (total ? loaded / total : 0))
+    set({ loadingProgress, loadingLabel })
+  },
 }))
 
 export const useWindowStore = create((set) => ({

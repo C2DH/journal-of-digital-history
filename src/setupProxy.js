@@ -6,7 +6,9 @@ const apiPath = process.env.REACT_APP_API_ROOT || '/api'
 
 fs.appendFile(
   './setupProxy.log',
-  `${new Date().toISOString()} target=${target} apiPath=${apiPath}\n`,
+  `${new Date().toISOString()} target=${target} apiPath=${apiPath} REACT_APP_PROXY=${
+    process.env.REACT_APP_PROXY
+  } \n`,
   (err) => console.error(err),
 )
 

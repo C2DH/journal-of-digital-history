@@ -12,6 +12,8 @@ import '../../styles/components/IssueArticleGridItem.scss'
 import { ArrowRightCircle } from 'react-feather'
 import IssueLabel from './IssueLabel'
 
+const JustAddedTimeInterval = 3600000 * 24 * 240
+
 const IssueArticleGridItem = ({
   article = {},
   isFake = false,
@@ -25,8 +27,20 @@ const IssueArticleGridItem = ({
   const [{ width: size }, ref] = useBoundingClientRect()
   const { title, keywords, excerpt, contributor } = extractMetadataFromArticle(article)
   const { t } = useTranslation()
+  const isPrettyRecent = new Date() - new Date(article.publication_date) < JustAddedTimeInterval
+  console.debug(
+    '[IssueArticleGridItem]',
+    article.publication_date,
+    new Date() - new Date(article.publication_date),
+    JustAddedTimeInterval,
+    isPrettyRecent,
+  )
   return (
-    <div className="IssueArticleGridItem" ref={ref} onMouseOut={onMouseOut}>
+    <div
+      className={`IssueArticleGridItem ${isPrettyRecent ? 'just-added' : ''}`}
+      ref={ref}
+      onMouseOut={onMouseOut}
+    >
       <div
         className={IsMobile ? 'half-squared' : 'squared'}
         onMouseOut={onMouseOut}

@@ -1,0 +1,35 @@
+.About table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 0px solid transparent;
+}
+
+.About tbody {
+  border: 0px solid transparent;
+  display: block;
+}
+
+.About thead {
+  display: none;
+}
+
+.About tr {
+  display: inline-flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.About h2 {
+  margin-bottom: var(--spacer-3);
+  margin-top: var(--spacer-5);
+}
+.About td {
+  width: 100%;
+  margin-bottom: var(--spacer-3);
+}
+
+@media screen and (min-width: 768px) {
+  .About td {
+    width: 33%;
+  }
+}
