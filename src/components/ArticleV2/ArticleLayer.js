@@ -290,7 +290,11 @@ const ArticleLayer = ({
     // debugger
     // check if the user clicked on an anchor element (figure, table of simple anchor)
     // in the markdown cell content.
-    if (e.target.nodeName === 'A') {
+    if (
+      e.target.nodeName === 'A' ||
+      e.target.hasAttribute('data-href') ||
+      e.target.hasAttribute('data-idx')
+    ) {
       if (e.target.hasAttribute('data-href')) {
         // link to bibliography :)
         const dataHref = e.target.getAttribute('data-href')
