@@ -51,12 +51,42 @@ const renderMarkdownWithReferences = ({
     '<a href="#((' + AvailableRefPrefixes.join('|') + ')[^"]+-*)">([^<]+)</a>',
     'ig',
   )
-  // console.info('markdownParser.render', markdownParser.render(sources))
   let content = markdownParser
     .render(sources)
     // enable <br />
     .replace(/&lt;br\/&gt;/g, '<br/>')
     .replace(/&lt;br&gt;/g, '<br/>')
+    // Note: this is for citationManager.
+    // E.g. &lt;cite id=“arpnc”&gt;&lt;a href=“#zotero%7C8918850%2F6BZTRQWI”&gt;(Coughenour et al., 2015)&lt;/a&gt;&lt;/cite&gt;
+    .replace(
+      /&lt;cite\s+[^&]+&gt;&lt;a\s+href=.#zotero%..([\dA-Z]+)%..([\dA-Z]+).&gt;(.+?)&lt;\/a&gt;&lt;\/cite&gt;/gm,
+      (m, id0, id1, label) => {
+        const id = `${id0}/${id1}`
+        const reference = new ArticleReference({
+          ref: citationsFromMetadata[id],
+        })
+        if (!citationsFromMetadata[id]) {
+          warnings.push(
+            new ArticleTreeWarning({
+              idx,
+              code: ReferenceWarningCode,
+              message: `missing citation id ${id} in notebook metadata`,
+              context: id,
+            }),
+          )
+        }
+        references.push(reference)
+        return `<span class="ArticleReference d-inline-block">
+        <span class=" d-inline-block">
+          <span class="ArticleReference_shortRef">
+            <span data-href="${id}"><span class="ArticleReference_pointer"></span>
+            ${label.replace(/[()]/g, '')}
+            </span>
+          </span>
+        </span>
+        </span>`
+      },
+    )
     // add target blank for all external links
     .replace(/<a href="([^"]+)"/g, (m, href) => {
       if (href.indexOf('http') === 0) {
@@ -97,7 +127,8 @@ const renderMarkdownWithReferences = ({
     })
     // replace sup
     .replace(/&lt;sup&gt;(.*)&lt;\/sup&gt;/g, (m, str) => `<sup>${str}</sup>`)
-    // find and replace ciation in Chicago author-date style, like in this sentence:
+
+    // Note: this is for cite2c. find and replace ciation in Chicago author-date style, like in this sentence:
     // "Compiling a collection of tweets of this nature raises considerable methodological issues.
     // While we will not go into detail, we would refer our readers to previous publications
     // that touches on these subjects <cite data-cite="7009778/GBFQ2FF7"></cite>."
@@ -168,7 +199,9 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
   // this contain footnotes => zotero id to remap reference at paragraph level
   const referenceIndex = {}
   let bibliography = null
-  let citationsFromMetadata = metadata?.cite2c?.citations
+  // deprecation notice: cite2c is only being used in jupyter notebooks 6.0.0 and below
+  let citationsFromMetadata =
+    metadata.cite2c?.citations || metadata['citation-manager']?.items?.zotero
   // initialize figure numbering using constants/AvailableFigureRefPrefixes
   const figureNumberingByRefPrefix = AvailableFigureRefPrefixes.reduce((acc, prefix) => {
     acc[prefix] = 0
@@ -201,7 +234,6 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
       return acc
     }, {})
   }
-
   // parse biobliographic elements
   if (citationsFromMetadata instanceof Object) {
     bibliography = new Cite(Object.values(citationsFromMetadata).filter((d) => d))
@@ -217,6 +249,7 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
       cell.role = RoleDefault
 
       const sources = Array.isArray(cell.source) ? cell.source.join('\n') : cell.source
+      console.info('[ipynb]', cell.idx, sources)
       // find footnote citations (with the number)
       const footnote = sources.match(/<span id=.fn(\d+).><cite data-cite=.([/\dA-Z]+).>/)
       const figure = getFigureFromCell(cell, AvailableFigureRefPrefixes)
