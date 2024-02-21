@@ -51,41 +51,60 @@ const renderMarkdownWithReferences = ({
     '<a href="#((' + AvailableRefPrefixes.join('|') + ')[^"]+-*)">([^<]+)</a>',
     'ig',
   )
-  let content = markdownParser
-    .render(sources)
+  const citeToRef = (m, id0, id1, label) => {
+    const id = `${id0}/${id1}`
+    console.info(
+      '[ipynb.renderMarkdownWithReferences] citeToRef',
+      idx,
+      id,
+      label,
+      citationsFromMetadata[id],
+    )
+    const reference = new ArticleReference({
+      ref: citationsFromMetadata[id],
+    })
+    if (!citationsFromMetadata[id]) {
+      warnings.push(
+        new ArticleTreeWarning({
+          idx,
+          code: ReferenceWarningCode,
+          message: `missing citation id ${id} in notebook metadata`,
+          context: id,
+        }),
+      )
+    }
+    references.push(reference)
+    return `<span class="ArticleReference d-inline-block">
+      <span class=" d-inline-block">
+        <span class="ArticleReference_shortRef">
+          <span data-href="${id}"><span class="ArticleReference_pointer"></span>
+          ${label.replace(/[()]/g, '')}
+          </span>
+        </span>
+      </span>
+      </span>`
+  }
+
+  let content = markdownParser.render(sources)
+  console.info('[ipynb] rendered content', idx, content)
+  content = content
     // enable <br />
     .replace(/&lt;br\/&gt;/g, '<br/>')
     .replace(/&lt;br&gt;/g, '<br/>')
+    .replace(/&lt;i&gt;/g, '<i>')
+    .replace(/&lt;\/i&gt;/g, '</i>')
+    // Note: this is for cite2c migrating to citation manager :(
+    // In content we have smt like
+    // &lt;cite id=“cite2c-7748027/DJM2S2R7”&gt;&lt;a href=“#cite2c%7C7748027%2FDJM2S2R7”&gt;(Salomon, 2021)&lt;/a&gt;&lt;/cite&gt;
+    .replace(
+      /&lt;cite id=.cite2c-([\dA-Z]+)\/([\dA-Z]+).&gt;&lt;a href=.#cite2c%..[\dA-Z]+%2F[\dA-Z]+.&gt;(.+?)&lt;\/a&gt;&lt;\/cite&gt;/gm,
+      citeToRef,
+    )
     // Note: this is for citationManager.
     // E.g. &lt;cite id=“arpnc”&gt;&lt;a href=“#zotero%7C8918850%2F6BZTRQWI”&gt;(Coughenour et al., 2015)&lt;/a&gt;&lt;/cite&gt;
     .replace(
       /&lt;cite\s+[^&]+&gt;&lt;a\s+href=.#zotero%..([\dA-Z]+)%..([\dA-Z]+).&gt;(.+?)&lt;\/a&gt;&lt;\/cite&gt;/gm,
-      (m, id0, id1, label) => {
-        const id = `${id0}/${id1}`
-        const reference = new ArticleReference({
-          ref: citationsFromMetadata[id],
-        })
-        if (!citationsFromMetadata[id]) {
-          warnings.push(
-            new ArticleTreeWarning({
-              idx,
-              code: ReferenceWarningCode,
-              message: `missing citation id ${id} in notebook metadata`,
-              context: id,
-            }),
-          )
-        }
-        references.push(reference)
-        return `<span class="ArticleReference d-inline-block">
-        <span class=" d-inline-block">
-          <span class="ArticleReference_shortRef">
-            <span data-href="${id}"><span class="ArticleReference_pointer"></span>
-            ${label.replace(/[()]/g, '')}
-            </span>
-          </span>
-        </span>
-        </span>`
-      },
+      citeToRef,
     )
     // add target blank for all external links
     .replace(/<a href="([^"]+)"/g, (m, href) => {
