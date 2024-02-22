@@ -220,7 +220,10 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
   let bibliography = null
   // deprecation notice: cite2c is only being used in jupyter notebooks 6.0.0 and below
   let citationsFromMetadata =
-    metadata.cite2c?.citations || metadata['citation-manager']?.items?.zotero
+    metadata.cite2c?.citations ||
+    metadata['citation-manager']?.items?.zotero ||
+    metadata['citation-manager']?.items?.cite2c
+  console.info('[ipynb]', id, metadata, citationsFromMetadata)
   // initialize figure numbering using constants/AvailableFigureRefPrefixes
   const figureNumberingByRefPrefix = AvailableFigureRefPrefixes.reduce((acc, prefix) => {
     acc[prefix] = 0
