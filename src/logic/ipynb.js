@@ -96,10 +96,13 @@ const renderMarkdownWithReferences = ({
     // Note: this is for cite2c migrating to citation manager :(
     // In content we have smt like
     // &lt;cite id=“cite2c-7748027/DJM2S2R7”&gt;&lt;a href=“#cite2c%7C7748027%2FDJM2S2R7”&gt;(Salomon, 2021)&lt;/a&gt;&lt;/cite&gt;
+    //
+    // &lt;cite id=“cite2c-7748027/C6Q3NJHF”&gt;(Karasch, 1987)&lt;/cite&gt;:60, &lt;cite id=“cite2c-7748027/E4NNMKER”&gt;(Linhares et Lévy, 1971)&lt;/cite&gt;:129
     .replace(
-      /&lt;cite id=.cite2c-([\dA-Z]+)\/([\dA-Z]+).&gt;&lt;a href=.#cite2c%..[\dA-Z]+%2F[\dA-Z]+.&gt;(.+?)&lt;\/a&gt;&lt;\/cite&gt;/gm,
+      /&lt;cite id=.cite2c-([\dA-Z]+)\/([\dA-Z]+).&gt;&lt;a href=.#cite2c%..[\dA-Z%]+.&gt;(.+?)&lt;\/a&gt;&lt;\/cite&gt;/gm,
       citeToRef,
     )
+    .replace(/&lt;cite id=.cite2c-([\dA-Z]+)\/([\dA-Z]+).&gt;(.+?)&lt;\/cite&gt;/gm, citeToRef)
     // Note: this is for citationManager.
     // E.g. &lt;cite id=“arpnc”&gt;&lt;a href=“#zotero%7C8918850%2F6BZTRQWI”&gt;(Coughenour et al., 2015)&lt;/a&gt;&lt;/cite&gt;
     .replace(
