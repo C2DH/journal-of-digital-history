@@ -5,7 +5,9 @@ export default class ArticleReference {
     this.ref = ref
     let year = ''
     let reference = ''
+
     const authorNames = this.getAuthorNames(ref)
+    this.shortRefText = ''
 
     if (ref) {
       if (ref.issued && ref.issued.year) {
@@ -17,25 +19,34 @@ export default class ArticleReference {
       }
       // set shortRef accodring to different condition: use elseif
       if (!ref.author && Array.isArray(ref.editor)) {
-        this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} (Ed.) ${year}</a>`
+        // this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} (Ed.) ${year}</a>`
+        this.shortRefText = `${authorNames} (Ed.) ${year}`
       } else if (ref.type === 'webpage') {
         if (ref['container-title']) {
           reference = ref['container-title']
-          this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${reference} ${year}</a>`
+          // this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${reference} ${year}</a>`
+          this.shortRefText = `${reference} ${year}`
         } else {
-          this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} ${year}</a>`
+          // this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} ${year}</a>`
+          this.shortRefText = `${authorNames} ${year}`
         }
       } else if (ref.type === 'article-magazine' || ref.type === 'article-newspaper') {
         if (!ref.title) {
-          this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} ${year}</a>`
+          // this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} ${year}</a>`
+          this.shortRefText = `${authorNames} ${year}`
         } else {
-          this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${ref.title} ${year}</a>`
+          // this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${ref.title} ${year}</a>`
+          this.shortRefText = `${ref.title} ${year}`
         }
       } else {
-        this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} ${year}</a>`
+        // this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} ${year}</a>`
+        this.shortRefText = `${authorNames} ${year}`
       }
+
+      this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${this.shortRefText}</a>`
+    } else {
+      this.shortRef = `${id}`
     }
-    this.shortRefText = `${authorNames} ${year}`
   }
 
   getAuthorNames(ref) {
