@@ -53,16 +53,11 @@ const renderMarkdownWithReferences = ({
   )
   const citeToRef = (m, id0, id1, label) => {
     const id = `${id0}/${id1}`
-    console.info(
-      '[ipynb.renderMarkdownWithReferences] citeToRef',
-      idx,
-      id,
-      label,
-      citationsFromMetadata[id],
-    )
+
     const reference = new ArticleReference({
       ref: citationsFromMetadata[id],
     })
+    let shortRef = ''
     if (!citationsFromMetadata[id]) {
       warnings.push(
         new ArticleTreeWarning({
@@ -72,13 +67,25 @@ const renderMarkdownWithReferences = ({
           context: id,
         }),
       )
+      shortRef = label.replace(/[()]/g, '')
+    } else {
+      shortRef = reference.shortRefText
     }
+    console.info(
+      '[ipynb.renderMarkdownWithReferences] citeToRef',
+      idx,
+      id,
+      label,
+      citationsFromMetadata[id],
+      '\n our shortRef:',
+      reference.shortRefText,
+    )
     references.push(reference)
     return `<span class="ArticleReference d-inline-block">
       <span class=" d-inline-block">
         <span class="ArticleReference_shortRef">
           <span data-href="${id}"><span class="ArticleReference_pointer"></span>
-          ${label.replace(/[()]/g, '')}
+          ${shortRef}
           </span>
         </span>
       </span>

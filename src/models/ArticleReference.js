@@ -1,14 +1,10 @@
 export default class ArticleReference {
-  constructor({
-    num = 0,
-    id = '',
-    ref,
-  }) {
+  constructor({ num = 0, id = '', ref }) {
     this.id = id
     this.num = parseInt(num, 10)
     this.ref = ref
-    let year = ""
-    let reference = ""
+    let year = ''
+    let reference = ''
     const authorNames = this.getAuthorNames(ref)
 
     if (ref) {
@@ -22,23 +18,24 @@ export default class ArticleReference {
       // set shortRef accodring to different condition: use elseif
       if (!ref.author && Array.isArray(ref.editor)) {
         this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} (Ed.) ${year}</a>`
-      } else if (ref.type ==='webpage') {
+      } else if (ref.type === 'webpage') {
         if (ref['container-title']) {
           reference = ref['container-title']
           this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${reference} ${year}</a>`
         } else {
           this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} ${year}</a>`
         }
-      } else if (ref.type ==='article-magazine' || ref.type ==='article-newspaper') {
-         if(!ref.title){
-           this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} ${year}</a>`
-         } else {
-           this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${ref.title} ${year}</a>`
-         }
+      } else if (ref.type === 'article-magazine' || ref.type === 'article-newspaper') {
+        if (!ref.title) {
+          this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} ${year}</a>`
+        } else {
+          this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${ref.title} ${year}</a>`
+        }
       } else {
         this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} ${year}</a>`
       }
     }
+    this.shortRefText = `${authorNames} ${year}`
   }
 
   getAuthorNames(ref) {
@@ -47,12 +44,10 @@ export default class ArticleReference {
       return ''
     }
     // add editors as authors when there are no authors
-    let authorNames = !ref.author && Array.isArray(ref.editor)
-      ? ref.editor
-      : ref.author
+    let authorNames = !ref.author && Array.isArray(ref.editor) ? ref.editor : ref.author
     // remap authors to get nice stuff, like Turchin, Currie, Whitehouse, et al. 2018
-    authorNames = (authorNames ?? []).map(d => d.family.trim())
-    if(authorNames.length > 3) {
+    authorNames = (authorNames ?? []).map((d) => d.family.trim())
+    if (authorNames.length > 3) {
       authorNames = authorNames.slice(0, 3).concat(['et al.'])
     }
     return authorNames.join(', ')
