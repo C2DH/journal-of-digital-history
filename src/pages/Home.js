@@ -15,24 +15,13 @@ import {
 } from '../constants'
 import StaticPageLoader from './StaticPageLoader'
 import '../styles/pages/Home.scss'
+import { randomFakeSentence } from '../logic/random'
 
 const markdownParser = MarkdownIt({
   html: false,
   linkify: false,
   typographer: true,
 })
-
-const randomFakeSentence = (num) => {
-  let t = '▤'
-  const characters = ' .!,◎,;▤▤ ▫▫◮◪ ◍◘◎▚▤'
-
-  const charactersLength = characters.length
-  for (let i = 0; i < num; i++) {
-    t += characters.charAt(Math.floor(Math.random() * charactersLength))
-  }
-
-  return t
-}
 
 const Home = ({ data = '', status }) => {
   const { t } = useTranslation()
