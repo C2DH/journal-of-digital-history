@@ -12,14 +12,18 @@ const markdownParser = MarkdownIt({
   typographer: true,
 })
 
-const WikiStaticPage = ({ url = '', className = '', children }) => (
+const WikiStaticPage = ({ url = '', memoid = '', delay = 0, className = '', children }) => (
   <StaticPageLoader
     url={url}
+    memoid={memoid}
     raw
     fakeData=""
-    delay={0}
+    delay={delay}
     Component={({ data = '...', status }) => (
-      <Container className={`WikiStaticPage page ${className}`} style={{ minHeight: '100vh' }}>
+      <Container
+        className={`WikiStaticPage page ${className} ${status}`}
+        style={{ minHeight: '80vh' }}
+      >
         <Row>
           <Col {...BootstrapFullColumLayout}>{children}</Col>
         </Row>
@@ -38,6 +42,8 @@ const WikiStaticPage = ({ url = '', className = '', children }) => (
 
 WikiStaticPage.propTypes = {
   url: PropTypes.string.isRequired,
+  memoid: PropTypes.string,
+  delay: PropTypes.number,
   className: PropTypes.string,
   children: PropTypes.node,
 }
