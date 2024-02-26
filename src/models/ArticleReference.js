@@ -10,11 +10,15 @@ export default class ArticleReference {
     this.shortRefText = ''
 
     if (ref) {
-      if (ref.issued && ref.issued.year) {
-        year = ref.issued.year
-      } else if (ref.issued && ref.issued.literal) {
-        year = ref.issued.literal
-      } else if (ref.accessed && ref.accessed.year) {
+      if (ref.issued) {
+        if (Array.isArray(ref.issued['date-parts']) && ref.issued['date-parts'].length > 0) {
+          year = ref.issued['date-parts'][0][0]
+        } else if (ref.issued.year) {
+          year = ref.issued.year
+        } else if (ref.issued.literal) {
+          year = ref.issued.literal
+        }
+      } else if (ref.accessed?.year) {
         year = ref.accessed.year
       }
       // set shortRef accodring to different condition: use elseif
