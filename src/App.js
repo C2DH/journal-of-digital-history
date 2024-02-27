@@ -30,6 +30,7 @@ import { AcceptAnalyticsCookies, AcceptCookies } from './logic/tracking'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Me from './components/Me'
 import WindowEvents from './components/WindowEvents'
+import Page from './pages/Page'
 
 console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___|       \n\n')
 
@@ -173,6 +174,7 @@ function LangRoutes() {
       <Route exact path={`${path}/fingerprint`} component={Fingerprint} />
       <Route exact path={`${path}/guidelines/:notebook?`} component={Guidelines} />
       <Route exact path={`${path}/cfp/:permalink`} component={CallForPapers} />
+      <Route exact path={`${path}/p/:pageId`} component={Page} />
       <Route path={`${path}*`}>
         <NotFound path={path} />
       </Route>

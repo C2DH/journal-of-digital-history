@@ -2,15 +2,25 @@ import React, { useEffect } from 'react'
 import { useGetJSON } from '../logic/api/fetchData'
 import { StatusSuccess, StatusFetching, StatusError } from '../constants'
 import ErrorViewer from './ErrorViewer'
+import PropTypes from 'prop-types'
 import { usePropsStore } from '../store'
 
-const StaticPageLoader = ({ url, delay = 0, Component, fakeData, raw = false, ...rest }) => {
+const StaticPageLoader = ({
+  url,
+  delay = 0,
+  Component,
+  fakeData,
+  raw = false,
+  memoid = '',
+  ...rest
+}) => {
   const setLoadingProgress = usePropsStore((state) => state.setLoadingProgress)
 
   const { data, error, status } = useGetJSON({
     url,
     delay,
     raw,
+    memoid,
     onDownloadProgress: (e) => {
       console.debug('[StaticPageLoader] onDownloadProgress url', url, e.total, e.loaded)
       if (!e.total && e.loaded > 0) {
@@ -49,4 +59,14 @@ const StaticPageLoader = ({ url, delay = 0, Component, fakeData, raw = false, ..
     </>
   )
 }
+
+StaticPageLoader.propTypes = {
+  url: PropTypes.string.isRequired,
+  delay: PropTypes.number,
+  Component: PropTypes.elementType.isRequired,
+  fakeData: PropTypes.any,
+  raw: PropTypes.bool,
+  memoid: PropTypes.string,
+}
+
 export default StaticPageLoader
