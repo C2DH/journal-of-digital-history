@@ -30,19 +30,33 @@ function getRepoSpec(url, binderUrl) {
 }
 
 export const ArticleThebeProvider = ({ url = '', binderUrl, children }) => {
-  console.log('process.env.NODE_ENV', process.env.NODE_ENV)
-  console.log('process.env.REACT_APP_THEBE_DEV_BINDER', process.env.REACT_APP_THEBE_DEV_BINDER)
-  console.log('process.env.REACT_APP_THEBE_TOKEN', process.env.REACT_APP_THEBE_TOKEN)
+  // binder is available in the environment, and the environment is not production
+  const shouldUseBinder =
+    process.env.NODE_ENV === 'production' || process.env.REACT_APP_THEBE_DEV_BINDER === 'true'
 
-  const binder =
-    process.env.NODE_ENV !== 'production' && process.env.REACT_APP_THEBE_DEV_BINDER === 'true'
+  console.info(
+    '[ArticleThebeProvider] ',
+    '\n - NODE_ENV:',
+    process.env.NODE_ENV,
+    '\n - REACT_APP_THEBE_DEV_BINDER',
+    process.env.REACT_APP_THEBE_DEV_BINDER,
+    '\n - REACT_APP_THEBE_TOKEN',
+    process.env.REACT_APP_THEBE_TOKEN,
+    '\n - REACT_APP_THEBE_BINDER_URL',
+    process.env.REACT_APP_THEBE_BINDER_URL,
+    '\n - REACT_APP_THEBE_JUPYTER_URL',
+    process.env.REACT_APP_THEBE_JUPYTER_URL,
+    '\n - should use binder:',
+    shouldUseBinder,
+  )
+
   const options = useMemo(() => {
     const { repo, path } = getRepoSpec(url, binderUrl)
     console.log('[ArticleThebeProvider]', { repo, path })
-    if (binder) {
+    if (shouldUseBinder) {
       return {
         binderOptions: {
-          binderUrl: 'https://jdh-binder.curvenote.dev/services/binder/',
+          binderUrl: process.env.REACT_APP_THEBE_BINDER_URL,
           repo,
           ref: undefined, // option ref / branch name (default: HEAD)
         },
@@ -50,7 +64,7 @@ export const ArticleThebeProvider = ({ url = '', binderUrl, children }) => {
     } else {
       return {
         serverSettings: {
-          baseUrl: 'http://localhost:8888',
+          baseUrl: process.env.REACT_APP_THEBE_JUPYTER_URL,
           token: process.env.REACT_APP_THEBE_TOKEN,
         },
         kernelOptions: {
@@ -71,11 +85,11 @@ export const ArticleThebeProvider = ({ url = '', binderUrl, children }) => {
         },
       }
     }
-  }, [binder, url, binderUrl])
+  }, [shouldUseBinder, url, binderUrl])
 
   return (
     <ThebeLoaderProvider start>
-      <ThebeServerProvider useBinder={binder} connect={false} options={options}>
+      <ThebeServerProvider useBinder={shouldUseBinder} connect={false} options={options}>
         <ThebeRenderMimeRegistryProvider>
           <ThebeSessionProvider>{children}</ThebeSessionProvider>
         </ThebeRenderMimeRegistryProvider>
