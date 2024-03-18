@@ -11,6 +11,7 @@ import {
 } from '../constants'
 import Article from '../components/Article'
 import ArticleV2 from '../components/ArticleV2'
+import ArticleV3 from '../components/ArticleV3'
 import ArticleHeader from '../components/Article/ArticleHeader'
 import ErrorViewer from './ErrorViewer'
 import { usePropsStore } from '../store'
@@ -46,7 +47,7 @@ const NotebookViewer = ({
   const [{ [ArticleVersionQueryParam]: version }] = useQueryParams({
     [ArticleVersionQueryParam]: withDefault(NumberParam, 2),
   })
-  const ArticleComponent = version === 2 ? ArticleV2 : Article
+  const ArticleComponent = version === 3 ? ArticleV3 : version === 2 ? ArticleV2 : Article
   const setLoadingProgress = usePropsStore((state) => state.setLoadingProgress)
 
   const url = useMemo(() => {
@@ -120,6 +121,7 @@ const NotebookViewer = ({
           publicationDate={publicationDate}
           publicationStatus={publicationStatus}
           issue={issue}
+          url={url}
           doi={doi}
           bibjson={bibjson}
           pid={pid}
