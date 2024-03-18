@@ -12,10 +12,6 @@ const setWindowDimensions = useWindowStore.getState().setWindowDimensions
  * @returns {Object} - An object containing the window dimensions and scroll position.
  */
 const WindowEvents = ({ debounceTime = 150, debounceResize = true, debounceScroll = true }) => {
-  const { setWindowDimensions, setScrollPosition } = useWindowStore((state) => ({
-    setWindowDimensions: state.setWindowDimensions,
-    setScrollPosition: state.setScrollPosition,
-  }))
   /**
    * This React component reacts to window resize event and scrolling event. it implements debounce to prevent too many calls for both events and store the results in the useWindowStore.
    */
