@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { debounce } from '../logic/viewport'
 import { useWindowStore } from '../store'
+const setScrollPosition = useWindowStore.getState().setScrollPosition
+const setWindowDimensions = useWindowStore.getState().setWindowDimensions
 /**
  * React hook that reacts to window resize and scrolling events, and implements debounce to prevent too many calls for both events.
  * @param {Object} options - An object containing optional parameters.

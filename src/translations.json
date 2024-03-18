@@ -15,7 +15,8 @@
         "articleData": "data",
         "issue": "Articles & Issues",
         "releaseNotes": "Release notes",
-        "faq": "Frequently asked questions"
+        "faq": "Frequently asked questions",
+        "reviewPolicy": "Peer Review Ethics Declaration"
       },
       "title": "Journal of <br/>Digital History",
       "titleInline": "Journal of Digital History",
@@ -42,7 +43,10 @@
         },
         "articles": {
           "title": "Articles & Issues",
-          "subheading": "Filter by keywords, libraries or browse the articles."
+          "subheading": "Filter by keywords, libraries or browse the articles.",
+          "status": {
+            "PEER_REVIEW": "Currently under Peer Review"
+          }
         },
         "loading": {
           "title": "loading...",
@@ -155,6 +159,10 @@
         "notFound": {
           "title": "not Found",
           "subheading": "..."
+        },
+        "reviewPolicy": {
+          "title": "Journal Of Digital History Peer Review Ethics Declaration",
+          "subheading": ""
         }
       },
       "forms": {
@@ -249,12 +257,21 @@
         "figure": "figure {{ n }}",
         "sound": "sound {{ n }}",
         "table": "table {{ n }}",
+        "data-table": "data table {{ n }}",
         "yExponent": "Power scale exponent (y axis): <b>{{n}}</b>",
         "errors": "{{count}} errors",
         "maxAllowedCharactersWithCount": "Max {{count}} characters allowed",
         "currentCharactersWithCount": "(now: <b>{{count}}</b>)",
         "itemIdx": "(item #{{idx}})",
-        "articles": "{{ n }} articles"
+        "articles": "{{ n }} articles",
+        "articlesInIssue": "<b>{{ n }}</b> articles",
+        "articlesFiltered": "<b>{{ n }}</b> of {{ total }} articles matching filters",
+        "datatableRows": "<b>{{ total }}</b> rows",
+        "datatableRowsFiltered": "<b>{{ n }}</b> / {{ total }} rows (filtered)",
+        "datatableShowAllRows": "show all rows ({{ n }})",
+        "datatableShowRows": "show {{ n }} rows",
+        "datatablePaginatedRows": "<label>{{startOffset}} - {{endOffset}}</label>&nbsp;of&nbsp;<b>{{ total }}</b>&nbsp;rows",
+        "datatablePaginatedRowsFiltered": "<label>{{startOffset}} - {{endOffset}}</label>&nbsp;of&nbsp;<b>{{ n }}</b>&nbsp;rows (filtered)"
       },
       "missingStepsWithCount": "<b>1</b> step missing",
       "missingStepsWithCount_plural": "<b>{{count}}</b> steps missing",
@@ -300,6 +317,12 @@
           "options": "Order by",
           "directions": ""
         }
+      },
+      "status": {
+        "PEER_REVIEW": "Peer Review",
+        "PUBLISHED": "Published",
+        "DRAFT": "Coming soon",
+        "INTERNAL_REVIEW": "Internal Review"
       },
       "welcomeBack": "Logged in as"
     }

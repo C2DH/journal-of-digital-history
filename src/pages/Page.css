@@ -1,0 +1,9 @@
+.Page h2:first-of-type {
+  margin-bottom: var(--spacer-5);
+}
+.Page h1 {
+  transition: opacity 0.5s ease-in-out;
+}
+.Page.loading h1 {
+  opacity: 0.5;
+}

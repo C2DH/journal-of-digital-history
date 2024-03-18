@@ -80,6 +80,7 @@ const Dimension = ({
   onInit,
   onSelect,
   onMouseEnter,
+  onShowMore,
   children,
   ListItem = DimensionGroupListItem,
 }) => {
@@ -174,7 +175,15 @@ const Dimension = ({
           ))}
         {restGroups.length > 0 && (
           <li>
-            <button className="Dimension_toggleShowMoreBtn" onClick={() => setShowMore(!showMore)}>
+            <button
+              className="Dimension_toggleShowMoreBtn"
+              onClick={() => {
+                if (typeof onShowMore === 'function') {
+                  onShowMore(!showMore)
+                }
+                setShowMore(!showMore)
+              }}
+            >
               <span>
                 {t(showMore ? 'dimensions.actions.showLess' : 'dimensions.actions.showMore', {
                   n: restGroups.length,

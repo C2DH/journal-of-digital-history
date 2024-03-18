@@ -56,6 +56,10 @@ export const ReleaseNotesRoute = {
   to: '/release-notes',
   label: 'navigation.releaseNotes',
 }
+export const ReviewPolicy = {
+  to: '/review-policy',
+  label: 'navigation.reviewPolicy',
+}
 export const FaqRoute = { to: '/faq', label: 'navigation.faq' }
 
 export const PrimaryRoutes = [
@@ -198,6 +202,7 @@ export const FigureDatavis = 'vega'
 export const FigureRefPrefix = 'figure-'
 export const CoverRefPrefix = 'cover'
 export const TableRefPrefix = 'table-'
+export const DataTableRefPrefix = 'data-table-'
 export const QuoteRefPrefix = 'quote-'
 export const DialogRefPrefix = 'dialog-'
 export const SoundRefPrefix = 'sound-'
@@ -213,6 +218,7 @@ export const AvailableFigureRefPrefixes = [
   VideoRefPrefix,
   GalleryRefPrefix,
   CoverRefPrefix,
+  DataTableRefPrefix,
 ]
 export const AvailableRefPrefixes = AvailableFigureRefPrefixes.concat([AnchorRefPrefix])
 
@@ -248,3 +254,17 @@ export const ArticleCellContainerClassNames = [
   'alert-danger',
   'alert-warning',
 ]
+
+export const OrderByQueryParam = 'orderBy'
+export const FilterByQueryparam = 'f'
+export const OrderByIssue = 'issue'
+export const OrderByPublicationDateAsc = 'dateAsc'
+export const OrderByPublicationDateDesc = 'dateDesc'
+
+export const AvailablesOrderByComparators = {
+  [OrderByIssue]: () => {},
+  [OrderByPublicationDateAsc]: (a, b) => a.publication_date - b.publication_date,
+  [OrderByPublicationDateDesc]: (a, b) => b.publication_date - a.publication_date,
+}
+
+export const IsPrettyRecentTagName = 'new'

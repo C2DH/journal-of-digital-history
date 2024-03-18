@@ -30,6 +30,7 @@ import { AcceptAnalyticsCookies, AcceptCookies } from './logic/tracking'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Me from './components/Me'
 import WindowEvents from './components/WindowEvents'
+import Page from './pages/Page'
 
 console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___|       \n\n')
 
@@ -78,6 +79,7 @@ const Fingerprint = lazy(() => import('./pages/Fingerprint'))
 const FingerprintViewer = lazy(() => import('./pages/FingerprintViewer'))
 const FingerprintExplained = lazy(() => import('./pages/FingerprintExplained'))
 const ReleaseNotes = lazy(() => import('./pages/ReleaseNotes'))
+const ReviewPolicy = lazy(() => import('./pages/ReviewPolicy'))
 const Faq = lazy(() => import('./pages/Faq'))
 
 const { startLangShort, lang } = getStartLang()
@@ -162,6 +164,7 @@ function LangRoutes() {
       <Route path={`${path}/fingerprint-explained/:encodedUrl?`} component={FingerprintExplained} />
 
       <Route path={`${path}/release-notes`} component={ReleaseNotes} />
+      <Route path={`${path}/review-policy`} component={ReviewPolicy} />
       <Route path={`${path}/faq`} component={Faq} />
       <Route path={`${path}/notebook-viewer/:encodedUrl`} component={NotebookViewer} />
       <Route path={`${path}/local-notebook`}>
@@ -171,6 +174,7 @@ function LangRoutes() {
       <Route exact path={`${path}/fingerprint`} component={Fingerprint} />
       <Route exact path={`${path}/guidelines/:notebook?`} component={Guidelines} />
       <Route exact path={`${path}/cfp/:permalink`} component={CallForPapers} />
+      <Route exact path={`${path}/p/:pageId`} component={Page} />
       <Route path={`${path}*`}>
         <NotFound path={path} />
       </Route>

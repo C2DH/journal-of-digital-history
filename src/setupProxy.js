@@ -6,26 +6,25 @@ const apiPath = process.env.REACT_APP_API_ROOT || '/api'
 
 fs.appendFile(
   './setupProxy.log',
-  `${(new Date()).toISOString()} target=${target} apiPath=${apiPath}\n`,
-  (err) => console.error(err)
-);
+  `${new Date().toISOString()} target=${target} apiPath=${apiPath} REACT_APP_PROXY=${
+    process.env.REACT_APP_PROXY
+  } \n`,
+  (err) => console.error(err),
+)
 
-module.exports = function(app) {
+module.exports = function (app) {
   app.use(
     apiPath,
     createProxyMiddleware({
       target,
       changeOrigin: true,
-    })
-  );
+    }),
+  )
   app.use(
     '/proxy-githubusercontent',
     createProxyMiddleware({
-      target: 'https://raw.githubusercontent.com',
+      target,
       changeOrigin: true,
-      pathRewrite: {
-        '^/proxy-githubusercontent': '/', // rewrite path
-      },
-    })
-  );
-};
+    }),
+  )
+}

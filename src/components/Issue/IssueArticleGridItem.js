@@ -7,7 +7,7 @@ import LangLink from '../LangLink'
 import { Badge } from 'react-bootstrap'
 import { useBoundingClientRect } from '../../hooks/graphics'
 import { extractMetadataFromArticle, stripHtml } from '../../logic/api/metadata'
-import { IsMobile } from '../../constants'
+import { IsMobile, IsPrettyRecentTagName } from '../../constants'
 import '../../styles/components/IssueArticleGridItem.scss'
 import { ArrowRightCircle } from 'react-feather'
 import IssueLabel from './IssueLabel'
@@ -25,8 +25,14 @@ const IssueArticleGridItem = ({
   const [{ width: size }, ref] = useBoundingClientRect()
   const { title, keywords, excerpt, contributor } = extractMetadataFromArticle(article)
   const { t } = useTranslation()
+  const isPrettyRecent = article.tags.some((d) => d.name === IsPrettyRecentTagName)
+
   return (
-    <div className="IssueArticleGridItem" ref={ref} onMouseOut={onMouseOut}>
+    <div
+      className={`IssueArticleGridItem ${isPrettyRecent ? 'just-added' : ''}`}
+      ref={ref}
+      onMouseOut={onMouseOut}
+    >
       <div
         className={IsMobile ? 'half-squared' : 'squared'}
         onMouseOut={onMouseOut}

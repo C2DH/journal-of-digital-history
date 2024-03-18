@@ -10,4 +10,5 @@ node_modules
 .yalc/*
 yalc.lock
 storybook-static
-_redirects
+# _redirects
+journal-of-digital-history.code-workspace

@@ -141,7 +141,7 @@ const ArticleToCSteps = ({
   )
 
   return (
-    <ol style={style} className={`ArticleToCSteps ${className}`}>
+    <ol style={style} className={`ArticleToCSteps py-3 ${className}`}>
       {props.map(({ height, backgroundColor, rotation }, i) => {
         const nestedSteps = steps[i]
         return (
@@ -166,7 +166,7 @@ const ArticleToCSteps = ({
                   <li key={j}>
                     <ToCStep
                       marginEnd={marginEnd}
-                      figureRefPrefix={step.cell.figureRefPrefix}
+                      figureRefPrefix={step.cell.figure?.refPrefix}
                       width={width - 10}
                       active={selectedCellIdx === step.cell.idx}
                       isFigure={!!step.cell.figure}
