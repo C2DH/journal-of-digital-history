@@ -7,8 +7,9 @@ import ConnectionErrorBox from './ConnectionErrorBox'
 
 import ArticleExecuteToolbar from './ArticleExecuteToolbar'
 import { useExecutionScope } from './ExecutionScope'
+import './Article.css'
 
-const Article = ({ url = '', paragraphs }) => {
+const Article = ({ url = '', paragraphs = [] }) => {
   const { starting, connectionErrors, ready, connectAndStart, restart, session, openInJupyter } =
     useArticleThebe()
 
@@ -28,7 +29,7 @@ const Article = ({ url = '', paragraphs }) => {
   console.debug('[Article]', url, 'is rendering')
 
   return (
-    <Container>
+    <Container className="Article">
       <div style={{ paddingTop: 120 }}></div>
 
       <ArticleExecuteToolbar
@@ -43,6 +44,7 @@ const Article = ({ url = '', paragraphs }) => {
         return (
           <React.Fragment key={[url, idx].join('-')}>
             <a className="ArticleLayer_anchor"></a>
+            {cell.idx}
             <div
               className="ArticleLayer_paragraphWrapper"
               data-cell-idx={cell.idx}
