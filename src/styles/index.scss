@@ -23,6 +23,9 @@
   --pink: #ffcad4;
   --snow: #fff3f0;
   --linen: #feefe5;
+  --narrative-layer: #F8F9FA;
+  --hermeneutics-layer: #D3FFF6;
+  --data-layer: #0D1323;
 
   --bittersweet: #ff6b6b;
   --peachpuff: #fee1c7;
@@ -56,6 +59,15 @@
   --layer-narrative-bg-1: rgb(244, 241, 248, 1);
   --layer-narrative-hermeneutics-text: #51f6e0;
   --header-height: 100px;
+}
+
+// Determine container width to use for code on Article V3
+@each $breakpoint, $container-max-width in $container-max-widths {
+  @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+    .container-fluid {
+      --container-max-width: #{$container-max-width};
+    }
+  }
 }
 
 body,

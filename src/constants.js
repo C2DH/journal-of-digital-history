@@ -88,6 +88,17 @@ export const BootstrapColumLayout = Object.freeze({
   md: { span: 8, offset: 1 },
   lg: { span: 8, offset: 2 },
 })
+export const BootstrapColumLayoutV3 = Object.freeze({
+  narrative: BootstrapColumLayout,
+  hermeneutics: {
+    md: { span: 8, offset: 2 },
+    lg: { span: 8, offset: 4 },
+  },
+  data: {
+    md: { span: 8, offset: 1 },
+    lg: { span: 8, offset: 2 },
+  }
+})
 export const BootstrapFullColumLayout = Object.freeze({
   md: { span: 10, offset: 1 },
   lg: { span: 8, offset: 2 },

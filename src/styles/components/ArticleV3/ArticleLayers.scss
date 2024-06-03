@@ -1,0 +1,41 @@
+$module: ".ArticleLayers";
+
+#{$module} {
+
+  position: fixed;
+  display: flex;
+  top: 100px;
+  bottom: 0;
+  right: 0;
+  
+  .layer {
+    width: 4rem;
+    text-transform: uppercase;
+    font-size: 3rem;
+    text-align: center;
+    padding-top: 2rem;
+
+    &.narrative {
+      background-color: var(--narrative-layer);
+    }
+
+    &.hermeneutics {
+      background-color: var(--hermeneutics-layer);
+    }
+
+    &.data {
+      background-color: var(--data-layer);
+      color: white;
+    }
+
+    .label {
+      width: 300px;
+      font-size: 1.25rem;
+      transform: translateX(-50%) rotate(-90deg);
+      text-align: right;
+      margin-left: 50%;
+      margin-top: 150px;
+    }
+
+  }
+}

@@ -1,0 +1,15 @@
+$module: ".ArticleCellOutput";
+
+#{$module} {
+
+  &_execute_result {
+    img {
+      max-width: 100%;
+    }
+  }
+
+  &.withHTML {
+    overflow: auto;
+  }
+}
+

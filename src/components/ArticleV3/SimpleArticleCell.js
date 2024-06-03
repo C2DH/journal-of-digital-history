@@ -6,9 +6,10 @@ import ArticleCellContent from '../Article/ArticleCellContent'
 import ArticleCellSourceCodeWrapper from './ArticleCellSourceCodeWrapper'
 import ArticleCellError from './ArticleCellError'
 import {
-  BootstrapColumLayout,
+  BootstrapColumLayoutV3,
   BootstrapNarrativeStepColumnLayout,
   ArticleCellContainerClassNames,
+  LayerData,
 } from '../../constants'
 import { useExecutionScope } from './ExecutionScope'
 const ArticleCellEditor = React.lazy(() => import('./ArticleCellEditor'))
@@ -23,6 +24,7 @@ const ArticleCell = ({
   hideNum,
   metadata = {},
   isNarrativeStep,
+  isHermeneutics,
   headingLevel = 0, // if isHeading, set this to its ArticleHeading.level value
   isJavascriptTrusted = false,
   onNumClick,
@@ -57,15 +59,15 @@ const ArticleCell = ({
     [renderUsingThebe, thebeCell],
   )
 
-  let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayout
+  let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayoutV3[layer];
   // we override or set the former layout if it appears in narrative-step
   if (isNarrativeStep) {
     cellBootstrapColumnLayout = BootstrapNarrativeStepColumnLayout
   }
 
-  const containerClassNames = (metadata.tags ?? []).filter((d) =>
+  const containerClassNames = [layer, ...(metadata.tags ?? []).filter((d) =>
     ArticleCellContainerClassNames.includes(d),
-  )
+  )];
 
   let statusMessage = ''
   if (executing) {
@@ -82,7 +84,7 @@ const ArticleCell = ({
     return (
       <Container className={containerClassNames.join(' ')}>
         <Row>
-          <Col {...cellBootstrapColumnLayout}>
+          <Col {...cellBootstrapColumnLayout} className={isHermeneutics ? 'pe-3 ps-5' : ''}>
             <ArticleCellContent
               headingLevel={headingLevel}
               onNumClick={onNumClick}
@@ -99,51 +101,10 @@ const ArticleCell = ({
   }
   if (type === 'code') {
     return (
-      <Container className={containerClassNames.join(' ')}>
-        <Row>
-          <Col {...cellBootstrapColumnLayout}>
-            <div className="ArticleCellContent">
-              <div className="ArticleCellContent_num"></div>
-              <div style={{ position: 'relative' }}>
-                {ready && thebeCell && (
-                  <div
-                    style={{
-                      color: errors ? 'white' : 'inherit',
-                      backgroundColor: errors ? 'red' : 'lightgreen',
-                      paddingLeft: 4,
-                      paddingRight: 4,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 4,
-                    }}
-                  >
-                    {thebeCell?.executionCount > 0 && (
-                      <div title="execution count">[{thebeCell?.executionCount}]:</div>
-                    )}
-                    <div>{statusMessage}</div>
-                    <div style={{ flexGrow: 1 }} />
-                    <button onClick={() => executeCell(idx)} disabled={executing}>
-                      run
-                    </button>
-                    <button onClick={() => clearCell(idx)} disabled={executing}>
-                      clear
-                    </button>
-                    <button onClick={() => resetCell(idx)} disabled={executing}>
-                      reset
-                    </button>
-                    <button onClick={toggleEditCell} disabled={executing}>
-                      {isEditing ? 'stop editing' : 'edit'}
-                    </button>
-                  </div>
-                )}
-                {isEditing ? (
-                  <React.Suspense fallback={<div>loading...</div>}>
-                    <ArticleCellEditor cellIdx={idx} />
-                  </React.Suspense>
-                ) : (
-                  <ArticleCellSourceCodeWrapper cellIdx={idx} />
-                )}
-                {errors && <ArticleCellError errors={errors} />}
+      <>
+        <Container sm className={containerClassNames.join(' ')}>
+          <Row>
+            <Col {...cellBootstrapColumnLayout} className={isHermeneutics ? 'pe-3 ps-5' : ''}>
                 <div ref={ref}>
                   {!errors && (
                     <ArticleCellOutputs
@@ -154,12 +115,67 @@ const ArticleCell = ({
                       outputs={outputs}
                     />
                   )}
+              </div>
+            </Col>
+          </Row>
+        </Container>
+
+        <Container fluid className={`${LayerData} mb-3`}>
+          <Row>
+            <Col xs={isEditing ? 7 : 12} className='code'>
+              <div className="ArticleCellContent">
+                <div className="ArticleCellContent_num"></div>
+                <div style={{ position: 'relative' }}>
+                  {ready && thebeCell && (
+                    <div
+                      style={{
+                        color: errors ? 'white' : 'inherit',
+                        backgroundColor: errors ? 'red' : 'lightgreen',
+                        paddingLeft: 4,
+                        paddingRight: 4,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 4,
+                      }}
+                    >
+                      {thebeCell?.executionCount > 0 && (
+                        <div title="execution count">[{thebeCell?.executionCount}]:</div>
+                      )}
+                      <div>{statusMessage}</div>
+                      <div style={{ flexGrow: 1 }} />
+                      <button onClick={() => executeCell(idx)} disabled={executing}>
+                        run
+                      </button>
+                      <button onClick={() => clearCell(idx)} disabled={executing}>
+                        clear
+                      </button>
+                      <button onClick={() => resetCell(idx)} disabled={executing}>
+                        reset
+                      </button>
+                      <button onClick={toggleEditCell} disabled={executing}>
+                        {isEditing ? 'stop editing' : 'edit'}
+                      </button>
+                    </div>
+                  )}
+                  {isEditing ? (
+                    <React.Suspense fallback={<div>loading...</div>}>
+                      <ArticleCellEditor cellIdx={idx} />
+                    </React.Suspense>
+                  ) : (
+                    <ArticleCellSourceCodeWrapper cellIdx={idx} />
+                  )}
+                  {errors && <ArticleCellError errors={errors} />}
                 </div>
               </div>
-            </div>
-          </Col>
-        </Row>
-      </Container>
+            </Col>
+
+            {isEditing && (
+              <Col xs={5} className="explain-code">
+              </Col>
+            )}
+          </Row>
+        </Container>
+      </>
     )
   }
   return <div>unknown type: {type}</div>

@@ -1,15 +1,22 @@
-import React, { useEffect } from 'react'
-import { Container } from 'react-bootstrap'
+import React, { useEffect } from 'react';
+
 import { ArticleThebeProvider, useArticleThebe } from './ArticleThebeProvider'
 import SimpleArticleCell from './SimpleArticleCell'
+import ArticleLayers from './ArticleLayers';
 import { useNotebook } from './hooks'
 import ConnectionErrorBox from './ConnectionErrorBox'
 
 import ArticleExecuteToolbar from './ArticleExecuteToolbar'
 import { useExecutionScope } from './ExecutionScope'
-import './Article.css'
 
-const Article = ({ url = '', paragraphs = [] }) => {
+import '../../styles/components/ArticleV3/Article.scss'
+
+const Article = ({
+  url = '',
+  paragraphs = [],
+  layers
+}) => {
+
   const { starting, connectionErrors, ready, connectAndStart, restart, session, openInJupyter } =
     useArticleThebe()
 
@@ -29,8 +36,10 @@ const Article = ({ url = '', paragraphs = [] }) => {
   console.debug('[Article]', url, 'is rendering')
 
   return (
-    <Container className="Article">
+    <div className="Article">
       <div style={{ paddingTop: 120 }}></div>
+
+      <ArticleLayers layers={layers} />
 
       <ArticleExecuteToolbar
         starting={starting}
@@ -39,18 +48,19 @@ const Article = ({ url = '', paragraphs = [] }) => {
         restart={restart}
         openInJupyter={openInJupyter}
       />
+
       <ConnectionErrorBox />
+
       {paragraphs.map((cell, idx) => {
         return (
           <React.Fragment key={[url, idx].join('-')}>
-            <a className="ArticleLayer_anchor"></a>
-            {cell.idx}
+            <a className="Article_anchor"></a>
             <div
-              className="ArticleLayer_paragraphWrapper"
+              className="Article_paragraphWrapper"
               data-cell-idx={cell.idx}
               data-cell-layer={cell.layer}
             >
-              <div className={`ArticleLayer_cellActive off`} />
+              <div className={`Article_cellActive off`} />
               <SimpleArticleCell
                 isJavascriptTrusted={false}
                 onNumClick={() => ({})}
@@ -69,7 +79,7 @@ const Article = ({ url = '', paragraphs = [] }) => {
           </React.Fragment>
         )
       })}
-    </Container>
+    </div>
   )
 }
 
