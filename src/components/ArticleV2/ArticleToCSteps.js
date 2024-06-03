@@ -79,7 +79,9 @@ const ArticleToCSteps = ({
   const expandSteps = (stepIdxs) => {
     expandedStepsRef.current = stepIdxs
     console.debug('[ArticleToCSteps] expandSteps', stepIdxs, expandedStepsRef.current)
-
+    if (!steps.length) {
+      return
+    }
     api.start((i) => {
       // check if the step (section) is in the list of steps to expand (or to become visible)
       const isVisible = stepIdxs.includes(i)
