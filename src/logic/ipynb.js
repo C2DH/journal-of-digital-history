@@ -142,8 +142,8 @@ const renderMarkdownWithReferences = ({
     .replace(prefixRegex, (m, localRef, c, content) => {
       const isAnchor = localRef.indexOf(AnchorRefPrefix) !== -1
       const ref = isAnchor
-        ? anchors.find((d) => d.ref === localRef)
-        : figures.find((d) => d.ref === localRef)
+        ? anchors.find((d) => d.ref === localRef || d.ref === `${localRef}-*`)
+        : figures.find((d) => d.ref === localRef || d.ref === `${localRef}-*`)
       if (!ref) {
         console.error(
           'REF NOT FOUND in either list of anchors or figures',
@@ -178,8 +178,8 @@ const renderMarkdownWithReferences = ({
       (m, hashSymbol, localRef, content) => {
         const isAnchor = localRef.indexOf(AnchorRefPrefix) !== -1
         const ref = isAnchor
-          ? anchors.find((d) => d.ref === localRef)
-          : figures.find((d) => d.ref === localRef)
+          ? anchors.find((d) => d.ref === localRef || d.ref === `${localRef}-*`)
+          : figures.find((d) => d.ref === localRef || d.ref === `${localRef}-*`)
         console.debug(
           'PLAIN LINKS ANCHOR OR FIGURES',
 
