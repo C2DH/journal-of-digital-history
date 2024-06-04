@@ -169,7 +169,6 @@ const renderMarkdownWithReferences = ({
       if (isAnchor) {
         return `<a data-idx="${ref.idx}" href="#${localRef}">${content}</a>`
       }
-        }),
       // isFigure
       return `<a data-idx="${ref.idx}" href="#${localRef}" data-ref-type="${ref.type}">figure ${ref.num}</a>`
     })
