@@ -77,5 +77,6 @@ export function useNotebook(url, ipynb) {
     paragraphs,
     paragraphsGroups,
     executables,
+    sections: articleTree.sections
   }
 }

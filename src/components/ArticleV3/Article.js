@@ -7,14 +7,34 @@ import { useNotebook } from './hooks'
 import ConnectionErrorBox from './ConnectionErrorBox'
 
 import ArticleExecuteToolbar from './ArticleExecuteToolbar'
-import { useExecutionScope } from './ExecutionScope'
+import { useExecutionScope } from './ExecutionScope';
+import ArticleHeader from '../Article/ArticleHeader';
 
 import '../../styles/components/ArticleV3/Article.scss'
 
 const Article = ({
   url = '',
+  publicationDate = new Date(),
+  publicationStatus,
+  issue,
+  doi,
+  binderUrl,
+  repositoryUrl,
+  dataverseUrl,
+  bibjson,
+  // used to remove publication info from ArticleHeader
+  ignorePublicationStatus = false,
+  // layers, if any. See ArticleFlow component.
+  layers,
+  // a translatable string that defines the article header if ignorePublicationStatus is true
+  category,
   paragraphs = [],
-  layers
+  title,
+  abstract,
+  keywords,
+  contributor,
+  collaborators,
+  disclaimer = []
 }) => {
 
   const { starting, connectionErrors, ready, connectAndStart, restart, session, openInJupyter } =
@@ -51,6 +71,28 @@ const Article = ({
 
       <ConnectionErrorBox />
 
+      <ArticleHeader
+        className="page mt-2 pb-0"
+        title={title}
+        abstract={abstract}
+        keywords={keywords}
+        collaborators={collaborators}
+        contributor={contributor}
+        publicationDate={publicationDate}
+        url={url}
+        repositoryUrl={repositoryUrl}
+        dataverseUrl={dataverseUrl}
+        binderUrl={binderUrl}
+        disclaimer={disclaimer}
+        publicationStatus={publicationStatus}
+        ignorePublicationStatus={ignorePublicationStatus}
+        category={category}
+        issue={issue}
+        doi={doi}
+        bibjson={bibjson}
+        isPreview={false}
+      />
+  
       {paragraphs.map((cell, idx) => {
         return (
           <React.Fragment key={[url, idx].join('-')}>
@@ -83,8 +125,8 @@ const Article = ({
   )
 }
 
-function ArticleWithContent({ url, ipynb }) {
-  const { paragraphs, executables } = useNotebook(url, ipynb)
+function ArticleWithContent({ url, ipynb, ...props }) {
+  const { paragraphs, executables, sections } = useNotebook(url, ipynb)
 
   const initExecutionScope = useExecutionScope((state) => state.initialise)
 
@@ -92,13 +134,13 @@ function ArticleWithContent({ url, ipynb }) {
     initExecutionScope(executables)
   }, [executables, initExecutionScope])
 
-  return <Article url={url} paragraphs={paragraphs} />
+  return <Article url={url} paragraphs={paragraphs} {...sections} {...props} />
 }
 
 function ThebeArticle({ url = '', ipynb = { cells: [], metadata: {} }, ...props }) {
   return (
     <ArticleThebeProvider url={url} binderUrl={props.binderUrl}>
-      <ArticleWithContent url={url} ipynb={ipynb} />
+      <ArticleWithContent url={url} ipynb={ipynb} {...props} />
     </ArticleThebeProvider>
   )
 }

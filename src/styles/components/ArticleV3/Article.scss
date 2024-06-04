@@ -2,6 +2,7 @@ $module: ".Article";
 
 #{$module} {
 
+  @import 'ArticleHeader';
   @import 'ArticleCellOutput';
 
   &_paragraphWrapper {
