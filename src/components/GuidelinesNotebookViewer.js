@@ -91,6 +91,7 @@ const GuidelinesNotebookViewer = ({
         articleTree={tree}
         ignoreBinder={true}
         plainTitle={plainTitle}
+        onDataHrefClick={() => {}}
       >
         {children}
       </ArticleFlow>

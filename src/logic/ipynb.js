@@ -124,36 +124,105 @@ const renderMarkdownWithReferences = ({
       return m
     })
     .replace(/&lt;a[^&]*&gt;(.*)&lt;\/a&gt;/g, '')
-    // replace links "figure-*" ending with automatic numbering syntax
-    .replace(prefixRegex, (m, anchorRef, c, content) => {
-      const ref =
-        anchorRef.indexOf('anchor-') !== -1
-          ? anchors.find((d) => d.ref === anchorRef)
-          : figures.find((d) => d.ref === anchorRef)
-      if (ref) {
-        return `<a data-idx="${ref.idx}" href="#${anchorRef}"  data-ref-type="${ref.type}">figure ${ref.num}</a>`
+    // replace links "figure-*" or anchors ending with automatic numbering syntax. Debug using:
+    // console.debug(
+    //   'PREFIEXREGEX',
+    //   prefixRegex,
+    //   '\n localRef:',
+    //   localRef,
+    //   '\n content:',
+    //   content,
+    //   '\n isAnchor:',
+    //   isAnchor,
+    //   '\n anchors:',
+    //   anchors,
+    //   figures,
+    //   '\n ref:',
+    // )
+    .replace(prefixRegex, (m, localRef, c, content) => {
+      const isAnchor = localRef.indexOf(AnchorRefPrefix) !== -1
+      const ref = isAnchor
+        ? anchors.find((d) => d.ref === localRef || d.ref === `${localRef}-*`)
+        : figures.find((d) => d.ref === localRef || d.ref === `${localRef}-*`)
+      if (!ref) {
+        console.error(
+          'REF NOT FOUND in either list of anchors or figures',
+          '\n - localRef:',
+          localRef,
+          '\n - isAnchor:',
+          isAnchor,
+          '\n - anchors available:',
+          anchors,
+          '\n - content:',
+          content,
+        )
+        warnings.push(
+          new ArticleTreeWarning({
+            idx,
+            code: FigureAnchorWarningCode,
+            message: `missing figure for ref "${localRef}" in notebook metadata`,
+            context: localRef,
+          }),
+        )
+        return `<a data-idx-notfound class="bg-danger" href="#${localRef}">${content}</a>`
       }
-      return `<a data-idx-notfound href="#${anchorRef}">${content}</a>`
-    })
-    // replace links "figure-" add data-idx attribute containing a figure id
-    .replace(/<a href="#((figure|table|anchor)-[^"]+)">/g, (m, anchorRef) => {
-      const ref =
-        anchorRef.indexOf('anchor-') !== -1
-          ? anchors.find((d) => d.ref === anchorRef)
-          : figures.find((d) => d.ref === anchorRef)
-      if (ref) {
-        return `<a href="#${anchorRef}" data-idx="${ref.idx}" data-ref-type="${ref.type}">`
+      if (isAnchor) {
+        return `<a data-idx="${ref.idx}" href="#${localRef}">${content}</a>`
       }
-      warnings.push(
-        new ArticleTreeWarning({
-          idx,
-          code: FigureAnchorWarningCode,
-          message: `missing anchor or figure for ref "${anchorRef}" in notebook metadata`,
-          context: anchorRef,
-        }),
-      )
-      return `<a href="#${anchorRef}" data-idx-notfound>`
+      // isFigure
+      return `<a data-idx="${ref.idx}" href="#${localRef}" data-ref-type="${ref.type}">figure ${ref.num}</a>`
     })
+    // sometimes there are plain links
+    .replace(
+      /<a href="(#|@)((figure|table|anchor)-[^"]+)">(.*)<\/a>/g,
+      (m, hashSymbol, localRef, content) => {
+        const isAnchor = localRef.indexOf(AnchorRefPrefix) !== -1
+        const ref = isAnchor
+          ? anchors.find((d) => d.ref === localRef || d.ref === `${localRef}-*`)
+          : figures.find((d) => d.ref === localRef || d.ref === `${localRef}-*`)
+        console.debug(
+          'PLAIN LINKS ANCHOR OR FIGURES',
+
+          '\n localRef:',
+          localRef,
+          '\n content:',
+          content,
+          '\n isAnchor:',
+          isAnchor,
+          '\n anchors:',
+          anchors,
+          figures,
+          '\n ref:',
+          ref,
+        )
+        if (ref) {
+          if (isAnchor) {
+            return `<a href="#${localRef}" data-idx="${ref.idx}" data-ref-type="${ref.type}">${content}</a>`
+          }
+          return `<a href="#${localRef}" data-idx="${ref.idx}" data-ref-type="${ref.type}">figure ${ref.num}</a>`
+        }
+        console.error(
+          'REF NOT FOUND in either list of anchors or figures',
+          '\n - localRef:',
+          localRef,
+          '\n - isAnchor:',
+          isAnchor,
+          '\n - anchors available:',
+          anchors,
+          '\n - content:',
+          content,
+        )
+        warnings.push(
+          new ArticleTreeWarning({
+            idx,
+            code: FigureAnchorWarningCode,
+            message: `missing anchor or figure for ref "${localRef}" in notebook metadata`,
+            context: localRef,
+          }),
+        )
+        return `<a href="#${localRef}" data-idx-notfound>${content}</a>`
+      },
+    )
     // replace sup
     .replace(/&lt;sup&gt;(.*)&lt;\/sup&gt;/g, (m, str) => `<sup>${str}</sup>`)
 
@@ -289,6 +358,10 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
       const isHidden =
         sources.length === 0 || cell.metadata.tags?.includes('hidden') || cell.metadata.jdh?.hidden
 
+      if (anchor) {
+        cell.anchor = anchor
+        anchors.push(anchor)
+      }
       if (figure) {
         // update global index of figure numbering for this specific prefix and forward it to the figure
         figureNumberingByRefPrefix[figure.refPrefix] += 1
@@ -296,9 +369,6 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
         figures.push(figure)
         cell.figure = figure
         cell.role = RoleFigure
-      } else if (anchor) {
-        cell.anchor = anchor
-        anchors.push(anchor)
       } else if (isHidden) {
         // is hidden (e.g. uninteresting code, like pip install)
         cell.hidden = true

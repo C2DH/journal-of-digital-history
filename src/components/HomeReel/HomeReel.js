@@ -101,7 +101,7 @@ const HomeReel = ({ height = 180, delay = 1500 }) => {
         }
       }
       playInfiniteSwingingTimer()
-    }, slider.current.props.autoplaySpeed || delay)
+    }, slider.current?.props.autoplaySpeed || delay)
   }
 
   useEffect(() => {
