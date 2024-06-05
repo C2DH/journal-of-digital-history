@@ -12,7 +12,7 @@ $module: ".Article";
     .container {
 
       &.hermeneutics {
-        margin-right: 4rem;
+        margin-right: 8rem;
 
         .row > * {
           background-color: var(--hermeneutics-layer);
@@ -21,6 +21,7 @@ $module: ".Article";
 
       &-fluid.data {
         padding-left: calc(50vw - var(--container-max-width) / 3);
+        padding-right: 4rem;
 
         .row {
           // background-color: var(--data-layer);
