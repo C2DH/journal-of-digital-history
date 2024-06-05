@@ -10,6 +10,14 @@ $module: ".ArticleCellOutput";
 
   &.withHTML {
     overflow: auto;
+
+    table {
+      width: max-content;
+
+      td {
+        max-width: 300px;
+      }
+    }
   }
 }
 
