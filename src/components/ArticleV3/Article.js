@@ -9,6 +9,7 @@ import ConnectionErrorBox from './ConnectionErrorBox'
 import ArticleExecuteToolbar from './ArticleExecuteToolbar'
 import { useExecutionScope } from './ExecutionScope';
 import ArticleHeader from '../Article/ArticleHeader';
+import ArticleBibliography from '../Article/ArticleBibliography';
 
 import '../../styles/components/ArticleV3/Article.scss'
 
@@ -29,6 +30,7 @@ const Article = ({
   // a translatable string that defines the article header if ignorePublicationStatus is true
   category,
   paragraphs = [],
+  bibliography,
   title,
   abstract,
   keywords,
@@ -121,20 +123,30 @@ const Article = ({
           </React.Fragment>
         )
       })}
+
+      <ArticleBibliography articleTree={{ bibliography }} noAnchor className="mt-0" />
     </div>
   )
 }
 
 function ArticleWithContent({ url, ipynb, ...props }) {
-  const { paragraphs, executables, sections } = useNotebook(url, ipynb)
 
+  const { paragraphs, executables, bibliography, sections } = useNotebook(url, ipynb)
   const initExecutionScope = useExecutionScope((state) => state.initialise)
 
   useEffect(() => {
     initExecutionScope(executables)
   }, [executables, initExecutionScope])
 
-  return <Article url={url} paragraphs={paragraphs} {...sections} {...props} />
+  return (
+    <Article
+      url         = {url}
+      paragraphs  = {paragraphs}
+      bibliography= {bibliography}
+      {...sections}
+      {...props}
+    />
+  );
 }
 
 function ThebeArticle({ url = '', ipynb = { cells: [], metadata: {} }, ...props }) {

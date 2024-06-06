@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react'
 import { useThebeLoader, useThebeConfig, useRenderMimeRegistry } from 'thebe-react'
 import { useIpynbNotebookParagraphs } from '../../hooks/ipynb'
+import { LayerHidden } from '../../constants';
 
 function useParagraphs(url, tree) {
-  const paragraphs = tree.paragraphs
+  const paragraphs = tree.paragraphs.filter(cell => cell.layer !== LayerHidden);
   const paragraphsGroups = React.useMemo(() => {
     const buffers = []
     let previousLayer = null
@@ -77,6 +78,7 @@ export function useNotebook(url, ipynb) {
     paragraphs,
     paragraphsGroups,
     executables,
+    bibliography: articleTree.bibliography,
     sections: articleTree.sections
   }
 }
