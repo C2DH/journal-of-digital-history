@@ -9,6 +9,7 @@ import ConnectionErrorBox from './ConnectionErrorBox'
 import ArticleExecuteToolbar from './ArticleExecuteToolbar'
 import { useExecutionScope } from './ExecutionScope';
 import ArticleHeader from '../Article/ArticleHeader';
+import Footer from '../Footer';
 import ArticleBibliography from '../Article/ArticleBibliography';
 
 import '../../styles/components/ArticleV3/Article.scss'
@@ -125,6 +126,7 @@ const Article = ({
       })}
 
       <ArticleBibliography articleTree={{ bibliography }} noAnchor className="mt-0" />
+      <Footer />
     </div>
   )
 }
