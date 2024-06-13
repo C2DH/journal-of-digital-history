@@ -59,9 +59,7 @@ const Article = ({
   console.debug('[Article]', url, 'is rendering')
 
   return (
-    <div className="Article">
-      <div style={{ paddingTop: 120 }}></div>
-
+    <div className="Article page">
       <ArticleLayers layers={layers} />
 
       <ArticleExecuteToolbar
@@ -105,21 +103,23 @@ const Article = ({
               data-cell-idx={cell.idx}
               data-cell-layer={cell.layer}
             >
-              <div className={`Article_cellActive off`} />
-              <SimpleArticleCell
-                isJavascriptTrusted={false}
-                onNumClick={() => ({})}
-                memoid={[url, idx].join('-')}
-                {...cell}
-                num={cell.num}
-                idx={cell.idx}
-                role={cell.role}
-                layer={cell.layer}
-                source={cell.source}
-                headingLevel={cell.isHeading ? cell.heading.level : 0}
-                windowHeight={800}
-                ready={ready}
-              />
+              <div className="ArticleStream_paragraph">
+                <div className={`Article_cellActive off`} />
+                <SimpleArticleCell
+                  isJavascriptTrusted={false}
+                  onNumClick={() => ({})}
+                  memoid={[url, idx].join('-')}
+                  {...cell}
+                  num={cell.num}
+                  idx={cell.idx}
+                  role={cell.role}
+                  layer={cell.layer}
+                  source={cell.source}
+                  headingLevel={cell.isHeading ? cell.heading.level : 0}
+                  windowHeight={800}
+                  ready={ready}
+                  />
+              </div>
             </div>
           </React.Fragment>
         )
