@@ -1,0 +1,61 @@
+$module: ".ArticleCell";
+
+#{$module} {
+  .container {
+    &.hermeneutics {
+      margin-right: 8rem;
+
+      .row > * {
+        background-color: var(--hermeneutics-layer);
+      }
+    }
+
+    &-fluid.data {
+      padding-left: calc(50vw - var(--container-max-width) / 3);
+      padding-right: 4rem;
+
+      .code { 
+        .CodeMirror {
+          height: auto;
+          background: linear-gradient(180deg, #232145 0%, #261B38 100%) !important;
+
+          .CodeMirror-scroll { 
+            min-height: 200px 
+          }
+        }
+      }
+
+      .code-tools {
+        background-color: var(--data-layer);
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 0.5rem;
+
+        .btn {
+          display: flex;
+          align-items: center;
+          line-height: 1;
+          width: 120px;
+          transition: all 0.5s;
+
+          img {
+            transition: all 0.5s;
+          }
+
+          span {
+            text-align: center;
+            flex: 1 0 auto;
+          }
+
+          &:hover {
+            img {
+              filter: invert(1);
+            }
+          }
+        }
+      }
+    }
+  }
+}

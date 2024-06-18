@@ -7,48 +7,6 @@ $module: ".Article";
 
   &_paragraphWrapper {
     position: relative;
-//    overflow: hidden;
-
-    .container {
-
-      &.hermeneutics {
-        margin-right: 8rem;
-
-        .row > * {
-          background-color: var(--hermeneutics-layer);
-        }
-      }
-
-      &-fluid.data {
-        padding-left: calc(50vw - var(--container-max-width) / 3);
-        padding-right: 4rem;
-
-        .row {
-          // background-color: var(--data-layer);
-
-          .code { 
-            // --bs-gutter-x: 0;
-
-            pre { 
-              // padding: 0;
-              // margin: 0;
-              background-color: var(--data-layer) !important; //linear-gradient(180deg, #232145 0%, #261B38 100%);
-
-              code {
-                // padding-left: 2rem;
-                // border: 1px solid #000;
-                background-color: var(--data-layer) !important; //linear-gradient(180deg, #232145 0%, #261B38 100%);
-                // box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-              }
-            }
-          }
-
-          .explain-code {
-            background-color: var(--data-layer);
-          }
-        }
-      }
-    }
   }
 }
 

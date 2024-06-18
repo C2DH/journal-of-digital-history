@@ -26,6 +26,7 @@ const ArticleCellEditor = ({ cellIdx = -1, options }) => {
         lineWrapping: true,
         styleActiveLine: true,
         matchBrackets: true,
+        readOnly: 'nocursor',
         ...options,
       }}
       onBeforeChange={(editor, data, value) => {

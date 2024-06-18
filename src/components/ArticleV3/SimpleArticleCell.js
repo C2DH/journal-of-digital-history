@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useCallback } from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Button } from 'react-bootstrap'
+import { Play as PlayIcon } from 'react-feather';
+
 import ArticleCellOutputs from '../Article/ArticleCellOutputs'
 import ArticleCellContent from '../Article/ArticleCellContent'
 import ArticleCellSourceCodeWrapper from './ArticleCellSourceCodeWrapper'
@@ -10,8 +12,16 @@ import {
   BootstrapNarrativeStepColumnLayout,
   ArticleCellContainerClassNames,
   LayerData,
+  CellTypeCode,
+  CellTypeMarkdown
 } from '../../constants'
 import { useExecutionScope } from './ExecutionScope'
+
+import shineIcon from '../../assets/icons/shine_white.png';
+
+import '../../styles/components/ArticleV3/ArticleCell.scss';
+
+
 const ArticleCellEditor = React.lazy(() => import('./ArticleCellEditor'))
 
 const ArticleCell = ({
@@ -31,7 +41,7 @@ const ArticleCell = ({
   renderUsingThebe,
   ready,
 }) => {
-  const [isEditing, setIsEditing] = React.useState(false)
+  const [isEditing, setIsEditing] = React.useState(true)
 
   const executing = useExecutionScope((state) => state.cells[idx]?.executing)
   const errors = useExecutionScope((state) => state.cells[idx]?.errors)
@@ -80,31 +90,33 @@ const ArticleCell = ({
 
   console.debug('[ArticleCell]', idx, 'is rendering')
 
-  if (type === 'markdown') {
-    return (
-      <Container className={containerClassNames.join(' ')}>
-        <Row>
-          <Col {...cellBootstrapColumnLayout} className={isHermeneutics ? 'pe-3 ps-5' : ''}>
-            <ArticleCellContent
-              headingLevel={headingLevel}
-              onNumClick={onNumClick}
-              hideNum={hideNum}
-              layer={layer}
-              content={content}
-              idx={idx}
-              num={num}
-            />
-          </Col>
-        </Row>
-      </Container>
-    )
-  }
-  if (type === 'code') {
-    return (
-      <>
-        <Container sm className={containerClassNames.join(' ')}>
+  return (
+    <div className="ArticleCell">
+
+      {type === CellTypeMarkdown ? (
+
+        <Container className={containerClassNames.join(' ')}>
           <Row>
             <Col {...cellBootstrapColumnLayout} className={isHermeneutics ? 'pe-3 ps-5' : ''}>
+              <ArticleCellContent
+                headingLevel={headingLevel}
+                onNumClick={onNumClick}
+                hideNum={hideNum}
+                layer={layer}
+                content={content}
+                idx={idx}
+                num={num}
+              />
+            </Col>
+          </Row>
+        </Container>
+    
+      ) : type === CellTypeCode ? (
+  
+        <>
+          <Container sm className={containerClassNames.join(' ')}>
+            <Row>
+              <Col {...cellBootstrapColumnLayout} className={isHermeneutics ? 'pe-3 ps-5' : ''}>
                 <div ref={ref}>
                   {!errors && (
                     <ArticleCellOutputs
@@ -115,70 +127,90 @@ const ArticleCell = ({
                       outputs={outputs}
                     />
                   )}
-              </div>
-            </Col>
-          </Row>
-        </Container>
-
-        <Container fluid className={`${LayerData} mb-3`}>
-          <Row>
-            <Col xs={isEditing ? 7 : 12} className='code'>
-              <div className="ArticleCellContent">
-                <div className="ArticleCellContent_num"></div>
-                <div style={{ position: 'relative' }}>
-                  {ready && thebeCell && (
-                    <div
-                      style={{
-                        color: errors ? 'white' : 'inherit',
-                        backgroundColor: errors ? 'red' : 'lightgreen',
-                        paddingLeft: 4,
-                        paddingRight: 4,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 4,
-                      }}
-                    >
-                      {thebeCell?.executionCount > 0 && (
-                        <div title="execution count">[{thebeCell?.executionCount}]:</div>
-                      )}
-                      <div>{statusMessage}</div>
-                      <div style={{ flexGrow: 1 }} />
-                      <button onClick={() => executeCell(idx)} disabled={executing}>
-                        run
-                      </button>
-                      <button onClick={() => clearCell(idx)} disabled={executing}>
-                        clear
-                      </button>
-                      <button onClick={() => resetCell(idx)} disabled={executing}>
-                        reset
-                      </button>
-                      <button onClick={toggleEditCell} disabled={executing}>
-                        {isEditing ? 'stop editing' : 'edit'}
-                      </button>
-                    </div>
-                  )}
-                  {isEditing ? (
-                    <React.Suspense fallback={<div>loading...</div>}>
-                      <ArticleCellEditor cellIdx={idx} />
-                    </React.Suspense>
-                  ) : (
-                    <ArticleCellSourceCodeWrapper cellIdx={idx} />
-                  )}
-                  {errors && <ArticleCellError errors={errors} />}
                 </div>
-              </div>
-            </Col>
-
-            {isEditing && (
-              <Col xs={5} className="explain-code">
               </Col>
-            )}
-          </Row>
-        </Container>
-      </>
-    )
-  }
-  return <div>unknown type: {type}</div>
+            </Row>
+          </Container>
+
+          <Container fluid className={`${LayerData} mb-3`}>
+            <Row className="gx-0">
+              <Col xs={isEditing ? 7 : 12} className='code'>
+                <div className="ArticleCellContent">
+                  <div className="ArticleCellContent_num"></div>
+                  <div style={{ position: 'relative' }}>
+                    {ready && thebeCell && (
+                      <div
+                        style={{
+                          color: errors ? 'white' : 'inherit',
+                          backgroundColor: errors ? 'red' : 'lightgreen',
+                          paddingLeft: 4,
+                          paddingRight: 4,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 4,
+                        }}
+                      >
+                        {thebeCell?.executionCount > 0 && (
+                          <div title="execution count">[{thebeCell?.executionCount}]:</div>
+                        )}
+                        <div>{statusMessage}</div>
+                        <div style={{ flexGrow: 1 }} />
+                        <button onClick={() => executeCell(idx)} disabled={executing}>
+                          run
+                        </button>
+                        <button onClick={() => clearCell(idx)} disabled={executing}>
+                          clear
+                        </button>
+                        <button onClick={() => resetCell(idx)} disabled={executing}>
+                          reset
+                        </button>
+                        <button onClick={toggleEditCell} disabled={executing}>
+                          {isEditing ? 'stop editing' : 'edit'}
+                        </button>
+                      </div>
+                    )}
+                    {isEditing ? (
+                      <React.Suspense fallback={<div>loading...</div>}>
+                        <ArticleCellEditor cellIdx={idx} />
+                      </React.Suspense>
+                    ) : (
+                      <ArticleCellSourceCodeWrapper cellIdx={idx} />
+                    )}
+                    {errors && <ArticleCellError errors={errors} />}
+                  </div>
+                </div>
+              </Col>
+
+              {isEditing && (
+                <Col xs={5} className="code-tools">
+                  <Button
+                    variant="outline-white"
+                    size="sm"
+                  >
+                    <PlayIcon size={16} />
+                    <span>Run code</span>
+                  </Button>
+                  <Button
+                    variant="outline-white"
+                    size="sm"
+                  >
+                    <img src={shineIcon} />
+                    <span>Explain code</span>
+                  </Button>
+                </Col>
+              )}
+            </Row>
+          </Container>
+        </>
+
+      ) : (
+          
+        <div>unknown type: {type}</div>
+        
+      )}
+
+    </div>
+  )
 }
 
 export default ArticleCell
