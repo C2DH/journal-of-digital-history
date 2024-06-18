@@ -1,10 +1,14 @@
 import React from 'react'
 import { Controlled as CodeMirror } from 'react-codemirror2'
 import { useExecutionScope } from './ExecutionScope'
+
 // import codemirror style
 import 'codemirror/lib/codemirror.css'
 // import codemirror dracula style
 import 'codemirror/theme/dracula.css'
+// import codemirror python mode
+import 'codemirror/mode/python/python.js';
+
 
 const ArticleCellEditor = ({ cellIdx = -1, options }) => {
   const source = useExecutionScope((state) => state.cells[cellIdx]?.source) ?? ''
