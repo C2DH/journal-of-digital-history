@@ -19,6 +19,7 @@ const ArticleCellEditor = ({ cellIdx = -1, options }) => {
     console.debug('[ArticleCell] onCellChangeHandler', cellIdx, { value })
     updateCellSource(cellIdx, value)
   }
+  console.log(options);
 
   return (
     <CodeMirror
@@ -30,7 +31,6 @@ const ArticleCellEditor = ({ cellIdx = -1, options }) => {
         lineWrapping: true,
         styleActiveLine: true,
         matchBrackets: true,
-        readOnly: 'nocursor',
         ...options,
       }}
       onBeforeChange={(editor, data, value) => {

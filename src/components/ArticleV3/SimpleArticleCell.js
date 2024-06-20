@@ -5,9 +5,11 @@ import { Play as PlayIcon } from 'react-feather';
 
 import ArticleCellOutputs from '../Article/ArticleCellOutputs'
 import ArticleCellContent from '../Article/ArticleCellContent'
+import ArticleCellFigure from '../Article/ArticleCellFigure';
 import ArticleCellSourceCodeWrapper from './ArticleCellSourceCodeWrapper'
 import ArticleCellError from './ArticleCellError'
 import {
+  BootstrapColumLayout,
   BootstrapColumLayoutV3,
   BootstrapNarrativeStepColumnLayout,
   ArticleCellContainerClassNames,
@@ -35,6 +37,7 @@ const ArticleCell = ({
   metadata = {},
   isNarrativeStep,
   isHermeneutics,
+  figure, // ArticleFigure instance
   headingLevel = 0, // if isHeading, set this to its ArticleHeading.level value
   isJavascriptTrusted = false,
   onNumClick,
@@ -75,6 +78,10 @@ const ArticleCell = ({
     cellBootstrapColumnLayout = BootstrapNarrativeStepColumnLayout
   }
 
+  // this layout will be applied to module:"object" and module: "text_object"
+  let cellObjectBootstrapColumnLayout =
+    metadata.jdh?.object?.bootstrapColumLayout || BootstrapColumLayout;
+
   const containerClassNames = [layer, ...(metadata.tags ?? []).filter((d) =>
     ArticleCellContainerClassNames.includes(d),
   )];
@@ -89,6 +96,7 @@ const ArticleCell = ({
   }
 
   console.debug('[ArticleCell]', idx, 'is rendering')
+  console.log(ready);
 
   return (
     <div className="ArticleCell">
@@ -112,8 +120,22 @@ const ArticleCell = ({
         </Container>
     
       ) : type === CellTypeCode ? (
-  
+
         <>
+  
+            {/* {figure &&
+              <ArticleCellFigure
+                metadata={metadata}
+                outputs={outputs}
+                figure={figure}
+                isolationMode={false}
+                isNarrativeStep={isNarrativeStep}
+                figureColumnLayout={cellObjectBootstrapColumnLayout}
+                isJavascriptTrusted={isJavascriptTrusted}
+                containerClassName={containerClassNames.join(' ')}
+              ></ArticleCellFigure>
+            } */}
+
           <Container sm className={containerClassNames.join(' ')}>
             <Row>
               <Col {...cellBootstrapColumnLayout} className={isHermeneutics ? 'pe-3 ps-5' : ''}>
@@ -171,25 +193,41 @@ const ArticleCell = ({
                     )}
                     {isEditing ? (
                       <React.Suspense fallback={<div>loading...</div>}>
-                        <ArticleCellEditor cellIdx={idx} />
+                        <ArticleCellEditor
+                          cellIdx = {idx}
+                          options = {{
+                            readOnly: ready ? false : 'nocursor'
+                          }}
+                        />
                       </React.Suspense>
                     ) : (
                       <ArticleCellSourceCodeWrapper cellIdx={idx} />
                     )}
-                    {errors && <ArticleCellError errors={errors} />}
                   </div>
                 </div>
               </Col>
 
               {isEditing && (
                 <Col xs={5} className="code-tools">
-                  <Button
-                    variant="outline-white"
-                    size="sm"
-                  >
-                    <PlayIcon size={16} />
-                    <span>Run code</span>
-                  </Button>
+                  <div className="d-flex gap-2">
+                    <Button
+                      variant   = "outline-white"
+                      size      = "sm"
+                      disabled  = {!ready || executing}
+                      onClick   = {() => executeCell(idx)}
+                    >
+                      <PlayIcon size={16} />
+                      <span>Run code</span>
+                    </Button>
+
+                    {thebeCell?.executionCount > 0 && (
+                      <div title="execution count">[{thebeCell?.executionCount}]:</div>
+                    )}
+                    <div>{statusMessage}</div>
+                  </div>
+
+                  {errors && <ArticleCellError errors={errors} />}
+
                   <Button
                     variant="outline-white"
                     size="sm"

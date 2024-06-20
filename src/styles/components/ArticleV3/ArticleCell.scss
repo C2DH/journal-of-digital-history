@@ -15,6 +15,8 @@ $module: ".ArticleCell";
       padding-right: 4rem;
 
       .code { 
+        background-color: var(--data-layer);
+
         .CodeMirror {
           height: auto;
           background: linear-gradient(180deg, #232145 0%, #261B38 100%) !important;
@@ -27,6 +29,7 @@ $module: ".ArticleCell";
 
       .code-tools {
         background-color: var(--data-layer);
+        color: var(--bs-white);
         padding: 0.5rem;
         display: flex;
         flex-direction: column;
@@ -54,6 +57,11 @@ $module: ".ArticleCell";
               filter: invert(1);
             }
           }
+        }
+
+        .ArticleCell_error {
+          margin-left: 0;
+          color: var(--bs-dark);
         }
       }
     }
