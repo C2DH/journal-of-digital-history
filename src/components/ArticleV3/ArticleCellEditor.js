@@ -19,7 +19,6 @@ const ArticleCellEditor = ({ cellIdx = -1, options }) => {
     console.debug('[ArticleCell] onCellChangeHandler', cellIdx, { value })
     updateCellSource(cellIdx, value)
   }
-  console.log(options);
 
   return (
     <CodeMirror

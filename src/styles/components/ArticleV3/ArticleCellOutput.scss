@@ -2,9 +2,24 @@ $module: ".ArticleCellOutput";
 
 #{$module} {
 
-  &_execute_result {
+  &_display_data, &_execute_result, &_stream {
+    margin: 0;
+
+    .label {
+      color: var(--bs-body-color);
+    }
+
     img {
       max-width: 100%;
+      background-color: var(--bs-white);
+      margin: 0 auto;
+      display: block;
+    }
+  }
+
+  &_execute_result, &_stream {
+    pre {
+      color: var(--bs-body-color);
     }
   }
 
@@ -13,6 +28,8 @@ $module: ".ArticleCellOutput";
 
     table {
       width: max-content;
+      margin: 0 auto;
+      color: var(--bs-body-color);
 
       td {
         max-width: 300px;

@@ -96,7 +96,6 @@ const ArticleCell = ({
   }
 
   console.debug('[ArticleCell]', idx, 'is rendering')
-  console.log(ready);
 
   return (
     <div className="ArticleCell">
@@ -136,9 +135,9 @@ const ArticleCell = ({
               ></ArticleCellFigure>
             } */}
 
-          <Container sm className={containerClassNames.join(' ')}>
-            <Row>
-              <Col {...cellBootstrapColumnLayout} className={isHermeneutics ? 'pe-3 ps-5' : ''}>
+          <Container fluid className={`${LayerData} mb-3`}>
+            <Row className="gx-0 p-2">
+              <Col>
                 <div ref={ref}>
                   {!errors && (
                     <ArticleCellOutputs
@@ -152,9 +151,7 @@ const ArticleCell = ({
                 </div>
               </Col>
             </Row>
-          </Container>
 
-          <Container fluid className={`${LayerData} mb-3`}>
             <Row className="gx-0">
               <Col xs={isEditing ? 7 : 12} className='code'>
                 <div className="ArticleCellContent">

@@ -14,54 +14,57 @@ $module: ".ArticleCell";
       padding-left: calc(50vw - var(--container-max-width) / 3);
       padding-right: 4rem;
 
-      .code { 
-        background-color: var(--data-layer);
-
-        .CodeMirror {
-          height: auto;
-          background: linear-gradient(180deg, #232145 0%, #261B38 100%) !important;
-
-          .CodeMirror-scroll { 
-            min-height: 200px 
-          }
-        }
-      }
-
-      .code-tools {
+      .row {
         background-color: var(--data-layer);
         color: var(--bs-white);
-        padding: 0.5rem;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
 
-        .btn {
-          display: flex;
-          align-items: center;
-          line-height: 1;
-          width: 120px;
-          transition: all 0.5s;
+        .code { 
+          .CodeMirror {
+            height: auto;
+            background: linear-gradient(180deg, #232145 0%, #261B38 100%) !important;
 
-          img {
-            transition: all 0.5s;
-          }
-
-          span {
-            text-align: center;
-            flex: 1 0 auto;
-          }
-
-          &:hover {
-            img {
-              filter: invert(1);
+            .CodeMirror-scroll { 
+              min-height: 200px 
             }
           }
         }
 
-        .ArticleCell_error {
-          margin-left: 0;
-          color: var(--bs-dark);
+        .code-tools {
+          background-color: var(--data-layer);
+          color: var(--bs-white);
+          padding: 0.5rem;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+
+          .btn {
+            display: flex;
+            align-items: center;
+            line-height: 1;
+            width: 120px;
+            transition: all 0.5s;
+
+            img {
+              transition: all 0.5s;
+            }
+
+            span {
+              text-align: center;
+              flex: 1 0 auto;
+            }
+
+            &:hover {
+              img {
+                filter: invert(1);
+              }
+            }
+          }
+
+          .ArticleCell_error {
+            margin-left: 0;
+            color: var(--bs-dark);
+          }
         }
       }
     }
