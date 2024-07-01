@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 
 import { ArticleThebeProvider, useArticleThebe } from './ArticleThebeProvider'
 import SimpleArticleCell from './SimpleArticleCell'
-import ArticleLayers from './ArticleLayers';
+import ArticleLayers from './ArticleLayers'
 import { useNotebook } from './hooks'
 import ConnectionErrorBox from './ConnectionErrorBox'
 
 import ArticleExecuteToolbar from './ArticleExecuteToolbar'
-import { useExecutionScope } from './ExecutionScope';
-import ArticleHeader from '../Article/ArticleHeader';
-import Footer from '../Footer';
-import ArticleBibliography from '../Article/ArticleBibliography';
+import { useExecutionScope } from './ExecutionScope'
+import ArticleHeader from '../Article/ArticleHeader'
+import Footer from '../Footer'
+import ArticleBibliography from '../Article/ArticleBibliography'
 
 import '../../styles/components/ArticleV3/Article.scss'
+import ArticleCellObserver from './ArticleCellObserver'
 
 const Article = ({
   url = '',
@@ -37,9 +38,8 @@ const Article = ({
   keywords,
   contributor,
   collaborators,
-  disclaimer = []
+  disclaimer = [],
 }) => {
-
   const { starting, connectionErrors, ready, connectAndStart, restart, session, openInJupyter } =
     useArticleThebe()
 
@@ -93,10 +93,10 @@ const Article = ({
         bibjson={bibjson}
         isPreview={false}
       />
-  
+
       {paragraphs.map((cell, idx) => {
         return (
-          <React.Fragment key={[url, idx].join('-')}>
+          <ArticleCellObserver cell={cell} key={[url, idx].join('-')}>
             <a className="Article_anchor"></a>
             <div
               className="Article_paragraphWrapper"
@@ -118,10 +118,10 @@ const Article = ({
                   headingLevel={cell.isHeading ? cell.heading.level : 0}
                   windowHeight={800}
                   ready={ready}
-                  />
+                />
               </div>
             </div>
-          </React.Fragment>
+          </ArticleCellObserver>
         )
       })}
 
@@ -132,7 +132,6 @@ const Article = ({
 }
 
 function ArticleWithContent({ url, ipynb, ...props }) {
-
   const { paragraphs, executables, bibliography, sections } = useNotebook(url, ipynb)
   const initExecutionScope = useExecutionScope((state) => state.initialise)
 
@@ -142,13 +141,13 @@ function ArticleWithContent({ url, ipynb, ...props }) {
 
   return (
     <Article
-      url         = {url}
-      paragraphs  = {paragraphs}
-      bibliography= {bibliography}
+      url={url}
+      paragraphs={paragraphs}
+      bibliography={bibliography}
       {...sections}
       {...props}
     />
-  );
+  )
 }
 
 function ThebeArticle({ url = '', ipynb = { cells: [], metadata: {} }, ...props }) {
