@@ -1,0 +1,16 @@
+$module: ".Article";
+
+#{$module} {
+
+  @import 'ArticleHeader';
+  @import 'ArticleCellOutput';
+
+  &_paragraphWrapper {
+    position: relative;
+  }
+}
+
+//  Background color hacking for the menu
+#Header_background {
+  background-color: white !important;
+}

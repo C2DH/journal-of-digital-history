@@ -1,5 +1,5 @@
 import React from 'react'
-import ToC from './ToC'
+import ToC from '../components/ToC'
 
 export default {
   component: ToC,
