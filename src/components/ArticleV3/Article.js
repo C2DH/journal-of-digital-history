@@ -14,7 +14,7 @@ import ArticleBibliography from '../Article/ArticleBibliography'
 
 import '../../styles/components/ArticleV3/Article.scss'
 import ArticleCellObserver from './ArticleCellObserver'
-
+import ArticleToC from './ArticleToC'
 const Article = ({
   url = '',
   publicationDate = new Date(),
@@ -61,6 +61,8 @@ const Article = ({
   return (
     <div className="Article page">
       <ArticleLayers layers={layers} />
+
+      <ArticleToC />
 
       <ArticleExecuteToolbar
         starting={starting}

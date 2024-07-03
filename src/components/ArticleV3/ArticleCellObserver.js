@@ -1,6 +1,27 @@
 import React, { useRef } from 'react'
 import { useEffect } from 'react'
+import create from 'zustand'
 
+export const useToCStore = create((set) => ({
+  visibleCellsIdx: [],
+  addVisibleCellIdx: (cellIdx) =>
+    set((state) => {
+      const copy = [...state.visibleCellsIdx]
+      if (!copy.includes(cellIdx)) {
+        copy.push(cellIdx)
+      }
+      return { visibleCellsIdx: copy }
+    }),
+  removeVisibleCellIdx: (cellIdx) =>
+    set((state) => {
+      const copy = [...state.visibleCellsIdx]
+      const idx = copy.indexOf(cellIdx)
+      if (idx > -1) {
+        copy.splice(idx, 1)
+      }
+      return { visibleCellsIdx: copy }
+    }),
+}))
 /**
  * React component that observes the visibility of an article cell.
  * It uses InteractinObserver so it shuld be fast and reliable.
@@ -21,6 +42,10 @@ const ArticleCellObserver = ({
   ...rest
 }) => {
   const ref = useRef(null)
+  const [addVisibleCellIdx, removeVisibleCellIdx] = useToCStore((store) => [
+    store.addVisibleCellIdx,
+    store.removeVisibleCellIdx,
+  ])
   useEffect(() => {
     console.debug('[ArticleCellObserver] creating observer for cell:', cell.idx)
     const observer = new IntersectionObserver(
@@ -36,6 +61,11 @@ const ArticleCellObserver = ({
           b.isIntersecting ? 'is in view' : 'disappeared',
           b.intersectionRatio,
         )
+        if (b.isIntersecting) {
+          addVisibleCellIdx(cell.idx)
+        } else {
+          removeVisibleCellIdx(cell.idx)
+        }
       },
       {
         threshold,
