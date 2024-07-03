@@ -30,8 +30,8 @@ const IssueArticleGridItem = ({
   return (
     <div
       className={`IssueArticleGridItem ${isPrettyRecent ? 'just-added' : ''}`}
-      ref={ref}
       onMouseOut={onMouseOut}
+      ref={ref}
     >
       <div
         className={IsMobile ? 'half-squared' : 'squared'}
