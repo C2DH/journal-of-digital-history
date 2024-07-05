@@ -93,7 +93,7 @@ const ArticleToC = ({ headingsPositions = [], paragraphs = [], headerHeight = 14
     // scroll to the correct id
     const element = document.querySelector("[data-cell-idx='" + selectedCellIdx + "']")
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      element.scrollIntoView({ behavior: 'smooth' })
     }
   }, [selectedCellIdx])
 
