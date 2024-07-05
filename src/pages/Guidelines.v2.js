@@ -52,7 +52,7 @@ const GuidelinesShuffler = ({ data = '', isFake }) => {
             return { key, label, url: link.match(/\(([^)]+)\)/).pop() }
           })
   const availableNotebookIds = availableNotebooks.map((n) => n.key)
-  const notebook = availableNotebooks.find((n) => n.key === safeNotebookId)
+  const notebook = availableNotebooks.find((n) => n.key === safeNotebookId) || availableNotebooks[0]
   const notebookUrl = notebook?.url
 
   const memoid = [
