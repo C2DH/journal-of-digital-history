@@ -15,6 +15,8 @@ import ArticleBibliography from '../Article/ArticleBibliography'
 import '../../styles/components/ArticleV3/Article.scss'
 import ArticleCellObserver from './ArticleCellObserver'
 import ArticleToC from './ArticleToC'
+import './Article.css'
+
 const Article = ({
   url = '',
   publicationDate = new Date(),
@@ -165,4 +167,6 @@ function ThebeArticle({ url = '', ipynb = { cells: [], metadata: {} }, ...props 
   )
 }
 
-export default ThebeArticle
+export default React.memo(ThebeArticle, (prevProps, nextProps) => {
+  return prevProps.memoid === nextProps.memoid
+})
