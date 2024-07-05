@@ -1,8 +1,9 @@
 .ArticleToCSteps {
   overflow: hidden;
   overflow-y: auto;
-
+  position: relative;
   pointer-events: all;
+  border-top: 0px transparent !important;
 }
 .ArticleToCSteps,
 .ArticleToCSteps ul,
@@ -50,4 +51,14 @@
   position: absolute;
   top: 0px;
   left: 0px;
+}
+
+.ArticleToCSteps__nested__progress {
+  position: absolute;
+  top: 1px;
+  right: 20px;
+  width: 19px;
+  background: var(--gray-300);
+  z-index: 0;
+  border-radius: 10px;
 }
