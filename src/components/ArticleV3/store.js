@@ -1,6 +1,7 @@
 import create from 'zustand'
 
 export const useToCStore = create((set) => ({
+  latestVisibleCellIdx: -1,
   visibleCellsIdx: [],
   addVisibleCellIdx: (cellIdx) =>
     set((state) => {
@@ -8,7 +9,7 @@ export const useToCStore = create((set) => ({
       if (!copy.includes(cellIdx)) {
         copy.push(cellIdx)
       }
-      return { visibleCellsIdx: copy }
+      return { visibleCellsIdx: copy, latestVisibleCellIdx: cellIdx }
     }),
   removeVisibleCellIdx: (cellIdx) =>
     set((state) => {
