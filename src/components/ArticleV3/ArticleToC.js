@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useToCStore } from './store'
 import ArticleToCSteps from './ArticleToCSteps'
 import { useWindowStore } from '../../store'
 import { DisplayLayerCellIdxQueryParam } from '../../constants'
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
+import './ArticleToC.css'
 
 const getToCSteps = ({ headingsPositions, cellsIndex, hideFigures = false }) => {
   const { groups } = headingsPositions
@@ -88,19 +89,25 @@ const ArticleToC = ({ headingsPositions = [], paragraphs = [], headerHeight = 14
     })
   }
 
+  useEffect(() => {
+    // scroll to the correct id
+    const element = document.querySelector("[data-cell-idx='" + selectedCellIdx + "']")
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+  }, [selectedCellIdx])
+
   console.debug('[ArticleToC] @render \n - size: ', width, 'x', height, 'px', steps)
 
   return (
     <aside
       className="ArticleToC col-4"
       style={{
-        position: 'fixed',
         top: headerHeight,
-        left: 0,
         width: width * 0.16,
       }}
     >
-      {t('table of contents')}
+      <span className="d-none">{t('table of contents')}</span>
       <ArticleToCSteps
         width={width * 0.16}
         steps={steps}
