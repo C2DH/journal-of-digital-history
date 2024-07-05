@@ -32,6 +32,7 @@ const Article = ({
   // a translatable string that defines the article header if ignorePublicationStatus is true
   category,
   paragraphs = [],
+  headingsPositions = [],
   bibliography,
   title,
   abstract,
@@ -62,7 +63,7 @@ const Article = ({
     <div className="Article page">
       <ArticleLayers layers={layers} />
 
-      <ArticleToC />
+      <ArticleToC paragraphs={paragraphs} headingsPositions={headingsPositions} />
 
       <ArticleExecuteToolbar
         starting={starting}
@@ -134,17 +135,21 @@ const Article = ({
 }
 
 function ArticleWithContent({ url, ipynb, ...props }) {
-  const { paragraphs, executables, bibliography, sections } = useNotebook(url, ipynb)
+  const { paragraphs, headingsPositions, executables, bibliography, sections } = useNotebook(
+    url,
+    ipynb,
+  )
   const initExecutionScope = useExecutionScope((state) => state.initialise)
 
   useEffect(() => {
     initExecutionScope(executables)
   }, [executables, initExecutionScope])
-
+  console.debug('[ArticleWithContent]', url, 'is rendering', headingsPositions)
   return (
     <Article
       url={url}
       paragraphs={paragraphs}
+      headingsPositions={headingsPositions}
       bibliography={bibliography}
       {...sections}
       {...props}
