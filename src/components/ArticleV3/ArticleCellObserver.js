@@ -29,17 +29,6 @@ const ArticleCellObserver = ({
     console.debug('[ArticleCellObserver] creating observer for cell:', cell.idx)
     const observer = new IntersectionObserver(
       ([b]) => {
-        console.debug(
-          '[ArticleCellObserver] cell:',
-          'num:',
-          cell.num,
-          'idx:',
-          cell.idx,
-          'level',
-          cell.level,
-          b.isIntersecting ? 'is in view' : 'disappeared',
-          b.intersectionRatio,
-        )
         if (b.isIntersecting) {
           addVisibleCellIdx(cell.idx)
         } else {
