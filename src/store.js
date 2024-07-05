@@ -162,8 +162,8 @@ export const usePropsStore = create((set) => ({
 }))
 
 export const useWindowStore = create((set) => ({
-  windowWidth: 0,
-  windowHeight: 0,
+  windowWidth: window.innerWidth,
+  windowHeight: window.innerHeight,
   setWindowDimensions: (windowWidth, windowHeight) => set({ windowWidth, windowHeight }),
   scrollY: 0,
   scrollX: 0,
