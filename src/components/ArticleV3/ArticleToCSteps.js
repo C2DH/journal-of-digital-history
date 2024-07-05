@@ -1,9 +1,10 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import ToCStep from '../ToCStep'
 import { useTranslation } from 'react-i18next'
 import './ArticleToCSteps.css'
 import { a, useSprings } from '@react-spring/web'
 import { ChevronDown } from 'react-feather'
+import { useToCStore } from './store'
 
 const ArticleToCSteps = ({
   aboveTheFoldSteps = 2,
@@ -19,6 +20,7 @@ const ArticleToCSteps = ({
   const { t } = useTranslation()
   const manuallyExpandedSteps = useRef([])
   const expandedStepsRef = useRef([])
+  const latestVisibleCellIdx = useRef(-1)
 
   const [props, api] = useSprings(steps.length, (i) => {
     const height = Math.min(steps[i].length, aboveTheFoldSteps) * stepHeight
@@ -27,11 +29,13 @@ const ArticleToCSteps = ({
         // backgroundColor: BackgroundColorInvisible,
         rotation: 0,
         height,
+        progressHeight: 0,
       },
       from: {
         // backgroundColor: BackgroundColorInvisible,
         rotation: 0,
         height,
+        progressHeight: 0,
       },
     }
   })
@@ -40,12 +44,6 @@ const ArticleToCSteps = ({
     if (typeof onClick === 'function') {
       onClick(e, { id, label, layer })
     }
-    // api.start((i) => {
-    //   return {
-
-    //     height: i === stepIdx ? stepHeight * steps[stepIdx].length : aboveTheFoldSteps * stepHeight,
-    //   }
-    // })
   }
 
   const manuallyToggleStep = (stepIdx) => {
@@ -62,6 +60,7 @@ const ArticleToCSteps = ({
       const isVisible = expandedStepsRef.current.includes(i)
       const shouldItExpand = steps[i].length > aboveTheFoldSteps
       const isExpanded = (isVisible && shouldItExpand) || manuallyExpandedSteps.current.includes(i)
+
       return {
         // backgroundColor: isVisible ? BackgroundColorVisible : BackgroundColorInvisible,
         rotation: isExpanded ? Math.PI : 0,
@@ -72,75 +71,71 @@ const ArticleToCSteps = ({
     })
   }
 
-  // const expandSteps = (stepIdxs) => {
-  //   expandedStepsRef.current = stepIdxs
-  //   console.debug('[ArticleToCSteps] expandSteps', stepIdxs, expandedStepsRef.current)
-  //   if (!steps.length) {
-  //     return
-  //   }
-  //   api.start((i) => {
-  //     // check if the step (section) is in the list of steps to expand (or to become visible)
-  //     const isVisible = stepIdxs.includes(i)
-  //     const shouldItExpand = steps[i].length > aboveTheFoldSteps
-  //     const isExpanded = (isVisible && shouldItExpand) || manuallyExpandedSteps.current.includes(i)
-  //     return {
-  //       backgroundColor: isVisible ? BackgroundColorVisible : BackgroundColorInvisible,
-  //       rotation: isExpanded ? Math.PI : 0,
-  //       height: isExpanded
-  //         ? stepHeight * steps[i].length
-  //         : Math.min(steps[i].length, aboveTheFoldSteps) * stepHeight,
-  //     }
-  //   })
-  // }
+  const expandSteps = (stepIdxs) => {
+    expandedStepsRef.current = stepIdxs
+    console.debug('[ArticleToCSteps] expandSteps', stepIdxs, expandedStepsRef.current)
+    if (!steps.length) {
+      return
+    }
+    api.start((i) => {
+      // check if the step (section) is in the list of steps to expand (or to become visible)
+      const isVisible = stepIdxs.includes(i)
+      const shouldItExpand = steps[i].length > aboveTheFoldSteps
+      const isExpanded = (isVisible && shouldItExpand) || manuallyExpandedSteps.current.includes(i)
+      // const firstStepCellIdx = steps[i][0].cell.idx
+      const lastStepCellIdx = steps[i][steps[i].length - 1].cell.idx
+      let progressHeight = 0
 
-  // useEffect(
-  //   () =>
-  //     useArticleToCStore.subscribe((state) => {
-  //       const stepsToExpand = []
-  //       // getStepIdx(state.visibleCellsIdx)
-  //       if (state.visibleCellsIdx.length === 0) {
-  //         console.debug('[ArticleToCSteps] visible cells reset.')
-  //         // if there are no visible cells, then we should collapse all steps
-  //         manuallyExpandedSteps.current = []
-  //         expandSteps([])
-  //         return
-  //       }
-  //       // check whether the first or last visible cell is in the step
-  //       const firstVisibleCellIdx = state.visibleCellsIdx[0]
-  //       const lastVisibleCellIdx = state.visibleCellsIdx[state.visibleCellsIdx.length - 1]
+      if (!isExpanded && lastStepCellIdx < latestVisibleCellIdx.current) {
+        progressHeight = Math.min(steps[i].length, aboveTheFoldSteps) * stepHeight
+      } else if (isExpanded && lastStepCellIdx < latestVisibleCellIdx.current) {
+        progressHeight = (steps[i].length - 1) * stepHeight
+      } else if (isExpanded && lastStepCellIdx >= latestVisibleCellIdx.current) {
+        progressHeight =
+          steps[i].filter((d) => d.cell.idx <= latestVisibleCellIdx.current).length * stepHeight - 1
+      }
 
-  //       for (let i = 0; i < steps.length; i++) {
-  //         const firstStepCellIdx = steps[i][0].cell.idx
-  //         const lastStepCellIdx = steps[i][steps[i].length - 1].cell.idx
-  //         const isIntersecting =
-  //           (firstVisibleCellIdx >= firstStepCellIdx && firstVisibleCellIdx <= lastStepCellIdx) ||
-  //           (firstVisibleCellIdx <= firstStepCellIdx && lastVisibleCellIdx >= firstStepCellIdx)
-  //         console.debug(
-  //           '[ArticleToCSteps]',
-  //           i,
-  //           firstStepCellIdx,
-  //           '->',
-  //           lastStepCellIdx,
-  //           ' WITH ',
-  //           firstVisibleCellIdx,
-  //           '->',
-  //           lastVisibleCellIdx,
-  //           isIntersecting,
-  //         )
-  //         if (isIntersecting) {
-  //           stepsToExpand.push(i)
-  //         }
-  //       }
-  //       console.debug('[ArticleToCSteps] visibleCellsIdx:', state.visibleCellsIdx, stepsToExpand)
+      return {
+        rotation: isExpanded ? Math.PI : 0,
+        height: isExpanded
+          ? stepHeight * steps[i].length
+          : Math.min(steps[i].length, aboveTheFoldSteps) * stepHeight,
+        progressHeight,
+      }
+    })
+  }
+  useEffect(() => {
+    return useToCStore.subscribe((state) => {
+      if (state.visibleCellsIdx.length === 0) {
+        console.debug('[ArticleToCSteps] visible cells reset.')
+        // if there are no visible cells, then we should collapse all steps
+        manuallyExpandedSteps.current = []
+        expandSteps([])
+        return
+      }
+      if (latestVisibleCellIdx.current !== state.latestVisibleCellIdx) {
+        console.debug('[ArticleToCSteps] latestVisibleCellIdx cells:', state.latestVisibleCellIdx)
+        latestVisibleCellIdx.current = state.latestVisibleCellIdx
+        for (let i = 0; i < steps.length; i++) {
+          const firstStepCellIdx = steps[i][0].cell.idx
+          const lastStepCellIdx = steps[i][steps[i].length - 1].cell.idx
+          const isIntersecting =
+            latestVisibleCellIdx.current >= firstStepCellIdx &&
+            latestVisibleCellIdx.current <= lastStepCellIdx
 
-  //       expandSteps(stepsToExpand)
-  //     }),
-  //   [selectedCellIdx],
-  // )
+          if (isIntersecting) {
+            manuallyExpandedSteps.current = []
+            expandSteps([i])
+            break
+          }
+        }
+      }
+    })
+  }, [selectedCellIdx])
 
   return (
     <ol style={style} className={`ArticleToCSteps py-3 ${className}`}>
-      {props.map(({ height, backgroundColor, rotation }, i) => {
+      {props.map(({ height, rotation, progressHeight }, i) => {
         const nestedSteps = steps[i]
         return (
           <li key={i} className="mb-2">
@@ -148,12 +143,14 @@ const ArticleToCSteps = ({
               className="ArticleToCSteps__nested"
               style={{
                 height,
-                backgroundColor,
+                position: 'relative',
                 paddingLeft: 10,
-                borderTopLeftRadius: 5,
-                borderBottomLeftRadius: 5,
               }}
             >
+              <a.div
+                style={{ height: progressHeight }}
+                className="ArticleToCSteps__nested__progress"
+              />
               {nestedSteps.map((step, j) => {
                 const label = step.cell.isHeading
                   ? step.cell.heading.content
