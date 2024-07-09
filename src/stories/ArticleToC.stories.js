@@ -17,14 +17,15 @@ const Template = ({ cells, metadata }) => {
     metadata,
   })
   return (
-  <div className="w-100 d-flex">
-    <ArticleToC width={100} cells={articleTree.cells}></ArticleToC>
-    <div>
-      {articleTree.paragraphs.map((p, i) => (
-        <div key={i}>{p.text}</div>
-      ))}
-    </div> 
-  </div>
+    <div className="w-100 d-flex">
+      <ArticleToC width={100} cells={articleTree.cells}></ArticleToC>
+      <div>
+        {articleTree.paragraphs.map((p, i) => (
+          <div key={i}>{p.text}</div>
+        ))}
+      </div>
+    </div>
+  )
 }
 
 export const Default = Template.bind({})
