@@ -5,8 +5,7 @@ import { Play as PlayIcon } from 'react-feather';
 
 import ArticleCellOutputs from '../Article/ArticleCellOutputs'
 import ArticleCellContent from '../Article/ArticleCellContent'
-import ArticleCellFigure from '../Article/ArticleCellFigure';
-import ArticleCellSourceCodeWrapper from './ArticleCellSourceCodeWrapper'
+import ArticleCellFigure from './ArticleCellFigure';
 import ArticleCellError from './ArticleCellError'
 import {
   BootstrapColumLayout,
@@ -15,7 +14,8 @@ import {
   ArticleCellContainerClassNames,
   LayerData,
   CellTypeCode,
-  CellTypeMarkdown
+  CellTypeMarkdown,
+  LayerHermeneutics
 } from '../../constants'
 import { useExecutionScope } from './ExecutionScope'
 
@@ -24,7 +24,10 @@ import shineIcon from '../../assets/icons/shine_white.png';
 import '../../styles/components/ArticleV3/ArticleCell.scss';
 
 
-const ArticleCellEditor = React.lazy(() => import('./ArticleCellEditor'))
+const ArticleCellEditor = React.lazy(() => import('./ArticleCellEditor'));
+
+const RegexIsMagic = /^%%(javascript|js)/;
+
 
 const ArticleCell = ({
   type,
@@ -36,15 +39,15 @@ const ArticleCell = ({
   hideNum,
   metadata = {},
   isNarrativeStep,
-  isHermeneutics,
   figure, // ArticleFigure instance
+  isFigure = false,
   headingLevel = 0, // if isHeading, set this to its ArticleHeading.level value
+  active = false,
   isJavascriptTrusted = false,
   onNumClick,
   renderUsingThebe,
   ready,
 }) => {
-  const [isEditing, setIsEditing] = React.useState(true)
 
   const executing = useExecutionScope((state) => state.cells[idx]?.executing)
   const errors = useExecutionScope((state) => state.cells[idx]?.errors)
@@ -54,9 +57,10 @@ const ArticleCell = ({
   const clearCell = useExecutionScope((state) => state.clearCell)
   const resetCell = useExecutionScope((state) => state.resetCell)
 
-  const toggleEditCell = () => {
-    setIsEditing(!isEditing)
-  }
+  const isMagic = RegexIsMagic.test(content);
+  const isolationMode = outputs.some(
+    (d) => typeof d.metadata === 'object' && d.metadata['text/html']?.isolated,
+  )
 
   const ref = useCallback(
     (node) => {
@@ -82,7 +86,7 @@ const ArticleCell = ({
   let cellObjectBootstrapColumnLayout =
     metadata.jdh?.object?.bootstrapColumLayout || BootstrapColumLayout;
 
-  const containerClassNames = [layer, ...(metadata.tags ?? []).filter((d) =>
+  const containerClassNames = [...(metadata.tags ?? []).filter((d) =>
     ArticleCellContainerClassNames.includes(d),
   )];
 
@@ -95,65 +99,63 @@ const ArticleCell = ({
     statusMessage = 'ready'
   }
 
-  console.debug('[ArticleCell]', idx, 'is rendering')
+  console.debug('[ArticleCell]', idx, 'is rendering');
+
+  if (type !== CellTypeMarkdown && type !== CellTypeCode)
+    return <div>Unkonwn type: {type}</div>
 
   return (
-    <div className="ArticleCell">
-
-      {type === CellTypeMarkdown ? (
-
-        <Container className={containerClassNames.join(' ')}>
-          <Row>
-            <Col {...cellBootstrapColumnLayout} className={isHermeneutics ? 'pe-3 ps-5' : ''}>
-              <ArticleCellContent
-                headingLevel={headingLevel}
-                onNumClick={onNumClick}
-                hideNum={hideNum}
-                layer={layer}
-                content={content}
-                idx={idx}
-                num={num}
-              />
-            </Col>
-          </Row>
-        </Container>
-    
-      ) : type === CellTypeCode ? (
-
-        <>
-  
-            {/* {figure &&
+    <div className={`ArticleCell ${layer}`}>
+      <Container fluid={layer === LayerData} className={containerClassNames.join(' ')}>
+        <Row>
+          <Col {...cellBootstrapColumnLayout} className={layer === LayerHermeneutics ? 'pe-3 ps-5' : ''}>
+            {figure ? (
               <ArticleCellFigure
-                metadata={metadata}
-                outputs={outputs}
-                figure={figure}
-                isolationMode={false}
-                isNarrativeStep={isNarrativeStep}
-                figureColumnLayout={cellObjectBootstrapColumnLayout}
-                isJavascriptTrusted={isJavascriptTrusted}
-                containerClassName={containerClassNames.join(' ')}
-              ></ArticleCellFigure>
-            } */}
+                metadata            = {metadata}
+                outputs             = {outputs}
+                figure              = {figure}
+                isolationMode       = {isolationMode}
+                isMagic             = {isMagic}
+                active              = {active}
+                isJavascriptTrusted = {isJavascriptTrusted}
+                cellType            = {type}
+              />
 
-          <Container fluid className={`${LayerData} mb-3`}>
-            <Row className="gx-0 p-2">
-              <Col>
-                <div ref={ref}>
-                  {!errors && (
-                    <ArticleCellOutputs
-                      isMagic={false}
-                      isolationMode={false}
-                      isJavascriptTrusted={isJavascriptTrusted}
-                      cellIdx={idx}
-                      outputs={outputs}
-                    />
-                  )}
-                </div>
-              </Col>
-            </Row>
+            ) : (
 
-            <Row className="gx-0">
-              <Col xs={isEditing ? 7 : 12} className='code'>
+              <>
+                {type === CellTypeCode && !errors &&
+                  <ArticleCellOutputs
+                    isMagic             = {false}
+                    isolationMode       = {false}
+                    isJavascriptTrusted = {isJavascriptTrusted}
+                    cellIdx             = {idx}
+                    outputs             = {outputs}
+                  />
+                }
+              </>
+                
+            )}
+
+            {type === CellTypeMarkdown &&
+              <ArticleCellContent
+                headingLevel  = {headingLevel}
+                onNumClick    = {onNumClick}
+                hideNum       = {hideNum}
+                layer         = {layer}
+                content       = {content}
+                idx           = {idx}
+                num           = {num}
+              />
+            }
+
+          </Col>
+        </Row>
+
+        {type === CellTypeCode && (!isFigure || !figure?.isCover) &&
+          
+          <Row>
+              <Col xs={isFigure ? 12 : 7} className='code'>
                 <div className="ArticleCellContent">
                   <div className="ArticleCellContent_num"></div>
                   <div style={{ position: 'relative' }}>
@@ -183,35 +185,30 @@ const ArticleCell = ({
                         <button onClick={() => resetCell(idx)} disabled={executing}>
                           reset
                         </button>
-                        <button onClick={toggleEditCell} disabled={executing}>
-                          {isEditing ? 'stop editing' : 'edit'}
-                        </button>
                       </div>
                     )}
-                    {isEditing ? (
-                      <React.Suspense fallback={<div>loading...</div>}>
-                        <ArticleCellEditor
-                          cellIdx = {idx}
-                          options = {{
-                            readOnly: ready ? false : 'nocursor'
-                          }}
-                        />
-                      </React.Suspense>
-                    ) : (
-                      <ArticleCellSourceCodeWrapper cellIdx={idx} />
-                    )}
+                    <React.Suspense fallback={<div>loading...</div>}>
+                      <ArticleCellEditor
+                        cellIdx={idx}
+                        toggleVisibility
+                        visible={!isFigure}
+                        options={{
+                          readOnly: ready && !figure ? false : 'nocursor'
+                        }}
+                      />
+                    </React.Suspense>
                   </div>
                 </div>
               </Col>
 
-              {isEditing && (
+              {!isFigure && (
                 <Col xs={5} className="code-tools">
                   <div className="d-flex gap-2">
                     <Button
-                      variant   = "outline-white"
-                      size      = "sm"
-                      disabled  = {!ready || executing}
-                      onClick   = {() => executeCell(idx)}
+                      variant="outline-white"
+                      size="sm"
+                      disabled={!ready || executing}
+                      onClick={() => executeCell(idx)}
                     >
                       <PlayIcon size={16} />
                       <span>Run code</span>
@@ -233,17 +230,10 @@ const ArticleCell = ({
                     <span>Explain code</span>
                   </Button>
                 </Col>
-              )}
-            </Row>
-          </Container>
-        </>
-
-      ) : (
-          
-        <div>unknown type: {type}</div>
-        
-      )}
-
+                  )}
+          </Row>
+        }
+      </Container>
     </div>
   )
 }

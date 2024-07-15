@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 
 import { ArticleThebeProvider, useArticleThebe } from './ArticleThebeProvider'
-import SimpleArticleCell from './SimpleArticleCell'
+import SimpleArticleCell from './ArticleCell'
 import ArticleLayers from './ArticleLayers'
-import { useNotebook } from './hooks'
+import { useNotebook } from '../../hooks/ipynbV3'
 import ConnectionErrorBox from './ConnectionErrorBox'
 
 import ArticleExecuteToolbar from './ArticleExecuteToolbar'
@@ -11,11 +11,13 @@ import { useExecutionScope } from './ExecutionScope'
 import ArticleHeader from '../Article/ArticleHeader'
 import Footer from '../Footer'
 import ArticleBibliography from '../Article/ArticleBibliography'
+import { CellTypeCode, LayerData } from '../../constants'
 
 import '../../styles/components/ArticleV3/Article.scss'
 import ArticleCellObserver from './ArticleCellObserver'
 import ArticleToC from './ArticleToC'
 import './Article.css'
+import { WithWindowSize } from '../../hooks/windowSize'
 
 const Article = ({
   url = '',
@@ -118,7 +120,7 @@ const Article = ({
                   num={cell.num}
                   idx={cell.idx}
                   role={cell.role}
-                  layer={cell.layer}
+                  layer={cell.type !== CellTypeCode ? cell.layer : LayerData}
                   source={cell.source}
                   headingLevel={cell.isHeading ? cell.heading.level : 0}
                   windowHeight={800}
@@ -162,7 +164,9 @@ function ArticleWithContent({ url, ipynb, ...props }) {
 function ThebeArticle({ url = '', ipynb = { cells: [], metadata: {} }, ...props }) {
   return (
     <ArticleThebeProvider url={url} binderUrl={props.binderUrl}>
-      <ArticleWithContent url={url} ipynb={ipynb} {...props} />
+      <WithWindowSize>
+        <ArticleWithContent url={url} ipynb={ipynb} {...props} />
+      </WithWindowSize>
     </ArticleThebeProvider>
   )
 }

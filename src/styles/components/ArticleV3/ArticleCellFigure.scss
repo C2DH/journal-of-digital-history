@@ -1,0 +1,44 @@
+$module: ".ArticleCellFigure";
+
+#{$module} {
+
+  margin-bottom: 0;
+
+  .picture {
+    position: relative;
+    overflow-x: auto;
+    text-align: center;
+
+    img {
+      height: 100%;
+      background-color: white;
+      max-width: unset;
+    }
+
+    &.with-aspect-ratio {
+      img {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    }
+  }
+
+  figcaption {
+    min-height: unset;
+
+    p {
+      margin-bottom: 0;
+      padding: 0;
+    }
+  }
+
+  &.table {
+    --bs-table-bg: transparent;
+    --bs-table-color: none;
+
+    .row > * {
+      padding: 0;
+    }
+  }
+}

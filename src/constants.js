@@ -95,8 +95,7 @@ export const BootstrapColumLayoutV3 = Object.freeze({
     lg: { span: 8, offset: 4 },
   },
   data: {
-    md: { span: 8, offset: 1 },
-    lg: { span: 8, offset: 2 },
+    xs: 12
   }
 })
 export const BootstrapFullColumLayout = Object.freeze({

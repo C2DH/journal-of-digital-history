@@ -1,22 +1,31 @@
 $module: ".ArticleCell";
 
 #{$module} {
-  .container {
-    &.hermeneutics {
+  &.hermeneutics {
+    .container {
       margin-right: 8rem;
 
       .row > * {
         background-color: var(--hermeneutics-layer);
       }
     }
+  }
 
-    &-fluid.data {
+  &.data {
+    .container-fluid {
       padding-left: calc(50vw - var(--container-max-width) / 3);
       padding-right: 4rem;
 
       .row {
+        --bs-gutter-x: 0;
+
         background-color: var(--data-layer);
         color: var(--bs-white);
+        padding: 0.5rem 0 0.5rem 0.5rem;
+
+        .btn {
+          transition: all 0.5s;
+        }
 
         .code { 
           .CodeMirror {
@@ -43,7 +52,6 @@ $module: ".ArticleCell";
             align-items: center;
             line-height: 1;
             width: 120px;
-            transition: all 0.5s;
 
             img {
               transition: all 0.5s;
