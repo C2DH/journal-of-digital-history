@@ -51,7 +51,7 @@ const ArticleCellFigure = ({
 
   const tags                      = Array.isArray(metadata.tags) ? metadata.tags : [];
   const aspectRatio               = getFigureRatio(tags);
-  const figureHeight              = useFigureHeight(tags, isNaN(aspectRatio)); 
+  const figureHeight              = useFigureHeight(tags, isNaN(aspectRatio), figure.isCover); 
   const useFixedHeight            = figureHeight && (!figure.isCover || isNaN(aspectRatio));
   const { height: windowHeight }  = useWindowSize();
 
@@ -110,7 +110,7 @@ const ArticleCellFigure = ({
 
       {/* Caption */}
       {!figure.isCover &&
-        <ArticleFigureCaption figure={figure}>
+        <ArticleFigureCaption figure={figure} className="small">
           <div
             dangerouslySetInnerHTML={{
               __html: captions

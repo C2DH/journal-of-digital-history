@@ -29,6 +29,7 @@ const Article = ({
   repositoryUrl,
   dataverseUrl,
   bibjson,
+  isJavascriptTrusted = false,
   // used to remove publication info from ArticleHeader
   ignorePublicationStatus = false,
   // layers, if any. See ArticleFlow component.
@@ -113,7 +114,7 @@ const Article = ({
               <div className="ArticleStream_paragraph">
                 <div className={`Article_cellActive off`} />
                 <SimpleArticleCell
-                  isJavascriptTrusted={false}
+                  isJavascriptTrusted={isJavascriptTrusted}
                   onNumClick={() => ({})}
                   memoid={[url, idx].join('-')}
                   {...cell}

@@ -15,7 +15,6 @@ import {
   LayerData,
   CellTypeCode,
   CellTypeMarkdown,
-  LayerHermeneutics
 } from '../../constants'
 import { useExecutionScope } from './ExecutionScope'
 
@@ -107,53 +106,57 @@ const ArticleCell = ({
   return (
     <div className={`ArticleCell ${layer}`}>
       <Container fluid={layer === LayerData} className={containerClassNames.join(' ')}>
-        <Row>
-          <Col {...cellBootstrapColumnLayout} className={layer === LayerHermeneutics ? 'pe-3 ps-5' : ''}>
-            {figure ? (
-              <ArticleCellFigure
-                metadata            = {metadata}
-                outputs             = {outputs}
-                figure              = {figure}
-                isolationMode       = {isolationMode}
-                isMagic             = {isMagic}
-                active              = {active}
-                isJavascriptTrusted = {isJavascriptTrusted}
-                cellType            = {type}
-              />
+        {outputs.length > 0 &&
+          <Row>
+            <Col {...cellBootstrapColumnLayout}>
+              {figure ? (
+                <ArticleCellFigure
+                  metadata={metadata}
+                  outputs={outputs}
+                  figure={figure}
+                  isolationMode={isolationMode}
+                  isMagic={isMagic}
+                  active={active}
+                  isJavascriptTrusted={isJavascriptTrusted}
+                  cellType={type}
+                />
 
-            ) : (
+              ) : (
 
-              <>
-                {type === CellTypeCode && !errors &&
-                  <ArticleCellOutputs
-                    isMagic             = {false}
-                    isolationMode       = {false}
-                    isJavascriptTrusted = {isJavascriptTrusted}
-                    cellIdx             = {idx}
-                    outputs             = {outputs}
-                  />
-                }
-              </>
-                
-            )}
+                <>
+                  {type === CellTypeCode && !errors &&
+                    <ArticleCellOutputs
+                      isMagic={false}
+                      isolationMode={false}
+                      isJavascriptTrusted={isJavascriptTrusted}
+                      cellIdx={idx}
+                      outputs={outputs}
+                    />
+                  }
+                </>
+                  
+              )}
+            </Col>
+          </Row>
+        }
 
-            {type === CellTypeMarkdown &&
-              <ArticleCellContent
-                headingLevel  = {headingLevel}
-                onNumClick    = {onNumClick}
-                hideNum       = {hideNum}
-                layer         = {layer}
-                content       = {content}
-                idx           = {idx}
-                num           = {num}
-              />
-            }
-
-          </Col>
-        </Row>
+        {type === CellTypeMarkdown && content &&
+          <Row>
+            <Col {...cellBootstrapColumnLayout}>
+                <ArticleCellContent
+                  headingLevel  = {headingLevel}
+                  onNumClick    = {onNumClick}
+                  hideNum       = {hideNum}
+                  layer         = {layer}
+                  content       = {content}
+                  idx           = {idx}
+                  num           = {num}
+                />
+            </Col>
+          </Row>
+        }
 
         {type === CellTypeCode && (!isFigure || !figure?.isCover) &&
-          
           <Row>
               <Col xs={isFigure ? 12 : 7} className='code'>
                 <div className="ArticleCellContent">
