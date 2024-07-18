@@ -49,10 +49,12 @@ const ArticleCell = ({
   const outputs = useExecutionScope((state) => state.cells[idx]?.outputs) ?? []
   const thebeCell = useExecutionScope((state) => state.cells[idx]?.thebe)
 
+  const tags    = Array.isArray(metadata.tags) ? metadata.tags : [];
   const isMagic = RegexIsMagic.test(content);
   const isolationMode = outputs.some(
     (d) => typeof d.metadata === 'object' && d.metadata['text/html']?.isolated,
   )
+  const isCodeEditable = tags.includes('data');
 
   const ref = useCallback(
     (node) => {
@@ -151,13 +153,13 @@ const ArticleCell = ({
                   toggleVisibility  = {isFigure}
                   visible           = {!isFigure}
                   options           = {{
-                    readOnly: ready && !figure ? false : 'nocursor'
+                    readOnly: ready && (!figure || isCodeEditable) ? false : 'nocursor'
                   }}
-                />
+                /> 
               </React.Suspense>
             </Col>
 
-            {!isFigure && (
+            {(!isFigure || isCodeEditable) && (
               <Col xs={5} className="p-2">
                 <ArticleCellCodeTools
                   cellIdx = {idx}
