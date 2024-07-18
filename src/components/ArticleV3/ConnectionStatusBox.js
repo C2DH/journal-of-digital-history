@@ -19,44 +19,31 @@ export default function ConnectionStatusBox() {
 
   return (
     <div
-      style={{
-        position: 'relative',
-        fontSize: 12,
-        border: '1px solid lightgreen',
-        cursor: 'pointer',
-        minHeight: '1.6em',
-        backgroundColor: 'white',
-      }}
       onClick={() => setOpen((o) => !o)}
     >
-      <div
-        style={{
-          position: 'absolute',
-          padding: '2px 4px',
-          color: 'black',
-          backgroundColor: 'lightgreen',
-          fontSize: 10,
-          width: 90,
-        }}
-      >
-        connection status
-      </div>
+      {connectionErrors &&
+        <pre style={{ display: 'inline-block', whiteSpace: 'pre-wrap', color: 'tomato' }}>
+          {connectionErrors}
+        </pre>
+      }
+
       {open && (
         <pre
           style={{
-            marginTop: '2em',
             marginBottom: 0,
             maxHeight: 200,
             overflowY: 'auto',
+            whiteSpace: 'pre-wrap'
           }}
         >
           {status}
         </pre>
       )}
+
       {!open && (
-        <span style={{ display: 'inline-block', marginLeft: 100, height: '1.5em' }}>
+        <pre style={{ display: 'inline-block', whiteSpace: 'pre-wrap', color: starting ? 'orange' : ready ? 'lightgreen' : 'white' }}>
           {lastStatus}
-        </span>
+        </pre>
       )}
     </div>
   )

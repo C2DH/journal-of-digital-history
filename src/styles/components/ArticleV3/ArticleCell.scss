@@ -38,42 +38,6 @@ $module: ".ArticleCell";
           }
         }
 
-        .code-tools {
-          background-color: var(--data-layer);
-          color: var(--bs-white);
-          padding: 0.5rem;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 0.5rem;
-
-          .btn {
-            display: flex;
-            align-items: center;
-            line-height: 1;
-            width: 120px;
-
-            img {
-              transition: all 0.5s;
-            }
-
-            span {
-              text-align: center;
-              flex: 1 0 auto;
-            }
-
-            &:hover {
-              img {
-                filter: invert(1);
-              }
-            }
-          }
-
-          .ArticleCell_error {
-            margin-left: 0;
-            color: var(--bs-dark);
-          }
-        }
       }
     }
   }

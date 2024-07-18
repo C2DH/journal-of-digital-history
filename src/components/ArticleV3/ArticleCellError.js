@@ -9,11 +9,11 @@ const ArticleCellError = ({ idx, errors, hideLabel = false }) => {
   return (
     <blockquote
       className={`${outputTypeClassName}`}
-      style={{ backgroundColor: 'pink', borderLeftColor: 'red' }}
+      style={{ width: '100%', whiteSpace: 'break-spaces' }}
     >
       {hideLabel ? null : (
         <div>
-          <div className="label" style={{ color: 'red' }}>
+          <div className="label" style={{ color: 'tomato' }}>
             {t(outputTypeClassName)}
           </div>
         </div>

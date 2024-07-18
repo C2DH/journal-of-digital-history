@@ -1,23 +1,22 @@
 import React, { useEffect } from 'react'
 
-import { ArticleThebeProvider, useArticleThebe } from './ArticleThebeProvider'
+import { ArticleThebeProvider } from './ArticleThebeProvider'
 import SimpleArticleCell from './ArticleCell'
 import ArticleLayers from './ArticleLayers'
 import { useNotebook } from '../../hooks/ipynbV3'
 import ConnectionErrorBox from './ConnectionErrorBox'
-
-import ArticleExecuteToolbar from './ArticleExecuteToolbar'
 import { useExecutionScope } from './ExecutionScope'
+import ArticleToC from './ArticleToC'
+import ArticleCellObserver from './ArticleCellObserver'
+
 import ArticleHeader from '../Article/ArticleHeader'
 import Footer from '../Footer'
 import ArticleBibliography from '../Article/ArticleBibliography'
 import { CellTypeCode, LayerData } from '../../constants'
+import { WithWindowSize } from '../../hooks/windowSize'
 
 import '../../styles/components/ArticleV3/Article.scss'
-import ArticleCellObserver from './ArticleCellObserver'
-import ArticleToC from './ArticleToC'
 import './Article.css'
-import { WithWindowSize } from '../../hooks/windowSize'
 
 const Article = ({
   url = '',
@@ -46,21 +45,6 @@ const Article = ({
   collaborators,
   disclaimer = [],
 }) => {
-  const { starting, connectionErrors, ready, connectAndStart, restart, session, openInJupyter } =
-    useArticleThebe()
-
-  useEffect(() => {
-    if (!connectionErrors) return
-    // if there is a connection error, we want to ensure that the compute UI is
-    // disabled or in an approprate state - set a disabled flag in the execution state?
-  }, [connectionErrors])
-
-  const attachSession = useExecutionScope((state) => state.attachSession)
-
-  useEffect(() => {
-    if (!ready) return
-    attachSession(session)
-  }, [ready])
 
   console.debug('[Article]', url, 'is rendering')
 
@@ -69,14 +53,6 @@ const Article = ({
       <ArticleLayers layers={layers} />
 
       <ArticleToC paragraphs={paragraphs} headingsPositions={headingsPositions} />
-
-      <ArticleExecuteToolbar
-        starting={starting}
-        ready={ready}
-        connectAndStart={connectAndStart}
-        restart={restart}
-        openInJupyter={openInJupyter}
-      />
 
       <ConnectionErrorBox />
 
@@ -125,7 +101,6 @@ const Article = ({
                   source={cell.source}
                   headingLevel={cell.isHeading ? cell.heading.level : 0}
                   windowHeight={800}
-                  ready={ready}
                 />
               </div>
             </div>

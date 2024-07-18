@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Controlled as CodeMirror } from 'react-codemirror2'
 import { Button } from 'react-bootstrap'
 import { Eye, EyeOff } from 'react-feather';
@@ -33,6 +33,11 @@ const ArticleCellEditor = ({
     console.debug('[ArticleCell] onCellChangeHandler', cellIdx, { value })
     updateCellSource(cellIdx, value)
   }
+
+  //  For reset feature
+  useEffect(() => {
+    setValue(source); 
+  }, [source]);
 
   return (
     <div className="ArticleCellEditor" >

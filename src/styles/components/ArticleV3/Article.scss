@@ -8,6 +8,11 @@ $module: ".Article";
   &_paragraphWrapper {
     position: relative;
   }
+
+  code {
+    background-color: unset;
+    color: tomato;
+  }
 }
 
 //  Background color hacking for the menu
