@@ -31,8 +31,6 @@ const Article = ({
   isJavascriptTrusted = false,
   // used to remove publication info from ArticleHeader
   ignorePublicationStatus = false,
-  // layers, if any. See ArticleFlow component.
-  layers,
   // a translatable string that defines the article header if ignorePublicationStatus is true
   category,
   paragraphs = [],
@@ -50,7 +48,7 @@ const Article = ({
 
   return (
     <div className="Article page">
-      <ArticleLayers layers={layers} />
+      <ArticleLayers />
 
       <ArticleToC paragraphs={paragraphs} headingsPositions={headingsPositions} />
 
