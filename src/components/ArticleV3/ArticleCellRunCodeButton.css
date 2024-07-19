@@ -61,7 +61,10 @@
   border: 2px dashed var(--white);
   animation: rotate 4s linear infinite;
 }
-
+.ArticleCellRunCodeButton.stopping .ArticleCellRunCodeButton__iconWrapper::after {
+  border: 2px dashed var(--white);
+  animation: rotate 24s linear infinite;
+}
 .ArticleCellRunCodeButton.success button:hover .ArticleCellRunCodeButton__iconWrapper::after {
   border: 2px solid var(--dark);
 }

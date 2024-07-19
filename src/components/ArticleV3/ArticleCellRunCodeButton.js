@@ -6,37 +6,47 @@ export const StatusIdle = 'idle'
 export const StatusScheduled = 'scheduled'
 export const StatusExecuting = 'executing'
 export const StatusSuccess = 'success'
+export const StatusStopped = 'stopped'
 export const StatusError = 'error'
 export const StatusDisabled = 'disabled'
+export const StatusStopping = 'stopping'
 export const StatusBeforeExecuting = 'beforeExecuting'
 
 export const AvailableStatuses = [
   StatusIdle,
-  StatusScheduled,
   StatusExecuting,
   StatusSuccess,
+  StatusStopping,
+  StatusStopped,
   StatusError,
-  StatusDisabled,
+
+  StatusScheduled,
   StatusBeforeExecuting, // this is internal status when
+
+  StatusDisabled,
 ]
 
 const StatusIcons = {
   [StatusIdle]: PlaySolid,
   [StatusExecuting]: PauseSolid,
   [StatusSuccess]: PlaySolid,
+  [StatusStopped]: PlaySolid,
   [StatusError]: Xmark,
   [StatusScheduled]: PauseSolid,
   [StatusDisabled]: EyeClosed,
+  [StatusStopping]: PauseSolid,
   [StatusBeforeExecuting]: PauseSolid,
 }
 
 const StatusLabels = {
   [StatusIdle]: 'Run code',
-  [StatusExecuting]: 'Running',
+  [StatusExecuting]: 'Running ...',
   [StatusSuccess]: 'Run code', // when success, you can run again ...
+  [StatusStopped]: 'Run code',
   [StatusError]: 'Error',
   [StatusScheduled]: '(scheduled)',
   [StatusDisabled]: 'Disabled',
+  [StatusStopping]: '(stopping)',
   [StatusBeforeExecuting]: '...',
 }
 
@@ -49,7 +59,7 @@ const ArticleCellRunCodeButton = ({ status = StatusIdle, debug = false, onClick 
   const elapsedTimeElementRef = React.useRef(null)
 
   useEffect(() => {
-    if (status === StatusScheduled) {
+    if (status === StatusScheduled || status === StatusBeforeExecuting) {
       elapsedTimeRef.current = 0
       elapsedTimeElementRef.current.innerText = '... s'
     } else if (status === StatusExecuting) {

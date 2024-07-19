@@ -1,0 +1,73 @@
+.ArticleCellExplainCodeButton {
+  --bs-btn-disabled-opacity: 0.8;
+  --status-error: red;
+  --status-success: green;
+  color: var(--white);
+}
+
+.ArticleCellExplainCodeButton__iconWrapper svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ArticleCellExplainCodeButton button {
+  border-radius: 100px;
+  padding: var(--spacer-1) var(--spacer-3) var(--spacer-1) var(--spacer-1);
+}
+
+.ArticleCellExplainCodeButton__iconWrapper {
+  background: transparent;
+  border-radius: 26px;
+  width: 26px;
+  height: 26px;
+  position: relative;
+}
+
+.ArticleCellExplainCodeButton__iconWrapper::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24px;
+  height: 24px;
+  border: 2px transparent white;
+  border-radius: 50%;
+}
+
+.ArticleCellExplainCodeButton.executing .ArticleCellExplainCodeButton__iconWrapper::after {
+  border: 2px solid var(--white);
+  animation: ArticleCellExplainCodeButton__rotate 2s linear infinite;
+}
+.ArticleCellExplainCodeButton.success .ArticleCellExplainCodeButton__iconWrapper::after {
+  border: 2px solid var(--primary);
+}
+
+.ArticleCellExplainCodeButton.success .ArticleCellExplainCodeButton__iconWrapper {
+  color: var(--primary);
+}
+
+@keyframes ArticleCellExplainCodeButton__rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) rotate(180deg);
+    opacity: 0.2;
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.ArticleCellExplainCodeButton__iconArc {
+  --b: 40px; /* border thickness */
+  --a: 240deg; /* progression */
+
+  --_g: /var(--b) var(--b) radial-gradient(50% 50%, #000 98%, #0000) no-repeat;
+  mask: top var(--_g), calc(50% + 50% * sin(var(--a))) calc(50% - 50% * cos(var(--a))) var(--_g),
+    conic-gradient(#000 var(--a), #0000 0) intersect,
+    radial-gradient(50% 50%, #0000 calc(100% - var(--b)), #000 0 98%, #0000);
+}
