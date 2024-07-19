@@ -13,13 +13,12 @@ import {
   CellTypeMarkdown,
 } from '../../constants'
 import { useExecutionScope } from './ExecutionScope'
-
-import '../../styles/components/ArticleV3/ArticleCell.scss';
 import ArticleCellCodeTools from './ArticleCellCodeTools';
 import { useArticleThebe } from './ArticleThebeProvider';
+import ArticleCellSourceCodeWrapper from './ArticleCellSourceCodeWrapper';
 
+import '../../styles/components/ArticleV3/ArticleCell.scss';
 
-const ArticleCellEditor = React.lazy(() => import('./ArticleCellEditor'));
 
 const RegexIsMagic = /^%%(javascript|js)/;
 
@@ -146,20 +145,18 @@ const ArticleCell = ({
 
         {type === CellTypeCode && (!isFigure || !figure?.isCover) &&
           <Row>
-            <Col xs={isFigure ? 12 : 7} className='code'>
+            <Col xs={!isCodeEditable ? 12 : 7} className='code'>
               <React.Suspense fallback={<div>loading...</div>}>
-                <ArticleCellEditor
+                <ArticleCellSourceCodeWrapper
                   cellIdx           = {idx}
-                  toggleVisibility  = {isFigure}
-                  visible           = {!isFigure}
-                  options           = {{
-                    readOnly: ready && (!figure || isCodeEditable) ? false : 'nocursor'
-                  }}
+                  toggleVisibility  = {!isCodeEditable}
+                  visible           = {false}
+                  readOnly          = {!ready || !isCodeEditable}
                 /> 
               </React.Suspense>
             </Col>
 
-            {(!isFigure || isCodeEditable) && (
+            {isCodeEditable && (
               <Col xs={5} className="p-2">
                 <ArticleCellCodeTools
                   cellIdx = {idx}

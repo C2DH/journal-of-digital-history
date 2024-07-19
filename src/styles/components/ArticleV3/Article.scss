@@ -13,6 +13,10 @@ $module: ".Article";
     background-color: unset;
     color: tomato;
   }
+
+  .btn {
+    transition: all 0.5s;
+  }
 }
 
 //  Background color hacking for the menu

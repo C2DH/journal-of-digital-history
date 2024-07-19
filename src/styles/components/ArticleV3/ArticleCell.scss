@@ -23,21 +23,10 @@ $module: ".ArticleCell";
         color: var(--bs-white);
         padding: 0.5rem 0 0.5rem 0.5rem;
 
-        .btn {
-          transition: all 0.5s;
+        .code {
+          position: relative;
+          overflow: hidden;
         }
-
-        .code { 
-          .CodeMirror {
-            height: auto;
-            background: linear-gradient(180deg, #232145 0%, #261B38 100%) !important;
-
-            .CodeMirror-scroll { 
-              min-height: 200px 
-            }
-          }
-        }
-
       }
     }
   }

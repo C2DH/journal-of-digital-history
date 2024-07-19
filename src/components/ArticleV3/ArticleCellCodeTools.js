@@ -33,6 +33,7 @@ const ArticleCellCodeTools = ({
   const onRunButtonClickHandler = () => {
     if (!ready) {
       connectAndStart();
+      executeCell(cellIdx);
       setToExecute(true);
     } else {
       executeCell(cellIdx);
