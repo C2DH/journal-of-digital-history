@@ -36,7 +36,7 @@ const StatusLabels = {
   [StatusDisabled]: 'Disabled',
 }
 
-const ArticleCellRunCodeButton = ({ status = StatusIdle }) => {
+const ArticleCellRunCodeButton = ({ status = StatusIdle, elapsed = '10 ms' }) => {
   const disabled = [StatusDisabled, StatusError, StatusScheduled].includes(status)
   const Component = StatusIcons[status]
   const label = StatusLabels[status]
@@ -52,8 +52,9 @@ const ArticleCellRunCodeButton = ({ status = StatusIdle }) => {
         {label}
       </button>
       {status === StatusSuccess && (
-        <div>
+        <div className="text-white ms-2 text-center">
           <Check />
+          <div>{elapsed}</div>
         </div>
       )}
       <div className="ms-2 ArticleCellRunCodeButton__status">{status}</div>
