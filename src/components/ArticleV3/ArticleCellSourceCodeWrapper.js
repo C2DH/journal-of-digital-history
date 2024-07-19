@@ -62,7 +62,7 @@ const ArticleCellSourceCodeWrapper = ({
       {isCollapsed &&
         <div className="expandButton">
           <Button
-            variant   = "outline-secondary"
+            variant   = "outline-white"
             size      = "sm"
             className = "d-flex align-items-center"
             onClick   = {() => setIsCollapsed(false)}
