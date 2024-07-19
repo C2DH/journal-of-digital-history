@@ -1,5 +1,5 @@
-import { Check, EyeClosed, OnePointCircle, PlaySolid, Xmark } from 'iconoir-react'
-import React from 'react'
+import { Check, Cube, EyeClosed, Minus, OnePointCircle, PlaySolid, Xmark } from 'iconoir-react'
+import React, { useEffect } from 'react'
 import './ArticleCellRunCodeButton.css'
 
 export const StatusIdle = 'idle'
@@ -8,6 +8,7 @@ export const StatusExecuting = 'executing'
 export const StatusSuccess = 'success'
 export const StatusError = 'error'
 export const StatusDisabled = 'disabled'
+export const StatusBeforeExecuting = 'beforeExecuting'
 
 export const AvailableStatuses = [
   StatusIdle,
@@ -16,6 +17,7 @@ export const AvailableStatuses = [
   StatusSuccess,
   StatusError,
   StatusDisabled,
+  StatusBeforeExecuting, // this is internal status when
 ]
 
 const StatusIcons = {
@@ -25,6 +27,7 @@ const StatusIcons = {
   [StatusError]: Xmark,
   [StatusScheduled]: PlaySolid,
   [StatusDisabled]: EyeClosed,
+  [StatusBeforeExecuting]: Cube,
 }
 
 const StatusLabels = {
@@ -34,15 +37,42 @@ const StatusLabels = {
   [StatusError]: 'Error',
   [StatusScheduled]: '...',
   [StatusDisabled]: 'Disabled',
+  [StatusBeforeExecuting]: '...',
 }
 
-const ArticleCellRunCodeButton = ({ status = StatusIdle, elapsed = '10 ms' }) => {
+const ArticleCellRunCodeButton = ({ status = StatusIdle, debug = false, onClick = () => {} }) => {
   const disabled = [StatusDisabled, StatusError, StatusScheduled].includes(status)
   const Component = StatusIcons[status]
   const label = StatusLabels[status]
+  const timerRef = React.useRef(null)
+  const elapsedTimeRef = React.useRef(0)
+  const elapsedTimeElementRef = React.useRef(null)
+
+  useEffect(() => {
+    if (status === StatusExecuting) {
+      elapsedTimeRef.current = 0
+      timerRef.current = setInterval(() => {
+        elapsedTimeRef.current += 100
+        elapsedTimeElementRef.current.innerText = `${
+          Math.round(elapsedTimeRef.current / 100) / 10
+        } s`
+      }, 100)
+    } else {
+      clearTimeout(timerRef.current)
+      timerRef.current = null
+    }
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+        timerRef.current = null
+      }
+    }
+  }, [status])
+
   return (
     <div className={`ArticleCellRunCodeButton ${status} d-flex align-items-center`}>
       <button
+        onClick={onClick}
         disabled={disabled}
         className="btn btn-sm btn-outline-white d-flex align-items-center"
       >
@@ -51,13 +81,11 @@ const ArticleCellRunCodeButton = ({ status = StatusIdle, elapsed = '10 ms' }) =>
         </div>
         {label}
       </button>
-      {status === StatusSuccess && (
-        <div className="text-white ms-2 text-center">
-          <Check />
-          <div>{elapsed}</div>
-        </div>
-      )}
-      <div className="ms-2 ArticleCellRunCodeButton__status">{status}</div>
+      <div className="ArticleCellRunCodeButton__timer ms-2">
+        {status === StatusSuccess ? <Check /> : <Minus />}
+        <div ref={elapsedTimeElementRef}>0.0 s</div>
+      </div>
+      {debug && <div className="ms-2 ArticleCellRunCodeButton__status">{status}</div>}
     </div>
   )
 }

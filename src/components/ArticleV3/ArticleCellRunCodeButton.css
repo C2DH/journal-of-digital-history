@@ -2,7 +2,27 @@
   --bs-btn-disabled-opacity: 0.8;
   --status-error: red;
   --status-success: green;
+  color: var(--white);
 }
+.ArticleCellRunCodeButton__timer {
+  color: var(--white);
+  opacity: 0.8;
+  font-size: 0.7rem;
+  line-height: 0.7rem;
+  width: 50px;
+  text-align: center;
+  will-change: opacity;
+  transform: opacity 0.3s;
+}
+
+.ArticleCellRunCodeButton.success .ArticleCellRunCodeButton__timer {
+  opacity: 1;
+}
+
+.ArticleCellRunCodeButton.idle .ArticleCellRunCodeButton__timer {
+  display: none;
+}
+
 .ArticleCellRunCodeButton button {
   border-radius: 100px;
   padding: var(--spacer-1) var(--spacer-3) var(--spacer-1) var(--spacer-1);

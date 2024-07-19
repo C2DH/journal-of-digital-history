@@ -15,7 +15,7 @@ export default {
         labels: AvailableStatuses,
       },
     },
-    elapsed: { control: 'text' },
+    debug: { control: 'boolean' },
   },
 }
 
@@ -30,5 +30,5 @@ export const Default = Template.bind({})
 
 Default.args = {
   status: StatusExecuting,
-  elapsed: '10 ms',
+  debug: false,
 }
