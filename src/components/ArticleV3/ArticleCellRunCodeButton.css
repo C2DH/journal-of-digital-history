@@ -52,17 +52,27 @@
   border-radius: 50%;
 }
 
-.ArticleCellRunCodeButton.scheduled .ArticleCellRunCodeButton__iconWrapper::after {
-  border: 2px dotted var(--white);
-  animation: rotate-reverse 4s linear infinite;
+.ArticleCellRunCodeButton.scheduled .ArticleCellRunCodeButton__iconWrapper::after,
+.ArticleCellRunCodeButton.beforeExecuting .ArticleCellRunCodeButton__iconWrapper::after {
+  border: 2px dashed var(--white);
+  animation: rotate 4s linear infinite;
 }
-/* .ArticleCellRunCodeButton.success .ArticleCellRunCodeButton__iconWrapper::after {
-  border: 2px solid var(--white);
-} */
+.ArticleCellRunCodeButton.executing .ArticleCellRunCodeButton__iconWrapper::after {
+  border: 2px dashed var(--white);
+  animation: rotate 4s linear infinite;
+}
 
-.ArticleCellRunCodeButton.executing .ArticleCellRunCodeButton__iconWrapper svg {
-  animation: rotate 2s linear infinite;
+.ArticleCellRunCodeButton.success button:hover .ArticleCellRunCodeButton__iconWrapper::after {
+  border: 2px solid var(--dark);
 }
+
+.ArticleCellRunCodeButton.success .ArticleCellRunCodeButton__iconWrapper::after {
+  border: 2px solid var(--primary);
+}
+
+/* .ArticleCellRunCodeButton.executing .ArticleCellRunCodeButton__iconWrapper svg {
+  animation: rotate 2s linear infinite;
+} */
 
 .ArticleCellRunCodeButton.error .ArticleCellRunCodeButton__iconWrapper {
   background: var(--status-error);

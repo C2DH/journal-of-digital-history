@@ -1,4 +1,4 @@
-import { Check, Cube, EyeClosed, Minus, OnePointCircle, PlaySolid, Xmark } from 'iconoir-react'
+import { Check, EyeClosed, Minus, PauseSolid, PlaySolid, Xmark } from 'iconoir-react'
 import React, { useEffect } from 'react'
 import './ArticleCellRunCodeButton.css'
 
@@ -22,12 +22,12 @@ export const AvailableStatuses = [
 
 const StatusIcons = {
   [StatusIdle]: PlaySolid,
-  [StatusExecuting]: OnePointCircle,
+  [StatusExecuting]: PauseSolid,
   [StatusSuccess]: PlaySolid,
   [StatusError]: Xmark,
-  [StatusScheduled]: PlaySolid,
+  [StatusScheduled]: PauseSolid,
   [StatusDisabled]: EyeClosed,
-  [StatusBeforeExecuting]: Cube,
+  [StatusBeforeExecuting]: PauseSolid,
 }
 
 const StatusLabels = {
@@ -35,7 +35,7 @@ const StatusLabels = {
   [StatusExecuting]: 'Running',
   [StatusSuccess]: 'Run code', // when success, you can run again ...
   [StatusError]: 'Error',
-  [StatusScheduled]: '...',
+  [StatusScheduled]: '(scheduled)',
   [StatusDisabled]: 'Disabled',
   [StatusBeforeExecuting]: '...',
 }
@@ -49,7 +49,10 @@ const ArticleCellRunCodeButton = ({ status = StatusIdle, debug = false, onClick 
   const elapsedTimeElementRef = React.useRef(null)
 
   useEffect(() => {
-    if (status === StatusExecuting) {
+    if (status === StatusScheduled) {
+      elapsedTimeRef.current = 0
+      elapsedTimeElementRef.current.innerText = '... s'
+    } else if (status === StatusExecuting) {
       elapsedTimeRef.current = 0
       timerRef.current = setInterval(() => {
         elapsedTimeRef.current += 100
