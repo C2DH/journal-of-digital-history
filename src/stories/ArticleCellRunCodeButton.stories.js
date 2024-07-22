@@ -3,6 +3,7 @@ import ArticleCellRunCodeButton, {
   StatusExecuting,
   AvailableStatuses,
 } from '../components/ArticleV3/ArticleCellRunCodeButton'
+import ArticleCellExplainCodeButton from '../components/ArticleV3/ArticleCellExplainCodeButton'
 
 export default {
   title: 'ArticleCell RUN CODE button',
@@ -26,9 +27,28 @@ const Template = (props) => {
     </div>
   )
 }
+
+const TemplateWithExplainCode = (props) => {
+  return (
+    <div className="bg-dark p-5" style={{ height: 200 }}>
+      <ArticleCellRunCodeButton {...props} />
+      <ArticleCellExplainCodeButton
+        className="mt-5"
+        debug={props.debug}
+        status={ArticleCellExplainCodeButton.StatusIdle}
+      />
+    </div>
+  )
+}
 export const Default = Template.bind({})
+export const WithExplainCode = TemplateWithExplainCode.bind({})
 
 Default.args = {
+  status: StatusExecuting,
+  debug: false,
+}
+
+WithExplainCode.args = {
   status: StatusExecuting,
   debug: false,
 }
