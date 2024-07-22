@@ -48,6 +48,7 @@ export const useExecutionScope = create((set, get) => ({
           [id]: {
             ...cell,
             executing: false,
+            success: !errors,
             errors,
             outputs: errors ? [] : cell.thebe.outputs, // on error clear outputs?
           },
@@ -79,6 +80,7 @@ export const useExecutionScope = create((set, get) => ({
               [id]: {
                 ...cell,
                 executing: false,
+                success: false,
                 errors,
                 outputs: errors ? [] : cell.thebe.outputs, // on error clear outputs?
               },
@@ -100,6 +102,7 @@ export const useExecutionScope = create((set, get) => ({
             [id]: {
               ...cell,
               executing: false,
+              success: true,
               outputs: cell.thebe.outputs,
             },
           },
@@ -129,6 +132,7 @@ export const useExecutionScope = create((set, get) => ({
         [id]: {
           ...cells[id],
           errors: undefined,
+          success: false,
           outputs: cells[id].originals,
           source: cells[id].thebe.source,
         },
@@ -138,7 +142,7 @@ export const useExecutionScope = create((set, get) => ({
   resetAll: () => {
     set(({ cells }) => ({
       cells: mapObject(cells, (cell) => {
-        return { ...cell, errors: undefined, outputs: cell.originals, source: cell.thebe.source }
+        return { ...cell, errors: undefined, outputs: cell.originals, source: cell.thebe.source, success: false }
       }),
     }))
   },
@@ -169,6 +173,7 @@ export const useExecutionScope = create((set, get) => ({
             originals: v.outputs, // restore outputs feature?
             attached: false,
             executing: false,
+            success: false,
             errors: undefined,
           }))
         : {},
