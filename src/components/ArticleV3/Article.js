@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { ArticleThebeProvider } from './ArticleThebeProvider'
-import SimpleArticleCell from './ArticleCell'
+import ArticleCell from './ArticleCell'
 import ArticleLayers from './ArticleLayers'
 import { useNotebook } from '../../hooks/ipynbV3'
 import ConnectionErrorBox from './ConnectionErrorBox'
@@ -87,7 +87,7 @@ const Article = ({
             >
               <div className="ArticleStream_paragraph">
                 <div className={`Article_cellActive off`} />
-                <SimpleArticleCell
+                <ArticleCell
                   isJavascriptTrusted={isJavascriptTrusted}
                   onNumClick={() => ({})}
                   memoid={[url, idx].join('-')}
