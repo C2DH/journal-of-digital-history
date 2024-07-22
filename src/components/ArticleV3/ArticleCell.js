@@ -158,10 +158,7 @@ const ArticleCell = ({
 
             {isCodeEditable && (
               <Col xs={5} className="p-2">
-                <ArticleCellCodeTools
-                  cellIdx = {idx}
-                  errors  = {errors}
-                />
+                <ArticleCellCodeTools cellIdx={idx} />
               </Col>
             )}
           </Row>

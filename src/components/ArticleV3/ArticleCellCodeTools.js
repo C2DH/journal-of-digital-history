@@ -1,34 +1,51 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { Play as PlayIcon } from 'react-feather';
 
 import { useExecutionScope } from './ExecutionScope';
 import ArticleCellError from './ArticleCellError';
 import ConnectionStatusBox from './ConnectionStatusBox';
 import { useArticleThebe } from './ArticleThebeProvider';
+import ArticleCellRunCodeButton, {
+  StatusDisabled,
+  StatusError,
+  StatusExecuting,
+  StatusIdle,
+  StatusScheduled,
+  StatusSuccess
+} from './ArticleCellRunCodeButton';
 
 import shineIcon from '../../assets/icons/shine_white.png';
 
 import '../../styles/components/ArticleV3/ArticleCellCodeTools.scss';
+import ArticleCellExplainCodeButton from './ArticleCellExplainCodeButton';
 
 
-const ArticleCellCodeTools = ({
-  cellIdx = -1,
-  errors
-}) => {
+const ArticleCellCodeTools = ({ cellIdx = -1 }) => {
 
   const [toExecute, setToExecute] = useState(false);
 
   const { ready, connectAndStart, starting, session, connectionErrors } = useArticleThebe();
 
   const executing     = useExecutionScope((state) => state.cells[cellIdx]?.executing);
+  const success       = useExecutionScope((state) => state.cells[cellIdx]?.success);
+  const errors        = useExecutionScope((state) => state.cells[cellIdx]?.errors);
   const thebeCell     = useExecutionScope((state) => state.cells[cellIdx]?.thebe);
   const executeCell   = useExecutionScope((state) => state.executeCell);
   // const clearCell     = useExecutionScope((state) => state.clearCell);
   const resetCell     = useExecutionScope((state) => state.resetCell);
   const attachSession = useExecutionScope((state) => state.attachSession);
   const attached      = useExecutionScope((state) => state.cells[cellIdx]?.attached);
+
+  const status =
+    toExecute ? StatusScheduled :
+    starting ? StatusDisabled :
+    executing ? StatusExecuting :
+    success ? StatusSuccess :
+    connectionErrors || errors ? StatusError : StatusIdle;
+
+  if (cellIdx === 12)
+    console.log(thebeCell);
 
   const onRunButtonClickHandler = () => {
     if (!ready) {
@@ -50,29 +67,8 @@ const ArticleCellCodeTools = ({
 
   return (
     <div className="ArticleCellCodeTools">
-      <div className="d-flex gap-2 align-items-start">
-        <Button
-          variant   = "outline-white"
-          size      = "sm"
-          disabled  = {starting || executing || connectionErrors}
-          onClick   = {onRunButtonClickHandler}
-        >
-          <PlayIcon size={16} />
-          <span>Run code</span>
-        </Button>
-
-        {thebeCell?.executionCount > 0 && (
-          <div title="execution count">[{thebeCell?.executionCount}]:</div>
-        )}
-        <div>
-          {
-            starting && toExecute ? 'launching binder and running cell...' :
-            starting ? 'launching binder...' :
-            executing ? 'running...' : 
-            errors ? 'error' :
-            ready ? 'ready' : ''
-          }
-        </div>
+      <div className="d-flex gap-2 align-items-start"> 
+        <ArticleCellRunCodeButton status={status}  onClick={onRunButtonClickHandler} />
       </div>
 
       <ConnectionStatusBox />
@@ -82,6 +78,7 @@ const ArticleCellCodeTools = ({
       {ready &&
         <Button
           variant   = "outline-white"
+          className = "reset-btn"
           size      = "sm"
           onClick   = {() => resetCell(cellIdx)}
         >
@@ -90,13 +87,7 @@ const ArticleCellCodeTools = ({
         </Button>
       }
 
-      <Button
-        variant="outline-white"
-        size="sm"
-      >
-        <img src={shineIcon} />
-        <span>Explain code</span>
-      </Button>
+      <ArticleCellExplainCodeButton />
     </div>
   );
 }
