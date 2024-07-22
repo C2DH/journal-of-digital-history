@@ -36,11 +36,19 @@
   border: 2px transparent white;
   border-radius: 50%;
 }
+.ArticleCellExplainCodeButton__iconWrapper .CircularLoading {
+  display: none;
+}
+.ArticleCellExplainCodeButton.executing
+  .ArticleCellExplainCodeButton__iconWrapper
+  .CircularLoading {
+  display: block;
+}
 
-.ArticleCellExplainCodeButton.executing .ArticleCellExplainCodeButton__iconWrapper::after {
+/* .ArticleCellExplainCodeButton.executing .ArticleCellExplainCodeButton__iconWrapper::after {
   border: 2px solid var(--white);
   animation: ArticleCellExplainCodeButton__rotate 2s linear infinite;
-}
+} */
 .ArticleCellExplainCodeButton.success .ArticleCellExplainCodeButton__iconWrapper::after {
   border: 2px solid var(--primary);
 }
@@ -60,14 +68,4 @@
   100% {
     transform: translate(-50%, -50%) rotate(360deg);
   }
-}
-
-.ArticleCellExplainCodeButton__iconArc {
-  --b: 40px; /* border thickness */
-  --a: 240deg; /* progression */
-
-  --_g: /var(--b) var(--b) radial-gradient(50% 50%, #000 98%, #0000) no-repeat;
-  mask: top var(--_g), calc(50% + 50% * sin(var(--a))) calc(50% - 50% * cos(var(--a))) var(--_g),
-    conic-gradient(#000 var(--a), #0000 0) intersect,
-    radial-gradient(50% 50%, #0000 calc(100% - var(--b)), #000 0 98%, #0000);
 }

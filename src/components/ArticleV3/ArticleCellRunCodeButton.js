@@ -1,6 +1,8 @@
 import { Check, EyeClosed, Minus, PauseSolid, PlaySolid, Xmark } from 'iconoir-react'
-import React, { useEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import './ArticleCellRunCodeButton.css'
+import CircularLoading from '../CircularLoading'
+import ButtonInflatable from '../ButtonInflatable'
 
 export const StatusIdle = 'idle'
 export const StatusScheduled = 'scheduled'
@@ -40,14 +42,14 @@ const StatusIcons = {
 
 const StatusLabels = {
   [StatusIdle]: 'Run code',
-  [StatusExecuting]: 'Running ...',
-  [StatusSuccess]: 'Run code', // when success, you can run again ...
+  [StatusExecuting]: 'Running …',
+  [StatusSuccess]: 'Run code', // when success, you can run again …
   [StatusStopped]: 'Run code',
   [StatusError]: 'Error',
   [StatusScheduled]: '(scheduled)',
   [StatusDisabled]: 'Disabled',
   [StatusStopping]: '(stopping)',
-  [StatusBeforeExecuting]: '...',
+  [StatusBeforeExecuting]: '…',
 }
 
 const ArticleCellRunCodeButton = ({ status = StatusIdle, debug = false, onClick = () => {} }) => {
@@ -58,7 +60,7 @@ const ArticleCellRunCodeButton = ({ status = StatusIdle, debug = false, onClick 
   const elapsedTimeRef = React.useRef(0)
   const elapsedTimeElementRef = React.useRef(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (status === StatusScheduled || status === StatusBeforeExecuting) {
       elapsedTimeRef.current = 0
       elapsedTimeElementRef.current.innerText = '... s'
@@ -74,6 +76,7 @@ const ArticleCellRunCodeButton = ({ status = StatusIdle, debug = false, onClick 
       clearTimeout(timerRef.current)
       timerRef.current = null
     }
+
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current)
@@ -84,16 +87,18 @@ const ArticleCellRunCodeButton = ({ status = StatusIdle, debug = false, onClick 
 
   return (
     <div className={`ArticleCellRunCodeButton ${status} d-flex align-items-center`}>
-      <button
+      <ButtonInflatable
+        label={label}
         onClick={onClick}
         disabled={disabled}
         className="btn btn-sm btn-outline-white d-flex align-items-center"
       >
         <div className="ArticleCellRunCodeButton__iconWrapper me-2">
           <Component height={16} width={16} />
+          <CircularLoading width={23} height={23} />
         </div>
-        {label}
-      </button>
+      </ButtonInflatable>
+
       <div className="ArticleCellRunCodeButton__timer ms-2">
         {status === StatusSuccess ? <Check /> : <Minus />}
         <div ref={elapsedTimeElementRef}>0.0 s</div>

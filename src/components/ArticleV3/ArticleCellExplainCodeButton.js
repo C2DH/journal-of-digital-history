@@ -1,6 +1,8 @@
-import { Brain, BrainWarning, MagicWand } from 'iconoir-react'
+import { Brain, BrainWarning, MagicWand, PauseSolid } from 'iconoir-react'
 import React from 'react'
 import './ArticleCellExplainCodeButton.css'
+import CircularLoading from '../CircularLoading'
+import ButtonInflatable from '../ButtonInflatable'
 
 export const StatusIdle = 'idle'
 export const StatusScheduled = 'scheduled'
@@ -16,14 +18,14 @@ export const AvailableStatuses = [StatusIdle, StatusExecuting, StatusSuccess, St
 
 const StatusIcons = {
   [StatusIdle]: MagicWand,
-  [StatusExecuting]: MagicWand,
+  [StatusExecuting]: PauseSolid,
   [StatusSuccess]: Brain,
   [StatusError]: BrainWarning,
 }
 const StatusLabels = {
   [StatusIdle]: 'Explain code',
-  [StatusExecuting]: 'Almost thinking ...',
-  [StatusSuccess]: 'Explain again?',
+  [StatusExecuting]: 'Thinking …',
+  [StatusSuccess]: 'Explain code',
   [StatusError]: 'Error',
 }
 
@@ -38,18 +40,17 @@ const ArticleCellExplainCodeButton = ({
   const label = StatusLabels[status]
   return (
     <div className={`ArticleCellExplainCodeButton ${status} ${className}`}>
-      <button
+      <ButtonInflatable
+        label={label}
         className="btn btn-outline-white btn-sm d-flex align-items-center"
         onClick={onClick}
         disabled={disabled}
       >
-        <div className="ArticleCellExplainCodeButton__iconWrapper">
+        <div className="ArticleCellExplainCodeButton__iconWrapper me-2">
           <Component height={16} width={16} />
-
-          <div className="ArticleCellExplainCodeButton__iconArc"></div>
+          <CircularLoading width={24} height={24} strokeWidth={2} />
         </div>
-        <span className="ms-2">{label}</span>
-      </button>
+      </ButtonInflatable>
       {debug && <span className="ml-2">{status}</span>}
     </div>
   )
