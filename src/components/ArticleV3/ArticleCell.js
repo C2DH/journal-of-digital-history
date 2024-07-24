@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 
 import ArticleCellOutputs from '../Article/ArticleCellOutputs'
@@ -38,36 +38,33 @@ const ArticleCell = ({
   headingLevel = 0, // if isHeading, set this to its ArticleHeading.level value
   active = false,
   isJavascriptTrusted = false,
-  onNumClick,
-  renderUsingThebe
+  onNumClick
 }) => {
 
   const { ready } = useArticleThebe();
 
   const errors = useExecutionScope((state) => state.cells[idx]?.errors)
   const outputs = useExecutionScope((state) => state.cells[idx]?.outputs) ?? []
-  const thebeCell = useExecutionScope((state) => state.cells[idx]?.thebe)
 
-  const tags    = Array.isArray(metadata.tags) ? metadata.tags : [];
   const isMagic = RegexIsMagic.test(content);
   const isolationMode = outputs.some(
     (d) => typeof d.metadata === 'object' && d.metadata['text/html']?.isolated,
   )
-  const isCodeEditable = tags.includes('data');
+  const renderUsingThebe = true;  //tags.includes('data');
 
-  const ref = useCallback(
-    (node) => {
-      if (renderUsingThebe && thebeCell && node) {
-        const verb = thebeCell.isAttachedToDOM ? 'reattaching' : 'attaching'
-        console.debug(`${verb} cell ${thebeCell.id} to DOM at:`, {
-          el: node,
-          connected: node.isConnected,
-        })
-        thebeCell.attachToDOM(node)
-      }
-    },
-    [renderUsingThebe, thebeCell],
-  )
+  // const ref = useCallback(
+  //   (node) => {
+  //     if (renderUsingThebe && thebeCell && node) {
+  //       const verb = thebeCell.isAttachedToDOM ? 'reattaching' : 'attaching'
+  //       console.log(`${verb} cell ${thebeCell.id} to DOM at:`, {
+  //         el: node,
+  //         connected: node.isConnected,
+  //       })
+  //       thebeCell.attachToDOM(node)
+  //     }
+  //   },
+  //   [renderUsingThebe, thebeCell],
+  // )
 
   let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayoutV3[layer];
   // we override or set the former layout if it appears in narrative-step
@@ -110,15 +107,13 @@ const ArticleCell = ({
 
                 <>
                   {type === CellTypeCode && !errors &&
-                    <div ref={ref}>
-                      <ArticleCellOutputs
-                        isMagic={false}
-                        isolationMode={false}
-                        isJavascriptTrusted={isJavascriptTrusted}
-                        cellIdx={idx}
-                        outputs={outputs}
-                      />
-                    </div>
+                    <ArticleCellOutputs
+                      isMagic={false}
+                      isolationMode={false}
+                      isJavascriptTrusted={isJavascriptTrusted}
+                      cellIdx={idx}
+                      outputs={outputs}
+                    />
                   }
                 </>
                   
@@ -145,18 +140,18 @@ const ArticleCell = ({
 
         {type === CellTypeCode && (!isFigure || !figure?.isCover) &&
           <Row>
-            <Col xs={!isCodeEditable ? 12 : 7} className='code'>
+            <Col xs={!renderUsingThebe ? 12 : 7} className='code'>
               <React.Suspense fallback={<div>loading...</div>}>
                 <ArticleCellSourceCodeWrapper
                   cellIdx           = {idx}
-                  toggleVisibility  = {!isCodeEditable}
+                  toggleVisibility  = {!renderUsingThebe}
                   visible           = {false}
-                  readOnly          = {!ready || !isCodeEditable}
+                  readOnly          = {!ready}
                 /> 
               </React.Suspense>
             </Col>
 
-            {isCodeEditable && (
+            {renderUsingThebe && (
               <Col xs={5} className="p-2">
                 <ArticleCellCodeTools cellIdx={idx} />
               </Col>
