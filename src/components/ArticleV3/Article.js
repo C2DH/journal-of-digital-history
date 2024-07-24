@@ -43,11 +43,10 @@ const Article = ({
   collaborators,
   disclaimer = [],
 }) => {
-
   console.debug('[Article]', url, 'is rendering')
 
   return (
-    <div className="Article page">
+    <div className="Article ArticleV3 page">
       <ArticleLayers />
 
       <ArticleToC paragraphs={paragraphs} headingsPositions={headingsPositions} />
