@@ -12,6 +12,8 @@ $module: ".ArticleCell";
   }
 
   &.data {
+    margin-bottom: 1rem;
+
     .container-fluid {
       padding-left: calc(50vw - var(--container-max-width) / 3);
       padding-right: 4rem;
