@@ -7,11 +7,11 @@ import ArticleCellError from './ArticleCellError';
 import ConnectionStatusBox from './ConnectionStatusBox';
 import { useArticleThebe } from './ArticleThebeProvider';
 import ArticleCellRunCodeButton, {
+  StatusBeforeExecuting,
   StatusDisabled,
   StatusError,
   StatusExecuting,
   StatusIdle,
-  StatusScheduled,
   StatusSuccess
 } from './ArticleCellRunCodeButton';
 
@@ -36,16 +36,12 @@ const ArticleCellCodeTools = ({ cellIdx = -1 }) => {
   const resetCell     = useExecutionScope((state) => state.resetCell);
   const attachSession = useExecutionScope((state) => state.attachSession);
   const attached      = useExecutionScope((state) => state.cells[cellIdx]?.attached);
-
   const status =
-    toExecute ? StatusScheduled :
+    connectionErrors || errors ? StatusError :
+    toExecute ? StatusBeforeExecuting :
     starting ? StatusDisabled :
     executing ? StatusExecuting :
-    success ? StatusSuccess :
-    connectionErrors || errors ? StatusError : StatusIdle;
-
-  if (cellIdx === 12)
-    console.log(thebeCell);
+    success ? StatusSuccess : StatusIdle;
 
   const onRunButtonClickHandler = () => {
     if (!ready) {
