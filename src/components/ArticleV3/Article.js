@@ -42,8 +42,9 @@ const Article = ({
   contributor,
   collaborators,
   disclaimer = [],
+  kernelName, // null or IR for R
 }) => {
-  console.debug('[Article]', url, 'is rendering')
+  console.debug('[Article]', url, 'is rendering. \n - kernelName:', kernelName)
 
   return (
     <div className="Article ArticleV3 page">
@@ -111,7 +112,7 @@ const Article = ({
   )
 }
 
-function ArticleWithContent({ url, ipynb, ...props }) {
+function ArticleWithContent({ url, ipynb, kernelName, ...props }) {
   const { paragraphs, headingsPositions, executables, bibliography, sections } = useNotebook(
     url,
     ipynb,
@@ -125,6 +126,7 @@ function ArticleWithContent({ url, ipynb, ...props }) {
   return (
     <Article
       url={url}
+      kernelName={kernelName}
       paragraphs={paragraphs}
       headingsPositions={headingsPositions}
       bibliography={bibliography}
@@ -135,10 +137,12 @@ function ArticleWithContent({ url, ipynb, ...props }) {
 }
 
 function ThebeArticle({ url = '', ipynb = { cells: [], metadata: {} }, ...props }) {
+  const kernelName = ipynb.metadata?.kernelspec?.name
+  console.info('[ThebeArticle] \n - kernelName:', kernelName, '\n - metadata:', ipynb.metadata)
   return (
-    <ArticleThebeProvider url={url} binderUrl={props.binderUrl}>
+    <ArticleThebeProvider url={url} binderUrl={props.binderUrl} kernelName={kernelName}>
       <WithWindowSize>
-        <ArticleWithContent url={url} ipynb={ipynb} {...props} />
+        <ArticleWithContent url={url} ipynb={ipynb} kernelName={kernelName} {...props} />
       </WithWindowSize>
     </ArticleThebeProvider>
   )
