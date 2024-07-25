@@ -6,6 +6,7 @@ import { useWindowStore } from '../../store'
 import { DisplayLayerCellIdxQueryParam } from '../../constants'
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 import './ArticleToC.css'
+import ArticleThebeSession from './ArticleThebeSession'
 
 const getToCSteps = ({ headingsPositions, cellsIndex, hideFigures = false }) => {
   const { groups } = headingsPositions
@@ -107,6 +108,7 @@ const ArticleToC = ({ headingsPositions = [], paragraphs = [], headerHeight = 14
         width: width * 0.16,
       }}
     >
+      <ArticleThebeSession />
       <span className="d-none">{t('table of contents')}</span>
       <ArticleToCSteps
         width={width * 0.16}
