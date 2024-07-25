@@ -9,15 +9,24 @@ import {
   useThebeSession,
 } from 'thebe-react'
 
+const BinderUrlToThebeRegEx = new RegExp('(v2/gh/)([^/]+)/([^/]+)/([^?]*)?(.*)$')
+
 function getRepoSpec(url, binderUrl) {
-  if (binderUrl) {
+  console.info('[getRepoSpec]', { url, binderUrl })
+  if (typeof binderUr === 'string') {
     // example https://mybinder.org/v2/gh/executablebooks/thebe-binder-base/HEAD
+    // or
+    // "https://mybinder.org/v2/gh/jdh-observer/X3MGSKqAycaT/HEAD?filepath=article.ipynb"
     // Note: limited to 'github' repo provider
-    const u = new URL(binderUrl)
-    const repoPathname = u.pathname.split('/v2/gh/')[1]
-    const [, username, repo, ref, ...path] = repoPathname.split('/')
-    // NOTE: most binder launch urls will not contain the path to the notebook!
-    return { repo: `${username}/${repo}/${ref}`, path }
+    const match = binderUrl.match(BinderUrlToThebeRegEx)
+    if (!match) throw new Error('invalid binder url', binderUrl)
+    const [, , username, repo, ref, path] = match
+    return { repo: `${username}/${repo}/${ref}`, path: path.split('/') }
+    // const u = new URL(binderUrl)
+    // const repoPathname = u.pathname.split('/v2/gh/')[1]
+    // const [, username, repo, ref, ...path] = repoPathname.split('/')
+    // // NOTE: most binder launch urls will not contain the path to the notebook!
+    // return { repo: `${username}/${repo}/${ref}`, path }
   } else {
     if (!url.startsWith('/proxy-githubusercontent')) throw new Error('invalid url')
     // eslint-disable-next-line no-unused-vars
