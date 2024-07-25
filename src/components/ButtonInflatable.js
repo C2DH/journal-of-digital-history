@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef } from 'react'
 import './ButtonInflatable.css'
-const ButtonInflatable = ({ label = '', className, children, ...props }) => {
+const ButtonInflatable = ({ label = '', title = '', className, children, ...props }) => {
   const labelRef = useRef(null)
 
   useLayoutEffect(() => {
@@ -12,7 +12,7 @@ const ButtonInflatable = ({ label = '', className, children, ...props }) => {
   }, [label])
 
   return (
-    <button {...props} className={`ButtonInflatable ${className}`}>
+    <button {...props} title={title ?? label} className={`ButtonInflatable ${className}`}>
       {children}
       <div ref={labelRef} className="ButtonInflatable__label"></div>
     </button>
