@@ -17,6 +17,7 @@ export default {
       },
     },
     debug: { control: 'boolean' },
+    disabled: { control: 'boolean' },
   },
 }
 
@@ -46,9 +47,11 @@ export const WithExplainCode = TemplateWithExplainCode.bind({})
 Default.args = {
   status: StatusExecuting,
   debug: false,
+  disabled: false,
 }
 
 WithExplainCode.args = {
   status: StatusExecuting,
   debug: false,
+  disabled: false,
 }

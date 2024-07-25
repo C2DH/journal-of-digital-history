@@ -1,4 +1,4 @@
-import { Check, EyeClosed, Minus, PauseSolid, PlaySolid, Xmark } from 'iconoir-react'
+import { Check, EyeClosed, Minus, PauseSolid, PlaySolid } from 'iconoir-react'
 import React, { useLayoutEffect } from 'react'
 import './ArticleCellRunCodeButton.css'
 import CircularLoading from '../CircularLoading'
@@ -33,7 +33,7 @@ const StatusIcons = {
   [StatusExecuting]: PauseSolid,
   [StatusSuccess]: PlaySolid,
   [StatusStopped]: PlaySolid,
-  [StatusError]: Xmark,
+  [StatusError]: PlaySolid,
   [StatusScheduled]: PauseSolid,
   [StatusDisabled]: EyeClosed,
   [StatusStopping]: PauseSolid,
@@ -45,15 +45,19 @@ const StatusLabels = {
   [StatusExecuting]: 'Running …',
   [StatusSuccess]: 'Run code', // when success, you can run again …
   [StatusStopped]: 'Run code',
-  [StatusError]: 'Error',
+  [StatusError]: 'Run code', // if it fails, you can run it again
   [StatusScheduled]: '(scheduled)',
   [StatusDisabled]: 'Disabled',
   [StatusStopping]: '(stopping)',
   [StatusBeforeExecuting]: '…',
 }
 
-const ArticleCellRunCodeButton = ({ status = StatusIdle, debug = false, onClick = () => {} }) => {
-  const disabled = [StatusDisabled, StatusError, StatusScheduled].includes(status)
+const ArticleCellRunCodeButton = ({
+  status = StatusIdle,
+  disabled = false,
+  debug = false,
+  onClick = () => {},
+}) => {
   const Component = StatusIcons[status]
   const label = StatusLabels[status]
   const timerRef = React.useRef(null)
