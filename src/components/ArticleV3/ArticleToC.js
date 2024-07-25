@@ -101,7 +101,7 @@ const ArticleToC = ({ headingsPositions = [], paragraphs = [], headerHeight = 14
 
   return (
     <aside
-      className="ArticleToC col-4"
+      className="ArticleToC ArticleToCV3 col-4"
       style={{
         top: headerHeight,
         width: width * 0.16,
