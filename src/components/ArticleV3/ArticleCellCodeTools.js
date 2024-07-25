@@ -12,6 +12,7 @@ import ArticleCellRunCodeButton, {
   StatusError,
   StatusExecuting,
   StatusIdle,
+  StatusScheduled,
   StatusSuccess
 } from './ArticleCellRunCodeButton';
 
@@ -23,48 +24,50 @@ import ArticleCellExplainCodeButton from './ArticleCellExplainCodeButton';
 
 const ArticleCellCodeTools = ({ cellIdx = -1 }) => {
 
-  const [toExecute, setToExecute] = useState(false);
-
   const { ready, connectAndStart, starting, session, connectionErrors } = useArticleThebe();
 
   const executing     = useExecutionScope((state) => state.cells[cellIdx]?.executing);
+  const scheduled     = useExecutionScope((state) => state.cells[cellIdx]?.scheduled);
   const success       = useExecutionScope((state) => state.cells[cellIdx]?.success);
   const errors        = useExecutionScope((state) => state.cells[cellIdx]?.errors);
   const thebeCell     = useExecutionScope((state) => state.cells[cellIdx]?.thebe);
   const executeCell   = useExecutionScope((state) => state.executeCell);
+  const scheduleCell  = useExecutionScope((state) => state.scheduleCell);
   // const clearCell     = useExecutionScope((state) => state.clearCell);
   const resetCell     = useExecutionScope((state) => state.resetCell);
   const attachSession = useExecutionScope((state) => state.attachSession);
   const attached      = useExecutionScope((state) => state.cells[cellIdx]?.attached);
   const status =
     connectionErrors || errors ? StatusError :
-    toExecute ? StatusBeforeExecuting :
-    starting ? StatusDisabled :
+    scheduled ? StatusScheduled :
     executing ? StatusExecuting :
     success ? StatusSuccess : StatusIdle;
 
   const onRunButtonClickHandler = () => {
-    if (!ready) {
+    if (!ready || connectionErrors) {
       connectAndStart();
-      executeCell(cellIdx);
-      setToExecute(true);
+      scheduleCell(cellIdx);
     } else {
       executeCell(cellIdx);
     }
   }
 
   useEffect(() => {
-    if (!toExecute || !ready) return;
+    console.log(scheduled);
+    if (!scheduled || !ready) return;
     if (!attached) attachSession(session);
 
     executeCell(cellIdx);
-    setToExecute(false);
-  }, [ready])
+  }, [ready, scheduled]);
 
   return (
     <div className="ArticleCellCodeTools">
       <div className="d-flex gap-2 align-items-start"> 
-        <ArticleCellRunCodeButton status={status}  onClick={onRunButtonClickHandler} />
+        <ArticleCellRunCodeButton
+          status    = {status}
+          onClick   = {onRunButtonClickHandler}
+          disabled  = {starting}
+        />
       </div>
 
       <ConnectionStatusBox />

@@ -20,12 +20,13 @@ const ArticleCellSourceCodeWrapper = ({
   const [isCollapsed, setIsCollapsed]                 = useState(!toggleVisibility);
 
   const executing = useExecutionScope((state) => state.cells[cellIdx]?.executing);
+  const pending   = useExecutionScope((state) => state.cells[cellIdx]?.pending);
   const { t }     = useTranslation();
 
   useEffect(() => {
-    if (executing && isCollapsed)
+    if ((executing || pending) && isCollapsed)
       setIsCollapsed(false);
-  }, [executing]);
+  }, [executing, pending]);
 
   return (
     <div className={`ArticleCellSourceCodeWrapper ${isCollapsed ? 'collapsed' : ''} ${toggleVisibility ? 'toggle-visibility' : ''}`}>

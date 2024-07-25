@@ -30,11 +30,20 @@ export const useExecutionScope = create((set, get) => ({
       cells: { ...cells, [id]: { ...cell, source: cell.thebe.source } },
     }))
   },
+
+  //  Set the cell in pending state
+  scheduleCell: (id) => {
+    const cell = get().cells[id];
+    set(({ cells }) => ({
+      cells: { ...cells, [id]: { ...cell, scheduled: true }}
+    }));
+  },
+
   executeCell: async (id) => {
     const cell = get().cells[id]
     set(({ cells }) => ({
       executing: true,
-      cells: { ...cells, [id]: { ...cell, executing: true } },
+      cells: { ...cells, [id]: { ...cell, executing: true, scheduled: false } },
     }))
     const errors = resolveExecuteErrors(await cell.thebe.execute(cell.source)) // execute the latest source from state, this does not update thebe.source
     if (errors) console.error(`[useExecutionScope] executeCell error: ${errors}`)
@@ -48,6 +57,7 @@ export const useExecutionScope = create((set, get) => ({
           [id]: {
             ...cell,
             executing: false,
+            scheduled: false,
             success: !errors,
             errors,
             outputs: errors ? [] : cell.thebe.outputs, // on error clear outputs?
@@ -60,7 +70,7 @@ export const useExecutionScope = create((set, get) => ({
   executeAll: async () => {
     set(({ cells }) => ({
       executing: true,
-      cells: mapObject(cells, (cell) => ({ ...cell, executing: true })),
+      cells: mapObject(cells, (cell) => ({ ...cell, pending: true })),
     }))
     // caution -  we are relying on a id being stable, sortable and
     // corresponding to the correct cell order for execution
@@ -69,6 +79,17 @@ export const useExecutionScope = create((set, get) => ({
 
     for (const id of orderedKeys) {
       const cell = get().cells[id]
+      set(({ cells }) => ({
+        executing: true,
+        cells: {
+          ...cells, [id]: {
+            ...cell,
+            executing: true,
+            pending: false 
+          }
+        },
+      }))
+
       const errors = resolveExecuteErrors(await cell.thebe.execute(cell.source)) // execute the latest source from state, this does not update thebe.source
 
       if (errors) {
@@ -80,6 +101,7 @@ export const useExecutionScope = create((set, get) => ({
               [id]: {
                 ...cell,
                 executing: false,
+                pending: false,
                 success: false,
                 errors,
                 outputs: errors ? [] : cell.thebe.outputs, // on error clear outputs?
@@ -102,6 +124,7 @@ export const useExecutionScope = create((set, get) => ({
             [id]: {
               ...cell,
               executing: false,
+              pending: false,
               success: true,
               outputs: cell.thebe.outputs,
             },
@@ -173,6 +196,8 @@ export const useExecutionScope = create((set, get) => ({
             originals: v.outputs, // restore outputs feature?
             attached: false,
             executing: false,
+            pending: false,
+            scheduled: false,
             success: false,
             errors: undefined,
           }))
