@@ -6,7 +6,10 @@ import { getFigureHeight, getFigureOutputs } from '../logic/ipynbV3';
 import { useWindowSize } from './windowSize';
 
 function useParagraphs(url, tree) {
-  const paragraphs = tree.paragraphs.filter((cell) => cell.layer !== LayerHidden)
+  const paragraphs = React.useMemo(() => 
+    tree.paragraphs.filter((cell) => cell.layer !== LayerHidden)
+  , [url, tree]);
+    
   const paragraphsGroups = React.useMemo(() => {
     const buffers = []
     let previousLayer = null
