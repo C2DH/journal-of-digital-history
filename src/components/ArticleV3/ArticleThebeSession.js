@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useArticleThebe } from './ArticleThebeProvider'
 import ArticleThebeSessionButton, {
   StatusReady,
@@ -8,8 +8,9 @@ import ArticleThebeSessionButton, {
 import { useExecutionScope } from './ExecutionScope'
 
 const ArticleThebeSession = ({ debug = false, kernelName }) => {
-  const { starting, ready, connectAndStart, shutdown, restart } = useArticleThebe()
+  const { starting, ready, connectAndStart, shutdown, restart, session } = useArticleThebe()
   const executeAll = useExecutionScope((state) => state.executeAll)
+  const attachSession = useExecutionScope((state) => state.attachSession);
   let status = StatusIdle
 
   if (ready) {
@@ -17,6 +18,11 @@ const ArticleThebeSession = ({ debug = false, kernelName }) => {
   } else if (starting) {
     status = StatusPreparing
   }
+
+  useEffect(() => {
+    if (ready)
+      attachSession(session);
+  }, [ready]);
 
   const handleSession = () => {
     if (status === StatusIdle) {
