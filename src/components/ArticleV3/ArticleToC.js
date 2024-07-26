@@ -58,7 +58,12 @@ const getToCSteps = ({ headingsPositions, cellsIndex, hideFigures = false }) => 
   return groups
 }
 // this is a refactoring of v2 ToC when the layut is flattened down.
-const ArticleToC = ({ headingsPositions = [], paragraphs = [], headerHeight = 140 }) => {
+const ArticleToC = ({
+  headingsPositions = [],
+  paragraphs = [],
+  headerHeight = 140,
+  kernelName = '-',
+}) => {
   const { t } = useTranslation()
   const height = useWindowStore((state) => state.windowHeight)
   const width = useWindowStore((state) => state.windowWidth)
@@ -108,7 +113,7 @@ const ArticleToC = ({ headingsPositions = [], paragraphs = [], headerHeight = 14
         width: width * 0.16,
       }}
     >
-      <ArticleThebeSession />
+      <ArticleThebeSession kernelName={kernelName} />
       <span className="d-none">{t('table of contents')}</span>
       <ArticleToCSteps
         width={width * 0.16}
