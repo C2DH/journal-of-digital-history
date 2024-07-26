@@ -5,9 +5,11 @@ import ArticleThebeSessionButton, {
   StatusIdle,
   StatusPreparing,
 } from './ArticleThebeSessionButton'
+import { useExecutionScope } from './ExecutionScope'
 
 const ArticleThebeSession = ({ debug = false, kernelName }) => {
   const { starting, ready, connectAndStart, shutdown, restart } = useArticleThebe()
+  const executeAll = useExecutionScope((state) => state.executeAll)
   let status = StatusIdle
 
   if (ready) {
@@ -33,6 +35,11 @@ const ArticleThebeSession = ({ debug = false, kernelName }) => {
         debug={debug}
         kernelName={kernelName}
       />
+      {status === StatusReady && (
+        <button className="btn btn-sm btn-outline-secondary" onClick={executeAll}>
+          run all cells!
+        </button>
+      )}
     </div>
   )
 }
