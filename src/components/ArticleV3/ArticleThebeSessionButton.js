@@ -1,7 +1,6 @@
 import React from 'react'
 import { Circle, FlashSolid, XmarkCircleSolid } from 'iconoir-react'
 import PropTypes from 'prop-types'
-import ButtonInflatable from '../ButtonInflatable'
 import CircularLoading from '../CircularLoading'
 import './ArticleThebeSessionButton.css'
 
@@ -18,11 +17,19 @@ export const StatusIcons = {
 }
 
 const StatusLabels = {
-  [StatusIdle]: '(idle))',
+  [StatusIdle]: 'off',
   [StatusPreparing]: 'Preparing …',
   [StatusReady]: 'Ready',
   [StatusRestarting]: 'Restarting …',
 }
+
+const StatusActionLabels = {
+  [StatusIdle]: 'Click to start',
+  [StatusPreparing]: 'Restart',
+  [StatusReady]: 'Restart',
+  [StatusRestarting]: 'Restart',
+}
+
 export const AvailableStatuses = [StatusIdle, StatusPreparing, StatusReady, StatusRestarting]
 
 const ArticleThebeSessionButton = ({
@@ -33,12 +40,12 @@ const ArticleThebeSessionButton = ({
   onClick,
 }) => {
   const Component = StatusIcons[status]
-  const label = StatusLabels[status] + ' ' + kernelName
+  const label = StatusLabels[status]
+  const actionLabel = StatusActionLabels[status]
   return (
     <div className={`ArticleThebeSessionButton ${status} d-flex align-items-center`}>
-      <ButtonInflatable
-        title={label}
-        label={label}
+      <button
+        title={actionLabel}
         onClick={onClick}
         disabled={disabled}
         className="btn btn-sm btn-transparent d-flex align-items-center"
@@ -47,7 +54,17 @@ const ArticleThebeSessionButton = ({
           <Component height={16} width={16} />
           <CircularLoading width={23} height={23} />
         </div>
-      </ButtonInflatable>
+
+        <div className="lh-1 small text-start border-end pe-2 me-2 border-dark">
+          <label className="d-block text-muted">kernel</label>
+          {kernelName}
+        </div>
+
+        <div className="lh-1 small text-start ">
+          <label className="d-block text-muted">status</label>
+          <b>{label}</b>
+        </div>
+      </button>
 
       {debug && <div className="ms-2 ArticleThebeSessionButton__status">{status}</div>}
     </div>

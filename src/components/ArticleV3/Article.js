@@ -50,7 +50,11 @@ const Article = ({
     <div className="Article ArticleV3 page">
       <ArticleLayers />
 
-      <ArticleToC paragraphs={paragraphs} headingsPositions={headingsPositions} />
+      <ArticleToC
+        paragraphs={paragraphs}
+        kernelName={kernelName}
+        headingsPositions={headingsPositions}
+      />
 
       <ConnectionErrorBox />
 

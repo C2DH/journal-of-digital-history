@@ -16,13 +16,11 @@ const ArticleThebeSession = ({ debug = false, kernelName }) => {
     status = StatusPreparing
   }
 
-  if (debug)
-    return (
-      <div>
-        <ArticleThebeSessionButton status={status} kernelName={kernelName} />
-      </div>
-    )
-  return null
+  return (
+    <div className="ArticleThebeSession">
+      <ArticleThebeSessionButton status={status} debug={debug} kernelName={kernelName} />
+    </div>
+  )
 }
 
 export default ArticleThebeSession
