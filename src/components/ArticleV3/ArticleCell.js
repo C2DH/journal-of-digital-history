@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 
 import ArticleCellOutputs from '../Article/ArticleCellOutputs'
@@ -41,10 +41,14 @@ const ArticleCell = ({
   onNumClick
 }) => {
 
+  const outputsRef = useRef();
+  const [outputsMinHeight, setOutputsMinHeight] = useState();
+
   const { ready } = useArticleThebe();
 
   const errors = useExecutionScope((state) => state.cells[idx]?.errors)
   const outputs = useExecutionScope((state) => state.cells[idx]?.outputs) ?? []
+  const executing = useExecutionScope((state) => state.cells[idx]?.executing);
 
   const isMagic = RegexIsMagic.test(content);
   const isolationMode = outputs.some(
@@ -65,6 +69,12 @@ const ArticleCell = ({
   //   },
   //   [renderUsingThebe, thebeCell],
   // )
+
+  useEffect(() => {
+      if (executing && outputs.length > 0 && !outputsMinHeight) {
+        setOutputsMinHeight(outputsRef.current.offsetHeight);
+      }
+  }, [executing]);
 
   let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayoutV3[layer];
   // we override or set the former layout if it appears in narrative-step
@@ -90,7 +100,11 @@ const ArticleCell = ({
       <Container fluid={layer === LayerData} className={containerClassNames.join(' ')}>
         {outputs.length > 0 &&
           <Row>
-            <Col {...cellBootstrapColumnLayout}>
+            <Col
+              {...cellBootstrapColumnLayout}
+              ref = {outputsRef}
+              style = {{ minHeight: outputsMinHeight }}
+            >
               {figure ? (
                 <ArticleCellFigure
                   metadata={metadata}

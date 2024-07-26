@@ -3,6 +3,10 @@ $module: ".ArticleCellFigure";
 #{$module} {
 
   margin-bottom: 0;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
 
   .picture {
     position: relative;

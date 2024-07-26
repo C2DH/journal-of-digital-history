@@ -53,7 +53,6 @@ const ArticleCellCodeTools = ({ cellIdx = -1 }) => {
   }
 
   useEffect(() => {
-    console.log(scheduled);
     if (!scheduled || !ready) return;
     if (!attached) attachSession(session);
 
