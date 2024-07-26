@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 
 import { useExecutionScope } from './ExecutionScope';
@@ -8,7 +7,6 @@ import ConnectionStatusBox from './ConnectionStatusBox';
 import { useArticleThebe } from './ArticleThebeProvider';
 import ArticleCellRunCodeButton, {
   StatusBeforeExecuting,
-  StatusDisabled,
   StatusError,
   StatusExecuting,
   StatusIdle,
@@ -28,9 +26,10 @@ const ArticleCellCodeTools = ({ cellIdx = -1 }) => {
 
   const executing     = useExecutionScope((state) => state.cells[cellIdx]?.executing);
   const scheduled     = useExecutionScope((state) => state.cells[cellIdx]?.scheduled);
+  const pending       = useExecutionScope((state) => state.cells[cellIdx]?.pending);
   const success       = useExecutionScope((state) => state.cells[cellIdx]?.success);
   const errors        = useExecutionScope((state) => state.cells[cellIdx]?.errors);
-  const thebeCell     = useExecutionScope((state) => state.cells[cellIdx]?.thebe);
+  // const thebeCell     = useExecutionScope((state) => state.cells[cellIdx]?.thebe);
   const executeCell   = useExecutionScope((state) => state.executeCell);
   const scheduleCell  = useExecutionScope((state) => state.scheduleCell);
   // const clearCell     = useExecutionScope((state) => state.clearCell);
@@ -40,6 +39,7 @@ const ArticleCellCodeTools = ({ cellIdx = -1 }) => {
   const status =
     connectionErrors || errors ? StatusError :
     scheduled ? StatusScheduled :
+    pending ? StatusBeforeExecuting :
     executing ? StatusExecuting :
     success ? StatusSuccess : StatusIdle;
 
