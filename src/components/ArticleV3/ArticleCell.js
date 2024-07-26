@@ -16,6 +16,7 @@ import { useExecutionScope } from './ExecutionScope'
 import ArticleCellCodeTools from './ArticleCellCodeTools';
 import { useArticleThebe } from './ArticleThebeProvider';
 import ArticleCellSourceCodeWrapper from './ArticleCellSourceCodeWrapper';
+import ArticleCellError from './ArticleCellError';
 
 import '../../styles/components/ArticleV3/ArticleCell.scss';
 
@@ -98,13 +99,15 @@ const ArticleCell = ({
   return (
     <div className={`ArticleCell ${layer}`}>
       <Container fluid={layer === LayerData} className={containerClassNames.join(' ')}>
-        {outputs.length > 0 &&
+        {(outputs.length > 0 || errors) &&
           <Row>
             <Col
               {...cellBootstrapColumnLayout}
               ref = {outputsRef}
               style = {{ minHeight: outputsMinHeight }}
             >
+              {errors && <ArticleCellError errors={errors} />}
+
               {figure ? (
                 <ArticleCellFigure
                   metadata={metadata}

@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 
 import { useExecutionScope } from './ExecutionScope';
-import ArticleCellError from './ArticleCellError';
 import ConnectionStatusBox from './ConnectionStatusBox';
 import { useArticleThebe } from './ArticleThebeProvider';
+import ArticleCellExplainCodeButton from './ArticleCellExplainCodeButton';
 import ArticleCellRunCodeButton, {
   StatusBeforeExecuting,
   StatusError,
@@ -17,7 +17,6 @@ import ArticleCellRunCodeButton, {
 import shineIcon from '../../assets/icons/shine_white.png';
 
 import '../../styles/components/ArticleV3/ArticleCellCodeTools.scss';
-import ArticleCellExplainCodeButton from './ArticleCellExplainCodeButton';
 
 
 const ArticleCellCodeTools = ({ cellIdx = -1 }) => {
@@ -70,8 +69,6 @@ const ArticleCellCodeTools = ({ cellIdx = -1 }) => {
       </div>
 
       <ConnectionStatusBox />
-
-      {errors && <ArticleCellError errors={errors} />}
 
       {ready &&
         <Button
