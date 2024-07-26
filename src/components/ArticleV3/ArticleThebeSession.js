@@ -7,7 +7,7 @@ import ArticleThebeSessionButton, {
 } from './ArticleThebeSessionButton'
 
 const ArticleThebeSession = ({ debug = false, kernelName }) => {
-  const { starting, ready } = useArticleThebe()
+  const { starting, ready, connectAndStart, shutdown, restart } = useArticleThebe()
   let status = StatusIdle
 
   if (ready) {
@@ -16,9 +16,23 @@ const ArticleThebeSession = ({ debug = false, kernelName }) => {
     status = StatusPreparing
   }
 
+  const handleSession = () => {
+    if (status === StatusIdle) {
+      connectAndStart()
+    } else if (status === StatusPreparing) {
+      shutdown()
+    } else if (status === StatusReady) {
+      restart()
+    }
+  }
   return (
-    <div className="ArticleThebeSession">
-      <ArticleThebeSessionButton status={status} debug={debug} kernelName={kernelName} />
+    <div className="ArticleThebeSession ps-1">
+      <ArticleThebeSessionButton
+        status={status}
+        onClick={handleSession}
+        debug={debug}
+        kernelName={kernelName}
+      />
     </div>
   )
 }

@@ -18,15 +18,15 @@ export const StatusIcons = {
 
 const StatusLabels = {
   [StatusIdle]: 'off',
-  [StatusPreparing]: 'Preparing …',
+  [StatusPreparing]: 'starting…',
   [StatusReady]: 'Ready',
   [StatusRestarting]: 'Restarting …',
 }
 
 const StatusActionLabels = {
   [StatusIdle]: 'Click to start',
-  [StatusPreparing]: 'Restart',
-  [StatusReady]: 'Restart',
+  [StatusPreparing]: 'Click to Stop',
+  [StatusReady]: 'Notebook is executable! Click to reboot',
   [StatusRestarting]: 'Restart',
 }
 
@@ -55,12 +55,12 @@ const ArticleThebeSessionButton = ({
           <CircularLoading width={23} height={23} />
         </div>
 
-        <div className="lh-1 small text-start border-end pe-2 me-2 border-dark">
+        <div className="lh-1 small text-start border-end pe-2 me-2 my-1 border-dark">
           <label className="d-block text-muted">kernel</label>
-          {kernelName}
+          <b>{kernelName}</b>
         </div>
 
-        <div className="lh-1 small text-start ">
+        <div className="lh-1 small text-start me-2">
           <label className="d-block text-muted">status</label>
           <b>{label}</b>
         </div>

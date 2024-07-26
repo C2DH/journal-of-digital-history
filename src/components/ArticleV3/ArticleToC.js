@@ -135,5 +135,8 @@ export default React.memo(ArticleToC, (prevProps, nextProps) => {
   if (prevProps.width !== nextProps.width) {
     return false
   }
+  if (prevProps.kernelName !== nextProps.kernelName) {
+    return false
+  }
   return prevProps.memoid === nextProps.memoid
 })
