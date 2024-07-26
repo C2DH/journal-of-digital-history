@@ -7,6 +7,7 @@ import { DisplayLayerCellIdxQueryParam } from '../../constants'
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 import './ArticleToC.css'
 import ArticleThebeSession from './ArticleThebeSession'
+import ArticleToCTitle from './ArticleToCTitle'
 
 const getToCSteps = ({ headingsPositions, cellsIndex, hideFigures = false }) => {
   const { groups } = headingsPositions
@@ -61,7 +62,7 @@ const getToCSteps = ({ headingsPositions, cellsIndex, hideFigures = false }) => 
 const ArticleToC = ({
   headingsPositions = [],
   paragraphs = [],
-  headerHeight = 140,
+  headerHeight = 100,
   kernelName = '-',
 }) => {
   const { t } = useTranslation()
@@ -114,6 +115,8 @@ const ArticleToC = ({
       }}
     >
       <ArticleThebeSession kernelName={kernelName} />
+      <ArticleToCTitle plainTitle={'title of the article'}></ArticleToCTitle>
+
       <span className="d-none">{t('table of contents')}</span>
       <ArticleToCSteps
         width={width * 0.16}

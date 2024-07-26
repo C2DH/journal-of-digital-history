@@ -10,7 +10,7 @@ import { useExecutionScope } from './ExecutionScope'
 const ArticleThebeSession = ({ debug = false, kernelName }) => {
   const { starting, ready, connectAndStart, shutdown, restart, session } = useArticleThebe()
   const executeAll = useExecutionScope((state) => state.executeAll)
-  const attachSession = useExecutionScope((state) => state.attachSession);
+  const attachSession = useExecutionScope((state) => state.attachSession)
   let status = StatusIdle
 
   if (ready) {
@@ -20,9 +20,8 @@ const ArticleThebeSession = ({ debug = false, kernelName }) => {
   }
 
   useEffect(() => {
-    if (ready)
-      attachSession(session);
-  }, [ready]);
+    if (ready) attachSession(session)
+  }, [ready])
 
   const handleSession = () => {
     if (status === StatusIdle) {
@@ -34,7 +33,7 @@ const ArticleThebeSession = ({ debug = false, kernelName }) => {
     }
   }
   return (
-    <div className="ArticleThebeSession ps-1">
+    <div className="ArticleThebeSession p-2">
       <ArticleThebeSessionButton
         status={status}
         onClick={handleSession}
