@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef } from 'react'
 import { useSpring, a } from '@react-spring/web'
-import '../../styles/components/Article2/ArticleToCTitle.scss'
+import './ArticleToCTitle.css'
 
 function reduceTitleWithEllipsis(title = '') {
   const maxTitleLength = 50
@@ -35,10 +35,12 @@ const ArticleToCTitle = ({ children, plainTitle = '', delay = 500 }) => {
       if (!isCollapsed.current) {
         return
       }
+      const height = Math.min(ref.current.scrollHeight, 100)
       isCollapsed.current = false
       api.start({
-        height: 50,
+        height: height,
         opacity: 1,
+        delay,
       })
     }
     // if window scroll is more than 100px; show the title
@@ -58,8 +60,8 @@ const ArticleToCTitle = ({ children, plainTitle = '', delay = 500 }) => {
   }, [])
 
   return (
-    <a.div style={style} ref={ref} className="ArticleToCTitle text-end">
-      <h1 className=" h5 text-dark mb-2 pe-3">{reduceTitleWithEllipsis(plainTitle)}</h1>
+    <a.div style={style} ref={ref} title={plainTitle} className="ArticleToCTitle text-end">
+      <h1 className=" h5 text-dark mb-2 px-1 ">{reduceTitleWithEllipsis(plainTitle)}</h1>
       {children}
     </a.div>
   )

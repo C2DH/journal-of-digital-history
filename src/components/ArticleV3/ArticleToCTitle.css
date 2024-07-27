@@ -1,0 +1,12 @@
+.ArticleV3 .ArticleToCTitle {
+  font-size: 15px;
+  line-height: 1.5em;
+  max-height: 4.5em;
+  overflow: hidden;
+}
+
+@media (min-width: 992px) {
+  .ArticleV3 .ArticleToCTitle h1 {
+    font-size: 16px;
+  }
+}

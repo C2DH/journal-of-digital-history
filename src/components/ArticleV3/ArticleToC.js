@@ -60,6 +60,7 @@ const getToCSteps = ({ headingsPositions, cellsIndex, hideFigures = false }) => 
 }
 // this is a refactoring of v2 ToC when the layut is flattened down.
 const ArticleToC = ({
+  plainTitle = '',
   headingsPositions = [],
   paragraphs = [],
   headerHeight = 100,
@@ -115,7 +116,7 @@ const ArticleToC = ({
       }}
     >
       <ArticleThebeSession kernelName={kernelName} />
-      <ArticleToCTitle plainTitle={'title of the article'}></ArticleToCTitle>
+      <ArticleToCTitle plainTitle={plainTitle}></ArticleToCTitle>
 
       <span className="d-none">{t('table of contents')}</span>
       <ArticleToCSteps

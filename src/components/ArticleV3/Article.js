@@ -37,6 +37,7 @@ const Article = ({
   headingsPositions = [],
   bibliography,
   title,
+  plainTitle,
   abstract,
   keywords,
   contributor,
@@ -51,6 +52,7 @@ const Article = ({
       <ArticleLayers />
 
       <ArticleToC
+        plainTitle={plainTitle}
         paragraphs={paragraphs}
         kernelName={kernelName}
         headingsPositions={headingsPositions}
