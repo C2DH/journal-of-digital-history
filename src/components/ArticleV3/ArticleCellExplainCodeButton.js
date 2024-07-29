@@ -1,4 +1,4 @@
-import { Brain, BrainWarning, MagicWand, PauseSolid } from 'iconoir-react'
+import { BrainWarning, ElectronicsChip, MagicWand, PauseSolid } from 'iconoir-react'
 import React from 'react'
 import './ArticleCellExplainCodeButton.css'
 import CircularLoading from '../CircularLoading'
@@ -19,7 +19,7 @@ export const AvailableStatuses = [StatusIdle, StatusExecuting, StatusSuccess, St
 const StatusIcons = {
   [StatusIdle]: MagicWand,
   [StatusExecuting]: PauseSolid,
-  [StatusSuccess]: Brain,
+  [StatusSuccess]: ElectronicsChip,
   [StatusError]: BrainWarning,
 }
 const StatusLabels = {
