@@ -3,6 +3,15 @@ import { persist } from 'zustand/middleware'
 import AbstractSubmission from './models/AbstractSubmission'
 import { DisplayLayerNarrative } from './constants'
 
+export const useArticleCellExplainerStore = create((set) => ({
+  cellIdx: null,
+  lock: (cellIdx) =>
+    set(() => ({
+      cellIdx,
+    })),
+  free: () => set(() => ({ cellIdx: null })),
+}))
+
 export const useIssueStore = create((set) => ({
   issue: null,
   setIssue: (issue) => set(() => ({ issue })),
