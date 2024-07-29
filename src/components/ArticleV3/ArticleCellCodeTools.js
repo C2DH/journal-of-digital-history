@@ -16,8 +16,9 @@ import ArticleCellRunCodeButton, {
 import shineIcon from '../../assets/icons/shine_white.png'
 
 import '../../styles/components/ArticleV3/ArticleCellCodeTools.scss'
+import ArticleCellExplainer from './ArticleCellExplainer'
 
-const ArticleCellCodeTools = ({ cellIdx = -1 }) => {
+const ArticleCellCodeTools = ({ cellIdx = -1, source = '' }) => {
   const { ready, connectAndStart, starting, session, connectionErrors } = useArticleThebe()
 
   const executing = useExecutionScope((state) => state.cells[cellIdx]?.executing)
@@ -72,6 +73,8 @@ const ArticleCellCodeTools = ({ cellIdx = -1 }) => {
       </div>
 
       <ConnectionStatusBox />
+
+      <ArticleCellExplainer className="w-100" cellIdx={cellIdx} source={source} />
 
       {ready && (
         <Button

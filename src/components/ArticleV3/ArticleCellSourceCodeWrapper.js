@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { ArrowDown, Eye, EyeOff } from 'react-feather';
+import { Eye, EyeOff } from 'react-feather';
 import { useTranslation } from 'react-i18next';
 
 import ArticleCellEditor from './ArticleCellEditor';
 import { useExecutionScope } from './ExecutionScope';
 
 import '../../styles/components/ArticleV3/ArticleCellSourceCodeWrapper.scss';
+import { ExpandLines } from 'iconoir-react';
 
 
 const ArticleCellSourceCodeWrapper = ({
@@ -62,15 +63,13 @@ const ArticleCellSourceCodeWrapper = ({
 
       {isCollapsed &&
         <div className="expandButton">
-          <Button
-            variant   = "outline-white"
-            size      = "sm"
-            className = "d-flex align-items-center"
+          <button
+            className = "btn btn-sm btn-outline-white-secondary btn-pill d-flex align-items-center"
             onClick   = {() => setIsCollapsed(false)}
           >
-            edit code &nbsp;
-            <ArrowDown size={12} />
-          </Button>
+            <div className="px-2">{t('actions.expand')}</div>
+            <ExpandLines className="pe-1" width={16} height={16} />
+          </button>
         </div>
       }
     </div>

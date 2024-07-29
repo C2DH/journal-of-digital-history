@@ -1,0 +1,21 @@
+.ConnectionStatusBox pre {
+  width: 100%;
+  overflow: scroll;
+}
+
+.ConnectionStatusBox__messages {
+  margin-top: var(--spacer-2);
+  padding: var(--spacer-1) var(--spacer-2);
+  border-radius: 5px;
+  max-height: 600px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.ConnectionStatusBox__messages.error {
+  background: #ff634755;
+  color: tomato;
+  position: relative;
+}
+.ConnectionStatusBox__messages pre{
+  margin: 0;
+}

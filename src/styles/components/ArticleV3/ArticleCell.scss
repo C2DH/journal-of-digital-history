@@ -33,6 +33,14 @@ $module: '.ArticleCell';
     .container-fluid {
       padding-left: calc(50vw - var(--container-max-width) / 3);
       padding-right: 60px;
+      // first row
+      .row:first-child {
+        border-start-start-radius: 10px;
+      }
+      // last Row
+      .row:last-child {
+        border-end-start-radius: 10px;
+      }
 
       .row {
         --bs-gutter-x: 0;

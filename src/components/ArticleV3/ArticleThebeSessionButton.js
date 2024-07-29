@@ -56,12 +56,12 @@ const ArticleThebeSessionButton = ({
         </div>
 
         <div className="lh-1 small text-start border-end pe-2 me-2 my-1 border-dark">
-          <label className="d-block text-muted">kernel</label>
+          <div className="text-muted">kernel</div>
           <b>{kernelName}</b>
         </div>
 
         <div className="lh-1 small text-start me-2">
-          <label className="d-block text-muted">status</label>
+          <div className="text-muted">status</div>
           <b>{label}</b>
         </div>
       </button>
