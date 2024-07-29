@@ -1,4 +1,4 @@
-import { BrainWarning, ElectronicsChip, MagicWand, PauseSolid } from 'iconoir-react'
+import { BrainWarning, ElectronicsChip, PauseSolid } from 'iconoir-react'
 import React from 'react'
 import './ArticleCellExplainCodeButton.css'
 import CircularLoading from '../CircularLoading'
@@ -17,7 +17,7 @@ export const StatusBeforeExecuting = 'beforeExecuting'
 export const AvailableStatuses = [StatusIdle, StatusExecuting, StatusSuccess, StatusError]
 
 const StatusIcons = {
-  [StatusIdle]: MagicWand,
+  [StatusIdle]: ElectronicsChip,
   [StatusExecuting]: PauseSolid,
   [StatusSuccess]: ElectronicsChip,
   [StatusError]: BrainWarning,
@@ -42,7 +42,7 @@ const ArticleCellExplainCodeButton = ({
     <div className={`ArticleCellExplainCodeButton ${status} ${className}`}>
       <ButtonInflatable
         label={label}
-        className="btn btn-outline-white btn-sm d-flex align-items-center"
+        className="btn btn-outline-white-secondary btn-sm btn-pill d-flex align-items-center"
         onClick={onClick}
         disabled={disabled}
       >
