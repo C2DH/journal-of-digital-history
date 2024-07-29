@@ -8,7 +8,7 @@ fs.appendFile(
   './setupProxy.log',
   `${new Date().toISOString()} target=${target} apiPath=${apiPath} REACT_APP_PROXY=${
     process.env.REACT_APP_PROXY
-  } \n`,
+  } REACT_APP_ENABLE_CODE_EXPLAINER_PROXY=${process.env.REACT_APP_ENABLE_CODE_EXPLAINER_PROXY} \n`,
   (err) => console.error(err),
 )
 
@@ -16,7 +16,7 @@ module.exports = function (app) {
   app.use(
     '/api/explain',
     createProxyMiddleware({
-      target: 'http://127.0.0.1:5000',
+      target: process.env.REACT_APP_ENABLE_CODE_EXPLAINER_PROXY || 'http://localhost:5000',
       changeOrigin: true,
       pathRewrite: {
         '^/api/explain': '/explain',
