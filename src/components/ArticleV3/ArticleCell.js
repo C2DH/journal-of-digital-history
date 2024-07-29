@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap'
 
 import ArticleCellOutputs from '../Article/ArticleCellOutputs'
 import ArticleCellContent from '../Article/ArticleCellContent'
-import ArticleCellFigure from './ArticleCellFigure';
+import ArticleCellFigure from './ArticleCellFigure'
 import {
   BootstrapColumLayoutV3,
   BootstrapNarrativeStepColumnLayout,
@@ -13,23 +13,22 @@ import {
   CellTypeMarkdown,
 } from '../../constants'
 import { useExecutionScope } from './ExecutionScope'
-import ArticleCellCodeTools from './ArticleCellCodeTools';
-import { useArticleThebe } from './ArticleThebeProvider';
-import ArticleCellSourceCodeWrapper from './ArticleCellSourceCodeWrapper';
-import ArticleCellError from './ArticleCellError';
+import ArticleCellCodeTools from './ArticleCellCodeTools'
+import ArticleCellExplainer from './ArticleCellExplainer'
+import { useArticleThebe } from './ArticleThebeProvider'
+import ArticleCellSourceCodeWrapper from './ArticleCellSourceCodeWrapper'
+import ArticleCellError from './ArticleCellError'
 
-import '../../styles/components/ArticleV3/ArticleCell.scss';
+import '../../styles/components/ArticleV3/ArticleCell.scss'
 
-
-const RegexIsMagic = /^%%(javascript|js)/;
-
+const RegexIsMagic = /^%%(javascript|js)/
 
 const ArticleCell = ({
   type,
   layer,
   num = 1,
   content = '',
-
+  source = '',
   idx,
   hideNum,
   metadata = {},
@@ -39,23 +38,22 @@ const ArticleCell = ({
   headingLevel = 0, // if isHeading, set this to its ArticleHeading.level value
   active = false,
   isJavascriptTrusted = false,
-  onNumClick
+  onNumClick,
 }) => {
+  const outputsRef = useRef()
+  const [outputsMinHeight, setOutputsMinHeight] = useState()
 
-  const outputsRef = useRef();
-  const [outputsMinHeight, setOutputsMinHeight] = useState();
-
-  const { ready } = useArticleThebe();
+  const { ready } = useArticleThebe()
 
   const errors = useExecutionScope((state) => state.cells[idx]?.errors)
   const outputs = useExecutionScope((state) => state.cells[idx]?.outputs) ?? []
-  const executing = useExecutionScope((state) => state.cells[idx]?.executing);
+  const executing = useExecutionScope((state) => state.cells[idx]?.executing)
 
-  const isMagic = RegexIsMagic.test(content);
+  const isMagic = RegexIsMagic.test(content)
   const isolationMode = outputs.some(
     (d) => typeof d.metadata === 'object' && d.metadata['text/html']?.isolated,
   )
-  const renderUsingThebe = true;  //tags.includes('data');
+  const renderUsingThebe = true //tags.includes('data');
 
   // const ref = useCallback(
   //   (node) => {
@@ -72,39 +70,43 @@ const ArticleCell = ({
   // )
 
   useEffect(() => {
-      if (executing && outputs.length > 0 && !outputsMinHeight) {
-        setOutputsMinHeight(outputsRef.current.offsetHeight);
-      }
-  }, [executing]);
+    if (executing && outputs.length > 0 && !outputsMinHeight) {
+      setOutputsMinHeight(outputsRef.current.offsetHeight)
+    }
+  }, [executing])
 
-  let cellBootstrapColumnLayout = metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayoutV3[layer];
+  let cellBootstrapColumnLayout =
+    metadata.jdh?.text?.bootstrapColumLayout || BootstrapColumLayoutV3[layer]
   // we override or set the former layout if it appears in narrative-step
   if (isNarrativeStep) {
     cellBootstrapColumnLayout = BootstrapNarrativeStepColumnLayout
   }
 
-//  // this layout will be applied to module:"object" and module: "text_object"
-//  let cellObjectBootstrapColumnLayout =
-//    metadata.jdh?.object?.bootstrapColumLayout || BootstrapColumLayout;
+  //  // this layout will be applied to module:"object" and module: "text_object"
+  //  let cellObjectBootstrapColumnLayout =
+  //    metadata.jdh?.object?.bootstrapColumLayout || BootstrapColumLayout;
 
-  const containerClassNames = [...(metadata.tags ?? []).filter((d) =>
-    ArticleCellContainerClassNames.includes(d),
-  )];
+  const containerClassNames = [
+    ...(metadata.tags ?? []).filter((d) => ArticleCellContainerClassNames.includes(d)),
+  ]
 
-  console.debug('[ArticleCell]', idx, 'is rendering');
+  console.debug('[ArticleCell]', idx, 'is rendering')
 
-  if (type !== CellTypeMarkdown && type !== CellTypeCode)
-    return <div>Unkonwn type: {type}</div>
+  if (type !== CellTypeMarkdown && type !== CellTypeCode) return <div>Unkonwn type: {type}</div>
 
   return (
     <div className={`ArticleCell ${layer}`}>
       <Container fluid={layer === LayerData} className={containerClassNames.join(' ')}>
-        {(outputs.length > 0 || errors) &&
-          <Row>
+        {(outputs.length > 0 || errors) && (
+          <Row
+            style={{
+              borderTopLeftRadius: 10,
+            }}
+          >
             <Col
               {...cellBootstrapColumnLayout}
-              ref = {outputsRef}
-              style = {{ minHeight: outputsMinHeight }}
+              ref={outputsRef}
+              style={{ minHeight: outputsMinHeight }}
             >
               {errors && <ArticleCellError errors={errors} />}
 
@@ -119,11 +121,9 @@ const ArticleCell = ({
                   isJavascriptTrusted={isJavascriptTrusted}
                   cellType={type}
                 />
-
               ) : (
-
                 <>
-                  {type === CellTypeCode && !errors &&
+                  {type === CellTypeCode && !errors && (
                     <ArticleCellOutputs
                       isMagic={false}
                       isolationMode={false}
@@ -131,40 +131,39 @@ const ArticleCell = ({
                       cellIdx={idx}
                       outputs={outputs}
                     />
-                  }
+                  )}
                 </>
-                  
               )}
             </Col>
           </Row>
-        }
+        )}
 
-        {type === CellTypeMarkdown && content &&
+        {type === CellTypeMarkdown && content && (
           <Row>
             <Col {...cellBootstrapColumnLayout}>
-                <ArticleCellContent
-                  headingLevel  = {headingLevel}
-                  onNumClick    = {onNumClick}
-                  hideNum       = {hideNum}
-                  layer         = {layer}
-                  content       = {content}
-                  idx           = {idx}
-                  num           = {num}
-                />
+              <ArticleCellContent
+                headingLevel={headingLevel}
+                onNumClick={onNumClick}
+                hideNum={hideNum}
+                layer={layer}
+                content={content}
+                idx={idx}
+                num={num}
+              />
             </Col>
           </Row>
-        }
+        )}
 
-        {type === CellTypeCode && (!isFigure || !figure?.isCover) &&
+        {type === CellTypeCode && (!isFigure || !figure?.isCover) && (
           <Row>
-            <Col xs={!renderUsingThebe ? 12 : 7} className='code'>
+            <Col xs={!renderUsingThebe ? 12 : 7} className="code">
               <React.Suspense fallback={<div>loading...</div>}>
                 <ArticleCellSourceCodeWrapper
-                  cellIdx           = {idx}
-                  toggleVisibility  = {!renderUsingThebe}
-                  visible           = {false}
-                  readOnly          = {!ready}
-                /> 
+                  cellIdx={idx}
+                  toggleVisibility={!renderUsingThebe}
+                  visible={false}
+                  readOnly={!ready}
+                />
               </React.Suspense>
             </Col>
 
@@ -174,7 +173,18 @@ const ArticleCell = ({
               </Col>
             )}
           </Row>
-        }
+        )}
+        {type === CellTypeCode && (
+          <Row
+            style={{
+              borderBottomLeftRadius: 25,
+            }}
+          >
+            <Col className="code">
+              <ArticleCellExplainer source={source} cellIdx={idx} className="p1" />
+            </Col>
+          </Row>
+        )}
       </Container>
     </div>
   )
