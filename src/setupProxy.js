@@ -14,6 +14,16 @@ fs.appendFile(
 
 module.exports = function (app) {
   app.use(
+    '/api/explain',
+    createProxyMiddleware({
+      target: 'http://127.0.0.1:5000',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api/explain': '/explain',
+      },
+    }),
+  )
+  app.use(
     apiPath,
     createProxyMiddleware({
       target,
