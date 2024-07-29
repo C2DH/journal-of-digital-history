@@ -14,7 +14,6 @@ import {
 } from '../../constants'
 import { useExecutionScope } from './ExecutionScope'
 import ArticleCellCodeTools from './ArticleCellCodeTools'
-import ArticleCellExplainer from './ArticleCellExplainer'
 import { useArticleThebe } from './ArticleThebeProvider'
 import ArticleCellSourceCodeWrapper from './ArticleCellSourceCodeWrapper'
 import ArticleCellError from './ArticleCellError'
@@ -98,11 +97,7 @@ const ArticleCell = ({
     <div className={`ArticleCell ${layer}`}>
       <Container fluid={layer === LayerData} className={containerClassNames.join(' ')}>
         {(outputs.length > 0 || errors) && (
-          <Row
-            style={{
-              borderTopLeftRadius: 10,
-            }}
-          >
+          <Row>
             <Col
               {...cellBootstrapColumnLayout}
               ref={outputsRef}
@@ -169,20 +164,9 @@ const ArticleCell = ({
 
             {renderUsingThebe && (
               <Col xs={5} className="p-2">
-                <ArticleCellCodeTools cellIdx={idx} />
+                <ArticleCellCodeTools cellIdx={idx} source={source} />
               </Col>
             )}
-          </Row>
-        )}
-        {type === CellTypeCode && (
-          <Row
-            style={{
-              borderBottomLeftRadius: 25,
-            }}
-          >
-            <Col className="code">
-              <ArticleCellExplainer source={source} cellIdx={idx} className="p1" />
-            </Col>
           </Row>
         )}
       </Container>
