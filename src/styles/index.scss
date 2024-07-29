@@ -23,9 +23,9 @@
   --pink: #ffcad4;
   --snow: #fff3f0;
   --linen: #feefe5;
-  --narrative-layer: #F8F9FA;
-  --hermeneutics-layer: #D3FFF6;
-  --data-layer: #0D1323;
+  --narrative-layer: #f8f9fa;
+  --hermeneutics-layer: #d3fff6;
+  --data-layer: #0d1323;
 
   --bittersweet: #ff6b6b;
   --peachpuff: #fee1c7;
@@ -109,6 +109,21 @@ html,
     text-decoration: none;
     box-shadow: 0px 1px 0px var(--primary);
   }
+}
+
+.btn-link-white {
+  text-decoration: underline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  line-height: inherit;
+  color: var(--white);
+}
+
+.btn-pill{
+  border-radius: 50px;
+  
 }
 .border-double {
   border-width: 2px !important;
@@ -249,6 +264,15 @@ a.btn {
     color: var(--dark);
   }
 }
+.btn-outline-white-secondary {
+  border-color: rgba(255, 255, 255, 0.35) !important;
+  color: white;
+  &:hover {
+    background-color: white;
+    color: var(--dark);
+  }
+}
+
 .btn-outline-secondary.bg-gray {
   &:hover {
     background-color: var(--secondary) !important;
