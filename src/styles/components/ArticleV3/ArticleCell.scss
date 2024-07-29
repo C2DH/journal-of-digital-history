@@ -1,6 +1,10 @@
 $module: '.ArticleCell';
 
 #{$module} {
+  .ArticleCellOutput_error {
+    position: sticky;
+    top: 100px;
+  }
   &.hermeneutics {
     .container {
       margin-right: 100px;
