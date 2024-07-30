@@ -1,6 +1,6 @@
 .ConnectionStatusBox pre {
   width: 100%;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .ConnectionStatusBox__messages {

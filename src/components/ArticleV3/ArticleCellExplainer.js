@@ -6,6 +6,7 @@ import ArticleCellExplainCodeButton, {
   StatusExecuting,
   StatusError,
 } from './ArticleCellExplainCodeButton'
+import { markdownParser } from '../../logic/markdown';
 import { a, useSpring } from '@react-spring/web'
 import './ArticleCellExplainer.css'
 
@@ -40,7 +41,7 @@ const ArticleCellExplainer = ({ source = '', cellIdx = '', className = '' }) => 
     onSuccess: (res) => {
       console.info('[ArticleCellExplainer] mutation success', res)
       const messages = res.data.result.choices.map((choice) => choice.content).join('<br/>')
-      resultRef.current.innerHTML = messages
+      resultRef.current.innerHTML = markdownParser.render(messages)
       api.start({
         height: messagesRef.current.scrollHeight,
         opacity: 1,
