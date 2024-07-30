@@ -16,6 +16,7 @@ const ArticleToCSteps = ({
   style,
   className = '',
   onClick,
+  children,
 }) => {
   const { t } = useTranslation()
   const manuallyExpandedSteps = useRef([])
@@ -194,6 +195,7 @@ const ArticleToCSteps = ({
           </li>
         )
       })}
+      {children}
     </ol>
   )
 }

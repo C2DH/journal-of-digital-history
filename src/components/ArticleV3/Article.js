@@ -55,6 +55,7 @@ const Article = ({
         plainTitle={plainTitle}
         paragraphs={paragraphs}
         kernelName={kernelName}
+        hasBibliography={!!bibliography}
         headingsPositions={headingsPositions}
       />
 

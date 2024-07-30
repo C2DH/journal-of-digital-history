@@ -8,6 +8,8 @@ import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 import './ArticleToC.css'
 import ArticleThebeSession from './ArticleThebeSession'
 import ArticleToCTitle from './ArticleToCTitle'
+import PropTypes from 'prop-types'
+import ToCStep from '../ToCStep'
 
 const getToCSteps = ({ headingsPositions, cellsIndex, hideFigures = false }) => {
   const { groups } = headingsPositions
@@ -65,6 +67,7 @@ const ArticleToC = ({
   paragraphs = [],
   headerHeight = 100,
   kernelName = '-',
+  hasBibliography = false,
 }) => {
   const { t } = useTranslation()
   const height = useWindowStore((state) => state.windowHeight)
@@ -125,7 +128,22 @@ const ArticleToC = ({
         selectedCellIdx={selectedCellIdx}
         style={{ height: toCHeight }}
         onClick={onStepClickHandler}
-      />
+      >
+        {hasBibliography && (
+          <ToCStep
+            level="H2"
+            label={t('bibliography')}
+            width={width * 0.16}
+            isSectionStart
+            isSectionEnd
+            selected
+            active={false}
+            className="mt-2"
+            // onClick={(e) => onSectionClickHandler(e, DisplayLayerSectionBibliography)}
+          ></ToCStep>
+        )}
+      </ArticleToCSteps>
+
       <ul>
         {visibleCellsIdx.map((idx) => (
           <li key={idx}>{idx}</li>
@@ -133,6 +151,21 @@ const ArticleToC = ({
       </ul>
     </aside>
   )
+}
+
+ArticleToC.propTypes = {
+  // plainTitle = '',
+  // headingsPositions = [],
+  // paragraphs = [],
+  // headerHeight = 100,
+  // kernelName = '-',
+  // hasBibliography = false,
+  plainTitle: PropTypes.string,
+  headingsPositions: PropTypes.array,
+  paragraphs: PropTypes.array,
+  headerHeight: PropTypes.number,
+  kernelName: PropTypes.string,
+  hasBibliography: PropTypes.bool,
 }
 
 export default React.memo(ArticleToC, (prevProps, nextProps) => {
