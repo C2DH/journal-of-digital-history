@@ -45,4 +45,14 @@ $module: ".ArticleCellFigure";
       padding: 0;
     }
   }
+
+  .ArticleCellDataTable{
+    border-radius: 5px;
+    background-color: rgba(248, 249, 250, 1);
+    color: var(--dark);
+  }
+  .ArticleCellDataTable__pagination .form-select{
+    width: 150px;
+    padding: 0 0 0 10px;
+  }
 }

@@ -57,8 +57,7 @@ const ArticleCellFigure = ({
 
   //  Data table
   const isDataTable               =
-    (tags.includes('data-table') || figure.refPrefix === DataTableRefPrefix) &&
-    cellType === CellTypeMarkdown;
+    (tags.includes('data-table') || figure.refPrefix === DataTableRefPrefix) 
 
   const dataTableContent         = 
     isDataTable && htmlOutputs.length > 0
@@ -67,7 +66,6 @@ const ArticleCellFigure = ({
   
   return (
     <figure className={`ArticleCellFigure ${active ? 'active' : ''} ${figure.getPrefix()}`}>
-
       {/* Other outputs */}
       {!isDataTable && otherOutputs.length > 0 && (
         <>
