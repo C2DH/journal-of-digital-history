@@ -4,7 +4,6 @@ import { ArticleThebeProvider } from './ArticleThebeProvider'
 import ArticleCell from './ArticleCell'
 import ArticleLayers from './ArticleLayers'
 import { useNotebook } from '../../hooks/ipynbV3'
-import ConnectionErrorBox from './ConnectionErrorBox'
 import { useExecutionScope } from './ExecutionScope'
 import ArticleToC from './ArticleToC'
 import ArticleCellObserver from './ArticleCellObserver'
@@ -58,8 +57,6 @@ const Article = ({
         hasBibliography={!!bibliography}
         headingsPositions={headingsPositions}
       />
-
-      <ConnectionErrorBox />
 
       <ArticleHeader
         className="page mt-2 pb-0"
