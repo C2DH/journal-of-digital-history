@@ -44,12 +44,24 @@ $module: ".ArticleCellFigure";
     .row > * {
       padding: 0;
     }
+    table{
+      border-radius: 5px;
+      color: var(--dark);
+      padding: 0;
+      border-collapse: separate !important;
+    }
   }
+
+  
 
   .ArticleCellDataTable{
     border-radius: 5px;
     background-color: rgba(248, 249, 250, 1);
     color: var(--dark);
+    table{
+      padding: 0;
+      border-collapse: collapse !important;
+    } 
   }
   .ArticleCellDataTable__pagination .form-select{
     width: 150px;
