@@ -78,7 +78,7 @@ export const getFigureRatio = tags =>
   tags.reduce((acc, tag) => {
     const ratio = tag.match(/^aspect-ratio-(\d+)-(\d+)$/); // e.g. aspect-ratio-16-9 w/h
     return ratio ? ratio[2] / (ratio[1] || 1) : acc;
-  }, undefined);
+  }, 0);
 
 
 /**

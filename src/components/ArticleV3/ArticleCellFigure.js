@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
-import { useExtractOutputs, useFigureHeight } from '../../hooks/ipynbV3';
+import { useContainerWidth, useExtractOutputs, useFigureHeight } from '../../hooks/ipynbV3';
 import { getDataTablePageSize, getFigureRatio } from '../../logic/ipynbV3';
 import { CellTypeMarkdown, DataTableRefPrefix } from '../../constants';
 import { useWindowSize } from '../../hooks/windowSize';
@@ -11,8 +11,8 @@ import ArticleFigureCaption from '../Article/ArticleFigureCaption';
 import '../../styles/components/ArticleV3/ArticleCellFigure.scss';
 
 
-const getPictureStyle = (aspectRatio, figureHeight, useFixedHeight) =>
-  useFixedHeight
+const getPictureStyle = (aspectRatio, figureHeight, shouldUseFixedHeight) =>
+  shouldUseFixedHeight
     ? { height: parseInt(figureHeight) }
     : { paddingTop: `${aspectRatio * 100}%` };
     
@@ -49,10 +49,13 @@ const ArticleCellFigure = ({
     htmlOutputs
   } = useExtractOutputs(figure.idx, metadata, outputs);
 
+  const pictureRef                = useRef();
   const tags                      = Array.isArray(metadata.tags) ? metadata.tags : [];
   const aspectRatio               = getFigureRatio(tags);
-  const figureHeight              = useFigureHeight(tags, isNaN(aspectRatio), figure.isCover); 
-  const useFixedHeight            = figureHeight && (!figure.isCover || isNaN(aspectRatio));
+  const figureHeight              = useFigureHeight(tags, !aspectRatio, figure.isCover); 
+  const containerWidth            = useContainerWidth(pictureRef);
+  const shouldUseFixedHeight      = figureHeight && (!figure.isCover || !aspectRatio) && (figureHeight * aspectRatio) <= containerWidth;
+
   const { height: windowHeight }  = useWindowSize();
 
   //  Data table
@@ -87,8 +90,9 @@ const ArticleCellFigure = ({
       {pictures.map(({ base64 }, i) => (
         <div
           key       = {i}
-          className = {`picture ${!useFixedHeight ? 'with-aspect-ratio' : ''}`}
-          style     = {getPictureStyle(aspectRatio, figureHeight, useFixedHeight)}
+          className = {`picture ${!shouldUseFixedHeight ? 'with-aspect-ratio' : ''}`}
+          style     = {getPictureStyle(aspectRatio, figureHeight, shouldUseFixedHeight)}
+          ref       = {pictureRef}
         >
           <img src={base64} alt="display_data output" />
         </div>

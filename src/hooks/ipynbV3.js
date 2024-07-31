@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useLayoutEffect, useMemo, useState } from 'react';
 import { useThebeLoader, useThebeConfig, useRenderMimeRegistry } from 'thebe-react';
 import { useIpynbNotebookParagraphs } from './ipynb';
 import { LayerHidden } from '../constants';
@@ -109,4 +109,15 @@ export const useFigureHeight = (tags, useDefault, isCover) => {
   );
 }
 
+export const useContainerWidth = containerRef => {
+
+  const [width, setWidth] = useState(0);
+
+  useLayoutEffect(() => {
+    if (containerRef.current)
+      setWidth(containerRef.current.offsetWidth);
+  }, [containerRef.current?.offsetWidth]);
+
+  return width;
+}
 
