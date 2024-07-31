@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useToCStore } from './store'
 import ArticleToCSteps from './ArticleToCSteps'
@@ -99,14 +99,6 @@ const ArticleToC = ({
       [DisplayLayerCellIdxQueryParam]: id,
     })
   }
-
-  useEffect(() => {
-    // scroll to the correct id
-    const element = document.querySelector("[data-cell-idx='" + selectedCellIdx + "']")
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
-  }, [selectedCellIdx])
 
   console.debug('[ArticleToC] @render \n - size: ', width, 'x', height, 'px', steps)
 

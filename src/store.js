@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware'
 import AbstractSubmission from './models/AbstractSubmission'
 import { DisplayLayerNarrative } from './constants'
 
+
 export const useArticleCellExplainerStore = create((set) => ({
   cellIdx: null,
   lock: (cellIdx) =>
@@ -47,6 +48,8 @@ export const useArticleToCStore = create((set) => ({
 }))
 
 export const useArticleStore = create((set) => ({
+  selectedCellIdx: -1,
+  setSelectedCellIdx: (selectedCellIdx) => set(() => ({ selectedCellIdx })),
   // visible shadow cells according to Accordion
   visibleShadowCellsIdx: [],
   setVisibleShadowCell: (cellIdx, isVisible) =>
@@ -86,6 +89,7 @@ export const useArticleStore = create((set) => ({
   displayLayer: DisplayLayerNarrative,
   setDisplayLayer: (displayLayer) => set({ displayLayer, visibleCellsIdx: [] }),
 }))
+
 export const useStore = create(
   persist(
     (set, get) => ({

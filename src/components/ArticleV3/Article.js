@@ -11,11 +11,13 @@ import ArticleCellObserver from './ArticleCellObserver'
 import ArticleHeader from '../Article/ArticleHeader'
 import Footer from '../Footer'
 import ArticleBibliography from '../Article/ArticleBibliography'
-import { CellTypeCode, LayerData } from '../../constants'
+import { CellTypeCode,  LayerData } from '../../constants'
 import { WithWindowSize } from '../../hooks/windowSize'
 
 import '../../styles/components/ArticleV3/Article.scss'
 import './Article.css'
+import ArticleScrollTo from './ArticleScrollTo'
+import { useArticleStore } from '../../store'
 
 const Article = ({
   url = '',
@@ -45,11 +47,17 @@ const Article = ({
   kernelName, // null or IR for R
 }) => {
   console.debug('[Article]', url, 'is rendering. \n - kernelName:', kernelName)
+  const setSelectedCellIdx = useArticleStore((state) => state.setSelectedCellIdx)
+  
+  const onNumClickHandler = (e,{ idx}) => {
+    console.debug('[Article] onNumClickHandler', idx)
+    setSelectedCellIdx(idx)
+  }
 
   return (
     <div className="Article ArticleV3 page">
       <ArticleLayers />
-
+      <ArticleScrollTo />
       <ArticleToC
         plainTitle={plainTitle}
         paragraphs={paragraphs}
@@ -93,7 +101,7 @@ const Article = ({
                 <div className={`Article_cellActive off`} />
                 <ArticleCell
                   isJavascriptTrusted={isJavascriptTrusted}
-                  onNumClick={() => ({})}
+                  onNumClick={onNumClickHandler}
                   memoid={[url, idx].join('-')}
                   {...cell}
                   num={cell.num}

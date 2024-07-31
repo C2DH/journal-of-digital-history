@@ -4,16 +4,19 @@ import ArticleThebeSessionButton, {
   StatusReady,
   StatusIdle,
   StatusPreparing,
+  StatusError
 } from './ArticleThebeSessionButton'
 import { useExecutionScope } from './ExecutionScope'
 
 const ArticleThebeSession = ({ debug = false, kernelName }) => {
-  const { starting, ready, connectAndStart, shutdown, restart, session } = useArticleThebe()
+  const { starting, ready, connectAndStart, shutdown, restart, session, connectionErrors } = useArticleThebe()
   const executeAll = useExecutionScope((state) => state.executeAll)
   const attachSession = useExecutionScope((state) => state.attachSession)
   let status = StatusIdle
 
-  if (ready) {
+  if(connectionErrors) {
+    status = StatusError
+  } else if (ready) {
     status = StatusReady
   } else if (starting) {
     status = StatusPreparing

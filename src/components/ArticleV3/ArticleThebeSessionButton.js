@@ -8,12 +8,14 @@ export const StatusIdle = 'idle'
 export const StatusPreparing = 'preparing'
 export const StatusReady = 'ready'
 export const StatusRestarting = 'restarting'
+export const StatusError = 'error'
 
 export const StatusIcons = {
   [StatusIdle]: Circle,
   [StatusPreparing]: XmarkCircleSolid,
   [StatusReady]: FlashSolid,
   [StatusRestarting]: Circle,
+  [StatusError]: XmarkCircleSolid,
 }
 
 const StatusLabels = {
@@ -21,6 +23,7 @@ const StatusLabels = {
   [StatusPreparing]: 'starting…',
   [StatusReady]: 'Ready',
   [StatusRestarting]: 'Restarting …',
+  [StatusError]: 'Error',
 }
 
 const StatusActionLabels = {
@@ -28,6 +31,7 @@ const StatusActionLabels = {
   [StatusPreparing]: 'Click to Stop',
   [StatusReady]: 'Notebook is executable! Click to reboot',
   [StatusRestarting]: 'Restart',
+  [StatusError]: 'Error',
 }
 
 export const AvailableStatuses = [StatusIdle, StatusPreparing, StatusReady, StatusRestarting]
