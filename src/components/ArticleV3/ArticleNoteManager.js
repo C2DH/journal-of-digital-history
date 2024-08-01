@@ -60,14 +60,11 @@ const ArticleNoteManager = ({ bibliography = {} }) => {
     <div className="ArticleNoteManager">
       <a.div className="container" style={{ opacity: styles.opacity }}>
         <div className="row ">
-          <div className="col col-lg-10 col-md-10 offset-lg-2 offset-md-1 position-relative">
+          <div className="col col-lg-8 col-md-8 offset-lg-2 offset-md-1 position-relative">
             <div className="ArticleNoteManager__buffer" ref={bufferRef}></div>
-            <a.div
-              className="position-absolute bg-dark text-white d-flex rounded shadow-lg"
-              style={{ bottom: 0, height: styles.height, overflow: 'hidden' }}
-            >
-              <div className="pt-3 px-3 " ref={contentRef}></div>
-              <div className="" style={{ paddingTop: 12, paddingRight: 10 }}>
+            <a.div className="ArticleNoteManager__contentWrapper" style={{ height: styles.height }}>
+              <div className="ArticleNoteManager__content" ref={contentRef}></div>
+              <div className="ArticleNoteManager__close">
                 <button
                   className="btn btn-sm btn-transparent text-white"
                   onClick={() => setSelectedDataHref(null)}
