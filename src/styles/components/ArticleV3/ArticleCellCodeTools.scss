@@ -11,23 +11,9 @@ $module: ".ArticleCellCodeTools";
   .reset-btn {
     display: flex;
     align-items: center;
-    line-height: 1;
-    width: 120px;
-
-    img {
-      transition: all 0.5s;
-    }
-
-    span {
-      text-align: center;
-      flex: 1 0 auto;
-    }
-
-    &:hover {
-      img {
-        filter: invert(1);
-      }
-    }
+    gap: 0.5rem;
+    border-radius: 100px;
+    padding: var(--spacer-1) var(--spacer-3) var(--spacer-1) var(--spacer-1);
   }
 
   .ArticleCell_error {
