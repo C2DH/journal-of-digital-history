@@ -97,7 +97,7 @@ export const useExecutionScope = create((set, get) => ({
           return {
             executing: false,
             cells: {
-              ...mapObject(cells, (c) => ({ ...c, executing: false })),
+              ...mapObject(cells, (c) => ({ ...c, executing: false, pending: false })),
               [id]: {
                 ...cell,
                 executing: false,
