@@ -70,7 +70,7 @@ export const useExecutionScope = create((set, get) => ({
   executeAll: async () => {
     set(({ cells }) => ({
       executing: true,
-      cells: mapObject(cells, (cell) => ({ ...cell, pending: true })),
+      cells: mapObject(cells, (cell) => ({ ...cell, pending: true, errors: undefined })),
     }))
     // caution -  we are relying on a id being stable, sortable and
     // corresponding to the correct cell order for execution
