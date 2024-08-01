@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { Button } from 'react-bootstrap'
+import { Erase } from 'iconoir-react'
 
 import { useExecutionScope } from './ExecutionScope'
 import ConnectionStatusBox from './ConnectionStatusBox'
@@ -13,8 +14,6 @@ import ArticleCellRunCodeButton, {
   StatusSuccess,
 } from './ArticleCellRunCodeButton'
 
-import shineIcon from '../../assets/icons/shine_white.png'
-
 import '../../styles/components/ArticleV3/ArticleCellCodeTools.scss'
 import ArticleCellExplainer from './ArticleCellExplainer'
 
@@ -26,10 +25,9 @@ const ArticleCellCodeTools = ({ cellIdx = -1, source = '' }) => {
   const pending = useExecutionScope((state) => state.cells[cellIdx]?.pending)
   const success = useExecutionScope((state) => state.cells[cellIdx]?.success)
   const errors = useExecutionScope((state) => state.cells[cellIdx]?.errors)
-  // const thebeCell     = useExecutionScope((state) => state.cells[cellIdx]?.thebe);
+  const edited = useExecutionScope((state) => state.cells[cellIdx]?.source !== state.cells[cellIdx]?.thebe?.source);
   const executeCell = useExecutionScope((state) => state.executeCell)
   const scheduleCell = useExecutionScope((state) => state.scheduleCell)
-  // const clearCell     = useExecutionScope((state) => state.clearCell);
   const resetCell = useExecutionScope((state) => state.resetCell)
   const attachSession = useExecutionScope((state) => state.attachSession)
   const attached = useExecutionScope((state) => state.cells[cellIdx]?.attached)
@@ -78,12 +76,13 @@ const ArticleCellCodeTools = ({ cellIdx = -1, source = '' }) => {
 
       {ready && (
         <Button
-          variant="outline-white"
-          className="reset-btn"
-          size="sm"
-          onClick={() => resetCell(cellIdx)}
+          variant   = "outline-white"
+          className = "reset-btn"
+          size      = "sm"
+          onClick   = {() => resetCell(cellIdx)}
+          disabled  = {!edited}
         >
-          <img src={shineIcon} />
+          <Erase />
           <span>Reset cell</span>
         </Button>
       )}
