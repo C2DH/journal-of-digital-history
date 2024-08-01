@@ -6,7 +6,7 @@ $module: '.ArticleLayers';
   top: 100px;
   bottom: 0;
   right: 0;
-  width: 138px; // 60 + 39 + 39
+  width: 117px; // 39 + 39 + 39
 
   .layer {
     width: 39px;
@@ -38,8 +38,6 @@ $module: '.ArticleLayers';
     &.data {
       background-color: var(--data-layer);
       color: white;
-      padding-right: 10px;
-      width: 60px;
     }
 
     &::after {
