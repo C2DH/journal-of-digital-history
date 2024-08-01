@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useArticleThebe } from './ArticleThebeProvider'
+import './ConnectionStatusBox.css'
+import { ArrowDown } from 'iconoir-react'
 
 export default function ConnectionStatusBox() {
   const { starting, ready, connectionErrors, subscribe } = useArticleThebe()
@@ -18,46 +20,45 @@ export default function ConnectionStatusBox() {
   if (!starting && !ready && !connectionErrors) return null
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        fontSize: 12,
-        border: '1px solid lightgreen',
-        cursor: 'pointer',
-        minHeight: '1.6em',
-        backgroundColor: 'white',
-      }}
-      onClick={() => setOpen((o) => !o)}
-    >
-      <div
-        style={{
-          position: 'absolute',
-          padding: '2px 4px',
-          color: 'black',
-          backgroundColor: 'lightgreen',
-          fontSize: 10,
-          width: 90,
-        }}
-      >
-        connection status
+    <div className="ConnectionStatusBox w-100 ">
+      <div className={`ConnectionStatusBox__messages ${connectionErrors ? 'error' : ''}`}>
+        {starting && 'Starting...'}
+        {ready && 'Ready'}
+        {connectionErrors}
       </div>
-      {open && (
-        <pre
-          style={{
-            marginTop: '2em',
-            marginBottom: 0,
-            maxHeight: 200,
-            overflowY: 'auto',
-          }}
+      <div className="px-2 py-1">
+        <button
+          className="btn btn-sm btn-link-white  d-flex align-items-center"
+          onClick={() => setOpen((o) => !o)}
         >
-          {status}
-        </pre>
-      )}
-      {!open && (
-        <span style={{ display: 'inline-block', marginLeft: 100, height: '1.5em' }}>
-          {lastStatus}
-        </span>
-      )}
+          {open ? 'less details' : 'see full log'}
+          <ArrowDown className="ms-2" width={12} height={12} />
+        </button>
+      </div>
+      <div className="ConnectionStatusBox__messages px-2">
+        {open ? (
+          <pre
+            style={{
+              marginBottom: 0,
+              maxHeight: 200,
+              overflowY: 'auto',
+              whiteSpace: 'pre-wrap',
+            }}
+          >
+            {status}
+          </pre>
+        ) : (
+          <pre
+            style={{
+              display: 'inline-block',
+              whiteSpace: 'pre-wrap',
+              color: starting ? 'orange' : ready ? 'lightgreen' : 'white',
+            }}
+          >
+            {lastStatus}
+          </pre>
+        )}
+      </div>
     </div>
   )
 }

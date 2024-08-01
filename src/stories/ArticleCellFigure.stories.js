@@ -2,11 +2,12 @@ import React from 'react'
 import ArticleFigure from '../models/ArticleFigure'
 import ArticleCellContent from '../components/Article/ArticleCellContent'
 import ArticleCellFigure from '../components/Article/ArticleCellFigure'
+import { QueryParamProvider } from 'use-query-params'
 
 // Stories for hoks and methds, following Josh Farrant https://farrant.me/posts/documenting-react-hooks-with-storybook
 // accessed 04 01 2023
 export default {
-  title: 'components/Article/ArticleCellFigure',
+  title: 'ArticleCellFigure',
   component: ArticleCellFigure,
   argTypes: {
     figure: { required: true, control: { type: 'object' }, defaultValue: {} },
@@ -15,9 +16,11 @@ export default {
 }
 
 const Template = ({ figure, content, outputs, metadata }) => (
-  <ArticleCellFigure figure={figure} outputs={outputs} metadata={metadata}>
-    <ArticleCellContent content={content} idx={figure.idx} />
-  </ArticleCellFigure>
+  <QueryParamProvider>
+    <ArticleCellFigure figure={figure} outputs={outputs} metadata={metadata}>
+      <ArticleCellContent content={content} idx={figure.idx} />
+    </ArticleCellFigure>
+  </QueryParamProvider>
 )
 export const Default = Template.bind({})
 export const FigureWithAspectRatio = Template.bind({})
@@ -37,7 +40,7 @@ Table.args = {
         source: ["Author's search in SHINE, 14 November 2022."],
       },
     },
-    tags: ['table-1', 'hermeneutics'],
+    tags: ['table-1', 'data-table', 'hermeneutics'],
   },
 }
 

@@ -1,0 +1,7 @@
+.ArticleToCV3 {
+  position: fixed;
+  left: 0;
+  z-index: 10;
+  /* background-clip: text;
+  mix-blend-mode: exclusion; */
+}

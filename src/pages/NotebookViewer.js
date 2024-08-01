@@ -15,6 +15,7 @@ import ArticleV3 from '../components/ArticleV3'
 import ArticleHeader from '../components/Article/ArticleHeader'
 import ErrorViewer from './ErrorViewer'
 import { usePropsStore } from '../store'
+import { setBodyNoScroll } from '../logic/viewport'
 /**
  * Loading bar inspired by
  * https://codesandbox.io/s/github/pmndrs/react-spring/tree/master/demo/src/sandboxes/animating-auto
@@ -99,6 +100,12 @@ const NotebookViewer = ({
       setLoadingProgress(0, url)
     }
   }, [status])
+
+  useEffect(() => {
+    if (version === 3) {
+      setBodyNoScroll(false)
+    }
+  }, [version])
 
   console.debug(
     '[NotebookViewer] javascript support by origin:',

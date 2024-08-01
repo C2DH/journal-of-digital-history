@@ -1,5 +1,5 @@
 import React from 'react'
-import ToCStep from './ToCStep'
+import ToCStep from '../components/ToCStep'
 
 export default {
   component: ToCStep,

@@ -1,0 +1,38 @@
+$module: ".ArticleCellSourceCodeWrapper";
+
+#{$module} {
+  .CodeMirror {
+    height: auto;
+    background: linear-gradient(180deg, #232145 0%, #261B38 100%) !important;
+  }
+
+  .expandButton {
+    position: absolute;
+    left: 50%;
+    bottom: var(--spacer-3);
+    z-index: 1;
+    transform: translateX(-50%);
+  }
+
+  &.collapsed {
+    height: 250px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 100px;
+      background: linear-gradient(180deg,rgb(35, 32, 67, 0),rgba(35, 32, 67,1) 80%);
+    }
+  }
+
+  &:not(.toggle-visibility) {
+    .CodeMirror {
+      .CodeMirror-scroll { 
+        min-height: 250px 
+      }
+    }
+  }
+}

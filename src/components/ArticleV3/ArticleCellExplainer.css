@@ -1,0 +1,16 @@
+.ArticleCellExplainer section {
+  overflow: hidden;
+  height: 0;
+}
+
+.ArticleCellExplainer__messages {
+  margin-top: var(--spacer-2);
+  padding: var(--spacer-1) var(--spacer-2);
+  border-radius: 5px;
+  max-height: 600px;
+}
+.ArticleCellExplainer__messages.error {
+  background: #ff634755;
+  color: tomato;
+  position: relative;
+}

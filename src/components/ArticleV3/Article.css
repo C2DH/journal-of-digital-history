@@ -1,0 +1,12 @@
+.Article .ArticleCell .data {
+  background: transparent;
+}
+
+.ArticleV3 .ArticleStream_paragraph {
+  margin: 0;
+}
+
+.ArticleV3 .Article_paragraphWrapper .ArticleCell .container .row > * {
+  padding-top: var(--spacer-2);
+  padding-bottom: var(--spacer-2);
+}

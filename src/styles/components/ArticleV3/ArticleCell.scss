@@ -1,0 +1,59 @@
+$module: '.ArticleCell';
+
+#{$module} {
+  .ArticleCellOutput_error {
+    position: sticky;
+    top: 100px;
+  }
+  &.hermeneutics {
+    .container {
+      margin-right: 78px;
+      .row {
+        position: relative;
+        z-index: 0;
+      }
+      .row > * {
+        background-color: var(--hermeneutics-layer);
+      }
+      .row::after {
+        content: '';
+        background-color: var(--hermeneutics-layer);
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        right: 0px;
+        z-index: -1;
+      }
+    }
+  }
+
+  &.data {
+    margin-bottom: 1rem;
+
+    .container-fluid {
+      padding-left: calc(50vw - var(--container-max-width) / 3);
+      padding-right: 39px;
+      // first row
+      .row:first-child {
+        border-start-start-radius: 10px;
+      }
+      // last Row
+      .row:last-child {
+        border-end-start-radius: 10px;
+      }
+
+      .row {
+        --bs-gutter-x: 0;
+
+        background-color: var(--data-layer);
+        color: var(--bs-white);
+        padding: 0.5rem 0 0.5rem 0.5rem;
+
+        .code {
+          position: relative;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}

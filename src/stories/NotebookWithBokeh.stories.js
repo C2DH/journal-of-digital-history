@@ -1,11 +1,12 @@
 import React from 'react'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import ArticleCell from '../components/Article/ArticleCell'
+import { QueryParamProvider } from 'use-query-params'
 
 // Stories for hoks and methds, following Josh Farrant https://farrant.me/posts/documenting-react-hooks-with-storybook
 // accessed 04 01 2023
 export default {
-  title: 'tests/Notebook with bokeh',
+  title: 'ArticleV2/ArticleCell Notebook with bokeh',
   component: ArticleCell,
   argTypes: {
     metadata: { control: { type: 'object' }, defaultValue: {} },
@@ -21,11 +22,13 @@ const Template = ({ cells, metadata, isJavascriptTrusted }) => {
 
   console.debug('[Article] loading articleTree paragraphs:', articleTree.paragraphs.length)
 
-  return [
-    articleTree.paragraphs.map((p, i) => (
-      <ArticleCell isJavascriptTrusted={isJavascriptTrusted} key={i} {...p} />
-    )),
-  ]
+  return (
+    <QueryParamProvider>
+      {articleTree.paragraphs.map((p, i) => (
+        <ArticleCell isJavascriptTrusted={isJavascriptTrusted} key={i} {...p} />
+      ))}
+    </QueryParamProvider>
+  )
 }
 export const Default = Template.bind({})
 

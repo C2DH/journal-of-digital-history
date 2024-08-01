@@ -188,6 +188,7 @@
         "addDataset": "Add Dataset / Tools / Code",
         "downloadAsJSON": "Download as JSON",
         "resetForm": "Start over ↻",
+        "expand": "Expand",
         "switchToHermeneuticLayer": "See Hermeneutic Layer",
         "hidesourceCode": "hide source code",
         "showsourceCode": "show source code",
@@ -234,7 +235,8 @@
         "minLength": "...not long enough",
         "pattern": "not valid",
         "enum": "not valid",
-        "binderUrlNotAvailable": "Binder is not available for this notebook ..."
+        "binderUrlNotAvailable": "Binder is not available for this notebook ...",
+        "explainCodeNotAvailable": "Code explanation is not available for this notebook. <br/> <i>Error received: {{ error }}</i>"
       },
       "selectCallForPapers": "Please select the relevant <b class='text-accent'>call for papers<b>:",
       "schemaErrors": {

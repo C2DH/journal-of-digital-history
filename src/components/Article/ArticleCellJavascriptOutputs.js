@@ -20,13 +20,14 @@ const ArticleCellJavascriptOutputs = ({
           } else if (typeof output.data['application/javascript'] === 'string') {
             // sometimes output.data['application/javascript'] is not an array...
             return acc.concat([output.data['application/javascript']])
-          } else if (Array.isArray(output.data['text/html'])) {
+          } else if (Array.isArray(output.data['text/html']) || typeof output.data['text/html'] === 'string') {
             // view if there are any candidate
-
-            if (output.data['text/html'].some((d) => d.indexOf('/script>') !== -1)) {
+            const outputData = Array.isArray(output.data['text/html']) ? output.data['text/html']
+              : output.data['text/html'].split('\n'); 
+            if (outputData.some((d) => d.indexOf('/script>') !== -1)) {
               // we should alert somehow.
               // eslint-disable-next-line
-              const htmlScript = output.data['text/html']
+              const htmlScript = outputData
                 .join('')
                 .match(/\x3Cscript[^>]*>([\s\S]*?)\x3C\/script>/m)
               if (htmlScript) {

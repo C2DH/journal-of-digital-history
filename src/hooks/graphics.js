@@ -224,6 +224,13 @@ export function useInjectTrustedJavascript({
           } catch (e) {
             console.error(e)
           }
+        } else {
+          console.debug('script already attached, upgrade it...')
+          scriptDomElement.innerHTML = [
+            'try{',
+            ...contents,
+            '} catch(e) { console.error("Error inside the script attached useInjectTrustedJavascript!\\n\\n", e)}',
+          ].join('\n')
         }
       }
       if (node && typeof onMount === 'function') {

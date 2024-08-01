@@ -88,6 +88,16 @@ export const BootstrapColumLayout = Object.freeze({
   md: { span: 8, offset: 1 },
   lg: { span: 8, offset: 2 },
 })
+export const BootstrapColumLayoutV3 = Object.freeze({
+  narrative: BootstrapColumLayout,
+  hermeneutics: {
+    md: { span: 8, offset: 2 },
+    lg: { span: 8, offset: 4 },
+  },
+  data: {
+    xs: 12
+  }
+})
 export const BootstrapFullColumLayout = Object.freeze({
   md: { span: 10, offset: 1 },
   lg: { span: 8, offset: 2 },
@@ -144,10 +154,13 @@ export const ScrollamaThreshold = 0
 
 // Cell layer choices
 export const LayerNarrative = 'narrative'
+export const LayerNarrativeLabel = 'narrative'
 export const LayerHermeneutics = 'hermeneutics'
+export const LayerHermeneuticsLabel = 'hermeneutics'
 export const LayerHermeneuticsStep = 'hermeneutics-step'
 export const LayerNarrativeStep = 'narrative-step'
 export const LayerData = 'data'
+export const LayerDataLabel = 'data & code'
 export const LayerHidden = 'hidden'
 export const LayerChoices = [
   LayerNarrative,
@@ -157,6 +170,8 @@ export const LayerChoices = [
   LayerHidden,
   LayerNarrativeStep,
 ]
+export const Layers = [LayerNarrative, LayerHermeneutics, LayerData];
+export const LayersLabel = [LayerNarrativeLabel, LayerHermeneuticsLabel, LayerDataLabel];
 
 // Cell sections
 export const SectionTitle = 'title'

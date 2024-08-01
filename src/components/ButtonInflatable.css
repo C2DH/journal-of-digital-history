@@ -1,0 +1,9 @@
+.ButtonInflatable__label {
+  width: O;
+  overflow: hidden;
+  text-overflow: hidden;
+  white-space: nowrap;
+  text-align: start;
+  will-change: width;
+  transition: width 0.25s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}

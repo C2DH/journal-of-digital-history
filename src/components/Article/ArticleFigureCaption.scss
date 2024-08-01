@@ -1,19 +1,20 @@
-.ArticleFigure {
+.ArticleFigureCaption {
   min-height: 50px;
-  margin-top: var(--spacer-3);
+  padding: var(--spacer-2);
+  margin: 0;
 }
 
-.ArticleFigure__figcaption_num {
+.ArticleFigureCaption__figcaption_num {
   position: absolute;
   left: -140px;
   width: 140px;
   text-align: right;
-  padding-right: var(--spacer-3);
+  padding-right: var(--spacer-4);
   font-family: var(--font-family-monospace);
   font-weight: bold;
 }
 
-.ArticleFigure button.btn-link {
+.ArticleFigureCaption button.btn-link {
   color: #000;
   border-radius: 0;
   font-size: inherit;

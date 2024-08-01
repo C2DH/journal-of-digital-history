@@ -1,0 +1,33 @@
+svg.CircularLoading path {
+  stroke-dasharray: 288.5;
+  stroke-linecap: round;
+  fill: none;
+  transform-origin: 50px 50px;
+  animation: CircularLoading__pathStroke 2.75s infinite ease-in-out,
+    CircularLoading__pathRotate 5.5s infinite cubic-bezier(1, 0.5, 0, 0.5);
+}
+
+@keyframes CircularLoading__pathStroke {
+  0% {
+    stroke-dashoffset: 288.5;
+  }
+  40%,
+  70% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -288.5;
+  }
+}
+
+@keyframes CircularLoading__pathRotate {
+  0% {
+    transform: rotate(-1080deg);
+  }
+  50% {
+    transform: rotate(-540deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
