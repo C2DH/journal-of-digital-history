@@ -18,6 +18,7 @@ import '../../styles/components/ArticleV3/Article.scss'
 import './Article.css'
 import ArticleScrollTo from './ArticleScrollTo'
 import { useArticleStore } from '../../store'
+import ArticleNoteManager from './ArticleNoteManager'
 
 const Article = ({
   url = '',
@@ -48,16 +49,26 @@ const Article = ({
 }) => {
   console.debug('[Article]', url, 'is rendering. \n - kernelName:', kernelName)
   const setSelectedCellIdx = useArticleStore((state) => state.setSelectedCellIdx)
+  const setSelectedDataHref = useArticleStore((state) => state.setSelectedDataHref)
   
   const onNumClickHandler = (e,{ idx}) => {
     console.debug('[Article] onNumClickHandler', idx)
     setSelectedCellIdx(idx)
   }
 
+  const onCellClickHandler =(e) => {
+    if (e.target.hasAttribute('data-href')) {
+      const dataHref = e.target.getAttribute('data-href')
+      console.info('[Article] onCellClickHandler', dataHref)
+      setSelectedDataHref(dataHref)
+    }
+  }
+
   return (
     <div className="Article ArticleV3 page">
       <ArticleLayers />
       <ArticleScrollTo />
+      <ArticleNoteManager bibliography={bibliography}/>
       <ArticleToC
         plainTitle={plainTitle}
         paragraphs={paragraphs}
@@ -102,6 +113,7 @@ const Article = ({
                 <ArticleCell
                   isJavascriptTrusted={isJavascriptTrusted}
                   onNumClick={onNumClickHandler}
+                  onClick={onCellClickHandler}
                   memoid={[url, idx].join('-')}
                   {...cell}
                   num={cell.num}
@@ -125,7 +137,7 @@ const Article = ({
 }
 
 function ArticleWithContent({ url, ipynb, kernelName, ...props }) {
-  const { paragraphs, headingsPositions, executables, bibliography, sections } = useNotebook(
+  const { paragraphs, headingsPositions, executables, bibliography, citations, sections } = useNotebook(
     url,
     ipynb,
   )
@@ -134,7 +146,7 @@ function ArticleWithContent({ url, ipynb, kernelName, ...props }) {
   useEffect(() => {
     initExecutionScope(executables)
   }, [executables, initExecutionScope])
-  console.debug('[ArticleWithContent]', url, 'is rendering', headingsPositions)
+  console.debug('[ArticleWithContent]', url, 'is rendering', headingsPositions, citations)
   return (
     <Article
       url={url}

@@ -38,6 +38,7 @@ const ArticleCell = ({
   active = false,
   isJavascriptTrusted = false,
   onNumClick,
+  onClick,
 }) => {
   const outputsRef = useRef()
   const [outputsMinHeight, setOutputsMinHeight] = useState()
@@ -94,7 +95,7 @@ const ArticleCell = ({
   if (type !== CellTypeMarkdown && type !== CellTypeCode) return <div>Unkonwn type: {type}</div>
 
   return (
-    <div className={`ArticleCell ${layer}`}>
+    <div className={`ArticleCell ${layer}`} onClick={onClick}>
       <Container fluid={layer === LayerData} className={containerClassNames.join(' ')}>
         {(outputs.length > 0 || errors) && (
           <Row>

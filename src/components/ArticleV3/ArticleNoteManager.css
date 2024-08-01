@@ -1,0 +1,32 @@
+.ArticleNoteManager {
+  position: fixed;
+  bottom: var(--spacer-2);
+  left: 0;
+  right: 0;
+  height: 10px;
+  z-index: var(--z-index-articles-note);
+  pointer-events: none;
+  width: 100%;
+}
+.ArticleNoteManager .container {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+}
+.ArticleNoteManager .row {
+  pointer-events: auto;
+}
+
+.ArticleNoteManager__buffer {
+  position: absolute;
+  left: 20px;
+  right: 100px;
+  bottom: 0;
+  visibility: hidden;
+}
+
+.ArticleNoteManager__buffer::after {
+  content: '---';
+  padding: 20px 0;
+}

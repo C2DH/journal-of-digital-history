@@ -50,6 +50,8 @@ export const useArticleToCStore = create((set) => ({
 export const useArticleStore = create((set) => ({
   selectedCellIdx: -1,
   setSelectedCellIdx: (selectedCellIdx) => set(() => ({ selectedCellIdx })),
+  selectedDataHref: null,
+  setSelectedDataHref: (selectedDataHref) => set(() => ({ selectedDataHref })),
   // visible shadow cells according to Accordion
   visibleShadowCellsIdx: [],
   setVisibleShadowCell: (cellIdx, isVisible) =>
