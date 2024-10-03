@@ -1,0 +1,23 @@
+$module: ".ArticleCellCodeTools";
+
+#{$module} {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  position: sticky;
+  top: 100px;
+
+  .reset-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 100px;
+    padding: var(--spacer-1) var(--spacer-3) var(--spacer-1) var(--spacer-1);
+  }
+
+  .ArticleCell_error {
+    margin-left: 0;
+    color: var(--bs-dark);
+  }
+}

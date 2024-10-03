@@ -1,0 +1,25 @@
+$module: ".Article";
+
+#{$module} {
+
+  @import 'ArticleHeader';
+  @import 'ArticleCellOutput';
+
+  &_paragraphWrapper {
+    position: relative;
+  }
+
+  code {
+    background-color: unset;
+    color: tomato;
+  }
+
+  .btn {
+    transition: all 0.5s;
+  }
+}
+
+//  Background color hacking for the menu
+#Header_background {
+  background-color: white !important;
+}

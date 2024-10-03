@@ -1,3 +1,4 @@
 /proxy-githubusercontent/*  https://raw.githubusercontent.com/:splat  200
+/api/explain  https://journal-of-digital-history-code-explainer.fly.dev/explain 200
 /api/*  https://journalofdigitalhistory.org/api/:splat  200
 /*  /index.html  200

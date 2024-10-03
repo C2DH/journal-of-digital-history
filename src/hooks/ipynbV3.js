@@ -1,9 +1,15 @@
-import React, { useMemo } from 'react'
-import { useThebeLoader, useThebeConfig, useRenderMimeRegistry } from 'thebe-react'
-import { useIpynbNotebookParagraphs } from '../../hooks/ipynb'
+import React, { useLayoutEffect, useMemo, useState } from 'react';
+import { useThebeLoader, useThebeConfig, useRenderMimeRegistry } from 'thebe-react';
+import { useIpynbNotebookParagraphs } from './ipynb';
+import { LayerHidden } from '../constants';
+import { getFigureHeight, getFigureOutputs } from '../logic/ipynbV3';
+import { useWindowSize } from './windowSize';
 
 function useParagraphs(url, tree) {
-  const paragraphs = tree.paragraphs
+  const paragraphs = React.useMemo(() => 
+    tree.paragraphs.filter((cell) => cell.layer !== LayerHidden)
+  , [url, tree]);
+    
   const paragraphsGroups = React.useMemo(() => {
     const buffers = []
     let previousLayer = null
@@ -76,6 +82,42 @@ export function useNotebook(url, ipynb) {
   return {
     paragraphs,
     paragraphsGroups,
+    headingsPositions: articleTree.headingsPositions,
     executables,
+    bibliography: articleTree.bibliography,
+    sections: articleTree.sections,
   }
 }
+
+
+export const useExtractOutputs = (idx, metadata, outputs) =>
+  useMemo(
+    () => getFigureOutputs(outputs, metadata),
+    [idx, outputs]
+  );
+
+
+export const useFigureHeight = (tags, useDefault, isCover) => {
+
+  const { height } = useWindowSize();
+
+  return getFigureHeight(
+    tags,
+    useDefault
+      ? Math.max(height, 400) * (isCover ? 0.8 : 0.5)
+      : 0
+  );
+}
+
+export const useContainerWidth = containerRef => {
+
+  const [width, setWidth] = useState(0);
+
+  useLayoutEffect(() => {
+    if (containerRef.current)
+      setWidth(containerRef.current.offsetWidth);
+  }, [containerRef.current?.offsetWidth]);
+
+  return width;
+}
+

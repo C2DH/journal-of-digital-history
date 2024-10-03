@@ -3,6 +3,16 @@ import { persist } from 'zustand/middleware'
 import AbstractSubmission from './models/AbstractSubmission'
 import { DisplayLayerNarrative } from './constants'
 
+
+export const useArticleCellExplainerStore = create((set) => ({
+  cellIdx: null,
+  lock: (cellIdx) =>
+    set(() => ({
+      cellIdx,
+    })),
+  free: () => set(() => ({ cellIdx: null })),
+}))
+
 export const useIssueStore = create((set) => ({
   issue: null,
   setIssue: (issue) => set(() => ({ issue })),
@@ -38,6 +48,10 @@ export const useArticleToCStore = create((set) => ({
 }))
 
 export const useArticleStore = create((set) => ({
+  selectedCellIdx: -1,
+  setSelectedCellIdx: (selectedCellIdx) => set(() => ({ selectedCellIdx })),
+  selectedDataHref: null,
+  setSelectedDataHref: (selectedDataHref) => set(() => ({ selectedDataHref })),
   // visible shadow cells according to Accordion
   visibleShadowCellsIdx: [],
   setVisibleShadowCell: (cellIdx, isVisible) =>
@@ -77,6 +91,7 @@ export const useArticleStore = create((set) => ({
   displayLayer: DisplayLayerNarrative,
   setDisplayLayer: (displayLayer) => set({ displayLayer, visibleCellsIdx: [] }),
 }))
+
 export const useStore = create(
   persist(
     (set, get) => ({
@@ -162,8 +177,8 @@ export const usePropsStore = create((set) => ({
 }))
 
 export const useWindowStore = create((set) => ({
-  windowWidth: 0,
-  windowHeight: 0,
+  windowWidth: window.innerWidth,
+  windowHeight: window.innerHeight,
   setWindowDimensions: (windowWidth, windowHeight) => set({ windowWidth, windowHeight }),
   scrollY: 0,
   scrollX: 0,

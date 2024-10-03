@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import ToCIntoView from './ToCIntoView'
+import ToCIntoView from '../components/ToCIntoView'
 
 export default {
   component: ToCIntoView,
