@@ -1,0 +1,64 @@
+.ArticleToCSteps {
+  overflow: hidden;
+  overflow-y: auto;
+  position: relative;
+  pointer-events: all;
+  border-top: 0px transparent !important;
+}
+.ArticleToCSteps,
+.ArticleToCSteps ul,
+.ArticleToCSteps ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ArticleToCSteps__nested {
+  overflow: hidden;
+  position: relative;
+}
+
+.ArticleToCSteps__nested__toggleCollapsed {
+  position: relative;
+  height: 17px;
+}
+.ArticleToCSteps__nested__toggleCollapsed button:hover > span {
+  background: var(--dark);
+  color: var(--white);
+}
+.ArticleToCSteps__nested__toggleCollapsed button {
+  position: absolute;
+  top: -3px;
+  background: transparent;
+  height: 17px;
+  width: 17px;
+  border: 1px solid transparent;
+  padding: 0;
+}
+
+.ArticleToCSteps__nested__toggleCollapsed button > span {
+  position: absolute;
+  background: var(--gray-300);
+  top: 3px;
+  left: 2px;
+  border-radius: 12px;
+  border: 1px solid var(--dark);
+  height: 12px;
+  width: 12px;
+}
+
+.ArticleToCSteps__nested__toggleCollapsed button svg {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.ArticleToCSteps__nested__progress {
+  position: absolute;
+  top: 1px;
+  right: 20px;
+  width: 19px;
+  background: var(--gray-300);
+  z-index: 0;
+  border-radius: 10px;
+}

@@ -1,9 +1,10 @@
 import React from 'react'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import ArticleCell from '../components/Article/ArticleCell'
+import { QueryParamProvider } from 'use-query-params'
 
 export default {
-  title: 'ArticleCell with dialogue',
+  title: 'ArticleCell tagged with dialogue',
   component: ArticleCell,
   argTypes: {
     metadata: { control: { type: 'object' }, defaultValue: {} },
@@ -53,11 +54,13 @@ const Template = ({ cells, metadata, isJavascriptTrusted }) => {
     cells,
     metadata,
   })
-  return [
-    articleTree.paragraphs.map((p, i) => (
-      <ArticleCell isJavascriptTrusted={isJavascriptTrusted} key={i} {...p} />
-    )),
-  ]
+  return (
+    <QueryParamProvider>
+      {articleTree.paragraphs.map((p) => (
+        <ArticleCell isJavascriptTrusted={isJavascriptTrusted} key={p.idx} {...p} />
+      ))}
+    </QueryParamProvider>
+  )
 }
 export const Default = Template.bind({})
 

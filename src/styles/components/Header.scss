@@ -1,9 +1,9 @@
-#Header_background{
+#Header_background {
   transition: background-color 1s ease-in-out;
   display: none;
 }
 
-.Navbar{
+.Navbar {
   padding: 0 var(--spacer-3);
   background: transparent;
   position: fixed;
@@ -13,53 +13,54 @@
   z-index: 1030;
 }
 
-.BrandImage{
+.BrandImage {
   background: var(--primary);
   height: 70px;
   width: 50px;
   background-repeat: no-repeat;
   background-size: 65%;
   background-position: center;
-  border-radius:5px;
+  border-radius: 5px;
 }
 
-@media(min-width: 992px) {
-  .BrandImage{
+@media (min-width: 992px) {
+  .BrandImage {
     width: 70px;
   }
 }
-header.active #Header_background{
-  // box-shadow: 0 0 .5rem var(--gray-500) !important;
-  // border-bottom: 1px solid var(--gray-300);
-  // background-color: white !important;
-  border-bottom: 1px solid var(--dark);
-  box-shadow: 1px 1px 0 var(--primary);
-}
+// header.active #Header_background{
+//   // box-shadow: 0 0 .5rem var(--gray-500) !important;
+//   // border-bottom: 1px solid var(--gray-300);
+//   // background-color: white !important;
+//   border-bottom: 1px solid var(--dark);
+//   box-shadow: 1px 1px 0 var(--primary);
+// }
 $breakpoint-tablet: 768px;
 @media (min-width: $breakpoint-tablet) {
-  #Header_background{
+  #Header_background {
     display: block;
     left: 0;
-    z-index:2;
-    top:0;
+    z-index: 2;
+    top: 0;
     height: 100px;
     width: 100%;
   }
-  .BrandImage{
+  .BrandImage {
     // border-left: 2px solid var(--primary);
     background-color: transparent;
   }
-  .Navbar{
+  .Navbar {
     // position: relative;
     padding: var(--spacer-3);
     // background: linear-gradient(180deg, rgba(255,255,255,1) -100%, rgba(255,255,255,0) 100%);
   }
-  .MobileHeaderNav, .MobileHeaderBrand{
+  .MobileHeaderNav,
+  .MobileHeaderBrand {
     display: none;
   }
 }
 
-.MobileHeaderNav{
+.MobileHeaderNav {
   top: 0;
   width: 50px;
   height: 25px;
@@ -68,7 +69,7 @@ $breakpoint-tablet: 768px;
   z-index: 1030;
 }
 
-.MobileHeaderBrand{
+.MobileHeaderBrand {
   position: absolute;
   left: var(--spacer-3);
   top: var(--spacer-3);
@@ -79,10 +80,10 @@ $breakpoint-tablet: 768px;
   box-shadow: none;
   padding: 0;
   color: var(--secondary);
-  padding-bottom:  var(--spacer-3);
+  padding-bottom: var(--spacer-3);
 }
 
-.MobileHeaderToggler{
+.MobileHeaderToggler {
   position: absolute;
   z-index: 100;
   width: auto;
@@ -104,7 +105,7 @@ $breakpoint-tablet: 768px;
   overflow: hidden;
   transition: width 0.5s cubic-bezier(0.85, 0, 0.15, 1);
 
-  .Logo{
+  .Logo {
     position: absolute;
     background-color: var(--primary);
     top: 5px;
@@ -112,29 +113,29 @@ $breakpoint-tablet: 768px;
     height: 30px;
     width: 40px;
     border-radius: 20px;
-    svg{
+    svg {
       margin-left: 5px;
       margin-top: 5px;
     }
   }
 }
-header.active .MobileHeaderToggler{
+header.active .MobileHeaderToggler {
   width: 135px;
 }
 
-.MobileHeaderMenu{
+.MobileHeaderMenu {
   position: absolute;
-  z-index:99;
+  z-index: 99;
   height: 100vh;
   width: 100%;
   will-change: transform;
-  left:0;
+  left: 0;
   top: 0;
   color: var('--white');
   background-color: var(--secondary);
   transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1);
 
-  h1{
+  h1 {
     font-size: inherit;
     font-family: var(--font-family-monospace);
     font-weight: bold;
@@ -146,25 +147,25 @@ header.active .MobileHeaderToggler{
   }
 }
 
-.MobileHeaderNavItem{
+.MobileHeaderNavItem {
   color: var(--white);
   border-left: 1px solid var(--white);
 }
 
-.RowHeader .navbar-brand span{
-  font-size: .9em;
+.RowHeader .navbar-brand span {
+  font-size: 0.9em;
 }
 
-.NavPrimaryRoutes .nav-link > span{
-  font-size: .9em;
+.NavPrimaryRoutes .nav-link > span {
+  font-size: 0.9em;
   padding-bottom: 0.5rem;
   padding-bottom: 0.5rem;
-  &::before{
+  &::before {
     top: 25px;
   }
 }
 
-.NavPrimaryRoutes .nav-link > span{
+.NavPrimaryRoutes .nav-link > span {
   display: block !important;
   max-width: auto;
   overflow: hidden;
@@ -173,12 +174,11 @@ header.active .MobileHeaderToggler{
   margin-right: 0.5rem !important;
 }
 
-.NavPrimaryRoutes{
-
+.NavPrimaryRoutes {
 }
 
 @media (min-width: 1200px) {
-  .NavPrimaryRoutes .nav-link > span{
+  .NavPrimaryRoutes .nav-link > span {
     max-width: auto;
     overflow: normal;
     text-overflow: none;

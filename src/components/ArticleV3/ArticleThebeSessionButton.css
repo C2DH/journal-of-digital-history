@@ -1,0 +1,80 @@
+.ArticleThebeSessionButton {
+  --bs-btn-disabled-opacity: 0.8;
+  --status-error: red;
+  --status-success: green;
+  --radius: 24px;
+  color: var(--dark);
+}
+
+.ArticleThebeSessionButton > button {
+  /* box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  will-change: box-shadow; */
+  padding: var(--spacer-1);
+}
+/* .ArticleThebeSessionButton.success > button {
+  box-shadow: rgba(81, 246, 224, 0.2) 0px 7px 29px 0px;
+}
+.ArticleThebeSessionButton.error > button {
+  box-shadow: rgba(255, 0, 0, 0.2) 0px 7px 29px 0px;
+}
+.ArticleThebeSessionButton.executing > button {
+  animation: ArticleThebeSessionButton__boxShadow 2.5s infinite;
+} */
+.ArticleThebeSessionButton__iconWrapper {
+  background: transparent;
+  border-radius: var(--radius);
+  width: var(--radius);
+  height: var(--radius);
+  position: relative;
+}
+.ArticleThebeSessionButton__iconWrapper::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--radius);
+  height: var(--radius);
+  border: 2px dashed transparent;
+  border-radius: 50%;
+}
+
+.ArticleThebeSessionButton.preparing .ArticleThebeSessionButton__iconWrapper::after {
+  border: 2px dotted var(--dark);
+  animation: ArticleThebeSessionButton__rotate 4s linear infinite;
+}
+.ArticleThebeSessionButton__iconWrapper .CircularLoading {
+  display: none;
+}
+
+.ArticleThebeSessionButton.restarting .ArticleThebeSessionButton__iconWrapper .CircularLoading {
+  display: block;
+}
+
+.ArticleThebeSessionButton__iconWrapper svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes ArticleThebeSessionButton__boxShadow {
+  0% {
+    box-shadow: rgba(200, 200, 211, 0.2) 0px 7px 29px 0px;
+  }
+  50% {
+    box-shadow: rgba(200, 200, 211, 0.4) 0px 7px 30px 0px;
+  }
+  100% {
+    box-shadow: rgba(200, 200, 211, 0.2) 0px 7px 29px 0px;
+  }
+}
+
+@keyframes ArticleThebeSessionButton__rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}

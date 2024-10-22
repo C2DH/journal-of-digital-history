@@ -97,6 +97,10 @@ const Footer = ({ hideOnRoutes=[]}) => {
               </a>
             </div>
             <div className="d-none d-md-block">&middot;</div>
+            <div className="mx-md-3 mb-3 mb-md-0">
+            <span>ISSN: 2747-5271</span>
+            </div>
+            <div className="d-none d-md-block">&middot;</div>
             <div className="ms-md-3 mb-2 mb-md-0">
             <VideoReleaseTrigger />
             </div>

@@ -1,0 +1,67 @@
+$module: '.ArticleLayers';
+
+#{$module} {
+  position: fixed;
+  display: flex;
+  top: 100px;
+  bottom: 0;
+  right: 0;
+  width: 117px; // 39 + 39 + 39
+
+  .layer {
+    width: 39px;
+    text-transform: uppercase;
+    text-align: center;
+    padding-top: 2rem;
+    font-size: inherit;
+    font-weight: normal;
+    &.narrative {
+      background-color: var(--narrative-layer);
+      .label {
+        background-color: var(--narrative-layer);
+      }
+      &::after {
+        background-color: var(--dark);
+      }
+    }
+
+    &.hermeneutics {
+      background-color: var(--hermeneutics-layer);
+      .label {
+        background-color: var(--hermeneutics-layer);
+      }
+      &::after {
+        background-color: var(--dark);
+      }
+    }
+
+    &.data {
+      background-color: var(--data-layer);
+      color: white;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 20px;
+      height: 20px;
+      background-color: white;
+      width: 1px;
+      z-index: 0;
+    }
+
+    .label {
+      position: relative;
+      width: 150px;
+      white-space: nowrap;
+      font-size: 0.78em;
+      letter-spacing: 0.1em;
+      transform: translateX(-50%) rotate(-90deg);
+      text-align: end;
+      margin-left: 50%;
+      margin-top: 100px;
+      background-color: var(--dark);
+      z-index: 1;
+    }
+  }
+}

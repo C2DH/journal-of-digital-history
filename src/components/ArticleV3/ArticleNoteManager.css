@@ -1,0 +1,59 @@
+.ArticleNoteManager {
+  position: fixed;
+  bottom: var(--spacer-2);
+  left: 0;
+  right: 0;
+  height: 10px;
+  z-index: var(--z-index-articles-note);
+  pointer-events: none;
+  width: 100%;
+}
+.ArticleNoteManager .container {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+}
+.ArticleNoteManager .row {
+  pointer-events: auto;
+}
+
+.ArticleNoteManager__buffer {
+  position: absolute;
+  left: 20px;
+  right: 100px;
+  bottom: 0;
+  visibility: hidden;
+}
+
+.ArticleNoteManager__contentWrapper {
+  position: absolute;
+  left: -10px;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  background-color: var(--dark);
+  color: var(--white);
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+}
+
+.ArticleNoteManager__content {
+  margin-right: 50px;
+
+  padding-top: var(--spacer-3);
+  padding-inline-start: var(--spacer-3);
+  padding-inline-end: var(--spacer-3);
+}
+.ArticleNoteManager__buffer::after {
+  content: '---';
+  padding: 20px 0;
+}
+
+.ArticleNoteManager__close {
+  position: absolute;
+  right: 8px;
+  top: 10px;
+  cursor: pointer;
+}
