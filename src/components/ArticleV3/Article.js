@@ -62,6 +62,11 @@ const Article = ({
       console.info('[Article] onCellClickHandler', dataHref)
       setSelectedDataHref(dataHref)
     }
+
+    if (e.target.hasAttribute('data-idx')) {
+      e.preventDefault();
+      setSelectedCellIdx(e.target.getAttribute('data-idx'));
+    }
   }
 
   return (
