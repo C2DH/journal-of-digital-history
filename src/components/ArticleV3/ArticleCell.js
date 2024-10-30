@@ -53,7 +53,7 @@ const ArticleCell = ({
   const isolationMode = outputs.some(
     (d) => typeof d.metadata === 'object' && d.metadata['text/html']?.isolated,
   )
-  const renderUsingThebe = true //tags.includes('data');
+  const renderUsingThebe = type === CellTypeCode && !figure?.isSound; //tags.includes('data');
 
   // const ref = useCallback(
   //   (node) => {
