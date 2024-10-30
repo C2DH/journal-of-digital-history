@@ -137,15 +137,37 @@ const ArticleCell = ({
         {type === CellTypeMarkdown && content && (
           <Row>
             <Col {...cellBootstrapColumnLayout}>
-              <ArticleCellContent
-                headingLevel={headingLevel}
-                onNumClick={onNumClick}
-                hideNum={hideNum}
-                layer={layer}
-                content={content}
-                idx={idx}
-                num={num}
-              />
+
+              {figure ? (
+                <ArticleCellFigure
+                  metadata={metadata}
+                  figure={figure}
+                  active={active}
+                  cellType={type}
+                >
+                  <ArticleCellContent
+                    headingLevel={headingLevel}
+                    onNumClick={onNumClick}
+                    hideNum={hideNum}
+                    layer={layer}
+                    content={content}
+                    idx={idx}
+                    num={num}
+                  />
+                </ArticleCellFigure>
+
+              ) : (
+
+                <ArticleCellContent
+                  headingLevel={headingLevel}
+                  onNumClick={onNumClick}
+                  hideNum={hideNum}
+                  layer={layer}
+                  content={content}
+                  idx={idx}
+                  num={num}
+                />
+                )}
             </Col>
           </Row>
         )}
