@@ -129,6 +129,7 @@ const ArticleViewer = ({
       doi={article.doi}
       issue={article.issue}
       bibjson={article.citation}
+      parserVersion={parseInt(article.data.parserVersion) || 2}
       isJavascriptTrusted
       match={{
         params: {
