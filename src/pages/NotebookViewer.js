@@ -44,9 +44,10 @@ const NotebookViewer = ({
   bibjson,
   pid,
   isJavascriptTrusted,
+  parserVersion = 2
 }) => {
   const [{ [ArticleVersionQueryParam]: version }] = useQueryParams({
-    [ArticleVersionQueryParam]: withDefault(NumberParam, 2),
+    [ArticleVersionQueryParam]: withDefault(NumberParam, parserVersion),
   })
   const ArticleComponent = version === 3 ? ArticleV3 : version === 2 ? ArticleV2 : Article
   const setLoadingProgress = usePropsStore((state) => state.setLoadingProgress)
