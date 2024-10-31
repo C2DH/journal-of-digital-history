@@ -19,7 +19,7 @@ import {
 import { Facebook, GitHub } from 'react-feather'
 import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_Oldenbourg.svg'
 import UniluLogo from '../../assets/images/unilu-c2dh-logo.svg'
-import BlueskyIcon from '../../assets/icons/bluesky.svg'
+import { ReactComponent as BlueskyIcon } from '../../assets/images/bluesky.svg';
 import '../../styles/components/Footer.scss'
 
 
@@ -81,8 +81,8 @@ const Footer = ({ hideOnRoutes=[]}) => {
           <Col {...BootstrapFullColumLayout}>
             <div className="border-top pt-3 mt-3 d-md-flex justify-content-center">
             <div className="me-3 mb-3 mb-md-0 ">
-              <a className="plain-a" href="https://bsky.app/profile/jdighist.bsky.social" target="_blank" rel="noreferrer">
-              <Bluesky size={15}/> @jdighist.bsky.social
+                <a className="plain-a" href={`https://bsky.app/profile/${process.env.REACT_APP_BLUESKY}`} target="_blank" rel="noreferrer">
+                  <BlueskyIcon style={{width: '15px'}} /> @{process.env.REACT_APP_BLUESKY}
               </a>
             </div>
             <div className="d-none d-md-block"> &middot;</div>
