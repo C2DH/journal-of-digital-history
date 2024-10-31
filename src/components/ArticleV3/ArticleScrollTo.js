@@ -19,7 +19,7 @@ const ArticleScrollTo = () => {
      }
   }
   useEffect(() => {
-    if(selectedCellIdxFromStore !== -1 && selectedCellIdx !== -1 && selectedCellIdxFromStore !== selectedCellIdx) {
+    if(selectedCellIdxFromStore !== -1 && selectedCellIdxFromStore !== selectedCellIdx) {
       moveTo(selectedCellIdxFromStore)
       setQuery({ [DisplayLayerCellIdxQueryParam]: selectedCellIdxFromStore })
     }

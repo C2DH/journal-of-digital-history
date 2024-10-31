@@ -53,7 +53,7 @@ const ArticleCell = ({
   const isolationMode = outputs.some(
     (d) => typeof d.metadata === 'object' && d.metadata['text/html']?.isolated,
   )
-  const renderUsingThebe = true //tags.includes('data');
+  const renderUsingThebe = type === CellTypeCode && !figure?.isSound; //tags.includes('data');
 
   // const ref = useCallback(
   //   (node) => {
@@ -137,15 +137,37 @@ const ArticleCell = ({
         {type === CellTypeMarkdown && content && (
           <Row>
             <Col {...cellBootstrapColumnLayout}>
-              <ArticleCellContent
-                headingLevel={headingLevel}
-                onNumClick={onNumClick}
-                hideNum={hideNum}
-                layer={layer}
-                content={content}
-                idx={idx}
-                num={num}
-              />
+
+              {figure ? (
+                <ArticleCellFigure
+                  metadata={metadata}
+                  figure={figure}
+                  active={active}
+                  cellType={type}
+                >
+                  <ArticleCellContent
+                    headingLevel={headingLevel}
+                    onNumClick={onNumClick}
+                    hideNum={hideNum}
+                    layer={layer}
+                    content={content}
+                    idx={idx}
+                    num={num}
+                  />
+                </ArticleCellFigure>
+
+              ) : (
+
+                <ArticleCellContent
+                  headingLevel={headingLevel}
+                  onNumClick={onNumClick}
+                  hideNum={hideNum}
+                  layer={layer}
+                  content={content}
+                  idx={idx}
+                  num={num}
+                />
+                )}
             </Col>
           </Row>
         )}

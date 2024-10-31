@@ -1,4 +1,4 @@
-import { CoverRefPrefix, FigureRefPrefix } from '../constants'
+import { CoverRefPrefix, FigureRefPrefix, SoundRefPrefix } from '../constants'
 
 export default class ArticleFigure {
   constructor({
@@ -17,6 +17,7 @@ export default class ArticleFigure {
     this.ref = ref
     this.isTable = isTable
     this.isCover = refPrefix === CoverRefPrefix
+    this.isSound = refPrefix === SoundRefPrefix;
     this.tNLabel = this.isCover
       ? 'cover'
       : `numbers.${refPrefix.substring(0, refPrefix.length - 1)}`
