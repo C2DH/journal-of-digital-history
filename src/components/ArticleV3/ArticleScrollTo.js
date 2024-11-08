@@ -1,38 +1,56 @@
 import { useEffect, useRef } from 'react'
-import { DisplayLayerCellIdxQueryParam } from '../../constants'
+import {
+  DisplayLayerCellIdxQueryParam,
+  DisplayLayerSectionBibliography,
+  DisplayLayerSectionParam,
+} from '../../constants'
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 import { useArticleStore } from '../../store'
-
+import { asEnumParam } from '../../logic/params'
 
 const ArticleScrollTo = () => {
-  const selectedCellIdxFromStore = useArticleStore(state => state.selectedCellIdx)
+  const selectedCellIdxFromStore = useArticleStore((state) => state.selectedCellIdx)
   const timerRef = useRef(null)
-  const [{ [DisplayLayerCellIdxQueryParam]: selectedCellIdx }, setQuery] = useQueryParams({
+  const [
+    { [DisplayLayerCellIdxQueryParam]: selectedCellIdx, [DisplayLayerSectionParam]: sectionName },
+    setQuery,
+  ] = useQueryParams({
     [DisplayLayerCellIdxQueryParam]: withDefault(NumberParam, -1),
+    [DisplayLayerSectionParam]: asEnumParam([DisplayLayerSectionBibliography]),
   })
   const moveTo = (idx) => {
-     // scroll to the correct id
-     const element = document.querySelector("[data-cell-idx='" + idx + "']")
+    // scroll to the correct id
+    const element = document.querySelector("[data-cell-idx='" + idx + "']")
 
-     if (element) {
-       window.scrollTo(0,element.offsetTop -150)
-     }
+    if (element) {
+      window.scrollTo(0, element.offsetTop - 150)
+    }
   }
   useEffect(() => {
-    if(selectedCellIdxFromStore !== -1 && selectedCellIdxFromStore !== selectedCellIdx) {
+    if (selectedCellIdxFromStore !== -1 && selectedCellIdxFromStore !== selectedCellIdx) {
       moveTo(selectedCellIdxFromStore)
       setQuery({ [DisplayLayerCellIdxQueryParam]: selectedCellIdxFromStore })
     }
   }, [selectedCellIdxFromStore])
 
   useEffect(() => {
+    console.debug(
+      '[ArticleScrollTo] selectedCellIdx:',
+      selectedCellIdx,
+      'sectionName:',
+      sectionName,
+    )
     clearTimeout(timerRef.current)
     timerRef.current = setTimeout(() => {
-      moveTo(selectedCellIdx)
+      if (sectionName) {
+        moveTo(sectionName)
+      } else if (selectedCellIdx !== -1) {
+        moveTo(selectedCellIdx)
+      }
     }, 1000)
-    
+
     return () => clearTimeout(timerRef.current)
-  }, [selectedCellIdx])
+  }, [selectedCellIdx, sectionName])
 }
 
 export default ArticleScrollTo

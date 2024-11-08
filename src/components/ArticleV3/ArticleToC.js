@@ -1,17 +1,26 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useToCStore } from './store'
+// import { useToCStore } from './store'
 import ArticleToCSteps from './ArticleToCSteps'
 import { useWindowStore } from '../../store'
-import { DisplayLayerCellIdxQueryParam } from '../../constants'
+import {
+  DisplayLayerCellIdxQueryParam,
+  DisplayLayerSectionBibliography,
+  DisplayLayerSectionParam,
+} from '../../constants'
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 import './ArticleToC.css'
 import ArticleThebeSession from './ArticleThebeSession'
 import ArticleToCTitle from './ArticleToCTitle'
 import PropTypes from 'prop-types'
-import ToCStep from '../ToCStep'
+import { asEnumParam } from '../../logic/params'
 
-const getToCSteps = ({ headingsPositions, cellsIndex, hideFigures = false }) => {
+const getToCSteps = ({
+  headingsPositions,
+  cellsIndex,
+  hideFigures = false,
+  has_bibliography = false,
+}) => {
   const { groups } = headingsPositions
     .reduce((acc, idx, i) => {
       const cell = cellsIndex[idx]
@@ -58,6 +67,26 @@ const getToCSteps = ({ headingsPositions, cellsIndex, hideFigures = false }) => 
       },
       { buffer: [], groups: [] },
     )
+  if (has_bibliography) {
+    // add bibliography pseudocell
+    groups.push([
+      {
+        isSectionEnd: true,
+        isSectionStart: true,
+        cell: {
+          idx: DisplayLayerSectionBibliography,
+          level: 'H2',
+          isHeading: true,
+          heading: {
+            level: 2,
+            tag: 'h2',
+            content: 'Bibliography',
+          },
+        },
+      },
+    ])
+  }
+  console.debug('[ArticleToC] @getToCSteps \n - groups:', groups)
   return groups
 }
 // this is a refactoring of v2 ToC when the layut is flattened down.
@@ -74,30 +103,46 @@ const ArticleToC = ({
   const width = useWindowStore((state) => state.windowWidth)
   const [{ [DisplayLayerCellIdxQueryParam]: selectedCellIdx }, setQuery] = useQueryParams({
     [DisplayLayerCellIdxQueryParam]: withDefault(NumberParam, -1),
+    [DisplayLayerSectionParam]: asEnumParam([DisplayLayerSectionBibliography]),
   })
 
-  const visibleCellsIdx = useToCStore((store) => store.visibleCellsIdx)
+  // const visibleCellsIdx = useToCStore((store) => store.visibleCellsIdx)
   const cellsIndex = paragraphs.reduce((acc, cell) => {
     acc[cell.idx] = cell
     return acc
   }, {})
   const toCHeight = height - headerHeight //hasBibliography ? height - 150 : height - 100
-  const steps = getToCSteps({ headingsPositions, cellsIndex, hideFigures: false })
+  const steps = getToCSteps({
+    headingsPositions,
+    cellsIndex,
+    hideFigures: false,
+    has_bibliography: hasBibliography,
+  })
 
   const onStepClickHandler = (e, { id, label, layer }) => {
     console.debug(
-      '[ArticleToC] @onClickHandler \n - cell idx: ',
+      '[ArticleToC] @onClickHandler \n - cell id (or idx): ',
       id,
       '\n - label:',
       label,
       '\n - layer:',
       layer,
     )
-    setQuery({
-      // uncomment next line to go directly to the desired layer.
-      // [DisplayLayerQueryParam]: layer,
-      [DisplayLayerCellIdxQueryParam]: id,
-    })
+    if (isNaN(id)) {
+      setQuery({
+        // uncomment next line to go directly to the desired layer.
+        // [DisplayLayerQueryParam]: layer,
+        [DisplayLayerCellIdxQueryParam]: undefined,
+        [DisplayLayerSectionParam]: id,
+      })
+    } else {
+      setQuery({
+        // uncomment next line to go directly to the desired layer.
+        // [DisplayLayerQueryParam]: layer,
+        [DisplayLayerCellIdxQueryParam]: id,
+        [DisplayLayerSectionParam]: undefined,
+      })
+    }
   }
 
   console.debug('[ArticleToC] @render \n - size: ', width, 'x', height, 'px', steps)
@@ -118,29 +163,15 @@ const ArticleToC = ({
         width={width * 0.16}
         steps={steps}
         selectedCellIdx={selectedCellIdx}
-        style={{ height: toCHeight }}
+        style={{ height: plainTitle.length ? toCHeight - 130 : toCHeight }}
         onClick={onStepClickHandler}
-      >
-        {hasBibliography && (
-          <ToCStep
-            level="H2"
-            label={t('bibliography')}
-            width={width * 0.16}
-            isSectionStart
-            isSectionEnd
-            selected
-            active={false}
-            className="mt-2"
-            // onClick={(e) => onSectionClickHandler(e, DisplayLayerSectionBibliography)}
-          ></ToCStep>
-        )}
-      </ArticleToCSteps>
+      ></ArticleToCSteps>
 
-      <ul>
+      {/* <ul>
         {visibleCellsIdx.map((idx) => (
           <li key={idx}>{idx}</li>
         ))}
-      </ul>
+      </ul> */}
     </aside>
   )
 }

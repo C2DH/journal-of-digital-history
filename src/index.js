@@ -63,8 +63,10 @@ serviceWorker.unregister()
 
 // add information on version on startup
 console.info(
-  'version',
+  '%cversion',
+  'font-weight: bold',
   process.env.REACT_APP_GIT_TAG,
   process.env.REACT_APP_GIT_BRANCH,
-  `\nhttps://github.com/C2DH/journal-of-digital-history/commit/${process.env.REACT_APP_GIT_REVISION}`,
+  process.env.REACT_APP_BUILD_DATE,
+  `\nhttps://github.com/C2DH/journal-of-digital-history/commit/${process.env.REACT_APP_GIT_COMMIT_SHA}`,
 )

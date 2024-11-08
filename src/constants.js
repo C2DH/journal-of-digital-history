@@ -95,8 +95,8 @@ export const BootstrapColumLayoutV3 = Object.freeze({
     lg: { span: 8, offset: 4 },
   },
   data: {
-    xs: 12
-  }
+    xs: 12,
+  },
 })
 export const BootstrapFullColumLayout = Object.freeze({
   md: { span: 10, offset: 1 },
@@ -170,8 +170,8 @@ export const LayerChoices = [
   LayerHidden,
   LayerNarrativeStep,
 ]
-export const Layers = [LayerNarrative, LayerHermeneutics, LayerData];
-export const LayersLabel = [LayerNarrativeLabel, LayerHermeneuticsLabel, LayerDataLabel];
+export const Layers = [LayerNarrative, LayerHermeneutics, LayerData]
+export const LayersLabel = [LayerNarrativeLabel, LayerHermeneuticsLabel, LayerDataLabel]
 
 // Cell sections
 export const SectionTitle = 'title'

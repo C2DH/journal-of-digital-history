@@ -77,8 +77,12 @@ const HomeReel = ({ height = 180, delay = 1500 }) => {
       sliderTimer.current = setTimeout(playInfiniteSwingingTimer, 100)
       return
     }
+    clearTimeout(sliderTimer.current)
     // console.debug('[HomeReel] .playInfiniteSwingingTimer() scheduled.')
     sliderTimer.current = setTimeout(() => {
+      if (!slider.current) {
+        return
+      }
       const idx = slider.current.innerSlider.state.currentSlide
       const l = slider.current.innerSlider.state.slideCount
       // console.debug('[HomeReel] .playInfiniteSwingingTimer() current:', idx, l, sliderDirection.current)
