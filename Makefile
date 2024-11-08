@@ -41,6 +41,8 @@ run-deploy-netlify:
 
 build-docker-image:
 	docker build -t c2dhunilu/journal-of-digital-history:${BUILD_TAG} \
+	--build-arg GIT_COMMIT_SHA=$(shell git rev-parse HEAD) \
+	--build-arg GIT_REMOTE_URL=$(shell git config --get remote.origin.url) \
 	--build-arg GIT_TAG=$(shell git describe --tags --abbrev=0 HEAD) \
 	--build-arg GIT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD) \
-	--build-arg GIT_REVISION=$(shell git rev-parse --short HEAD) .
+	--build-arg BUILD_DATE=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") .
