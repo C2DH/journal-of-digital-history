@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v4
       - name: Fetch Prune Unshallow Tags
         run: git fetch --prune --unshallow --tags
       - name: Extract github metadata GITHUB_SHA, GIT_BRANCH, GIT_TAG
@@ -20,7 +20,7 @@ jobs:
           echo "GIT_BRANCH=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
           echo "BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
       - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
+        uses: elgohr/Publish-Docker-Github-Action@v4
         env:
           GIT_TAG: latest
           GIT_COMMIT_SHA: ${{ env.GIT_COMMIT_SHA }}
