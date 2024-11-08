@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useToCStore } from './store'
+// import { useToCStore } from './store'
 import ArticleToCSteps from './ArticleToCSteps'
 import { useWindowStore } from '../../store'
 import { DisplayLayerCellIdxQueryParam } from '../../constants'
@@ -76,7 +76,7 @@ const ArticleToC = ({
     [DisplayLayerCellIdxQueryParam]: withDefault(NumberParam, -1),
   })
 
-  const visibleCellsIdx = useToCStore((store) => store.visibleCellsIdx)
+  // const visibleCellsIdx = useToCStore((store) => store.visibleCellsIdx)
   const cellsIndex = paragraphs.reduce((acc, cell) => {
     acc[cell.idx] = cell
     return acc
@@ -118,7 +118,7 @@ const ArticleToC = ({
         width={width * 0.16}
         steps={steps}
         selectedCellIdx={selectedCellIdx}
-        style={{ height: toCHeight }}
+        style={{ height: plainTitle.length ? toCHeight - 130 : toCHeight }}
         onClick={onStepClickHandler}
       >
         {hasBibliography && (
@@ -136,11 +136,11 @@ const ArticleToC = ({
         )}
       </ArticleToCSteps>
 
-      <ul>
+      {/* <ul>
         {visibleCellsIdx.map((idx) => (
           <li key={idx}>{idx}</li>
         ))}
-      </ul>
+      </ul> */}
     </aside>
   )
 }
