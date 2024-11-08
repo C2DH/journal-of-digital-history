@@ -58,6 +58,7 @@ $module: ".ArticleCellFigure";
     border-radius: 5px;
     background-color: rgba(248, 249, 250, 1);
     color: var(--dark);
+    overflow-x: auto;
     table{
       padding: 0;
       border-collapse: collapse !important;
