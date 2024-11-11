@@ -9,29 +9,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Fetch Prune Unshallow Tags
-      run: git fetch --prune --unshallow --tags
-    - name: Extract branch name
-      shell: bash
-      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-      id: extract_branch
-    - name: Extract commit hash
-      shell: bash
-      run: echo "##[set-output name=hash;]$(git rev-parse --short ${GITHUB_SHA})"
-      id: extract_hash
-    - name: Extract latest tag
-      shell: bash
-      run: echo "RELEASE_VERSION="$(git describe --tags --abbrev=0 ${GITHUB_SHA}) >> $GITHUB_ENV
-    - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@master
-      env:
-        GIT_TAG: ${{ env.RELEASE_VERSION }}
-        GIT_BRANCH: ${{ steps.extract_branch.outputs.branch }}
-        GIT_REVISION: ${{ steps.extract_hash.outputs.hash }}
-      with:
-        name: c2dhunilu/journal-of-digital-history
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
-        buildargs: GIT_TAG,GIT_BRANCH,GIT_REVISION
-        tags: "latest"
+      - uses: actions/checkout@v4
+      - name: Fetch Prune Unshallow Tags
+        run: git fetch --prune --unshallow --tags
+      - name: Extract github metadata GITHUB_SHA, GIT_BRANCH, GIT_TAG
+        shell: bash
+        run: |
+          echo "GIT_COMMIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
+          echo "GIT_REMOTE_URL=$(git config --get remote.origin.url)" >> $GITHUB_ENV
+          echo "GIT_BRANCH=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+          echo "BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v4
+        env:
+          GIT_TAG: latest
+          GIT_COMMIT_SHA: ${{ env.GIT_COMMIT_SHA }}
+          GIT_REMOTE_URL: ${{ env.GIT_REMOTE_URL }}
+          GIT_BRANCH: ${{ env.GIT_BRANCH }}
+          BUILD_DATE: ${{ env.BUILD_DATE }}
+        with:
+          name: c2dhunilu/journal-of-digital-history
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          buildargs: |
+            GIT_COMMIT_SHA, GIT_REMOTE_URL, GIT_BRANCH, GIT_TAG, BUILD_DATE
+          tags: 'latest'

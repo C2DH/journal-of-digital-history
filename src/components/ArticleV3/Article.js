@@ -11,7 +11,7 @@ import ArticleCellObserver from './ArticleCellObserver'
 import ArticleHeader from '../Article/ArticleHeader'
 import Footer from '../Footer'
 import ArticleBibliography from '../Article/ArticleBibliography'
-import { CellTypeCode,  LayerData } from '../../constants'
+import { CellTypeCode, DisplayLayerSectionBibliography, LayerData } from '../../constants'
 import { WithWindowSize } from '../../hooks/windowSize'
 
 import '../../styles/components/ArticleV3/Article.scss'
@@ -50,13 +50,13 @@ const Article = ({
   console.debug('[Article]', url, 'is rendering. \n - kernelName:', kernelName)
   const setSelectedCellIdx = useArticleStore((state) => state.setSelectedCellIdx)
   const setSelectedDataHref = useArticleStore((state) => state.setSelectedDataHref)
-  
-  const onNumClickHandler = (e,{ idx}) => {
+
+  const onNumClickHandler = (e, { idx }) => {
     console.debug('[Article] onNumClickHandler', idx)
     setSelectedCellIdx(idx)
   }
 
-  const onCellClickHandler =(e) => {
+  const onCellClickHandler = (e) => {
     if (e.target.hasAttribute('data-href')) {
       const dataHref = e.target.getAttribute('data-href')
       console.info('[Article] onCellClickHandler', dataHref)
@@ -64,8 +64,8 @@ const Article = ({
     }
 
     if (e.target.hasAttribute('data-idx')) {
-      e.preventDefault();
-      setSelectedCellIdx(e.target.getAttribute('data-idx'));
+      e.preventDefault()
+      setSelectedCellIdx(e.target.getAttribute('data-idx'))
     }
   }
 
@@ -73,7 +73,7 @@ const Article = ({
     <div className="Article ArticleV3 page">
       <ArticleLayers />
       <ArticleScrollTo />
-      <ArticleNoteManager bibliography={bibliography}/>
+      <ArticleNoteManager bibliography={bibliography} />
       <ArticleToC
         plainTitle={plainTitle}
         paragraphs={paragraphs}
@@ -135,17 +135,26 @@ const Article = ({
         )
       })}
 
-      <ArticleBibliography articleTree={{ bibliography }} noAnchor className="mt-0" />
+      <ArticleCellObserver
+        style={{ minHeight: 200 }}
+        cell={{
+          idx: DisplayLayerSectionBibliography,
+        }}
+      >
+        <div data-cell-idx={DisplayLayerSectionBibliography}>
+          {bibliography ? (
+            <ArticleBibliography articleTree={{ bibliography }} noAnchor className="mt-0" />
+          ) : null}
+        </div>
+      </ArticleCellObserver>
       <Footer />
     </div>
   )
 }
 
 function ArticleWithContent({ url, ipynb, kernelName, ...props }) {
-  const { paragraphs, headingsPositions, executables, bibliography, citations, sections } = useNotebook(
-    url,
-    ipynb,
-  )
+  const { paragraphs, headingsPositions, executables, bibliography, citations, sections } =
+    useNotebook(url, ipynb)
   const initExecutionScope = useExecutionScope((state) => state.initialise)
 
   useEffect(() => {
