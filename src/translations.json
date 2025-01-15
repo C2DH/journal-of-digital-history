@@ -255,7 +255,7 @@
       },
       "numbers": {
         "issue": "Issue n.{{n}}",
-        "dialog": "dialog {{ n }}",
+        "dialog": "dialogue {{ n }}",
         "figure": "figure {{ n }}",
         "sound": "sound {{ n }}",
         "table": "table {{ n }}",
