@@ -17,9 +17,6 @@ $module: '.ArticleLayers';
     font-weight: normal;
     &.narrative {
       background-color: var(--narrative-layer);
-      .label {
-        background-color: var(--narrative-layer);
-      }
       &::after {
         background-color: var(--dark);
       }
@@ -27,9 +24,6 @@ $module: '.ArticleLayers';
 
     &.hermeneutics {
       background-color: var(--hermeneutics-layer);
-      .label {
-        background-color: var(--hermeneutics-layer);
-      }
       &::after {
         background-color: var(--dark);
       }
@@ -60,7 +54,6 @@ $module: '.ArticleLayers';
       text-align: end;
       margin-left: 50%;
       margin-top: 100px;
-      background-color: var(--dark);
       z-index: 1;
     }
   }

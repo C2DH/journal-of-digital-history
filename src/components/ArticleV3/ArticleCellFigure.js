@@ -54,7 +54,7 @@ const ArticleCellFigure = ({
   const aspectRatio               = getFigureRatio(tags);
   const figureHeight              = useFigureHeight(tags, !aspectRatio, figure.isCover); 
   const containerWidth            = useContainerWidth(pictureRef);
-  const shouldUseFixedHeight      = figureHeight && (!figure.isCover || !aspectRatio) && (figureHeight / aspectRatio) <= containerWidth;
+  const shouldUseFixedHeight      = figureHeight && (!figure.isCover || !aspectRatio) && (!aspectRatio || (figureHeight / aspectRatio) <= containerWidth);
 
   const { height: windowHeight }  = useWindowSize();
 
