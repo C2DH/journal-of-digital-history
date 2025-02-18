@@ -17,7 +17,7 @@ import { useTranslation } from 'react-i18next'
 console.info(
   '%cEnable Code Explainer',
   'font-weight: bold',
-  process.env.REACT_APP_ENABLE_CODE_EXPLAINER === 'true',
+  import.meta.env.VITE__ENABLE_CODE_EXPLAINER === 'true',
 )
 
 const ArticleCellExplainer = ({ source = '', cellIdx = '', className = '' }) => {

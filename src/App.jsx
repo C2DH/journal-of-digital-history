@@ -124,7 +124,7 @@ i18n
   })
 
 // const isUnsafeEnvironment = process.env.NODE_ENV !== 'development' && window.location.protocol === 'http:'
-// const isAuth0Enabled = process.env.REACT_APP_ENABLE_AUTH_0 !== 'false'
+// const isAuth0Enabled = import.meta.env.VITE__ENABLE_AUTH_0 !== 'false'
 // console.info('Auth0Provider:', isUnsafeEnvironment ? 'disabled' : 'enabled')
 console.info('IsMobile:', IsMobile)
 
@@ -258,7 +258,7 @@ export default function App() {
           <Footer hideOnRoutes={NotebookPoweredPaths} />
           <ScrollToTop />
           <WindowEvents />
-          <VideoReleaseLazy isMobile={IsMobile} url={process.env.REACT_APP_WIKI_VIDEO_RELEASES} />
+          <VideoReleaseLazy isMobile={IsMobile} url={import.meta.env.VITE__WIKI_VIDEO_RELEASES} />
         </QueryParamProvider>
       </QueryClientProvider>
     </BrowserRouter>

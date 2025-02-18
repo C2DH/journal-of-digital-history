@@ -164,6 +164,6 @@ const Home = ({ data = '', status }) => {
 }
 
 const PrefetchHome = () => (
-  <StaticPageLoader url={process.env.REACT_APP_WIKI_HOMEPAGE} delay={150} Component={Home} />
+  <StaticPageLoader url={import.meta.env.VITE__WIKI_HOMEPAGE} delay={150} Component={Home} />
 )
 export default PrefetchHome

@@ -66,7 +66,7 @@ const NotebookHelmet = ({
       <meta name="dc:publisher" content="DeGruyter" />
       <meta name="dc:creator" content="JDH" />
       <meta property="og:site_name" content="Journal of Digital history" />
-      <meta property="og:url" content={process.env.REACT_APP_BASEURL + window.location.pathname} />
+      <meta property="og:url" content={import.meta.env.VITE__BASEURL + window.location.pathname} />
       <meta property="og:title" content={htmlTitle} />
       {metaProperties}
       {metaNames}

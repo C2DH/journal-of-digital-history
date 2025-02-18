@@ -83,11 +83,11 @@ const Article = ({
         <meta property="og:type" content="article" />
         <meta
           property="og:image"
-          content={`${process.env.REACT_APP_BASEURL}/img/articles/${pid}.png`}
+          content={`${import.meta.env.VITE__BASEURL}/img/articles/${pid}.png`}
         />
         <meta
           property="og:url"
-          content={process.env.REACT_APP_BASEURL + window.location.pathname}
+          content={import.meta.env.VITE__BASEURL + window.location.pathname}
         />
         <meta property="article:author" content={plainContributor} />
         <meta

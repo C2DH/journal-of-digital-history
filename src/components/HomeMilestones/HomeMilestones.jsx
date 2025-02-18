@@ -8,7 +8,7 @@ const HomeMilestones = ({ isPortrait, extent }) => {
   const [{ isIntersecting }, ref] = useOnScreen()
   const [seenOnce, setSeenOnce] = useState(false)
   const { data, status, error } = useGetJSON({
-    url: seenOnce ? process.env.REACT_APP_WIKI_EVENTS : null,
+    url: seenOnce ? import.meta.env.VITE__WIKI_EVENTS : null,
     raw: true,
     allowCached: true,
   })
@@ -19,7 +19,7 @@ const HomeMilestones = ({ isPortrait, extent }) => {
     error,
     'data:',
     data,
-    process.env.REACT_APP_WIKI_EVENTS,
+    import.meta.env.VITE__WIKI_EVENTS,
   )
   let jsondata = {}
   let values = []
