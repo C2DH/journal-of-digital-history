@@ -3,18 +3,18 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <link rel="icon" href="/favicon.ico" />
   <link rel="schema.DCTERMS" href="https://purl.org/dc/terms/" />
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
   <meta name="theme-color" content="#000000" />
   <meta data-react-helmet="true" name="description"
     content="Write (Digital) History! The Journal of Digital History is an international, academic, peer-reviewed and open access journal with multi-layered articles" />
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <link rel="apple-touch-icon" href="/logo192.png" />
   <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <link rel="manifest" href="/manifest.json" />
   <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -33,7 +33,7 @@
   <meta property="og:type" content="website" data-react-helmet="true" />
   <meta property="og:image" content="https://journalofdigitalhistory.org/img/issues/social-media/jdh003-4-5.png"
     data-react-helmet="true" />
-  <meta property="og:url" content="%REACT_APP_BASEURL%" data-react-helmet="true" />
+  <meta property="og:url" content="${import.meta.env.VITE_BASEURL}" data-react-helmet="true" />
   <meta name="twitter:card" content="summary" data-react-helmet="true" />
   <meta name="twitter:site" content="@Journal_DigHist" data-react-helmet="true" />
   <meta name="twitter:title" content="Journal of Digital History" data-react-helmet="true" />
@@ -52,6 +52,7 @@
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
+  <script type="module" src="/src/index.jsx"></script>
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
