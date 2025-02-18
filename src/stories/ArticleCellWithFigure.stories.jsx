@@ -58,7 +58,7 @@ Default.args = {
       outputs: [
         {
           data: {
-            'image/png': process.env.REACT_APP_STORYBOOK_BASE_64_PNG_SRC,
+            'image/png': import.meta.env.VITE__STORYBOOK_BASE_64_PNG_SRC,
             'text/plain': ['<IPython.core.display.Image object>'],
           },
           execution_count: 10,

@@ -8,7 +8,7 @@ import './Page.css'
 
 const Page = ({ match }) => {
   const { status, data } = useGetRawContents({
-    url: process.env.REACT_APP_WIKI_AVAILABLE_PAGES,
+    url: import.meta.env.VITE__WIKI_AVAILABLE_PAGES,
     delay: 500,
   })
 
@@ -25,7 +25,7 @@ const Page = ({ match }) => {
     if (!url || !title) {
       return null
     }
-    const wikiRawUrl = `${process.env.REACT_APP_WIKI_ROOT}/${pageId}.md`
+    const wikiRawUrl = `${import.meta.env.VITE__WIKI_ROOT}/${pageId}.md`
     return {
       title: title[1],
       url: url[1],

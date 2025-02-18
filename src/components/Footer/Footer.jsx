@@ -19,7 +19,7 @@ import {
 import { Facebook, GitHub } from 'react-feather'
 import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_Oldenbourg.svg'
 import UniluLogo from '../../assets/images/unilu-c2dh-logo.svg'
-import { ReactComponent as BlueskyIcon } from '../../assets/images/bluesky.svg'
+import BlueskyIcon from '../../assets/images/bluesky.svg'
 import '../../styles/components/Footer.scss'
 
 const now = new Date()
@@ -99,33 +99,33 @@ const Footer = ({ hideOnRoutes = [] }) => {
               <div className="me-3 mb-3 mb-md-0 ">
                 <a
                   className="plain-a"
-                  href={`https://bsky.app/profile/${process.env.REACT_APP_BLUESKY}`}
+                  href={`https://bsky.app/profile/${import.meta.env.VITE_BLUESKY}`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <BlueskyIcon style={{ width: '15px' }} /> @{process.env.REACT_APP_BLUESKY}
+                  <BlueskyIcon style={{ width: '15px' }} /> @{import.meta.env.VITE_BLUESKY}
                 </a>
               </div>
               <div className="d-none d-md-block"> &middot;</div>
               <div className="mx-md-3 mb-3 mb-md-0">
                 <a
                   className="plain-a"
-                  href={`https://www.facebook.com/${process.env.REACT_APP_FACEBOOK}`}
+                  href={`https://www.facebook.com/${import.meta.env.VITE_FACEBOOK}`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <Facebook size={15} /> {process.env.REACT_APP_FACEBOOK}
+                  <Facebook size={15} /> {import.meta.env.VITE_FACEBOOK}
                 </a>
               </div>
               <div className="d-none d-md-block">&middot;</div>
               <div className="mx-md-3 mb-3 mb-md-0">
                 <a
                   className="plain-a"
-                  href={`${process.env.REACT_APP_GITHUB}/commit/${process.env.REACT_APP_GIT_COMMIT_SHA}`}
+                  href={`${import.meta.env.VITE_GITHUB}/commit/${import.meta.env.VITE_GIT_COMMIT_SHA}`}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <GitHub size={15} /> {process.env.REACT_APP_GIT_TAG}
+                  <GitHub size={15} /> {import.meta.env.VITE_GIT_TAG}
                 </a>
               </div>
               <div className="d-none d-md-block">&middot;</div>

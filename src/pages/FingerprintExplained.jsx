@@ -34,7 +34,7 @@ const FingerprintExplained = ({
   const { t } = useTranslation()
   const notebookUrl = encodedUrl.length
     ? decodeNotebookUrl(encodedUrl)
-    : process.env.REACT_APP_NOTEBOOK_FINGERPRINT_EXPLAINED_URL
+    : import.meta.env.VITE__NOTEBOOK_FINGERPRINT_EXPLAINED_URL
 
   return (
     <>
@@ -51,7 +51,7 @@ const FingerprintExplained = ({
         </Row>
       </Container>
       <StaticPageLoader
-        url={process.env.REACT_APP_WIKI_FINGERPRINT_EXPLAINED}
+        url={import.meta.env.VITE__WIKI_FINGERPRINT_EXPLAINED}
         raw
         fakeData=""
         delay={0}

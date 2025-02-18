@@ -4,9 +4,9 @@ import { matchPath } from "react-router";
 import intersection from 'lodash/intersection'
 import find from 'lodash/find'
 
-const LANGUAGES = (process.env.REACT_APP_LANGUAGES ?? 'en-US,fr-FR').split(',');
+const LANGUAGES = (import.meta.env.VITE_LANGUAGES ?? 'en-US,fr-FR').split(',');
 const LANGUAGES_SHORTS = LANGUAGES.map((l) => l.split('-')[0])
-const DEFAULT_LANGUAGE = process.env.REACT_APP_DEFAULT_LANGUAGE ?? 'en-US';
+const DEFAULT_LANGUAGE = import.meta.env.VITE_DEFAULT_LANGUAGE ?? 'en-US';
 const DEFAULT_LANGUAGE_SHORT = DEFAULT_LANGUAGE.split('-')[0]
 const LANGUAGE_PATH = `/:lang(${LANGUAGES_SHORTS.join('|')})`
 

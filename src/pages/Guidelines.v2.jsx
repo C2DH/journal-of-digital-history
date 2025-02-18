@@ -111,13 +111,13 @@ const GuidelinesShuffler = ({ data = '', isFake }) => {
 
 const Guidelines = () => {
   console.debug(
-    '[Guidelines] process.env.REACT_APP_WIKI_GUIDELINES:',
-    process.env.REACT_APP_WIKI_GUIDELINES,
+    '[Guidelines] import.meta.env.VITE__WIKI_GUIDELINES:',
+    import.meta.env.VITE__WIKI_GUIDELINES,
   )
   return (
     <StaticPageLoader
       raw
-      url={process.env.REACT_APP_WIKI_GUIDELINES}
+      url={import.meta.env.VITE__WIKI_GUIDELINES}
       Component={GuidelinesShuffler}
       fakeData={'# Guidelines for authors'}
     />

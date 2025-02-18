@@ -16,7 +16,7 @@ const ReleaseNotes = () => {
   const { t } = useTranslation()
   return (
     <StaticPageLoader
-      url={process.env.REACT_APP_GITHUB_RELEASES_API_ENDPOINT}
+      url={import.meta.env.VITE__GITHUB_RELEASES_API_ENDPOINT}
       fakeData={[
         {
           name: 'Almost Serenity',

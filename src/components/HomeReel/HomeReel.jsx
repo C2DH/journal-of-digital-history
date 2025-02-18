@@ -16,7 +16,7 @@ const HomeReel = ({ height = 180, delay = 1500 }) => {
   const slider = useRef(null)
   // load items
   const { data, status, error } = useGetRawContents({
-    url: process.env.REACT_APP_GITHUB_WIKI_NEWS,
+    url: import.meta.env.VITE__GITHUB_WIKI_NEWS,
     raw: true,
   })
   let items = []
@@ -27,7 +27,7 @@ const HomeReel = ({ height = 180, delay = 1500 }) => {
         '[HomeReel] items loaded:',
         items.length,
         '\n from:',
-        process.env.REACT_APP_GITHUB_WIKI_NEWS,
+        import.meta.env.VITE__GITHUB_WIKI_NEWS,
       )
       if (window.location.protocol !== 'http:') {
         items = items.filter(({ draft }) => !draft)
@@ -36,14 +36,14 @@ const HomeReel = ({ height = 180, delay = 1500 }) => {
       if (err instanceof SyntaxError) {
         console.warn(
           "[HomeReel] SyntaxError in JSON. Couldn't load items from",
-          process.env.REACT_APP_GITHUB_WIKI_NEWS,
+          import.meta.env.VITE__GITHUB_WIKI_NEWS,
           data,
           err,
         )
       } else {
         console.warn(
           "[HomeReel] Couldn't load items from",
-          process.env.REACT_APP_GITHUB_WIKI_NEWS,
+          import.meta.env.VITE__GITHUB_WIKI_NEWS,
           err,
         )
       }
@@ -51,7 +51,7 @@ const HomeReel = ({ height = 180, delay = 1500 }) => {
   } else if (error) {
     console.warn(
       "[HomeReel] Couldn't load items from",
-      process.env.REACT_APP_GITHUB_WIKI_NEWS,
+      import.meta.env.VITE__GITHUB_WIKI_NEWS,
       error,
     )
   }

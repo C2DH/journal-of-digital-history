@@ -29,7 +29,7 @@ const ArticleHelmet = ({
       <meta property="og:description" content={excerpt} />
       <meta property="og:type" content="article" />
       <meta property="og:image" content={imageUrl} />
-      <meta property="og:url" content={process.env.REACT_APP_BASEURL + window.location.pathname} />
+      <meta property="og:url" content={import.meta.env.VITE__BASEURL + window.location.pathname} />
       <meta property="article:author" content={plainContributor} />
       <meta
         property="article:published_time"

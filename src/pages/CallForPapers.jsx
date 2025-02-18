@@ -18,7 +18,7 @@ const CallForPapers = ({ match: { params: { permalink }}}) => {
   const { t } = useTranslation()
   // check that permalink is just lowercase characters
   const cfpUrl = [
-    process.env.REACT_APP_NOTEBOOK_CFP_BASE_URL,
+    import.meta.env.VITE__NOTEBOOK_CFP_BASE_URL,
     permalink,
     `${permalink}.ipynb`
   ].join('/')
