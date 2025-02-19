@@ -11,11 +11,11 @@ const DEFAULT_LANGUAGE_SHORT = DEFAULT_LANGUAGE.split('-')[0]
 const LANGUAGE_PATH = `/:lang(${LANGUAGES_SHORTS.join('|')})`
 
 const getStartLang = () => {
-  const langMatch = matchPath(window.location.pathname, {
+  const langMatch = matchPath( {
     path: LANGUAGE_PATH,
     exact: false,
     strict: false,
-  })
+  }, window.location.pathname,)
   let startLangShort = langMatch?.params?.lang
   if (!startLangShort || !LANGUAGES_SHORTS.includes(startLangShort)) {
     // get default short language from browser
