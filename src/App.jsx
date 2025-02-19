@@ -1,12 +1,5 @@
 import React, { Suspense, lazy, useEffect } from 'react'
-import {
-  BrowserRouter,
-  Switch,
-  Route,
-  Redirect,
-  useRouteMatch,
-  useLocation,
-} from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import i18n from 'i18next'
 import moment from 'moment'
@@ -83,19 +76,12 @@ const ReviewPolicy = lazy(() => import('./pages/ReviewPolicy'))
 const Faq = lazy(() => import('./pages/Faq'))
 
 const { startLangShort, lang } = getStartLang()
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       cacheTime: 1000 * 60 * 60 * 24, // 24 hours
       refetchOnWindowFocus: false,
-      // refetchOnReconnect: false,
-      // refetchInterval: false,
-      // refetchIntervalInBackground: false,
-      // refetchOnMount: false,
-      // staleTime: Infinity,
-      // retry: false,
-      // suspense: false,
-      // keepPreviousData: true,
       headers: {
         'X-CSRFToken': csrfToken,
       },
@@ -123,68 +109,10 @@ i18n
     },
   })
 
-// const isUnsafeEnvironment = process.env.NODE_ENV !== 'development' && window.location.protocol === 'http:'
-// const isAuth0Enabled = import.meta.env.VITE__ENABLE_AUTH_0 !== 'false'
-// console.info('Auth0Provider:', isUnsafeEnvironment ? 'disabled' : 'enabled')
 console.info('IsMobile:', IsMobile)
-
-function LangRoutes() {
-  const { path } = useRouteMatch()
-  return (
-    <Switch>
-      <Route exact path={`${path}`}>
-        <Home />
-      </Route>
-      <Route exact path={`${path}/about`}>
-        <About />
-      </Route>
-      <Route exact path={`${path}/abstract`}>
-        <MockAbstract />
-      </Route>
-      <Route path={`${path}/abstract/:id`}>
-        <Abstract />
-      </Route>
-
-      <Route path={`${path}/issues`} component={ArticlesPage} />
-      <Route path={`${path}/issue/:id`} component={ArticlesPage} />
-      <Route path={`${path}/article/:pid`} component={ArticleViewer} />
-      <Route exact path={`${path}/articles`} component={ArticlesPage} />
-      <Route path={`${path}/abstract-submitted`} component={AbstractSubmitted} />
-      <Route exact path={`${path}/terms`} component={TermsOfUse} />
-      <Route exact path={`${path}/submit`}>
-        <AbstractSubmission />
-      </Route>
-      <Route path={`${path}/notebook/:encodedUrl?`}>
-        <Notebook />
-      </Route>
-      <Route path={`${path}/notebook-viewer-form`}>
-        <NotebookViewerForm />
-      </Route>
-      <Route path={`${path}/fingerprint-viewer`} component={FingerprintViewer} />
-      <Route path={`${path}/fingerprint-explained/:encodedUrl?`} component={FingerprintExplained} />
-
-      <Route path={`${path}/release-notes`} component={ReleaseNotes} />
-      <Route path={`${path}/review-policy`} component={ReviewPolicy} />
-      <Route path={`${path}/faq`} component={Faq} />
-      <Route path={`${path}/notebook-viewer/:encodedUrl`} component={NotebookViewer} />
-      <Route path={`${path}/local-notebook`}>
-        <LocalNotebook />
-      </Route>
-      <Route exact path={`${path}/playground`} component={Playground} />
-      <Route exact path={`${path}/fingerprint`} component={Fingerprint} />
-      <Route exact path={`${path}/guidelines/:notebook?`} component={Guidelines} />
-      <Route exact path={`${path}/cfp/:permalink`} component={CallForPapers} />
-      <Route exact path={`${path}/p/:pageId`} component={Page} />
-      <Route path={`${path}*`}>
-        <NotFound path={path} />
-      </Route>
-    </Switch>
-  )
-}
 
 function usePageViews() {
   const { trackPageView } = useMatomo()
-
   const { pathname, search } = useLocation()
   const changeBackgroundColor = useStore((state) => state.changeBackgroundColor)
 
@@ -192,20 +120,6 @@ function usePageViews() {
     const url = [pathname, search].join('')
     console.info('pageview', url)
     changeBackgroundColor('var(--gray-100)')
-    // // based on the pathname, change the background
-    // if (pathname.indexOf('/notebook') !== -1 || pathname.indexOf('/article') !== -1) {
-    //   changeBackgroundColor('#F4F1F8')
-    // } else if (pathname.indexOf('/issue') !== -1) {
-    //   changeBackgroundColor('#F4F1F8')
-    // } else if (pathname.indexOf('/submit') !== -1) {
-    //   changeBackgroundColor('var(--gray-100)')
-    // } else if (pathname.indexOf('/about') !== -1) {
-    //   changeBackgroundColor('var(--linen)')
-    // } else if (pathname.indexOf('/terms') !== -1) {
-    //   changeBackgroundColor('var(--peachpuff)')
-    // } else {
-    //   changeBackgroundColor('var(--gray-100)')
-    // }
     ReactGA.pageview(url)
     trackPageView({
       href: url,
@@ -215,50 +129,63 @@ function usePageViews() {
 
 function AppRoutes() {
   usePageViews()
-  // <Redirect from="/" exact to={startLangShort} />
+  // const { path } = useResolvedPath("")
+  const path = LANGUAGE_PATH
+
+
   return (
-    <Switch>
-      <Redirect from="/" exact to={startLangShort} />
-      <Route path="/authorized">
-        <div>authorized</div>
-      </Route>
-      <Route path={LANGUAGE_PATH}>
-        <LangRoutes />
-      </Route>
-      <Route path="*">
-        <NotFound />
-      </Route>
-    </Switch>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/authorized" element={<div>authorized</div>} />
+      <Route path={`${path}`} element={<Home />} />
+      <Route path={`${path}/about`} element={<About />} />
+      <Route path={`${path}/abstract`} element={<MockAbstract />} />
+      <Route path={`${path}/abstract/:id`} element={<Abstract />} />
+      <Route path={`${path}/issues`} element={<ArticlesPage />} />
+      <Route path={`${path}/issue/:id`} element={<ArticlesPage />} />
+      <Route path={`${path}/article/:pid`} element={<ArticleViewer />} />
+      <Route path={`${path}/articles`} element={<ArticlesPage />} />
+      <Route path={`${path}/abstract-submitted`} element={<AbstractSubmitted />} />
+      <Route path={`${path}/terms`} element={<TermsOfUse />} />
+      <Route path={`${path}/submit`} element={<AbstractSubmission />} />
+      <Route path={`${path}/notebook/:encodedUrl?`} element={<Notebook />} />
+      <Route path={`${path}/notebook-viewer-form`} element={<NotebookViewerForm />} />
+      <Route path={`${path}/fingerprint-viewer`} element={<FingerprintViewer />} />
+      <Route path={`${path}/fingerprint-explained/:encodedUrl?`} element={<FingerprintExplained />} />
+      <Route path={`${path}/release-notes`} element={<ReleaseNotes />} />
+      <Route path={`${path}/review-policy`} element={<ReviewPolicy />} />
+      <Route path={`${path}/faq`} element={<Faq />} />
+      <Route path={`${path}/notebook-viewer/:encodedUrl`} element={<NotebookViewer />} />
+      <Route path={`${path}/local-notebook`} element={<LocalNotebook />} />
+      <Route path={`${path}/playground`} element={<Playground />} />
+      <Route path={`${path}/fingerprint`} element={<Fingerprint />} />
+      <Route path={`${path}/guidelines`} element={<Guidelines />} />
+      <Route path={`${path}/cfp/:permalink`} element={<CallForPapers />} />
+      <Route path={`${path}/p/:pageId`} element={<Page />} />
+      <Route path={`${path}*`} element={<NotFound />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   )
 }
 
 export default function App() {
-  // Removed Auth0ProviderWithHistory 30 Jun 2022
-  //
-  // <Auth0ProviderWithHistory
-  //   disabled={!isAuth0Enabled || isUnsafeEnvironment}
-  //   domain="dev-cy19cq3w.eu.auth0.com"
-  //   clientId="NSxE7D46GRk9nh32wdvbtBUy7bLLQnZL"
-  //   redirectUri={`${window.location.origin}/authorized`}
-  // >
-  // <Header availableLanguages={LANGUAGES} isAuthDisabled={!isAuth0Enabled || isUnsafeEnvironment}/>
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <QueryParamProvider ReactRouterRoute={Route}>
+        <QueryParamProvider >
           <PercentLoader />
           <Header availableLanguages={LANGUAGES} isAuthDisabled />
-          {typeof csrfToken === 'string' && <Me />}
+          {typeof csrfToken === 'string' && <Me/>}
           <Cookies defaultAcceptCookies={AcceptCookies} />
           <main>
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<Loading />} key={location.key}>
               <AppRoutes />
             </Suspense>
           </main>
           <Footer hideOnRoutes={NotebookPoweredPaths} />
           <ScrollToTop />
           <WindowEvents />
-          <VideoReleaseLazy isMobile={IsMobile} url={import.meta.env.VITE__WIKI_VIDEO_RELEASES} />
+          <VideoReleaseLazy isMobile={IsMobile} url={import.meta.env.VITE_WIKI_VIDEO_RELEASES} />
         </QueryParamProvider>
       </QueryClientProvider>
     </BrowserRouter>

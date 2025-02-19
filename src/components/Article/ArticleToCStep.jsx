@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Layers, Grid } from 'react-feather'
 import { useArticleStore } from '../../store'
 import { MediaImage } from 'iconoir-react'
@@ -19,7 +19,7 @@ const ArticleToCStep = ({
   marginLeft = 70,
   className = '',
 }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const setVisibleShadowCell = useArticleStore((state) => state.setVisibleShadowCell)
   const displayLayer = useArticleStore((state) => state.displayLayer)
 
@@ -39,9 +39,9 @@ const ArticleToCStep = ({
   const handleClick = () => {
     // if the layer is hidden, opens it up and scroll to it on click.
     if (isNaN(idx)) {
-      history.push(`#${idx}`)
+      navigate(`#${idx}`)
     } else {
-      history.push(`#${displayLayer}${idx}`)
+      navigate(`#${displayLayer}${idx}`)
     }
     if (isHermeneutics) {
       setVisibleShadowCell(idx, !isAccordionOpen)

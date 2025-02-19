@@ -1,18 +1,17 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { useGetRawContents } from '../logic/api/fetchData'
 import Loading from './Loading'
 import NotFound from './NotFound'
 import WikiStaticPage from './WikiStaticPage'
 import './Page.css'
 
-const Page = ({ match }) => {
+const Page = () => {
   const { status, data } = useGetRawContents({
     url: import.meta.env.VITE_WIKI_AVAILABLE_PAGES,
     delay: 500,
   })
 
-  const { pageId } = match.params
+  const { pageId } = useParams(); 
 
   if (status !== 'success') {
     return <Loading />
@@ -44,14 +43,6 @@ const Page = ({ match }) => {
       <h1 className="my-5">{page.title}</h1>
     </WikiStaticPage>
   )
-}
-
-Page.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      pageId: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
 }
 
 export default Page

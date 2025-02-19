@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { useArticleStore } from '../../store'
-import Cite from 'citation-js'
+// import Cite from 'citation-js'
 import { a, useSpring } from '@react-spring/web'
 import './ArticleNoteManager.css'
 import { XmarkCircleSolid } from 'iconoir-react'

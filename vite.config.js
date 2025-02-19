@@ -59,6 +59,9 @@ export default defineConfig(({ mode }) => {
       minify: false,
       outDir: 'dist',
     },
+    optimizeDeps: {
+      include: ['buffer', 'process']
+    },
     define: {
       __APP_ENV__: JSON.stringify(env.VITE_APP_ENV),
     },

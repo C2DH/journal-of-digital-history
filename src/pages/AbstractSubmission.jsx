@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Container, Form, Button, Col, Row } from 'react-bootstrap'
 import { useQueryParam, withDefault } from 'use-query-params'
 import LangLink from '../components/LangLink'
@@ -26,7 +26,7 @@ console.info('%cRecaptcha site key', 'font-weight:bold', ReCaptchaSiteKey)
 
 const AbstractSubmission = ({ allowGithubId = false }) => {
   const { t } = useTranslation()
-  const history = useHistory()
+  const navigate = useNavigate()
   const [callForPapers, setCallForPapers] = useQueryParam(
     'cfp',
     withDefault(CfpParam, '')
@@ -166,7 +166,7 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
       .then((res) => {
         // console.log('received', res)
         if (res?.status === 200 || res?.status === 201) {
-          history.push('/en/abstract-submitted')
+          navigate('/en/abstract-submitted')
         }
       })
       .catch((err) => {

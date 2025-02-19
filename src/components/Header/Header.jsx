@@ -7,8 +7,8 @@ import SwitchLanguageLink from '../SwitchLanguage/SwitchLanguageLink'
 import LangNavLink from '../LangNavLink'
 import UserProfile from './UserProfile'
 import logo from '../../assets/images/jdh-logo.svg'
-import deGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_white.svg'
-import uniluLogo from '../../assets/images/unilu-c2dh-logo-white.svg'
+import deGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_white.svg?url'
+import uniluLogo from '../../assets/images/unilu-c2dh-logo-white.svg?url'
 import { PrimaryRoutes, TermsOfUseRoute, NotebookPoweredPaths } from '../../constants'
 import { useLocation } from 'react-router'
 import SwitchNightMode from '../SwitchNightMode'
@@ -48,7 +48,7 @@ const MobileHeader = ({ langs, displayLangs }) => {
         <h1>{t('titleInline')}</h1>
         {PrimaryRoutes.concat([TermsOfUseRoute]).map(({to, label},i) => (
           <Nav.Item className="MobileHeaderNavItem" key={`primary-route-${i}`}>
-            <LangNavLink to={to} exact onClick={() => setIsVisible(false)}>{t(label)}</LangNavLink>
+            <LangNavLink to={to} onClick={() => setIsVisible(false)}>{t(label)}</LangNavLink>
           </Nav.Item>
         ))}
         </div>
@@ -72,8 +72,12 @@ const MobileHeader = ({ langs, displayLangs }) => {
         ))}
         </div>
         <div className="m-4 pb-4 d-flex align-items-center">
-          <a className="w-50 d-block" href="https://c2dh.uni.lu" target="_blank" rel="noopener noreferrer"><img alt='C2DH - University of Luxembourg' src={uniluLogo} style={{width:170, marginLeft: -10}}/></a>
-          <a className="w-50 d-block" href="https://www.degruyter.com" target="_blank" rel="noopener noreferrer"><img alt='De Gruyter Publisher' src={deGruyterLogo} style={{ width: 170}}/></a>
+          <a className="w-50 d-block" href="https://c2dh.uni.lu" target="_blank" rel="noopener noreferrer">
+            <img alt='C2DH - University of Luxembourg' src={uniluLogo} style={{width:170, marginLeft: -10}}/>
+          </a>
+          <a className="w-50 d-block" href="https://www.degruyter.com" target="_blank" rel="noopener noreferrer">
+            <img alt='De Gruyter Publisher' src={deGruyterLogo} style={{ width: 170}}/>
+          </a>
         </div>
       </div>
     </Nav>
@@ -104,7 +108,7 @@ const NavPrimaryRoutes = ({ routes, ...props}) => {
         }
         return(
           <Nav.Item key={to} >
-            <LangNavLink to={to} exact className="NavPrimaryRoutes_link px-0" active={isActive(to, alias)}>
+            <LangNavLink to={to} className="NavPrimaryRoutes_link px-0" active={isActive(to, alias)}>
               <span>{t(label)}</span>
             </LangNavLink>
           </Nav.Item>
@@ -126,9 +130,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs, displayLo
     <div className="position-fixed w-100" id="Header_background" />
     <Navbar  style={{height: 100 }} className="RowHeader d-md-flex d-none fixed-top"  variant="light" expand="md">
     <Navbar.Brand href="/en" className="position-absolute d-flex align-items-center">
-      <div className="BrandImage" style={{
-        backgroundImage: `url(${logo})`,
-      }}></div>
+      <Logo className="BrandImage" />
       <span className="d-md-block d-none" dangerouslySetInnerHTML={{
         __html: t('title')
       }}></span>

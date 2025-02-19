@@ -1,5 +1,5 @@
 import React from 'react'
-import Cite from 'citation-js'
+// import Cite from 'citation-js'
 
 const DefaultBibJson = {
   title: 'Open Bibliography for Science, Technology and Medicine',

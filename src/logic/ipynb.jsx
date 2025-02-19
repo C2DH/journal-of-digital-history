@@ -1,10 +1,10 @@
-import Cite from 'citation-js'
+// import Cite from 'citation-js'
 import { markdownParser } from './markdown'
-// import { groupBy } from 'lodash'
+
 import ArticleTree from '../models/ArticleTree'
 import ArticleHeading from '../models/ArticleHeading'
 import ArticleCell from '../models/ArticleCell'
-// import ArticleCellGroup from '../models/ArticleCellGroup'
+
 import ArticleReference from '../models/ArticleReference'
 import {
   SectionDefault,

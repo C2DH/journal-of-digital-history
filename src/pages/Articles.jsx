@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 import '../styles/pages/Articles.scss'
-import PropTypes from 'prop-types'
 import ArticlesGrid from '../components/Articles/ArticlesGrid'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
@@ -11,11 +11,8 @@ import ErrorViewer from './ErrorViewer'
 
 const ProgressLoadingId = 'articles'
 
-const Articles = ({
-  match: {
-    params: { id: issueId },
-  },
-}) => {
+const Articles = () => {
+  const { id: issueId } = useParams()
   console.debug('[Articles] match.params.id/issueId:', issueId)
   const [setLoadingProgress, setLoadingProgressFromEvent] = usePropsStore((state) => [
     state.setLoadingProgress,
@@ -89,12 +86,5 @@ const Articles = ({
   )
 }
 
-Articles.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
-}
 
 export default Articles

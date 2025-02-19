@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { useHistory, generatePath } from 'react-router'
+import { useNavigate, generatePath } from 'react-router'
 import { encodeNotebookURL } from '../logic/ipynb'
 import { BootstrapColumLayout } from '../constants'
 import FormNotebookUrl from '../components/Forms/FormNotebookUrl'
@@ -15,7 +15,8 @@ import FormNotebookUrl from '../components/Forms/FormNotebookUrl'
  */
 const NotebookViewerForm = () => {
   const { t, i18n } = useTranslation()
-  const history = useHistory()
+  const navigate = useNavigate()
+
 
   const handleNotebookUrlSubmit = ({ value, proxyValue }) => {
     // link to the notebbok viewer page with the right url link.
@@ -25,12 +26,11 @@ const NotebookViewerForm = () => {
         proxyValue,
         encodeNotebookURL(proxyValue),
       )
-      history.push({
-        pathname: generatePath('/:lang/notebook-viewer/:encodedUrl', {
-          encodedUrl: encodeNotebookURL(proxyValue),
-          lang: i18n.language.split('-')[0],
-        }),
-      })
+      navigate(generatePath('/:lang/notebook-viewer/:encodedUrl', {
+        encodedUrl: encodeNotebookURL(proxyValue),
+        lang: i18n.language.split('-')[0],
+      }))
+      
       // This rewrites URL from
       // https://github.com/C2DH/jdh-notebook/blob/features/template/author_guideline_template.ipynb
       // to

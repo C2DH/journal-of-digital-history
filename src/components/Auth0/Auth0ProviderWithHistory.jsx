@@ -1,13 +1,13 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Auth0Provider } from '@auth0/auth0-react'
 
 
 const Auth0ProviderWithHistory = ({ children, domain, clientId, redirectUri, disabled }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const onRedirectCallback = (appState) => {
-    console.info('Auth0ProviderWithHistory history', history, appState)
-    history.push(appState?.returnTo || window.location.pathname)
+    console.info('Auth0ProviderWithHistory history', navigate, appState)
+    navigate(appState?.returnTo || window.location.pathname)
   }
   if (disabled) {
     return (

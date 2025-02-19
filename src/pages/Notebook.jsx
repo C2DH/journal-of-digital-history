@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams, useHistory, generatePath } from 'react-router'
+import { useParams, useNavigate, generatePath } from 'react-router'
 import Article from '../components/Article'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
 import { useGetNotebookFromURL } from '../logic/api/fetchData'
@@ -13,7 +13,7 @@ import { decodeNotebookURL } from '../logic/ipynb'
 const Notebook = () => {
   const { i18n, t } = useTranslation()
   const { encodedUrl } = useParams()
-  const history = useHistory()
+  const navigate = useNavigate()
   const [value, setValue] = useState(null)
   const url = useMemo(() => {
     try{
@@ -36,12 +36,10 @@ const Notebook = () => {
   }, [status])
   // fetch url if available.
   const handleSubmit = () => {
-    history.push({
-      pathname: generatePath("/:lang/notebook/:encodedUrl", {
-        encodedUrl: btoa(value.split('+').join('/')),
-        lang: i18n.language.split('-')[0]
-      })
-    })
+    navigate(generatePath("/:lang/notebook/:encodedUrl", {
+      encodedUrl: btoa(value.split('+').join('/')),
+      lang: i18n.language.split('-')[0]
+    }))
   }
   const handleNotebookUpload = (e) => {
     const [file] = e.target.files

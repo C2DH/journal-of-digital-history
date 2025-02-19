@@ -17,8 +17,8 @@ import {
   FaqRoute,
 } from '../../constants'
 import { Facebook, GitHub } from 'react-feather'
-import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_Oldenbourg.svg'
-import UniluLogo from '../../assets/images/unilu-c2dh-logo.svg'
+import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_Oldenbourg.svg?url'
+import UniluLogo from '../../assets/images/unilu-c2dh-logo.svg?url'
 import BlueskyIcon from '../../assets/images/bluesky.svg'
 import '../../styles/components/Footer.scss'
 
@@ -63,7 +63,7 @@ const Footer = ({ hideOnRoutes = [] }) => {
                   {[HomeRoute, AbstractSubmissionRoute, AboutRoute, ReviewPolicy].map(
                     (route, i) => (
                       <Nav.Item key={i}>
-                        <LangNavLink to={route.to} exact>
+                        <LangNavLink to={route.to} >
                           <span>{t(route.label)}</span>
                         </LangNavLink>
                       </Nav.Item>
@@ -75,7 +75,7 @@ const Footer = ({ hideOnRoutes = [] }) => {
                 <Nav className="flex-column">
                   {[FaqRoute, ReleaseNotesRoute, TermsOfUseRoute].map((route, i) => (
                     <Nav.Item key={i}>
-                      <LangNavLink to={route.to} exact>
+                      <LangNavLink to={route.to} >
                         <span>{t(route.label)}</span>
                       </LangNavLink>
                     </Nav.Item>
@@ -87,8 +87,8 @@ const Footer = ({ hideOnRoutes = [] }) => {
           {/*
             <Col md={3}>
               <Nav className="flex-column">
-                <Nav.Item><LangNavLink to={AboutRoute.to} exact>{t(AboutRoute.label)}</LangNavLink></Nav.Item>
-                <Nav.Item><LangNavLink to={TermsOfUseRoute.to} exact>{t(TermsOfUseRoute.label)}</LangNavLink></Nav.Item>
+                <Nav.Item><LangNavLink to={AboutRoute.to} >{t(AboutRoute.label)}</LangNavLink></Nav.Item>
+                <Nav.Item><LangNavLink to={TermsOfUseRoute.to} >{t(TermsOfUseRoute.label)}</LangNavLink></Nav.Item>
               </Nav>
             </Col>
           */}
