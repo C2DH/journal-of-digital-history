@@ -17,8 +17,8 @@ import {
   FaqRoute,
 } from '../../constants'
 import { Facebook, GitHub } from 'react-feather'
-import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_Oldenbourg.svg'
-import UniluLogo from '../../assets/images/unilu-c2dh-logo.svg'
+import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_Oldenbourg.svg?url'
+import UniluLogo from '../../assets/images/unilu-c2dh-logo.svg?url'
 import BlueskyIcon from '../../assets/images/bluesky.svg'
 import '../../styles/components/Footer.scss'
 

@@ -7,8 +7,8 @@ import SwitchLanguageLink from '../SwitchLanguage/SwitchLanguageLink'
 import LangNavLink from '../LangNavLink'
 import UserProfile from './UserProfile'
 import logo from '../../assets/images/jdh-logo.svg'
-import deGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_white.svg'
-import uniluLogo from '../../assets/images/unilu-c2dh-logo-white.svg'
+import deGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_white.svg?url'
+import uniluLogo from '../../assets/images/unilu-c2dh-logo-white.svg?url'
 import { PrimaryRoutes, TermsOfUseRoute, NotebookPoweredPaths } from '../../constants'
 import { useLocation } from 'react-router'
 import SwitchNightMode from '../SwitchNightMode'
@@ -22,6 +22,8 @@ const MobileHeader = ({ langs, displayLangs }) => {
   const { t, i18n } = useTranslation()
   const [isVisible, setIsVisible] = useState(false)
   const { pathname } = useLocation()
+
+  console.log('---->', uniluLogo)
 
   return (
     <>
@@ -72,8 +74,12 @@ const MobileHeader = ({ langs, displayLangs }) => {
         ))}
         </div>
         <div className="m-4 pb-4 d-flex align-items-center">
-          <a className="w-50 d-block" href="https://c2dh.uni.lu" target="_blank" rel="noopener noreferrer"><img alt='C2DH - University of Luxembourg' src={uniluLogo} style={{width:170, marginLeft: -10}}/></a>
-          <a className="w-50 d-block" href="https://www.degruyter.com" target="_blank" rel="noopener noreferrer"><img alt='De Gruyter Publisher' src={deGruyterLogo} style={{ width: 170}}/></a>
+          <a className="w-50 d-block" href="https://c2dh.uni.lu" target="_blank" rel="noopener noreferrer">
+            <img alt='C2DH - University of Luxembourg' src={uniluLogo} style={{width:170, marginLeft: -10}}/>
+          </a>
+          <a className="w-50 d-block" href="https://www.degruyter.com" target="_blank" rel="noopener noreferrer">
+            <img alt='De Gruyter Publisher' src={deGruyterLogo} style={{ width: 170}}/>
+          </a>
         </div>
       </div>
     </Nav>
