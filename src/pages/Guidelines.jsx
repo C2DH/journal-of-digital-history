@@ -12,7 +12,7 @@ import { BootstrapColumLayout, StatusSuccess } from '../constants'
 const GuidelinesArticle = ({ data, status, isFake = false, showTemplateLink = false }) => {
   const { t } = useTranslation()
   console.debug('[GuidelinesArticle] props:', { status, isFake }, data)
-  const memoid = import.meta.env.VITE__NOTEBOOK_GUIDELINES_URL + (isFake ? '-fake' : '')
+  const memoid = import.meta.env.VITE_NOTEBOOK_GUIDELINES_URL + (isFake ? '-fake' : '')
   return (
     <>
       <Article
@@ -67,7 +67,7 @@ const GuidelinesArticle = ({ data, status, isFake = false, showTemplateLink = fa
 const Guidelines = () => {
   return (
     <StaticPageLoader
-      url={import.meta.env.VITE__NOTEBOOK_GUIDELINES_URL}
+      url={import.meta.env.VITE_NOTEBOOK_GUIDELINES_URL}
       Component={GuidelinesArticle}
       fakeData={source}
     />

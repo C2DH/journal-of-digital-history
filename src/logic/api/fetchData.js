@@ -84,7 +84,7 @@ export const useGetJSON = ({
   url,
   memoid = '',
   delay = 0,
-  timeout = import.meta.env.VITE__API_TIMEOUT || 0,
+  timeout = import.meta.env.VITE_API_TIMEOUT || 0,
   onDownloadProgress,
   onCompleted,
   failSilently = false,

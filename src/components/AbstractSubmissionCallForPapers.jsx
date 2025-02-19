@@ -14,7 +14,7 @@ const AbstractSubmissionCallForPapers = ({
 }) => {
   const { t } = useTranslation()
   const url = cfp.length
-    ? `${import.meta.env.VITE__NOTEBOOK_CFP_BASE_URL}/${cfp}/${cfp}.ipynb`
+    ? `${import.meta.env.VITE_NOTEBOOK_CFP_BASE_URL}/${cfp}/${cfp}.ipynb`
     : null
   const { data, error, status } = useGetJSON({
     url, // if url is null, no call will ever be made
