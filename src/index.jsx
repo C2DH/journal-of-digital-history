@@ -3,13 +3,13 @@ import { createRoot } from 'react-dom/client'
 import './styles/index.scss'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import WebFontLoader from 'webfontloader'
+// import WebFontLoader from 'webfontloader'
 import { MatomoProvider, createInstance } from '@jonkoops/matomo-tracker-react'
 import { AcceptAnalyticsCookies } from './logic/tracking'
 
 const matomo = createInstance({
-  urlBase: import.meta.env.VITE__MATOMO_URLBASE,
-  siteId: import.meta.env.VITE__MATOMO_SITEID,
+  urlBase: import.meta.env.VITE_MATOMO_URLBASE,
+  siteId: import.meta.env.VITE_MATOMO_SITEID,
   // userId: 'UIDC2DH', // optional, default value: `undefined`.
   // trackerUrl: 'https://LINK.TO.DOMAIN/tracking.php', // optional, default value: `${urlBase}matomo.php`
   // srcUrl: 'https://LINK.TO.DOMAIN/tracking.js', // optional, default value: `${urlBase}matomo.js`
@@ -33,27 +33,27 @@ const matomo = createInstance({
 console.info(
   AcceptAnalyticsCookies ? '%cMatomo enabled' : '%cMatomo disabled',
   'font-weight: bold',
-  import.meta.env.VITE__MATOMO_URLBASE,
+  import.meta.env.VITE_MATOMO_URLBASE,
 )
 
 // replace console.* for disable log debug on production
-if (process.env.NODE_ENV === 'production' && import.meta.env.VITE__BASEURL === location.origin) {
+if (process.env.NODE_ENV === 'production' && import.meta.env.VITE_BASEURL === location.origin) {
   console.debug = () => {}
 }
 
-WebFontLoader.load({
-  google: {
-    families: [
-      'Source+Serif+Pro:400,700',
-      'Fira+Code:400,700:latin-ext',
-      'Fira+Sans:400,700,ital:latin-ext',
-    ],
-  },
-})
+// WebFontLoader.load({
+//   google: {
+//     families: [
+//       'Source+Serif+Pro:400,700',
+//       'Fira+Code:400,700:latin-ext',
+//       'Fira+Sans:400,700,ital:latin-ext',
+//     ],
+//   },
+// })
 
 createRoot(document.getElementById('root')).render(
   <MatomoProvider value={matomo}>
-    <App />
+      <App />
   </MatomoProvider>,
 )
 // If you want your app to work offline and load faster, you can change
@@ -65,8 +65,8 @@ serviceWorker.unregister()
 console.info(
   '%cversion',
   'font-weight: bold',
-  import.meta.env.VITE__GIT_TAG,
-  import.meta.env.VITE__GIT_BRANCH,
-  import.meta.env.VITE__BUILD_DATE,
-  `\nhttps://github.com/C2DH/journal-of-digital-history/commit/${import.meta.env.VITE__GIT_COMMIT_SHA}`,
+  import.meta.env.VITE_GIT_TAG,
+  import.meta.env.VITE_GIT_BRANCH,
+  import.meta.env.VITE_BUILD_DATE,
+  `\nhttps://github.com/C2DH/journal-of-digital-history/commit/${import.meta.env.VITE_GIT_COMMIT_SHA}`,
 )

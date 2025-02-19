@@ -23,7 +23,7 @@ const Faq = () => {
   const { t } = useTranslation()
   return (
     <StaticPageLoader
-      url={import.meta.env.VITE__GITHUB_WIKI_FAQ}
+      url={import.meta.env.VITE_GITHUB_WIKI_FAQ}
       raw
       fakeData=''
       delay={0}

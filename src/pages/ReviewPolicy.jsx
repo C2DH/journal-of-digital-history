@@ -7,7 +7,7 @@ const ReviewPolicy = () => {
   const { t } = useTranslation()
   return (
     <WikiStaticPage
-      url={import.meta.env.VITE__WIKI_REVIEW_POLICY}
+      url={import.meta.env.VITE_WIKI_REVIEW_POLICY}
     >
       <h1 className="my-5" dangerouslySetInnerHTML={{
         __html: t('pages.reviewPolicy.title')

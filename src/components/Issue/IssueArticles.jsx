@@ -37,7 +37,7 @@ const IssueArticles = ({
     for (let i = 0, j = data.length; i < j; i++) {
       console.debug('[IssueArticles] data:', +data[i].publication_date)
 
-      if (data[i].tags.some((t) => t.name === import.meta.env.VITE__TAG_EDITORIAL)) {
+      if (data[i].tags.some((t) => t.name === import.meta.env.VITE_TAG_EDITORIAL)) {
         editorials.push(data[i])
       } else {
         articles.push(data[i])

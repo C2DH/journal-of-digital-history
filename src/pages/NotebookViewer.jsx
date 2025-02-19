@@ -96,7 +96,7 @@ const NotebookViewer = ({
   const { data, error, status } = useGetJSON({
     url,
     delay: 200,
-    timeout: import.meta.env.VITE__API_TIMEOUT,
+    timeout: import.meta.env.VITE_API_TIMEOUT,
     onDownloadProgress,
   })
 

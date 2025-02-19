@@ -41,20 +41,20 @@ function getRepoSpec(url, binderUrl) {
 export const ArticleThebeProvider = ({ url = '', kernelName, binderUrl, children }) => {
   // binder is available in the environment, and the environment is not production
   const shouldUseBinder =
-    process.env.NODE_ENV === 'production' || import.meta.env.VITE__THEBE_DEV_BINDER === 'true'
+    process.env.NODE_ENV === 'production' || import.meta.env.VITE_THEBE_DEV_BINDER === 'true'
 
   console.info(
     '[ArticleThebeProvider] ',
     '\n - NODE_ENV:',
     process.env.NODE_ENV,
     '\n - REACT_APP_THEBE_DEV_BINDER',
-    import.meta.env.VITE__THEBE_DEV_BINDER,
+    import.meta.env.VITE_THEBE_DEV_BINDER,
     '\n - REACT_APP_THEBE_TOKEN',
-    import.meta.env.VITE__THEBE_TOKEN,
+    import.meta.env.VITE_THEBE_TOKEN,
     '\n - REACT_APP_THEBE_BINDER_URL',
-    import.meta.env.VITE__THEBE_BINDER_URL,
+    import.meta.env.VITE_THEBE_BINDER_URL,
     '\n - REACT_APP_THEBE_JUPYTER_URL',
-    import.meta.env.VITE__THEBE_JUPYTER_URL,
+    import.meta.env.VITE_THEBE_JUPYTER_URL,
     '\n - should use binder:',
     shouldUseBinder,
   )
@@ -95,7 +95,7 @@ export const ArticleThebeProvider = ({ url = '', kernelName, binderUrl, children
       // https://thebe.readthedocs.io/en/stable/config_reference.html
       return {
         binderOptions: {
-          binderUrl: import.meta.env.VITE__THEBE_BINDER_URL,
+          binderUrl: import.meta.env.VITE_THEBE_BINDER_URL,
           repo,
           ref: undefined, // option ref / branch name (default: HEAD)
         },
@@ -104,8 +104,8 @@ export const ArticleThebeProvider = ({ url = '', kernelName, binderUrl, children
     } else {
       return {
         serverSettings: {
-          baseUrl: import.meta.env.VITE__THEBE_JUPYTER_URL,
-          token: import.meta.env.VITE__THEBE_TOKEN,
+          baseUrl: import.meta.env.VITE_THEBE_JUPYTER_URL,
+          token: import.meta.env.VITE_THEBE_TOKEN,
         },
         kernelOptions,
       }

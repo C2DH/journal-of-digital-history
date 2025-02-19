@@ -6,7 +6,7 @@ import './About.css'
 const About = () => {
   const { t } = useTranslation()
   return (
-    <WikiStaticPage url={import.meta.env.VITE__WIKI_ABOUT} className="About">
+    <WikiStaticPage url={import.meta.env.VITE_WIKI_ABOUT} className="About">
       <h1
         className="my-5"
         dangerouslySetInnerHTML={{
