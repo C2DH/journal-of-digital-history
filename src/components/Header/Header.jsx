@@ -23,8 +23,6 @@ const MobileHeader = ({ langs, displayLangs }) => {
   const [isVisible, setIsVisible] = useState(false)
   const { pathname } = useLocation()
 
-  console.log('---->', uniluLogo)
-
   return (
     <>
     {NotebookPoweredPaths.some((d) => pathname.indexOf(d) !== -1)
@@ -50,7 +48,7 @@ const MobileHeader = ({ langs, displayLangs }) => {
         <h1>{t('titleInline')}</h1>
         {PrimaryRoutes.concat([TermsOfUseRoute]).map(({to, label},i) => (
           <Nav.Item className="MobileHeaderNavItem" key={`primary-route-${i}`}>
-            <LangNavLink to={to} exact onClick={() => setIsVisible(false)}>{t(label)}</LangNavLink>
+            <LangNavLink to={to} onClick={() => setIsVisible(false)}>{t(label)}</LangNavLink>
           </Nav.Item>
         ))}
         </div>
@@ -110,7 +108,7 @@ const NavPrimaryRoutes = ({ routes, ...props}) => {
         }
         return(
           <Nav.Item key={to} >
-            <LangNavLink to={to} exact className="NavPrimaryRoutes_link px-0" active={isActive(to, alias)}>
+            <LangNavLink to={to} className="NavPrimaryRoutes_link px-0" active={isActive(to, alias)}>
               <span>{t(label)}</span>
             </LangNavLink>
           </Nav.Item>

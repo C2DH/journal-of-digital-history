@@ -63,7 +63,7 @@ const Footer = ({ hideOnRoutes = [] }) => {
                   {[HomeRoute, AbstractSubmissionRoute, AboutRoute, ReviewPolicy].map(
                     (route, i) => (
                       <Nav.Item key={i}>
-                        <LangNavLink to={route.to} exact>
+                        <LangNavLink to={route.to} >
                           <span>{t(route.label)}</span>
                         </LangNavLink>
                       </Nav.Item>
@@ -75,7 +75,7 @@ const Footer = ({ hideOnRoutes = [] }) => {
                 <Nav className="flex-column">
                   {[FaqRoute, ReleaseNotesRoute, TermsOfUseRoute].map((route, i) => (
                     <Nav.Item key={i}>
-                      <LangNavLink to={route.to} exact>
+                      <LangNavLink to={route.to} >
                         <span>{t(route.label)}</span>
                       </LangNavLink>
                     </Nav.Item>
@@ -87,8 +87,8 @@ const Footer = ({ hideOnRoutes = [] }) => {
           {/*
             <Col md={3}>
               <Nav className="flex-column">
-                <Nav.Item><LangNavLink to={AboutRoute.to} exact>{t(AboutRoute.label)}</LangNavLink></Nav.Item>
-                <Nav.Item><LangNavLink to={TermsOfUseRoute.to} exact>{t(TermsOfUseRoute.label)}</LangNavLink></Nav.Item>
+                <Nav.Item><LangNavLink to={AboutRoute.to} >{t(AboutRoute.label)}</LangNavLink></Nav.Item>
+                <Nav.Item><LangNavLink to={TermsOfUseRoute.to} >{t(TermsOfUseRoute.label)}</LangNavLink></Nav.Item>
               </Nav>
             </Col>
           */}
