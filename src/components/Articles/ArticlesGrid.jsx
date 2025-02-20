@@ -26,7 +26,7 @@ import ArticleFingerprintTooltip from '../ArticleV2/ArticleFingerprintTooltip'
 import groupBy from 'lodash/groupBy'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useSpring, config, a } from '@react-spring/web'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router'
 import { useBoundingClientRect } from '../../hooks/graphics'
 import { useWindowStore } from '../../store'
 
@@ -54,7 +54,7 @@ const ArticlesGrid = ({
   // pagination api contains results in data
 
   const [{ width }, ref] = useBoundingClientRect()
-  const history = useHistory()
+  const navigate = useNavigate()
   const animatedRef = useRef({ idx: '', length: '', datum: {} })
   const [animatedProps, setAnimatedProps] = useSpring(() => ({
     from: { x: 0, y: 0, id: '0-0', color: 'red', backgroundColor: 'transparent' },
@@ -136,7 +136,7 @@ const ArticlesGrid = ({
           datum.isHermeneutic ? LayerHermeneutics : LayerNarrative
         }`
       : `/en/article/${article.abstract.pid}`
-    history.push(url)
+    navigate(url)
   }
 
   const onFacetsSelectHandler = (name, indices) => {

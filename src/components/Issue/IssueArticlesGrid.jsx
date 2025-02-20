@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Row, Col } from 'react-bootstrap'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router'
 import { useGetJSON } from '../../logic/api/fetchData'
 import IssueArticleGridItem from './IssueArticleGridItem'
 import { StatusSuccess, DisplayLayerCellIdxQueryParam } from '../../constants'
@@ -10,7 +10,7 @@ import {useBoundingClientRect} from '../../hooks/graphics'
 
 const IssueArticlesGrid = ({ issue, onError }) => {
   const [{ left }, ref] = useBoundingClientRect()
-  const history = useHistory()
+  const navigate = useNavigate()
   const [animatedTooltipProps, tooltipApi] = useSpring(() => ({
     x : 0, y: 0, opacity:0,
     color: 'var(--white)',
@@ -70,7 +70,7 @@ const IssueArticlesGrid = ({ issue, onError }) => {
     const url = idx
       ? `/en/article/${article.abstract.pid}?${DisplayLayerCellIdxQueryParam}=${idx}`
       : `/en/article/${article.abstract.pid}`
-    history.push(url);
+    navigate(url);
   }
   const onMouseOutHandler = () => {
     tooltipApi.start({ opacity: 0 })

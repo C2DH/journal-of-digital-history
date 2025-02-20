@@ -14,7 +14,7 @@ import { useBoundingClientRect } from '../hooks/graphics'
 import { useSpring, config } from 'react-spring'
 import StaticPageLoader from './StaticPageLoader'
 import { decodeNotebookUrl, encodeNotebookUrl, getRawNotebookUrl } from '../logic/notebook'
-import { useHistory } from 'react-router'
+import { useNavigate } from 'react-router'
 
 const markdownParser = MarkdownIt({
   html: false,
@@ -77,7 +77,7 @@ const FingerprintExplained = ({
 
 const FingerprintExplainedContents = ({ status: contentsStatus, notebookUrl = '' }) => {
   const [{ width: size }, ref] = useBoundingClientRect()
-  const history = useHistory()
+  const navigate = useNavigate()
   const { t, i18n } = useTranslation()
   // original notebook cells
   const [notebookCells, setNotebookCells] = useState([])
@@ -113,7 +113,7 @@ const FingerprintExplainedContents = ({ status: contentsStatus, notebookUrl = ''
     const lang = i18n.language.split('-')[0]
     // setSubmitedNotebookUrl(notebookUrl)
     console.info('@submit', e.target.url.value)
-    history.push(`/${lang}/fingerprint-explained/${encodeNotebookUrl(e.target.url.value)}`)
+    navigate(`/${lang}/fingerprint-explained/${encodeNotebookUrl(e.target.url.value)}`)
     e.preventDefault()
   }
 

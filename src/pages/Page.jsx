@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { useGetRawContents } from '../logic/api/fetchData'
 import Loading from './Loading'
 import NotFound from './NotFound'
