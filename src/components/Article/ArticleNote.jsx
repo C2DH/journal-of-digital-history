@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import { Container, Row, Col} from 'react-bootstrap'
 import { BootstrapColumLayout } from '../../constants'
 
-import Cite from 'citation-js'
+// import Cite from 'citation-js'
 
 const ArticleNote= ({ articleTree, selectedDataHref }) => {
   const refId = selectedDataHref?.dataHref

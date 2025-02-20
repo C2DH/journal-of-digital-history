@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Navigate, useResolvedPath, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import i18n from 'i18next'
 import moment from 'moment'
@@ -111,10 +111,32 @@ i18n
 
 console.info('IsMobile:', IsMobile)
 
-function LangRoutes() {
-  const { path } = useResolvedPath("")
+function usePageViews() {
+  const { trackPageView } = useMatomo()
+  const { pathname, search } = useLocation()
+  const changeBackgroundColor = useStore((state) => state.changeBackgroundColor)
+
+  useEffect(() => {
+    const url = [pathname, search].join('')
+    console.info('pageview', url)
+    changeBackgroundColor('var(--gray-100)')
+    ReactGA.pageview(url)
+    trackPageView({
+      href: url,
+    })
+  }, [pathname, search, changeBackgroundColor])
+}
+
+function AppRoutes() {
+  usePageViews()
+  // const { path } = useResolvedPath("")
+  const path = LANGUAGE_PATH
+
+
   return (
     <Routes>
+      <Route path="/" render={() => <Redirect to="about-us" />} />
+      <Route path="/authorized" element={<div>authorized</div>} />
       <Route path={`${path}`} element={<Home />} />
       <Route path={`${path}/about`} element={<About />} />
       <Route path={`${path}/abstract`} element={<MockAbstract />} />
@@ -137,37 +159,10 @@ function LangRoutes() {
       <Route path={`${path}/local-notebook`} element={<LocalNotebook />} />
       <Route path={`${path}/playground`} element={<Playground />} />
       <Route path={`${path}/fingerprint`} element={<Fingerprint />} />
-      <Route path={`${path}/guidelines/:notebook?`} element={<Guidelines />} />
+      <Route path={`${path}/guidelines`} element={<Guidelines />} />
       <Route path={`${path}/cfp/:permalink`} element={<CallForPapers />} />
       <Route path={`${path}/p/:pageId`} element={<Page />} />
       <Route path={`${path}*`} element={<NotFound />} />
-    </Routes>
-  )
-}
-
-function usePageViews() {
-  const { trackPageView } = useMatomo()
-  const { pathname, search } = useLocation()
-  const changeBackgroundColor = useStore((state) => state.changeBackgroundColor)
-
-  useEffect(() => {
-    const url = [pathname, search].join('')
-    console.info('pageview', url)
-    changeBackgroundColor('var(--gray-100)')
-    ReactGA.pageview(url)
-    trackPageView({
-      href: url,
-    })
-  }, [pathname, search, changeBackgroundColor])
-}
-
-function AppRoutes() {
-  usePageViews()
-  return (
-    <Routes>
-      <Route path="/" element={<Navigate to={startLangShort} />} />
-      <Route path="/authorized" element={<div>authorized</div>} />
-      <Route path={LANGUAGE_PATH} element={<LangRoutes />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )
@@ -180,7 +175,7 @@ export default function App() {
         <QueryParamProvider >
           <PercentLoader />
           <Header availableLanguages={LANGUAGES} isAuthDisabled />
-          {/* {typeof csrfToken === 'string' && <Me />} */}
+          {typeof csrfToken === 'string' && <Me/>}
           <Cookies defaultAcceptCookies={AcceptCookies} />
           <main>
             <Suspense fallback={<Loading />}>

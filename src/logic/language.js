@@ -8,7 +8,8 @@ const LANGUAGES = (import.meta.env.VITE_LANGUAGES ?? 'en-US,fr-FR').split(',');
 const LANGUAGES_SHORTS = LANGUAGES.map((l) => l.split('-')[0])
 const DEFAULT_LANGUAGE = import.meta.env.VITE_DEFAULT_LANGUAGE ?? 'en-US';
 const DEFAULT_LANGUAGE_SHORT = DEFAULT_LANGUAGE.split('-')[0]
-const LANGUAGE_PATH = `/:lang(${LANGUAGES_SHORTS.join('|')})`
+// const LANGUAGE_PATH = `/:lang(${LANGUAGES_SHORTS.join('|')})`
+const LANGUAGE_PATH = `${LANGUAGES_SHORTS}`
 
 const getStartLang = () => {
   const langMatch = matchPath( {
