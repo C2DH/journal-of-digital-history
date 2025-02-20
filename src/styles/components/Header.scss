@@ -12,15 +12,25 @@
   left: 0;
   z-index: 1030;
 }
-
 .BrandImage {
   background: var(--primary);
+}
+
+.BrandImage > svg {
   height: 70px;
   width: 50px;
   background-repeat: no-repeat;
   background-size: 65%;
   background-position: center;
   border-radius: 5px;
+  margin-left: 10px;
+  padding-bottom: 10px;
+}
+
+@media ((min-width: 786px) and (max-width: 991px)) {
+  .d-md-block {
+    color: transparent;
+  }
 }
 
 @media (min-width: 992px) {
@@ -28,6 +38,7 @@
     width: 70px;
   }
 }
+
 // header.active #Header_background{
 //   // box-shadow: 0 0 .5rem var(--gray-500) !important;
 //   // border-bottom: 1px solid var(--gray-300);
@@ -35,6 +46,7 @@
 //   border-bottom: 1px solid var(--dark);
 //   box-shadow: 1px 1px 0 var(--primary);
 // }
+
 $breakpoint-tablet: 768px;
 @media (min-width: $breakpoint-tablet) {
   #Header_background {
@@ -172,9 +184,6 @@ header.active .MobileHeaderToggler {
   text-overflow: ellipsis;
   white-space: nowrap;
   margin-right: 0.5rem !important;
-}
-
-.NavPrimaryRoutes {
 }
 
 @media (min-width: 1200px) {

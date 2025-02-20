@@ -130,9 +130,7 @@ const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs, displayLo
     <div className="position-fixed w-100" id="Header_background" />
     <Navbar  style={{height: 100 }} className="RowHeader d-md-flex d-none fixed-top"  variant="light" expand="md">
     <Navbar.Brand href="/en" className="position-absolute d-flex align-items-center">
-      <div className="BrandImage" style={{
-        backgroundImage: `url(${logo})`,
-      }}></div>
+      <Logo className="BrandImage" />
       <span className="d-md-block d-none" dangerouslySetInnerHTML={{
         __html: t('title')
       }}></span>
