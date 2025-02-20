@@ -177,7 +177,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        {/* <QueryParamProvider ReactRouterRoute={Route}> */}
+        <QueryParamProvider >
           <PercentLoader />
           <Header availableLanguages={LANGUAGES} isAuthDisabled />
           {/* {typeof csrfToken === 'string' && <Me />} */}
@@ -190,8 +190,8 @@ export default function App() {
           <Footer hideOnRoutes={NotebookPoweredPaths} />
           <ScrollToTop />
           <WindowEvents />
-          {/* <VideoReleaseLazy isMobile={IsMobile} url={import.meta.env.VITE__WIKI_VIDEO_RELEASES} /> */}
-        {/* </QueryParamProvider> */}
+          <VideoReleaseLazy isMobile={IsMobile} url={import.meta.env.VITE_WIKI_VIDEO_RELEASES} />
+        </QueryParamProvider>
       </QueryClientProvider>
     </BrowserRouter>
   )
