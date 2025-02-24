@@ -135,7 +135,7 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/" render={() => <Redirect to="about-us" />} />
+      <Route path="/" element={<Home />} />
       <Route path="/authorized" element={<div>authorized</div>} />
       <Route path={`${path}`} element={<Home />} />
       <Route path={`${path}/about`} element={<About />} />
@@ -178,7 +178,7 @@ export default function App() {
           {typeof csrfToken === 'string' && <Me/>}
           <Cookies defaultAcceptCookies={AcceptCookies} />
           <main>
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<Loading />} key={location.key}>
               <AppRoutes />
             </Suspense>
           </main>
