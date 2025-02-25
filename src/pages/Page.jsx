@@ -1,9 +1,11 @@
 import React from 'react'
+import { useParams } from 'react-router'
 import { useGetRawContents } from '../logic/api/fetchData'
 import Loading from './Loading'
 import NotFound from './NotFound'
 import WikiStaticPage from './WikiStaticPage'
 import './Page.css'
+
 
 const Page = () => {
   const { status, data } = useGetRawContents({
@@ -11,7 +13,7 @@ const Page = () => {
     delay: 500,
   })
 
-  const { pageId } = useParams(); 
+  const { pageId } = useParams();
 
   if (status !== 'success') {
     return <Loading />
@@ -39,7 +41,7 @@ const Page = () => {
   }
   console.debug('[Page]', pageId, status, data)
   return (
-    <WikiStaticPage delay={500} url={page.rawUrl} memoid={1} className="Page">
+    <WikiStaticPage delay={500} url={page.rawUrl} memoid={"1"} className="Page">
       <h1 className="my-5">{page.title}</h1>
     </WikiStaticPage>
   )

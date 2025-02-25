@@ -1,9 +1,12 @@
-import React, { useRef, useEffect } from 'react'
-import { useArticleStore } from '../../store'
-// import Cite from 'citation-js'
-import { a, useSpring } from '@react-spring/web'
-import './ArticleNoteManager.css'
 import { XmarkCircleSolid } from 'iconoir-react'
+import React, { useRef, useEffect } from 'react'
+import { a, useSpring } from '@react-spring/web'
+import { Cite } from '@citation-js/core'
+
+import { useArticleStore } from '../../store'
+
+import './ArticleNoteManager.css'
+
 
 const ArticleNoteManager = ({ bibliography = {} }) => {
   const refId = useArticleStore((state) => state.selectedDataHref)

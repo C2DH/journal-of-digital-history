@@ -1,6 +1,8 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
+import webfontDownload from 'vite-plugin-webfont-dl';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
@@ -14,10 +16,14 @@ export default defineConfig(({ mode }) => {
           exportType: 'default',
         },
       }),
+      nodePolyfills(),
+      webfontDownload([
+        "https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;700&display=swap",
+        "https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap&subset=latin-ext",
+        "https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap&subset=latin-ext"
+      ]),
     ],
     server: {
-      port: 3000,
-      open: true,
       proxy: {
         '/api/explain': {
           target: env.VITE_ENABLE_CODE_EXPLAINER_PROXY || 'http://localhost:5000',
@@ -37,8 +43,6 @@ export default defineConfig(({ mode }) => {
       },
     },
     preview: {
-      port: 3000,
-      open: true,
       proxy: {
         '/api/explain': {
           target: env.VITE_ENABLE_CODE_EXPLAINER_PROXY || 'http://localhost:5000',
@@ -58,9 +62,6 @@ export default defineConfig(({ mode }) => {
     build: {
       minify: false,
       outDir: 'dist',
-    },
-    optimizeDeps: {
-      include: ['buffer', 'process']
     },
     define: {
       __APP_ENV__: JSON.stringify(env.VITE_APP_ENV),
