@@ -3,15 +3,12 @@
   margin: var(--spacer-3) 0;
   border-top: 1px solid var(--secondary);
   border-radius: 10px;
-  padding: 10px;
+  padding: 5px;
   svg {
     cursor: pointer;
   }
 }
-// compensate for the padding
-.IssueArticleGridItem .ArticleFingerprint {
-  left: -10px;
-}
+
 .IssueArticleGridItem h3 {
   font-family: var(--font-family-sans-serif);
   font-size: 1.3em;
