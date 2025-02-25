@@ -1,4 +1,4 @@
-// import Cite from 'citation-js'
+import Cite from 'citation-js'
 import { markdownParser } from './markdown'
 
 import ArticleTree from '../models/ArticleTree'
