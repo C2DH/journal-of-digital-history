@@ -16,8 +16,6 @@ export default defineConfig(({ mode }) => {
       }),
     ],
     server: {
-      port: 3000,
-      open: true,
       proxy: {
         '/api/explain': {
           target: env.VITE_ENABLE_CODE_EXPLAINER_PROXY || 'http://localhost:5000',
@@ -37,8 +35,6 @@ export default defineConfig(({ mode }) => {
       },
     },
     preview: {
-      port: 3000,
-      open: true,
       proxy: {
         '/api/explain': {
           target: env.VITE_ENABLE_CODE_EXPLAINER_PROXY || 'http://localhost:5000',
