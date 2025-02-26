@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Container, Row, Col } from 'react-bootstrap'
+import { useParams } from 'react-router'
+
 import { useGetJSON } from '../logic/api/fetchData'
 import {
   BootstrapColumLayout,
@@ -16,11 +18,9 @@ import { extractMetadataFromArticle } from '../logic/api/metadata'
 import { useIssueStore } from '../store'
 import { setBodyNoScroll } from '../logic/viewport'
 
-const ArticleViewer = ({
-  match: {
-    params: { pid },
-  },
-}) => {
+
+const ArticleViewer = () => {
+  const { pid } = useParams()
   const { t } = useTranslation()
   const setIssue = useIssueStore((state) => state.setIssue)
   const {
