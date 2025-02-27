@@ -1,11 +1,11 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import './styles/index.scss'
-import App from './App'
-import * as serviceWorker from './serviceWorker'
-// import WebFontLoader from 'webfontloader'
 import { MatomoProvider, createInstance } from '@jonkoops/matomo-tracker-react'
+
+import App from './App'
 import { AcceptAnalyticsCookies } from './logic/tracking'
+import * as serviceWorker from './serviceWorker'
+import './styles/index.scss'
 
 const matomo = createInstance({
   urlBase: import.meta.env.VITE_MATOMO_URLBASE,
@@ -40,16 +40,6 @@ console.info(
 if (process.env.NODE_ENV === 'production' && import.meta.env.VITE_BASEURL === location.origin) {
   console.debug = () => {}
 }
-
-// WebFontLoader.load({
-//   google: {
-//     families: [
-//       'Source+Serif+Pro:400,700',
-//       'Fira+Code:400,700:latin-ext',
-//       'Fira+Sans:400,700,ital:latin-ext',
-//     ],
-//   },
-// })
 
 createRoot(document.getElementById('root')).render(
   <MatomoProvider value={matomo}>

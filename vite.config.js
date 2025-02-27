@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
+import webfontDownload from 'vite-plugin-webfont-dl';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
@@ -16,6 +17,11 @@ export default defineConfig(({ mode }) => {
         },
       }),
       nodePolyfills(),
+      webfontDownload([
+        "https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;700&display=swap",
+        "https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap&subset=latin-ext",
+        "https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap&subset=latin-ext"
+      ]),
     ],
     server: {
       proxy: {
