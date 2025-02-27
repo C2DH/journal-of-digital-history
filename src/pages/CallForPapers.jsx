@@ -12,9 +12,11 @@ import {
   BootstrapColumLayout,
   StatusSuccess
 } from '../constants'
+import { useParams } from 'react-router'
 
 
-const CallForPapers = ({ match: { params: { permalink }}}) => {
+const CallForPapers = () => {
+  const { permalink } = useParams()
   const { t } = useTranslation()
   // check that permalink is just lowercase characters
   const cfpUrl = [

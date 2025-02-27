@@ -1,5 +1,7 @@
 import React, { useMemo, useEffect } from 'react'
+import { useParams } from 'react-router'
 import { useQueryParams, NumberParam, withDefault } from 'use-query-params'
+
 import { useGetJSON } from '../logic/api/fetchData'
 import { decodeNotebookURL } from '../logic/ipynb'
 import {
@@ -16,14 +18,12 @@ import ArticleHeader from '../components/Article/ArticleHeader'
 import ErrorViewer from './ErrorViewer'
 import { usePropsStore } from '../store'
 import { setBodyNoScroll } from '../logic/viewport'
+
 /**
  * Loading bar inspired by
  * https://codesandbox.io/s/github/pmndrs/react-spring/tree/master/demo/src/sandboxes/animating-auto
  */
 const NotebookViewer = ({
-  match: {
-    params: { encodedUrl },
-  },
   title = [],
   abstract = [],
   keywords = [],
@@ -46,6 +46,7 @@ const NotebookViewer = ({
   isJavascriptTrusted,
   parserVersion = 2
 }) => {
+  const { encodedUrl } = useParams()
   const [{ [ArticleVersionQueryParam]: version }] = useQueryParams({
     [ArticleVersionQueryParam]: withDefault(NumberParam, parserVersion),
   })
