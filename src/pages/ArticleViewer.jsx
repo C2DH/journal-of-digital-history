@@ -109,6 +109,8 @@ const ArticleViewer = () => {
     '\n - dataverse_url:',
     article.dataverse_url,
   )
+
+  console.log('----> article.notebook_url', article.notebook_url,)
   return (
     <NotebookViewer
       pid={pid}
@@ -131,11 +133,7 @@ const ArticleViewer = () => {
       bibjson={article.citation}
       parserVersion={parseInt(article.data.parserVersion) || 2}
       isJavascriptTrusted
-      match={{
-        params: {
-          encodedUrl: article.notebook_url,
-        },
-      }}
+      encodedUrl={article.notebook_url} 
     />
   )
 }

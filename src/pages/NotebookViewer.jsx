@@ -44,9 +44,11 @@ const NotebookViewer = ({
   bibjson,
   pid,
   isJavascriptTrusted,
-  parserVersion = 2
+  parserVersion = 2,
+  encodedUrl
 }) => {
-  const { encodedUrl } = useParams()
+
+  console.log('------->', useParams())
   const [{ [ArticleVersionQueryParam]: version }] = useQueryParams({
     [ArticleVersionQueryParam]: withDefault(NumberParam, parserVersion),
   })
