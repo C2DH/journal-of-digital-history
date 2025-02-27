@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { Aperture } from 'react-feather'
 import MarkdownIt from 'markdown-it'
 import { Container, Row, Col, Button, Form } from 'react-bootstrap'
+import { useNavigate, useParams } from 'react-router-dom'
+
 import { BootstrapFullColumLayout, StatusSuccess, StatusError } from '../constants'
 import JupyterCell from '../components/FingerprintExplained/JupyterCell'
 import '../styles/components/FingerprintComposer/FingerprintComposer.scss'
@@ -14,7 +16,6 @@ import { useBoundingClientRect } from '../hooks/graphics'
 import { useSpring, config } from 'react-spring'
 import StaticPageLoader from './StaticPageLoader'
 import { decodeNotebookUrl, encodeNotebookUrl, getRawNotebookUrl } from '../logic/notebook'
-import { useNavigate } from 'react-router'
 
 const markdownParser = MarkdownIt({
   html: false,
@@ -26,11 +27,10 @@ const markdownParser = MarkdownIt({
  * Get currrent EcodedUrl param from current route
  * @returns Component with fingerprint explained
  */
-const FingerprintExplained = ({
-  match: {
-    params: { encodedUrl = '' },
-  },
-}) => {
+const FingerprintExplained = () => {
+
+  const { encodedUrl = '' } = useParams()
+
   const { t } = useTranslation()
   const notebookUrl = encodedUrl.length
     ? decodeNotebookUrl(encodedUrl)

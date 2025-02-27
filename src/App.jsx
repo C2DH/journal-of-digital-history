@@ -1,10 +1,14 @@
 import React, { Suspense, lazy, useEffect } from 'react'
+import ReactGA from 'react-ga'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import i18n from 'i18next'
 import moment from 'moment'
 import UniversalCookie from 'universal-cookie'
 import { initReactI18next } from 'react-i18next'
+import { useMatomo } from '@jonkoops/matomo-tracker-react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 import { getStartLang, LANGUAGE_PATH, LANGUAGES } from './logic/language'
 import translations from './translations'
 import { useStore } from './store'
@@ -17,13 +21,14 @@ import VideoReleaseLazy from './components/VideoRelease/VideoReleaseLazy'
 import PercentLoader from './components/PercentLoader'
 // import Auth0ProviderWithHistory from "./components/Auth0/Auth0ProviderWithHistory"
 import Loading from './pages/Loading'
-import ReactGA from 'react-ga'
-import { useMatomo } from '@jonkoops/matomo-tracker-react'
+
+
 import { AcceptAnalyticsCookies, AcceptCookies } from './logic/tracking'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 import Me from './components/Me'
 import WindowEvents from './components/WindowEvents'
 import Page from './pages/Page'
+
 
 console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___|       \n\n')
 
@@ -169,6 +174,7 @@ function AppRoutes() {
 }
 
 export default function App() {
+  
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
