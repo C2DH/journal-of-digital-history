@@ -79,7 +79,7 @@
     "thebe-react": "^0.4.2",
     "typescript": "^5.5.4",
     "universal-cookie": "^4.0.4",
-    "use-query-params": "^1.2.2",
+    "use-query-params": "^2.2.1",
     "vite-plugin-node-polyfills": "^0.23.0",
     "vite-plugin-svgr": "^4.3.0",
     "vite-plugin-webfont-dl": "^3.10.4",

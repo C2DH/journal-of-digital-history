@@ -1,5 +1,4 @@
 import React, { useMemo, useEffect } from 'react'
-import { useParams } from 'react-router'
 import { useQueryParams, NumberParam, withDefault } from 'use-query-params'
 
 import { useGetJSON } from '../logic/api/fetchData'
@@ -48,7 +47,6 @@ const NotebookViewer = ({
   encodedUrl
 }) => {
 
-  console.log('------->', useParams())
   const [{ [ArticleVersionQueryParam]: version }] = useQueryParams({
     [ArticleVersionQueryParam]: withDefault(NumberParam, parserVersion),
   })

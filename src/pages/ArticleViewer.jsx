@@ -110,7 +110,6 @@ const ArticleViewer = () => {
     article.dataverse_url,
   )
 
-  console.log('----> article.notebook_url', article.notebook_url,)
   return (
     <NotebookViewer
       pid={pid}

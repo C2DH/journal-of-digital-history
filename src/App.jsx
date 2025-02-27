@@ -8,6 +8,7 @@ import UniversalCookie from 'universal-cookie'
 import { initReactI18next } from 'react-i18next'
 import { useMatomo } from '@jonkoops/matomo-tracker-react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 
 import { getStartLang, LANGUAGE_PATH, LANGUAGES } from './logic/language'
 import translations from './translations'
@@ -178,7 +179,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <QueryParamProvider >
+        <QueryParamProvider adapter={ReactRouter6Adapter}>
           <PercentLoader />
           <Header availableLanguages={LANGUAGES} isAuthDisabled />
           {typeof csrfToken === 'string' && <Me/>}
