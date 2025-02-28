@@ -17,6 +17,8 @@ import ArticleHeader from '../components/Article/ArticleHeader'
 import ErrorViewer from './ErrorViewer'
 import { usePropsStore } from '../store'
 import { setBodyNoScroll } from '../logic/viewport'
+import { useParams } from 'react-router'
+
 
 /**
  * Loading bar inspired by
@@ -44,9 +46,12 @@ const NotebookViewer = ({
   pid,
   isJavascriptTrusted,
   parserVersion = 2,
-  encodedUrl
+  encodedUrl: propEncodedUrl
 }) => {
 
+  const { encodedUrl: paramEncodedUrl } = useParams()
+  const encodedUrl = propEncodedUrl || paramEncodedUrl
+  
   const [{ [ArticleVersionQueryParam]: version }] = useQueryParams({
     [ArticleVersionQueryParam]: withDefault(NumberParam, parserVersion),
   })
