@@ -135,9 +135,7 @@ function usePageViews() {
 
 function AppRoutes() {
   usePageViews()
-  // const { path } = useResolvedPath("")
   const path = LANGUAGE_PATH
-
 
   return (
     <Routes>

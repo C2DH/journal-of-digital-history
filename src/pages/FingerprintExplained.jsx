@@ -24,11 +24,10 @@ const markdownParser = MarkdownIt({
 })
 
 /**
- * Get currrent EcodedUrl param from current route
+ * Get currrent EncodedUrl param from current route
  * @returns Component with fingerprint explained
  */
 const FingerprintExplained = () => {
-
   const { encodedUrl = '' } = useParams()
 
   const { t } = useTranslation()
