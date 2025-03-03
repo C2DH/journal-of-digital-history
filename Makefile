@@ -1,13 +1,13 @@
 BUILD_TAG ?= latest
 
 run:
-	docker-compose down --remove-orphans && \
+	docker compose down --remove-orphans && \
 	GIT_COMMIT_SHA=$(shell git rev-parse HEAD) \
 	GIT_REMOTE_URL=$(shell git config --get remote.origin.url) \
 	GIT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD) \
 	GIT_TAG=$(shell git describe --tags --abbrev=0 HEAD) \
 	BUILD_DATE=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ") \
-	docker-compose up --build .
+	docker compose up --build
 
 run-dev: 
 	VITE_APP_GIT_COMMIT_SHA=$(shell git rev-parse HEAD) \
