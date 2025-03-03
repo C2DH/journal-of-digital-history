@@ -1,16 +1,17 @@
-import React from 'react'
-import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
-import ArticleCell from '../components/Article/ArticleCell'
+// import { Meta, StoryFn } from '@storybook/react'
+import { useIpynbNotebookParagraphs } from '../hooks/ipynb.js'
+import ArticleCell from '../components/Article/ArticleCell.jsx'
 
-// Stories for hoks and methds, following Josh Farrant https://farrant.me/posts/documenting-react-hooks-with-storybook
+// Stories for hooks and methods, following Josh Farrant https://farrant.me/posts/documenting-react-hooks-with-storybook
 // accessed 04 01 2023
+
 export default {
   title: 'tests/Notebook with reference',
   component: ArticleCell,
   argTypes: {
     metadata: { control: { type: 'object' }, defaultValue: {} },
   },
-}
+} 
 
 const Template = ({ cells, metadata }) => {
   const articleTree = useIpynbNotebookParagraphs({
@@ -21,8 +22,9 @@ const Template = ({ cells, metadata }) => {
 
   console.debug('[Article] loading articleTree paragraphs:', articleTree.paragraphs.length)
 
-  return [articleTree.paragraphs.map((p) => <ArticleCell key={p.id} {...p} />)]
+  return <>{articleTree.paragraphs.map((p) => <ArticleCell key={p.id} {...p} />)}</>
 }
+
 export const Default = Template.bind({})
 
 Default.args = {

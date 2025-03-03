@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [
+      nodePolyfills(),
       react(),
       svgr({
         include: '**/*.svg',
@@ -16,7 +17,6 @@ export default defineConfig(({ mode }) => {
           exportType: 'default',
         },
       }),
-      nodePolyfills(),
       webfontDownload([
         "https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;700&display=swap",
         "https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap&subset=latin-ext",

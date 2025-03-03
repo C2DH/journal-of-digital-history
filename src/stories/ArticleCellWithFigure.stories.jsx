@@ -1,7 +1,11 @@
 import React from 'react'
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
+import { BrowserRouter } from 'react-router-dom'
+import { QueryParamProvider } from 'use-query-params'
+
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import ArticleCell from '../components/Article/ArticleCell'
-import { QueryParamProvider } from 'use-query-params'
+
 
 // Stories for hoks and methds, following Josh Farrant https://farrant.me/posts/documenting-react-hooks-with-storybook
 // accessed 04 01 2023
@@ -20,11 +24,13 @@ const Template = ({ cells, metadata, isJavascriptTrusted }) => {
     metadata,
   })
   return (
-    <QueryParamProvider>
-      {articleTree.paragraphs.map((p, i) => (
-        <ArticleCell isJavascriptTrusted={isJavascriptTrusted} key={i} {...p} />
-      ))}
-    </QueryParamProvider>
+    <BrowserRouter>
+      <QueryParamProvider adapter={ReactRouter6Adapter}> 
+        {articleTree.paragraphs.map((p, i) => (
+          <ArticleCell isJavascriptTrusted={isJavascriptTrusted} key={i} {...p} />
+        ))}
+     </QueryParamProvider>
+    </BrowserRouter>
   )
 }
 export const Default = Template.bind({})

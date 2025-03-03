@@ -12,3 +12,5 @@ yalc.lock
 storybook-static
 # _redirects
 journal-of-digital-history.code-workspace
+
+*storybook.log
