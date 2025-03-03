@@ -6,7 +6,7 @@ import { useQueryParam, StringParam, withDefault } from 'use-query-params'
 import { useGetJSON } from '../logic/api/fetchData'
 import { StatusSuccess, StatusFetching } from '../constants'
 import { useSpring, a, animated, config } from 'react-spring'
-import { parseNotebook } from '../logic/fingerprint'
+import { parseNotebook } from '../logic/parseNotebook'
 import { useBoundingClientRect } from '../hooks/graphics'
 import ArticleFingerprint from '../components/Article/ArticleFingerprint'
 
