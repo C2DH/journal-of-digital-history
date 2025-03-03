@@ -1,4 +1,4 @@
-FROM node:19.0-alpine
+FROM node:23.0-alpine
 
 ARG GIT_TAG
 ARG GIT_BRANCH

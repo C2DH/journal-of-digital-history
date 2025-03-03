@@ -20,6 +20,7 @@ COPY src ./src
 COPY .env .
 COPY src/schemas ./public/schemas
 COPY src/data/mock-api ./public/mock-api
+COPY index.html .
 
 ENV NODE_ENV production
 ENV NODE_OPTIONS --max_old_space_size=4096
@@ -30,7 +31,7 @@ ENV VITE_GIT_BRANCH=${GIT_BRANCH}
 ENV VITE_GIT_TAG=${GIT_TAG}
 ENV VITE_BUILD_DATE=${BUILD_DATE}
 
-RUN yarn build
+RUN yarn build 
 RUN yarn build-storybook 
 
 FROM busybox
