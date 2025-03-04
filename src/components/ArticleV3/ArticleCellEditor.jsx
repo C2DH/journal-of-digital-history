@@ -8,7 +8,7 @@ import 'codemirror/lib/codemirror.css'
 // import codemirror dracula style
 import 'codemirror/theme/dracula.css'
 // import codemirror python mode
-import 'codemirror/mode/python/python.js';
+import 'codemirror/mode/python/python.js'
 
 
 const ArticleCellEditor = ({

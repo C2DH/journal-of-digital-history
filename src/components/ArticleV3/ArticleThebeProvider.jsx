@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import {
-  ThebeLoaderProvider,
+  ThebeBundleLoaderProvider,
   ThebeServerProvider,
   ThebeRenderMimeRegistryProvider,
   ThebeSessionProvider,
@@ -113,13 +113,13 @@ export const ArticleThebeProvider = ({ url = '', kernelName, binderUrl, children
   }, [shouldUseBinder, url, binderUrl])
 
   return (
-    <ThebeLoaderProvider start>
+    <ThebeBundleLoaderProvider publicPath='/lib' start>
       <ThebeServerProvider useBinder={shouldUseBinder} connect={false} options={options}>
         <ThebeRenderMimeRegistryProvider>
           <ThebeSessionProvider>{children}</ThebeSessionProvider>
         </ThebeRenderMimeRegistryProvider>
       </ThebeServerProvider>
-    </ThebeLoaderProvider>
+    </ThebeBundleLoaderProvider>
   )
 }
 

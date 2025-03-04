@@ -1,5 +1,4 @@
-import React from 'react'
-import { useLayoutEffect } from 'react'
+import React, { useLayoutEffect } from 'react'
 import { useImage, useOnScreen } from '../hooks/graphics'
 import '../styles/components/LazyFigure.scss'
 
@@ -8,7 +7,7 @@ const DefaultBase64Image =
 
 const LazyFigure = ({
   aspectRatio = 'auto', // numeric or string
-  height = 0, // if thre's no aspectRatio!
+  height = 0, // if there's no aspectRatio!
   src = '', // actual url...
   base64 = DefaultBase64Image,
   delay = 1000,
@@ -57,7 +56,7 @@ const LazyFigure = ({
             style={
               isFigureReady
                 ? {
-                    backgroundImage: `url(${base64})`,
+                    backgroundImage: `url(${src})`,
                   }
                 : {}
             }

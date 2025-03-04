@@ -3,12 +3,16 @@ import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import webfontDownload from 'vite-plugin-webfont-dl'
+
 import { serifPro, firaCode, firaSans } from './src/assets/fonts/fonts'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
+    optimizeDeps: {
+      include: ['moo', '@citation-js/plugin-bibtex'],
+    },
     plugins: [
       nodePolyfills(),
       react(),
@@ -25,9 +29,7 @@ export default defineConfig(({ mode }) => {
         '/api/explain': {
           target: env.VITE_ENABLE_CODE_EXPLAINER_PROXY,
           changeOrigin: true,
-          pathRewrite: {
-            '^/api/explain': '/explain',
-          },
+          rewrite: (path) => path.replace(/^\/api\/explain/, '/explain'),
         },
         '/api': {
           target: env.VITE_PROXY,
@@ -40,12 +42,17 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      outDir: 'dist',
+      outDir: 'build',
       emptyOutDir: true,
+      commonjsOptions: {
+        transformMixedEsModules: true,
+      },
+      optimizeDeps: {
+        include: ['moo', '@citation-js/plugin-bibtex'],
+      },
     },
     define: {
       __APP_ENV__: JSON.stringify(env.VITE_APP_ENV),
     },
   }
 })
-

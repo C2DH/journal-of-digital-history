@@ -335,7 +335,7 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
       return acc
     }, {})
   }
-  // parse biobliographic elements
+  // parse bibliographic elements
   if (citationsFromMetadata instanceof Object) {
     bibliography = new Cite(Object.values(citationsFromMetadata).filter((d) => d))
   }
@@ -478,7 +478,7 @@ const getArticleTreeFromIpynb = ({ id, cells = [], metadata = {} }) => {
             figure: cell.figure,
             anchor: cell.anchor,
           }),
-        )
+        ) 
       } else if (cell.cell_type === CellTypeCode) {
         articleCells.push(
           new ArticleCell({

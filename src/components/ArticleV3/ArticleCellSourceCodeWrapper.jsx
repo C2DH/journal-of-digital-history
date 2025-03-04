@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { Button } from 'react-bootstrap';
 import { Eye, EyeOff } from 'react-feather';
 import { useTranslation } from 'react-i18next';
@@ -49,7 +49,7 @@ const ArticleCellSourceCodeWrapper = ({
       }
 
       {(!toggleVisibility || isSourceCodeVisible) &&
-        <React.Suspense fallback={<div>loading...</div>}>
+        <Suspense fallback={<div>loading...</div>}>
           <ArticleCellEditor
             cellIdx           = {cellIdx}
             toggleVisibility  = {toggleVisibility}
@@ -58,7 +58,7 @@ const ArticleCellSourceCodeWrapper = ({
               readOnly: readOnly || isCollapsed ? 'nocursor' : false
             }}
           />
-        </React.Suspense>
+        </Suspense>
       }
 
       {isCollapsed &&

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Cite } from '@citation-js/core'
+import '@citation-js/plugin-bibtex'
 
 const DefaultBibJson = {
   title: 'Open Bibliography for Science, Technology and Medicine',
@@ -48,7 +49,7 @@ const Citation = ({
   const cite = new Cite(bibjsonSource)
 
   if (format === 'bibtex') {
-    // format a s bibtext and remove unwanted spaces from bibtext output when dealing with accented characters
+    // format as bibtext and remove unwanted spaces from bibtext output when dealing with accented characters
     // e.g; change Fr{\' e}d{\' e}ric into Fr{\'e}d{\'e}ric
     const output = cite.format(format).replace(/\{\\'\s*/g, "{\\'")
 
