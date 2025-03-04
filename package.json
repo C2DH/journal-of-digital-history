@@ -90,7 +90,6 @@
     "start": "vite",
     "build": "vite build",
     "build-noindex": "vite build && echo 'User-agent: *\nDisallow: /' > dist/robots.txt && echo '/* /index.html  200' > dist/_redirects && cp -r src/data/mock-api dist",
-    "preview": "vite preview",
     "test": "vitest",
     "lint": "eslint --fix src/**/*.js",
     "storybook": "storybook dev -p 6006",
