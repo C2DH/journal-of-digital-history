@@ -1,5 +1,5 @@
 import React from 'react'
-import LazyFigure from './LazyFigure'
+import LazyFigure from '../components/LazyFigure'
 
 export default {
   component: LazyFigure,

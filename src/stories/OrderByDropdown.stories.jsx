@@ -1,5 +1,5 @@
 import React from 'react'
-import OrderByDropdown from './OrderByDropdown'
+import OrderByDropdown from '../components/OrderByDropdown'
 
 export default {
   component: OrderByDropdown,
