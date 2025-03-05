@@ -1,20 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { EditorView, basicSetup } from '@codemirror/basic-setup'
+import { EditorView } from '@codemirror/basic-setup'
 import { EditorState } from '@codemirror/state'
 import { python } from '@codemirror/lang-python'
-import { dracula } from '@uiw/codemirror-theme-dracula'
+import { darcula } from '@uiw/codemirror-theme-darcula'
 
 import { useExecutionScope } from './ExecutionScope'
 
-const ArticleCellEditor = ({
-  cellIdx = -1,
-  options = []
-}) => {
+const ArticleCellEditor = ({ cellIdx = -1, options = [] }) => {
   const editorRef = useRef(null)
-  const source = useExecutionScope((state) => state.cells[cellIdx]?.source) ?? ''
+  const source = useExecutionScope((state) => state.cells[cellIdx]?.source ?? '') 
   const [value, setValue] = useState(source)
+  
   const updateCellSource = useExecutionScope((state) => state.updateCellSource)
-
   const onCellChangeHandler = (value) => {
     console.debug('[ArticleCell] onCellChangeHandler', cellIdx, { value })
     updateCellSource(cellIdx, value)
@@ -25,9 +22,8 @@ const ArticleCellEditor = ({
       const startState = EditorState.create({
         doc: value,
         extensions: [
-          basicSetup,
           python(),
-          dracula,
+          darcula,
           EditorView.updateListener.of((update) => {
             if (update.changes) {
               const newValue = update.state.doc.toString()

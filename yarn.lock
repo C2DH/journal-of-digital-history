@@ -4380,6 +4380,13 @@
     "@vimeo/player" "^2.16.4"
     prop-types "^15.7.2"
 
+"@uiw/codemirror-theme-darcula@^4.23.10":
+  version "4.23.10"
+  resolved "https://registry.yarnpkg.com/@uiw/codemirror-theme-darcula/-/codemirror-theme-darcula-4.23.10.tgz#9c77266ada2dec44bf1077f41e63f852f143d4ca"
+  integrity sha512-dOTRiEmgrwMsOEOdmcZX/JPFh0jdgEFoDUgZwIRiS6QaIZiuEcuGnPBkqxrV1w6VIeRx8Jc+ZVYg1Igrf9QcBg==
+  dependencies:
+    "@uiw/codemirror-themes" "4.23.10"
+
 "@uiw/codemirror-theme-dracula@^4.23.10":
   version "4.23.10"
   resolved "https://registry.yarnpkg.com/@uiw/codemirror-theme-dracula/-/codemirror-theme-dracula-4.23.10.tgz#74c194f810290d463ef9f75391fb02d143faf050"
@@ -4694,7 +4701,12 @@ acorn@^7.1.1, acorn@^7.4.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.1.tgz#feaed255973d2e77555b83dbc08851a6c63520fa"
   integrity sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
 
-acorn@^8.1.0, acorn@^8.11.0, acorn@^8.14.0, acorn@^8.5.0, acorn@^8.8.1:
+acorn@^8.1.0, acorn@^8.11.0, acorn@^8.5.0, acorn@^8.8.1:
+  version "8.14.1"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.14.1.tgz#721d5dc10f7d5b5609a891773d47731796935dfb"
+  integrity sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==
+
+acorn@^8.14.0:
   version "8.14.0"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.14.0.tgz#063e2c70cac5fb4f6467f0b11152e04c682795b0"
   integrity sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA==
@@ -9013,9 +9025,9 @@ nth-check@^2.0.1:
     boolbase "^1.0.0"
 
 nwsapi@^2.2.0, nwsapi@^2.2.2:
-  version "2.2.16"
-  resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.2.16.tgz#177760bba02c351df1d2644e220c31dfec8cdb43"
-  integrity sha512-F1I/bimDpj3ncaNDhfyMWuFqmQDBwDB0Fogc2qpL3BWvkQteFD/8BzWuIRl83rq0DXfm8SGt/HFhLXZyljTXcQ==
+  version "2.2.18"
+  resolved "https://registry.yarnpkg.com/nwsapi/-/nwsapi-2.2.18.tgz#3c4d7927e1ef4d042d319438ecfda6cd81b7ee41"
+  integrity sha512-p1TRH/edngVEHVbwqWnxUViEmq5znDvyB+Sik5cmuLpGOIfDf/39zLiq3swPF8Vakqn+gvNiOQAZu8djYlQILA==
 
 object-assign@^4.1.1:
   version "4.1.1"
@@ -10894,10 +10906,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==
 
-thebe-core@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/thebe-core/-/thebe-core-0.5.0.tgz#9f0228c24abe8c34c68c91f35bab495c0462564b"
-  integrity sha512-LIAbySgyoH8PPojNOwTwnjHta332CXtqVMPtgC3wBuIkHkgQpJYZUkWGvZR+T6pkgmjIei/WkKMFtV1jstXwWA==
+thebe-core@0.4.10, thebe-core@^0.4.10:
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/thebe-core/-/thebe-core-0.4.10.tgz#39a30b3b474deb52a69b148811b4c78cfd70d804"
+  integrity sha512-Cs2ibCfE5t9Zo+a32ENHchkcrCFedphyU7lOrsJdZjMjqBqLcCtuSdsohiQwOMyR3dE1ti+vXWxl2V3wT23Axg==
   dependencies:
     "@jupyter-widgets/base" "^6.0.10"
     "@jupyter-widgets/controls" "^5.0.11"
@@ -10918,15 +10930,15 @@ thebe-core@^0.5.0:
     lodash.merge "^4.6.2"
     nanoid "^3.2.0"
 
-thebe-react@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/thebe-react/-/thebe-react-0.5.0.tgz#2cdcb51203d63c1aacca10f6628d517c78e84f8d"
-  integrity sha512-SyheKkOtdjaRg4LIG2WIc9vA8/POg689b6lgFiY4B+U4fhttGo+1EZNSqORCr8ggG7xIJMZoFBXF+iPtfmF8Xg==
+thebe-react@0.4.10:
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/thebe-react/-/thebe-react-0.4.10.tgz#a918b572dbc17a41638ad1933a5082282afea83a"
+  integrity sha512-J45zBDv8kWKuRrgP5kFqgziVbBkbFDXdGCNKBw/JGG/p8oTu/edyjZWPqJspHQywXUkvlVZLIRkht2uYR1MyTQ==
   dependencies:
     "@jupyterlab/nbformat" "^4.2.5"
     react "^18.2.0"
     react-dom "^18.2.0"
-    thebe-core "^0.5.0"
+    thebe-core "^0.4.10"
 
 timers-browserify@^2.0.4:
   version "2.0.12"
@@ -11825,9 +11837,9 @@ yargs@^17.3.1, yargs@^17.7.2:
     yargs-parser "^21.1.1"
 
 yjs@^13.5.40:
-  version "13.6.23"
-  resolved "https://registry.yarnpkg.com/yjs/-/yjs-13.6.23.tgz#62358dfa52e92dc870b8a0bedcf0d4cbd4c5ffa8"
-  integrity sha512-ExtnT5WIOVpkL56bhLeisG/N5c4fmzKn4k0ROVfJa5TY2QHbH7F0Wu2T5ZhR7ErsFWQEFafyrnSI8TPKVF9Few==
+  version "13.6.24"
+  resolved "https://registry.yarnpkg.com/yjs/-/yjs-13.6.24.tgz#056f40c7ccfd16a6487f507bb21e12ede994b2b3"
+  integrity sha512-xn/pYLTZa3uD1uDG8lpxfLRo5SR/rp0frdASOl2a71aYNvUXdWcLtVL91s2y7j+Q8ppmjZ9H3jsGVgoFMbT2VA==
   dependencies:
     lib0 "^0.2.99"
 

@@ -7,7 +7,6 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import webfontDownload from 'vite-plugin-webfont-dl'
 import { serifPro, firaCode, firaSans } from './src/assets/fonts/fonts'
 
-
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
@@ -20,8 +19,8 @@ export default defineConfig(({ mode }) => {
             '@codemirror/state': path.resolve(
               __dirname,
               './node_modules/@codemirror/state/dist/index.cjs'
-            )
-          }
+            ),
+          },
     },
     plugins: [
       nodePolyfills(),
