@@ -1,60 +1,61 @@
-import React, { useEffect, useState } from 'react'
-import { Controlled as CodeMirror } from 'react-codemirror2'
+import React, { useEffect, useState, useRef } from 'react'
+import { EditorView, basicSetup } from '@codemirror/basic-setup'
+import { EditorState } from '@codemirror/state'
+import { python } from '@codemirror/lang-python'
+import { dracula } from '@uiw/codemirror-theme-dracula'
 
 import { useExecutionScope } from './ExecutionScope'
 
-// import codemirror style
-import 'codemirror/lib/codemirror.css'
-// import codemirror dracula style
-import 'codemirror/theme/dracula.css'
-// import codemirror python mode
-import 'codemirror/mode/python/python.js';
-
-
 const ArticleCellEditor = ({
   cellIdx = -1,
-  options
+  options = []
 }) => {
-
-  const source = useExecutionScope((state) => state.cells[cellIdx]?.source) ?? '';
-
-  const [value, setValue] = useState(source);
-
-  const updateCellSource = useExecutionScope((state) => state.updateCellSource);
+  const editorRef = useRef(null)
+  const source = useExecutionScope((state) => state.cells[cellIdx]?.source) ?? ''
+  const [value, setValue] = useState(source)
+  const updateCellSource = useExecutionScope((state) => state.updateCellSource)
 
   const onCellChangeHandler = (value) => {
     console.debug('[ArticleCell] onCellChangeHandler', cellIdx, { value })
     updateCellSource(cellIdx, value)
   }
 
-  //  For reset feature
   useEffect(() => {
-    setValue(source); 
-  }, [source]);
+    if (editorRef.current) {
+      const startState = EditorState.create({
+        doc: value,
+        extensions: [
+          basicSetup,
+          python(),
+          dracula,
+          EditorView.updateListener.of((update) => {
+            if (update.changes) {
+              const newValue = update.state.doc.toString()
+              setValue(newValue)
+              onCellChangeHandler(newValue)
+            }
+          }),
+          // ...options, // Ensure options is an array
+        ],
+      })
 
-  return (
-    <div className="ArticleCellEditor" >
-      <CodeMirror
-        value={value}
-        options={{
-          theme: 'dracula',
-          mode: 'python',
-          lineNumbers: true,
-          lineWrapping: true,
-          styleActiveLine: true,
-          matchBrackets: true,
-          ...options,
-        }}
-        onBeforeChange={(editor, data, value) => {
-          setValue(value)
-        }}
-        onChange={(editor, data, value) => {
-          console.debug('[ArticleCellEditor]', cellIdx, { value })
-          onCellChangeHandler(value)
-        }}
-      />
-    </div>
-  )
+      const view = new EditorView({
+        state: startState,
+        parent: editorRef.current,
+      })
+
+      return () => {
+        view.destroy()
+      }
+    }
+  }, [editorRef, value, options])
+
+  // For reset feature
+  useEffect(() => {
+    setValue(source)
+  }, [source])
+
+  return <div ref={editorRef} className="ArticleCellEditor" />
 }
 
 export default ArticleCellEditor
