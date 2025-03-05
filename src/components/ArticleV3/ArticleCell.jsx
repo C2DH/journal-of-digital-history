@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, Suspense } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 
 import ArticleCellOutputs from '../Article/ArticleCellOutputs'
@@ -92,7 +92,7 @@ const ArticleCell = ({
 
   console.debug('[ArticleCell]', idx, 'is rendering')
 
-  if (type !== CellTypeMarkdown && type !== CellTypeCode) return <div>Unkonwn type: {type}</div>
+  if (type !== CellTypeMarkdown && type !== CellTypeCode) return <div>Unknown type: {type}</div>
 
   return (
     <div className={`ArticleCell ${layer}`} onClick={onClick}>
@@ -175,14 +175,14 @@ const ArticleCell = ({
         {type === CellTypeCode && (!isFigure || !figure?.isCover) && (
           <Row>
             <Col xs={!renderUsingThebe ? 12 : 7} className="code">
-              <React.Suspense fallback={<div>loading...</div>}>
+              <Suspense fallback={<div>loading...</div>}>
                 <ArticleCellSourceCodeWrapper
                   cellIdx={idx}
                   toggleVisibility={!renderUsingThebe}
                   visible={false}
                   readOnly={!ready}
                 />
-              </React.Suspense>
+              </Suspense>
             </Col>
 
             {renderUsingThebe && (
