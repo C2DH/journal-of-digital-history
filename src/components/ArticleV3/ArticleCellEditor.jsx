@@ -1,21 +1,33 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { EditorView, lineNumbers } from '@codemirror/view'
+import React, { useEffect, useState, useRef, useCallback} from 'react'
+import { EditorView, highlightActiveLineGutter, lineNumbers } from '@codemirror/view'
 import { EditorState } from '@codemirror/state'
 import { python } from '@codemirror/lang-python'
 import { dracula } from '@uiw/codemirror-theme-dracula'
 
 import { useExecutionScope } from './ExecutionScope'
 
-const ArticleCellEditor = ({ cellIdx = -1, options = [] }) => {
+const debounce = (func, wait) => {
+  let timeout
+  return (...args) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => func(...args), wait)
+  }
+}
+
+const ArticleCellEditor = ({ cellIdx = -1 }) => {
   const editorRef = useRef(null)
   const source = useExecutionScope((state) => state.cells[cellIdx]?.source ?? '') 
   const [value, setValue] = useState(source)
   
   const updateCellSource = useExecutionScope((state) => state.updateCellSource)
-  const onCellChangeHandler = (value) => {
-    console.debug('[ArticleCell] onCellChangeHandler', cellIdx, { value })
-    updateCellSource(cellIdx, value)
-  }
+  const onCellChangeHandler = useCallback(
+    debounce((newValue) => {
+      console.debug('[ArticleCell] onCellChangeHandler', cellIdx, { newValue })
+      updateCellSource(cellIdx, newValue)
+    }, 300),
+    [cellIdx, updateCellSource]
+  )
+
 
   useEffect(() => {
     if (editorRef.current) {
@@ -24,14 +36,16 @@ const ArticleCellEditor = ({ cellIdx = -1, options = [] }) => {
         extensions: [
           python(),
           dracula,
+          lineNumbers(),
+          highlightActiveLineGutter(),
+          EditorView.lineWrapping,
           EditorView.updateListener.of((update) => {
-            if (update.changes) {
+            if (update.docChanged) {
               const newValue = update.state.doc.toString()
               setValue(newValue)
               onCellChangeHandler(newValue)
             }
           }),
-          lineNumbers(),
           // ...options, // Ensure options is an array
         ],
       })
@@ -46,7 +60,7 @@ const ArticleCellEditor = ({ cellIdx = -1, options = [] }) => {
       }
     
     }
-  }, [editorRef, value, options])
+  }, [editorRef, value])
 
   // For reset feature
   useEffect(() => {

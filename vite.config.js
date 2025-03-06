@@ -9,19 +9,18 @@ import { serifPro, firaCode, firaSans } from './src/assets/fonts/fonts'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  console.log('ENV', env)
 
   return {
     optimizeDeps: {     
       include: ['@codemirror/state'],
     },
     resolve: {
-        alias: {
-            '@codemirror/state': path.resolve(
-              __dirname,
-              './node_modules/@codemirror/state/dist/index.cjs'
-            ),
-          },
+      alias: {
+          '@codemirror/state': path.resolve(
+            __dirname,
+            './node_modules/@codemirror/state/dist/index.cjs'
+          ),
+        },
     },
     plugins: [
       nodePolyfills(),
