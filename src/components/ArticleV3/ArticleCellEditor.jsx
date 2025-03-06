@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { EditorView } from '@codemirror/basic-setup'
+import { EditorView, lineNumbers } from '@codemirror/view'
 import { EditorState } from '@codemirror/state'
 import { python } from '@codemirror/lang-python'
-import { darcula } from '@uiw/codemirror-theme-darcula'
+import { dracula } from '@uiw/codemirror-theme-dracula'
 
 import { useExecutionScope } from './ExecutionScope'
 
@@ -23,7 +23,7 @@ const ArticleCellEditor = ({ cellIdx = -1, options = [] }) => {
         doc: value,
         extensions: [
           python(),
-          darcula,
+          dracula,
           EditorView.updateListener.of((update) => {
             if (update.changes) {
               const newValue = update.state.doc.toString()
@@ -31,6 +31,7 @@ const ArticleCellEditor = ({ cellIdx = -1, options = [] }) => {
               onCellChangeHandler(newValue)
             }
           }),
+          lineNumbers(),
           // ...options, // Ensure options is an array
         ],
       })
@@ -39,10 +40,11 @@ const ArticleCellEditor = ({ cellIdx = -1, options = [] }) => {
         state: startState,
         parent: editorRef.current,
       })
-
+    
       return () => {
         view.destroy()
       }
+    
     }
   }, [editorRef, value, options])
 
