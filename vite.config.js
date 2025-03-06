@@ -9,6 +9,7 @@ import { serifPro, firaCode, firaSans } from './src/assets/fonts/fonts'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
+  console.log('ENV', env)
 
   return {
     optimizeDeps: {     
@@ -38,9 +39,7 @@ export default defineConfig(({ mode }) => {
         '/api/explain': {
           target: env.VITE_ENABLE_CODE_EXPLAINER_PROXY,
           changeOrigin: true,
-          pathRewrite: {
-            '^/api/explain': '/explain',
-          },
+          rewrite: (path) => path.replace(/^\/api\/explain/, '/explain'),
         },
         '/api': {
           target: env.VITE_PROXY,
