@@ -115,7 +115,6 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/authorized" element={<div>authorized</div>} />
       <Route path={`${path}`} element={<Home />} />
       <Route path={`${path}/about`} element={<About />} />
       <Route path={`${path}/abstract`} element={<MockAbstract />} />
