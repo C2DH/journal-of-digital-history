@@ -82,7 +82,7 @@ export const NotebookPoweredPaths = [
   '/guidelines',
 ]
 export const ReCaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY
-export const GaTrackingId = import.meta.env.VITE_APP_GA_TRACKING_ID
+export const GaTrackingId = import.meta.env.VITE_GA_TRACKING_ID
 
 export const BootstrapColumLayout = Object.freeze({
   md: { span: 8, offset: 1 },
