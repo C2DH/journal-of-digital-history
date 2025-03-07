@@ -1,6 +1,6 @@
 import React, { Suspense, lazy, useEffect } from 'react'
 import ReactGA from 'react-ga'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 
 import UniversalCookie from 'universal-cookie'
@@ -114,8 +114,9 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path={`${path}`} element={<Home />} />
+      <Route path="/" element={<Navigate to={`${path}/`} replace />} />
+      <Route path="/*" element={<Navigate to={`${path}/`} replace />} />
+      <Route path={`${path}/*`} element={<Home />} />
       <Route path={`${path}/about`} element={<About />} />
       <Route path={`${path}/abstract`} element={<MockAbstract />} />
       <Route path={`${path}/abstract/:id`} element={<Abstract />} />
@@ -143,7 +144,6 @@ function AppRoutes() {
       <Route path={`${path}/guidelines`} element={<Guidelines />} />
       <Route path={`${path}/cfp/:permalink`} element={<CallForPapers />} />
       <Route path={`${path}/p/:pageId`} element={<Page />} />
-      <Route path={`${path}*`} element={<NotFound />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )
