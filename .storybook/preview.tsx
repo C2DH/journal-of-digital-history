@@ -48,6 +48,7 @@ const preview: Preview = {
         ],
         showName: true,
       },
+      defaultValue: 'en',
     },
   },
 }
