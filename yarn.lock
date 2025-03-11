@@ -1021,6 +1021,15 @@
   resolved "https://registry.yarnpkg.com/@citation-js/name/-/name-0.4.2.tgz#8dc834b7e6c06998fc8d3b63632658754c94a875"
   integrity sha512-brSPsjs2fOVzSnARLKu0qncn6suWjHVQtrqSUrnqyaRH95r/Ad4wPF5EsoWr+Dx8HzkCGb/ogmoAzfCsqlTwTQ==
 
+"@citation-js/plugin-bibtex@^0.7.18":
+  version "0.7.18"
+  resolved "https://registry.yarnpkg.com/@citation-js/plugin-bibtex/-/plugin-bibtex-0.7.18.tgz#4770f0d19985a064e887c6062cd85b7f0ad21e16"
+  integrity sha512-TdsZSMpgpfcx2NMPu0KiulEoecllwT5EtRUzAJl2pDsdPD1tUqqbyj/NBi0l8fwNy1r7WwAqSFGiqGPjQWpFdg==
+  dependencies:
+    "@citation-js/date" "^0.5.0"
+    "@citation-js/name" "^0.4.2"
+    moo "^0.5.1"
+
 "@citation-js/plugin-csl@^0.7.18":
   version "0.7.18"
   resolved "https://registry.yarnpkg.com/@citation-js/plugin-csl/-/plugin-csl-0.7.18.tgz#309dcc1501097c53e394ac346b0641a1209c628a"
@@ -8790,6 +8799,10 @@ moment@^2.24.0, moment@^2.29.1:
   version "2.30.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.30.1.tgz#f8c91c07b7a786e30c59926df530b4eac96974ae"
   integrity sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==
+
+moo@^0.5.1, "moo@github:disarticulate/moo":
+  version "0.5.2"
+  resolved "https://codeload.github.com/disarticulate/moo/tar.gz/84e65d48128351108bfcdaf1476b14b4cf87d3bb"
 
 mrmime@^2.0.0:
   version "2.0.1"

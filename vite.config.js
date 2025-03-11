@@ -10,6 +10,9 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
+    optimizeDeps:{
+      include: ['moo', '@citation-js/plugin-bibtex'],
+    },
     plugins: [
       nodePolyfills(),
       react(),
