@@ -13,7 +13,7 @@ i18n
   .init({
     resources: translations,
     fallbackLng: 'en',
-    debug: true,
+    debug: false, 
     interpolation: {
       escapeValue: false,
       format: function (value, format) {

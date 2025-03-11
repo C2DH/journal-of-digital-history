@@ -81,7 +81,7 @@ export function AppRoutes() {
         <Route path={`${path}/local-notebook`} element={<LocalNotebook />} />
         <Route path={`${path}/playground`} element={<Playground />} />
         <Route path={`${path}/fingerprint`} element={<Fingerprint />} />
-        <Route path={`${path}/guidelines`} element={<Guidelines />} />
+        <Route path={`${path}/guidelines/:notebook?`} element={<Guidelines />} />
         <Route path={`${path}/cfp/:permalink`} element={<CallForPapers />} />
         <Route path={`${path}/p/:pageId`} element={<Page />} />
         <Route path="*" element={<NotFound />} />
