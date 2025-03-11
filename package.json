@@ -6,7 +6,7 @@
     "@auth0/auth0-react": "^1.1.0",
     "@c2dh/react-facets": "^1.1.0",
     "@citation-js/core": "^0.7.18",
-    "@citation-js/plugin-bibtex": "^0.7.18",
+    "@citation-js/plugin-bibtex": "0.6.1",
     "@citation-js/plugin-csl": "^0.7.18",
     "@curvenote/ansi-to-react": "^7.0.0",
     "@gerhobbelt/markdown-it-attrs": "^3.0.3-20",
