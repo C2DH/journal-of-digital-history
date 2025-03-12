@@ -1,6 +1,7 @@
 import abstractSchema from '../schemas/Abstract.json'
 import { findDeep } from 'deepdash-es/standalone';
-import {validate} from 'jsonschema'
+import { validate } from 'jsonschema'
+
 const getValidatorResult = ({
   value = '',
   schema = {}
