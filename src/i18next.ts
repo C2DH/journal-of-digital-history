@@ -7,13 +7,13 @@ import translations from './locales/en/translations.json'
 import moment from 'moment'
 
 i18n
-  .use(LanguageDetector)
   .use(Backend)
+  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources: translations,
     fallbackLng: 'en',
-    debug: false, 
+    debug: false,
     interpolation: {
       escapeValue: false,
       format: function (value, format) {
