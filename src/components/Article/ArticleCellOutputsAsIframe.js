@@ -19,7 +19,7 @@ const ArticleCellOutputsAsIframe = ({
   // vndMimeTypes = [],
   cellIdx,
 }) => {
-  if (!isJavascriptTrusted) {
+  if (!isJavascriptTrusted || !outputs.length) {
     return null
   }
   const iframeHeight = isNaN(height) ? 200 : height
