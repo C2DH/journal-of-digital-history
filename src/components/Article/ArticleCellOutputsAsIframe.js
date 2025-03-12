@@ -1,5 +1,4 @@
 import React from 'react'
-
 /**
  * Renders a Jupyter Notebook cell's outputs as an iframe.
  *
@@ -17,17 +16,19 @@ const ArticleCellOutputsAsIframe = ({
   isolationMode = false,
   outputs = [],
   height = 'auto',
-  vndMimeTypes = [],
+  // vndMimeTypes = [],
   cellIdx,
 }) => {
   if (!isJavascriptTrusted) {
     return null
   }
   const iframeHeight = isNaN(height) ? 200 : height
+
   // if in isolationMode, the srcDoc will be the output data
   const srcDoc = isolationMode
     ? outputs.reduce((acc, output) => {
-        if (output.output_type === 'display_data' && output.data['text/html']) {
+        const isEmbeddable = ['execute_result', 'display_data'].includes(output.output_type)
+        if (isEmbeddable && output.data['text/html']) {
           if (Array.isArray(output.data['text/html'])) {
             acc.push(...output.data['text/html'])
           } else {
@@ -45,18 +46,34 @@ const ArticleCellOutputsAsIframe = ({
         '  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital@0;1&display=swap" rel="stylesheet">\n',
         '  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>\n',
       ]
-  console.debug(
-    '[ArticleCellOutputsAsIframe] \n - vndMimeTypes:',
-    vndMimeTypes,
-    '\n - cellIdx:',
-    cellIdx,
-  )
+
+  let iframeSrcDoc = srcDoc.join('').trim()
+  // use regex to test if there is an iframe to prevent nested iframes.
+  // if there is an iframe, get t
+  const isIframeOrMedia =
+    /(<iframe[\s\S]*<\/iframe>|<audio[\s\S]*<\/audio>|<video[\s\S]*<\/video>)/g.test(iframeSrcDoc)
+
+  if (isIframeOrMedia) {
+    const isIframe = /<iframe[\s\S]*<\/iframe>/g.test(iframeSrcDoc)
+    if (isIframe) {
+      // replace the height iframe with our iframeHeight variable; the width will be 100%
+      iframeSrcDoc = iframeSrcDoc.replace(
+        /height=".*?"/,
+        `height="${iframeHeight}px"
+      style="width: 100%;"`,
+      )
+      // replace the width iframe with our iframeHeight variable; the width will be 100%
+      iframeSrcDoc = iframeSrcDoc.replace(/width=".*?"/, `width="100%"`)
+    }
+    return <div dangerouslySetInnerHTML={{ __html: iframeSrcDoc }}></div>
+  }
+
   return (
     <iframe
       style={{ backgroundColor: 'grey' }}
-      sandbox="allow-scripts allow-modal"
+      sandbox="allow-scripts allow-modal allow-same-origin"
       loading="eager"
-      srcDoc={srcDoc.join('')}
+      srcDoc={iframeSrcDoc}
       height={`${iframeHeight}px`}
       width="100%"
     ></iframe>
