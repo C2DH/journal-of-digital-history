@@ -33,58 +33,57 @@ const ReviewPolicy = lazy(() => import('./pages/ReviewPolicy'))
 const Faq = lazy(() => import('./pages/Faq'))
 
 function usePageViews() {
-    const { trackPageView } = useMatomo()
-    const { pathname, search } = useLocation()
-    const changeBackgroundColor = useStore((state) => state.changeBackgroundColor)
-  
-    useEffect(() => {
-      const url = [pathname, search].join('')
-      console.info('pageview', url)
-      changeBackgroundColor('var(--gray-100)')
-      ReactGA.pageview(url)
-      trackPageView({
-        href: url,
-      })
-    }, [pathname, search, changeBackgroundColor])
+  const { trackPageView } = useMatomo()
+  const { pathname, search } = useLocation()
+  const changeBackgroundColor = useStore((state) => state.changeBackgroundColor)
+
+  useEffect(() => {
+    const url = [pathname, search].join('')
+    console.info('pageview', url)
+    changeBackgroundColor('var(--gray-100)')
+    ReactGA.pageview(url)
+    trackPageView({
+      href: url,
+    })
+  }, [pathname, search, changeBackgroundColor])
 }
 
-export function AppRoutes() {
-    usePageViews()
-    const path = LANGUAGE_PATH
-  
-    return (
-      <Routes>
-        <Route path="/" element={<Navigate to={`${path}/`} replace />} />
-        <Route path="/*" element={<Navigate to={`${path}/`} replace />} />
-        <Route path={`${path}/*`} element={<Home />} />
-        <Route path={`${path}/about`} element={<About />} />
-        <Route path={`${path}/abstract`} element={<MockAbstract />} />
-        <Route path={`${path}/abstract/:id`} element={<Abstract />} />
-        <Route path={`${path}/issues`} element={<ArticlesPage />} />
-        <Route path={`${path}/issue/:id`} element={<ArticlesPage />} />
-        <Route path={`${path}/article/:pid`} element={<ArticleViewer />} />
-        <Route path={`${path}/articles`} element={<ArticlesPage />} />
-        <Route path={`${path}/abstract-submitted`} element={<AbstractSubmitted />} />
-        <Route path={`${path}/terms`} element={<TermsOfUse />} />
-        <Route path={`${path}/submit`} element={<AbstractSubmission />} />
-        <Route path={`${path}/notebook/:encodedUrl?`} element={<Notebook />} />
-        <Route path={`${path}/notebook-viewer-form`} element={<NotebookViewerForm />} />
-        <Route path={`${path}/fingerprint-viewer`} element={<FingerprintViewer />} />
-        <Route
-          path={`${path}/fingerprint-explained/:encodedUrl?`}
-          element={<FingerprintExplained />}
-        />
-        <Route path={`${path}/release-notes`} element={<ReleaseNotes />} />
-        <Route path={`${path}/review-policy`} element={<ReviewPolicy />} />
-        <Route path={`${path}/faq`} element={<Faq />} />
-        <Route path={`${path}/notebook-viewer/:encodedUrl`} element={<NotebookViewer />} />
-        <Route path={`${path}/local-notebook`} element={<LocalNotebook />} />
-        <Route path={`${path}/playground`} element={<Playground />} />
-        <Route path={`${path}/fingerprint`} element={<Fingerprint />} />
-        <Route path={`${path}/guidelines/:notebook?`} element={<Guidelines />} />
-        <Route path={`${path}/cfp/:permalink`} element={<CallForPapers />} />
-        <Route path={`${path}/p/:pageId`} element={<Page />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    )
-  }
+export function AppRoutes({ languagePath = 'en' }) {
+  usePageViews()
+  console.debug('[AppRoutes] languagePath:', languagePath)
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to={`${languagePath}/`} replace />} />
+      <Route path="/*" element={<Navigate to={`${languagePath}/`} replace />} />
+      <Route path={`${languagePath}/*`} element={<Home />} />
+      <Route path={`${languagePath}/about`} element={<About />} />
+      <Route path={`${languagePath}/abstract`} element={<MockAbstract />} />
+      <Route path={`${languagePath}/abstract/:id`} element={<Abstract />} />
+      <Route path={`${languagePath}/issues`} element={<ArticlesPage />} />
+      <Route path={`${languagePath}/issue/:id`} element={<ArticlesPage />} />
+      <Route path={`${languagePath}/article/:pid`} element={<ArticleViewer />} />
+      <Route path={`${languagePath}/articles`} element={<ArticlesPage />} />
+      <Route path={`${languagePath}/abstract-submitted`} element={<AbstractSubmitted />} />
+      <Route path={`${languagePath}/terms`} element={<TermsOfUse />} />
+      <Route path={`${languagePath}/submit`} element={<AbstractSubmission />} />
+      <Route path={`${languagePath}/notebook/:encodedUrl?`} element={<Notebook />} />
+      <Route path={`${languagePath}/notebook-viewer-form`} element={<NotebookViewerForm />} />
+      <Route path={`${languagePath}/fingerprint-viewer`} element={<FingerprintViewer />} />
+      <Route
+        path={`${languagePath}/fingerprint-explained/:encodedUrl?`}
+        element={<FingerprintExplained />}
+      />
+      <Route path={`${languagePath}/release-notes`} element={<ReleaseNotes />} />
+      <Route path={`${languagePath}/review-policy`} element={<ReviewPolicy />} />
+      <Route path={`${languagePath}/faq`} element={<Faq />} />
+      <Route path={`${languagePath}/notebook-viewer/:encodedUrl`} element={<NotebookViewer />} />
+      <Route path={`${languagePath}/local-notebook`} element={<LocalNotebook />} />
+      <Route path={`${languagePath}/playground`} element={<Playground />} />
+      <Route path={`${languagePath}/fingerprint`} element={<Fingerprint />} />
+      <Route path={`${languagePath}/guidelines/:notebook?`} element={<Guidelines />} />
+      <Route path={`${languagePath}/cfp/:permalink`} element={<CallForPapers />} />
+      <Route path={`${languagePath}/p/:pageId`} element={<Page />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  )
+}

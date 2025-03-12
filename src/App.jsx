@@ -50,9 +50,8 @@ const queryClient = new QueryClient({
 console.info('start language:', lang, startLangShort)
 console.info('IsMobile:', IsMobile)
 
-
 export default function App() {
-  useEffect(()=>{
+  useEffect(() => {
     // integrate history \w Google Analytics
     if (GaTrackingId && AcceptAnalyticsCookies) {
       ReactGA.initialize(GaTrackingId)
@@ -80,7 +79,7 @@ export default function App() {
             <Cookies defaultAcceptCookies={AcceptCookies} />
             <main>
               <Suspense fallback={<Loading />} key={location.key}>
-                <AppRoutes/>
+                <AppRoutes languagePath={startLangShort} />
               </Suspense>
             </main>
             <Footer hideOnRoutes={NotebookPoweredPaths} />
