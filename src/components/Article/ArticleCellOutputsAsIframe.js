@@ -70,7 +70,6 @@ const ArticleCellOutputsAsIframe = ({
 
   return (
     <iframe
-      style={{ backgroundColor: 'grey' }}
       sandbox="allow-scripts allow-modal allow-same-origin"
       loading="eager"
       srcDoc={iframeSrcDoc}
