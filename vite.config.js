@@ -47,6 +47,9 @@ export default defineConfig(({ mode }) => {
       commonjsOptions: {
         transformMixedEsModules: true,
       },
+      optimizeDeps: {
+        include: ['moo', '@citation-js/plugin-bibtex'],
+      },
     },
     define: {
       __APP_ENV__: JSON.stringify(env.VITE_APP_ENV),
