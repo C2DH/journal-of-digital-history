@@ -47,6 +47,7 @@ export default defineConfig(({ mode }) => {
       commonjsOptions: {
         transformMixedEsModules: true,
         include: ['moo', '@citation-js/plugin-bibtex'],
+        exclude: ['@jonkoops/matomo-tracker-react']
       },
     },
     define: {
