@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     optimizeDeps: {
-      include: ['moo', '@citation-js/plugin-bibtex', 'vite-plugin-node-polyfills'],
+      include: ['moo', '@citation-js/plugin-bibtex'],
     },
     plugins: [
       nodePolyfills(),
@@ -44,6 +44,10 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: 'build',
       emptyOutDir: true,
+      commonjsOptions: {
+        transformMixedEsModules: true,
+        include: ['moo', '@citation-js/plugin-bibtex'],
+      },
     },
     define: {
       __APP_ENV__: JSON.stringify(env.VITE_APP_ENV),
