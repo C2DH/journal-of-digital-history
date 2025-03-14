@@ -49,6 +49,9 @@ export default defineConfig(({ mode }) => {
         include: ['moo', '@citation-js/plugin-bibtex'],
         exclude: ['@jonkoops/matomo-tracker-react']
       },
+      rollupOptions: {
+        external: ['@jonkoops/matomo-tracker-react']
+      }
     },
     define: {
       __APP_ENV__: JSON.stringify(env.VITE_APP_ENV),
