@@ -47,9 +47,6 @@ export default defineConfig(({ mode }) => {
       commonjsOptions: {
         transformMixedEsModules: true,
       },
-      rollupOptions: {
-        external: ['@jonkoops/matomo-tracker-react', 'react-ga']
-      }
     },
     define: {
       __APP_ENV__: JSON.stringify(env.VITE_APP_ENV),
