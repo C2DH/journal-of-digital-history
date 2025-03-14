@@ -68,6 +68,13 @@ const ArticleCellOutputsAsIframe = ({
     return <div dangerouslySetInnerHTML={{ __html: iframeSrcDoc }}></div>
   }
 
+  //  Go deeper with the Iframe Inception Pattern  :)
+  //  Issue #681: Isolation mode
+  iframeSrcDoc =
+    '<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>' +
+    '<link rel="stylesheet" href="/css/iframe.css">' +
+    iframeSrcDoc;
+
   return (
     <iframe
       sandbox="allow-scripts allow-modal allow-same-origin"
