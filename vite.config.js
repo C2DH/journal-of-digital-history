@@ -46,11 +46,9 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: true,
       commonjsOptions: {
         transformMixedEsModules: true,
-        include: ['moo', '@citation-js/plugin-bibtex'],
-        exclude: ['@jonkoops/matomo-tracker-react']
       },
       rollupOptions: {
-        external: ['@jonkoops/matomo-tracker-react']
+        external: ['@jonkoops/matomo-tracker-react', 'react-ga']
       }
     },
     define: {
