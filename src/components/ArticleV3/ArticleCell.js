@@ -50,9 +50,12 @@ const ArticleCell = ({
   const executing = useExecutionScope((state) => state.cells[idx]?.executing)
 
   const isMagic = RegexIsMagic.test(content)
-  const isolationMode = outputs.some(
-    (d) => typeof d.metadata === 'object' && d.metadata['text/html']?.isolated,
-  )
+  // issue #681: hyperlink are in blue for this specific article
+  // Force isolation mode to prevent css conflict
+  const isolationMode = true;
+  // const isolationMode = outputs.some(
+  //   (d) => typeof d.metadata === 'object' && d.metadata['text/html']?.isolated,
+  // )
   const renderUsingThebe = type === CellTypeCode && !figure?.isSound; //tags.includes('data');
 
   // const ref = useCallback(
@@ -122,7 +125,7 @@ const ArticleCell = ({
                   {type === CellTypeCode && !errors && (
                     <ArticleCellOutputs
                       isMagic={false}
-                      isolationMode={false}
+                      isolationMode={isolationMode}
                       isJavascriptTrusted={isJavascriptTrusted}
                       cellIdx={idx}
                       outputs={outputs}

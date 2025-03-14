@@ -1,0 +1,37 @@
+/**
+ * Stylesheet for the iframe used by the isolation mode
+ * Injected into the iframe by the Iframe Inception Pattern :)
+ * issue #702: Isolation mode: missing table style
+ */
+@import url("https://fonts.googleapis.com/css?family=Fira+Sans:400,700,ital:latin-ext");
+
+body {
+    font-family: Fira Sans, system-ui, -apple-system, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    line-height: 1.75;
+    margin: 0;
+}
+
+table {
+    font-size: .8em;
+    border-collapse: initial;
+    border-radius: 5px;
+    color: #1e152a;
+    padding: 0;
+    width: 100%;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    text-align: left;
+}
+
+table th, table td {
+    vertical-align: middle;
+    padding: 0.5rem;
+}
+
+table tbody tr:nth-of-type(odd) {
+    background-color: #e9ecef;
+}
+
+tbody, td, tfoot, th, thead, tr {
+    border: 0 solid;
+}
