@@ -8761,9 +8761,10 @@ moo@^0.5.1:
   version "0.5.2"
   resolved "https://codeload.github.com/disarticulate/moo/tar.gz/84e65d48128351108bfcdaf1476b14b4cf87d3bb"
 
-"moo@github:C2DH/moo":
+moo@^0.5.2:
   version "0.5.2"
-  resolved "https://codeload.github.com/C2DH/moo/tar.gz/84e65d48128351108bfcdaf1476b14b4cf87d3bb"
+  resolved "https://registry.yarnpkg.com/moo/-/moo-0.5.2.tgz#f9fe82473bc7c184b0d32e2215d3f6e67278733c"
+  integrity sha512-iSAJLHYKnX41mKcJKjqvnAN9sf0LMDTXDEvFv+ffuRR9a1MIuXLjMNL6EsnDHSkKLTWNqQQ5uo61P4EbU4NU+Q==
 
 mrmime@^2.0.0:
   version "2.0.1"
