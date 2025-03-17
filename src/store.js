@@ -90,6 +90,15 @@ export const useArticleStore = create((set) => ({
     }),
   displayLayer: DisplayLayerNarrative,
   setDisplayLayer: (displayLayer) => set({ displayLayer, visibleCellsIdx: [] }),
+
+  //  issue #681: isolate the cells
+  iframeHeader: [],
+  addIframeHeader: (iframeHeader) =>
+    set((state) => {
+      if(!state.iframeHeader.includes(iframeHeader)) {
+        return { iframeHeader: [...state.iframeHeader, iframeHeader] }
+      } 
+    })
 }))
 
 export const useStore = create(
