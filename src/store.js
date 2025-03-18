@@ -98,7 +98,9 @@ export const useArticleStore = create((set) => ({
       if(!state.iframeHeader.includes(iframeHeader)) {
         return { iframeHeader: [...state.iframeHeader, iframeHeader] }
       } 
-    })
+    }),
+  clearIframeHeader: () => set(() => ({ iframeHeader: [] }))
+    
 }))
 
 export const useStore = create(
