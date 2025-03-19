@@ -83,7 +83,7 @@ const ArticleCellOutputsAsIframe = ({
 
   //  Go deeper with the Iframe Inception Pattern  :)
   iframeSrcDoc =
-    '<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>' +
+    (iframeHeader.length ? '<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>' : '') +
     '<link rel="stylesheet" href="/css/iframe.css">' +
     iframeHeader.join('') +
     iframeSrcDoc;
