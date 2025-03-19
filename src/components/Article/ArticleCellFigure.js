@@ -144,7 +144,7 @@ const ArticleCellFigure = ({
                 <div className="anchor" id={figure.ref} />
                 <ArticleCellOutputs
                   isMagic={isMagic}
-                  isolationMode={isolationMode && htmlOutputs.length > 0}
+                  isolationMode={isolationMode}
                   hideLabel
                   isJavascriptTrusted={isJavascriptTrusted}
                   cellIdx={figure.idx}
