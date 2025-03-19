@@ -52,6 +52,8 @@ const NotebookViewer = ({
   const ArticleComponent = version === 3 ? ArticleV3 : version === 2 ? ArticleV2 : Article
   const setLoadingProgress = usePropsStore((state) => state.setLoadingProgress)
   const clearIframeHeader  = useArticleStore((state) => state.clearIframeHeader);
+  const setArticleVersion = useArticleStore((state) => state.setArticleVersion);
+  setArticleVersion(version);
 
   const url = useMemo(() => {
     if (!encodedUrl || !encodedUrl.length) {

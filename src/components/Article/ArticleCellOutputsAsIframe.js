@@ -25,17 +25,31 @@ const ArticleCellOutputsAsIframe = ({
   }
   const iframeHeight = isNaN(height) ? 200 : height
   const iframeHeader = useArticleStore((state) => state.iframeHeader);
+  const articleVersion = useArticleStore((state) => state.articleVersion);
   const addIframeHeader = useArticleStore((state) => state.addIframeHeader);
 
   // if in isolationMode, the srcDoc will be the output data
   const srcDoc = isolationMode
     ? outputs.reduce((acc, output) => {
         const isEmbeddable = ['execute_result', 'display_data'].includes(output.output_type)
-        if (isEmbeddable && output.data['text/html']) {
-          if (Array.isArray(output.data['text/html'])) {
-            acc.push(...output.data['text/html'])
-          } else {
-            acc.push(output.data['text/html'])
+        if (isEmbeddable) {
+
+          // application/javascript
+          if (output.data['application/javascript']) {
+            acc.push(
+              '<script>',
+              output.data['application/javascript'],
+              '</script>'
+            );
+          }
+
+          // text/html
+          if (output.data['text/html']) {
+            if (Array.isArray(output.data['text/html'])) {
+              acc.push(...output.data['text/html'])
+            } else {
+              acc.push(output.data['text/html'])
+            }
           }
         }
         return acc
@@ -84,6 +98,7 @@ const ArticleCellOutputsAsIframe = ({
   //  Go deeper with the Iframe Inception Pattern  :)
   iframeSrcDoc =
     (iframeHeader.length ? '<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>' : '') +
+    (articleVersion === 3 ? '<style> body { color:white; } </style>' : '') +
     '<link rel="stylesheet" href="/css/iframe.css">' +
     iframeHeader.join('') +
     iframeSrcDoc;

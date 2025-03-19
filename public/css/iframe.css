@@ -35,3 +35,11 @@ table tbody tr:nth-of-type(odd) {
 tbody, td, tfoot, th, thead, tr {
     border: 0 solid;
 }
+
+dl dt {
+    font-weight: bold;
+}
+
+dl dd {
+    margin-left: 0;
+} 

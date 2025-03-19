@@ -99,7 +99,10 @@ export const useArticleStore = create((set) => ({
         return { iframeHeader: [...state.iframeHeader, iframeHeader] }
       } 
     }),
-  clearIframeHeader: () => set(() => ({ iframeHeader: [] }))
+  clearIframeHeader: () => set(() => ({ iframeHeader: [] })),
+
+  articleVersion: 2,
+  setArticleVersion: (articleVersion) => set(() => ({ articleVersion }))
     
 }))
 
