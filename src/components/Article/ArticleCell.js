@@ -41,9 +41,14 @@ const ArticleCell = ({
   windowHeight = 0,
 }) => {
   const isMagic = RegexIsMagic.test(content)
+  // issue #681: hyperlink are in blue for this specific article
+  // Force isolation mode to prevent css conflict
   const isolationMode = outputs.some(
-    (d) => typeof d.metadata === 'object' && d.metadata['text/html']?.isolated,
+    (d) => typeof d.data === 'object' && d.data['text/html']
   )
+  // const isolationMode = outputs.some(
+  //   (d) => typeof d.metadata === 'object' && d.metadata['text/html']?.isolated,
+  // )
 
   if (figure) {
     console.debug(
