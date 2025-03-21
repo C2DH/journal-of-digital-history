@@ -256,6 +256,7 @@
     "dialog": "dialogue {{ n }}",
     "figure": "figure {{ n }}",
     "sound": "sound {{ n }}",
+    "video": "video {{ n }}",
     "table": "table {{ n }}",
     "data-table": "data table {{ n }}",
     "yExponent": "Power scale exponent (y axis): <b>{{n}}</b>",
