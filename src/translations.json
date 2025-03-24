@@ -102,6 +102,7 @@
           "ContactPointSectionTitle": "Contact",
           "DataSectionTitle": "Tools, Code & Data",
           "AuthorsSectionTitle": "Contributors",
+          "SocialMediaSectionTitle": "Github & Social Media",
           "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias",
           "datasetDetailsUrl": "Link URL",
           "datasetDetailsLabel": "Link Description, License (where applicable)",

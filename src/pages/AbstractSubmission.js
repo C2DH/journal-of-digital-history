@@ -8,7 +8,7 @@ import { CfpParam } from '../logic/params'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { useStore } from '../store'
 import { getValidatorResultWithAbstractSchema } from '../logic/validation'
-import Author from '../models/Author'
+import Author, { AuthorSocialMedia } from '../models/Author'
 import Dataset from '../models/Dataset'
 import { default as AbstractSubmissionModel } from '../models/AbstractSubmission'
 import FormGroupWrapper from '../components/Forms/FormGroupWrapper'
@@ -21,10 +21,11 @@ import AbstractSubmissionPreview from '../components/AbstractSubmissionPreview'
 import AbstractSubmissionCallForPapers from '../components/AbstractSubmissionCallForPapers'
 import { ReCaptchaSiteKey } from '../constants'
 import { createAbstractSubmission } from '../logic/api/postData'
+import FormAbstractSocialMediaListItem from '../components/Forms/FormAbstractSocialMedia'
 
 console.info('%cRecaptcha site key', 'font-weight:bold', ReCaptchaSiteKey)
 
-const AbstractSubmission = ({ allowGithubId = false }) => {
+const AbstractSubmission = () => {
   const { t } = useTranslation()
   const history = useHistory()
   const [callForPapers, setCallForPapers] = useQueryParam(
@@ -39,8 +40,7 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
   )
   const setTemporaryAbstractSubmission = useStore(
     (state) => state.setTemporaryAbstractSubmission
-  )
-  // const [authors, setAuthors] = useState([])
+  ) 
   const recaptchaRef = React.useRef()
   const [results, setResults] = useState([
     {
@@ -65,9 +65,9 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
       label: 'pages.abstractSubmission.AuthorsSectionTitle',
     },
     {
-      id: 'githubId',
-      value: temporaryAbstractSubmission.githubId,
-      label: 'pages.abstractSubmission.githubId',
+      id: 'socialMedia',
+      value: temporaryAbstractSubmission.socialMedia,
+      label: 'pages.abstractSubmission.SocialMediaSectionTitle',
     },
     {
       id: 'datasets',
@@ -92,7 +92,6 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
       contact,
       authors,
       datasets,
-      githubId,
       acceptConditions,
       callForPapers,
     } = temporaryAbstractSubmission
@@ -103,7 +102,6 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
         contact,
         authors,
         datasets,
-        githubId,
         acceptConditions,
         callForPapers,
       })
@@ -123,33 +121,27 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
   }, [callForPapers])
   const handleSubmit = async (event) => {
     event.preventDefault()
+
     if (isSubmitting) {
       console.warn('already busy submitting the form!')
       return
     }
     const submission = results.reduce((acc, el) => {
-      if (!allowGithubId && el.id === 'githubId') {
-        return acc
-      }
       acc[el.id] = el.value
       return acc
     }, {})
-    // const result = getValidatorResultWithAbstractSchema(submission)
+ 
     setTemporaryAbstractSubmission({
       ...submission,
       dateCreated: temporaryAbstractSubmission.dateCreated,
     })
+
     console.info('handleSubmit: validatorResult', validatorResult)
+
     if (validatorResult.valid) {
-      // setConfirmModalShow(true)
       setIsSubmitting(true)
       await handleConfirmCreateAbstractSubmission()
     }
-    //   setIsSubmitting(true)
-    //   setConfirmModalShow(true)
-    // } else {
-    //   setErrors(result.errors)
-    // }
   }
 
   const handleConfirmCreateAbstractSubmission = async () => {
@@ -164,7 +156,6 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
       token,
     })
       .then((res) => {
-        // console.log('received', res)
         if (res?.status === 200 || res?.status === 201) {
           history.push('/en/abstract-submitted')
         }
@@ -187,6 +178,7 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
       return acc
     }, {})
     console.debug('[AbstractSubmission] @handleChange submission:', submission)
+
     // todo add creation date if a temporaryAbstractSubmission object is available.
     setTemporaryAbstractSubmission({
       ...submission,
@@ -215,7 +207,6 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
         return d
       })
     )
-    // setAuthors(authors.filter(d => d.id !== author.id).concat([author]))
   }
 
   const handleToggleMode = (mode) => {
@@ -296,24 +287,6 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
             <h3 className='progressiveHeading'>
               {t('pages.abstractSubmission.DataSectionTitle')}
             </h3>
-            {allowGithubId && isPreviewMode && (
-              <FormGroupWrapperPreview label='pages.abstractSubmission.githubId'>
-                {temporaryAbstractSubmission.githubId}
-              </FormGroupWrapperPreview>
-            )}
-            {allowGithubId && !isPreviewMode && (
-              <FormGroupWrapper
-                schemaId='#/definitions/githubId'
-                rows={5}
-                placeholder={t('pages.abstractSubmission.githubIdPlaceholder')}
-                initialValue={temporaryAbstractSubmission.githubId}
-                label='pages.abstractSubmission.githubId'
-                onChange={({ value, isValid }) =>
-                  handleChange({ id: 'githubId', value, isValid })
-                }
-              />
-            )}
-
             {!isPreviewMode && (
               <FormAbstractGenericSortableList
                 onChange={({ items, isValid }) =>
@@ -355,9 +328,7 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
                 }).asText()}
               </FormGroupWrapperPreview>
             )}
-
             <hr />
-
             <h3 className='progressiveHeading'>
               {t('pages.abstractSubmission.AuthorsSectionTitle')}
             </h3>
@@ -382,8 +353,6 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
                   {new Author({ ...d }).asText()}
                 </FormGroupWrapperPreview>
               ))}
-
-            <hr />
           </Col>
           <Col md={4} lg={3}>
             <div
@@ -405,7 +374,29 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
             </div>
           </Col>
         </Row>
-
+        <Row>
+          <Col md={{ span: 6, offset: 2 }}> 
+            <hr />
+              <h3 className='progressiveHeading'>
+                  {t('pages.abstractSubmission.SocialMediaSectionTitle')}
+              </h3>
+              <></>
+              <FormAbstractSocialMediaListItem
+                item={new AuthorSocialMedia({
+                  ...temporaryAbstractSubmission.socialMedia,
+                })}
+                onChange={({ item }) => {
+                  handleChange({
+                    id: 'socialMedia',
+                    value: item,
+                    isValid: true,
+                  })
+                }}
+                initialValue={temporaryAbstractSubmission.socialMedia}
+              />
+            <hr />
+          </Col>
+        </Row>
         <Row>
           <Col md={{ span: 6, offset: 2 }} className=''>
             <Form.Group
@@ -459,23 +450,6 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
               </ol>
             )}
             <div className='text-center mt-5'>
-              {/* isEmpty
-              ? (<Button disabled
-                  variant="primary" size="lg"
-                  type="submit">{t('actions.submit')}</Button>)
-              : <Button disabled={validatorResult?.errors.length}
-                  variant="primary" size="lg"
-                  type="submit">
-                  {validatorResult?.errors.length
-                    ? <Badge variant="danger" className="mr-3">
-                        <span dangerouslySetInnerHTML={{
-                          __html: t('errorsWithCount_plural', { count: validatorResult?.errors.length })}}
-                        />
-                      </Badge>
-                    : null
-                  } {t('actions.submit')}
-                </Button>
-            */}
               <Button
                 disabled={isEmpty || validatorResult?.errors.length > 0}
                 variant='primary'
@@ -484,7 +458,6 @@ const AbstractSubmission = ({ allowGithubId = false }) => {
               >
                 {t('actions.submit')}
               </Button>
-              {/* <pre>{JSON.stringify(temporaryAbstractSubmission, null, 2)}</pre> */}
             </div>
           </Col>
         </Row>

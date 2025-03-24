@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
-// import { useTranslation } from 'react-i18next'
-// import { Form, Col, Row } from 'react-bootstrap'
 import FormGroupWrapper from './FormGroupWrapper'
 import FormAbstractDatasetUrlsList from './FormAbstractDatasetUrlsList'
 
 const FormAbstractDataset = ({ groupId, onChange }) => {
-  // const { t } = useTranslation()
   const [ results, setResults ] = useState([
     { id: 'datasetDetails', value: null, label: 'pages.abstractSubmission.datasetDetails' },
     { id: 'datasetUrls', value: null, label: 'pages.abstractSubmission.datasetUrls' }
