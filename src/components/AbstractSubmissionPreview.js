@@ -19,10 +19,6 @@ const AbstractSubmissionPreview = ({
     ? submission
     : new AbstractSubmission(submission)
 
-  // const checkList = (validatorResult.errors ?? []).map((d) => ({
-  //   path: d.path[0],
-  //   message: d.message,
-  // }))
   console.info('AbstractSubmissionPreview rendering, result:', validatorResult)
 
   const isEmpty = temporaryAbstractSubmission.isEmpty()

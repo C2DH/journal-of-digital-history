@@ -8,6 +8,7 @@ const FormJSONSchemaErrorListItem = ({ error, debug, displayErrors=[], variant="
   const {property, message, name } = error
   const translatableProperty = property.split(/\[\d+\]/).join('').split('.').join('-')
   const idx = property.match(/\[(\d+)\]/)
+  
   return (
     <>
     <h4 className="d-block">

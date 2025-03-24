@@ -13,7 +13,7 @@ export class AuthorSocialMedia {
 }
 
 export default class Author {
-  constructor({ firstname = '', lastname = '', email = '', affiliation = '', orcid = '', socialMedia= new AuthorSocialMedia(), id, isValid } = {}) {
+  constructor({ firstname = '', lastname = '', email = '', affiliation = '', orcid = '', socialMedia = new AuthorSocialMedia(), id, isValid } = {}) {
     this.id = id
     this.firstname = firstname
     this.lastname = lastname

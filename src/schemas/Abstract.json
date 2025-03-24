@@ -42,7 +42,7 @@
       "description": "A short text, max 250 characters",
       "default": "",
       "examples": [
-        "Once Upon a Time in Belval, theere was a little house on a little hill"
+        "Once Upon a Time in Belval, there was a little house on a little hill"
       ],
       "maxLength": 250
     },
@@ -53,7 +53,7 @@
       "description": "A medium text, max 500 characters",
       "default": "",
       "examples": [
-        "Once Upon a Time in Belval, theere was a little house on a little hill"
+        "Once Upon a Time in Belval, there was a little house on a little hill"
       ],
       "maxLength": 500
     },
@@ -104,12 +104,12 @@
     "githubId": {
       "$id": "#/definitions/githubId",
       "type": "string",
-      "pattern": "^@?[a-z\\d]?(?:[a-z\\d]|-(?=[a-z\\d])){0,38}$",
+      "pattern": "^@?[a-z\\d]?(?:[a-z\\d]|-(?=[a-z\\d])){0,39}$",
       "title": "A github user account",
       "description": "Personal or institutional github user",
-      "default": "",
-      "maxLength": 38,
-      "examples": ["@joe.defilippo"]
+      "minLength": 1,
+      "maxLength": 39,
+      "examples": ["joe.defilippo"]
     },
     "affiliation": {
       "$id": "#/definitions/affiliation",
@@ -174,7 +174,10 @@
           "email": "john.fooooooo@uni.lu",
           "affiliation": "University of Minnesota"
         }
-      ]
+      ],
+      "socialMedia":{
+        "githubId": "johnFoo"
+      }
     }
   ],
   "required": [
@@ -195,9 +198,6 @@
     },
     "abstract": {
       "$ref": "#/definitions/abstract"
-    },
-    "githubId": {
-      "$ref": "#/definitions/githubId"
     },
     "datasets": {
       "$id": "#/properties/datasets",
@@ -247,7 +247,7 @@
       "$id": "#/properties/contact",
       "type": "object",
       "title": "Basic contact info",
-      "required": ["firstname", "lastname", "email", "orcid"],
+      "required": ["firstname", "lastname", "email", "orcid", "socialMedia"],
       "additionalProperties": false,
       "properties": {
         "firstname": {
@@ -345,6 +345,18 @@
           "isValid": {
             "$ref": "#/definitions/isValid"
           }
+        }
+      }
+    },
+    "socialMedia":{
+      "$id": "#/properties/socialMedia",
+      "type": "object",
+      "title": "Social media info and github account",
+      "required": ["githubId"],
+      "additionalProperties": false,
+      "properties": {
+        "githubId": {
+          "$ref": "#/definitions/githubId"
         }
       }
     },
