@@ -21,7 +21,7 @@ import AbstractSubmissionPreview from '../components/AbstractSubmissionPreview'
 import AbstractSubmissionCallForPapers from '../components/AbstractSubmissionCallForPapers'
 import { ReCaptchaSiteKey } from '../constants'
 import { createAbstractSubmission } from '../logic/api/postData'
-import FormAbstractSocialMediaListItem from '../components/Forms/FormAbstractSocialMedia'
+import FormAbstractSocialMedia from '../components/Forms/FormAbstractSocialMedia'
 
 console.info('%cRecaptcha site key', 'font-weight:bold', ReCaptchaSiteKey)
 
@@ -84,8 +84,10 @@ const AbstractSubmission = () => {
     },
   ])
   const [validatorResult, setValidatorResult] = useState(null)
+  
   useEffect(() => {
     console.info('useEffect setValidatorResult')
+
     const {
       title,
       abstract,
@@ -93,8 +95,9 @@ const AbstractSubmission = () => {
       authors,
       datasets,
       acceptConditions,
-      callForPapers,
+      callForPapers
     } = temporaryAbstractSubmission
+
     setValidatorResult(
       getValidatorResultWithAbstractSchema({
         title,
@@ -103,7 +106,7 @@ const AbstractSubmission = () => {
         authors,
         datasets,
         acceptConditions,
-        callForPapers,
+        callForPapers
       })
     )
   }, [temporaryAbstractSubmission])
@@ -353,7 +356,29 @@ const AbstractSubmission = () => {
                   {new Author({ ...d }).asText()}
                 </FormGroupWrapperPreview>
               ))}
+            <hr />
+            <h3 className='progressiveHeading'>
+                {t('pages.abstractSubmission.SocialMediaSectionTitle')}
+            </h3>
+            <></>
+            {!isPreviewMode && (<FormAbstractSocialMedia
+              item={new AuthorSocialMedia({
+                ...temporaryAbstractSubmission.socialMedia,
+              })}
+              initialValue={temporaryAbstractSubmission.socialMedia}
+              onChange={({ value, isValid }) =>
+                handleChange({ id: 'socialMedia', value, isValid })
+              }
+            />)}
+            <hr />
+            {isPreviewMode && (
+              <FormGroupWrapperPreview label='pages.abstractSubmission.socialMedia'>
+                {temporaryAbstractSubmission.socialMedia}
+              </FormGroupWrapperPreview>
+            )}
           </Col>
+            
+  
           <Col md={4} lg={3}>
             <div
               style={{
@@ -374,29 +399,9 @@ const AbstractSubmission = () => {
             </div>
           </Col>
         </Row>
-        <Row>
-          <Col md={{ span: 6, offset: 2 }}> 
-            <hr />
-              <h3 className='progressiveHeading'>
-                  {t('pages.abstractSubmission.SocialMediaSectionTitle')}
-              </h3>
-              <></>
-              <FormAbstractSocialMediaListItem
-                item={new AuthorSocialMedia({
-                  ...temporaryAbstractSubmission.socialMedia,
-                })}
-                onChange={({ item }) => {
-                  handleChange({
-                    id: 'socialMedia',
-                    value: item,
-                    isValid: true,
-                  })
-                }}
-                initialValue={temporaryAbstractSubmission.socialMedia}
-              />
-            <hr />
-          </Col>
-        </Row>
+        
+          
+       
         <Row>
           <Col md={{ span: 6, offset: 2 }} className=''>
             <Form.Group
