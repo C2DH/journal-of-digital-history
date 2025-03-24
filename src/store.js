@@ -1,5 +1,6 @@
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
+import {produce} from 'immer'
 import AbstractSubmission from './models/AbstractSubmission'
 import { DisplayLayerNarrative } from './constants'
 
@@ -108,7 +109,7 @@ export const useArticleStore = create((set) => ({
 
 export const useStore = create(
   persist(
-    (set, get) => ({
+    produce((set, get) => ({
       backgroundColor: '#ffffff',
       acceptAnalyticsCookies: true,
       acceptCookies: false, // cookies should be accepted, session is stored locally
@@ -118,12 +119,6 @@ export const useStore = create(
       temporaryAbstractSubmission: new AbstractSubmission(),
       abstractSubmitted: new AbstractSubmission(),
       changeBackgroundColor: (backgroundColor) => {
-        // usage in components:
-        //  const changeBackgroundColor = useStore(state => state.changeBackgroundColor)
-        //  useEffect(() => {
-        //    changeBackgroundColor(#ccffaa)
-        //  }, [])
-        //
         const header = document.getElementById('Header_background')
         document.body.style.backgroundColor = backgroundColor
         // change header backgroundColor too...
@@ -172,7 +167,7 @@ export const useStore = create(
     {
       name: 'JournalOfDigitalHistory',
     },
-  ),
+  )),
 )
 
 /**

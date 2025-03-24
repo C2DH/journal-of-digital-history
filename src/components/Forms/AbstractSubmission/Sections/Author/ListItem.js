@@ -1,7 +1,7 @@
 import React from 'react'
-import FormGroupWrapper from './FormGroupWrapper'
+import FormGroupWrapper from '../../GroupWrapper'
 import { Row, Col } from 'react-bootstrap'
-import Author from '../../models/Author'
+import Author from '../../../../../models/Author'
 
 const FormAbstractAuthorsListItem = ({ item, onChange, className }) => {
   const handleChange = ({ id, isValid, value }) => {

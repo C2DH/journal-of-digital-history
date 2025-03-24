@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form, Col, Row, Button } from 'react-bootstrap'
-import FormGroupWrapper from './FormGroupWrapper'
-import Author from '../../models/Author'
+import FormGroupWrapper from '../../GroupWrapper'
+import Author from '../../../../../models/Author'
 
 
 const FormAuthorContact = ({ onChange, onSelectAsAuthor, initialValue }) => {
@@ -36,7 +36,7 @@ const FormAuthorContact = ({ onChange, onSelectAsAuthor, initialValue }) => {
   }
 
   const handleChange = ({ id, isValid, value }) => {
-    // handleChangeis triggered whenever one of this component field gets updated.
+    // handleChange is triggered whenever one of this component field gets updated.
     const _parts = parts.map((d) => {
       if (d.id === id) {
         return { ...d, value, isValid }
@@ -128,7 +128,6 @@ const FormAuthorContact = ({ onChange, onSelectAsAuthor, initialValue }) => {
         onClick={handleContactIsAuthorClick}>{t('forms.formAuthorContact.selectAsAuthor')} ＋
         </Button>
       </div>
-      {/* <pre>{JSON.stringify(author)}</pre> */}
     </div>
   )
 }

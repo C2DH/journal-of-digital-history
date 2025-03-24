@@ -1,11 +1,10 @@
 import React from 'react'
-import FormGroupWrapper from './FormGroupWrapper'
-import Dataset from '../../models/Dataset'
+import FormGroupWrapper from '../../GroupWrapper'
+import Dataset from '../../../../../models/Dataset'
 
 
 const FormAbstractDatasetsListItem = ({ item, onChange, className }) => {
   const handleChange = ({ id, isValid, value }) => {
-    console.log(item, id, value)
     onChange({
       item: new Dataset({
         ...item,
@@ -14,6 +13,7 @@ const FormAbstractDatasetsListItem = ({ item, onChange, className }) => {
       })
     })
   }
+
   return (
     <div className={className}>
       <FormGroupWrapper type="url"

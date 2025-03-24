@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
-// import { useTranslation } from 'react-i18next'
-// import { Form, Col, Row } from 'react-bootstrap'
-import FormGroupWrapper from './FormGroupWrapper'
-import FormAbstractDatasetUrlsList from './FormAbstractDatasetUrlsList'
+import FormGroupWrapper from '../../FormGroupWrapper'
 
 const FormAbstractDataset = ({ groupId, onChange }) => {
-  // const { t } = useTranslation()
   const [ results, setResults ] = useState([
     { id: 'datasetDetails', value: null, label: 'pages.abstractSubmission.datasetDetails' },
     { id: 'datasetUrls', value: null, label: 'pages.abstractSubmission.datasetUrls' }
@@ -40,7 +36,6 @@ const FormAbstractDataset = ({ groupId, onChange }) => {
         label='pages.abstractSubmission.datasetDetails' ignoreWhenLengthIslessThan={5}
         onChange={handleChange}
       />
-      <FormAbstractDatasetUrlsList id="datasetUrls"/>
     </div>
   )
 }
