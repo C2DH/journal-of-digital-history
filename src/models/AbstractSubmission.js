@@ -1,4 +1,4 @@
-import Author, { AuthorSocialMedia } from './Author'
+import Author, { SocialMedia } from './Author'
 
 export default class AbstractSubmission {
   constructor({
@@ -7,7 +7,7 @@ export default class AbstractSubmission {
     abstract = '',
     contact = new Author(),
     authors = [],
-    socialMedia = new AuthorSocialMedia(),
+    socialMedia = new SocialMedia(),
     datasets = [],
     dateLastModified,
     dateCreated,

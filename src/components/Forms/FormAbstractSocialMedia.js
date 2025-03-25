@@ -1,8 +1,10 @@
-import React, {useState} from 'react'
+import React, { useState, useCallback } from 'react'
 import FormGroupWrapper from './FormGroupWrapper'
 import { Form, Row, Col } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { AuthorSocialMedia as SocialMedia } from '../../models/Author'
+import { SocialMedia } from '../../models/Author'
+
+import { debounce } from '../../logic/viewport'
 
 const FormAbstractSocialMedia = ({ initialValue, onChange }) => {
   const { t } = useTranslation()
@@ -10,7 +12,27 @@ const FormAbstractSocialMedia = ({ initialValue, onChange }) => {
   const [parts, setParts] = useState([
     { id: 'githubId', isValid: null }
   ])
-  const [socialMedia, setSocialMedia] = useState(new SocialMedia({...initialValue}))
+  const [socialMedia, setSocialMedia] = useState(new SocialMedia({ ...initialValue }))
+
+  const validateGithubUsername = async (value) => {
+    const url = `${process.env.REACT_APP_GITHUB_USERS_API_ENDPOINT}${value.githubId}`
+
+    try {
+      const response = await fetch(url)
+      console.info('[GithubAPI] Username response:', response)      
+
+      if(response.ok){
+        onChange({ id: 'githubId', value, isValid: true})
+      } else {
+        onChange({ id: 'githubId', value, isValid: false})
+      }
+
+    } catch (error) {
+      console.error('Error checking GitHub username:', error)
+    }
+  }
+
+  const debouncedValidateGithubUser = useCallback(debounce(validateGithubUsername, 1000), [])
 
   const handleChange = ({ id, isValid, value }) => {
     const _parts = parts.map((d) => {
@@ -25,33 +47,38 @@ const FormAbstractSocialMedia = ({ initialValue, onChange }) => {
     })
     setParts(_parts)
     setSocialMedia(temporarySocialMedia)
-    onChange({ id: 'socialMedia', value: temporarySocialMedia, isValid })
+
+    if (id === 'githubId') {
+      debouncedValidateGithubUser(temporarySocialMedia)
+    } else {
+      onChange({ id: 'socialMedia', value: temporarySocialMedia, isValid })
+    }
   }
+
   return (
-      <Row>
-        <Col>
-          <Form.Text className="text-muted">
-            {t('pages.abstractSubmission.githubIdExplanation')}
-          </Form.Text>
-          <div className="my-3"></div>
-          <FormGroupWrapper
-            schemaId='#/definitions/githubId'
-            initialValue={socialMedia.githubId}
-            label='pages.abstractSubmission.githubId'
-            placeholder= {t('pages.abstractSubmission.githubIdPlaceholder')}
-            ignoreWhenLengthIslessThan={1}
-            onChange={({ value, isValid }) =>
-              handleChange({ id: 'githubId', value, isValid })
-            }
-          />
-          <Form.Text className="text-muted" 
-            dangerouslySetInnerHTML={{
+    <Row>
+      <Col>
+        <Form.Text className="text-muted">
+          {t('pages.abstractSubmission.githubIdExplanation')}
+        </Form.Text>
+        <div className="my-3"></div>
+        <FormGroupWrapper
+          schemaId='#/definitions/githubId'
+          initialValue={socialMedia.githubId}
+          label='pages.abstractSubmission.githubId'
+          placeholder={t('pages.abstractSubmission.githubIdPlaceholder')}
+          ignoreWhenLengthIslessThan={1}
+          onChange={({ value, isValid }) =>
+            handleChange({ id: 'githubId', value, isValid })
+          }
+        />
+        <Form.Text className="text-muted"
+          dangerouslySetInnerHTML={{
             __html: t('pages.abstractSubmission.githubIdHelpText')
           }}/>
-        </Col>
-      </Row>
+      </Col>
+    </Row>
   )
-
 }
 
 export default FormAbstractSocialMedia

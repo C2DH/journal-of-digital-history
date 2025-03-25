@@ -1,4 +1,4 @@
-export class AuthorSocialMedia {
+export class SocialMedia {
   constructor({ githubId = '', id } = {}) {
     this.id = id
     this.githubId = githubId
@@ -13,7 +13,7 @@ export class AuthorSocialMedia {
 }
 
 export default class Author {
-  constructor({ firstname = '', lastname = '', email = '', affiliation = '', orcid = '', socialMedia = new AuthorSocialMedia(), id, isValid } = {}) {
+  constructor({ firstname = '', lastname = '', email = '', affiliation = '', orcid = '', socialMedia = new SocialMedia(), id, isValid } = {}) {
     this.id = id
     this.firstname = firstname
     this.lastname = lastname

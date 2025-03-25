@@ -117,9 +117,8 @@
       "title": "A github user account",
       "description": "Personal or institutional github user",
       "default": "", 
-      "examples": ["joe-defilippo"],
-      "minLength": 1,
-      "maxLength": 39
+      "pattern": "^(?!-)(?!.*--)[a-z0-9-]{1,39}(?<!-)$",
+      "examples": ["joe-defilippo"]
     },
     "affiliation": {
       "$id": "#/definitions/affiliation",

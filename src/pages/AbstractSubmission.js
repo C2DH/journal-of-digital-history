@@ -8,7 +8,7 @@ import { CfpParam } from '../logic/params'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { useStore } from '../store'
 import { getValidatorResultWithAbstractSchema } from '../logic/validation'
-import Author, { AuthorSocialMedia } from '../models/Author'
+import Author, { SocialMedia } from '../models/Author'
 import Dataset from '../models/Dataset'
 import { default as AbstractSubmissionModel } from '../models/AbstractSubmission'
 import FormGroupWrapper from '../components/Forms/FormGroupWrapper'
@@ -28,19 +28,12 @@ console.info('%cRecaptcha site key', 'font-weight:bold', ReCaptchaSiteKey)
 const AbstractSubmission = () => {
   const { t } = useTranslation()
   const history = useHistory()
-  const [callForPapers, setCallForPapers] = useQueryParam(
-    'cfp',
-    withDefault(CfpParam, '')
-  )
+  const [callForPapers, setCallForPapers] = useQueryParam('cfp', withDefault(CfpParam, ''))
   const [isPreviewMode, setPreviewMode] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [confirmModalShow, setConfirmModalShow] = useState(false)
-  const temporaryAbstractSubmission = useStore(
-    (state) => state.temporaryAbstractSubmission
-  )
-  const setTemporaryAbstractSubmission = useStore(
-    (state) => state.setTemporaryAbstractSubmission
-  ) 
+  const temporaryAbstractSubmission = useStore((state) => state.temporaryAbstractSubmission)
+  const setTemporaryAbstractSubmission = useStore((state) => state.setTemporaryAbstractSubmission)
   const recaptchaRef = React.useRef()
   const [results, setResults] = useState([
     {
@@ -65,11 +58,6 @@ const AbstractSubmission = () => {
       label: 'pages.abstractSubmission.AuthorsSectionTitle',
     },
     {
-      id: 'socialMedia',
-      value: temporaryAbstractSubmission.socialMedia,
-      label: 'pages.abstractSubmission.SocialMediaSectionTitle',
-    },
-    {
       id: 'datasets',
       value: temporaryAbstractSubmission.datasets,
       label: 'pages.abstractSubmission.DataSectionTitle',
@@ -84,7 +72,7 @@ const AbstractSubmission = () => {
     },
   ])
   const [validatorResult, setValidatorResult] = useState(null)
-  
+
   useEffect(() => {
     console.info('useEffect setValidatorResult', validatorResult)
 
@@ -96,7 +84,7 @@ const AbstractSubmission = () => {
       datasets,
       socialMedia,
       acceptConditions,
-      callForPapers
+      callForPapers,
     } = temporaryAbstractSubmission
 
     setValidatorResult(
@@ -108,16 +96,13 @@ const AbstractSubmission = () => {
         datasets,
         socialMedia,
         acceptConditions,
-        callForPapers
-      })
+        callForPapers,
+      }),
     )
   }, [temporaryAbstractSubmission])
 
   useEffect(() => {
-    console.info(
-      '[AbstractSubmission] @useEffect \n - callForPapers:',
-      callForPapers
-    )
+    console.info('[AbstractSubmission] @useEffect \n - callForPapers:', callForPapers)
     handleChange({
       id: 'callForPapers',
       value: callForPapers,
@@ -135,7 +120,7 @@ const AbstractSubmission = () => {
       acc[el.id] = el.value
       return acc
     }, {})
- 
+
     setTemporaryAbstractSubmission({
       ...submission,
       dateCreated: temporaryAbstractSubmission.dateCreated,
@@ -150,10 +135,7 @@ const AbstractSubmission = () => {
   }
 
   const handleConfirmCreateAbstractSubmission = async () => {
-    console.debug(
-      'handleConfirmCreateAbstractSubmission',
-      temporaryAbstractSubmission
-    )
+    console.debug('handleConfirmCreateAbstractSubmission', temporaryAbstractSubmission)
     const token = await recaptchaRef.current.executeAsync()
     console.debug('%cRecaptcha', 'font-weight:bold', 'token:', token)
     createAbstractSubmission({
@@ -172,6 +154,13 @@ const AbstractSubmission = () => {
   }
 
   const handleChange = ({ id, value, isValid }) => {
+    console.debug('id,value,isValid', id, value, isValid)
+
+    if (!isValid) {
+      console.debug(`[AbstractSubmission] @handleChange: Skipping invalid value for id: ${id}`)
+      return
+    }
+
     const _results = results.map((d) => {
       if (d.id === id) {
         return { ...d, value, isValid }
@@ -190,6 +179,7 @@ const AbstractSubmission = () => {
       dateCreated: temporaryAbstractSubmission.dateCreated,
     })
     setResults(_results)
+    console.debug('[AbstractSubmission] @handleChange results:', results)
   }
 
   const handleAddContactAsAuthor = (author) => {
@@ -210,7 +200,7 @@ const AbstractSubmission = () => {
           }
         }
         return d
-      })
+      }),
     )
   }
 
@@ -218,19 +208,17 @@ const AbstractSubmission = () => {
     setPreviewMode(mode)
   }
 
-  const isEmpty = AbstractSubmissionModel.isPayloadEmpty(
-    temporaryAbstractSubmission
-  )
+  const isEmpty = AbstractSubmissionModel.isPayloadEmpty(temporaryAbstractSubmission)
 
   const handleReset = () => {
     setTemporaryAbstractSubmission({})
   }
 
   return (
-    <Container className='page mb-5'>
+    <Container className="page mb-5">
       <Row>
         <Col md={{ span: 6, offset: 2 }}>
-          <h1 className='my-5'>{t('pages.abstractSubmission.title')}</h1>
+          <h1 className="my-5">{t('pages.abstractSubmission.title')}</h1>
         </Col>
       </Row>
       <AbstractSubmissionCallForPapers
@@ -241,7 +229,7 @@ const AbstractSubmission = () => {
       <Form noValidate onSubmit={handleSubmit}>
         <Row>
           <Col md={{ span: 6, offset: 2 }}>
-            <h3 className='progressiveHeading'>Title and Abstract</h3>
+            <h3 className="progressiveHeading">Title and Abstract</h3>
             <p
               dangerouslySetInnerHTML={{
                 __html: t('pages.abstractSubmission.articleAbstractHelpText'),
@@ -249,49 +237,41 @@ const AbstractSubmission = () => {
             ></p>
             {!isPreviewMode && (
               <FormGroupWrapper
-                as='textarea'
-                schemaId='#/definitions/title'
+                as="textarea"
+                schemaId="#/definitions/title"
                 rows={3}
                 initialValue={temporaryAbstractSubmission.title}
-                label='pages.abstractSubmission.articleTitle'
+                label="pages.abstractSubmission.articleTitle"
                 ignoreWhenLengthIslessThan={1}
-                onChange={({ value, isValid }) =>
-                  handleChange({ id: 'title', value, isValid })
-                }
+                onChange={({ value, isValid }) => handleChange({ id: 'title', value, isValid })}
               />
             )}
 
             {isPreviewMode && (
-              <FormGroupWrapperPreview label='pages.abstractSubmission.articleTitle'>
+              <FormGroupWrapperPreview label="pages.abstractSubmission.articleTitle">
                 {temporaryAbstractSubmission.title}
               </FormGroupWrapperPreview>
             )}
 
             {!isPreviewMode && (
               <FormGroupWrapper
-                as='textarea'
-                schemaId='#/definitions/abstract'
+                as="textarea"
+                schemaId="#/definitions/abstract"
                 rows={5}
-                placeholder={t(
-                  'pages.abstractSubmission.articleAbstractPlaceholder'
-                )}
+                placeholder={t('pages.abstractSubmission.articleAbstractPlaceholder')}
                 initialValue={temporaryAbstractSubmission.abstract}
-                label='pages.abstractSubmission.articleAbstract'
+                label="pages.abstractSubmission.articleAbstract"
                 ignoreWhenLengthIslessThan={1}
-                onChange={({ value, isValid }) =>
-                  handleChange({ id: 'abstract', value, isValid })
-                }
+                onChange={({ value, isValid }) => handleChange({ id: 'abstract', value, isValid })}
               />
             )}
             {isPreviewMode && (
-              <FormGroupWrapperPreview label='pages.abstractSubmission.articleAbstract'>
+              <FormGroupWrapperPreview label="pages.abstractSubmission.articleAbstract">
                 {temporaryAbstractSubmission.abstract}
               </FormGroupWrapperPreview>
             )}
             <hr />
-            <h3 className='progressiveHeading'>
-              {t('pages.abstractSubmission.DataSectionTitle')}
-            </h3>
+            <h3 className="progressiveHeading">{t('pages.abstractSubmission.DataSectionTitle')}</h3>
             {!isPreviewMode && (
               <FormAbstractGenericSortableList
                 onChange={({ items, isValid }) =>
@@ -304,7 +284,7 @@ const AbstractSubmission = () => {
                 initialItems={temporaryAbstractSubmission.datasets}
                 ItemClass={Dataset}
                 addNewItemLabel={t('actions.addDataset')}
-                listItemComponentTagName='FormAbstractDatasetsListItem'
+                listItemComponentTagName="FormAbstractDatasetsListItem"
               />
             )}
             {isPreviewMode &&
@@ -314,15 +294,13 @@ const AbstractSubmission = () => {
                 </FormGroupWrapperPreview>
               ))}
             <hr />
-            <h3 className='progressiveHeading'>
+            <h3 className="progressiveHeading">
               {t('pages.abstractSubmission.ContactPointSectionTitle')}
             </h3>
             {!isPreviewMode && (
               <FormAuthorContact
                 initialValue={temporaryAbstractSubmission.contact}
-                onChange={({ value, isValid }) =>
-                  handleChange({ id: 'contact', value, isValid })
-                }
+                onChange={({ value, isValid }) => handleChange({ id: 'contact', value, isValid })}
                 onSelectAsAuthor={handleAddContactAsAuthor}
               />
             )}
@@ -334,7 +312,7 @@ const AbstractSubmission = () => {
               </FormGroupWrapperPreview>
             )}
             <hr />
-            <h3 className='progressiveHeading'>
+            <h3 className="progressiveHeading">
               {t('pages.abstractSubmission.AuthorsSectionTitle')}
             </h3>
             {!isPreviewMode && (
@@ -349,7 +327,7 @@ const AbstractSubmission = () => {
                 ItemClass={Author}
                 initialItems={temporaryAbstractSubmission.authors}
                 addNewItemLabel={t('actions.addAuthor')}
-                listItemComponentTagName='FormAbstractAuthorsListItem'
+                listItemComponentTagName="FormAbstractAuthorsListItem"
               />
             )}
             {isPreviewMode &&
@@ -359,26 +337,31 @@ const AbstractSubmission = () => {
                 </FormGroupWrapperPreview>
               ))}
             <hr />
-            <h3 className='progressiveHeading'>
-                {t('pages.abstractSubmission.SocialMediaSectionTitle')}
+            <h3 className="progressiveHeading">
+              {t('pages.abstractSubmission.SocialMediaSectionTitle')}
             </h3>
             <></>
-            {!isPreviewMode && (<FormAbstractSocialMedia
-              item={new AuthorSocialMedia({
-                ...temporaryAbstractSubmission.socialMedia,
-              })}
-              initialValue={temporaryAbstractSubmission.socialMedia}
-              onChange={({ id, value, isValid }) => handleChange({ id, value, isValid })}
-            />)}
+            {!isPreviewMode && (
+              <FormAbstractSocialMedia
+                item={
+                  new SocialMedia({
+                    ...temporaryAbstractSubmission.socialMedia,
+                  })
+                }
+                initialValue={temporaryAbstractSubmission.socialMedia}
+                onChange={({ id, value, isValid }) =>
+                  handleChange({ id, value, isValid })
+                }
+              />
+            )}
             <hr />
             {isPreviewMode && (
-              <FormGroupWrapperPreview label='pages.abstractSubmission.socialMedia'>
+              <FormGroupWrapperPreview label="pages.abstractSubmission.socialMedia">
                 {temporaryAbstractSubmission.socialMedia}
               </FormGroupWrapperPreview>
             )}
           </Col>
-            
-  
+
           <Col md={4} lg={3}>
             <div
               style={{
@@ -400,9 +383,9 @@ const AbstractSubmission = () => {
           </Col>
         </Row>
         <Row>
-          <Col md={{ span: 6, offset: 2 }} className=''>
+          <Col md={{ span: 6, offset: 2 }} className="">
             <Form.Group
-              size='md'
+              size="md"
               onChange={(e) =>
                 handleChange({
                   id: 'acceptConditions',
@@ -410,11 +393,11 @@ const AbstractSubmission = () => {
                   isValid: e.target.checked,
                 })
               }
-              controlId='formBasicCheckbox'
+              controlId="formBasicCheckbox"
             >
-              <Form.Check size='md'>
+              <Form.Check size="md">
                 <Form.Check.Input
-                  type='checkbox'
+                  type="checkbox"
                   defaultChecked={temporaryAbstractSubmission.acceptConditions}
                 />
                 <Form.Check.Label>
@@ -424,26 +407,22 @@ const AbstractSubmission = () => {
                     }}
                   />
                   &nbsp;
-                  <LangLink to='/terms' target='_blank'>
+                  <LangLink to="/terms" target="_blank">
                     Terms of Use
                   </LangLink>
                 </Form.Check.Label>
               </Form.Check>
             </Form.Group>
             <p
-              className='my-3'
+              className="my-3"
               dangerouslySetInnerHTML={{
                 __html: t('pages.abstractSubmission.recaptchaDisclaimer'),
               }}
             />
-            <ReCAPTCHA
-              ref={recaptchaRef}
-              size='invisible'
-              sitekey={ReCaptchaSiteKey}
-            />
+            <ReCAPTCHA ref={recaptchaRef} size="invisible" sitekey={ReCaptchaSiteKey} />
 
             {!isEmpty && validatorResult?.errors.length > 0 && (
-              <ol className='m-0 pe-2 py-2 ps-4 border border-dark rounded'>
+              <ol className="m-0 pe-2 py-2 ps-4 border border-dark rounded">
                 {validatorResult?.errors.map((error, i) => (
                   <li key={i}>
                     <FormJSONSchemaErrorListItem error={error} debug={false} />
@@ -451,12 +430,12 @@ const AbstractSubmission = () => {
                 ))}
               </ol>
             )}
-            <div className='text-center mt-5'>
+            <div className="text-center mt-5">
               <Button
                 disabled={isEmpty || validatorResult?.errors.length > 0}
-                variant='primary'
-                size='lg'
-                type='submit'
+                variant="primary"
+                size="lg"
+                type="submit"
               >
                 {t('actions.submit')}
               </Button>
