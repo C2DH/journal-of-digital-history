@@ -5,6 +5,16 @@
   "title": "Schema to validate abstract submissions",
   "description": "Abstracts are stored as JSON",
   "default": {},
+  "required": [
+    "title",
+    "abstract",
+    "contact",
+    "authors",
+    "datasets",
+    "socialMedia",
+    "acceptConditions"
+  ],
+  "additionalProperties": false,
   "definitions": {
     "id": {
       "$id": "#/definitions/id",
@@ -104,12 +114,12 @@
     "githubId": {
       "$id": "#/definitions/githubId",
       "type": "string",
-      "pattern": "^@?[a-z\\d]?(?:[a-z\\d]|-(?=[a-z\\d])){0,39}$",
       "title": "A github user account",
       "description": "Personal or institutional github user",
+      "default": "", 
+      "examples": ["joe-defilippo"],
       "minLength": 1,
-      "maxLength": 39,
-      "examples": ["joe.defilippo"]
+      "maxLength": 39
     },
     "affiliation": {
       "$id": "#/definitions/affiliation",
@@ -180,15 +190,7 @@
       }
     }
   ],
-  "required": [
-    "title",
-    "abstract",
-    "contact",
-    "authors",
-    "datasets",
-    "acceptConditions"
-  ],
-  "additionalProperties": false,
+  
   "properties": {
     "id": {
       "$ref": "#/definitions/id"
@@ -247,7 +249,7 @@
       "$id": "#/properties/contact",
       "type": "object",
       "title": "Basic contact info",
-      "required": ["firstname", "lastname", "email", "orcid", "socialMedia"],
+      "required": ["firstname", "lastname", "email", "orcid"],
       "additionalProperties": false,
       "properties": {
         "firstname": {
@@ -353,7 +355,6 @@
       "type": "object",
       "title": "Social media info and github account",
       "required": ["githubId"],
-      "additionalProperties": false,
       "properties": {
         "githubId": {
           "$ref": "#/definitions/githubId"

@@ -86,7 +86,7 @@ const AbstractSubmission = () => {
   const [validatorResult, setValidatorResult] = useState(null)
   
   useEffect(() => {
-    console.info('useEffect setValidatorResult')
+    console.info('useEffect setValidatorResult', validatorResult)
 
     const {
       title,
@@ -94,6 +94,7 @@ const AbstractSubmission = () => {
       contact,
       authors,
       datasets,
+      socialMedia,
       acceptConditions,
       callForPapers
     } = temporaryAbstractSubmission
@@ -105,6 +106,7 @@ const AbstractSubmission = () => {
         contact,
         authors,
         datasets,
+        socialMedia,
         acceptConditions,
         callForPapers
       })
@@ -366,9 +368,7 @@ const AbstractSubmission = () => {
                 ...temporaryAbstractSubmission.socialMedia,
               })}
               initialValue={temporaryAbstractSubmission.socialMedia}
-              onChange={({ value, isValid }) =>
-                handleChange({ id: 'socialMedia', value, isValid })
-              }
+              onChange={({ id, value, isValid }) => handleChange({ id, value, isValid })}
             />)}
             <hr />
             {isPreviewMode && (
@@ -399,9 +399,6 @@ const AbstractSubmission = () => {
             </div>
           </Col>
         </Row>
-        
-          
-       
         <Row>
           <Col md={{ span: 6, offset: 2 }} className=''>
             <Form.Group

@@ -4,7 +4,7 @@ import { Form, Row, Col } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { AuthorSocialMedia as SocialMedia } from '../../models/Author'
 
-const FormAbstractSocialMedia = ({ initialValue }) => {
+const FormAbstractSocialMedia = ({ initialValue, onChange }) => {
   const { t } = useTranslation()
 
   const [parts, setParts] = useState([
@@ -25,6 +25,7 @@ const FormAbstractSocialMedia = ({ initialValue }) => {
     })
     setParts(_parts)
     setSocialMedia(temporarySocialMedia)
+    onChange({ id: 'socialMedia', value: temporarySocialMedia, isValid })
   }
   return (
       <Row>

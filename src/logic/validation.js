@@ -16,9 +16,7 @@ const getPartialSchema = (propertyId) => {
   return validator?.parent ?? { type: 'string' }
 }
 
-const getValidatorResultWithAbstractSchema = (value) => { 
-  return validate(value, abstractSchema)
-}
+const getValidatorResultWithAbstractSchema = (value) => validate(value, abstractSchema)
 
 export {
   getValidatorResult,

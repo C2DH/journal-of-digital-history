@@ -245,8 +245,8 @@
       "schemaErrors": {
         "instance-acceptConditions": "... and don't forget to check the <b>terms and conditions</b>",
         "instance-contact": "Please fill the \"Contact\" section with your <b>email</b> and <b>ORCID URL</b>",
-        "instance-contact-email": "A valid <em>email address</em> is required for the <b>Contact</b> section",
-        "instance-contact-orcid": "An <em>ORCID</em> url is required for the <b>Contact</b> section",
+        "instance-contact-email": "A valid <em>email address</em> is required",
+        "instance-contact-orcid": "An <em>ORCID</em> url is required",
         "instance-authors": "At least <b>one contributor</b> is required",
         "instance-authors-orcid": "One <b>contributor ORCID</b> URL provided is not valid, please provide either an empty value or a valid ORCID",
         "instance-authors-email": "One <b>contributor email</b> address is not valid, please provide either an empty value or a valid email address",
@@ -254,7 +254,7 @@
         "instance-datasets-url": "One <b>URL</b> in <b> \"Tools, Code & Data\"</b> is not valid, make sure it starts with <code>http</code>",
         "instance-title": "<b>Title</b>",
         "instance-abstract": "<b>Abstract</b>",
-        "instance-githubId": "A valid <em>github user identifier</em> contains only numbers and letters"
+        "instance-socialMedia-githubId": "A valid <em>Github username</em> is required"
       },
       "numbers": {
         "issue": "Issue n.{{n}}",
