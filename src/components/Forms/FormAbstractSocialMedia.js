@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import FormGroupWrapper from './FormGroupWrapper'
 import { Form, Row, Col } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
@@ -13,13 +13,16 @@ const FormAbstractSocialMedia = ({ initialValue, onChange }) => {
     { id: 'githubId', isValid: null }
   ])
   const [socialMedia, setSocialMedia] = useState(new SocialMedia({ ...initialValue }))
+  const [isGithubIdValid, setIsGithubValid] = useState(false)
 
   const validateGithubUsername = async (value) => {
     const url = `${process.env.REACT_APP_GITHUB_USERS_API_ENDPOINT}${value.githubId}`
 
     try {
       const response = await fetch(url)
-      console.info('[GithubAPI] Username response:', response)      
+      console.info('[GithubAPI] Username response:', response)  
+      let userExist = response.ok
+      setIsGithubValid(userExist)
 
       if(response.ok){
         onChange({ id: 'githubId', value, isValid: true})
@@ -55,6 +58,8 @@ const FormAbstractSocialMedia = ({ initialValue, onChange }) => {
     }
   }
 
+  useEffect(() => {}, [isGithubIdValid])
+
   return (
     <Row>
       <Col>
@@ -71,6 +76,7 @@ const FormAbstractSocialMedia = ({ initialValue, onChange }) => {
           onChange={({ value, isValid }) =>
             handleChange({ id: 'githubId', value, isValid })
           }
+          isGithubIdValid={isGithubIdValid}
         />
         <Form.Text className="text-muted"
           dangerouslySetInnerHTML={{

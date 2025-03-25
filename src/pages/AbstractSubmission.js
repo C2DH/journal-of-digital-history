@@ -74,8 +74,6 @@ const AbstractSubmission = () => {
   const [validatorResult, setValidatorResult] = useState(null)
 
   useEffect(() => {
-    console.info('useEffect setValidatorResult', validatorResult)
-
     const {
       title,
       abstract,
@@ -154,13 +152,6 @@ const AbstractSubmission = () => {
   }
 
   const handleChange = ({ id, value, isValid }) => {
-    console.debug('id,value,isValid', id, value, isValid)
-
-    if (!isValid) {
-      console.debug(`[AbstractSubmission] @handleChange: Skipping invalid value for id: ${id}`)
-      return
-    }
-
     const _results = results.map((d) => {
       if (d.id === id) {
         return { ...d, value, isValid }
@@ -171,9 +162,7 @@ const AbstractSubmission = () => {
       acc[el.id] = el.value
       return acc
     }, {})
-    console.debug('[AbstractSubmission] @handleChange submission:', submission)
 
-    // todo add creation date if a temporaryAbstractSubmission object is available.
     setTemporaryAbstractSubmission({
       ...submission,
       dateCreated: temporaryAbstractSubmission.dateCreated,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { getValidatorResult, getPartialSchema } from '../../logic/validation'
@@ -10,12 +10,17 @@ const FormGroupWrapper = ({
   ignoreWhenLengthIslessThan = 1, rows,
   initialValue,
   onChange,
+  isGithubIdValid
 }= {}) => {
   const { t } = useTranslation()
   const schema = getPartialSchema(schemaId)
   const [isValid, setIsValid] = useState(null)
   const [valueLength, setValueLength] = useState(initialValue?.length || 0)
   const [errors, setErrors] = useState([])
+
+  useEffect(() => {
+    setIsValid(isGithubIdValid)
+  }, [isGithubIdValid])
 
   const handleChange = (event) => {
     setValueLength(event.target.value)
@@ -26,10 +31,10 @@ const FormGroupWrapper = ({
     if (!isNaN(ignoreWhenLengthIslessThan) && event.target.value.length < ignoreWhenLengthIslessThan) {
       setIsValid(null)
     } else {
-      setIsValid(result.valid)
+      setIsValid(result.valid && isGithubIdValid )
     }
     setErrors(result.errors)
-    onChange({ value: event.target.value, isValid: result.valid })
+    onChange({ value: event.target.value, isValid: result.valid && isGithubIdValid})
   }
   return (
     <Form.Group controlId={controlId ?? schemaId.replace(/[#/]/g, '-')}>
