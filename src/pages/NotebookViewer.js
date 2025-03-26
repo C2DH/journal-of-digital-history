@@ -14,7 +14,7 @@ import ArticleV2 from '../components/ArticleV2'
 import ArticleV3 from '../components/ArticleV3'
 import ArticleHeader from '../components/Article/ArticleHeader'
 import ErrorViewer from './ErrorViewer'
-import { usePropsStore } from '../store'
+import { useArticleStore, usePropsStore } from '../store'
 import { setBodyNoScroll } from '../logic/viewport'
 /**
  * Loading bar inspired by
@@ -51,6 +51,9 @@ const NotebookViewer = ({
   })
   const ArticleComponent = version === 3 ? ArticleV3 : version === 2 ? ArticleV2 : Article
   const setLoadingProgress = usePropsStore((state) => state.setLoadingProgress)
+  const clearIframeHeader  = useArticleStore((state) => state.clearIframeHeader);
+  const setArticleVersion = useArticleStore((state) => state.setArticleVersion);
+  setArticleVersion(version);
 
   const url = useMemo(() => {
     if (!encodedUrl || !encodedUrl.length) {
@@ -70,6 +73,11 @@ const NotebookViewer = ({
       console.error(e)
     }
   }, [encodedUrl])
+
+  //  issue #701: Plotly problem due to isolation mode
+  useEffect(() => {
+    clearIframeHeader();
+  }, [url]);
 
   const isJavascriptTrustedByOrigin =
     typeof url === 'string' ? URLPathsAlwaysTrustJS.some((d) => url.indexOf(d) === 0) : false
