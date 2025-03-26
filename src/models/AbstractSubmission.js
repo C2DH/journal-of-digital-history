@@ -1,4 +1,4 @@
-import Author, { SocialMedia } from './Author'
+import Author from './Author'
 
 export default class AbstractSubmission {
   constructor({
@@ -7,7 +7,6 @@ export default class AbstractSubmission {
     abstract = '',
     contact = new Author(),
     authors = [],
-    socialMedia = new SocialMedia(),
     datasets = [],
     dateLastModified,
     dateCreated,
@@ -19,7 +18,6 @@ export default class AbstractSubmission {
     this.abstract = String(abstract)
     this.callForPapers = String(callForPapers)
     this.contact = contact
-    this.socialMedia = socialMedia
     this.authors = authors
     this.datasets = datasets
     
@@ -65,7 +63,6 @@ export default class AbstractSubmission {
       this.contact.affiliation?.length +
       this.contact.orcid?.length +
       this.authors.length +
-      this.socialMedia.length +
       this.datasets.length === 0
     )
   }
