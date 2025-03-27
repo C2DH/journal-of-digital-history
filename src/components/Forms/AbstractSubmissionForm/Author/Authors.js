@@ -1,8 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import FormAbstractGenericSortableList from '../FormAbstractGenericSortableList'
-import FormGroupWrapperPreview from '../FormGroupWrapperPreview'
-import { default as Author } from '../../../models/Author'
+import FormAbstractGenericSortableList from '../../FormAbstractGenericSortableList'
+import FormGroupWrapperPreview from '../../FormGroupWrapperPreview'
+import { default as Author } from '../../../../models/Author'
 
 
 const AuthorsSection = ({ temporaryAbstractSubmission, handleChange, isPreviewMode }) => {
@@ -15,13 +15,13 @@ const AuthorsSection = ({ temporaryAbstractSubmission, handleChange, isPreviewMo
         </h3>
         {!isPreviewMode && (
           <FormAbstractGenericSortableList
-            onChange={({ items, isValid }) =>
+            onChange={({ items, isValid }) => {
               handleChange({
                 id: 'authors',
                 value: items,
                 isValid,
               })
-            }
+            }}
             ItemClass={Author}
             initialItems={temporaryAbstractSubmission.authors}
             addNewItemLabel={t('actions.addAuthor')}

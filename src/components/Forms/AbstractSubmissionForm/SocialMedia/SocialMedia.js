@@ -1,5 +1,5 @@
 import React from 'react'
-import FormAbstractSocialMedia from '../FormAbstractSocialMedia'
+import FormAbstractSocialMedia from './Form'
 
 const SocialMediaSection = ({ temporaryAbstractSubmission, handleChange, isPreviewMode }) => {
   const socialMedia = temporaryAbstractSubmission.socialMedia || {}

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Form, Col, Row, Button } from 'react-bootstrap'
-import FormGroupWrapper from './FormGroupWrapper'
-import Author from '../../models/Author'
+import FormGroupWrapper from '../../FormGroupWrapper'
+import Author from '../../../../models/Author'
 
 
 const FormAuthorContact = ({ onChange, onSelectAsAuthor, initialValue }) => {

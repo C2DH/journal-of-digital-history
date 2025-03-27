@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import FormGroupWrapper from './FormGroupWrapper'
-import FormAbstractDatasetUrlsList from './FormAbstractDatasetUrlsList'
+import FormGroupWrapper from '../../FormGroupWrapper'
 
 const FormAbstractDataset = ({ groupId, onChange }) => {
   const [ results, setResults ] = useState([
@@ -37,7 +36,6 @@ const FormAbstractDataset = ({ groupId, onChange }) => {
         label='pages.abstractSubmission.datasetDetails' ignoreWhenLengthIslessThan={5}
         onChange={handleChange}
       />
-      <FormAbstractDatasetUrlsList id="datasetUrls"/>
     </div>
   )
 }

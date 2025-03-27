@@ -1,8 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import FormAbstractGenericSortableList from '../FormAbstractGenericSortableList'
-import FormGroupWrapperPreview from '../FormGroupWrapperPreview'
-import Dataset from '../../../models/Dataset'
+import FormAbstractGenericSortableList from '../../FormAbstractGenericSortableList'
+import FormGroupWrapperPreview from '../../FormGroupWrapperPreview'
+import Dataset from '../../../../models/Dataset'
 
 const DatasetsSection = ({ temporaryAbstractSubmission, handleChange, isPreviewMode }) => {
   const { t } = useTranslation()
@@ -12,8 +12,7 @@ const DatasetsSection = ({ temporaryAbstractSubmission, handleChange, isPreviewM
       <h3 className="progressiveHeading">{t('pages.abstractSubmission.DataSectionTitle')}</h3>
       {!isPreviewMode && (
         <FormAbstractGenericSortableList
-          onChange={({ items, isValid }) =>
-            handleChange({
+          onChange={({ items, isValid }) => handleChange({
               id: 'datasets',
               value: items,
               isValid,

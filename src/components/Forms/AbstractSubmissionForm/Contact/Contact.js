@@ -1,8 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import FormGroupWrapperPreview from '../FormGroupWrapperPreview'
-import FormAuthorContact from '../FormAuthorContact'
-import { default as Author } from '../../../models/Author'
+import FormGroupWrapperPreview from '../../FormGroupWrapperPreview'
+import FormAuthorContact from './Form'
+import { default as Author } from '../../../../models/Author'
 
 const ContactPointSection = ({ 
   temporaryAbstractSubmission, 

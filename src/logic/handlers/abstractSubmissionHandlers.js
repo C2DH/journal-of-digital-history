@@ -51,13 +51,12 @@ export const handleChange = ({ id, value, isValid, results, setResults, setTempo
       }, {})
       setTemporaryAbstractSubmission(submission)
       const token = await recaptchaRef.current.executeAsync()
-      // Submit logic here
+
       createAbstractSubmission({
         item: temporaryAbstractSubmission,
         token,
       })
         .then((res) => {
-          // console.log('received', res)
           if (res?.status === 200 || res?.status === 201) {
             history.push('/en/abstract-submitted')
           }

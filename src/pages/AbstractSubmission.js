@@ -7,15 +7,15 @@ import { CfpParam } from '../logic/params'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { useStore } from '../store'
 import { ReCaptchaSiteKey } from '../constants'
-import TitleAndAbstractSection from '../components/Forms/AbstractSubmissionForm/TitleAndAbstractSection'
-import DatasetsSection from '../components/Forms/AbstractSubmissionForm/DatasetsSection'
-import ContactPointSection from '../components/Forms/AbstractSubmissionForm/ContactPointSection'
-import AuthorsSection from '../components/Forms/AbstractSubmissionForm/AuthorsSection'
-import SocialMediaSection from '../components/Forms/AbstractSubmissionForm/SocialMediaSection'
+import TitleAndAbstractSection from '../components/Forms/AbstractSubmissionForm/TitleAndAbstract'
+import DatasetsSection from '../components/Forms/AbstractSubmissionForm/Datasets/Datasets'
+import ContactPointSection from '../components/Forms/AbstractSubmissionForm/Contact/Contact'
+import AuthorsSection from '../components/Forms/AbstractSubmissionForm/Author/Authors'
+import SocialMediaSection from '../components/Forms/AbstractSubmissionForm/SocialMedia/SocialMedia'
 import AbstractSubmissionPreview from '../components/AbstractSubmissionPreview'
-import AbstractSubmissionModal from '../components/Forms/AbstractSubmissionForm/AbstractSubmissionModal'
+import AbstractSubmissionModal from '../components/Forms/AbstractSubmissionForm/SubmissionModal'
 import AbstractSubmissionCallForPapers from '../components/AbstractSubmissionCallForPapers'
-import AcceptConditionSection from '../components/Forms/AbstractSubmissionForm/AcceptConditionSection'
+import AcceptConditionSection from '../components/Forms/AbstractSubmissionForm/AcceptCondition'
 import useAbstractSubmissionValidation from '../hooks/useAbstractSubmissionValidation'
 import { default as AbstractSubmissionModel } from '../models/AbstractSubmission'
 import {
@@ -31,11 +31,50 @@ const AbstractSubmission = () => {
   const [isPreviewMode, setPreviewMode] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [confirmModalShow, setConfirmModalShow] = useState(false)
+
   const temporaryAbstractSubmission = useStore((state) => state.temporaryAbstractSubmission)
   const setTemporaryAbstractSubmission = useStore((state) => state.setTemporaryAbstractSubmission)
   const recaptchaRef = React.useRef()
   const [results, setResults] = useState([
-    // Initial results setup
+    {
+      id: 'title',
+      value: temporaryAbstractSubmission.title,
+      isValid: null,
+      label: 'pages.abstractSubmission.articleTitle',
+    },
+    {
+      id: 'abstract',
+      value: temporaryAbstractSubmission.abstract,
+      label: 'pages.abstractSubmission.articleAbstract',
+    },
+    {
+      id: 'contact',
+      value: temporaryAbstractSubmission.contact,
+      label: 'pages.abstractSubmission.articleContact',
+    },
+    {
+      id: 'authors',
+      value: temporaryAbstractSubmission.authors,
+      label: 'pages.abstractSubmission.AuthorsSectionTitle',
+    },
+    {
+      id: 'githubId',
+      value: temporaryAbstractSubmission.githubId,
+      label: 'pages.abstractSubmission.githubId',
+    },
+    {
+      id: 'datasets',
+      value: temporaryAbstractSubmission.datasets,
+      label: 'pages.abstractSubmission.DataSectionTitle',
+    },
+    {
+      id: 'acceptConditions',
+      value: temporaryAbstractSubmission.acceptConditions,
+    },
+    {
+      id: 'callForPapers',
+      value: callForPapers,
+    },
   ])
   const validatorResult = useAbstractSubmissionValidation(temporaryAbstractSubmission)
 
@@ -187,7 +226,7 @@ const AbstractSubmission = () => {
               }}
             />
             <ReCAPTCHA ref={recaptchaRef} size="invisible" sitekey={ReCaptchaSiteKey} />
-            <div className='text-center mt-5'>
+            <div className="text-center mt-5">
               <Button
                 disabled={
                   AbstractSubmissionModel.isPayloadEmpty(temporaryAbstractSubmission) ||

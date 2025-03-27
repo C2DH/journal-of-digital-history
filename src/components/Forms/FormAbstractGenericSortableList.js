@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import arrayMove from 'array-move'
 import { Button } from 'react-bootstrap'
-import FormAbstractAuthorsListItem from './FormAbstractAuthorsListItem'
-import FormAbstractDatasetsListItem from './FormAbstractDatasetsListItem'
+import FormAbstractAuthorsListItem from './AbstractSubmissionForm/Author/AuthorsListItem'
+import FormAbstractDatasetsListItem from './AbstractSubmissionForm/Datasets/DatasetsListItem'
 
 const components = {
   'FormAbstractAuthorsListItem': FormAbstractAuthorsListItem,
@@ -74,7 +74,9 @@ const FormAbstractGenericSortableList = ({
     </div>
     {debug && <pre>{JSON.stringify(items)}</pre>}
     <div className="text-right">
-      <Button size="sm" variant="outline-dark" onClick={addNewItem}>{addNewItemLabel} ＋</Button>
+      <Button size="sm" variant="outline-dark" onClick={()=> { 
+        addNewItem()
+      }}>{addNewItemLabel} ＋</Button>
     </div>
     </div>
   )
