@@ -1,8 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import FormAbstractGenericSortableList from '../../FormAbstractGenericSortableList'
-import FormGroupWrapperPreview from '../../FormGroupWrapperPreview'
-import { default as Author } from '../../../../models/Author'
+import FormAbstractGenericSortableList from '../../GenericSortableList'
+import FormGroupWrapperPreview from '../../GroupWrapperPreview'
+import { default as Author } from '../../../../../models/Author'
 
 
 const AuthorsSection = ({ temporaryAbstractSubmission, handleChange, isPreviewMode }) => {

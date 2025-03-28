@@ -2,7 +2,7 @@ import React from 'react'
 import { Badge, Button, ButtonGroup } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import AbstractSubmission from '../models/AbstractSubmission'
-import FormJSONSchemaErrorListItem from './Forms/FormJSONSchemaErrorListItem'
+import FormJSONSchemaErrorListItem from './Forms/AbstractSubmission/JSONSchemaErrorListItem'
 
 const AbstractSubmissionPreview = ({
   validatorResult,

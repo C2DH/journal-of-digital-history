@@ -1,6 +1,6 @@
 import React from 'react'
 import {Modal, Button} from 'react-bootstrap'
-import FormJSONSchemaErrorListItem from './FormJSONSchemaErrorListItem'
+import FormJSONSchemaErrorListItem from './JSONSchemaErrorListItem'
 
 
 const FormAbstractResultModal = ({errors = [], onConfirm, ...props}) => {

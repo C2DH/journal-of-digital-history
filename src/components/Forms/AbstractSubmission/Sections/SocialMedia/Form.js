@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import FormGroupWrapper from '../../FormGroupWrapper'
+import FormGroupWrapper from '../../GroupWrapper'
 import { Form, Row, Col } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { SocialMedia } from '../../../../models/Author'
+import { SocialMedia } from '../../../../../models/Author'
 
-import { debounce } from '../../../../logic/viewport'
+import { debounce } from '../../../../../logic/viewport'
 
 const FormAbstractSocialMedia = ({ initialValue, onChange }) => {
   const { t } = useTranslation()

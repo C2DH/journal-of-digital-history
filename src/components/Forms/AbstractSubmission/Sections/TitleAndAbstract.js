@@ -1,12 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import FormGroupWrapper from '../FormGroupWrapper'
-import FormGroupWrapperPreview from '../FormGroupWrapperPreview'
+import FormGroupWrapper from '../GroupWrapper'
+import FormGroupWrapperPreview from '../GroupWrapperPreview'
 
 const TitleAndAbstractSection = ({ temporaryAbstractSubmission, handleChange, isPreviewMode }) => {
   const { t } = useTranslation()
 
-  //TODO Needs to check if Title works correctly
   return (
     <>
       <h3 className="progressiveHeading">

@@ -2,7 +2,7 @@ import React from 'react'
 import { Form } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
-import LangLink from '../../LangLink'
+import LangLink from '../../../LangLink'
 
 const AcceptConditionSection = ({ handleChange, temporaryAbstractSubmission }) => {
   const { t } = useTranslation()

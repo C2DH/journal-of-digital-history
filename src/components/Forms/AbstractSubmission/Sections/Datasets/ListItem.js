@@ -1,6 +1,6 @@
 import React from 'react'
-import FormGroupWrapper from '../../FormGroupWrapper'
-import Dataset from '../../../../models/Dataset'
+import FormGroupWrapper from '../../GroupWrapper'
+import Dataset from '../../../../../models/Dataset'
 
 
 const FormAbstractDatasetsListItem = ({ item, onChange, className }) => {

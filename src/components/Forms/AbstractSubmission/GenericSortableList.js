@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import arrayMove from 'array-move'
 import { Button } from 'react-bootstrap'
-import FormAbstractAuthorsListItem from './AbstractSubmissionForm/Author/AuthorsListItem'
-import FormAbstractDatasetsListItem from './AbstractSubmissionForm/Datasets/DatasetsListItem'
+import FormAbstractAuthorsListItem from './Sections/Author/ListItem'
+import FormAbstractDatasetsListItem from './Sections/Datasets/ListItem'
 
 const components = {
   'FormAbstractAuthorsListItem': FormAbstractAuthorsListItem,
