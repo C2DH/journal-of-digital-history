@@ -2,369 +2,206 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "$id": "https://journaldigitalhistory.eu/schemas/abstract.json",
   "type": "object",
-  "title": "Schema to validate abstract submissions",
-  "description": "Abstracts are stored as JSON",
-  "default": {},
-  "required": [
-    "title",
-    "abstract",
-    "contact",
-    "authors",
-    "datasets",
-    "socialMedia",
-    "acceptConditions"
-  ],
-  "additionalProperties": false,
-  "definitions": {
-    "id": {
-      "$id": "#/definitions/id",
-      "type": ["string", "number"],
-      "title": "An usual ID string",
-      "default": "",
-      "examples": ["ieoryY78", 1],
-      "minLength": 1,
-      "maxLength": 250
-    },
-    "title": {
-      "$id": "#/definitions/title",
-      "type": "string",
-      "title": "An usual article title",
-      "description": "The article title",
-      "default": "",
-      "examples": ["Once Upon a Time in Belval"],
-      "minLength": 10,
-      "maxLength": 250
-    },
-    "abstract": {
-      "$id": "#/definitions/abstract",
-      "type": "string",
-      "title": "The article abstract",
-      "description": "The article abstract",
-      "default": "",
-      "examples": ["article abstract"],
-      "minLength": 100,
-      "maxLength": 10000
-    },
-    "text250": {
-      "$id": "#/definitions/text250",
-      "type": "string",
-      "title": "A short text",
-      "description": "A short text, max 250 characters",
-      "default": "",
-      "examples": [
-        "Once Upon a Time in Belval, there was a little house on a little hill"
-      ],
-      "maxLength": 250
-    },
-    "text500": {
-      "$id": "#/definitions/text500",
-      "type": "string",
-      "title": "A medium text",
-      "description": "A medium text, max 500 characters",
-      "default": "",
-      "examples": [
-        "Once Upon a Time in Belval, there was a little house on a little hill"
-      ],
-      "maxLength": 500
-    },
-    "token": {
-      "$id": "#/definitions/token",
-      "type": "string",
-      "title": "A recaptcha token",
-      "description": "Max 1000 characters",
-      "default": "",
-      "examples": [
-        "03AGdBq25p8daIHp8-V7dvO3MEOshLJphGtGIEfymURe1Sq2VSgmL87MYi..."
-      ],
-      "maxLength": 1000
-    },
-    "datetime": {
-      "$id": "#/definitions/datetime",
-      "type": "string",
-      "format": "date-time",
-      "title": "datetime"
-    },
-    "firstname": {
-      "$id": "#/definitions/firstname",
-      "type": "string",
-      "title": "A first name",
-      "description": "Person first name, up to 50 letters",
-      "default": "",
-      "examples": ["Joe"],
-      "maxLength": 100
-    },
-    "lastname": {
-      "$id": "#/definitions/lastname",
-      "type": "string",
-      "title": "A last name",
-      "description": "Person last name, up to 50 letters",
-      "default": "",
-      "examples": ["De Filippo"],
-      "maxLength": 100
-    },
-    "email": {
-      "$id": "#/definitions/email",
-      "type": "string",
-      "pattern": "^[a-z0-9\\._%+!$&*=^|~#%{}/\\-]+@([a-z0-9\\-]+\\.){1,}([a-z]{2,22})$",
-      "title": "An Email",
-      "description": "Personal email for authors, users etc...",
-      "default": "",
-      "examples": ["joe.defilippo@uni.lu"]
-    },
-    "githubId": {
-      "$id": "#/definitions/githubId",
-      "type": "string",
-      "title": "A github user account",
-      "description": "Personal or institutional github user",
-      "default": "", 
-      "pattern": "^(?!-)(?!.*--)[a-z0-9-]{1,39}(?<!-)$",
-      "examples": ["joe-defilippo"]
-    },
-    "affiliation": {
-      "$id": "#/definitions/affiliation",
-      "type": "string",
-      "title": "a name of an Institution",
-      "description": "Author current affiliation",
-      "default": "",
-      "examples": ["University of Minnesota, LUxembourg"],
-      "maxLength": 250
-    },
-    "url": {
-      "$id": "#/definitions/url",
-      "type": "string",
-      "title": "The dataset url schema",
-      "description": "An explanation about the purpose of this instance.",
-      "default": "",
-      "examples": ["dataset url"],
-      "minLength": 7,
-      "maxLength": 500,
-      "pattern": "^(https?|http?)://"
-    },
-    "orcid": {
-      "$id": "#/definitions/orcid",
-      "type": "string",
-      "title": "The orcid schema",
-      "description": "The ORCID ID is a 16-digit number that is compatible with the ISO Standard (ISO 27729). ORCID IDs will be randomly assigned by the ORCID Registry and will be expressed as a URI.",
-      "default": "",
-      "examples": ["https://orcid.org/0000-0002-0237-2532"],
-      "pattern": "^https?://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9X]{4}$"
-    },
-    "isValid": {
-      "$id": "#/definitions/isValid",
-      "type": "boolean"
-    },
-    "acceptConditions": {
-      "$id": "#/definitions/acceptConditions",
-      "type": "boolean",
-      "enum": [true]
-    },
-    "callForPapers": {
-      "$id": "#/definitions/callForPapers",
-      "type": "string",
-      "default": "",
-      "pattern": "^[0-9a-zA-Z-]*$",
-      "minLength": 0,
-      "maxLength": 100
+  "title": "Abstract Submission Schema",
+  "description": "Schema to validate abstract submissions",
+  "required": ["title", "abstract", "datasets", "contact", "authors", "acceptConditions"],
+  "errorMessage": {
+    "required": {
+      "title": "The title is required.",
+      "abstract": "The abstract is required.",
+      "datasets": "A description is required to add a valid 'Tools, Code & Data' item.",
+      "contact": "Please fill the 'Contact' section with your email and ORCID URL.",
+      "authors": "At least one contributor is required.",
+      "acceptConditions": "You must accept the terms and conditions."
     }
   },
-  "examples": [
-    {
-      "title": "article title",
-      "abstract": "article abstract",
-      "contact": {
-        "firstname": "John",
-        "lastname": "Foo",
-        "affiliation": "University of Minnesota"
-      },
-      "authors": [
-        {
-          "firstname": "John",
-          "lastname": "Foo",
-          "email": "john.fooooooo@uni.lu",
-          "affiliation": "University of Minnesota"
-        }
-      ],
-      "socialMedia":{
-        "githubId": "johnFoo"
-      }
-    }
-  ],
-  
   "properties": {
-    "id": {
-      "$ref": "#/definitions/id"
-    },
     "title": {
-      "$ref": "#/definitions/title"
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 250,
+      "errorMessage": {
+        "type": "Title must be a string.",
+        "minLength": "Title must be at least 10 characters long.",
+        "maxLength": "Title must not exceed 250 characters."
+      }
     },
     "abstract": {
-      "$ref": "#/definitions/abstract"
+      "type": "string",
+      "minLength": 100,
+      "maxLength": 10000,
+      "errorMessage": {
+        "type": "Abstract must be a string.",
+        "minLength": "Abstract must be at least 100 characters long.",
+        "maxLength": "Abstract must not exceed 10,000 characters."
+      }
     },
     "datasets": {
-      "$id": "#/properties/datasets",
       "type": "array",
-      "title": "a list of datasets",
-      "default": [],
+      "title": "List of datasets",
       "minItems": 0,
       "maxItems": 10,
-      "additionalItems": true,
       "items": {
-        "$id": "#/properties/datasets/items",
         "type": "object",
-        "title": "A dataset description, with links",
-        "description": "An explanation about the purpose of this instance.",
-        "default": {},
-        "examples": [
-          {
-            "url": "https://google.com",
-            "description": "Open source search engine used"
-          }
-        ],
+        "title": "Dataset description",
         "required": ["url", "description"],
         "additionalProperties": false,
         "properties": {
-          "id": {
-            "$ref": "#/definitions/id"
-          },
           "url": {
-            "$ref": "#/definitions/url"
+            "type": "string",
+            "format": "uri",
+            "maxLength": 500,
+            "errorMessage": {
+              "type": "Dataset URL must be a string.",
+              "format": "Dataset URL must be a valid URI.",
+              "maxLength": "Dataset URL must not exceed 500 characters."
+            }
           },
           "description": {
-            "$ref": "#/definitions/text500"
+            "type": "string",
+            "maxLength": 500,
+            "errorMessage": {
+              "type": "Dataset description must be a string.",
+              "maxLength": "Dataset description must not exceed 500 characters."
+            }
           },
           "type": {
-            "$ref": "#/definitions/text250"
+            "type": "string",
+            "maxLength": 250,
+            "errorMessage": {
+              "type": "Dataset type must be a string.",
+              "maxLength": "Dataset type must not exceed 250 characters."
+            }
           },
           "license": {
-            "$ref": "#/definitions/text250"
+            "type": "string",
+            "maxLength": 250,
+            "errorMessage": {
+              "type": "Dataset license must be a string.",
+              "maxLength": "Dataset license must not exceed 250 characters."
+            }
           },
           "isValid": {
-            "$ref": "#/definitions/isValid"
+            "type": "boolean",
+            "errorMessage": {
+              "type": "Dataset validity must be a boolean."
+            }
           }
+        },
+        "errorMessage": {
+          "required": {
+            "url": "Dataset URL is required.",
+            "description": "Dataset description is required."
+          },
+          "additionalProperties": "No additional properties are allowed in a dataset."
         }
+      },
+      "errorMessage": {
+        "type": "Datasets must be an array.",
+        "minItems": "At least 0 datasets are required.",
+        "maxItems": "No more than 10 datasets are allowed."
       }
     },
     "contact": {
-      "$id": "#/properties/contact",
       "type": "object",
-      "title": "Basic contact info",
       "required": ["firstname", "lastname", "email", "orcid"],
       "additionalProperties": false,
       "properties": {
         "firstname": {
-          "$ref": "#/definitions/firstname"
+          "type": "string",
+          "maxLength": 100,
+          "errorMessage": {
+            "type": "First name must be a string.",
+            "maxLength": "First name must not exceed 100 characters."
+          }
         },
         "lastname": {
-          "$ref": "#/definitions/lastname"
+          "type": "string",
+          "maxLength": 100,
+          "errorMessage": {
+            "type": "Last name must be a string.",
+            "maxLength": "Last name must not exceed 100 characters."
+          }
         },
         "email": {
-          "$ref": "#/definitions/email"
-        },
-        "affiliation": {
-          "$ref": "#/definitions/affiliation"
+          "type": "string",
+          "format": "email",
+          "errorMessage": {
+            "type": "Email must be a string.",
+            "format": "Email must be a valid email address."
+          }
         },
         "orcid": {
-          "$ref": "#/definitions/orcid"
-        },
-        "id": {
-          "$ref": "#/definitions/id"
-        },
-        "isValid": {
-          "$ref": "#/definitions/isValid"
+          "type": "string",
+          "pattern": "^https?://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9X]{4}$",
+          "errorMessage": {
+            "type": "ORCID must be a string.",
+            "pattern": "ORCID must be a valid ORCID URL."
+          }
+        }
+      },
+      "errorMessage": {
+        "required": {
+          "firstname": "Please provide your first name.",
+          "lastname": "Please provide your last name.",
+          "email": "Please provide your email address.",
+          "orcid": "Please provide your ORCID URL."
         }
       }
     },
     "authors": {
-      "$id": "#/properties/authors",
       "type": "array",
-      "title": "A list of authors",
-      "description": "An explanation about the purpose of this instance.",
-      "default": [],
       "minItems": 1,
-      "maxItems": 10,
-      "examples": [
-        [
-          {
-            "firstname": "John",
-            "lastname": "Foo",
-            "email": "john.fooooooooo@uni.lu",
-            "affiliation": "University of Minnesota, Luxembourg"
-          }
-        ]
-      ],
-      "additionalItems": true,
       "items": {
-        "$id": "#/properties/authors/items",
         "type": "object",
-        "title": "An author of a paper",
-        "description": "An explanation about the purpose of this instance.",
-        "default": {},
-        "examples": [
-          {
-            "firstname": "John",
-            "lastname": "Foo",
-            "affiliation": "University of Minnesota"
-          }
-        ],
-        "required": ["firstname", "lastname", "affiliation"],
+        "required": ["firstname", "lastname", "githubId"],
         "additionalProperties": false,
         "properties": {
           "firstname": {
-            "$ref": "#/definitions/firstname"
+            "type": "string",
+            "maxLength": 100,
+            "errorMessage": {
+              "type": "First name must be a string.",
+              "maxLength": "First name must not exceed 100 characters."
+            }
           },
           "lastname": {
-            "$ref": "#/definitions/lastname"
+            "type": "string",
+            "maxLength": 100,
+            "errorMessage": {
+              "type": "Last name must be a string.",
+              "maxLength": "Last name must not exceed 100 characters."
+            }
           },
-          "email": {
-            "anyOf": [
-              {
-                "$ref": "#/definitions/email"
-              },
-              {
-                "type": "string",
-                "maxLength": 0
-              }
-            ]
-          },
-          "affiliation": {
-            "$ref": "#/definitions/affiliation"
-          },
-          "orcid": {
-            "anyOf": [
-              {
-                "$ref": "#/definitions/orcid"
-              },
-              {
-                "type": "string",
-                "maxLength": 0
-              }
-            ]
-          },
-          "id": {
-            "$ref": "#/definitions/id"
-          },
-          "isValid": {
-            "$ref": "#/definitions/isValid"
+          "githubId": {
+            "type": "string",
+            "pattern": "^(?!-)(?!.*--)[a-z0-9-]{1,39}(?<!-)$",
+            "errorMessage": {
+              "type": "GitHub ID must be a string.",
+              "pattern": "GitHub ID must be a valid GitHub username."
+            }
+          }
+        },
+        "errorMessage": {
+          "required": {
+            "firstname": "Author's first name is required.",
+            "lastname": "Author's last name is required.",
+            "githubId": "Author's GitHub ID is required."
           }
         }
-      }
-    },
-    "socialMedia":{
-      "$id": "#/properties/socialMedia",
-      "type": "object",
-      "title": "Social media info and github account",
-      "required": ["githubId"],
-      "properties": {
-        "githubId": {
-          "$ref": "#/definitions/githubId"
-        }
+      },
+      "errorMessage": {
+        "type": "Authors must be an array.",
+        "minItems": "At least one author is required."
       }
     },
     "acceptConditions": {
-      "$ref": "#/definitions/acceptConditions"
-    },
-    "callForPapers": {
-      "$ref": "#/definitions/callForPapers"
+      "type": "boolean",
+      "enum": [true],
+      "errorMessage": {
+        "type": "Accept conditions must be a boolean.",
+        "enum": "You must accept the terms and conditions."
+      }
     }
   }
 }

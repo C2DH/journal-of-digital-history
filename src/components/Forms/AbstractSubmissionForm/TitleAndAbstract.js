@@ -6,12 +6,13 @@ import FormGroupWrapperPreview from '../FormGroupWrapperPreview'
 const TitleAndAbstractSection = ({ temporaryAbstractSubmission, handleChange, isPreviewMode }) => {
   const { t } = useTranslation()
 
+  //TODO Needs to check if Title works correctly
   return (
     <>
       <h3 className="progressiveHeading">
         {t('pages.abstractSubmission.TitleAndAbstractSectionTitle')}
       </h3>
-      {!isPreviewMode && (
+      {/* {!isPreviewMode && (
         <FormGroupWrapper
           as="textarea"
           schemaId="#/definitions/title"
@@ -26,7 +27,7 @@ const TitleAndAbstractSection = ({ temporaryAbstractSubmission, handleChange, is
         <FormGroupWrapperPreview label="pages.abstractSubmission.articleTitle">
           {temporaryAbstractSubmission.title}
         </FormGroupWrapperPreview>
-      )}
+      )} */}
       {!isPreviewMode && (
         <FormGroupWrapper
           as="textarea"
