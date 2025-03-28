@@ -24,6 +24,7 @@ const FormGroupWrapper = ({
 
   const handleChange = (event) => {
     setValueLength(event.target.value)
+
     const result = getValidatorResult({
       value: event.target.value,
       schema,
@@ -31,11 +32,12 @@ const FormGroupWrapper = ({
     if (!isNaN(ignoreWhenLengthIslessThan) && event.target.value.length < ignoreWhenLengthIslessThan) {
       setIsValid(null)
     } else {
-      setIsValid(result.valid && isGithubIdValid )
+      setIsValid(result.isValid && isGithubIdValid )
     }
     setErrors(result.errors)
-    onChange({ value: event.target.value, isValid: result.valid && isGithubIdValid})
+    onChange({ value: event.target.value, isValid: result.isValid && isGithubIdValid})
   }
+
   return (
     <Form.Group controlId={controlId ?? schemaId.replace(/[#/]/g, '-')}>
       <Form.Label>{t(label)} </Form.Label>

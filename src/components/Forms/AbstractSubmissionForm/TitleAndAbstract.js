@@ -12,7 +12,7 @@ const TitleAndAbstractSection = ({ temporaryAbstractSubmission, handleChange, is
       <h3 className="progressiveHeading">
         {t('pages.abstractSubmission.TitleAndAbstractSectionTitle')}
       </h3>
-      {/* {!isPreviewMode && (
+      {!isPreviewMode && (
         <FormGroupWrapper
           as="textarea"
           schemaId="#/definitions/title"
@@ -20,14 +20,14 @@ const TitleAndAbstractSection = ({ temporaryAbstractSubmission, handleChange, is
           initialValue={temporaryAbstractSubmission.title}
           label="pages.abstractSubmission.articleTitle"
           ignoreWhenLengthIslessThan={1}
-          onChange={handleChange}
+          onChange={({ value, isValid }) => handleChange({ id: 'title', value, isValid })}
         />
       )}
       {isPreviewMode && (
         <FormGroupWrapperPreview label="pages.abstractSubmission.articleTitle">
           {temporaryAbstractSubmission.title}
         </FormGroupWrapperPreview>
-      )} */}
+      )}
       {!isPreviewMode && (
         <FormGroupWrapper
           as="textarea"

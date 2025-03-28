@@ -5,13 +5,9 @@ import { useTranslation } from 'react-i18next'
 
 const FormJSONSchemaErrorListItem = ({ error, debug, displayErrors=[], variant="warning" }) => {
   const { t } = useTranslation()
-  console.log('FormJSONSchemaErrorListItem - error', error)
 
   const property = error.params.errors[0].params.missingProperty 
-  const message = error.params.errors.message 
-
-  console.log('property |', property)
-  console.log('message|', message)
+  const message = error.message
 
   const translatableProperty = property.split(/\[\d+\]/).join('').split('.').join('-')
   const idx = property.match(/\[(\d+)\]/)
