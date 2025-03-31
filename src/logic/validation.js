@@ -7,12 +7,15 @@ import ajvErrors from 'ajv-errors'
 const ajv = new Ajv({ allErrors: true, verbose: false })
 addFormats(ajv)
 ajvErrors(ajv)
-const validate = ajv.compile(abstractSchema)
 
 const getValidatorResult = ({ value = '', schema = {} }) => {
-  return { isValid: validate(value, schema), errors: validate.errors }
+  const validate = ajv.compile(schema)
+  const isValid = validate(value, schema)
+  
+  return { isValid, errors: validate?.errors || []  }
 }
 
+//TODO : need to rework getPartialSchema : see if you can merge some definition with some properties for the $id (e.g. of id :  #/definitions/abstract) in abstractJson file
 const getPartialSchema = (propertyId) => {
   const validator = findDeep(abstractSchema, (value, key) => key === '$id' && value === propertyId)
   if (!validator) {
@@ -27,6 +30,8 @@ const getPartialSchema = (propertyId) => {
 }
 
 const getValidatorResultWithAbstractSchema = (value) => {
+  const validate = ajv.compile(abstractSchema)
+  
   validate(value, abstractSchema)
   return { instance: value, errors: validate.errors }
 }
