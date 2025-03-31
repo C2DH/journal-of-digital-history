@@ -123,6 +123,9 @@ const AbstractSubmission = () => {
       >
         <Row>
           <Col md={{ span: 6, offset: 2 }}>
+            <p style={{ fontStyle: 'italic' }}>
+              {t('pages.abstractSubmission.articleAbstractHelpText')}
+            </p>
             <TitleAndAbstractSection
               temporaryAbstractSubmission={temporaryAbstractSubmission}
               handleChange={(data) =>
@@ -214,8 +217,12 @@ const AbstractSubmission = () => {
               handleChange={(e) =>
                 handleChange({
                   id: 'acceptConditions',
-                  value: e.target.checked,
-                  isValid: e.target.checked,
+                  value: e.value,
+                  isValid: e.isValid,
+                  results,
+                  setResults,
+                  setTemporaryAbstractSubmission,
+                  temporaryAbstractSubmission,
                 })
               }
               temporaryAbstractSubmission={temporaryAbstractSubmission}

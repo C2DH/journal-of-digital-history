@@ -44,10 +44,6 @@ const AbstractSubmissionPreview = ({
         <p>
           {isEmpty && (
             <>
-              <Badge bg="secondary" pill>
-                {t('badge.warning')}
-              </Badge>
-              &nbsp;
               {t('labels.formSubmissionIncomplete')}
             </>
           )}
@@ -78,14 +74,7 @@ const AbstractSubmissionPreview = ({
             </>
           )}
         </p>
-        <div
-          className="p-1"
-          style={{
-            backgroundColor: 'var(--gray-100)',
-            maxHeight: '50vh',
-            overflow: 'scroll',
-          }}
-        >
+        <div>
           {!isEmpty &&
             validatorResult?.errors.map((error, i) => (
               <blockquote className="border-left border-dark mt-2 ps-2" key={i}>

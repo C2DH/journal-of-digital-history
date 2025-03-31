@@ -93,7 +93,7 @@
           "articleTitle": "Title",
           "articleAbstract": "Abstract",
           "articleDataset": "Davaverse URL",
-          "articleAbstractHelpText": "<i>Please take the multi-layered principle of the JDH articles into account. In particular, we would like you to describe the narrative layer, the hermeneutic layer and the data layer.</i>",
+          "articleAbstractHelpText": "Please take the multi-layered principle of the JDH articles into account. In particular, we would like you to describe the narrative layer, the hermeneutic layer and the data layer.",
           "articleAbstractPlaceholder": "...",
           "authorAffiliation": "Affiliation",
           "githubIdExplanation": "Once your abstract is accepted, we will create a dedicated repository for your article on Github. This repository includes a structured template and Github actions to streamline the writing process.",
@@ -220,7 +220,7 @@
       },
       "labels": {
         "acceptConditions": "I have read and I accept the terms and conditions available at",
-        "formSubmissionIncomplete": "incomplete",
+        "formSubmissionIncomplete": "Please starts to fill the form...",
         "formSubmissionReady": "ready to be submitted!",
         "dateCreated": "started:",
         "dateLastModified": "last edit",
@@ -243,20 +243,6 @@
         "explainCodeNotAvailable": "Code explanation is not available for this notebook. <br/> <i>Error received: {{ error }}</i>"
       },
       "selectCallForPapers": "Please select the relevant <b class='text-accent'>call for papers<b>:",
-      "schemaErrors": {
-        "instance-acceptConditions": "... and don't forget to check the <b>terms and conditions</b>",
-        "instance-contact": "Please fill the \"Contact\" section with your <b>email</b> and <b>ORCID URL</b>",
-        "instance-contact-email": "A valid <em>email address</em> is required",
-        "instance-contact-orcid": "An <em>ORCID</em> url is required",
-        "instance-authors": "At least <b>one contributor</b> is required",
-        "instance-authors-orcid": "One <b>contributor ORCID</b> URL provided is not valid, please provide either an empty value or a valid ORCID",
-        "instance-authors-email": "One <b>contributor email</b> address is not valid, please provide either an empty value or a valid email address",
-        "instance-datasets": "A <b>description</b> is required to add a valid \"Tools, Code & Data\" item",
-        "instance-datasets-url": "One <b>URL</b> in <b> \"Tools, Code & Data\"</b> is not valid, make sure it starts with <code>http</code>",
-        "instance-title": "<b>Title</b>",
-        "instance-abstract": "<b>Abstract</b>",
-        "instance-socialMedia-githubId": "A valid <em>Github username</em> is required"
-      },
       "numbers": {
         "issue": "Issue n.{{n}}",
         "dialog": "dialogue {{ n }}",
