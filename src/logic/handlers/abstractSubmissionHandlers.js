@@ -1,24 +1,4 @@
 import { createAbstractSubmission } from '../api/postData'
-
-export const handleChange = ({ id, value, isValid, results, setResults, setTemporaryAbstractSubmission }) => {
-    const _results = results.map((d) => {
-      if (d.id === id) {
-        return { ...d, value, isValid }
-      } 
-      return d
-    })
-
-    const submission = _results.reduce((acc, el ) => {
-      acc[el.id] = el.value
-      return acc
-    }, {})
-
-    setTemporaryAbstractSubmission({
-      ...submission,
-      dateCreated: submission.dateCreated,
-    })
-    setResults(_results)
-  }
   
   export const handleAddContactAsAuthor = (author, temporaryAbstractSubmission, setTemporaryAbstractSubmission, results, setResults) => {
     const authors = temporaryAbstractSubmission.authors

@@ -109,7 +109,8 @@
           "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias",
           "datasetDetailsUrl": "Link URL",
           "datasetDetailsLabel": "Link Description, License (where applicable)",
-          "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply."
+          "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply.",
+          "TermsAcceptance": "I have read and accept the"
         },
         "article": {
           "abstract": "Abstract",
@@ -219,7 +220,6 @@
         "default": "Layer: Narrative"
       },
       "labels": {
-        "acceptConditions": "I have read and I accept the terms and conditions available at",
         "formSubmissionIncomplete": "Please starts to fill the form...",
         "formSubmissionReady": "ready to be submitted!",
         "dateCreated": "started:",
