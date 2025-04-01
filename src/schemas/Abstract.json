@@ -47,7 +47,7 @@
     },
     "contact": {
       "type": "object",
-      "required": ["firstname", "lastname", "affiliation", "email", "orcid"],
+      "required": ["firstname", "lastname", "affiliation", "email", "orcid", "githubId"],
       "properties": {
         "firstname": {
           "$ref": "#/definitions/firstname"
@@ -63,6 +63,14 @@
         },
         "orcid": {
           "$ref": "#/definitions/orcid"
+        },
+        "githubId": {
+          "$ref": "#/definitions/githubId"
+        }
+      },
+      "errorMessage": {
+        "required": {
+          "githubId": "Please provide a valid <em>GitHub username</em>"
         }
       }
     },
@@ -71,7 +79,7 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["firstname", "lastname", "affiliation", "email", "orcid"],
+        "required": ["firstname", "lastname", "affiliation", "email",  "orcid"],
         "properties": {
           "firstname": {
             "$ref": "#/definitions/firstname"
@@ -94,6 +102,9 @@
         "type": "Authors must be an array.",
         "minItems": "At least <em>one contributor</em> is required"
       }
+    },
+    "githubId": {
+      "$ref": "#/definitions/githubId"
     },
     "acceptConditions": {
       "$ref": "#/definitions/acceptConditions"
@@ -194,8 +205,13 @@
       "$id": "#/definitions/githubId",
       "type": "string",
       "pattern": "^(?!-)(?!.*--)[a-z0-9-]{1,39}(?<!-)$",
+      "minLength": 1,
+      "maxLength": 39,
       "errorMessage": {
-        "pattern": "A valid githubId is required"
+        "type": "A valid githubId is required",
+        "pattern": "A valid githubId is required",
+        "minLength": "A valid githubId is required",
+        "maxLength": "A valid githubId does not exceed 39 characters"
       }
     },
     "affiliation": {

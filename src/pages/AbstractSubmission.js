@@ -59,11 +59,6 @@ const AbstractSubmission = () => {
       label: 'pages.abstractSubmission.AuthorsSectionTitle',
     },
     {
-      id: 'githubId',
-      value: temporaryAbstractSubmission.githubId,
-      label: 'pages.abstractSubmission.githubId',
-    },
-    {
       id: 'datasets',
       value: temporaryAbstractSubmission.datasets,
       label: 'pages.abstractSubmission.DataSectionTitle',
@@ -78,6 +73,10 @@ const AbstractSubmission = () => {
     },
   ])
   const validatorResult = useAbstractSubmissionValidation(temporaryAbstractSubmission)
+
+  // const handleSubmit = async () {
+  //   // @todo
+  // }
 
   useEffect(() => {
     handleChange({
@@ -107,6 +106,7 @@ const AbstractSubmission = () => {
         cfp={callForPapers}
       />
       <br />
+
       <Form
         noValidate
         onSubmit={(e) =>
@@ -189,15 +189,17 @@ const AbstractSubmission = () => {
             />
             <SocialMediaSection
               temporaryAbstractSubmission={temporaryAbstractSubmission}
-              handleChange={(data) =>
-                handleChange({
+              handleChange={(data) => {
+                console.log("🚀 ~ file: AbstractSubmission.js:193 ~ data:", data)
+                return handleChange({
+                  id: 'contact.socialMedia',
                   ...data,
                   results,
                   setResults,
                   setTemporaryAbstractSubmission,
                   temporaryAbstractSubmission,
                 })
-              }
+              }}
               isPreviewMode={isPreviewMode}
             />
           </Col>

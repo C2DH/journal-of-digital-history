@@ -10,7 +10,10 @@ const SocialMediaSection = ({ temporaryAbstractSubmission, handleChange, isPrevi
       {!isPreviewMode && (
         <FormAbstractSocialMedia
           initialValue={socialMedia}
-          onChange={(field) => handleChange({ id: 'socialMedia', ...field })}
+          onChange={(field) => {
+            // console.log("🚀 ~ file: Section.js:14 ~ field:", field)
+            return handleChange({ ...field })}
+          } 
         />
       )}
       {isPreviewMode && (

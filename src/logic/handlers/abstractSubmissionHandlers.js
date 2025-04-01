@@ -4,14 +4,15 @@ export const handleChange = ({ id, value, isValid, results, setResults, setTempo
     const _results = results.map((d) => {
       if (d.id === id) {
         return { ...d, value, isValid }
-      }
+      } 
       return d
     })
-    const submission = _results.reduce((acc, el) => {
+
+    const submission = _results.reduce((acc, el ) => {
       acc[el.id] = el.value
       return acc
     }, {})
-  
+
     setTemporaryAbstractSubmission({
       ...submission,
       dateCreated: submission.dateCreated,

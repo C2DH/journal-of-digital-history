@@ -11,7 +11,6 @@ ajvErrors(ajv);
 const getValidatorResult = ({ value = '', schema = {} }) => {
   const validate = ajv.compile(schema);
   const isValid = validate(value);
-
   return { isValid, errors: validate.errors || [] };
 };
 
