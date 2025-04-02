@@ -33,6 +33,24 @@ export const schema = {
         },
       },
     },
+    contributors: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          firstName: { type: 'string', minLength: 1, maxLength: 100 },
+          lastName: { type: 'string', minLength: 1, maxLength: 100 },
+          affiliation: { type: 'string', minLength: 1, maxLength: 100 },
+          email: { type: 'string', format: 'email' },
+          orcidUrl: {
+            type: 'string',
+            format: 'uri',
+            pattern:
+              '^https?://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9X]{4}$',
+          },
+        },
+      },
+    },
     termsAccepted: { type: 'boolean' },
   },
   required: ['title', 'abstract'],

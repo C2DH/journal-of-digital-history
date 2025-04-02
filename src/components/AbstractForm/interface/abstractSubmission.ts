@@ -9,9 +9,9 @@ export interface FormData {
     orcidUrl: string;
     githubId: string;
   },
-  dataset: Dataset[]; 
+  datasets: Dataset[]; 
   termsAccepted: boolean;  
-  // contributors: [];
+  contributors: Contributor[];
   // callForPapers: string;
   // dateCreated: string;
 }
@@ -19,14 +19,14 @@ export interface Dataset {
   link: string;
   description: string;
 }
-export interface DatasetFormProps {
-  datasets: Dataset[];
-  onChange: (index: number, field: string, value: string) => void;
-  onAdd: () => void;
-  onRemove: (index: number) => void;
-  errors?: { [key: number]: { link?: string; description?: string } };
+export interface Contributor {
+  firstName: string;
+  lastName: string;
+  affiliation: string;
+  email: string;
+  orcid: string;
 }
 export interface ValidationErrors {
-    [key: string]: { message: string }[];
+  [key: string]: { message: string }[];
 }
   

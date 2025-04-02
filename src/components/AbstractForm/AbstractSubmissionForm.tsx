@@ -6,36 +6,24 @@ import { Link } from 'react-router-dom'
 
 import { FormData, ValidationErrors } from './interface/abstractSubmission'
 import { schema } from './schema'
-import DatasetForm from './Dataset'
+import DynamicForm from './DynamicForm'
+import { datasetFields, datasetEmpty, contributorFields, contributorEmpty, abstractFields } from './constant'
 
 function AbstractSubmissionForm() {
   const { t } = useTranslation()
-  const [formData, setFormData] = useState<FormData>({
-    title: '',
-    abstract: '',
-    dataset: [
-      {
-        link: '',
-        description: '',
-      },
-    ],
-    contact: {
-      firstName: '',
-      lastName: '',
-      affiliation: '',
-      email: '',
-      orcidUrl: '',
-      githubId: '',
-    },
-    termsAccepted: false,
-  })
-  const [errors, setErrors] = useState<ValidationErrors>({})
+  const [formData, setFormData] = useState<FormData>(abstractFields)
+  //Initialiazation of the JSON validation
+  const ajv = new Ajv()
+  ajvformat(ajv)
+  const validate = ajv.compile(schema)
+  validate(formData)
+
+  const [errors, setErrors] = useState<ValidationErrors>(validate.errors as unknown as ValidationErrors)
+  
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const ajv = new Ajv()
-    ajvformat(ajv)
-    const validate = ajv.compile(schema)
+    
     const isValid = validate(formData)
 
     if (!isValid) {
@@ -68,6 +56,47 @@ function AbstractSubmissionForm() {
     })
   }
 
+  const handleOnChangeComponent = (type: string, index: number, field: string, value: string) => {
+    setFormData((prev) => {
+      const updatedItems = [...prev[type]]
+      updatedItems[index] = { ...updatedItems[index], [field]: value }
+      return { ...prev, [type]: updatedItems }
+    })
+  }
+
+  const handleAddComponent = (type: string, defaultItem: Record<string, any>) => {
+    setFormData((prev) => ({
+      ...prev,
+      [type]: [...prev[type], defaultItem],
+    }))
+  }
+
+  const handleRemoveComponent = (type: string, index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      [type]: prev[type].filter((_, i: number) => i !== index),
+    }))
+  }
+
+  const handleMoveComponent = (type: string, fromIndex: number, toIndex: number) => {
+    setFormData((prev) => {
+      const updatedItems = [...prev[type]]
+      const [movedItem] = updatedItems.splice(fromIndex, 1)
+      updatedItems.splice(toIndex, 0, movedItem)
+      return { ...prev, [type]: updatedItems }
+    })
+  }
+
+  const getError = (errors: { message: string }[]) => {
+    return errors
+      ? errors.map((error) => ({
+          message: error.message,
+        }))
+      : undefined
+  }
+
+  console.log('errors', errors)
+
   return (
     <form onSubmit={handleSubmit} className="container my-5">
       <div className="title-abstract">
@@ -98,34 +127,19 @@ function AbstractSubmissionForm() {
       </div>
       <hr />
       <div className="tools-code-data">
-        <DatasetForm
-          datasets={formData.dataset}
-          onChange={(index, field, value) => {
-            setFormData((prev) => {
-              const updatedDatasets = [...prev.dataset]
-              updatedDatasets[index] = { ...updatedDatasets[index], [field]: value }
-              return { ...prev, dataset: updatedDatasets }
-            })
-          }}
-          onAdd={() => {
-            setFormData((prev) => ({
-              ...prev,
-              dataset: [...prev.dataset, { link: '', description: '' }],
-            }))
-          }}
-          onRemove={(index) => {
-            setFormData((prev) => ({
-              ...prev,
-              dataset: prev.dataset.filter((_, i) => i !== index),
-            }))
-          }}
-          errors={
-            errors.dataset
-              ? Object.fromEntries(
-                  errors.dataset.map((error, index) => [index, { link: error.message, description: error.message }])
-                )
-              : undefined
+        <DynamicForm
+          title={t('pages.abstractSubmission.DatasetSectionTitle')}
+          items={formData.datasets}
+          onChange={(index: number, field: string, value: string) =>
+            handleOnChangeComponent('datasets', index, field, value)
           }
+          onAdd={() => handleAddComponent('datasets', datasetEmpty)}
+          onRemove={(index: number) => handleRemoveComponent('datasets', index)}
+          moveItem={(fromIndex: number, toIndex: number) =>
+            handleMoveComponent('datasets', fromIndex, toIndex)
+          }
+          errors={getError(errors.dataset)}
+          fieldConfig={datasetFields}
         />
       </div>
       <div className="contact">
@@ -198,6 +212,23 @@ function AbstractSubmissionForm() {
           />
           {errors.githubId && <div className="text-danger">{errors.githubId[0].message}</div>}
         </div>
+        <hr />
+      </div>
+      <div className="contributors">
+        <DynamicForm
+          title={t('pages.abstractSubmission.ContributorsSectionTitle')}
+          items={formData.contributors}
+          onChange={(index: number, field: string, value: string) =>
+            handleOnChangeComponent('contributors', index, field, value)
+          }
+          onAdd={() => handleAddComponent('contributors', contributorEmpty)}
+          onRemove={(index: number) => handleRemoveComponent('contributors', index)}
+          moveItem={(fromIndex: number, toIndex: number) =>
+            handleMoveComponent('contributors', fromIndex, toIndex)
+          }
+          errors={getError(errors.contributors)}
+          fieldConfig={contributorFields}
+        />
       </div>
       <div className="form-check">
         <input
