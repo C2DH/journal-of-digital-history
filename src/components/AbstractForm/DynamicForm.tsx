@@ -1,8 +1,11 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { Button } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+
+import { getErrorByItemAndByField } from './errors'
 
 const DynamicForm = ({
+  id,
   items,
   onChange,
   onAdd,
@@ -13,9 +16,7 @@ const DynamicForm = ({
   title,
   maxItems = 10,
 }) => {
-  const { t } = useTranslation();
-
-  console.log("🚀 ~ file: DynamicForm.tsx:12 ~ errors:", errors)
+  const { t } = useTranslation()
 
   return (
     <>
@@ -53,9 +54,7 @@ const DynamicForm = ({
                       onChange={(e) => onChange(index, fieldName, e.target.value)}
                     />
                   )}
-                  {errors?.[index]?.[fieldName] && (
-                    <div className="text-danger">{errors[index][fieldName]}</div>
-                  )}
+                  <div className='text-muted form-text'>{getErrorByItemAndByField(errors, id, index, fieldName)}</div>
                 </div>
               ))}
             </div>
@@ -102,7 +101,7 @@ const DynamicForm = ({
       </div>
       <hr />
     </>
-  );
-};
+  )
+}
 
-export default DynamicForm;
+export default DynamicForm

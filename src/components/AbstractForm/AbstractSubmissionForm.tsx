@@ -23,7 +23,7 @@ function AbstractSubmissionForm() {
   const [formData, setFormData] = useState<FormData>(abstractFields)
 
   //Initialiazation of the JSON validation
-  const ajv = new Ajv({allErrors: true})
+  const ajv = new Ajv({ allErrors: true })
   ajvformat(ajv)
   const validate = ajv.compile(schema)
   validate(formData)
@@ -46,7 +46,6 @@ function AbstractSubmissionForm() {
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    console.log('event.target', event.target)
     const { id, value, type } = event.target
     const checked = type === 'checkbox' ? (event.target as HTMLInputElement).checked : undefined
 
@@ -116,7 +115,7 @@ function AbstractSubmissionForm() {
           id="abstract"
           label={t('pages.abstractSubmission.articleAbstract')}
           value={formData.abstract}
-          type='textarea'
+          type="textarea"
           onChange={handleInputChange}
           error={getErrorByField(validate.errors, 'abstract')}
         />
@@ -124,6 +123,7 @@ function AbstractSubmissionForm() {
       <hr />
       <div className="tools-code-data">
         <DynamicForm
+          id="datasets"
           title={t('pages.abstractSubmission.DatasetSectionTitle')}
           items={formData.datasets}
           onChange={(index: number, field: string, value: string) =>
@@ -134,7 +134,7 @@ function AbstractSubmissionForm() {
           moveItem={(fromIndex: number, toIndex: number) =>
             handleMoveComponent('datasets', fromIndex, toIndex)
           }
-          errors={getErrorByField(validate.errors, 'datasets')}
+          errors={validate.errors}
           fieldConfig={datasetFields}
         />
       </div>
@@ -147,47 +147,48 @@ function AbstractSubmissionForm() {
           label={t('pages.abstractSubmission.authorFirstName')}
           value={formData.contact.firstName}
           onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors, 'contact','firstName')}
+          error={getErrorBySubfield(validate.errors, 'contact', 'firstName')}
         />
         <StaticForm
           id="lastName"
           label={t('pages.abstractSubmission.authorLastName')}
           value={formData.contact.lastName}
           onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors, 'contact','lastName')}
+          error={getErrorBySubfield(validate.errors, 'contact', 'lastName')}
         />
         <StaticForm
           id="affiliation"
           label={t('pages.abstractSubmission.authorAffiliation')}
           value={formData.contact.affiliation}
           onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors, 'contact','affiliation')}
+          error={getErrorBySubfield(validate.errors, 'contact', 'affiliation')}
         />
         <StaticForm
           id="email"
           label={t('pages.abstractSubmission.authorEmail')}
           value={formData.contact.email}
           onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors, 'contact','email')}        
+          error={getErrorBySubfield(validate.errors, 'contact', 'email')}
         />
         <StaticForm
           id="orcidUrl"
           label={t('pages.abstractSubmission.authorOrcid')}
           value={formData.contact.orcidUrl}
           onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors, 'contact','orcidUrl')}
+          error={getErrorBySubfield(validate.errors, 'contact', 'orcidUrl')}
         />
         <StaticForm
           id="githubId"
-          label={t('pages.abstractSubmission.authorGithubId')}      
+          label={t('pages.abstractSubmission.authorGithubId')}
           value={formData.contact.githubId}
           onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors, 'contact','githubId')}
+          error={getErrorBySubfield(validate.errors, 'contact', 'githubId')}
         />
         <hr />
       </div>
       <div className="contributors">
         <DynamicForm
+          id="contributors"
           title={t('pages.abstractSubmission.ContributorsSectionTitle')}
           items={formData.contributors}
           onChange={(index: number, field: string, value: string) =>
