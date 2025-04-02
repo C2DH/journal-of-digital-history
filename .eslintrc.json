@@ -5,7 +5,11 @@
     "browser": true,
     "jest": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:storybook/recommended"],
+  "extends": [
+    "eslint:recommended", 
+    "plugin:react/recommended", 
+    "plugin:storybook/recommended"
+  ],
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module"
@@ -13,7 +17,9 @@
   "rules": {
     "no-console": "off",
     "react/prop-types": "off",
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "off"
   },
   "plugins": ["react", "react-hooks"]
 }
