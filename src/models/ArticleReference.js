@@ -65,6 +65,6 @@ export default class ArticleReference {
     if (authorNames.length > 3) {
       authorNames = authorNames.slice(0, 3).concat(['et al.'])
     }
-    return authorNames.join(', ')
+    return authorNames.join(' & ')
   }
 }
