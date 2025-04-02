@@ -1,29 +1,40 @@
 import React, { useState } from 'react'
 import Ajv from 'ajv'
+// import { ErrorObject } from 'ajv'
 import ajvformat from 'ajv-formats'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
-import { FormData, ValidationErrors } from './interface/abstractSubmission'
+import { getErrorByField, getErrorBySubfield } from './errors'
+import { FormData, ValidationErrors } from './interface'
 import { schema } from './schema'
 import DynamicForm from './DynamicForm'
-import { datasetFields, datasetEmpty, contributorFields, contributorEmpty, abstractFields } from './constant'
+import StaticForm from './StaticForm'
+import {
+  datasetFields,
+  datasetEmpty,
+  contributorFields,
+  contributorEmpty,
+  abstractFields,
+} from './constant'
 
 function AbstractSubmissionForm() {
   const { t } = useTranslation()
   const [formData, setFormData] = useState<FormData>(abstractFields)
+
   //Initialiazation of the JSON validation
-  const ajv = new Ajv()
+  const ajv = new Ajv({allErrors: true})
   ajvformat(ajv)
   const validate = ajv.compile(schema)
   validate(formData)
 
-  const [errors, setErrors] = useState<ValidationErrors>(validate.errors as unknown as ValidationErrors)
-  
+  const [errors, setErrors] = useState<ValidationErrors>(
+    validate.errors as unknown as ValidationErrors,
+  )
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    
+
     const isValid = validate(formData)
 
     if (!isValid) {
@@ -35,6 +46,7 @@ function AbstractSubmissionForm() {
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    console.log('event.target', event.target)
     const { id, value, type } = event.target
     const checked = type === 'checkbox' ? (event.target as HTMLInputElement).checked : undefined
 
@@ -87,43 +99,27 @@ function AbstractSubmissionForm() {
     })
   }
 
-  const getError = (errors: { message: string }[]) => {
-    return errors
-      ? errors.map((error) => ({
-          message: error.message,
-        }))
-      : undefined
-  }
-
-  console.log('errors', errors)
-
   return (
     <form onSubmit={handleSubmit} className="container my-5">
       <div className="title-abstract">
         <h3 className="progressiveHeading">
           {t('pages.abstractSubmission.TitleAndAbstractSectionTitle')}
         </h3>
-        <div className="form-group">
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            className="form-control"
-            id="title"
-            value={formData.title}
-            onChange={handleInputChange}
-          />
-          {errors.title && <div className="text-danger">{errors.title[0].message}</div>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="abstract">Abstract</label>
-          <textarea
-            className="form-control"
-            id="abstract"
-            value={formData.abstract}
-            onChange={handleInputChange}
-          ></textarea>
-          {errors.abstract && <div className="text-danger">{errors.abstract[0].message}</div>}
-        </div>
+        <StaticForm
+          id="title"
+          label={t('pages.abstractSubmission.articleTitle')}
+          value={formData.title}
+          onChange={handleInputChange}
+          error={getErrorByField(validate.errors, 'title')}
+        />
+        <StaticForm
+          id="abstract"
+          label={t('pages.abstractSubmission.articleAbstract')}
+          value={formData.abstract}
+          type='textarea'
+          onChange={handleInputChange}
+          error={getErrorByField(validate.errors, 'abstract')}
+        />
       </div>
       <hr />
       <div className="tools-code-data">
@@ -138,7 +134,7 @@ function AbstractSubmissionForm() {
           moveItem={(fromIndex: number, toIndex: number) =>
             handleMoveComponent('datasets', fromIndex, toIndex)
           }
-          errors={getError(errors.dataset)}
+          errors={getErrorByField(validate.errors, 'datasets')}
           fieldConfig={datasetFields}
         />
       </div>
@@ -146,72 +142,48 @@ function AbstractSubmissionForm() {
         <h3 className="progressiveHeading">
           {t('pages.abstractSubmission.ContactPointSectionTitle')}
         </h3>
-        <div className="form-group">
-          <label htmlFor="firstName">First Name</label>
-          <input
-            type="text"
-            className="form-control"
-            id="firstName"
-            value={formData.contact.firstName}
-            onChange={handleInputChange}
-          />
-          {errors.firstName && <div className="text-danger">{errors.firstName[0].message}</div>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="lastName">Last Name</label>
-          <input
-            type="text"
-            className="form-control"
-            id="lastName"
-            value={formData.contact.lastName}
-            onChange={handleInputChange}
-          />
-          {errors.lastName && <div className="text-danger">{errors.lastName[0].message}</div>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="affiliation">Affiliation</label>
-          <input
-            type="text"
-            className="form-control"
-            id="affiliation"
-            value={formData.contact.affiliation}
-            onChange={handleInputChange}
-          />
-          {errors.affiliation && <div className="text-danger">{errors.affiliation[0].message}</div>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            value={formData.contact.email}
-            onChange={handleInputChange}
-          />
-          {errors.email && <div className="text-danger">{errors.email[0].message}</div>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="orcidUrl">ORCID URL</label>
-          <input
-            type="text"
-            className="form-control"
-            id="orcidUrl"
-            value={formData.contact.orcidUrl}
-            onChange={handleInputChange}
-          />
-          {errors.orcidUrl && <div className="text-danger">{errors.orcidUrl[0].message}</div>}
-        </div>
-        <div className="form-group">
-          <label htmlFor="githubId">GitHub Id</label>
-          <input
-            type="text"
-            className="form-control"
-            id="githubId"
-            value={formData.contact.githubId}
-            onChange={handleInputChange}
-          />
-          {errors.githubId && <div className="text-danger">{errors.githubId[0].message}</div>}
-        </div>
+        <StaticForm
+          id="firstName"
+          label={t('pages.abstractSubmission.authorFirstName')}
+          value={formData.contact.firstName}
+          onChange={handleInputChange}
+          error={getErrorBySubfield(validate.errors, 'contact','firstName')}
+        />
+        <StaticForm
+          id="lastName"
+          label={t('pages.abstractSubmission.authorLastName')}
+          value={formData.contact.lastName}
+          onChange={handleInputChange}
+          error={getErrorBySubfield(validate.errors, 'contact','lastName')}
+        />
+        <StaticForm
+          id="affiliation"
+          label={t('pages.abstractSubmission.authorAffiliation')}
+          value={formData.contact.affiliation}
+          onChange={handleInputChange}
+          error={getErrorBySubfield(validate.errors, 'contact','affiliation')}
+        />
+        <StaticForm
+          id="email"
+          label={t('pages.abstractSubmission.authorEmail')}
+          value={formData.contact.email}
+          onChange={handleInputChange}
+          error={getErrorBySubfield(validate.errors, 'contact','email')}        
+        />
+        <StaticForm
+          id="orcidUrl"
+          label={t('pages.abstractSubmission.authorOrcid')}
+          value={formData.contact.orcidUrl}
+          onChange={handleInputChange}
+          error={getErrorBySubfield(validate.errors, 'contact','orcidUrl')}
+        />
+        <StaticForm
+          id="githubId"
+          label={t('pages.abstractSubmission.authorGithubId')}      
+          value={formData.contact.githubId}
+          onChange={handleInputChange}
+          error={getErrorBySubfield(validate.errors, 'contact','githubId')}
+        />
         <hr />
       </div>
       <div className="contributors">
@@ -226,7 +198,7 @@ function AbstractSubmissionForm() {
           moveItem={(fromIndex: number, toIndex: number) =>
             handleMoveComponent('contributors', fromIndex, toIndex)
           }
-          errors={getError(errors.contributors)}
+          errors={getErrorByField(validate.errors, 'contributors')}
           fieldConfig={contributorFields}
         />
       </div>

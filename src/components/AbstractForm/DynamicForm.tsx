@@ -15,6 +15,8 @@ const DynamicForm = ({
 }) => {
   const { t } = useTranslation();
 
+  console.log("🚀 ~ file: DynamicForm.tsx:12 ~ errors:", errors)
+
   return (
     <>
       <h3 className="progressiveHeading">{title}</h3>

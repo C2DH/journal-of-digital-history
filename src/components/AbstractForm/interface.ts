@@ -1,3 +1,5 @@
+import type { ErrorObject } from "ajv";
+
 export interface FormData {
   title: string;
   abstract: string;
@@ -26,7 +28,16 @@ export interface Contributor {
   email: string;
   orcid: string;
 }
+
 export interface ValidationErrors {
-  [key: string]: { message: string }[];
+  [key: string]: ErrorObject[];
 }
   
+export interface FormFieldProps {
+  id: string;
+  label: string;
+  value: string;
+  type?: 'text' | 'email' | 'textarea'; 
+  onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  error?: string; 
+}
