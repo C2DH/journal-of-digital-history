@@ -9,7 +9,7 @@ const FormField: React.FC<FormFieldProps> = ({
   onChange,
   error,
 }) => {
-  console.log("🚀 ~ file: StaticForm.tsx:11 ~ error:", error)
+
   return (
     <div className="form-group">
       <label htmlFor={id}>{label}</label>

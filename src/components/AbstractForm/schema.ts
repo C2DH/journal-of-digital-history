@@ -3,12 +3,12 @@ export const schema = {
   properties: {
     title: { type: 'string', minLength: 10, maxLength: 250 },
     abstract: { type: 'string', minLength: 100, maxLength: 10000 },
-    dataset: {
+    datasets: {
       type: 'array',
       items: {
         type: 'object',
         properties: {
-          link: { type: 'string', format: 'uri' },
+          link: { type: 'string', minLength: 1, format: 'uri' },
           description: { type: 'string', minLength: 1, maxLength: 1000 },
         },
       },
@@ -19,7 +19,7 @@ export const schema = {
         firstName: { type: 'string', minLength: 1, maxLength: 100 },
         lastName: { type: 'string', minLength: 1, maxLength: 100 },
         affiliation: { type: 'string', minLength: 1, maxLength: 100 },
-        email: { type: 'string', format: 'email' },
+        email: { type: 'string', minLength: 1, format: 'email' },
         orcidUrl: {
           type: 'string',
           format: 'uri',
@@ -53,5 +53,5 @@ export const schema = {
     },
     termsAccepted: { type: 'boolean' },
   },
-  required: ['title', 'abstract'],
+  required: ['title', 'abstract', 'contact', 'termsAccepted'],
 }
