@@ -14,12 +14,14 @@ import {
   datasetEmpty,
   contributorFields,
   contributorEmpty,
-  abstractFields,
+  initialAbstract,
 } from './constant'
 
 function AbstractSubmissionForm() {
   const { t } = useTranslation()
-  const [formData, setFormData] = useState<FormData>(abstractFields)
+  const [formData, setFormData] = useState<FormData>(initialAbstract)
+  //Propagating reset to UI inside children components
+  const [reset, setReset] = useState(false);
 
   //Initialiazation of the JSON validation
   const ajv = new Ajv({ allErrors: true })
@@ -92,6 +94,11 @@ function AbstractSubmissionForm() {
     })
   }
 
+  const handleReset = () => {
+    setFormData(initialAbstract);
+    setReset(true);
+  };
+
   console.log('validate.errors', validate.errors)
 
   return (
@@ -106,6 +113,7 @@ function AbstractSubmissionForm() {
           value={formData.title}
           onChange={handleInputChange}
           error={getErrorByField(validate.errors || [], 'title')}
+          reset={reset}
         />
         <StaticForm
           id="abstract"
@@ -114,6 +122,7 @@ function AbstractSubmissionForm() {
           type="textarea"
           onChange={handleInputChange}
           error={getErrorByField(validate.errors || [], 'abstract')}
+          reset={reset}
         />
       </div>
       <hr />
@@ -144,6 +153,7 @@ function AbstractSubmissionForm() {
           value={formData.contact.firstName}
           onChange={handleInputChange}
           error={getErrorBySubfield(validate.errors || [], 'contact', 'firstName')}
+          reset={reset}
         />
         <StaticForm
           id="lastName"
@@ -151,6 +161,7 @@ function AbstractSubmissionForm() {
           value={formData.contact.lastName}
           onChange={handleInputChange}
           error={getErrorBySubfield(validate.errors || [], 'contact', 'lastName')}
+          reset={reset}
         />
         <StaticForm
           id="affiliation"
@@ -158,6 +169,7 @@ function AbstractSubmissionForm() {
           value={formData.contact.affiliation}
           onChange={handleInputChange}
           error={getErrorBySubfield(validate.errors || [], 'contact', 'affiliation')}
+          reset={reset}
         />
         <StaticForm
           id="email"
@@ -165,6 +177,7 @@ function AbstractSubmissionForm() {
           value={formData.contact.email}
           onChange={handleInputChange}
           error={getErrorBySubfield(validate.errors || [], 'contact', 'email')}
+          reset={reset}
         />
         <StaticForm
           id="orcidUrl"
@@ -172,6 +185,7 @@ function AbstractSubmissionForm() {
           value={formData.contact.orcidUrl}
           onChange={handleInputChange}
           error={getErrorBySubfield(validate.errors || [], 'contact', 'orcidUrl')}
+          reset={reset}
         />
         <StaticForm
           id="githubId"
@@ -179,6 +193,7 @@ function AbstractSubmissionForm() {
           value={formData.contact.githubId}
           onChange={handleInputChange}
           error={getErrorBySubfield(validate.errors || [], 'contact', 'githubId')}
+          reset={reset}
         />
         <hr />
       </div>
@@ -212,9 +227,15 @@ function AbstractSubmissionForm() {
           Terms of Use
         </Link>
       </div>
-      <button type="submit" className="btn btn-primary">
-        Submit
-      </button>
+      <br/>
+      <div className=" align-items-center">
+        <button type="submit" className="btn btn-primary">
+        {t('actions.submit')}
+        </button>
+        <button className="btn btn-outline-dark sm" onClick={handleReset}>
+          {t('actions.resetForm')}
+        </button>
+      </div>
     </form>
   )
 }

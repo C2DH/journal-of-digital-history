@@ -3,10 +3,12 @@ import { Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
 import { getErrorByItemAndByField } from './errors'
+import { Contributor, Dataset} from './interface'
 
 const DynamicForm = ({
   id,
   items,
+  
   onChange,
   onAdd,
   onRemove,
@@ -30,7 +32,7 @@ const DynamicForm = ({
     <>
       <h3 className="progressiveHeading">{title}</h3>
       <div className="dynamic-list-form">
-        {items.map((item, index) => (
+        {items.map((item: Dataset | Contributor, index: number) => (
           <div
             key={index}
             className="list-item d-flex align-items-top mb-2 ps-2 pe-1 pb-2 pt-0 border border-dark rounded shadow-sm"

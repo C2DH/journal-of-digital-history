@@ -42,4 +42,5 @@ export interface FormFieldProps {
   type?: 'text' | 'email' | 'textarea' | 'checkbox'; 
   onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   error?: string; 
+  reset?: boolean;
 }

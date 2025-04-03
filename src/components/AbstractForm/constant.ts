@@ -1,12 +1,7 @@
-export const abstractFields = {
+export const initialAbstract = {
   title: '',
   abstract: '',
-  datasets: [
-    {
-      link: '',
-      description: '',
-    },
-  ],
+  datasets: [],
   contact: {
     firstName: '',
     lastName: '',
@@ -15,15 +10,7 @@ export const abstractFields = {
     orcidUrl: '',
     githubId: '',
   },
-  contributors: [
-    {
-      firstName: '',
-      lastName: '',
-      affiliation: '',
-      email: '',
-      orcidUrl: '',
-    },
-  ],
+  contributors: [],
   termsAccepted: false,
 }
 

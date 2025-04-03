@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FormFieldProps } from './interface'
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -8,8 +8,16 @@ const FormField: React.FC<FormFieldProps> = ({
   type = 'text',
   onChange,
   error,
+  reset,
 }) => {
   const [touched, setTouched] = useState(false)
+
+  useEffect(() => {
+    if (reset) {
+      setTouched(false);
+    }
+  }, [reset]);
+
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (!touched) {
