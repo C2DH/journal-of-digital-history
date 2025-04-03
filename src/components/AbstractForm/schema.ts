@@ -51,7 +51,7 @@ export const schema = {
         },
       },
     },
-    termsAccepted: { type: 'boolean' },
+    termsAccepted: { type: 'boolean', enum: [true] },
   },
   required: ['title', 'abstract', 'contact', 'termsAccepted'],
 }

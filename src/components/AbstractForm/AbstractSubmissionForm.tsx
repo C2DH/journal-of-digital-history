@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import Ajv from 'ajv'
-// import { ErrorObject } from 'ajv'
 import ajvformat from 'ajv-formats'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 import { getErrorByField, getErrorBySubfield } from './errors'
-import { FormData, ValidationErrors } from './interface'
+import { FormData } from './interface'
 import { schema } from './schema'
 import DynamicForm from './DynamicForm'
 import StaticForm from './StaticForm'
@@ -28,10 +27,6 @@ function AbstractSubmissionForm() {
   const validate = ajv.compile(schema)
   validate(formData)
 
-  const [errors, setErrors] = useState<ValidationErrors>(
-    validate.errors as unknown as ValidationErrors,
-  )
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
@@ -39,7 +34,6 @@ function AbstractSubmissionForm() {
 
     if (!isValid) {
       console.log('Errors', validate.errors)
-      setErrors(validate.errors as unknown as ValidationErrors)
     } else {
       console.log('Form submitted successfully:', formData)
     }
@@ -98,6 +92,8 @@ function AbstractSubmissionForm() {
     })
   }
 
+  console.log('validate.errors', validate.errors)
+
   return (
     <form onSubmit={handleSubmit} className="container my-5">
       <div className="title-abstract">
@@ -109,7 +105,7 @@ function AbstractSubmissionForm() {
           label={t('pages.abstractSubmission.articleTitle')}
           value={formData.title}
           onChange={handleInputChange}
-          error={getErrorByField(validate.errors, 'title')}
+          error={getErrorByField(validate.errors || [], 'title')}
         />
         <StaticForm
           id="abstract"
@@ -117,7 +113,7 @@ function AbstractSubmissionForm() {
           value={formData.abstract}
           type="textarea"
           onChange={handleInputChange}
-          error={getErrorByField(validate.errors, 'abstract')}
+          error={getErrorByField(validate.errors || [], 'abstract')}
         />
       </div>
       <hr />
@@ -134,7 +130,7 @@ function AbstractSubmissionForm() {
           moveItem={(fromIndex: number, toIndex: number) =>
             handleMoveComponent('datasets', fromIndex, toIndex)
           }
-          errors={validate.errors}
+          errors={validate.errors || []}
           fieldConfig={datasetFields}
         />
       </div>
@@ -147,42 +143,42 @@ function AbstractSubmissionForm() {
           label={t('pages.abstractSubmission.authorFirstName')}
           value={formData.contact.firstName}
           onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors, 'contact', 'firstName')}
+          error={getErrorBySubfield(validate.errors || [], 'contact', 'firstName')}
         />
         <StaticForm
           id="lastName"
           label={t('pages.abstractSubmission.authorLastName')}
           value={formData.contact.lastName}
           onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors, 'contact', 'lastName')}
+          error={getErrorBySubfield(validate.errors || [], 'contact', 'lastName')}
         />
         <StaticForm
           id="affiliation"
           label={t('pages.abstractSubmission.authorAffiliation')}
           value={formData.contact.affiliation}
           onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors, 'contact', 'affiliation')}
+          error={getErrorBySubfield(validate.errors || [], 'contact', 'affiliation')}
         />
         <StaticForm
           id="email"
           label={t('pages.abstractSubmission.authorEmail')}
           value={formData.contact.email}
           onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors, 'contact', 'email')}
+          error={getErrorBySubfield(validate.errors || [], 'contact', 'email')}
         />
         <StaticForm
           id="orcidUrl"
           label={t('pages.abstractSubmission.authorOrcid')}
           value={formData.contact.orcidUrl}
           onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors, 'contact', 'orcidUrl')}
+          error={getErrorBySubfield(validate.errors || [], 'contact', 'orcidUrl')}
         />
         <StaticForm
           id="githubId"
           label={t('pages.abstractSubmission.authorGithubId')}
           value={formData.contact.githubId}
           onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors, 'contact', 'githubId')}
+          error={getErrorBySubfield(validate.errors || [], 'contact', 'githubId')}
         />
         <hr />
       </div>
@@ -199,28 +195,22 @@ function AbstractSubmissionForm() {
           moveItem={(fromIndex: number, toIndex: number) =>
             handleMoveComponent('contributors', fromIndex, toIndex)
           }
-          errors={getErrorByField(validate.errors, 'contributors')}
+          errors={validate.errors || []}
           fieldConfig={contributorFields}
         />
       </div>
-      <div className="form-check">
-        <input
-          type="checkbox"
-          className="form-check-input"
+      <div className="form-check d-flex align-items-center">
+        <StaticForm
           id="termsAccepted"
-          checked={formData.termsAccepted}
+          label={t('pages.abstractSubmission.TermsAcceptance')}
+          value={formData.termsAccepted}
+          type="checkbox"
           onChange={handleInputChange}
+          error={getErrorByField(validate.errors || [], 'termsAccepted')}
         />
-        <label className="form-check-label" htmlFor="termsAccepted">
-          {t('pages.abstractSubmission.TermsAcceptance')}
-          &nbsp;
-          <Link to="/terms" target="_blank">
-            Terms of Use
-          </Link>
-        </label>
-        {errors.termsAccepted && (
-          <div className="text-danger">{errors.termsAccepted[0].message}</div>
-        )}
+        <Link to="/terms" target="_blank" className="ms-2">
+          Terms of Use
+        </Link>
       </div>
       <button type="submit" className="btn btn-primary">
         Submit

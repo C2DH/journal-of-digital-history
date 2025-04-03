@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FormFieldProps } from './interface'
 
 const FormField: React.FC<FormFieldProps> = ({
@@ -9,16 +9,43 @@ const FormField: React.FC<FormFieldProps> = ({
   onChange,
   error,
 }) => {
+  const [touched, setTouched] = useState(false)
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (!touched) {
+      setTouched(true)
+    }
+    onChange(event)
+  }
 
   return (
     <div className="form-group">
       <label htmlFor={id}>{label}</label>
       {type === 'textarea' ? (
-        <textarea className="form-control" id={id} value={value} onChange={onChange}></textarea>
+        <textarea
+          className={`form-control ${touched ? (error ? 'is-invalid' : 'is-valid') : ''}`}
+          id={id}
+          value={String(value)}
+          onChange={handleChange}
+        ></textarea>
+      ) : type === 'checkbox' ? (
+        <input
+          type="checkbox"
+          className={`form-check-input ${touched ? (error ? 'is-invalid' : 'is-valid') : ''}`}
+          id={id}
+          checked={Boolean(value)}
+          onChange={handleChange}
+        />
       ) : (
-        <input type={type} className="form-control" id={id} value={value} onChange={onChange} />
+        <input
+          type={type}
+          className={`form-control ${touched ? (error ? 'is-invalid' : 'is-valid') : ''}`}
+          id={id}
+          value={String(value)}
+          onChange={handleChange}
+        />
       )}
-      {error && <div className="text-muted form-text">{error}</div>}
+      {touched && error && <div className="text-muted form-text">{error}</div>}
     </div>
   )
 }

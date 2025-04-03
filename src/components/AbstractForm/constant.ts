@@ -21,7 +21,7 @@ export const abstractFields = {
       lastName: '',
       affiliation: '',
       email: '',
-      orcid: '',
+      orcidUrl: '',
     },
   ],
   termsAccepted: false,
@@ -30,26 +30,25 @@ export const abstractFields = {
 export const datasetFields = [
   { label: 'Link', fieldName: 'link' },
   { label: 'Description', fieldName: 'description', type: 'textarea' },
-];
+]
 
 export const datasetEmpty = {
   link: '',
   description: '',
-};
+}
 
 export const contributorFields = [
   { label: 'First Name', fieldName: 'firstName' },
   { label: 'Last Name', fieldName: 'lastName' },
   { label: 'Affiliation', fieldName: 'affiliation' },
   { label: 'Email', fieldName: 'email' },
-  { label: 'ORCID', fieldName: 'orcid' },
-];
+  { label: 'ORCID URL', fieldName: 'orcidUrl' },
+]
 
 export const contributorEmpty = {
   firstName: '',
   lastName: '',
   affiliation: '',
   email: '',
-  orcid: '',
-};
-
+  orcidUrl: '',
+}
