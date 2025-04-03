@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Ajv from 'ajv'
 import ajvformat from 'ajv-formats'
 import { useTranslation } from 'react-i18next'
@@ -17,27 +17,48 @@ import {
   initialAbstract,
 } from './constant'
 
-function AbstractSubmissionForm() {
+function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
   const { t } = useTranslation()
-  const [formData, setFormData] = useState<FormData>(initialAbstract)
+  const [formData, setFormData] = useState<FormData>(initialAbstract(callForPapers))
+  const [confirmEmail, setConfirmEmail] = useState('')
+  const [emailError, setEmailError] = useState('')
   //Propagating reset to UI inside children components
-  const [reset, setReset] = useState(false);
+  const [reset, setReset] = useState(false)
 
-  //Initialiazation of the JSON validation
+  //Initialization of the JSON validation
   const ajv = new Ajv({ allErrors: true })
   ajvformat(ajv)
   const validate = ajv.compile(schema)
   validate(formData)
 
+  //Update callForPapers in formData
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, callForPapers }))
+  }, [callForPapers])
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-
     const isValid = validate(formData)
+
+    if (formData.contact.email !== confirmEmail) {
+      setEmailError(t('pages.abstractSubmission.emailMismatchError'))
+      return
+    }
 
     if (!isValid) {
       console.log('Errors', validate.errors)
     } else {
       console.log('Form submitted successfully:', formData)
+    }
+  }
+
+  const handleConfirmEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setConfirmEmail(event.target.value)
+
+    if (event.target.value !== formData.contact.email) {
+      setEmailError(t('pages.abstractSubmission.emailMismatchError'))
+    } else {
+      setEmailError('')
     }
   }
 
@@ -95,20 +116,20 @@ function AbstractSubmissionForm() {
   }
 
   const handleReset = () => {
-    setFormData(initialAbstract)
+    setFormData(initialAbstract(callForPapers))
     setReset(true)
-  };
+  }
 
   const handleDownloadAsJSON = () => {
-    const jsonData = JSON.stringify(formData, null, 2); 
+    const jsonData = JSON.stringify(formData, null, 2)
     const blob = new Blob([jsonData], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const link = document.createElement('a')
-    link.href = url;
+    link.href = url
     link.download = 'formData.json'
     link.click()
     URL.revokeObjectURL(url)
-  };
+  }
 
   console.log('validate.errors', validate.errors)
 
@@ -191,6 +212,14 @@ function AbstractSubmissionForm() {
           reset={reset}
         />
         <StaticForm
+          id="confirmEmail"
+          label={t('pages.abstractSubmission.authorEmail')}
+          value={confirmEmail}
+          onChange={handleConfirmEmailChange}
+          error={emailError}
+          reset={reset}
+        />
+        <StaticForm
           id="orcidUrl"
           label={t('pages.abstractSubmission.authorOrcid')}
           value={formData.contact.orcidUrl}
@@ -238,10 +267,10 @@ function AbstractSubmissionForm() {
           Terms of Use
         </Link>
       </div>
-      <br/>
+      <br />
       <div className=" align-items-center">
         <button type="submit" className="btn btn-primary">
-        {t('actions.submit')}
+          {t('actions.submit')}
         </button>
         <button className="btn btn-outline-dark sm" onClick={handleReset}>
           {t('actions.resetForm')}
