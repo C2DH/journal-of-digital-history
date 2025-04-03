@@ -95,8 +95,19 @@ function AbstractSubmissionForm() {
   }
 
   const handleReset = () => {
-    setFormData(initialAbstract);
-    setReset(true);
+    setFormData(initialAbstract)
+    setReset(true)
+  };
+
+  const handleDownloadAsJSON = () => {
+    const jsonData = JSON.stringify(formData, null, 2); 
+    const blob = new Blob([jsonData], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url;
+    link.download = 'formData.json'
+    link.click()
+    URL.revokeObjectURL(url)
   };
 
   console.log('validate.errors', validate.errors)
@@ -234,6 +245,9 @@ function AbstractSubmissionForm() {
         </button>
         <button className="btn btn-outline-dark sm" onClick={handleReset}>
           {t('actions.resetForm')}
+        </button>
+        <button className="btn btn-outline-dark sm" onClick={handleDownloadAsJSON}>
+          {t('actions.downloadAsJSON')}
         </button>
       </div>
     </form>
