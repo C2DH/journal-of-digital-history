@@ -1,14 +1,15 @@
 import type { ErrorObject } from "ajv";
 
 export interface FormData {
+  callForPapers: string;
   title: string;
   abstract: string;
   contact : Contact;
   datasets: Dataset[]; 
-  termsAccepted: boolean;  
   contributors: Contributor[];
-  // callForPapers: string;
-  // dateCreated: string;
+  dateCreated: string;
+  dateLastModified : string;
+  termsAccepted: boolean;  
 }
 
 interface Contact {

@@ -1,17 +1,22 @@
-export const initialAbstract = {
-  title: '',
-  abstract: '',
-  datasets: [],
-  contact: {
-    firstName: '',
-    lastName: '',
-    affiliation: '',
-    email: '',
-    orcidUrl: '',
-    githubId: '',
-  },
-  contributors: [],
-  termsAccepted: false,
+export const initialAbstract = (callForPapers: string) => {
+  return {
+    callForPapers: callForPapers,
+    title: '',
+    abstract: '',
+    datasets: [],
+    contact: {
+      firstName: '',
+      lastName: '',
+      affiliation: '',
+      email: '',
+      orcidUrl: '',
+      githubId: '',
+    },
+    contributors: [],
+    dateCreated: new Date().toISOString(),
+    dateLastModified : new Date(Date.now()).toISOString(),
+    termsAccepted: false,
+  }
 }
 
 export const datasetFields = [

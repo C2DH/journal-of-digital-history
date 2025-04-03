@@ -22,7 +22,7 @@ const AbstractSubmission = () => {
         onChange={(cfp) => setCallForPapers(cfp)}
         cfp={callForPapers}
       />
-      <AbstractSubmissionForm/>
+      <AbstractSubmissionForm callForPapers={callForPapers}/>
       <br />
     </Container>
   )

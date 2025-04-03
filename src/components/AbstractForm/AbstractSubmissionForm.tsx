@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
+import ReCAPTCHA from 'react-google-recaptcha'
 import Ajv from 'ajv'
 import ajvformat from 'ajv-formats'
 import { useTranslation } from 'react-i18next'
@@ -9,6 +10,7 @@ import { FormData } from './interface'
 import { schema } from './schema'
 import DynamicForm from './DynamicForm'
 import StaticForm from './StaticForm'
+import { reCaptchaSiteKey } from '../../constants'
 import {
   datasetFields,
   datasetEmpty,
@@ -17,22 +19,42 @@ import {
   initialAbstract,
 } from './constant'
 
-function AbstractSubmissionForm() {
+function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
   const { t } = useTranslation()
-  const [formData, setFormData] = useState<FormData>(initialAbstract)
-  //Propagating reset to UI inside children components
-  const [reset, setReset] = useState(false);
+  const [formData, setFormData] = useState<FormData>(initialAbstract(callForPapers))
+  const [confirmEmail, setConfirmEmail] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
 
-  //Initialiazation of the JSON validation
+  //Propagating reset to UI inside children components
+  const [reset, setReset] = useState(false)
+
+  //Initialization of the JSON validation
   const ajv = new Ajv({ allErrors: true })
   ajvformat(ajv)
   const validate = ajv.compile(schema)
   validate(formData)
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  //Update callForPapers in formData
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, callForPapers }))
+  }, [callForPapers])
 
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
     const isValid = validate(formData)
+
+    const recaptchaToken = await recaptchaRef.current?.executeAsync();
+    if (!recaptchaToken) {
+      console.error('ReCAPTCHA failed to generate a token.');
+      return;
+    }
+    console.log('ReCAPTCHA token:', recaptchaToken);
+
+    if (formData.contact.email !== confirmEmail) {
+      setEmailError(t('pages.abstractSubmission.emailMismatchError'))
+      return
+    }
 
     if (!isValid) {
       console.log('Errors', validate.errors)
@@ -41,11 +63,21 @@ function AbstractSubmissionForm() {
     }
   }
 
+  const handleConfirmEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setConfirmEmail(event.target.value)
+
+    if (event.target.value !== formData.contact.email) {
+      setEmailError(t('pages.abstractSubmission.emailMismatchError'))
+    } else {
+      setEmailError('')
+    }
+  }
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value, type } = event.target
     const checked = type === 'checkbox' ? (event.target as HTMLInputElement).checked : undefined
 
-    setFormData((prev) => {
+    setFormData((prev: FormData) => {
       if (id in prev.contact) {
         return {
           ...prev,
@@ -53,12 +85,14 @@ function AbstractSubmissionForm() {
             ...prev.contact,
             [id]: value,
           },
+          dateLastModified: new Date(Date.now()).toISOString(),
         }
       }
 
       return {
         ...prev,
         [id]: type === 'checkbox' ? checked : value,
+        dateLastModified: new Date(Date.now()).toISOString(),
       }
     })
   }
@@ -95,9 +129,20 @@ function AbstractSubmissionForm() {
   }
 
   const handleReset = () => {
-    setFormData(initialAbstract);
-    setReset(true);
-  };
+    setFormData(initialAbstract(callForPapers))
+    setReset(true)
+  }
+
+  const handleDownloadAsJSON = () => {
+    const jsonData = JSON.stringify(formData, null, 2)
+    const blob = new Blob([jsonData], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = 'formData.json'
+    link.click()
+    URL.revokeObjectURL(url)
+  }
 
   console.log('validate.errors', validate.errors)
 
@@ -180,6 +225,14 @@ function AbstractSubmissionForm() {
           reset={reset}
         />
         <StaticForm
+          id="confirmEmail"
+          label={t('pages.abstractSubmission.authorEmail')}
+          value={confirmEmail}
+          onChange={handleConfirmEmailChange}
+          error={emailError}
+          reset={reset}
+        />
+        <StaticForm
           id="orcidUrl"
           label={t('pages.abstractSubmission.authorOrcid')}
           value={formData.contact.orcidUrl}
@@ -227,13 +280,21 @@ function AbstractSubmissionForm() {
           Terms of Use
         </Link>
       </div>
-      <br/>
+      <br />
+      <ReCAPTCHA
+        ref={recaptchaRef}
+        size="invisible"
+        sitekey={reCaptchaSiteKey}
+      />
       <div className=" align-items-center">
         <button type="submit" className="btn btn-primary">
-        {t('actions.submit')}
+          {t('actions.submit')}
         </button>
         <button className="btn btn-outline-dark sm" onClick={handleReset}>
           {t('actions.resetForm')}
+        </button>
+        <button className="btn btn-outline-dark sm" onClick={handleDownloadAsJSON}>
+          {t('actions.downloadAsJSON')}
         </button>
       </div>
     </form>
