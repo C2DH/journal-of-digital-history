@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
 import { getErrorByItemAndByField } from './errors'
+import { Contributor, Dataset} from './interface'
 
 const DynamicForm = ({
   id,
   items,
+  
   onChange,
   onAdd,
   onRemove,
@@ -17,12 +19,20 @@ const DynamicForm = ({
   maxItems = 10,
 }) => {
   const { t } = useTranslation()
+  const [touched, setTouched] = useState({})
+
+  const handleFieldTouch = (index: number, fieldName: string) => {
+    setTouched((prev) => ({
+      ...prev,
+      [`${index}-${fieldName}`]: true,
+    }))
+  }
 
   return (
     <>
       <h3 className="progressiveHeading">{title}</h3>
       <div className="dynamic-list-form">
-        {items.map((item, index) => (
+        {items.map((item: Dataset | Contributor, index: number) => (
           <div
             key={index}
             className="list-item d-flex align-items-top mb-2 ps-2 pe-1 pb-2 pt-0 border border-dark rounded shadow-sm"
@@ -35,28 +45,43 @@ const DynamicForm = ({
             }}
           >
             <div className="w-100 mt-2">
-              {fieldConfig.map(({ label, fieldName, type = 'text' }) => (
-                <div className="form-group" key={fieldName}>
-                  <label htmlFor={`${fieldName}-${index}`}>{label}</label>
-                  {type === 'textarea' ? (
-                    <textarea
-                      className="form-control"
-                      id={`${fieldName}-${index}`}
-                      value={item[fieldName]}
-                      onChange={(e) => onChange(index, fieldName, e.target.value)}
-                    ></textarea>
-                  ) : (
-                    <input
-                      type={type}
-                      className="form-control"
-                      id={`${fieldName}-${index}`}
-                      value={item[fieldName]}
-                      onChange={(e) => onChange(index, fieldName, e.target.value)}
-                    />
-                  )}
-                  <div className='text-muted form-text'>{getErrorByItemAndByField(errors, id, index, fieldName)}</div>
-                </div>
-              ))}
+              {fieldConfig.map(({ label, fieldName, type = 'text' }) => {
+                const error = getErrorByItemAndByField(errors, id, index, fieldName)
+                const isTouched = touched[`${index}-${fieldName}`]
+
+                return (
+                  <div className="form-group" key={fieldName}>
+                    <label htmlFor={`${fieldName}-${index}`}>{label}</label>
+                    {type === 'textarea' ? (
+                      <textarea
+                        className={`form-control ${
+                          isTouched ? (error ? 'is-invalid' : 'is-valid') : ''
+                        }`}
+                        id={`${fieldName}-${index}`}
+                        value={item[fieldName]}
+                        onChange={(e) => {
+                          onChange(index, fieldName, e.target.value)
+                          handleFieldTouch(index, fieldName)
+                        }}
+                      ></textarea>
+                    ) : (
+                      <input
+                        type={type}
+                        className={`form-control ${
+                          isTouched ? (error ? 'is-invalid' : 'is-valid') : ''
+                        }`}
+                        id={`${fieldName}-${index}`}
+                        value={item[fieldName]}
+                        onChange={(e) => {
+                          onChange(index, fieldName, e.target.value)
+                          handleFieldTouch(index, fieldName)
+                        }}
+                      />
+                    )}
+                    {isTouched && error && <div className="text-muted form-text">{error}</div>}
+                  </div>
+                )
+              })}
             </div>
             <div className="flex-shrink-1">
               <Button

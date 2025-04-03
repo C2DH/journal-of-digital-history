@@ -28,7 +28,7 @@ export interface Contributor {
   lastName: string;
   affiliation: string;
   email: string;
-  orcid: string;
+  orcidUrl: string;
 }
 
 export interface ValidationErrors {
@@ -38,8 +38,9 @@ export interface ValidationErrors {
 export interface FormFieldProps {
   id: string;
   label: string;
-  value: string;
-  type?: 'text' | 'email' | 'textarea'; 
+  value: string | boolean;
+  type?: 'text' | 'email' | 'textarea' | 'checkbox'; 
   onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   error?: string; 
+  reset?: boolean;
 }
