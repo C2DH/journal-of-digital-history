@@ -97,6 +97,7 @@
           "articleAbstractHelpText": "Please take the multi-layered principle of the JDH articles into account. In particular, we would like you to describe the narrative layer, the hermeneutic layer and the data layer.",
           "articleAbstractPlaceholder": "...",
           "authorAffiliation": "Affiliation",
+          "defaultContributor": "Use this contact info as contributor",
           "emailMismatchError": "Email addresses do not match",
           "githubIdExplanation": "Once your abstract is accepted, we will create a dedicated repository for your article on Github. This repository includes a structured template and Github actions to streamline the writing process.",
           "githubId": "Specify a Github account (Github username)",

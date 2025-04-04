@@ -12,6 +12,8 @@ export const schema = {
           description: { type: 'string', minLength: 1, maxLength: 1000 },
         },
       },
+      minItems: 0,
+      maxItems: 10
     },
     contact: {
       type: 'object',
@@ -50,8 +52,10 @@ export const schema = {
           },
         },
       },
+      minItems: 1,
+      maxItems: 10
     },
     termsAccepted: { type: 'boolean', enum: [true] },
   },
-  required: ['title', 'abstract', 'contact', 'termsAccepted'],
+  required: ['title', 'abstract', 'contact', 'contributors', 'termsAccepted'],
 }
