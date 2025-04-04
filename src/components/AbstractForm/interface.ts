@@ -6,9 +6,10 @@ export interface FormData {
   abstract: string;
   contact : Contact;
   datasets: Dataset[]; 
-  termsAccepted: boolean;  
   contributors: Contributor[];
-  // dateCreated: string;
+  dateCreated: string;
+  dateLastModified : string;
+  termsAccepted: boolean;  
 }
 
 interface Contact {

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
+import ReCAPTCHA from 'react-google-recaptcha'
 import Ajv from 'ajv'
 import ajvformat from 'ajv-formats'
 import { useTranslation } from 'react-i18next'
@@ -9,6 +10,7 @@ import { FormData } from './interface'
 import { schema } from './schema'
 import DynamicForm from './DynamicForm'
 import StaticForm from './StaticForm'
+import { reCaptchaSiteKey } from '../../constants'
 import {
   datasetFields,
   datasetEmpty,
@@ -22,6 +24,8 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
   const [formData, setFormData] = useState<FormData>(initialAbstract(callForPapers))
   const [confirmEmail, setConfirmEmail] = useState('')
   const [emailError, setEmailError] = useState('')
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
+
   //Propagating reset to UI inside children components
   const [reset, setReset] = useState(false)
 
@@ -36,9 +40,16 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
     setFormData((prev) => ({ ...prev, callForPapers }))
   }, [callForPapers])
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const isValid = validate(formData)
+
+    const recaptchaToken = await recaptchaRef.current?.executeAsync();
+    if (!recaptchaToken) {
+      console.error('ReCAPTCHA failed to generate a token.');
+      return;
+    }
+    console.log('ReCAPTCHA token:', recaptchaToken);
 
     if (formData.contact.email !== confirmEmail) {
       setEmailError(t('pages.abstractSubmission.emailMismatchError'))
@@ -66,7 +77,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
     const { id, value, type } = event.target
     const checked = type === 'checkbox' ? (event.target as HTMLInputElement).checked : undefined
 
-    setFormData((prev) => {
+    setFormData((prev: FormData) => {
       if (id in prev.contact) {
         return {
           ...prev,
@@ -74,12 +85,14 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
             ...prev.contact,
             [id]: value,
           },
+          dateLastModified: new Date(Date.now()).toISOString(),
         }
       }
 
       return {
         ...prev,
         [id]: type === 'checkbox' ? checked : value,
+        dateLastModified: new Date(Date.now()).toISOString(),
       }
     })
   }
@@ -268,6 +281,11 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
         </Link>
       </div>
       <br />
+      <ReCAPTCHA
+        ref={recaptchaRef}
+        size="invisible"
+        sitekey={reCaptchaSiteKey}
+      />
       <div className=" align-items-center">
         <button type="submit" className="btn btn-primary">
           {t('actions.submit')}

@@ -13,6 +13,8 @@ export const initialAbstract = (callForPapers: string) => {
       githubId: '',
     },
     contributors: [],
+    dateCreated: new Date().toISOString(),
+    dateLastModified : new Date(Date.now()).toISOString(),
     termsAccepted: false,
   }
 }

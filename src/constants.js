@@ -64,10 +64,7 @@ export const FaqRoute = { to: '/faq', label: 'navigation.faq' }
 
 export const PrimaryRoutes = [
   HomeRoute,
-  // IssueRoute,
   ArticlesRoute,
-  // ReferencesRoute,
-  // DatasetsRoute,
   AbstractSubmissionRoute,
   GuidelinesRoute,
   NotebookViewerFormRoute,
@@ -81,7 +78,7 @@ export const NotebookPoweredPaths = [
   '/guidelines/',
   '/guidelines',
 ]
-export const ReCaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
+export const reCaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
 export const GaTrackingId = process.env.REACT_APP_GA_TRACKING_ID
 
 export const BootstrapColumLayout = Object.freeze({
