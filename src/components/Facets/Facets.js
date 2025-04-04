@@ -5,40 +5,38 @@ import Dimension, { MethodFilter, MethodReplace, MethodRemove, MethodReset } fro
 import '../../styles/components/Facets.scss'
 
 /**
- * sort function a
- * @return [{ selected, isActive, dims }]
+ * Sort function for items based on a specified dimension.
+ * Authors are classified using the Unicode system.
+ * @param {Object} options - Sorting options.
+ * @param {string} options.by - The dimension to sort by (default: 'authors').
+ * @param {number} options.direction - Sorting direction (1 for ascending, -1 for descending).
+ * @param {Array} options.dimensions - List of dimensions to sort by.
+ * @returns {Function} - A comparator function for sorting.
  */
 export function sortFn({ by = 'authors', direction = 1, dimensions = [] } = {}) {
-  // get dimension
+  // Find the dimension to sort by
   const dimension = dimensions.find((d) => d.name === by)
-  if (!dimension) {
-    return
-  }
+  if (!dimension) return
 
   return (a, b) => {
     let aValue = dimension.fn(a)
     let bValue = dimension.fn(b)
+
     if (dimension.isArray) {
       aValue = aValue.join('')
       bValue = bValue.join('')
     }
+
     if (aValue && bValue) {
       if (typeof aValue === 'string') {
-        // get the first uppercase letter
-        const aValueStr = aValue.split(/([A-Z\u00C0-\u00DC].*)/, 2).pop()
-        const bValueStr = String(bValue)
-          .split(/([A-Z\u00C0-\u00DC].*)/, 2)
-          .pop()
-        return aValueStr.localeCompare(bValueStr) * direction
+        return aValue.localeCompare(bValue, 'en', { sensitivity: 'base' }) * direction
       }
       return aValue > bValue ? direction : -direction
-    } else if (aValue) {
-      return -direction
-    } else if (bValue) {
-      return direction
-    } else {
-      return 0
     }
+
+    if (aValue) return -direction
+    if (bValue) return direction
+    return 0
   }
 }
 
