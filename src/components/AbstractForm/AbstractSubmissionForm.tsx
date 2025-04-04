@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import ReCAPTCHA from 'react-google-recaptcha'
+// import ReCAPTCHA from 'react-google-recaptcha'
 import Ajv from 'ajv'
 import ajvformat from 'ajv-formats'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +10,7 @@ import { FormData } from './interface'
 import { schema } from './schema'
 import DynamicForm from './DynamicForm'
 import StaticForm from './StaticForm'
-import { reCaptchaSiteKey } from '../../constants'
+// import { reCaptchaSiteKey } from '../../constants'
 import {
   datasetFields,
   datasetEmpty,
@@ -24,7 +24,8 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
   const [formData, setFormData] = useState<FormData>(initialAbstract(callForPapers))
   const [confirmEmail, setConfirmEmail] = useState('')
   const [emailError, setEmailError] = useState('')
-  const recaptchaRef = useRef<ReCAPTCHA>(null)
+  const [autoFillContributor, setAutoFillContributor] = useState(true)
+  // const recaptchaRef = useRef<ReCAPTCHA>(null)
 
   //Propagating reset to UI inside children components
   const [reset, setReset] = useState(false)
@@ -44,12 +45,14 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
     event.preventDefault()
     const isValid = validate(formData)
 
-    const recaptchaToken = await recaptchaRef.current?.executeAsync();
-    if (!recaptchaToken) {
-      console.error('ReCAPTCHA failed to generate a token.');
-      return;
-    }
-    console.log('ReCAPTCHA token:', recaptchaToken);
+    // TODO: Uncomment reCAPTCHA when form is ready
+
+    // const recaptchaToken = await recaptchaRef.current?.executeAsync();
+    // if (!recaptchaToken) {
+    //   console.error('ReCAPTCHA failed to generate a token.');
+    //   return;
+    // }
+    // console.log('ReCAPTCHA token:', recaptchaToken);
 
     if (formData.contact.email !== confirmEmail) {
       setEmailError(t('pages.abstractSubmission.emailMismatchError'))
@@ -74,28 +77,39 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { id, value, type } = event.target
-    const checked = type === 'checkbox' ? (event.target as HTMLInputElement).checked : undefined
-
+    const { id, value, type } = event.target;
+    const checked = type === 'checkbox' ? (event.target as HTMLInputElement).checked : undefined;
+  
     setFormData((prev: FormData) => {
-      if (id in prev.contact) {
-        return {
-          ...prev,
-          contact: {
-            ...prev.contact,
-            [id]: value,
-          },
-          dateLastModified: new Date(Date.now()).toISOString(),
-        }
-      }
-
-      return {
+      const updatedFormData = {
         ...prev,
-        [id]: type === 'checkbox' ? checked : value,
         dateLastModified: new Date(Date.now()).toISOString(),
+      };
+  
+      if (id in prev.contact) {
+        updatedFormData.contact = {
+          ...prev.contact,
+          [id]: type === 'checkbox' ? checked : value,
+        };
+      } else {
+        updatedFormData[id] = type === 'checkbox' ? checked : value;
       }
-    })
-  }
+  
+      if (autoFillContributor && id in prev.contact) {
+        const contactAsContributor = {
+          firstName: updatedFormData.contact.firstName,
+          lastName: updatedFormData.contact.lastName,
+          affiliation: updatedFormData.contact.affiliation,
+          email: updatedFormData.contact.email,
+          orcidUrl: updatedFormData.contact.orcidUrl,
+          githubId: updatedFormData.contact.githubId,
+        };
+        updatedFormData.contributors = [contactAsContributor, ...prev.contributors.slice(1)];
+      }
+  
+      return updatedFormData;
+    });
+  };
 
   const handleOnChangeComponent = (type: string, index: number, field: string, value: string) => {
     setFormData((prev) => {
@@ -128,8 +142,10 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
     })
   }
 
-  const handleReset = () => {
+  const handleReset = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
     setFormData(initialAbstract(callForPapers))
+    setConfirmEmail('')
     setReset(true)
   }
 
@@ -142,6 +158,35 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
     link.download = 'formData.json'
     link.click()
     URL.revokeObjectURL(url)
+  }
+
+  const handleAutoFillChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked
+    setAutoFillContributor(isChecked)
+
+    setFormData((prev) => {
+      if (isChecked) {
+        // Add contact details as the first contributor
+        const contactAsContributor = {
+          firstName: prev.contact.firstName,
+          lastName: prev.contact.lastName,
+          affiliation: prev.contact.affiliation,
+          email: prev.contact.email,
+          orcidUrl: prev.contact.orcidUrl,
+          githubId: prev.contact.githubId,
+        }
+        return {
+          ...prev,
+          contributors: [contactAsContributor, ...prev.contributors],
+        }
+      } else {
+        // Remove the first contributor
+        return {
+          ...prev,
+          contributors: prev.contributors.slice(1),
+        }
+      }
+    })
   }
 
   console.log('validate.errors', validate.errors)
@@ -248,6 +293,18 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
           error={getErrorBySubfield(validate.errors || [], 'contact', 'githubId')}
           reset={reset}
         />
+        <div className="form-check d-flex align-items-center">
+          <input
+            type="checkbox"
+            id="autoFillContributor"
+            checked={autoFillContributor}
+            onChange={handleAutoFillChange}
+            className="form-check-input"
+          />
+          <label htmlFor="autoFillContributor" className="form-check-label ms-2">
+            {t('pages.abstractSubmission.defaultContributor')}
+          </label>
+        </div>
         <hr />
       </div>
       <div className="contributors">
@@ -275,17 +332,18 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
           type="checkbox"
           onChange={handleInputChange}
           error={getErrorByField(validate.errors || [], 'termsAccepted')}
+          reset={reset}
         />
         <Link to="/terms" target="_blank" className="ms-2">
           Terms of Use
         </Link>
       </div>
       <br />
-      <ReCAPTCHA
+      {/* <ReCAPTCHA
         ref={recaptchaRef}
         size="invisible"
         sitekey={reCaptchaSiteKey}
-      />
+      /> */}
       <div className=" align-items-center">
         <button type="submit" className="btn btn-primary">
           {t('actions.submit')}

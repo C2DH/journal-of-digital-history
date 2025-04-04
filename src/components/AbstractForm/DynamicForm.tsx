@@ -8,7 +8,6 @@ import { Contributor, Dataset} from './interface'
 const DynamicForm = ({
   id,
   items,
-  
   onChange,
   onAdd,
   onRemove,
