@@ -19,6 +19,8 @@ interface Contact {
   email: string;
   orcidUrl: string;
   githubId: string;
+  blueskyId?: string;
+  facebookId?: string;
 }
 export interface Dataset {
   link: string;

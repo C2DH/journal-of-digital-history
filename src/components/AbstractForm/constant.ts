@@ -11,6 +11,8 @@ export const initialAbstract = (callForPapers: string) => {
       email: '',
       orcidUrl: '',
       githubId: '',
+      blueskyId: '',
+      facebookId: '',
     },
     contributors: [],
     dateCreated: new Date().toISOString(),
