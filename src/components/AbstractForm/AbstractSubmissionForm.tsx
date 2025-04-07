@@ -77,24 +77,24 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { id, value, type } = event.target;
-    const checked = type === 'checkbox' ? (event.target as HTMLInputElement).checked : undefined;
-  
+    const { id, value, type } = event.target
+    const checked = type === 'checkbox' ? (event.target as HTMLInputElement).checked : undefined
+
     setFormData((prev: FormData) => {
       const updatedFormData = {
         ...prev,
         dateLastModified: new Date(Date.now()).toISOString(),
-      };
-  
+      }
+
       if (id in prev.contact) {
         updatedFormData.contact = {
           ...prev.contact,
           [id]: type === 'checkbox' ? checked : value,
-        };
+        }
       } else {
-        updatedFormData[id] = type === 'checkbox' ? checked : value;
+        updatedFormData[id] = type === 'checkbox' ? checked : value
       }
-  
+
       if (autoFillContributor && id in prev.contact) {
         const contactAsContributor = {
           firstName: updatedFormData.contact.firstName,
@@ -102,14 +102,13 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
           affiliation: updatedFormData.contact.affiliation,
           email: updatedFormData.contact.email,
           orcidUrl: updatedFormData.contact.orcidUrl,
-          githubId: updatedFormData.contact.githubId,
-        };
-        updatedFormData.contributors = [contactAsContributor, ...prev.contributors.slice(1)];
+        }
+        updatedFormData.contributors = [contactAsContributor, ...prev.contributors.slice(1)]
       }
-  
-      return updatedFormData;
-    });
-  };
+
+      return updatedFormData
+    })
+  }
 
   const handleOnChangeComponent = (type: string, index: number, field: string, value: string) => {
     setFormData((prev) => {
@@ -285,14 +284,6 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
           error={getErrorBySubfield(validate.errors || [], 'contact', 'orcidUrl')}
           reset={reset}
         />
-        <StaticForm
-          id="githubId"
-          label={t('pages.abstractSubmission.authorGithubId')}
-          value={formData.contact.githubId}
-          onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors || [], 'contact', 'githubId')}
-          reset={reset}
-        />
         <div className="form-check d-flex align-items-center">
           <input
             type="checkbox"
@@ -324,6 +315,37 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
           fieldConfig={contributorFields}
         />
       </div>
+      <div className="social-media">
+        <h3 className="progressiveHeading">
+          {t('pages.abstractSubmission.SocialMediaSectionTitle')}
+        </h3>
+        <StaticForm
+          id="githubId"
+          label={t('pages.abstractSubmission.authorGithubId')}
+          value={formData.contact.githubId}
+          onChange={handleInputChange}
+          error={getErrorBySubfield(validate.errors || [], 'contact', 'githubId')}
+          reset={reset}
+        />
+        <StaticForm
+          id="blueskyId"
+          label={t('pages.abstractSubmission.authorBlueskyId')}
+          value={formData.contact.blueskyId}
+          onChange={handleInputChange}
+          error={getErrorBySubfield(validate.errors || [], 'contact', 'blueskyId')}
+          reset={reset}
+        />
+         <StaticForm
+          id="facebookId"
+          label={t('pages.abstractSubmission.authorFacebookId')}
+          value={formData.contact.facebookId}
+          onChange={handleInputChange}
+          error={getErrorBySubfield(validate.errors || [], 'contact', 'facebookId')}
+          reset={reset}
+        />
+        <hr />
+      </div>
+
       <div className="form-check d-flex align-items-center">
         <StaticForm
           id="termsAccepted"

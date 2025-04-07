@@ -13,7 +13,8 @@ export const schema = {
         },
       },
       minItems: 0,
-      maxItems: 10
+      maxItems: 10,
+      required: ['link', 'description'],
     },
     contact: {
       type: 'object',
@@ -33,7 +34,22 @@ export const schema = {
           maxLength: 39,
           pattern: '^(?!-)(?!.*--)[a-z0-9-]{1,39}(?<!-)$',
         },
+        blueskyId: {
+          anyOf: [
+            { type: 'string', minLength: 1, maxLength: 27, pattern: '^@[a-zA-Z0-9_]{1,15}.bsky.social' },
+            { type: 'null' }, 
+            { type: 'string', maxLength: 0 }, 
+          ],
+        },
+        facebookId: {
+          anyOf: [
+            { type: 'string', minLength: 5, maxLength: 50, pattern: '^[a-zA-Z0-9._]{5,50}'},
+            { type: 'null' },
+            { type: 'string', maxLength: 0 }, 
+          ],
+        },
       },
+      required: ['firstName', 'lastName', 'affiliation', 'email', 'orcidUrl', 'githubId'], 
     },
     contributors: {
       type: 'array',
@@ -47,15 +63,15 @@ export const schema = {
           orcidUrl: {
             type: 'string',
             format: 'uri',
-            pattern:
-              '^https?://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9X]{4}$',
+            pattern: '^https?://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9X]{4}$',
           },
         },
       },
       minItems: 1,
-      maxItems: 10
+      maxItems: 10,
+      required: ['firstName', 'lastName', 'affiliation', 'email', 'orcidUrl'],
     },
     termsAccepted: { type: 'boolean', enum: [true] },
   },
   required: ['title', 'abstract', 'contact', 'contributors', 'termsAccepted'],
-}
+};

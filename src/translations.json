@@ -89,6 +89,8 @@
           "authorOrcid": "ORCID URL",
           "authorOrcidHelpText": "* ORCID is required. Don't have an ORCID yet? Create one at <a href=\"https://orcid.org/\" target=\"_blank\" rel=\"noopener noreferrer\">orcid.org</a> for free!",
           "authorUsername": "nom utilisateur",
+          "authorBlueskyId": "Bluesky name",
+          "authorFacebookId": "Facebook ID",
           "authorGithubId": "GitHub ID",
           "articleContact": "Contact Info",
           "articleTitle": "Title",
