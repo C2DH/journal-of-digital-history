@@ -9,6 +9,7 @@ import { getErrorByField, getErrorBySubfield } from './errors'
 import { FormData } from './interface'
 import { schema } from './schema'
 import DynamicForm from './DynamicForm'
+import SubmissionStatusCard from './SubmissionStatus'
 import StaticForm from './StaticForm'
 // import { reCaptchaSiteKey } from '../../constants'
 import {
@@ -182,17 +183,6 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
     setReset(true)
   }
 
-  const handleDownloadAsJSON = () => {
-    const jsonData = JSON.stringify(formData, null, 2)
-    const blob = new Blob([jsonData], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = 'formData.json'
-    link.click()
-    URL.revokeObjectURL(url)
-  }
-
   const handleAutoFillChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked
     setAutoFillContributor(isChecked)
@@ -225,203 +215,208 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
   console.log('validate.errors', validate.errors)
 
   return (
-    <form onSubmit={handleSubmit} className="container my-5">
-      <div className="title-abstract">
-        <h3 className="progressiveHeading">
-          {t('pages.abstractSubmission.TitleAndAbstractSectionTitle')}
-        </h3>
-        <StaticForm
-          id="title"
-          label={t('pages.abstractSubmission.articleTitle')}
-          value={formData.title}
-          onChange={handleInputChange}
-          error={getErrorByField(validate.errors || [], 'title')}
-          reset={reset}
-        />
-        <StaticForm
-          id="abstract"
-          label={t('pages.abstractSubmission.articleAbstract')}
-          value={formData.abstract}
-          type="textarea"
-          onChange={handleInputChange}
-          error={getErrorByField(validate.errors || [], 'abstract')}
-          reset={reset}
-        />
-      </div>
-      <hr />
-      <div className="tools-code-data">
-        <DynamicForm
-          id="datasets"
-          title={t('pages.abstractSubmission.DatasetSectionTitle')}
-          items={formData.datasets}
-          onChange={(index: number, field: string, value: string) =>
-            handleOnChangeComponent('datasets', index, field, value)
-          }
-          onAdd={() => handleAddComponent('datasets', datasetEmpty)}
-          onRemove={(index: number) => handleRemoveComponent('datasets', index)}
-          moveItem={(fromIndex: number, toIndex: number) =>
-            handleMoveComponent('datasets', fromIndex, toIndex)
-          }
-          errors={validate.errors || []}
-          fieldConfig={datasetFields}
-        />
-      </div>
-      <div className="contact">
-        <h3 className="progressiveHeading">
-          {t('pages.abstractSubmission.ContactPointSectionTitle')}
-        </h3>
-        <StaticForm
-          id="firstName"
-          label={t('pages.abstractSubmission.authorFirstName')}
-          value={formData.contact.firstName}
-          onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors || [], 'contact', 'firstName')}
-          reset={reset}
-        />
-        <StaticForm
-          id="lastName"
-          label={t('pages.abstractSubmission.authorLastName')}
-          value={formData.contact.lastName}
-          onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors || [], 'contact', 'lastName')}
-          reset={reset}
-        />
-        <StaticForm
-          id="affiliation"
-          label={t('pages.abstractSubmission.authorAffiliation')}
-          value={formData.contact.affiliation}
-          onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors || [], 'contact', 'affiliation')}
-          reset={reset}
-        />
-        <StaticForm
-          id="email"
-          label={t('pages.abstractSubmission.authorEmail')}
-          value={formData.contact.email}
-          onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors || [], 'contact', 'email')}
-          reset={reset}
-        />
-        <StaticForm
-          id="confirmEmail"
-          label={t('pages.abstractSubmission.authorEmail')}
-          value={confirmEmail}
-          onChange={handleConfirmEmailChange}
-          error={emailError}
-          reset={reset}
-        />
-        <StaticForm
-          id="orcidUrl"
-          label={t('pages.abstractSubmission.authorOrcid')}
-          value={formData.contact.orcidUrl}
-          onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors || [], 'contact', 'orcidUrl')}
-          reset={reset}
-        />
-        <div className="form-check d-flex align-items-center">
-          <input
-            type="checkbox"
-            id="autoFillContributor"
-            checked={autoFillContributor}
-            onChange={handleAutoFillChange}
-            className="form-check-input"
-          />
-          <label htmlFor="autoFillContributor" className="form-check-label ms-2">
-            {t('pages.abstractSubmission.defaultContributor')}
-          </label>
+    <div className="container my-5">
+      <div className="row">
+        <div className="col-md-6 offset-md-1">
+          <form onSubmit={handleSubmit} className="container my-5">
+            <div className="title-abstract">
+              <h3 className="progressiveHeading">
+                {t('pages.abstractSubmission.TitleAndAbstractSectionTitle')}
+              </h3>
+              <StaticForm
+                id="title"
+                label={t('pages.abstractSubmission.articleTitle')}
+                value={formData.title}
+                onChange={handleInputChange}
+                error={getErrorByField(validate.errors || [], 'title')}
+                reset={reset}
+              />
+              <StaticForm
+                id="abstract"
+                label={t('pages.abstractSubmission.articleAbstract')}
+                value={formData.abstract}
+                type="textarea"
+                onChange={handleInputChange}
+                error={getErrorByField(validate.errors || [], 'abstract')}
+                reset={reset}
+              />
+            </div>
+            <hr />
+            <div className="tools-code-data">
+              <DynamicForm
+                id="datasets"
+                title={t('pages.abstractSubmission.DatasetSectionTitle')}
+                items={formData.datasets}
+                onChange={(index: number, field: string, value: string) =>
+                  handleOnChangeComponent('datasets', index, field, value)
+                }
+                onAdd={() => handleAddComponent('datasets', datasetEmpty)}
+                onRemove={(index: number) => handleRemoveComponent('datasets', index)}
+                moveItem={(fromIndex: number, toIndex: number) =>
+                  handleMoveComponent('datasets', fromIndex, toIndex)
+                }
+                errors={validate.errors || []}
+                fieldConfig={datasetFields}
+              />
+            </div>
+            <div className="contact">
+              <h3 className="progressiveHeading">
+                {t('pages.abstractSubmission.ContactPointSectionTitle')}
+              </h3>
+              <StaticForm
+                id="firstName"
+                label={t('pages.abstractSubmission.authorFirstName')}
+                value={formData.contact.firstName}
+                onChange={handleInputChange}
+                error={getErrorBySubfield(validate.errors || [], 'contact', 'firstName')}
+                reset={reset}
+              />
+              <StaticForm
+                id="lastName"
+                label={t('pages.abstractSubmission.authorLastName')}
+                value={formData.contact.lastName}
+                onChange={handleInputChange}
+                error={getErrorBySubfield(validate.errors || [], 'contact', 'lastName')}
+                reset={reset}
+              />
+              <StaticForm
+                id="affiliation"
+                label={t('pages.abstractSubmission.authorAffiliation')}
+                value={formData.contact.affiliation}
+                onChange={handleInputChange}
+                error={getErrorBySubfield(validate.errors || [], 'contact', 'affiliation')}
+                reset={reset}
+              />
+              <StaticForm
+                id="email"
+                label={t('pages.abstractSubmission.authorEmail')}
+                value={formData.contact.email}
+                onChange={handleInputChange}
+                error={getErrorBySubfield(validate.errors || [], 'contact', 'email')}
+                reset={reset}
+              />
+              <StaticForm
+                id="confirmEmail"
+                label={t('pages.abstractSubmission.authorEmail')}
+                value={confirmEmail}
+                onChange={handleConfirmEmailChange}
+                error={emailError}
+                reset={reset}
+              />
+              <StaticForm
+                id="orcidUrl"
+                label={t('pages.abstractSubmission.authorOrcid')}
+                value={formData.contact.orcidUrl}
+                onChange={handleInputChange}
+                error={getErrorBySubfield(validate.errors || [], 'contact', 'orcidUrl')}
+                reset={reset}
+              />
+              <div className="form-check d-flex align-items-center">
+                <input
+                  type="checkbox"
+                  id="autoFillContributor"
+                  checked={autoFillContributor}
+                  onChange={handleAutoFillChange}
+                  className="form-check-input"
+                />
+                <label htmlFor="autoFillContributor" className="form-check-label ms-2">
+                  {t('pages.abstractSubmission.defaultContributor')}
+                </label>
+              </div>
+              <hr />
+            </div>
+            <div className="contributors">
+              <DynamicForm
+                id="contributors"
+                title={t('pages.abstractSubmission.ContributorsSectionTitle')}
+                items={formData.contributors}
+                onChange={(index: number, field: string, value: string) =>
+                  handleOnChangeComponent('contributors', index, field, value)
+                }
+                onAdd={() => handleAddComponent('contributors', contributorEmpty)}
+                onRemove={(index: number) => handleRemoveComponent('contributors', index)}
+                moveItem={(fromIndex: number, toIndex: number) =>
+                  handleMoveComponent('contributors', fromIndex, toIndex)
+                }
+                errors={validate.errors || []}
+                fieldConfig={contributorFields}
+              />
+            </div>
+            <div className="social-media">
+              <h3 className="progressiveHeading">
+                {t('pages.abstractSubmission.SocialMediaSectionTitle')}
+              </h3>
+              <StaticForm
+                id="githubId"
+                label={t('pages.abstractSubmission.authorGithubId')}
+                value={formData.contact.githubId}
+                onChange={handleInputChange}
+                error={
+                  githubError || getErrorBySubfield(validate.errors || [], 'contact', 'githubId')
+                }
+                reset={reset}
+              />
+              <StaticForm
+                id="preferredLanguage"
+                label={t('pages.abstractSubmission.preferredLanguage')}
+                value={formData.contact.preferredLanguage || 'Python'}
+                type="select"
+                options={preferredLanguageOptions}
+                onChange={handleInputChange}
+                error={getErrorByField(validate.errors || [], 'preferredLanguage')}
+                reset={reset}
+              />
+              <hr />
+              <StaticForm
+                id="blueskyId"
+                label={t('pages.abstractSubmission.authorBlueskyId')}
+                value={formData.contact.blueskyId}
+                onChange={handleInputChange}
+                error={getErrorBySubfield(validate.errors || [], 'contact', 'blueskyId')}
+                reset={reset}
+              />
+              <StaticForm
+                id="facebookId"
+                label={t('pages.abstractSubmission.authorFacebookId')}
+                value={formData.contact.facebookId}
+                onChange={handleInputChange}
+                error={getErrorBySubfield(validate.errors || [], 'contact', 'facebookId')}
+                reset={reset}
+              />
+              <hr />
+            </div>
+            <div className="form-check d-flex align-items-center">
+              <StaticForm
+                id="termsAccepted"
+                label={t('pages.abstractSubmission.TermsAcceptance')}
+                value={formData.termsAccepted}
+                type="checkbox"
+                onChange={handleInputChange}
+                error={getErrorByField(validate.errors || [], 'termsAccepted')}
+                reset={reset}
+              />
+              <Link to="/terms" target="_blank" className="ms-2">
+                Terms of Use
+              </Link>
+            </div>
+            <br />
+            {/* <ReCAPTCHA
+              ref={recaptchaRef}
+              size="invisible"
+              sitekey={reCaptchaSiteKey}
+            /> */}
+            <div className="text-center">
+              <button type="submit" className="btn btn-primary">
+                {t('actions.submit')}
+              </button>
+            </div>
+          </form>
         </div>
-        <hr />
+        <div className="col-md-3">
+          <SubmissionStatusCard data={formData} onReset={handleReset} errors={validate.errors || []} githubError={githubError} mailError={emailError} />
+        </div>
       </div>
-      <div className="contributors">
-        <DynamicForm
-          id="contributors"
-          title={t('pages.abstractSubmission.ContributorsSectionTitle')}
-          items={formData.contributors}
-          onChange={(index: number, field: string, value: string) =>
-            handleOnChangeComponent('contributors', index, field, value)
-          }
-          onAdd={() => handleAddComponent('contributors', contributorEmpty)}
-          onRemove={(index: number) => handleRemoveComponent('contributors', index)}
-          moveItem={(fromIndex: number, toIndex: number) =>
-            handleMoveComponent('contributors', fromIndex, toIndex)
-          }
-          errors={validate.errors || []}
-          fieldConfig={contributorFields}
-        />
-      </div>
-      <div className="social-media">
-        <h3 className="progressiveHeading">
-          {t('pages.abstractSubmission.SocialMediaSectionTitle')}
-        </h3>
-        <StaticForm
-          id="githubId"
-          label={t('pages.abstractSubmission.authorGithubId')}
-          value={formData.contact.githubId}
-          onChange={handleInputChange}
-          error={githubError || getErrorBySubfield(validate.errors || [], 'contact', 'githubId')}
-          reset={reset}
-        />
-        <StaticForm
-          id="preferredLanguage"
-          label={t('pages.abstractSubmission.preferredLanguage')}
-          value={formData.contact.preferredLanguage || 'Python'}
-          type="select"
-          options={ preferredLanguageOptions}
-          onChange={handleInputChange}
-          error={getErrorByField(validate.errors || [], 'preferredLanguage')}
-          reset={reset}
-        />
-        <hr />
-        <StaticForm
-          id="blueskyId"
-          label={t('pages.abstractSubmission.authorBlueskyId')}
-          value={formData.contact.blueskyId}
-          onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors || [], 'contact', 'blueskyId')}
-          reset={reset}
-        />
-        <StaticForm
-          id="facebookId"
-          label={t('pages.abstractSubmission.authorFacebookId')}
-          value={formData.contact.facebookId}
-          onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors || [], 'contact', 'facebookId')}
-          reset={reset}
-        />
-        <hr />
-      </div>
-      <div className="form-check d-flex align-items-center">
-        <StaticForm
-          id="termsAccepted"
-          label={t('pages.abstractSubmission.TermsAcceptance')}
-          value={formData.termsAccepted}
-          type="checkbox"
-          onChange={handleInputChange}
-          error={getErrorByField(validate.errors || [], 'termsAccepted')}
-          reset={reset}
-        />
-        <Link to="/terms" target="_blank" className="ms-2">
-          Terms of Use
-        </Link>
-      </div>
-      <br />
-      {/* <ReCAPTCHA
-        ref={recaptchaRef}
-        size="invisible"
-        sitekey={reCaptchaSiteKey}
-      /> */}
-      <div className=" align-items-center">
-        <button type="submit" className="btn btn-primary">
-          {t('actions.submit')}
-        </button>
-        <button className="btn btn-outline-dark sm" onClick={handleReset}>
-          {t('actions.resetForm')}
-        </button>
-        <button className="btn btn-outline-dark sm" onClick={handleDownloadAsJSON}>
-          {t('actions.downloadAsJSON')}
-        </button>
-      </div>
-    </form>
+    </div>
   )
 }
 

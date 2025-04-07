@@ -55,3 +55,14 @@ export const preferredLanguageOptions = [
   { value: 'R', label: 'R' },
   { value: 'Default', label: 'No Preferences' },
 ]
+
+export const dateFormat = {
+  weekday: 'long', 
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+} as const;
+
+export const mandatoryTopFields = ['title', 'abstract', 'contact', 'contributors', 'github', 'termsAccepted']
