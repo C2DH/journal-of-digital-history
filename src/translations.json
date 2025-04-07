@@ -107,6 +107,7 @@
           "githubIdHelpText": "* GitHub profile is required. Don't have a GitHub account yet? Create one at <a href=\"https://github.com/\" target=\"_blank\" rel=\"noopener noreferrer\">github.com</a> for free!",
           "invalidGithubId":"Github username does not exist",
           "githubApiError":"Github API error: {{error}}",
+          "preferredLanguage": "Programming language for Github repository",
           "preview": "Submission Status",
           "TitleAndAbstractSectionTitle": "Title & Abstract",
           "ContactPointSectionTitle": "Contact",

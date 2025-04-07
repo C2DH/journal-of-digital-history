@@ -1,3 +1,5 @@
+import { LanguagePreference } from './interface'
+
 export const initialAbstract = (callForPapers: string) => {
   return {
     callForPapers: callForPapers,
@@ -13,10 +15,11 @@ export const initialAbstract = (callForPapers: string) => {
       githubId: '',
       blueskyId: '',
       facebookId: '',
+      preferredLanguage: LanguagePreference.PYTHON,
     },
     contributors: [],
     dateCreated: new Date().toISOString(),
-    dateLastModified : new Date(Date.now()).toISOString(),
+    dateLastModified: new Date(Date.now()).toISOString(),
     termsAccepted: false,
   }
 }
@@ -46,3 +49,9 @@ export const contributorEmpty = {
   email: '',
   orcidUrl: '',
 }
+
+export const preferredLanguageOptions = [
+  { value: 'Python', label: 'Python' },
+  { value: 'R', label: 'R' },
+  { value: 'Default', label: 'No Preferences' },
+]

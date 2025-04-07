@@ -17,6 +17,7 @@ import {
   contributorFields,
   contributorEmpty,
   initialAbstract,
+  preferredLanguageOptions,
 } from './constant'
 import checkGithubUsername from './checkGithubUsername'
 import { debounce } from '../../logic/debounce'
@@ -89,7 +90,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
       setGithubError('')
       return
     }
-    
+
     try {
       const isValid = await checkGithubUsername(githubId)
       if (!isValid) {
@@ -361,6 +362,17 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
           reset={reset}
         />
         <StaticForm
+          id="preferredLanguage"
+          label={t('pages.abstractSubmission.preferredLanguage')}
+          value={formData.contact.preferredLanguage || 'Python'}
+          type="select"
+          options={ preferredLanguageOptions}
+          onChange={handleInputChange}
+          error={getErrorByField(validate.errors || [], 'preferredLanguage')}
+          reset={reset}
+        />
+        <hr />
+        <StaticForm
           id="blueskyId"
           label={t('pages.abstractSubmission.authorBlueskyId')}
           value={formData.contact.blueskyId}
@@ -378,7 +390,6 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
         />
         <hr />
       </div>
-
       <div className="form-check d-flex align-items-center">
         <StaticForm
           id="termsAccepted"
