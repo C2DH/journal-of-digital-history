@@ -18,16 +18,19 @@ import {
   contributorEmpty,
   initialAbstract,
 } from './constant'
+import checkGithubUsername from './checkGithubUsername'
+import { debounce } from '../../logic/debounce'
 
 function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
   const { t } = useTranslation()
   const [formData, setFormData] = useState<FormData>(initialAbstract(callForPapers))
   const [confirmEmail, setConfirmEmail] = useState('')
   const [emailError, setEmailError] = useState('')
+  const [githubError, setGithubError] = useState('')
   const [autoFillContributor, setAutoFillContributor] = useState(true)
   // const recaptchaRef = useRef<ReCAPTCHA>(null)
 
-  //Propagating reset to UI inside children components
+  //Reset UI when form is reset
   const [reset, setReset] = useState(false)
 
   //Initialization of the JSON validation
@@ -54,6 +57,11 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
     // }
     // console.log('ReCAPTCHA token:', recaptchaToken);
 
+    if (githubError) {
+      console.log('Form cannot be submitted due to GitHub API validation error:', githubError)
+      return
+    }
+
     if (formData.contact.email !== confirmEmail) {
       setEmailError(t('pages.abstractSubmission.emailMismatchError'))
       return
@@ -76,9 +84,29 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
     }
   }
 
+  const handleGithubValidation = async (githubId: string) => {
+    if (!githubId) {
+      setGithubError('')
+      return
+    }
+    
+    try {
+      const isValid = await checkGithubUsername(githubId)
+      if (!isValid) {
+        setGithubError(t('pages.abstractSubmission.invalidGithubId'))
+      } else {
+        setGithubError('')
+      }
+    } catch (error) {
+      console.error('Error validating GitHub username:', error)
+      setGithubError(t('pages.abstractSubmission.githubApiError'))
+    }
+  }
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value, type } = event.target
     const checked = type === 'checkbox' ? (event.target as HTMLInputElement).checked : undefined
+    const debouncedGithubValidation = debounce(handleGithubValidation, 1000)
 
     setFormData((prev: FormData) => {
       const updatedFormData = {
@@ -90,6 +118,11 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
         updatedFormData.contact = {
           ...prev.contact,
           [id]: type === 'checkbox' ? checked : value,
+        }
+
+        if (id === 'githubId') {
+          console.log('TEST')
+          debouncedGithubValidation(value)
         }
       } else {
         updatedFormData[id] = type === 'checkbox' ? checked : value
@@ -324,7 +357,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
           label={t('pages.abstractSubmission.authorGithubId')}
           value={formData.contact.githubId}
           onChange={handleInputChange}
-          error={getErrorBySubfield(validate.errors || [], 'contact', 'githubId')}
+          error={githubError || getErrorBySubfield(validate.errors || [], 'contact', 'githubId')}
           reset={reset}
         />
         <StaticForm
@@ -335,7 +368,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
           error={getErrorBySubfield(validate.errors || [], 'contact', 'blueskyId')}
           reset={reset}
         />
-         <StaticForm
+        <StaticForm
           id="facebookId"
           label={t('pages.abstractSubmission.authorFacebookId')}
           value={formData.contact.facebookId}
