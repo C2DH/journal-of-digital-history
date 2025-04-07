@@ -6,6 +6,7 @@ const FormField: React.FC<FormFieldProps> = ({
   label,
   value,
   type = 'text',
+  options = [],
   onChange,
   error,
   reset,
@@ -14,12 +15,11 @@ const FormField: React.FC<FormFieldProps> = ({
 
   useEffect(() => {
     if (reset) {
-      setTouched(false);
+      setTouched(false)
     }
-  }, [reset]);
+  }, [reset])
 
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     if (!touched) {
       setTouched(true)
     }
@@ -44,6 +44,19 @@ const FormField: React.FC<FormFieldProps> = ({
           checked={Boolean(value)}
           onChange={handleChange}
         />
+      ) : type === 'select' ? (
+        <select
+          id={id}
+          className={`form-select ${touched ? (error ? 'is-invalid' : 'is-valid') : ''}`}
+          value={String(value)}
+          onChange={handleChange}
+        >
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       ) : (
         <input
           type={type}

@@ -16,6 +16,7 @@
   },
   "rules": {
     "no-console": "off",
+    "no-undef": "off",
     "react/prop-types": "off",
     "react/no-unescaped-entities": "off",
     "no-unused-vars": "off",

@@ -36,20 +36,38 @@ export const schema = {
         },
         blueskyId: {
           anyOf: [
-            { type: 'string', minLength: 1, maxLength: 27, pattern: '^@[a-zA-Z0-9_]{1,15}.bsky.social' },
-            { type: 'null' }, 
-            { type: 'string', maxLength: 0 }, 
+            {
+              type: 'string',
+              minLength: 1,
+              maxLength: 27,
+              pattern: '^@[a-zA-Z0-9_]{1,15}.bsky.social',
+            },
+            { type: 'null' },
+            { type: 'string', maxLength: 0 },
           ],
         },
         facebookId: {
           anyOf: [
-            { type: 'string', minLength: 5, maxLength: 50, pattern: '^[a-zA-Z0-9._]{5,50}'},
+            { type: 'string', minLength: 5, maxLength: 50, pattern: '^[a-zA-Z0-9._]{5,50}' },
             { type: 'null' },
-            { type: 'string', maxLength: 0 }, 
+            { type: 'string', maxLength: 0 },
           ],
         },
+        preferredLanguage: {
+          type: 'string',
+          enum: ['Python', 'R', 'Default'],
+          default: 'Python',
+        },
       },
-      required: ['firstName', 'lastName', 'affiliation', 'email', 'orcidUrl', 'githubId'], 
+      required: [
+        'firstName',
+        'lastName',
+        'affiliation',
+        'email',
+        'orcidUrl',
+        'githubId',
+        'preferredLanguage',
+      ],
     },
     contributors: {
       type: 'array',
@@ -74,4 +92,4 @@ export const schema = {
     termsAccepted: { type: 'boolean', enum: [true] },
   },
   required: ['title', 'abstract', 'contact', 'contributors', 'termsAccepted'],
-};
+}
