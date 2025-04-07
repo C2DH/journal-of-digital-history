@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useQueryParams, StringParam, withDefault } from 'use-query-params'
-import { DisplayLayerQueryParam, LayerNarrative } from '../../constants'
+import { DisplayLayerQueryParam, LayerNarrative } from '../../constants/globalConstants'
 import '../../styles/components/Article2/ArticleLayerSwitch.scss'
 import { useTranslation } from 'react-i18next'
 

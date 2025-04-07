@@ -1,4 +1,4 @@
-import { LanguagePreference } from './interface'
+import { LanguagePreference } from '../interfaces/abstractSubmission'
 
 export const initialAbstract = (callForPapers: string) => {
   return {
@@ -26,7 +26,7 @@ export const initialAbstract = (callForPapers: string) => {
 
 export const datasetFields = [
   { label: 'Link', fieldName: 'link' },
-  { label: 'Description', fieldName: 'description', type: 'textarea' },
+  { label: 'Description and licence, where applicable', fieldName: 'description', type: 'textarea' },
 ]
 
 export const datasetEmpty = {
@@ -55,3 +55,14 @@ export const preferredLanguageOptions = [
   { value: 'R', label: 'R' },
   { value: 'Default', label: 'No Preferences' },
 ]
+
+export const dateFormat = {
+  weekday: 'long', 
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+} as const;
+
+export const mandatoryTopFields = ['title', 'abstract', 'contact', 'contributors', 'github', 'termsAccepted']

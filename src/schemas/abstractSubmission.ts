@@ -1,4 +1,4 @@
-export const schema = {
+export const submissionFormSchema = {
   type: 'object',
   properties: {
     title: { type: 'string', minLength: 10, maxLength: 250 },
@@ -39,8 +39,8 @@ export const schema = {
             {
               type: 'string',
               minLength: 1,
-              maxLength: 27,
-              pattern: '^@[a-zA-Z0-9_]{1,15}.bsky.social',
+              maxLength: 26,
+              pattern: '^[a-zA-Z0-9_]{1,15}.bsky.social',
             },
             { type: 'null' },
             { type: 'string', maxLength: 0 },

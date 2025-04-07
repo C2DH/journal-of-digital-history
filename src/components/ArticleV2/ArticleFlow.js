@@ -1,5 +1,10 @@
 import React from 'react'
-import { LayerNarrative, LayerHermeneutics, LayerHidden, IsMobile } from '../../constants'
+import {
+  LayerNarrative,
+  LayerHermeneutics,
+  LayerHidden,
+  IsMobile,
+} from '../../constants/globalConstants'
 import ArticleLayers from './ArticleLayers'
 import ArticleToC from './ArticleToC'
 import styles from './ArticleFlow.module.css'

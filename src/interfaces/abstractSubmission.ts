@@ -47,11 +47,40 @@ export interface ValidationErrors {
 
 export interface FormFieldProps {
   id: string
-  label: string
+  label: string | React.ReactNode
   value: string | boolean
   type?: 'text' | 'email' | 'textarea' | 'checkbox' | 'select'
   options?: { value: string; label: string }[]
-  onChange: (event:  React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void
+  onChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => void
   error?: string
   reset?: boolean
+}
+
+export interface FieldConfig {
+  label: string
+  fieldName: string
+  type?: string
+}
+
+export interface DynamicFormProps {
+  id: string
+  items: (Dataset | Contributor)[]
+  onChange: (index: number, fieldName: string, value: string) => void
+  onAdd: () => void
+  onRemove: (index: number) => void
+  moveItem: (fromIndex: number, toIndex: number) => void
+  errors: ErrorObject[]
+  fieldConfig: FieldConfig[]
+  title: string
+  buttonLabel: string
+  maxItems?: number
+}
+export interface SubmissionStatusCardProps {
+  data: FormData
+  onReset: (event: React.MouseEvent<HTMLButtonElement>) => void
+  errors: ErrorObject[]
+  githubError: string
+  mailError: string
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
-import { BootstrapColumLayout } from '../constants'
+import { BootstrapColumLayout } from '../constants/globalConstants'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
 import { encodeNotebookUrl } from '../logic/notebook'
 import { Cpu } from 'react-feather'

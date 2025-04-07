@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { Button } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
 import { getErrorByItemAndByField } from './errors'
-import { Contributor, Dataset} from './interface'
+import { Contributor, Dataset, DynamicFormProps } from '../../interfaces/abstractSubmission'
+import CloseButtonItem from '../Buttons/CloseButtonItem'
+import ArrowUpButtonItem from '../Buttons/ArrowUpButtonItem'
+import ArrowDownButtonItem from '../Buttons/ArrowDownButtonItem'
 
 const DynamicForm = ({
   id,
@@ -15,8 +17,9 @@ const DynamicForm = ({
   errors,
   fieldConfig,
   title,
+  buttonLabel,
   maxItems = 10,
-}) => {
+}: DynamicFormProps) => {
   const { t } = useTranslation()
   const [touched, setTouched] = useState({})
 
@@ -83,43 +86,19 @@ const DynamicForm = ({
               })}
             </div>
             <div className="flex-shrink-1">
-              <Button
-                size="sm"
-                className="d-block rounded-circle border-dark border p-0 m-3"
-                style={{ height: '25px', width: '25px', lineHeight: '23px' }}
-                variant="warning"
-                onClick={() => onRemove(index)}
-              >
-                ✕
-              </Button>
-              {index > 0 && (
-                <Button
-                  size="sm"
-                  className="d-block rounded-circle p-0 m-3"
-                  style={{ height: '25px', width: '25px', lineHeight: '25px' }}
-                  variant="secondary"
-                  onClick={() => moveItem(index, index - 1)}
-                >
-                  ↑
-                </Button>
-              )}
-              {index < items.length - 1 && (
-                <Button
-                  size="sm"
-                  className="d-block rounded-circle p-0 m-3"
-                  style={{ height: '25px', width: '25px', lineHeight: '25px' }}
-                  variant="secondary"
-                  onClick={() => moveItem(index, index + 1)}
-                >
-                  ↓
-                </Button>
-              )}
+              <CloseButtonItem
+                index={index}
+                onRemove={(index) => {
+                  onRemove(index)
+                }}/>
+              {index > 0 && <ArrowUpButtonItem index={index} moveItem={moveItem} />}
+              {index < items.length - 1 && <ArrowDownButtonItem index={index} moveItem={moveItem} />}
             </div>
           </div>
         ))}
         {items.length < maxItems && (
-          <button type="button" className="btn btn-secondary" onClick={onAdd}>
-            {t('Add Item')}
+          <button type="button" className="btn btn-outline-dark btn-sm" onClick={onAdd}>
+            {t(`actions.${buttonLabel}`)}
           </button>
         )}
       </div>

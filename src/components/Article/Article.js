@@ -17,7 +17,7 @@ import {
   DisplayLayerHermeneutics,
   DisplayLayerNarrative,
   IsMobile,
-} from '../../constants'
+} from '../../constants/globalConstants'
 
 const Article = ({
   pid,

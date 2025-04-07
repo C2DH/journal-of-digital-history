@@ -2,7 +2,7 @@ import React from 'react'
 import { useGetJSON } from '../logic/api/fetchData'
 import { Row, Col, DropdownButton, Dropdown } from 'react-bootstrap'
 import LangLink from './LangLink'
-import { StatusSuccess, BootstrapColumLayout } from '../constants'
+import { StatusSuccess, BootstrapColumLayout } from '../constants/globalConstants'
 import '../styles/components/AbstractSubmissionCallForPapers.scss'
 import { useTranslation } from 'react-i18next'
 

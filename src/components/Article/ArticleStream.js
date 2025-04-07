@@ -1,25 +1,21 @@
-import React, {useMemo, useEffect} from 'react'
-// import { useQueryParam, StringParam } from 'use-query-params'
+import React, { useMemo, useEffect } from 'react'
 import ArticleCellAccordion from './ArticleCellAccordion'
 import ArticleCellAccordionAnchors from './ArticleCellAccordionAnchors'
 import ArticleCellWrapper from './ArticleCellWrapper'
 import ArticleScrollama from './ArticleScrollama'
 import {
   RoleHidden,
-  LayerHermeneutics, LayerHermeneuticsStep,
-  LayerNarrativeStep
-  // LayerNarrative,  LayerNarrativeStep,
-  // DisplayLayerHermeneutics,
-  // DisplayLayerAll
-} from '../../constants'
+  LayerHermeneutics,
+  LayerHermeneuticsStep,
+  LayerNarrativeStep,
+} from '../../constants/globalConstants'
 import { useArticleStore } from '../../store'
 
-
-const truncate = (s, maxLength=32) => {
+const truncate = (s, maxLength = 32) => {
   if (typeof s !== 'string') {
     return null
   }
-  if (s.length < maxLength ) {
+  if (s.length < maxLength) {
     return s
   }
   //trim the string to the maximum length
@@ -29,11 +25,12 @@ const truncate = (s, maxLength=32) => {
 }
 
 const ArticleStream = ({
-  memoid='', cells=[],
-  stepLayers = [ LayerNarrativeStep ],
+  memoid = '',
+  cells = [],
+  stepLayers = [LayerNarrativeStep],
   shadowLayers = [LayerHermeneuticsStep, LayerHermeneutics],
-  anchorPrefix='',
-  onDataHrefClick
+  anchorPrefix = '',
+  onDataHrefClick,
 }) => {
   // const [layer] = useQueryParam('layer', StringParam)
 
@@ -46,7 +43,7 @@ const ArticleStream = ({
   //   shadowLayers = []
   // }
 
-  const setVisibleCell = useArticleStore(store => store.setVisibleCell)
+  const setVisibleCell = useArticleStore((store) => store.setVisibleCell)
   let numCell = 0
   let key = -1
   // rebuild cell index based on same Layer
@@ -54,7 +51,7 @@ const ArticleStream = ({
     const buffers = []
     let previousLayer = null
     let buffer = new Array()
-    cells.forEach((cell,i) => {
+    cells.forEach((cell, i) => {
       // skip hidden cells
       if (cell.role === RoleHidden || cell.hidden) {
         return
@@ -89,19 +86,19 @@ const ArticleStream = ({
   }
 
   useEffect(() => {
-    let timeoutId = null;
+    let timeoutId = null
     const requestIntersectionObserverUpdate = () => {
-      clearTimeout(timeoutId);
+      clearTimeout(timeoutId)
       timeoutId = setTimeout(() => {
         const event = new Event('refreshIntersectionObserver')
         window.dispatchEvent(event)
-      }, 500);
+      }, 500)
     }
     window.addEventListener('resize', requestIntersectionObserverUpdate)
     window.addEventListener('scroll', requestIntersectionObserverUpdate)
 
     return () => {
-      clearTimeout(timeoutId);
+      clearTimeout(timeoutId)
       window.removeEventListener('resize', requestIntersectionObserverUpdate)
       window.removeEventListener('scroll', requestIntersectionObserverUpdate)
     }
@@ -110,41 +107,72 @@ const ArticleStream = ({
   console.info('ArticleStream rerendered')
   return (
     <section className="ArticleStream">
-    {chunks.map((cellsIndices, i) => {
-      const isShadow = shadowLayers.includes(cells[cellsIndices[0]].layer)
-      const title = cells[cellsIndices[0]]?.heading?.content ?? ''
-      const truncatedTitle = truncate(title)
-      const isStep = stepLayers.includes(cells[cellsIndices[0]].layer)
-      // eslint-disable-next-line
-      // debugger
-      if (isStep) {
-        numCell += cellsIndices.length - 1
+      {chunks.map((cellsIndices, i) => {
+        const isShadow = shadowLayers.includes(cells[cellsIndices[0]].layer)
+        const title = cells[cellsIndices[0]]?.heading?.content ?? ''
+        const truncatedTitle = truncate(title)
+        const isStep = stepLayers.includes(cells[cellsIndices[0]].layer)
+        // eslint-disable-next-line
+        // debugger
+        if (isStep) {
+          numCell += cellsIndices.length - 1
+          return (
+            <ArticleScrollama
+              initialNumCell={numCell - cellsIndices.length + 1}
+              key={i}
+              cells={cellsIndices.map((i) => cells[i])}
+              onCellClick={handleCellClick}
+              onVisibilityChange={visibilityChangeHandler}
+            />
+          )
+        }
+        if (isShadow) {
+          return (
+            <div key={i} className="pt-4">
+              <ArticleCellAccordionAnchors
+                anchorPrefix={anchorPrefix}
+                cells={cells}
+                cellsIndices={cellsIndices}
+              />
+              <ArticleCellAccordion
+                isCollapsed
+                eventKey={cells[cellsIndices[0]].idx}
+                size={cellsIndices.length}
+                startNum={numCell + 1}
+                endNum={numCell + cellsIndices.length}
+                title={title}
+                truncatedTitle={truncatedTitle}
+                onVisibilityChange={visibilityChangeHandler}
+              >
+                {cellsIndices.map((j) => {
+                  key++
+                  const cell = cells[j]
+                  if (!cell.isFigure) {
+                    numCell += 1
+                  }
+                  return (
+                    <React.Fragment key={j}>
+                      <a
+                        className="ArticleStream_anchor anchor"
+                        id={`${anchorPrefix}${cell.idx}`}
+                      ></a>
+                      <ArticleCellWrapper
+                        key={key}
+                        onClick={(e) => handleCellClick(e, cell.idx)}
+                        numCell={numCell}
+                        memoid={memoid}
+                        cell={cell}
+                        onVisibilityChange={visibilityChangeHandler}
+                      />
+                    </React.Fragment>
+                  )
+                })}
+              </ArticleCellAccordion>
+            </div>
+          )
+        }
         return (
-          <ArticleScrollama
-            initialNumCell={numCell - cellsIndices.length + 1}
-            key={i}
-            cells={cellsIndices.map(i => cells[i])}
-            onCellClick={handleCellClick}
-            onVisibilityChange={visibilityChangeHandler}
-          />
-        )
-      }
-      if (isShadow) {
-        return (
-          <div key={i} className="pt-4">
-          <ArticleCellAccordionAnchors
-            anchorPrefix={anchorPrefix}
-            cells={cells} cellsIndices={cellsIndices}/>
-          <ArticleCellAccordion
-            isCollapsed
-            eventKey={cells[cellsIndices[0]].idx}
-            size={cellsIndices.length}
-            startNum={numCell + 1}
-            endNum={numCell + cellsIndices.length}
-            title={title}
-            truncatedTitle={truncatedTitle}
-            onVisibilityChange={visibilityChangeHandler}
-          >
+          <React.Fragment key={i}>
             {cellsIndices.map((j) => {
               key++
               const cell = cells[j]
@@ -153,46 +181,21 @@ const ArticleStream = ({
               }
               return (
                 <React.Fragment key={j}>
-                <a className='ArticleStream_anchor anchor' id={`${anchorPrefix}${cell.idx}`}></a>
-                <ArticleCellWrapper key={key}
-                  onClick={(e) => handleCellClick(e, cell.idx)}
-                  numCell={numCell}
-                  memoid={memoid}
-                  cell={cell}
-                  onVisibilityChange={visibilityChangeHandler}
-                />
+                  <a className="ArticleStream_anchor anchor" id={`${anchorPrefix}${cell.idx}`}></a>
+                  <ArticleCellWrapper
+                    key={key}
+                    onClick={(e) => handleCellClick(e, cell.idx)}
+                    numCell={numCell}
+                    memoid={memoid}
+                    cell={cell}
+                    onVisibilityChange={visibilityChangeHandler}
+                  />
                 </React.Fragment>
               )
             })}
-          </ArticleCellAccordion>
-          </div>
+          </React.Fragment>
         )
-      }
-      return (
-        <React.Fragment key={i}>
-        {cellsIndices.map((j) => {
-          key++
-          const cell = cells[j]
-          if (!cell.isFigure) {
-            numCell += 1
-          }
-          return (
-            <React.Fragment key={j}>
-            <a className='ArticleStream_anchor anchor' id={`${anchorPrefix}${cell.idx}`}></a>
-            <ArticleCellWrapper key={key}
-              onClick={(e) => handleCellClick(e, cell.idx)}
-              numCell={numCell}
-              memoid={memoid}
-              cell={cell}
-              onVisibilityChange={visibilityChangeHandler}
-            />
-            </React.Fragment>
-          )
-        })}
-        </React.Fragment>
-      )
-
-    })}
+      })}
     </section>
   )
 }

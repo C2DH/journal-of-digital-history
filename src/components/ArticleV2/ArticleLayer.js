@@ -12,7 +12,7 @@ import {
   DisplayLayerSectionBibliography,
   DisplayLayerSectionFooter,
   IsMobile,
-} from '../../constants'
+} from '../../constants/globalConstants'
 import '../../styles/components/Article2/ArticleLayer.scss'
 import { useArticleToCStore } from '../../store'
 

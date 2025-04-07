@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { FormFieldProps } from './interface'
+import { FormFieldProps } from '../../interfaces/abstractSubmission'
 
-const FormField: React.FC<FormFieldProps> = ({
+const FormField = ({
   id,
   label,
   value,
@@ -10,7 +10,7 @@ const FormField: React.FC<FormFieldProps> = ({
   onChange,
   error,
   reset,
-}) => {
+}: FormFieldProps) => {
   const [touched, setTouched] = useState(false)
 
   useEffect(() => {
