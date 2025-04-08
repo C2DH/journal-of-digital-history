@@ -38,6 +38,7 @@
     "downsize": "^0.0.8",
     "highlight.js": "^10.5.0",
     "history": "^5.0.0",
+    "html-react-parser": "^5.2.3",
     "i18next": "^19.8.4",
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^2.1.1",

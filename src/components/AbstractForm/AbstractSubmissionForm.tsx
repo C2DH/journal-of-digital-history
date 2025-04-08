@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
+import parse from 'html-react-parser'
 // import ReCAPTCHA from 'react-google-recaptcha'
 import Ajv from 'ajv'
 import ajvformat from 'ajv-formats'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 
 import { getErrorByField, getErrorBySubfield } from './errors'
 import { FormData } from './interface'
@@ -217,12 +217,13 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
   return (
     <div className="container my-5">
       <div className="row">
-        <div className="col-md-6 offset-md-1">
-          <form onSubmit={handleSubmit} className="container my-5">
+        <div className="col-md-6 offset-md-2 submission-form">
+          <form onSubmit={handleSubmit} className="form">
             <div className="title-abstract">
               <h3 className="progressiveHeading">
                 {t('pages.abstractSubmission.TitleAndAbstractSectionTitle')}
               </h3>
+              <p>{t('pages.abstractSubmission.articleAbstractHelpText')}</p>
               <StaticForm
                 id="title"
                 label={t('pages.abstractSubmission.articleTitle')}
@@ -246,6 +247,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               <DynamicForm
                 id="datasets"
                 title={t('pages.abstractSubmission.DatasetSectionTitle')}
+                buttonLabel="addDataset"
                 items={formData.datasets}
                 onChange={(index: number, field: string, value: string) =>
                   handleOnChangeComponent('datasets', index, field, value)
@@ -297,7 +299,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               />
               <StaticForm
                 id="confirmEmail"
-                label={t('pages.abstractSubmission.authorEmail')}
+                label={t('pages.abstractSubmission.authorEmailCheck')}
                 value={confirmEmail}
                 onChange={handleConfirmEmailChange}
                 error={emailError}
@@ -311,6 +313,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
                 error={getErrorBySubfield(validate.errors || [], 'contact', 'orcidUrl')}
                 reset={reset}
               />
+               <p className="text-muted form-text">{parse(t('pages.abstractSubmission.authorOrcidHelpText'))}</p>
               <div className="form-check d-flex align-items-center">
                 <input
                   type="checkbox"
@@ -329,6 +332,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               <DynamicForm
                 id="contributors"
                 title={t('pages.abstractSubmission.ContributorsSectionTitle')}
+                buttonLabel="addContributor"
                 items={formData.contributors}
                 onChange={(index: number, field: string, value: string) =>
                   handleOnChangeComponent('contributors', index, field, value)
@@ -346,6 +350,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               <h3 className="progressiveHeading">
                 {t('pages.abstractSubmission.SocialMediaSectionTitle')}
               </h3>
+              <p>{t('pages.abstractSubmission.githubIdExplanation')}</p>
               <StaticForm
                 id="githubId"
                 label={t('pages.abstractSubmission.authorGithubId')}
@@ -356,6 +361,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
                 }
                 reset={reset}
               />
+              <p className="text-muted form-text">{parse(t('pages.abstractSubmission.githubIdHelpText'))}</p>
               <StaticForm
                 id="preferredLanguage"
                 label={t('pages.abstractSubmission.preferredLanguage')}
@@ -367,6 +373,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
                 reset={reset}
               />
               <hr />
+              <p>{t('pages.abstractSubmission.socialMediaExplanation')}</p>
               <StaticForm
                 id="blueskyId"
                 label={t('pages.abstractSubmission.authorBlueskyId')}
@@ -388,17 +395,16 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
             <div className="form-check d-flex align-items-center">
               <StaticForm
                 id="termsAccepted"
-                label={t('pages.abstractSubmission.TermsAcceptance')}
+                label={<>{parse(t('pages.abstractSubmission.TermsAcceptance'))}</>}
                 value={formData.termsAccepted}
                 type="checkbox"
                 onChange={handleInputChange}
                 error={getErrorByField(validate.errors || [], 'termsAccepted')}
                 reset={reset}
               />
-              <Link to="/terms" target="_blank" className="ms-2">
-                Terms of Use
-              </Link>
             </div>
+            <br />
+            <p>{parse(t('pages.abstractSubmission.recaptchaDisclaimer'))}</p>
             <br />
             {/* <ReCAPTCHA
               ref={recaptchaRef}
@@ -406,14 +412,20 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               sitekey={reCaptchaSiteKey}
             /> */}
             <div className="text-center">
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-primary btn-lg">
                 {t('actions.submit')}
               </button>
             </div>
           </form>
         </div>
-        <div className="col-md-3">
-          <SubmissionStatusCard data={formData} onReset={handleReset} errors={validate.errors || []} githubError={githubError} mailError={emailError} />
+        <div className="col-lg-3 col-md-4 submission-status-card">
+          <SubmissionStatusCard
+            data={formData}
+            onReset={handleReset}
+            errors={validate.errors || []}
+            githubError={githubError}
+            mailError={emailError}
+          />
         </div>
       </div>
     </div>

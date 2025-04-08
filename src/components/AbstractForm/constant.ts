@@ -26,7 +26,7 @@ export const initialAbstract = (callForPapers: string) => {
 
 export const datasetFields = [
   { label: 'Link', fieldName: 'link' },
-  { label: 'Description', fieldName: 'description', type: 'textarea' },
+  { label: 'Description and licence, where applicable', fieldName: 'description', type: 'textarea' },
 ]
 
 export const datasetEmpty = {

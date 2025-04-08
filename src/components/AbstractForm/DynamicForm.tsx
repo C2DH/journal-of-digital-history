@@ -17,6 +17,7 @@ const DynamicForm = ({
   errors,
   fieldConfig,
   title,
+  buttonLabel,
   maxItems = 10,
 }: DynamicFormProps) => {
   const { t } = useTranslation()
@@ -96,8 +97,8 @@ const DynamicForm = ({
           </div>
         ))}
         {items.length < maxItems && (
-          <button type="button" className="btn btn-secondary" onClick={onAdd}>
-            {t('Add Item')}
+          <button type="button" className="btn btn-outline-dark btn-sm" onClick={onAdd}>
+            {t(`actions.${buttonLabel}`)}
           </button>
         )}
       </div>
