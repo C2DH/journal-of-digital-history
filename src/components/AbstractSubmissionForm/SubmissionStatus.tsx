@@ -10,6 +10,7 @@ const SubmissionStatusCard = ({
   errors,
   githubError,
   mailError,
+  handleDownloadJson,
 }: SubmissionStatusCardProps) => {
   const { t } = useTranslation()
 
@@ -21,19 +22,6 @@ const SubmissionStatusCard = ({
     addErrorToSection(errorHeaders, 'contact')
   }
   const topLevelErrors = Array.from(errorHeaders)
-
-  const handleDownloadJson = () => {
-    const json = JSON.stringify(data, null, 2)
-    const blob = new Blob([json], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-
-    const link = document.createElement('a')
-    link.href = url
-    link.download = 'submission-data.json'
-    link.click()
-
-    URL.revokeObjectURL(url)
-  }
 
   return (
     <div

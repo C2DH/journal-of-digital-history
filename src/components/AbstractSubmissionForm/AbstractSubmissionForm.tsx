@@ -6,10 +6,11 @@ import ajvformat from 'ajv-formats'
 import { useTranslation } from 'react-i18next'
 
 import { getErrorByField, getErrorBySubfield } from './errors'
-import { FormData } from '../../interfaces/abstractSubmission'
+import { FormData, AbstractSubmissionFormProps } from '../../interfaces/abstractSubmission'
 import { submissionFormSchema } from '../../schemas/abstractSubmission'
 import DynamicForm from './DynamicForm'
 import SubmissionStatusCard from './SubmissionStatus'
+import SubmissionSummary from './SubmissionSummary'
 import StaticForm from './StaticForm'
 // import { reCaptchaSiteKey } from '../../constants'
 import {
@@ -24,13 +25,17 @@ import checkGithubUsername from './checkGithubUsername'
 import { debounce } from '../../logic/debounce'
 import { getLocalizedPath } from '../../logic/language'
 
-function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
+function AbstractSubmissionForm({
+  callForPapers,
+  makesHeaderDisappear,
+}: AbstractSubmissionFormProps) {
   const { t } = useTranslation()
   const [formData, setFormData] = useState<FormData>(initialAbstract(callForPapers))
   const [confirmEmail, setConfirmEmail] = useState('')
   const [emailError, setEmailError] = useState('')
   const [githubError, setGithubError] = useState('')
   const [autoFillContributor, setAutoFillContributor] = useState(true)
+  const [isSubmitted, setIsSubmitted] = useState(false)
   // const recaptchaRef = useRef<ReCAPTCHA>(null)
 
   //Reset UI when form is reset
@@ -40,7 +45,11 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
   const ajv = new Ajv({ allErrors: true })
   ajvformat(ajv)
   const validate = ajv.compile(submissionFormSchema)
-  validate(formData)
+  const isValid = validate(formData)
+
+  const hasErrors = !!githubError || !!emailError || !isValid
+
+  console.info('[AbstractSubmissionForm - AJV errors] validate.errors', validate.errors)
 
   //Update callForPapers in formData
   useEffect(() => {
@@ -49,7 +58,6 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const isValid = validate(formData)
 
     // TODO: Uncomment reCAPTCHA when form is ready
 
@@ -60,20 +68,16 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
     // }
     // console.log('ReCAPTCHA token:', recaptchaToken);
 
-    if (githubError) {
-      console.log('Form cannot be submitted due to GitHub API validation error:', githubError)
+    if (hasErrors) {
+      console.error('[AbstractSubmisisonForm] Form cannot be submitted due to errors.', {
+        githubError,
+        emailError,
+        isValid})
       return
-    }
-
-    if (formData.contact.email !== confirmEmail) {
-      setEmailError(t('pages.abstractSubmission.emailMismatchError'))
-      return
-    }
-
-    if (!isValid) {
-      console.log('Errors', validate.errors)
     } else {
-      console.log('Form submitted successfully:', formData)
+      console.info('[AbstractSubmisisonForm] Form submitted successfully:', formData)
+      setIsSubmitted(true)
+      makesHeaderDisappear(isSubmitted)
     }
   }
 
@@ -101,7 +105,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
         setGithubError('')
       }
     } catch (error) {
-      console.error('Error validating GitHub username:', error)
+      console.error('[AbstractSubmisisonForm] Error validating GitHub username:', error)
       setGithubError(t('pages.abstractSubmission.githubApiError'))
     }
   }
@@ -109,7 +113,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value, type } = event.target
     const checked = type === 'checkbox' ? (event.target as HTMLInputElement).checked : undefined
-    const debouncedGithubValidation = debounce(handleGithubValidation, 1000)
+    const debouncedGithubValidation = debounce(handleGithubValidation, 3000)
 
     setFormData((prev: FormData) => {
       const updatedFormData = {
@@ -124,7 +128,6 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
         }
 
         if (id === 'githubId') {
-          console.log('TEST')
           debouncedGithubValidation(value)
         }
       } else {
@@ -182,6 +185,22 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
     setFormData(initialAbstract(callForPapers))
     setConfirmEmail('')
     setReset(true)
+    setIsSubmitted(false)
+    makesHeaderDisappear(isSubmitted)
+    window.scrollTo(0, 0)
+  }
+
+  const handleDownloadJson = () => {
+    const json = JSON.stringify(formData, null, 2)
+    const blob = new Blob([json], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+
+    const link = document.createElement('a')
+    link.href = url
+    link.download = 'submission-data.json'
+    link.click()
+
+    URL.revokeObjectURL(url)
   }
 
   const handleAutoFillChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -190,7 +209,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
 
     setFormData((prev) => {
       if (isChecked) {
-        // Add contact details as the first contributor
+        // Add contact details as first contributor
         const contactAsContributor = {
           firstName: prev.contact.firstName,
           lastName: prev.contact.lastName,
@@ -204,7 +223,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
           contributors: [contactAsContributor, ...prev.contributors],
         }
       } else {
-        // Remove the first contributor
+        // Remove first contributor
         return {
           ...prev,
           contributors: prev.contributors.slice(1),
@@ -213,7 +232,15 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
     })
   }
 
-  console.log('validate.errors', validate.errors)
+  if (isSubmitted) {
+    return (
+      <SubmissionSummary
+        formData={formData}
+        onReset={handleReset}
+        handleDownloadJson={handleDownloadJson}
+      />
+    )
+  }
 
   return (
     <div className="container my-5">
@@ -236,7 +263,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               />
               <StaticForm
                 id="abstract"
-                label={t('pages.abstractSubmission.articleAbstract')} 
+                label={t('pages.abstractSubmission.articleAbstract')}
                 required={true}
                 value={formData.abstract}
                 type="textarea"
@@ -437,7 +464,12 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               sitekey={reCaptchaSiteKey}
             /> */}
             <div className="text-center">
-              <button type="submit" className="btn btn-primary btn-lg" style={{ margin: '2em'}}>
+              <button
+                type="submit"
+                className="btn btn-primary btn-lg"
+                style={{ margin: '2em' }}
+                disabled={hasErrors}
+              >
                 {t('actions.submit')}
               </button>
             </div>
@@ -450,6 +482,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
             errors={validate.errors || []}
             githubError={githubError}
             mailError={emailError}
+            handleDownloadJson={handleDownloadJson}
           />
         </div>
       </div>

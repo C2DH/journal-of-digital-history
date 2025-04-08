@@ -1,5 +1,4 @@
 import type { ErrorObject } from 'ajv'
-
 export interface FormData {
   callForPapers: string
   title: string
@@ -28,7 +27,6 @@ export interface Contact {
   facebookId?: string
   preferredLanguage: LanguagePreference
 }
-
 export interface Dataset {
   link: string
   description: string
@@ -40,7 +38,6 @@ export interface Contributor {
   email: string
   orcidUrl: string
 }
-
 export interface ValidationErrors {
   [key: string]: ErrorObject[]
 }
@@ -84,4 +81,16 @@ export interface SubmissionStatusCardProps {
   errors: ErrorObject[]
   githubError: string
   mailError: string
+  handleDownloadJson: () => void
+}
+
+export interface SubmissionSummaryProps {
+  formData: Record<string, any>
+  handleDownloadJson: () => void
+  onReset: (event: React.MouseEvent<HTMLButtonElement>) => void
+}
+
+export interface AbstractSubmissionFormProps {
+  callForPapers: string
+  makesHeaderDisappear: (isSubmitted: boolean) => void
 }

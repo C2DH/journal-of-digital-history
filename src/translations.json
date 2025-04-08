@@ -57,9 +57,9 @@
           "contact": "contact point"
         },
         "abstractSubmitted": {
-          "title": "Your Abstract has been submitted!",
-          "subheading": "You will soon be contacted by our editors via the email you have indicated in the contact form.",
-          "moreInfo": "If any information needs to be changed, please contact us via email at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>"
+          "title": "Congratulations ! ",
+          "heading": "Your abstract has been successfully submitted. Please find a summary of your submission below. Soon, you will be contacted by our editors via the email provided in the form.",
+          "moreInfo": "If any information needs to be changed, please contact us at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>."
         },
         "cfp": {
           "applyCallForPapers": "Submit an Abstract"
@@ -206,8 +206,8 @@
         "logout": "(log out)",
         "submit": "Submit your Contribution",
         "addLink": "Add Link",
-        "addContributor": "+ Contributor",
-        "addDataset": "+ Dataset / Tools / Code",
+        "addContributor": "＋ Contributor",
+        "addDataset": "＋ Dataset / Tools / Code",
         "downloadAsJSON": "Download as JSON ↓",
         "resetForm": "Start over ↻",
         "expand": "Expand",
@@ -216,6 +216,7 @@
         "showsourceCode": "show source code",
         "hideShadowLayer": "collapse",
         "showShadowLayer": "show",
+        "submitAnotherAbstract": "Submit another abstract",
         "switchLayer": {
           "narrative": "switch to narrative layer",
           "hermeneutics": "switch to hermeneutic layer",
