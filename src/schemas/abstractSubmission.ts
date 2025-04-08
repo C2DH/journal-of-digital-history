@@ -17,65 +17,32 @@ export const submissionFormSchema = {
       required: ['link', 'description'],
     },
     contact: {
-      type: 'object',
-      properties: {
-        firstName: { type: 'string', minLength: 1, maxLength: 100 },
-        lastName: { type: 'string', minLength: 1, maxLength: 100 },
-        affiliation: { type: 'string', minLength: 1, maxLength: 100 },
-        email: { type: 'string', minLength: 1, format: 'email' },
-        orcidUrl: {
-          type: 'string',
-          format: 'uri',
-          pattern: '^https?://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9X]{4}$',
-        },
-        githubId: {
-          type: 'string',
-          minLength: 1,
-          maxLength: 39,
-          pattern: '^(?!-)(?!.*--)[a-z0-9-]{1,39}(?<!-)$',
-        },
-        blueskyId: {
-          anyOf: [
-            {
-              type: 'string',
-              minLength: 1,
-              maxLength: 26,
-              pattern: '^[a-zA-Z0-9_]{1,15}.bsky.social',
-            },
-            { type: 'null' },
-            { type: 'string', maxLength: 0 },
-          ],
-        },
-        facebookId: {
-          anyOf: [
-            { type: 'string', minLength: 5, maxLength: 50, pattern: '^[a-zA-Z0-9._]{5,50}' },
-            { type: 'null' },
-            { type: 'string', maxLength: 0 },
-          ],
-        },
-        preferredLanguage: {
-          type: 'string',
-          enum: ['Python', 'R', 'Default'],
-          default: 'Python',
+      type: 'array',
+      items:{
+        type:'object',
+        properties: {
+          firstname: { type: 'string', minLength: 1, maxLength: 100 },
+          lastname: { type: 'string', minLength: 1, maxLength: 100 },
+          affiliation: { type: 'string', minLength: 1, maxLength: 100 },
+          email: { type: 'string', minLength: 1, maxLength:100, format: 'email' },
         },
       },
+      minItems: 1,
+      maxItems: 1,
       required: [
-        'firstName',
-        'lastName',
+        'firstname',
+        'lastname',
         'affiliation',
         'email',
-        'orcidUrl',
-        'githubId',
-        'preferredLanguage',
       ],
     },
-    contributors: {
+    authors: {
       type: 'array',
       items: {
         type: 'object',
         properties: {
-          firstName: { type: 'string', minLength: 1, maxLength: 100 },
-          lastName: { type: 'string', minLength: 1, maxLength: 100 },
+          firstname: { type: 'string', minLength: 1, maxLength: 100 },
+          lastname: { type: 'string', minLength: 1, maxLength: 100 },
           affiliation: { type: 'string', minLength: 1, maxLength: 100 },
           email: { type: 'string', format: 'email' },
           orcidUrl: {
@@ -83,13 +50,43 @@ export const submissionFormSchema = {
             format: 'uri',
             pattern: '^https?://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9X]{4}$',
           },
+          githubId: {
+            type: 'string',
+            minLength: 1,
+            maxLength: 39,
+            pattern: '^(?!-)(?!.*--)[a-z0-9-]{1,39}(?<!-)$',
+          },
+          blueskyId: {
+            anyOf: [
+              {
+                type: 'string',
+                minLength: 1,
+                maxLength: 26,
+                pattern: '^[a-zA-Z0-9_]{1,15}.bsky.social',
+              },
+              { type: 'null' },
+              { type: 'string', maxLength: 0 },
+            ],
+          },
+          facebookId: {
+            anyOf: [
+              { type: 'string', minLength: 5, maxLength: 50, pattern: '^[a-zA-Z0-9._]{5,50}' },
+              { type: 'null' },
+              { type: 'string', maxLength: 0 },
+            ],
+          },
         },
       },
       minItems: 1,
       maxItems: 10,
-      required: ['firstName', 'lastName', 'affiliation', 'email', 'orcidUrl'],
+      required: ['firstname', 'lastname', 'affiliation', 'email', 'orcidUrl', 'githubId'],
+    },
+    preferredLanguage: {
+      type: 'string',
+      enum: ['Python', 'R', 'Default'],
+      default: 'Python',
     },
     termsAccepted: { type: 'boolean', enum: [true] },
   },
-  required: ['title', 'abstract', 'contact', 'contributors', 'termsAccepted'],
+  required: ['title', 'abstract', 'authors', 'termsAccepted'],
 }

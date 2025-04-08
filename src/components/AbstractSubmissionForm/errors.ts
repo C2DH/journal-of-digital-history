@@ -107,40 +107,40 @@ export const addErrorToSection = (
 }
 
 /**
- * Retrieves the error message associated with a specific field from a list of error objects.
+ * Retrieves the error keyword associated with a specific field from a list of error objects.
  * 
  * @param errors - Array of error objects. If not provided, the default is an empty array.
  * @param field - Name of the field 
- * @returns The error message for the specified field, or `undefined` if no error 
+ * @returns The error keyword for the specified field, or `undefined` if no error 
  */
 export const getErrorByField = (errors: ErrorObject[] = [], field: string): string => {
-  return getErrors(errors)?.[field]?.[0]?.message
+  return getErrors(errors)?.[field]?.[0]?.keyword
 }
 
 /**
- * Retrieves the error message associated with a specific subfield within a field from a list of error objects.
+ * Retrieves the error keyword associated with a specific subfield within a field from a list of error objects.
  *
  * @param errors - Array of error objects. If not provided, the default is an empty array.
  * @param field - Name of the field
  * @param subfield - Name of the subfield
- * @returns The error message as a string, or `undefined` if no error
+ * @returns The error keyword as a string, or `undefined` if no error
  */
 export const getErrorBySubfield = (
   errors: ErrorObject[] = [],
   field: string,
   subfield: string,
 ): string => {
-  return getErrors(errors)?.[field]?.[subfield]?.[0]?.message
+  return getErrors(errors)?.[field]?.[subfield]?.[0]?.keyword
 }
 
 /**
- * Retrieves the error message for a specific field within a specific item (a dataset or a contributor) from a list of error objects.
+ * Retrieves the error keyword for a specific field within a specific item (a dataset or a contributor) from a list of error objects.
  *
  * @param errors - Array of error objects. If not provided, the default is an empty array.
  * @param section - Name of the section (e.g., 'datasets', 'contributors')
  * @param item - Index of the item 
  * @param field - Name of the field
- * @returns The error message as a string, or `undefined` if no error
+ * @returns The error keyword as a string, or `undefined` if no error
  */
 export const getErrorByItemAndByField = (
   errors: ErrorObject[] = [],
@@ -148,5 +148,5 @@ export const getErrorByItemAndByField = (
   item: number,
   field: string,
 ): string => {
-  return getErrors(errors)?.[section]?.[item]?.[field]?.[0]?.message
+  return getErrors(errors)?.[section]?.[item]?.[field]?.[0]?.keyword
 }

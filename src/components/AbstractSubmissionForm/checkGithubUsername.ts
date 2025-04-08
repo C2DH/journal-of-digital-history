@@ -9,16 +9,21 @@ const checkGithubUsername = async (githubId: string) => {
   const url = `${process.env.REACT_APP_GITHUB_USERS_API_ENDPOINT}${githubId}`
 
   try {
-    const response = await fetch(url)
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${process.env.REACT_APP_GITHUB_ACCESS_TOKEN}`, 
+        
+      },
+    });
     console.info('[GithubAPI] Username response:', response)
 
-    if (response.ok) {
+    if (response.status == 200) {
       return true
     } else {
       return false
     }
   } catch (error) {
-    console.error('Error checking GitHub username:', error)
+    console.error('[GithubAPI] Error checking GitHub username:', error)
   }
 }
 

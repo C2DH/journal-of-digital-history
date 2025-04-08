@@ -6,7 +6,7 @@ import { requiredFieldErrors, addErrorToSection } from './errors'
 
 const SubmissionStatusCard = ({
   data,
-  onReset,
+  // onReset,
   errors,
   githubError,
   mailError,
@@ -22,19 +22,6 @@ const SubmissionStatusCard = ({
   }
   const topLevelErrors = Array.from(errorHeaders)
 
-  const handleDownloadJson = () => {
-    const json = JSON.stringify(data, null, 2)
-    const blob = new Blob([json], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-
-    const link = document.createElement('a')
-    link.href = url
-    link.download = 'submission-data.json'
-    link.click()
-
-    URL.revokeObjectURL(url)
-  }
-
   return (
     <div
       className="card sticky-top m-0 pe-2 py-2 ps-4 border border-dark rounded"
@@ -42,10 +29,9 @@ const SubmissionStatusCard = ({
     >
       <div className="card-body">
         <div className="text-accent mb-4">
-          <h5>Submission Status</h5>
+          <h5>{t('pages.abstractSubmission.submissionStatus.header')}</h5>
         </div>
         <div className="mb-3">
-          <h6 className="fw-bold">Mandatory Fields to Complete:</h6>
           <ul className="list-unstyled">
             {mandatoryTopFields.map((section) => (
               <li key={section} className="d-flex align-items-center">
@@ -54,27 +40,24 @@ const SubmissionStatusCard = ({
                 ) : (
                   <span className="text-success me-2 material-icons">check_circle</span>
                 )}
-                <span>{t(`pages.abstractSubmission.fields${section}`)}</span>
+                <span>{t(`pages.abstractSubmission.submissionStatus.${section}`)}</span>
               </li>
             ))}
           </ul>
           <hr />
           <div className="mb-3">
-            <span className="badge bg-info">Date Created</span>{' '}
+            <span className="badge bg-info">{t('labels.dateCreated')}</span>{' '}
             {new Date(data.dateCreated).toLocaleString('en-GB', dateFormat)}
           </div>
           <div className="mb-3">
-            <span className="badge bg-info">Last Modified</span>{' '}
+            <span className="badge bg-info">{t('labels.dateLastModified')}</span>{' '}
             {new Date(data.dateLastModified).toLocaleString('en-GB', dateFormat)}
           </div>
 
           <div className="d-flex flex-column">
-            <button className="btn btn-outline-dark mb-3" onClick={onReset}>
+            {/* <button className="btn btn-outline-dark mb-3" onClick={onReset}>
               {t('actions.resetForm')}
-            </button>
-            <button className="btn btn-outline-dark" onClick={handleDownloadJson}>
-              {t('actions.downloadAsJSON')}
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

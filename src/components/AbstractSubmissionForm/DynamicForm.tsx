@@ -2,21 +2,23 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { getErrorByItemAndByField } from './errors'
-import { Contributor, Dataset, DynamicFormProps } from '../../interfaces/abstractSubmission'
+import { Author, Contact, Dataset, DynamicFormProps } from '../../interfaces/abstractSubmission'
 import CloseButtonItem from '../Buttons/CloseButtonItem'
 import ArrowUpButtonItem from '../Buttons/ArrowUpButtonItem'
 import ArrowDownButtonItem from '../Buttons/ArrowDownButtonItem'
 
 const DynamicForm = ({
   id,
-  items,
+  items = [], 
   onChange,
   onAdd,
   onRemove,
   moveItem,
   errors,
+  confirmEmailError,
   fieldConfig,
   title,
+  explanation,
   buttonLabel,
   maxItems = 10,
 }: DynamicFormProps) => {
@@ -33,8 +35,9 @@ const DynamicForm = ({
   return (
     <>
       <h3 className="progressiveHeading">{title}</h3>
+      <p>{explanation}</p>
       <div className="dynamic-list-form">
-        {items.map((item: Dataset | Contributor, index: number) => (
+        {items.map((item: Dataset | Author | Contact, index: number) => (
           <div
             key={index}
             className="list-item d-flex align-items-top mb-2 ps-2 pe-1 pb-2 pt-0 border border-dark rounded shadow-sm"
@@ -47,13 +50,18 @@ const DynamicForm = ({
             }}
           >
             <div className="w-100 mt-2">
-              {fieldConfig.map(({ label, fieldName, type = 'text' }) => {
+              {fieldConfig.map(({ label, fieldName, type = 'text', placeholder, required }) => {
                 const error = getErrorByItemAndByField(errors, id, index, fieldName)
                 const isTouched = touched[`${index}-${fieldName}`]
 
                 return (
-                  <div className="form-group" key={fieldName}>
-                    <label htmlFor={`${fieldName}-${index}`}>{label}</label>
+                  <div className="form-group" key={label}>
+                    {type !== 'checkbox' && (
+                      <label htmlFor={`${fieldName}-${index}`}>
+                        {t(`pages.abstractSubmission.${label}`)}
+                        {required && <span className="text-accent"> *</span>}
+                      </label>
+                    )}
                     {type === 'textarea' ? (
                       <textarea
                         className={`form-control ${
@@ -65,12 +73,34 @@ const DynamicForm = ({
                           onChange(index, fieldName, e.target.value)
                           handleFieldTouch(index, fieldName)
                         }}
+                        placeholder={t(`pages.abstractSubmission.placeholder.${placeholder}`)}
+                        rows={5}
                       ></textarea>
+                    ) : type === 'checkbox' ? (
+                      <div className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id={`${fieldName}-${index}`}
+                          checked={Boolean(item[fieldName])}
+                          onChange={(e) => {
+                            onChange(index, fieldName, e.target.checked)
+                            handleFieldTouch(index, fieldName)
+                          }}
+                        />
+                        <label className="form-check-label" htmlFor={`${fieldName}-${index}`}>
+                          {t(`pages.abstractSubmission.${label}`)}
+                        </label>
+                      </div>
                     ) : (
                       <input
                         type={type}
                         className={`form-control ${
-                          isTouched ? (error ? 'is-invalid' : 'is-valid') : ''
+                          isTouched
+                            ? error || (fieldName === 'confirmEmail' && confirmEmailError)
+                              ? 'is-invalid'
+                              : 'is-valid'
+                            : ''
                         }`}
                         id={`${fieldName}-${index}`}
                         value={item[fieldName]}
@@ -78,9 +108,17 @@ const DynamicForm = ({
                           onChange(index, fieldName, e.target.value)
                           handleFieldTouch(index, fieldName)
                         }}
+                        placeholder={t(`pages.abstractSubmission.placeholder.${placeholder}`)}
                       />
                     )}
-                    {isTouched && error && <div className="text-muted form-text">{error}</div>}
+                    {isTouched &&
+                      (error || (fieldName === 'confirmEmail' && confirmEmailError)) && (
+                        <div className="text-error form-text">
+                          {fieldName === 'confirmEmail' && confirmEmailError
+                            ? t('pages.abstractSubmission.errors.confirmEmailMismatch')
+                            : t(`pages.abstractSubmission.errors.${id}.${fieldName}.${error}`)}
+                        </div>
+                      )}
                   </div>
                 )
               })}
@@ -90,9 +128,12 @@ const DynamicForm = ({
                 index={index}
                 onRemove={(index) => {
                   onRemove(index)
-                }}/>
+                }}
+              />
               {index > 0 && <ArrowUpButtonItem index={index} moveItem={moveItem} />}
-              {index < items.length - 1 && <ArrowDownButtonItem index={index} moveItem={moveItem} />}
+              {index < items.length - 1 && (
+                <ArrowDownButtonItem index={index} moveItem={moveItem} />
+              )}
             </div>
           </div>
         ))}
@@ -102,7 +143,6 @@ const DynamicForm = ({
           </button>
         )}
       </div>
-      <hr />
     </>
   )
 }

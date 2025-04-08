@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { FormFieldProps } from '../../interfaces/abstractSubmission'
+import { useTranslation } from 'react-i18next'
 
 const FormField = ({
   id,
   label,
+  required,
   value,
   type = 'text',
   options = [],
   onChange,
   error,
   reset,
+  placeholder,
 }: FormFieldProps) => {
+  const { t } = useTranslation()
   const [touched, setTouched] = useState(false)
 
   useEffect(() => {
@@ -19,7 +23,9 @@ const FormField = ({
     }
   }, [reset])
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
     if (!touched) {
       setTouched(true)
     }
@@ -28,13 +34,18 @@ const FormField = ({
 
   return (
     <div className="form-group">
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id}>
+        {label}
+        {required && <span className="text-accent"> *</span>}
+      </label>
       {type === 'textarea' ? (
         <textarea
           className={`form-control ${touched ? (error ? 'is-invalid' : 'is-valid') : ''}`}
           id={id}
           value={String(value)}
           onChange={handleChange}
+          placeholder={placeholder}
+          rows={5}
         ></textarea>
       ) : type === 'checkbox' ? (
         <input
@@ -64,9 +75,14 @@ const FormField = ({
           id={id}
           value={String(value)}
           onChange={handleChange}
+          placeholder={placeholder}
         />
       )}
-      {touched && error && <div className="text-muted form-text">{error}</div>}
+      {touched && error && (
+        <div className="text-error form-text">
+          {t(`pages.abstractSubmission.errors.${id}.${error}`)}
+        </div>
+      )}
     </div>
   )
 }
