@@ -126,7 +126,7 @@
           "datasetDetailsUrl": "Link URL",
           "datasetDetailsLabel": "Link Description, License (where applicable)",
           "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply.",
-          "TermsAcceptance": "I have read and I accept the terms and conditions available at <a href=\"/terms\" target=\"_blank\">Terms of use</a>"
+          "TermsAcceptance": "I have read and I accept the terms and conditions available at <a href=\"{{termsUrl}}\" target=\"_blank\">Terms of use</a>"
         },
         "article": {
           "abstract": "Abstract",

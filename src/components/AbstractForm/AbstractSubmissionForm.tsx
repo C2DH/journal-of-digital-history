@@ -22,6 +22,7 @@ import {
 } from './constant'
 import checkGithubUsername from './checkGithubUsername'
 import { debounce } from '../../logic/debounce'
+import { getLocalizedPath } from '../../logic/language'
 
 function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
   const { t } = useTranslation()
@@ -313,7 +314,9 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
                 error={getErrorBySubfield(validate.errors || [], 'contact', 'orcidUrl')}
                 reset={reset}
               />
-               <p className="text-muted form-text">{parse(t('pages.abstractSubmission.authorOrcidHelpText'))}</p>
+              <p className="text-muted form-text">
+                {parse(t('pages.abstractSubmission.authorOrcidHelpText'))}
+              </p>
               <div className="form-check d-flex align-items-center">
                 <input
                   type="checkbox"
@@ -361,7 +364,9 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
                 }
                 reset={reset}
               />
-              <p className="text-muted form-text">{parse(t('pages.abstractSubmission.githubIdHelpText'))}</p>
+              <p className="text-muted form-text">
+                {parse(t('pages.abstractSubmission.githubIdHelpText'))}
+              </p>
               <StaticForm
                 id="preferredLanguage"
                 label={t('pages.abstractSubmission.preferredLanguage')}
@@ -395,7 +400,15 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
             <div className="form-check d-flex align-items-center">
               <StaticForm
                 id="termsAccepted"
-                label={<>{parse(t('pages.abstractSubmission.TermsAcceptance'))}</>}
+                label={
+                  <>
+                    {parse(
+                      t('pages.abstractSubmission.TermsAcceptance', {
+                        termsUrl: getLocalizedPath('/terms'),
+                      }),
+                    )}
+                  </>
+                }
                 value={formData.termsAccepted}
                 type="checkbox"
                 onChange={handleInputChange}

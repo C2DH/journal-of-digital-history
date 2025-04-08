@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { matchPath } from "react-router";
+import { matchPath } from 'react-router'
 import intersection from 'lodash/intersection'
 import find from 'lodash/find'
 
-const LANGUAGES = (process.env.REACT_APP_LANGUAGES ?? 'en-US,fr-FR').split(',');
+const LANGUAGES = (process.env.REACT_APP_LANGUAGES ?? 'en-US,fr-FR').split(',')
 const LANGUAGES_SHORTS = LANGUAGES.map((l) => l.split('-')[0])
-const DEFAULT_LANGUAGE = process.env.REACT_APP_DEFAULT_LANGUAGE ?? 'en-US';
+const DEFAULT_LANGUAGE = process.env.REACT_APP_DEFAULT_LANGUAGE ?? 'en-US'
 const DEFAULT_LANGUAGE_SHORT = DEFAULT_LANGUAGE.split('-')[0]
 const LANGUAGE_PATH = `/:lang(${LANGUAGES_SHORTS.join('|')})`
 
@@ -22,13 +22,12 @@ const getStartLang = () => {
     const browserLangsShort = window.navigator?.languages ?? []
     console.info('browser languages detected:', browserLangsShort)
     const availablesLangsShort = intersection(browserLangsShort, LANGUAGES_SHORTS)
-    startLangShort = availablesLangsShort.length > 0
-      ? availablesLangsShort[0]
-      : DEFAULT_LANGUAGE_SHORT
+    startLangShort =
+      availablesLangsShort.length > 0 ? availablesLangsShort[0] : DEFAULT_LANGUAGE_SHORT
   }
   return {
     startLangShort,
-    lang: find(LANGUAGES, (l) => l.indexOf(startLangShort) === 0)
+    lang: find(LANGUAGES, (l) => l.indexOf(startLangShort) === 0),
   }
 }
 
@@ -61,9 +60,9 @@ const useToWithLang = (to) => {
   }
 }
 
-export {
-  getStartLang,
-  useToWithLang,
-  LANGUAGE_PATH,
-  LANGUAGES
+const getLocalizedPath = (path) => {
+  const basePath = window.location.pathname.split('/')[1]
+  return `/${basePath}${path}`
 }
+
+export { getStartLang, useToWithLang, getLocalizedPath, LANGUAGE_PATH, LANGUAGES }
