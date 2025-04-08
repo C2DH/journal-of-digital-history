@@ -42,10 +42,9 @@ const SubmissionStatusCard = ({
     >
       <div className="card-body">
         <div className="text-accent mb-4">
-          <h5>Submission Status</h5>
+          <h5>{t('pages.abstractSubmission.submissionStatus')}</h5>
         </div>
         <div className="mb-3">
-          <h6 className="fw-bold">Mandatory Fields to Complete:</h6>
           <ul className="list-unstyled">
             {mandatoryTopFields.map((section) => (
               <li key={section} className="d-flex align-items-center">
@@ -60,11 +59,11 @@ const SubmissionStatusCard = ({
           </ul>
           <hr />
           <div className="mb-3">
-            <span className="badge bg-info">Date Created</span>{' '}
+            <span className="badge bg-info">{t('labels.dateCreated')}</span>{' '}
             {new Date(data.dateCreated).toLocaleString('en-GB', dateFormat)}
           </div>
           <div className="mb-3">
-            <span className="badge bg-info">Last Modified</span>{' '}
+            <span className="badge bg-info">{t('labels.dateLastModified')}</span>{' '}
             {new Date(data.dateLastModified).toLocaleString('en-GB', dateFormat)}
           </div>
 

@@ -57,7 +57,6 @@ export const preferredLanguageOptions = [
 ]
 
 export const dateFormat = {
-  weekday: 'long', 
   year: 'numeric',
   month: 'long',
   day: 'numeric',

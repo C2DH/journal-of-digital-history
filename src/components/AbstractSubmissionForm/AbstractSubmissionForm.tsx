@@ -228,6 +228,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               <StaticForm
                 id="title"
                 label={t('pages.abstractSubmission.articleTitle')}
+                required={true}
                 value={formData.title}
                 onChange={handleInputChange}
                 error={getErrorByField(validate.errors || [], 'title')}
@@ -235,7 +236,8 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               />
               <StaticForm
                 id="abstract"
-                label={t('pages.abstractSubmission.articleAbstract')}
+                label={t('pages.abstractSubmission.articleAbstract')} 
+                required={true}
                 value={formData.abstract}
                 type="textarea"
                 onChange={handleInputChange}
@@ -269,6 +271,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               <StaticForm
                 id="firstName"
                 label={t('pages.abstractSubmission.authorFirstName')}
+                required={true}
                 value={formData.contact.firstName}
                 onChange={handleInputChange}
                 error={getErrorBySubfield(validate.errors || [], 'contact', 'firstName')}
@@ -277,6 +280,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               <StaticForm
                 id="lastName"
                 label={t('pages.abstractSubmission.authorLastName')}
+                required={true}
                 value={formData.contact.lastName}
                 onChange={handleInputChange}
                 error={getErrorBySubfield(validate.errors || [], 'contact', 'lastName')}
@@ -285,6 +289,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               <StaticForm
                 id="affiliation"
                 label={t('pages.abstractSubmission.authorAffiliation')}
+                required={true}
                 value={formData.contact.affiliation}
                 onChange={handleInputChange}
                 error={getErrorBySubfield(validate.errors || [], 'contact', 'affiliation')}
@@ -293,6 +298,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               <StaticForm
                 id="email"
                 label={t('pages.abstractSubmission.authorEmail')}
+                required={true}
                 value={formData.contact.email}
                 onChange={handleInputChange}
                 error={getErrorBySubfield(validate.errors || [], 'contact', 'email')}
@@ -301,6 +307,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               <StaticForm
                 id="confirmEmail"
                 label={t('pages.abstractSubmission.authorEmailCheck')}
+                required={true}
                 value={confirmEmail}
                 onChange={handleConfirmEmailChange}
                 error={emailError}
@@ -309,6 +316,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               <StaticForm
                 id="orcidUrl"
                 label={t('pages.abstractSubmission.authorOrcid')}
+                required={true}
                 value={formData.contact.orcidUrl}
                 onChange={handleInputChange}
                 error={getErrorBySubfield(validate.errors || [], 'contact', 'orcidUrl')}
@@ -357,6 +365,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               <StaticForm
                 id="githubId"
                 label={t('pages.abstractSubmission.authorGithubId')}
+                required={true}
                 value={formData.contact.githubId}
                 onChange={handleInputChange}
                 error={
@@ -370,6 +379,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               <StaticForm
                 id="preferredLanguage"
                 label={t('pages.abstractSubmission.preferredLanguage')}
+                required={true}
                 value={formData.contact.preferredLanguage || 'Python'}
                 type="select"
                 options={preferredLanguageOptions}
@@ -382,6 +392,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               <StaticForm
                 id="blueskyId"
                 label={t('pages.abstractSubmission.authorBlueskyId')}
+                required={false}
                 value={formData.contact.blueskyId}
                 onChange={handleInputChange}
                 error={getErrorBySubfield(validate.errors || [], 'contact', 'blueskyId')}
@@ -390,6 +401,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
               <StaticForm
                 id="facebookId"
                 label={t('pages.abstractSubmission.authorFacebookId')}
+                required={false}
                 value={formData.contact.facebookId}
                 onChange={handleInputChange}
                 error={getErrorBySubfield(validate.errors || [], 'contact', 'facebookId')}
@@ -409,6 +421,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
                     )}
                   </>
                 }
+                required={true}
                 value={formData.termsAccepted}
                 type="checkbox"
                 onChange={handleInputChange}
@@ -418,14 +431,13 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
             </div>
             <br />
             <p>{parse(t('pages.abstractSubmission.recaptchaDisclaimer'))}</p>
-            <br />
             {/* <ReCAPTCHA
               ref={recaptchaRef}
               size="invisible"
               sitekey={reCaptchaSiteKey}
             /> */}
             <div className="text-center">
-              <button type="submit" className="btn btn-primary btn-lg">
+              <button type="submit" className="btn btn-primary btn-lg" style={{ margin: '2em'}}>
                 {t('actions.submit')}
               </button>
             </div>

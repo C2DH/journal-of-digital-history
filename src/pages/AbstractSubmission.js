@@ -18,10 +18,16 @@ const AbstractSubmission = () => {
           <h1 className="my-5">{t('pages.abstractSubmission.title')}</h1>
         </Col>
       </Row>
-      <AbstractSubmissionCallForPapers
-        onChange={(cfp) => setCallForPapers(cfp)}
-        cfp={callForPapers}
-      />
+      <div style={{ paddingLeft: '12px' }}>
+        <AbstractSubmissionCallForPapers
+          onChange={(cfp) => setCallForPapers(cfp)}
+          cfp={callForPapers}
+        />
+      </div>
+      <br />
+      <em className="text-accent offset-md-2" style={{ paddingLeft: '12px' }}>
+        {t('pages.abstractSubmission.requiredFieldExplanation')}
+      </em>
       <AbstractSubmissionForm callForPapers={callForPapers} />
       <br />
     </Container>

@@ -101,6 +101,7 @@
           "authorAffiliation": "Affiliation",
           "defaultContributor": "Use this contact info as contributor",
           "emailMismatchError": "Email addresses do not match",
+          "requiredFieldExplanation": "All field marked with an asterisk (*) are required",
           "fieldstitle": "Title",
           "fieldsabstract": "Abstract",
           "fieldscontact": "Contact",
@@ -115,7 +116,7 @@
           "invalidGithubId": "Github username does not exist",
           "githubApiError": "Github API error: {{error}}",
           "preferredLanguage": "Programming language for Github repository",
-          "preview": "Submission Status",
+          "submissionStatus": "Submission Status",
           "TitleAndAbstractSectionTitle": "Title & Abstract",
           "ContactPointSectionTitle": "Contact",
           "DatasetSectionTitle": "Tools, Code & Data",
@@ -238,8 +239,8 @@
       "labels": {
         "formSubmissionIncomplete": "Please starts to fill the form...",
         "formSubmissionReady": "ready to be submitted!",
-        "dateCreated": "started:",
-        "dateLastModified": "last edit",
+        "dateCreated": "Started on",
+        "dateLastModified": "Last edit",
         "instance": {
           "contact": "contact info",
           "authors": "contributors",

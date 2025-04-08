@@ -48,6 +48,7 @@ export interface ValidationErrors {
 export interface FormFieldProps {
   id: string
   label: string | React.ReactNode
+  required: boolean
   value: string | boolean
   type?: 'text' | 'email' | 'textarea' | 'checkbox' | 'select'
   options?: { value: string; label: string }[]

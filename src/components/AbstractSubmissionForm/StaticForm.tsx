@@ -3,7 +3,8 @@ import { FormFieldProps } from '../../interfaces/abstractSubmission'
 
 const FormField = ({
   id,
-  label,
+  label,  
+  required,
   value,
   type = 'text',
   options = [],
@@ -19,7 +20,9 @@ const FormField = ({
     }
   }, [reset])
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
     if (!touched) {
       setTouched(true)
     }
@@ -28,7 +31,7 @@ const FormField = ({
 
   return (
     <div className="form-group">
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id}>{label}{required && <span className="text-accent"> *</span>}</label>
       {type === 'textarea' ? (
         <textarea
           className={`form-control ${touched ? (error ? 'is-invalid' : 'is-valid') : ''}`}
