@@ -1,4 +1,9 @@
-import { SectionDefault, LayerNarrative, RoleDefault, LayerHermeneutics } from '../constants'
+import {
+  SectionDefault,
+  LayerNarrative,
+  RoleDefault,
+  LayerHermeneutics,
+} from '../constants/globalConstants'
 
 export default class ArticleCell {
   constructor({

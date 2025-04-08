@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { getErrorByItemAndByField } from './errors'
-import { Contributor, Dataset, DynamicFormProps } from './interface'
+import { Contributor, Dataset, DynamicFormProps } from '../../interfaces/abstractSubmission'
 import CloseButtonItem from '../Buttons/CloseButtonItem'
 import ArrowUpButtonItem from '../Buttons/ArrowUpButtonItem'
 import ArrowDownButtonItem from '../Buttons/ArrowDownButtonItem'

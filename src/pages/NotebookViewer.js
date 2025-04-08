@@ -8,7 +8,7 @@ import {
   StatusFetching,
   ArticleVersionQueryParam,
   URLPathsAlwaysTrustJS,
-} from '../constants'
+} from '../constants/globalConstants'
 import Article from '../components/Article'
 import ArticleV2 from '../components/ArticleV2'
 import ArticleV3 from '../components/ArticleV3'
@@ -44,16 +44,16 @@ const NotebookViewer = ({
   bibjson,
   pid,
   isJavascriptTrusted,
-  parserVersion = 2
+  parserVersion = 2,
 }) => {
   const [{ [ArticleVersionQueryParam]: version }] = useQueryParams({
     [ArticleVersionQueryParam]: withDefault(NumberParam, parserVersion),
   })
   const ArticleComponent = version === 3 ? ArticleV3 : version === 2 ? ArticleV2 : Article
   const setLoadingProgress = usePropsStore((state) => state.setLoadingProgress)
-  const clearIframeHeader  = useArticleStore((state) => state.clearIframeHeader);
-  const setArticleVersion = useArticleStore((state) => state.setArticleVersion);
-  setArticleVersion(version);
+  const clearIframeHeader = useArticleStore((state) => state.clearIframeHeader)
+  const setArticleVersion = useArticleStore((state) => state.setArticleVersion)
+  setArticleVersion(version)
 
   const url = useMemo(() => {
     if (!encodedUrl || !encodedUrl.length) {
@@ -76,8 +76,8 @@ const NotebookViewer = ({
 
   //  issue #701: Plotly problem due to isolation mode
   useEffect(() => {
-    clearIframeHeader();
-  }, [url]);
+    clearIframeHeader()
+  }, [url])
 
   const isJavascriptTrustedByOrigin =
     typeof url === 'string' ? URLPathsAlwaysTrustJS.some((d) => url.indexOf(d) === 0) : false

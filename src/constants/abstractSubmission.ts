@@ -1,4 +1,4 @@
-import { LanguagePreference } from './interface'
+import { LanguagePreference } from '../interfaces/abstractSubmission'
 
 export const initialAbstract = (callForPapers: string) => {
   return {

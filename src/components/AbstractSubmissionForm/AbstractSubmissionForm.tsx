@@ -6,8 +6,8 @@ import ajvformat from 'ajv-formats'
 import { useTranslation } from 'react-i18next'
 
 import { getErrorByField, getErrorBySubfield } from './errors'
-import { FormData } from './interface'
-import { schema } from './schema'
+import { FormData } from '../../interfaces/abstractSubmission'
+import { submissionFormSchema } from '../../schemas/abstractSubmission'
 import DynamicForm from './DynamicForm'
 import SubmissionStatusCard from './SubmissionStatus'
 import StaticForm from './StaticForm'
@@ -19,7 +19,7 @@ import {
   contributorEmpty,
   initialAbstract,
   preferredLanguageOptions,
-} from './constant'
+} from '../../constants/abstractSubmission'
 import checkGithubUsername from './checkGithubUsername'
 import { debounce } from '../../logic/debounce'
 import { getLocalizedPath } from '../../logic/language'
@@ -39,7 +39,7 @@ function AbstractSubmissionForm({ callForPapers }: { callForPapers: string }) {
   //Initialization of the JSON validation
   const ajv = new Ajv({ allErrors: true })
   ajvformat(ajv)
-  const validate = ajv.compile(schema)
+  const validate = ajv.compile(submissionFormSchema)
   validate(formData)
 
   //Update callForPapers in formData

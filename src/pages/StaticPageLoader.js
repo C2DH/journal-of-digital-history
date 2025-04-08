@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useGetJSON } from '../logic/api/fetchData'
-import { StatusSuccess, StatusFetching, StatusError } from '../constants'
+import { StatusSuccess, StatusFetching, StatusError } from '../constants/globalConstants'
 import ErrorViewer from './ErrorViewer'
 import PropTypes from 'prop-types'
 import { usePropsStore } from '../store'

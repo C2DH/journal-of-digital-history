@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { DisplayLayerCellIdxQueryParam } from '../../constants'
+import { DisplayLayerCellIdxQueryParam } from '../../constants/globalConstants'
 import { useQueryParam, NumberParam } from 'use-query-params'
 import './ArticleFigureCaption.scss'
 

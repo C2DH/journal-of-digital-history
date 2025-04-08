@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Container, Col, Row } from 'react-bootstrap'
 import { useQueryParam, withDefault } from 'use-query-params'
 import { CfpParam } from '../logic/params'
-import AbstractSubmissionForm from '../components/AbstractForm/AbstractSubmissionForm'
+import AbstractSubmissionForm from '../components/AbstractSubmissionForm/AbstractSubmissionForm'
 
 import AbstractSubmissionCallForPapers from '../components/AbstractSubmissionCallForPapers'
 
@@ -22,7 +22,7 @@ const AbstractSubmission = () => {
         onChange={(cfp) => setCallForPapers(cfp)}
         cfp={callForPapers}
       />
-      <AbstractSubmissionForm callForPapers={callForPapers}/>
+      <AbstractSubmissionForm callForPapers={callForPapers} />
       <br />
     </Container>
   )

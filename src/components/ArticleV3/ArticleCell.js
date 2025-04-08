@@ -11,7 +11,7 @@ import {
   LayerData,
   CellTypeCode,
   CellTypeMarkdown,
-} from '../../constants'
+} from '../../constants/globalConstants'
 import { useExecutionScope } from './ExecutionScope'
 import ArticleCellCodeTools from './ArticleCellCodeTools'
 import { useArticleThebe } from './ArticleThebeProvider'
@@ -52,13 +52,11 @@ const ArticleCell = ({
   const isMagic = RegexIsMagic.test(content)
   // issue #681: hyperlink are in blue for this specific article
   // Force isolation mode to prevent css conflict
-  const isolationMode = outputs.some(
-    (d) => typeof d.data === 'object' && d.data['text/html']
-  )
+  const isolationMode = outputs.some((d) => typeof d.data === 'object' && d.data['text/html'])
   // const isolationMode = outputs.some(
   //   (d) => typeof d.metadata === 'object' && d.metadata['text/html']?.isolated,
   // )
-  const renderUsingThebe = type === CellTypeCode && !figure?.isSound; //tags.includes('data');
+  const renderUsingThebe = type === CellTypeCode && !figure?.isSound //tags.includes('data');
 
   // const ref = useCallback(
   //   (node) => {
@@ -142,7 +140,6 @@ const ArticleCell = ({
         {type === CellTypeMarkdown && content && (
           <Row>
             <Col {...cellBootstrapColumnLayout}>
-
               {figure ? (
                 <ArticleCellFigure
                   metadata={metadata}
@@ -160,9 +157,7 @@ const ArticleCell = ({
                     num={num}
                   />
                 </ArticleCellFigure>
-
               ) : (
-
                 <ArticleCellContent
                   headingLevel={headingLevel}
                   onNumClick={onNumClick}
@@ -172,7 +167,7 @@ const ArticleCell = ({
                   idx={idx}
                   num={num}
                 />
-                )}
+              )}
             </Col>
           </Row>
         )}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { FormFieldProps } from './interface'
+import { FormFieldProps } from '../../interfaces/abstractSubmission'
 
 const FormField = ({
   id,

@@ -1,4 +1,4 @@
-export const schema = {
+export const submissionFormSchema = {
   type: 'object',
   properties: {
     title: { type: 'string', minLength: 10, maxLength: 250 },

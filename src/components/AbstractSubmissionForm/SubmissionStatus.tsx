@@ -1,7 +1,7 @@
 import React from 'react'
-import { SubmissionStatusCardProps } from './interface'
+import { SubmissionStatusCardProps } from '../../interfaces/abstractSubmission'
 import { useTranslation } from 'react-i18next'
-import { dateFormat, mandatoryTopFields } from './constant'
+import { dateFormat, mandatoryTopFields } from '../../constants/abstractSubmission'
 import { requiredFieldErrors, addErrorToSection } from './errors'
 
 const SubmissionStatusCard = ({
@@ -12,7 +12,7 @@ const SubmissionStatusCard = ({
   mailError,
 }: SubmissionStatusCardProps) => {
   const { t } = useTranslation()
-  
+
   const errorHeaders = requiredFieldErrors(errors)
   if (githubError) {
     addErrorToSection(errorHeaders, 'github')

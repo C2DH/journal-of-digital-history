@@ -6,7 +6,7 @@ import ArticlesGrid from '../components/Articles/ArticlesGrid'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { usePropsStore } from '../store'
-import { StatusError, StatusFetching, StatusSuccess } from '../constants'
+import { StatusError, StatusFetching, StatusSuccess } from '../constants/globalConstants'
 import ErrorViewer from './ErrorViewer'
 
 const ProgressLoadingId = 'articles'

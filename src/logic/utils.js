@@ -1,4 +1,9 @@
-import { LayerChoices, LayerNarrative, SectionChoices, SectionDefault } from '../constants'
+import {
+  LayerChoices,
+  LayerNarrative,
+  SectionChoices,
+  SectionDefault,
+} from '../constants/globalConstants'
 import ArticleAnchor from '../models/ArticleAnchor'
 import ArticleFigure from '../models/ArticleFigure'
 import ArticleReference from '../models/ArticleReference'
