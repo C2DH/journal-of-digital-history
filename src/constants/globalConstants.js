@@ -15,10 +15,7 @@ export const AbstractSubmissionRoute = {
   label: 'navigation.submit',
 }
 export const AboutRoute = { to: '/about', label: 'navigation.about' }
-export const AbstractSubmissionPreviewRoute = {
-  to: '/abstract',
-  label: 'navigation.abstract',
-}
+
 export const ArticleRoute = { to: '/article', label: 'navigation.article' }
 export const ArticleHermeneuticsRoute = {
   to: '/article/hermeneutics',

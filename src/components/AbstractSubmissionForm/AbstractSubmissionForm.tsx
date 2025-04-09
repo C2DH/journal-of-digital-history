@@ -232,6 +232,7 @@ function AbstractSubmissionForm({
     })
   }
 
+  //Update page to show abstract submitted
   if (isSubmitted) {
     return (
       <SubmissionSummary
