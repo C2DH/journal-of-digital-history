@@ -72,7 +72,8 @@ function AbstractSubmissionForm({
       console.error('[AbstractSubmisisonForm] Form cannot be submitted due to errors.', {
         githubError,
         emailError,
-        isValid})
+        isValid,
+      })
       return
     } else {
       console.info('[AbstractSubmisisonForm] Form submitted successfully:', formData)
@@ -85,7 +86,7 @@ function AbstractSubmissionForm({
     setConfirmEmail(event.target.value)
 
     if (event.target.value !== formData.contact.email) {
-      setEmailError(t('pages.abstractSubmission.emailMismatchError'))
+      setEmailError('emailMismatchError')
     } else {
       setEmailError('')
     }
@@ -100,13 +101,13 @@ function AbstractSubmissionForm({
     try {
       const isValid = await checkGithubUsername(githubId)
       if (!isValid) {
-        setGithubError(t('pages.abstractSubmission.invalidGithubId'))
+        setGithubError('invalidGithubId')
       } else {
         setGithubError('')
       }
     } catch (error) {
       console.error('[AbstractSubmisisonForm] Error validating GitHub username:', error)
-      setGithubError(t('pages.abstractSubmission.githubApiError'))
+      setGithubError('githubApiError')
     }
   }
 
@@ -136,8 +137,8 @@ function AbstractSubmissionForm({
 
       if (autoFillContributor && id in prev.contact) {
         const contactAsContributor = {
-          firstName: updatedFormData.contact.firstName,
-          lastName: updatedFormData.contact.lastName,
+          firstname: updatedFormData.contact.firstname,
+          lastname: updatedFormData.contact.lastname,
           affiliation: updatedFormData.contact.affiliation,
           email: updatedFormData.contact.email,
           orcidUrl: updatedFormData.contact.orcidUrl,
@@ -186,7 +187,7 @@ function AbstractSubmissionForm({
     setConfirmEmail('')
     setReset(true)
     setIsSubmitted(false)
-    makesHeaderDisappear(isSubmitted)
+    makesHeaderDisappear(true)
     window.scrollTo(0, 0)
   }
 
@@ -211,8 +212,8 @@ function AbstractSubmissionForm({
       if (isChecked) {
         // Add contact details as first contributor
         const contactAsContributor = {
-          firstName: prev.contact.firstName,
-          lastName: prev.contact.lastName,
+          firstname: prev.contact.firstname,
+          lastname: prev.contact.lastname,
           affiliation: prev.contact.affiliation,
           email: prev.contact.email,
           orcidUrl: prev.contact.orcidUrl,
@@ -250,34 +251,37 @@ function AbstractSubmissionForm({
           <form onSubmit={handleSubmit} className="form">
             <div className="title-abstract">
               <h3 className="progressiveHeading">
-                {t('pages.abstractSubmission.TitleAndAbstractSectionTitle')}
+                {t('pages.abstractSubmission.section.titleAndAbstract')}
               </h3>
-              <p>{t('pages.abstractSubmission.articleAbstractHelpText')}</p>
+              <p>{t('pages.abstractSubmission.article.abstractHelpText')}</p>
               <StaticForm
                 id="title"
-                label={t('pages.abstractSubmission.articleTitle')}
+                label={t('pages.abstractSubmission.article.title')}
                 required={true}
                 value={formData.title}
+                type="textarea"
                 onChange={handleInputChange}
                 error={getErrorByField(validate.errors || [], 'title')}
                 reset={reset}
+                placeholder={t('pages.abstractSubmission.placeholder.title')}
               />
               <StaticForm
                 id="abstract"
-                label={t('pages.abstractSubmission.articleAbstract')}
+                label={t('pages.abstractSubmission.article.abstract')}
                 required={true}
                 value={formData.abstract}
                 type="textarea"
                 onChange={handleInputChange}
                 error={getErrorByField(validate.errors || [], 'abstract')}
                 reset={reset}
+                placeholder={t('pages.abstractSubmission.placeholder.abstract')}
               />
             </div>
             <hr />
             <div className="tools-code-data">
               <DynamicForm
                 id="datasets"
-                title={t('pages.abstractSubmission.DatasetSectionTitle')}
+                title={t('pages.abstractSubmission.section.dataset')}
                 buttonLabel="addDataset"
                 items={formData.datasets}
                 onChange={(index: number, field: string, value: string) =>
@@ -290,68 +294,75 @@ function AbstractSubmissionForm({
                 }
                 errors={validate.errors || []}
                 fieldConfig={datasetFields}
+                required={false}
               />
             </div>
             <div className="contact">
               <h3 className="progressiveHeading">
-                {t('pages.abstractSubmission.ContactPointSectionTitle')}
+                {t('pages.abstractSubmission.section.contact')}
               </h3>
               <StaticForm
-                id="firstName"
-                label={t('pages.abstractSubmission.authorFirstName')}
+                id="firstname"
+                label={t('pages.abstractSubmission.author.firstname')}
                 required={true}
-                value={formData.contact.firstName}
+                value={formData.contact.firstname}
                 onChange={handleInputChange}
-                error={getErrorBySubfield(validate.errors || [], 'contact', 'firstName')}
+                error={getErrorBySubfield(validate.errors || [], 'contact', 'firstname')}
                 reset={reset}
+                placeholder={t('pages.abstractSubmission.placeholder.firstname')}
               />
               <StaticForm
-                id="lastName"
-                label={t('pages.abstractSubmission.authorLastName')}
+                id="lastname"
+                label={t('pages.abstractSubmission.author.lastname')}
                 required={true}
-                value={formData.contact.lastName}
+                value={formData.contact.lastname}
                 onChange={handleInputChange}
-                error={getErrorBySubfield(validate.errors || [], 'contact', 'lastName')}
+                error={getErrorBySubfield(validate.errors || [], 'contact', 'lastname')}
                 reset={reset}
+                placeholder={t('pages.abstractSubmission.placeholder.lastname')}
               />
               <StaticForm
                 id="affiliation"
-                label={t('pages.abstractSubmission.authorAffiliation')}
+                label={t('pages.abstractSubmission.author.affiliation')}
                 required={true}
                 value={formData.contact.affiliation}
                 onChange={handleInputChange}
                 error={getErrorBySubfield(validate.errors || [], 'contact', 'affiliation')}
                 reset={reset}
+                placeholder={t('pages.abstractSubmission.placeholder.affiliation')}
               />
               <StaticForm
                 id="email"
-                label={t('pages.abstractSubmission.authorEmail')}
+                label={t('pages.abstractSubmission.author.email')}
                 required={true}
                 value={formData.contact.email}
                 onChange={handleInputChange}
                 error={getErrorBySubfield(validate.errors || [], 'contact', 'email')}
                 reset={reset}
+                placeholder={t('pages.abstractSubmission.placeholder.email')}
               />
               <StaticForm
                 id="confirmEmail"
-                label={t('pages.abstractSubmission.authorEmailCheck')}
+                label={t('pages.abstractSubmission.author.emailCheck')}
                 required={true}
                 value={confirmEmail}
                 onChange={handleConfirmEmailChange}
                 error={emailError}
                 reset={reset}
+                placeholder={t('pages.abstractSubmission.placeholder.email')}
               />
               <StaticForm
                 id="orcidUrl"
-                label={t('pages.abstractSubmission.authorOrcid')}
+                label={t('pages.abstractSubmission.author.orcid')}
                 required={true}
                 value={formData.contact.orcidUrl}
                 onChange={handleInputChange}
                 error={getErrorBySubfield(validate.errors || [], 'contact', 'orcidUrl')}
                 reset={reset}
+                placeholder={t('pages.abstractSubmission.placeholder.orcid')}
               />
               <p className="text-muted form-text">
-                {parse(t('pages.abstractSubmission.authorOrcidHelpText'))}
+                {parse(t('pages.abstractSubmission.author.orcidHelpText'))}
               </p>
               <div className="form-check d-flex align-items-center">
                 <input
@@ -362,7 +373,7 @@ function AbstractSubmissionForm({
                   className="form-check-input"
                 />
                 <label htmlFor="autoFillContributor" className="form-check-label ms-2">
-                  {t('pages.abstractSubmission.defaultContributor')}
+                  {t('pages.abstractSubmission.author.defaultContributor')}
                 </label>
               </div>
               <hr />
@@ -370,7 +381,7 @@ function AbstractSubmissionForm({
             <div className="contributors">
               <DynamicForm
                 id="contributors"
-                title={t('pages.abstractSubmission.ContributorsSectionTitle')}
+                title={t('pages.abstractSubmission.section.contributors')}
                 buttonLabel="addContributor"
                 items={formData.contributors}
                 onChange={(index: number, field: string, value: string) =>
@@ -383,16 +394,17 @@ function AbstractSubmissionForm({
                 }
                 errors={validate.errors || []}
                 fieldConfig={contributorFields}
+                required={true}
               />
             </div>
             <div className="social-media">
               <h3 className="progressiveHeading">
-                {t('pages.abstractSubmission.SocialMediaSectionTitle')}
+                {t('pages.abstractSubmission.section.socialMedia')}
               </h3>
-              <p>{t('pages.abstractSubmission.githubIdExplanation')}</p>
+              <p>{t('pages.abstractSubmission.github.explanation')}</p>
               <StaticForm
                 id="githubId"
-                label={t('pages.abstractSubmission.authorGithubId')}
+                label={t('pages.abstractSubmission.author.githubId')}
                 required={true}
                 value={formData.contact.githubId}
                 onChange={handleInputChange}
@@ -400,9 +412,10 @@ function AbstractSubmissionForm({
                   githubError || getErrorBySubfield(validate.errors || [], 'contact', 'githubId')
                 }
                 reset={reset}
+                placeholder={t('pages.abstractSubmission.placeholder.githubId')}
               />
               <p className="text-muted form-text">
-                {parse(t('pages.abstractSubmission.githubIdHelpText'))}
+                {parse(t('pages.abstractSubmission.github.helpText'))}
               </p>
               <StaticForm
                 id="preferredLanguage"
@@ -419,21 +432,23 @@ function AbstractSubmissionForm({
               <p>{t('pages.abstractSubmission.socialMediaExplanation')}</p>
               <StaticForm
                 id="blueskyId"
-                label={t('pages.abstractSubmission.authorBlueskyId')}
+                label={t('pages.abstractSubmission.author.blueskyId')}
                 required={false}
                 value={formData.contact.blueskyId}
                 onChange={handleInputChange}
                 error={getErrorBySubfield(validate.errors || [], 'contact', 'blueskyId')}
                 reset={reset}
+                placeholder={t('pages.abstractSubmission.placeholder.blueskyId')}
               />
               <StaticForm
                 id="facebookId"
-                label={t('pages.abstractSubmission.authorFacebookId')}
+                label={t('pages.abstractSubmission.author.facebookId')}
                 required={false}
                 value={formData.contact.facebookId}
                 onChange={handleInputChange}
                 error={getErrorBySubfield(validate.errors || [], 'contact', 'facebookId')}
                 reset={reset}
+                placeholder={t('pages.abstractSubmission.placeholder.facebookId')}
               />
               <hr />
             </div>
@@ -443,7 +458,7 @@ function AbstractSubmissionForm({
                 label={
                   <>
                     {parse(
-                      t('pages.abstractSubmission.TermsAcceptance', {
+                      t('pages.abstractSubmission.termsAcceptance', {
                         termsUrl: getLocalizedPath('/terms'),
                       }),
                     )}

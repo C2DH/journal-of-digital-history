@@ -19,6 +19,7 @@ const DynamicForm = ({
   title,
   buttonLabel,
   maxItems = 10,
+  required,
 }: DynamicFormProps) => {
   const { t } = useTranslation()
   const [touched, setTouched] = useState({})
@@ -47,13 +48,16 @@ const DynamicForm = ({
             }}
           >
             <div className="w-100 mt-2">
-              {fieldConfig.map(({ label, fieldName, type = 'text' }) => {
+              {fieldConfig.map(({ label, fieldName, type = 'text', placeholder }) => {
                 const error = getErrorByItemAndByField(errors, id, index, fieldName)
                 const isTouched = touched[`${index}-${fieldName}`]
 
                 return (
                   <div className="form-group" key={fieldName}>
-                    <label htmlFor={`${fieldName}-${index}`}>{label}</label>
+                    <label htmlFor={`${fieldName}-${index}`}>
+                      {t(`pages.abstractSubmission.${label}`)}
+                      {required && <span className="text-accent"> *</span>}
+                    </label>
                     {type === 'textarea' ? (
                       <textarea
                         className={`form-control ${
@@ -65,6 +69,8 @@ const DynamicForm = ({
                           onChange(index, fieldName, e.target.value)
                           handleFieldTouch(index, fieldName)
                         }}
+                        placeholder={t(`pages.abstractSubmission.placeholder.${placeholder}`)}
+                        rows={5}
                       ></textarea>
                     ) : (
                       <input
@@ -78,9 +84,14 @@ const DynamicForm = ({
                           onChange(index, fieldName, e.target.value)
                           handleFieldTouch(index, fieldName)
                         }}
+                        placeholder={t(`pages.abstractSubmission.placeholder.${placeholder}`)}
                       />
                     )}
-                    {isTouched && error && <div className="text-muted form-text">{error}</div>}
+                    {isTouched && error && (
+                      <div className="text-muted form-text">
+                        {t(`pages.abstractSubmission.errors.${id}.${fieldName}.${error}`)}
+                      </div>
+                    )}
                   </div>
                 )
               })}
@@ -90,9 +101,12 @@ const DynamicForm = ({
                 index={index}
                 onRemove={(index) => {
                   onRemove(index)
-                }}/>
+                }}
+              />
               {index > 0 && <ArrowUpButtonItem index={index} moveItem={moveItem} />}
-              {index < items.length - 1 && <ArrowDownButtonItem index={index} moveItem={moveItem} />}
+              {index < items.length - 1 && (
+                <ArrowDownButtonItem index={index} moveItem={moveItem} />
+              )}
             </div>
           </div>
         ))}

@@ -19,10 +19,10 @@ export const submissionFormSchema = {
     contact: {
       type: 'object',
       properties: {
-        firstName: { type: 'string', minLength: 1, maxLength: 100 },
-        lastName: { type: 'string', minLength: 1, maxLength: 100 },
+        firstname: { type: 'string', minLength: 1, maxLength: 100 },
+        lastname: { type: 'string', minLength: 1, maxLength: 100 },
         affiliation: { type: 'string', minLength: 1, maxLength: 100 },
-        email: { type: 'string', minLength: 1, format: 'email' },
+        email: { type: 'string', minLength: 1, maxLength:100, format: 'email' },
         orcidUrl: {
           type: 'string',
           format: 'uri',
@@ -60,8 +60,8 @@ export const submissionFormSchema = {
         },
       },
       required: [
-        'firstName',
-        'lastName',
+        'firstname',
+        'lastname',
         'affiliation',
         'email',
         'orcidUrl',
@@ -74,8 +74,8 @@ export const submissionFormSchema = {
       items: {
         type: 'object',
         properties: {
-          firstName: { type: 'string', minLength: 1, maxLength: 100 },
-          lastName: { type: 'string', minLength: 1, maxLength: 100 },
+          firstname: { type: 'string', minLength: 1, maxLength: 100 },
+          lastname: { type: 'string', minLength: 1, maxLength: 100 },
           affiliation: { type: 'string', minLength: 1, maxLength: 100 },
           email: { type: 'string', format: 'email' },
           orcidUrl: {
@@ -87,7 +87,7 @@ export const submissionFormSchema = {
       },
       minItems: 1,
       maxItems: 10,
-      required: ['firstName', 'lastName', 'affiliation', 'email', 'orcidUrl'],
+      required: ['firstname', 'lastname', 'affiliation', 'email', 'orcidUrl'],
     },
     termsAccepted: { type: 'boolean', enum: [true] },
   },

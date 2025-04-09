@@ -81,53 +81,177 @@
         },
         "abstractSubmission": {
           "title": "Abstract Submission",
-          "subheading": "...",
-          "authorEmail": "Email Address",
-          "authorEmailCheck": "Confirm email address",
-          "authorFirstName": "First Name",
-          "authorLastName": "Last Name",
-          "authorOrcid": "ORCID URL",
-          "authorOrcidHelpText": "Don't have an ORCID yet? Create one at <a href=\"https://orcid.org/\" target=\"_blank\" rel=\"noopener noreferrer\">orcid.org</a> for free!",
-          "authorUsername": "nom utilisateur",
-          "authorBlueskyId": "Bluesky name",
-          "authorFacebookId": "Facebook ID",
-          "authorGithubId": "GitHub ID",
-          "articleContact": "Contact Info",
-          "articleTitle": "Title",
-          "articleAbstract": "Abstract",
-          "articleDataset": "Davaverse URL",
-          "articleAbstractHelpText": "Please take the multi-layered principle of the JDH articles into account. In particular, we would like you to describe the narrative layer, the hermeneutic layer and the data layer.",
-          "articleAbstractPlaceholder": "...",
-          "authorAffiliation": "Affiliation",
-          "defaultContributor": "Use this contact info as contributor",
-          "emailMismatchError": "Email addresses do not match",
+          "author": {
+            "email": "Email Address",
+            "emailCheck": "Confirm email address",
+            "firstname": "First Name",
+            "lastname": "Last Name",
+            "affiliation": "Affiliation",
+            "orcid": "ORCID URL",
+            "orcidHelpText": "Don't have an ORCID yet? Create one at <a href=\"https://orcid.org/\" target=\"_blank\" rel=\"noopener noreferrer\">orcid.org</a> for free!",
+            "blueskyId": "Bluesky",
+            "facebookId": "Facebook",
+            "githubId": "GitHub ID",
+            "defaultContributor": "Use this contact info as contributor"
+          },
+          "article": {
+            "title": "Title",
+            "abstract": "Abstract",
+            "abstractHelpText": "Please take the multi-layered principle of the JDH articles into account. In particular, we would like you to describe the narrative layer, the hermeneutic layer and the data layer."
+          },
+          "dataset": {
+            "link": "Link",
+            "description": "Description, License (where applicable)"
+          },
+          "contributor": {
+            "email": "Email Address",
+            "firstname": "First Name",
+            "lastname": "Last Name",
+            "affiliation": "Affiliation",
+            "orcid": "ORCID URL"
+          },
           "requiredFieldExplanation": "All field marked with an asterisk (*) are required",
-          "fieldstitle": "Title",
-          "fieldsabstract": "Abstract",
-          "fieldscontact": "Contact",
-          "fieldsdataset": "Dataset",
-          "fieldscontributors": "Contributors",
-          "fieldsgithub": "Github & Social Media",
-          "fieldstermsAccepted": "Terms of use",
-          "githubIdExplanation": "Once your abstract is accepted, we will create a dedicated repository for your article on Github. This repository includes a structured template and Github actions to streamline the writing process.",
-          "githubId": "Specify a Github account (Github username)",
-          "githubIdPlaceholder": "Enter your GitHub username",
-          "githubIdHelpText": "Don't have a GitHub account yet? Create one at <a href=\"https://github.com/\" target=\"_blank\" rel=\"noopener noreferrer\">github.com</a> for free!",
-          "invalidGithubId": "Github username does not exist",
-          "githubApiError": "Github API error: {{error}}",
+          "submissionStatus": {
+            "header": "Submission Status",
+            "title": "Title",
+            "abstract": "Abstract",
+            "contact": "Contact",
+            "dataset": "Dataset",
+            "contributors": "Contributors",
+            "github": "Github & Social Media",
+            "termsAccepted": "Terms of use"
+          },
+          "github": {
+            "explanation": "Once your abstract is accepted, we will create a dedicated repository for your article on Github. This repository includes a structured template and Github actions to streamline the writing process.",
+            "helpText": "Don't have a GitHub account yet? Create one at <a href=\"https://github.com/\" target=\"_blank\" rel=\"noopener noreferrer\">github.com</a> for free!"
+          },
           "preferredLanguage": "Programming language for Github repository",
-          "submissionStatus": "Submission Status",
-          "TitleAndAbstractSectionTitle": "Title & Abstract",
-          "ContactPointSectionTitle": "Contact",
-          "DatasetSectionTitle": "Tools, Code & Data",
-          "ContributorsSectionTitle": "Contributors",
-          "SocialMediaSectionTitle": "Github & Social Media",
+          "section": {
+            "titleAndAbstract": "Title & Abstract",
+            "contact": "Contact",
+            "dataset": "Tools, Code & Data",
+            "contributors": "Contributors",
+            "socialMedia": "Github & Social Media"
+          },
+          "placeholder": {
+            "title": "Title",
+            "abstract": "Write the abstract here ...",
+            "link": "http://example.com",
+            "description": "Please describe the data you have used. We would like to know more about your findings, tools or methods you have followed and a reflection about possible bias",
+            "firstname": "First name",
+            "lastname": "Last name",
+            "affiliation": "University, Institution or Company",
+            "email": "mail@mail.com",
+            "orcid": "https://orcid.org/0000-0000-0000-0000",
+            "blueskyId": "username.bsky.social",
+            "facebookId": "username",
+            "githubId": "your-username or username"
+          },
           "socialMediaExplanation": "When your article is published, we promote it on Bluesky and Facebook. If you would like to be tagged, you can provide your username(s).",
-          "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias",
-          "datasetDetailsUrl": "Link URL",
-          "datasetDetailsLabel": "Link Description, License (where applicable)",
           "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply.",
-          "TermsAcceptance": "I have read and I accept the terms and conditions available at <a href=\"{{termsUrl}}\" target=\"_blank\">Terms of use</a>"
+          "termsAcceptance": "I have read and I accept the terms and conditions available at <a href=\"{{termsUrl}}\" target=\"_blank\">Terms of use</a>",
+          "errors": {
+            "title": {
+              "required": "Title is required",
+              "minLength": "Must be at least 10 characters",
+              "maxLength": "Must be at most 250 characters"
+            },
+            "abstract": {
+              "required": "Abstract is required",
+              "minLength": "Must be at least 100 characters",
+              "maxLength": "Must be at most 10000 characters"
+            },
+            "datasets": {
+              "link": {
+                "minLength": "Must be at least 1 character",
+                "format": "Must be a valid URL"
+              },
+              "description": {
+                "minLength": "Must be at least 1 character",
+                "maxLength": "Must be at most 1000 characters"
+              }
+            },
+            "firstname": {
+              "required": "First name is required",
+              "minLength": "Must be at least 1 character",
+              "maxLength": "Must be at most 100 characters"
+            },
+            "lastname": {
+              "required": "Last name is required",
+              "minLength": "Must be at least 1 character",
+              "maxLength": "Must be at most 100 characters"
+            },
+            "affiliation": {
+              "required": "Affiliation is required",
+              "minLength": "Must be at least 1 character",
+              "maxLength": "Must be at most 100 characters"
+            },
+            "email": {
+              "required": "Email is required",
+              "minLength": "Must be at least 1 character",
+              "maxLength": "Must be at most 100 characters",
+              "format": "Must be a valid email address"
+            },
+            "confirmEmail": {
+              "emailMismatchError": "Email addresses do not match"
+            },
+            "orcidUrl": {
+              "required": "ORCID is required",
+              "minLength": "Must be at least 1 character",
+              "maxLength": "Must be at most 100 characters",
+              "pattern": "Must be a valid ORCID URL as https://orcid.org/0000-0000-0000-0000"
+            },
+            "githubId": {
+              "required": "Github ID is required",
+              "minLength": "Must be at least 1 character",
+              "maxLength": "Must be at most 39 characters",
+              "pattern": "Must be a valid Github ID as your-username or username",
+              "invalidGithubId": "Github username does not exist",
+              "githubApiError": "Error retrieving user data from Github API"
+            },
+            "blueskyId": {
+              "minLength": "Must be at least 1 character",
+              "maxLength": "Must be at most 26 characters",
+              "pattern": "Must be a valid Bluesky ID as username.bsky.social"
+            },
+            "facebookId": {
+              "minLength": "Must be at least 5 character",
+              "maxLength": "Must be at most 50 characters",
+              "pattern": "Must be a valid Facebook ID as username"
+            },
+            "contributors": {
+              "firstname": {
+                "required": "First name is required",
+                "minLength": "Must be at least 1 character",
+                "maxLength": "Must be at most 100 characters"
+              },
+              "lastname": {
+                "required": "Last name is required",
+                "minLength": "Must be at least 1 character",
+                "maxLength": "Must be at most 100 characters"
+              },
+              "affiliation": {
+                "required": "Affiliation is required",
+                "minLength": "Must be at least 1 character",
+                "maxLength": "Must be at most 100 characters"
+              },
+              "email": {
+                "required": "Email is required",
+                "minLength": "Must be at least 1 character",
+                "maxLength": "Must be at most 100 characters",
+                "format": "Must be a valid email address"
+              },
+              "orcidUrl": {
+                "required": "ORCID is required",
+                "minLength": "Must be at least 1 character",
+                "maxLength": "Must be at most 100 characters",
+                "pattern": "Must be a valid ORCID URL as https://orcid.org/0000-0000-0000-0000"
+              }
+            },
+            "termsAccepted": {
+              "enum": "You must accept the terms of use"
+            }
+          }
         },
         "article": {
           "abstract": "Abstract",
@@ -251,12 +375,6 @@
         }
       },
       "errors": {
-        "none": "",
-        "required": "missing",
-        "minItems": "not enough",
-        "minLength": "...not long enough",
-        "pattern": "not valid",
-        "enum": "not valid",
         "binderUrlNotAvailable": "Binder is not available for this notebook ...",
         "explainCodeNotAvailable": "Code explanation is not available for this notebook. <br/> <i>Error received: {{ error }}</i>"
       },

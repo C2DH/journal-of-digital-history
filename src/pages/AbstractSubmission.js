@@ -12,8 +12,8 @@ const AbstractSubmission = () => {
   const [callForPapers, setCallForPapers] = useQueryParam('cfp', withDefault(CfpParam, ''))
   const [headerAppearance, setHeaderAppearance] = useState(true)
 
-  const makesHeaderDisappear = (isFormSubmited) => {
-    setHeaderAppearance(isFormSubmited)
+  const makesHeaderDisappear = (isFormSubmitted) => {
+    setHeaderAppearance(isFormSubmitted)
   }
 
   return (

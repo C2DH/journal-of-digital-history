@@ -30,7 +30,7 @@ const SubmissionStatusCard = ({
     >
       <div className="card-body">
         <div className="text-accent mb-4">
-          <h5>{t('pages.abstractSubmission.submissionStatus')}</h5>
+          <h5>{t('pages.abstractSubmission.submissionStatus.header')}</h5>
         </div>
         <div className="mb-3">
           <ul className="list-unstyled">
@@ -41,7 +41,7 @@ const SubmissionStatusCard = ({
                 ) : (
                   <span className="text-success me-2 material-icons">check_circle</span>
                 )}
-                <span>{t(`pages.abstractSubmission.fields${section}`)}</span>
+                <span>{t(`pages.abstractSubmission.submissionStatus.${section}`)}</span>
               </li>
             ))}
           </ul>

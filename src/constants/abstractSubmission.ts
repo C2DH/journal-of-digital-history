@@ -7,8 +7,8 @@ export const initialAbstract = (callForPapers: string) => {
     abstract: '',
     datasets: [],
     contact: {
-      firstName: '',
-      lastName: '',
+      firstname: '',
+      lastname: '',
       affiliation: '',
       email: '',
       orcidUrl: '',
@@ -25,8 +25,8 @@ export const initialAbstract = (callForPapers: string) => {
 }
 
 export const datasetFields = [
-  { label: 'Link', fieldName: 'link' },
-  { label: 'Description and licence, where applicable', fieldName: 'description', type: 'textarea' },
+  { label: 'dataset.link', fieldName: 'link', placeholder:'link' },
+  { label: 'dataset.description', fieldName: 'description', type: 'textarea', placeholder:'description' },
 ]
 
 export const datasetEmpty = {
@@ -35,11 +35,11 @@ export const datasetEmpty = {
 }
 
 export const contributorFields = [
-  { label: 'First Name', fieldName: 'firstName' },
-  { label: 'Last Name', fieldName: 'lastName' },
-  { label: 'Affiliation', fieldName: 'affiliation' },
-  { label: 'Email', fieldName: 'email' },
-  { label: 'ORCID URL', fieldName: 'orcidUrl' },
+  { label: 'contributor.firstname', fieldName: 'firstname', placeholder:'firstname' },
+  { label: 'contributor.lastname', fieldName: 'lastname', placeholder:'lastname' },
+  { label: 'contributor.affiliation', fieldName: 'affiliation', placeholder:'affiliation' },
+  { label: 'contributor.email', fieldName: 'email', placeholder:'email' },
+  { label: 'contributor.orcid', fieldName: 'orcidUrl', placeholder:'orcid' },
 ]
 
 export const contributorEmpty = {

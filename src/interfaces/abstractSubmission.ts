@@ -17,8 +17,8 @@ export enum LanguagePreference {
   DEFAULT = 'Default',
 }
 export interface Contact {
-  firstName: string
-  lastName: string
+  firstname: string
+  lastname: string
   affiliation: string
   email: string
   orcidUrl: string
@@ -32,8 +32,8 @@ export interface Dataset {
   description: string
 }
 export interface Contributor {
-  firstName: string
-  lastName: string
+  firstname: string
+  lastname: string
   affiliation: string
   email: string
   orcidUrl: string
@@ -54,12 +54,14 @@ export interface FormFieldProps {
   ) => void
   error?: string
   reset?: boolean
+  placeholder?: string
 }
 
 export interface FieldConfig {
   label: string
   fieldName: string
   type?: string
+  placeholder?: string
 }
 
 export interface DynamicFormProps {
@@ -74,6 +76,7 @@ export interface DynamicFormProps {
   title: string
   buttonLabel: string
   maxItems?: number
+  required: boolean
 }
 export interface SubmissionStatusCardProps {
   data: FormData
