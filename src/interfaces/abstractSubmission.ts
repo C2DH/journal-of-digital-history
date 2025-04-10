@@ -3,11 +3,12 @@ export interface FormData {
   callForPapers: string
   title: string
   abstract: string
-  contact: Contact
+  contact: Contact[]
   datasets: Dataset[]
-  contributors: Contributor[]
+  authors: Author[]
   dateCreated: string
   dateLastModified: string
+  preferredLanguage: LanguagePreference
   termsAccepted: boolean
 }
 
@@ -21,22 +22,21 @@ export interface Contact {
   lastname: string
   affiliation: string
   email: string
-  orcidUrl: string
-  githubId: string
-  blueskyId?: string
-  facebookId?: string
-  preferredLanguage: LanguagePreference
 }
 export interface Dataset {
   link: string
   description: string
 }
-export interface Contributor {
+export interface Author {
   firstname: string
   lastname: string
   affiliation: string
   email: string
-  orcidUrl: string
+  orcidUrl: string,
+  githubId: string
+  blueskyId?: string
+  facebookId?: string
+  primaryContact: boolean
 }
 export interface ValidationErrors {
   [key: string]: ErrorObject[]
@@ -62,21 +62,21 @@ export interface FieldConfig {
   fieldName: string
   type?: string
   placeholder?: string
+  required?: boolean
 }
 
 export interface DynamicFormProps {
   id: string
-  items: (Dataset | Contributor)[]
-  onChange: (index: number, fieldName: string, value: string) => void
+  items: (Dataset | Author | Contact)[]
+  onChange: (index: number, fieldName: string, value: string| boolean) => void
   onAdd: () => void
   onRemove: (index: number) => void
-  moveItem: (fromIndex: number, toIndex: number) => void
+  moveItem?: (fromIndex: number, toIndex: number) => void
   errors: ErrorObject[]
   fieldConfig: FieldConfig[]
   title: string
   buttonLabel: string
   maxItems?: number
-  required: boolean
 }
 export interface SubmissionStatusCardProps {
   data: FormData

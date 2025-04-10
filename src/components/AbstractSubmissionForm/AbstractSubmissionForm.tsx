@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import parse from 'html-react-parser'
-// import ReCAPTCHA from 'react-google-recaptcha'
+import ReCAPTCHA from 'react-google-recaptcha'
 import Ajv from 'ajv'
 import ajvformat from 'ajv-formats'
 import { useTranslation } from 'react-i18next'
@@ -16,14 +16,17 @@ import StaticForm from './StaticForm'
 import {
   datasetFields,
   datasetEmpty,
-  contributorFields,
-  contributorEmpty,
+  authorFields,
+  authorEmpty,
+  contactFields,
+  contactEmpty,
   initialAbstract,
   preferredLanguageOptions,
 } from '../../constants/abstractSubmission'
 import checkGithubUsername from './checkGithubUsername'
 import { debounce } from '../../logic/debounce'
 import { getLocalizedPath } from '../../logic/language'
+import { createAbstractSubmission } from '../../logic/api/postData'
 
 function AbstractSubmissionForm({
   callForPapers,
@@ -34,9 +37,10 @@ function AbstractSubmissionForm({
   const [confirmEmail, setConfirmEmail] = useState('')
   const [emailError, setEmailError] = useState('')
   const [githubError, setGithubError] = useState('')
-  const [autoFillContributor, setAutoFillContributor] = useState(true)
   const [isSubmitted, setIsSubmitted] = useState(false)
-  // const recaptchaRef = useRef<ReCAPTCHA>(null)
+
+
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
 
   //Reset UI when form is reset
   const [reset, setReset] = useState(false)
@@ -61,7 +65,7 @@ function AbstractSubmissionForm({
 
     // TODO: Uncomment reCAPTCHA when form is ready
 
-    // const recaptchaToken = await recaptchaRef.current?.executeAsync();
+    const recaptchaToken = await recaptchaRef.current?.executeAsync()
     // if (!recaptchaToken) {
     //   console.error('ReCAPTCHA failed to generate a token.');
     //   return;
@@ -69,28 +73,30 @@ function AbstractSubmissionForm({
     // console.log('ReCAPTCHA token:', recaptchaToken);
 
     if (hasErrors) {
-      console.error('[AbstractSubmisisonForm] Form cannot be submitted due to errors.', {
+      console.error('[AbstractSubmissionForm] Form cannot be submitted due to errors.', {
         githubError,
         emailError,
         isValid,
       })
       return
     } else {
-      console.info('[AbstractSubmisisonForm] Form submitted successfully:', formData)
+      console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
+      // createAbstractSubmission({item: formData, token: recaptchaToken})
       setIsSubmitted(true)
       makesHeaderDisappear(isSubmitted)
+      //TODO: maybe try to display the summary on a new page /abstract-submitted and create a page for the errors comming from Django API
     }
   }
 
-  const handleConfirmEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setConfirmEmail(event.target.value)
+  // const handleConfirmEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setConfirmEmail(event.target.value)
 
-    if (event.target.value !== formData.contact.email) {
-      setEmailError('emailMismatchError')
-    } else {
-      setEmailError('')
-    }
-  }
+  //   if (event.target.value !== formData.contact.email) {
+  //     setEmailError('emailMismatchError')
+  //   } else {
+  //     setEmailError('')
+  //   }
+  // }
 
   const handleGithubValidation = async (githubId: string) => {
     if (!githubId) {
@@ -106,7 +112,7 @@ function AbstractSubmissionForm({
         setGithubError('')
       }
     } catch (error) {
-      console.error('[AbstractSubmisisonForm] Error validating GitHub username:', error)
+      console.error('[AbstractSubmissionForm] Error validating GitHub username:', error)
       setGithubError('githubApiError')
     }
   }
@@ -135,22 +141,11 @@ function AbstractSubmissionForm({
         updatedFormData[id] = type === 'checkbox' ? checked : value
       }
 
-      if (autoFillContributor && id in prev.contact) {
-        const contactAsContributor = {
-          firstname: updatedFormData.contact.firstname,
-          lastname: updatedFormData.contact.lastname,
-          affiliation: updatedFormData.contact.affiliation,
-          email: updatedFormData.contact.email,
-          orcidUrl: updatedFormData.contact.orcidUrl,
-        }
-        updatedFormData.contributors = [contactAsContributor, ...prev.contributors.slice(1)]
-      }
-
       return updatedFormData
     })
   }
 
-  const handleOnChangeComponent = (type: string, index: number, field: string, value: string) => {
+  const handleOnChangeComponent = (type: string, index: number, field: string, value: string| boolean) => {
     setFormData((prev) => {
       const updatedItems = [...prev[type]]
       updatedItems[index] = { ...updatedItems[index], [field]: value }
@@ -204,34 +199,34 @@ function AbstractSubmissionForm({
     URL.revokeObjectURL(url)
   }
 
-  const handleAutoFillChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = event.target.checked
-    setAutoFillContributor(isChecked)
+  // const handleAutoFillChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const isChecked = event.target.checked
+  //   setAutoFillContributor(isChecked)
 
-    setFormData((prev) => {
-      if (isChecked) {
-        // Add contact details as first contributor
-        const contactAsContributor = {
-          firstname: prev.contact.firstname,
-          lastname: prev.contact.lastname,
-          affiliation: prev.contact.affiliation,
-          email: prev.contact.email,
-          orcidUrl: prev.contact.orcidUrl,
-          githubId: prev.contact.githubId,
-        }
-        return {
-          ...prev,
-          contributors: [contactAsContributor, ...prev.contributors],
-        }
-      } else {
-        // Remove first contributor
-        return {
-          ...prev,
-          contributors: prev.contributors.slice(1),
-        }
-      }
-    })
-  }
+  //   setFormData((prev) => {
+  //     if (isChecked) {
+  //       // Add contact details as first contributor
+  //       const contactAsContributor = {
+  //         firstname: prev.contact.firstname,
+  //         lastname: prev.contact.lastname,
+  //         affiliation: prev.contact.affiliation,
+  //         email: prev.contact.email,
+  //         orcidUrl: prev.contact.orcidUrl,
+  //         githubId: prev.contact.githubId,
+  //       }
+  //       return {
+  //         ...prev,
+  //         contributors: [contactAsContributor, ...prev.contributors],
+  //       }
+  //     } else {
+  //       // Remove first contributor
+  //       return {
+  //         ...prev,
+  //         contributors: prev.contributors.slice(1),
+  //       }
+  //     }
+  //   })
+  // }
 
   //Update page to show abstract submitted
   if (isSubmitted) {
@@ -278,150 +273,53 @@ function AbstractSubmissionForm({
               />
             </div>
             <hr />
-            <div className="tools-code-data">
-              <DynamicForm
-                id="datasets"
-                title={t('pages.abstractSubmission.section.dataset')}
-                buttonLabel="addDataset"
-                items={formData.datasets}
-                onChange={(index: number, field: string, value: string) =>
-                  handleOnChangeComponent('datasets', index, field, value)
-                }
-                onAdd={() => handleAddComponent('datasets', datasetEmpty)}
-                onRemove={(index: number) => handleRemoveComponent('datasets', index)}
-                moveItem={(fromIndex: number, toIndex: number) =>
-                  handleMoveComponent('datasets', fromIndex, toIndex)
-                }
-                errors={validate.errors || []}
-                fieldConfig={datasetFields}
-                required={false}
-              />
-            </div>
-            <div className="contact">
-              <h3 className="progressiveHeading">
-                {t('pages.abstractSubmission.section.contact')}
-              </h3>
-              <StaticForm
-                id="firstname"
-                label={t('pages.abstractSubmission.author.firstname')}
-                required={true}
-                value={formData.contact.firstname}
-                onChange={handleInputChange}
-                error={getErrorBySubfield(validate.errors || [], 'contact', 'firstname')}
-                reset={reset}
-                placeholder={t('pages.abstractSubmission.placeholder.firstname')}
-              />
-              <StaticForm
-                id="lastname"
-                label={t('pages.abstractSubmission.author.lastname')}
-                required={true}
-                value={formData.contact.lastname}
-                onChange={handleInputChange}
-                error={getErrorBySubfield(validate.errors || [], 'contact', 'lastname')}
-                reset={reset}
-                placeholder={t('pages.abstractSubmission.placeholder.lastname')}
-              />
-              <StaticForm
-                id="affiliation"
-                label={t('pages.abstractSubmission.author.affiliation')}
-                required={true}
-                value={formData.contact.affiliation}
-                onChange={handleInputChange}
-                error={getErrorBySubfield(validate.errors || [], 'contact', 'affiliation')}
-                reset={reset}
-                placeholder={t('pages.abstractSubmission.placeholder.affiliation')}
-              />
-              <StaticForm
-                id="email"
-                label={t('pages.abstractSubmission.author.email')}
-                required={true}
-                value={formData.contact.email}
-                onChange={handleInputChange}
-                error={getErrorBySubfield(validate.errors || [], 'contact', 'email')}
-                reset={reset}
-                placeholder={t('pages.abstractSubmission.placeholder.email')}
-              />
-              <StaticForm
-                id="confirmEmail"
-                label={t('pages.abstractSubmission.author.emailCheck')}
-                required={true}
-                value={confirmEmail}
-                onChange={handleConfirmEmailChange}
-                error={emailError}
-                reset={reset}
-                placeholder={t('pages.abstractSubmission.placeholder.email')}
-              />
-              <StaticForm
-                id="orcidUrl"
-                label={t('pages.abstractSubmission.author.orcid')}
-                required={true}
-                value={formData.contact.orcidUrl}
-                onChange={handleInputChange}
-                error={getErrorBySubfield(validate.errors || [], 'contact', 'orcidUrl')}
-                reset={reset}
-                placeholder={t('pages.abstractSubmission.placeholder.orcid')}
-              />
-              <p className="text-muted form-text">
-                {parse(t('pages.abstractSubmission.author.orcidHelpText'))}
-              </p>
-              <div className="form-check d-flex align-items-center">
-                <input
-                  type="checkbox"
-                  id="autoFillContributor"
-                  checked={autoFillContributor}
-                  onChange={handleAutoFillChange}
-                  className="form-check-input"
-                />
-                <label htmlFor="autoFillContributor" className="form-check-label ms-2">
-                  {t('pages.abstractSubmission.author.defaultContributor')}
-                </label>
-              </div>
-              <hr />
-            </div>
-            <div className="contributors">
+            <div className="authors">
               <DynamicForm
                 id="contributors"
-                title={t('pages.abstractSubmission.section.contributors')}
-                buttonLabel="addContributor"
-                items={formData.contributors}
+                title={t('pages.abstractSubmission.section.authors')}
+                buttonLabel="addAuthor"
+                items={formData.authors}
                 onChange={(index: number, field: string, value: string) =>
-                  handleOnChangeComponent('contributors', index, field, value)
+                  handleOnChangeComponent('authors', index, field, value)
                 }
-                onAdd={() => handleAddComponent('contributors', contributorEmpty)}
-                onRemove={(index: number) => handleRemoveComponent('contributors', index)}
+                onAdd={() => handleAddComponent('authors', authorEmpty)}
+                onRemove={(index: number) => handleRemoveComponent('authors', index)}
                 moveItem={(fromIndex: number, toIndex: number) =>
-                  handleMoveComponent('contributors', fromIndex, toIndex)
+                  handleMoveComponent('authors', fromIndex, toIndex)
                 }
                 errors={validate.errors || []}
-                fieldConfig={contributorFields}
-                required={true}
+                fieldConfig={authorFields}
               />
             </div>
-            <div className="social-media">
+            <hr />
+            <div className="contact">
+              <DynamicForm
+                id="contact"
+                title={t('pages.abstractSubmission.section.contact')}
+                buttonLabel="addContact"
+                items={formData.contact}
+                onChange={(index: number, field: string, value: string | boolean) =>
+                  handleOnChangeComponent('contact', index, field, value)
+                }
+                onAdd={() => handleAddComponent('contact', contactEmpty)}
+                onRemove={(index: number) => handleRemoveComponent('contact', index)}
+                errors={validate.errors || []}
+                fieldConfig={contactFields}
+              />
+              <br/>
+              <p>{t('pages.abstractSubmission.contact.explanation')}</p>
+            </div>
+            <hr />
+            <div className="repository">
               <h3 className="progressiveHeading">
-                {t('pages.abstractSubmission.section.socialMedia')}
+                {t('pages.abstractSubmission.section.repository')}
               </h3>
               <p>{t('pages.abstractSubmission.github.explanation')}</p>
               <StaticForm
-                id="githubId"
-                label={t('pages.abstractSubmission.author.githubId')}
-                required={true}
-                value={formData.contact.githubId}
-                onChange={handleInputChange}
-                error={
-                  githubError || getErrorBySubfield(validate.errors || [], 'contact', 'githubId')
-                }
-                reset={reset}
-                placeholder={t('pages.abstractSubmission.placeholder.githubId')}
-              />
-              <p className="text-muted form-text">
-                {parse(t('pages.abstractSubmission.github.helpText'))}
-              </p>
-              <StaticForm
                 id="preferredLanguage"
-                label={t('pages.abstractSubmission.preferredLanguage')}
+                label={t('pages.abstractSubmission.author.preferredLanguage')}
                 required={true}
-                value={formData.contact.preferredLanguage || 'Python'}
+                value={formData.preferredLanguage || 'Python'}
                 type="select"
                 options={preferredLanguageOptions}
                 onChange={handleInputChange}
@@ -429,28 +327,26 @@ function AbstractSubmissionForm({
                 reset={reset}
               />
               <hr />
-              <p>{t('pages.abstractSubmission.socialMediaExplanation')}</p>
-              <StaticForm
-                id="blueskyId"
-                label={t('pages.abstractSubmission.author.blueskyId')}
-                required={false}
-                value={formData.contact.blueskyId}
-                onChange={handleInputChange}
-                error={getErrorBySubfield(validate.errors || [], 'contact', 'blueskyId')}
-                reset={reset}
-                placeholder={t('pages.abstractSubmission.placeholder.blueskyId')}
-              />
-              <StaticForm
-                id="facebookId"
-                label={t('pages.abstractSubmission.author.facebookId')}
-                required={false}
-                value={formData.contact.facebookId}
-                onChange={handleInputChange}
-                error={getErrorBySubfield(validate.errors || [], 'contact', 'facebookId')}
-                reset={reset}
-                placeholder={t('pages.abstractSubmission.placeholder.facebookId')}
-              />
-              <hr />
+              <div className="tools-code-data">
+                <DynamicForm
+                  id="datasets"
+                  title={t('pages.abstractSubmission.section.dataset')}
+                  buttonLabel="addDataset"
+                  items={formData.datasets}
+                  onChange={(index: number, field: string, value: string) =>
+                    handleOnChangeComponent('datasets', index, field, value)
+                  }
+                  onAdd={() => handleAddComponent('datasets', datasetEmpty)}
+                  onRemove={(index: number) => handleRemoveComponent('datasets', index)}
+                  moveItem={(fromIndex: number, toIndex: number) =>
+                    handleMoveComponent('datasets', fromIndex, toIndex)
+                  }
+                  errors={validate.errors || []}
+                  fieldConfig={datasetFields}
+                />
+                <br />
+                <br />
+              </div>
             </div>
             <div className="form-check d-flex align-items-center">
               <StaticForm

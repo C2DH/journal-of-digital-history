@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { getErrorByItemAndByField } from './errors'
-import { Contributor, Dataset, DynamicFormProps } from '../../interfaces/abstractSubmission'
+import { Author, Dataset, DynamicFormProps } from '../../interfaces/abstractSubmission'
 import CloseButtonItem from '../Buttons/CloseButtonItem'
 import ArrowUpButtonItem from '../Buttons/ArrowUpButtonItem'
 import ArrowDownButtonItem from '../Buttons/ArrowDownButtonItem'
@@ -19,7 +19,6 @@ const DynamicForm = ({
   title,
   buttonLabel,
   maxItems = 10,
-  required,
 }: DynamicFormProps) => {
   const { t } = useTranslation()
   const [touched, setTouched] = useState({})
@@ -35,7 +34,7 @@ const DynamicForm = ({
     <>
       <h3 className="progressiveHeading">{title}</h3>
       <div className="dynamic-list-form">
-        {items.map((item: Dataset | Contributor, index: number) => (
+        {items.map((item: Dataset | Author, index: number) => (
           <div
             key={index}
             className="list-item d-flex align-items-top mb-2 ps-2 pe-1 pb-2 pt-0 border border-dark rounded shadow-sm"
@@ -48,16 +47,16 @@ const DynamicForm = ({
             }}
           >
             <div className="w-100 mt-2">
-              {fieldConfig.map(({ label, fieldName, type = 'text', placeholder }) => {
+              {fieldConfig.map(({ label, fieldName, type = 'text', placeholder, required }) => {
                 const error = getErrorByItemAndByField(errors, id, index, fieldName)
                 const isTouched = touched[`${index}-${fieldName}`]
 
                 return (
                   <div className="form-group" key={fieldName}>
-                    <label htmlFor={`${fieldName}-${index}`}>
+                    {type !== 'checkbox' &&(<label htmlFor={`${fieldName}-${index}`}>
                       {t(`pages.abstractSubmission.${label}`)}
                       {required && <span className="text-accent"> *</span>}
-                    </label>
+                    </label>)}
                     {type === 'textarea' ? (
                       <textarea
                         className={`form-control ${
@@ -72,6 +71,22 @@ const DynamicForm = ({
                         placeholder={t(`pages.abstractSubmission.placeholder.${placeholder}`)}
                         rows={5}
                       ></textarea>
+                    ) : type === 'checkbox' ? (
+                      <div className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id={`${fieldName}-${index}`}
+                          checked={Boolean(item[fieldName])}
+                          onChange={(e) => {
+                            onChange(index, fieldName, e.target.checked)
+                            handleFieldTouch(index, fieldName)
+                          }}
+                        />
+                        <label className="form-check-label" htmlFor={`${fieldName}-${index}`}>
+                          {t(`pages.abstractSubmission.${label}`)}
+                        </label>
+                      </div>
                     ) : (
                       <input
                         type={type}
@@ -116,7 +131,6 @@ const DynamicForm = ({
           </button>
         )}
       </div>
-      <hr />
     </>
   )
 }

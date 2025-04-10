@@ -83,16 +83,17 @@
           "title": "Abstract Submission",
           "author": {
             "email": "Email Address",
-            "emailCheck": "Confirm email address",
+            "confirmEmail": "Confirm email address",
             "firstname": "First Name",
             "lastname": "Last Name",
             "affiliation": "Affiliation",
             "orcid": "ORCID URL",
             "orcidHelpText": "Don't have an ORCID yet? Create one at <a href=\"https://orcid.org/\" target=\"_blank\" rel=\"noopener noreferrer\">orcid.org</a> for free!",
+            "preferredLanguage": "Programming language for Github repository",
             "blueskyId": "Bluesky",
             "facebookId": "Facebook",
             "githubId": "GitHub ID",
-            "defaultContributor": "Use this contact info as contributor"
+            "primaryContact": "Use this author as primary contact "
           },
           "article": {
             "title": "Title",
@@ -103,35 +104,33 @@
             "link": "Link",
             "description": "Description, License (where applicable)"
           },
-          "contributor": {
+          "contact": {
+            "explanation": "If none of the listed authors will serve as the primary contact, please add a designated contact person.",
             "email": "Email Address",
+            "confirmEmail": "Confirm email address",
             "firstname": "First Name",
             "lastname": "Last Name",
-            "affiliation": "Affiliation",
-            "orcid": "ORCID URL"
+            "affiliation": "Affiliation"
           },
           "requiredFieldExplanation": "All field marked with an asterisk (*) are required",
           "submissionStatus": {
             "header": "Submission Status",
             "title": "Title",
             "abstract": "Abstract",
-            "contact": "Contact",
-            "dataset": "Dataset",
-            "contributors": "Contributors",
-            "github": "Github & Social Media",
+            "authors": "Authors",
+            "preferredLanguage": "Repository",
             "termsAccepted": "Terms of use"
           },
           "github": {
             "explanation": "Once your abstract is accepted, we will create a dedicated repository for your article on Github. This repository includes a structured template and Github actions to streamline the writing process.",
             "helpText": "Don't have a GitHub account yet? Create one at <a href=\"https://github.com/\" target=\"_blank\" rel=\"noopener noreferrer\">github.com</a> for free!"
           },
-          "preferredLanguage": "Programming language for Github repository",
           "section": {
             "titleAndAbstract": "Title & Abstract",
             "contact": "Contact",
             "dataset": "Tools, Code & Data",
-            "contributors": "Contributors",
-            "socialMedia": "Github & Social Media"
+            "authors": "Authors",
+            "repository": "Repository"
           },
           "placeholder": {
             "title": "Title",
@@ -330,7 +329,9 @@
         "logout": "(log out)",
         "submit": "Submit your Contribution",
         "addLink": "Add Link",
-        "addContributor": "＋ Contributor",
+        "addAuthor": "＋ Author",
+        "addContact": "＋ Primary Contact",
+        "removeContact": "- Primary Contact",
         "addDataset": "＋ Dataset / Tools / Code",
         "downloadAsJSON": "Download as JSON ↓",
         "resetForm": "Start over ↻",

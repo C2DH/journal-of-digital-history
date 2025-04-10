@@ -6,18 +6,9 @@ export const initialAbstract = (callForPapers: string) => {
     title: '',
     abstract: '',
     datasets: [],
-    contact: {
-      firstname: '',
-      lastname: '',
-      affiliation: '',
-      email: '',
-      orcidUrl: '',
-      githubId: '',
-      blueskyId: '',
-      facebookId: '',
-      preferredLanguage: LanguagePreference.PYTHON,
-    },
-    contributors: [],
+    contact: [],
+    authors: [authorEmpty],
+    preferredLanguage: LanguagePreference.PYTHON,
     dateCreated: new Date().toISOString(),
     dateLastModified: new Date(Date.now()).toISOString(),
     termsAccepted: false,
@@ -34,20 +25,41 @@ export const datasetEmpty = {
   description: '',
 }
 
-export const contributorFields = [
-  { label: 'contributor.firstname', fieldName: 'firstname', placeholder:'firstname' },
-  { label: 'contributor.lastname', fieldName: 'lastname', placeholder:'lastname' },
-  { label: 'contributor.affiliation', fieldName: 'affiliation', placeholder:'affiliation' },
-  { label: 'contributor.email', fieldName: 'email', placeholder:'email' },
-  { label: 'contributor.orcid', fieldName: 'orcidUrl', placeholder:'orcid' },
+export const authorFields = [
+  { label: 'author.firstname', fieldName: 'firstname', placeholder:'firstname', required: true },
+  { label: 'author.lastname', fieldName: 'lastname', placeholder:'lastname', required: true  },
+  { label: 'author.affiliation', fieldName: 'affiliation', placeholder:'affiliation', required: true  },
+  { label: 'author.email', fieldName: 'email', placeholder:'email', required: true  },
+  { label: 'author.orcid', fieldName: 'orcidUrl', placeholder:'orcid', required: true  },
+  { label: 'author.githubId', fieldName: 'githubId', placeholder:'githubId', required: true },
+  { label: 'author.blueskyId', fieldName: 'blueskyId', placeholder:'blueskyId', required: false },
+  { label: 'author.facebookId', fieldName: 'facebookId', placeholder:'facebookId', required: false },
+  { label: 'author.primaryContact', fieldName: 'primaryContact', type: 'checkbox', required: false },
 ]
 
-export const contributorEmpty = {
-  firstName: '',
-  lastName: '',
+export const contactFields = [
+  { label: 'contact.firstname', fieldName: 'firstname', placeholder:'firstname', required: true },
+  { label: 'contact.lastname', fieldName: 'lastname', placeholder:'lastname', required: true  },
+  { label: 'contact.affiliation', fieldName: 'affiliation', placeholder:'affiliation', required: true  },
+  { label: 'contact.email', fieldName: 'email', placeholder:'email', required: true  },
+]
+
+export const authorEmpty = {
+  firstname: '',
+  lastname: '',
   affiliation: '',
   email: '',
   orcidUrl: '',
+  githubId: '', 
+  blueskyId: '',
+  facebookId: '',
+  primaryContact: false,
+}
+
+export const contactEmpty = {
+  firstname: '',
+  lastname: '',
+  email: '',
 }
 
 export const preferredLanguageOptions = [
@@ -64,4 +76,4 @@ export const dateFormat = {
   minute: '2-digit',
 } as const;
 
-export const mandatoryTopFields = ['title', 'abstract', 'contact', 'contributors', 'github', 'termsAccepted']
+export const mandatoryTopFields = ['title', 'abstract', 'authors', 'preferredLanguage', 'termsAccepted']
