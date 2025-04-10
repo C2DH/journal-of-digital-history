@@ -13,6 +13,7 @@ export interface FormData {
 }
 
 export enum LanguagePreference {
+  MAKE_A_CHOICE= 'Make a choice',
   PYTHON = 'Python',
   R = 'R',
   DEFAULT = 'Default',
@@ -72,19 +73,21 @@ export interface DynamicFormProps {
   onAdd: () => void
   onRemove: (index: number) => void
   moveItem?: (fromIndex: number, toIndex: number) => void
-  errors: ErrorObject[]
+  confirmEmailError?: string
+  errors: ErrorObject[] 
   fieldConfig: FieldConfig[]
   title: string
+  explanation: string  | React.ReactNode
   buttonLabel: string
   maxItems?: number
 }
 export interface SubmissionStatusCardProps {
   data: FormData
-  onReset: (event: React.MouseEvent<HTMLButtonElement>) => void
+  // onReset: (event: React.MouseEvent<HTMLButtonElement>) => void
   errors: ErrorObject[]
   githubError: string
   mailError: string
-  handleDownloadJson: () => void
+
 }
 
 export interface SubmissionSummaryProps {

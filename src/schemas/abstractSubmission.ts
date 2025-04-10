@@ -17,13 +17,18 @@ export const submissionFormSchema = {
       required: ['link', 'description'],
     },
     contact: {
-      type: 'object',
-      properties: {
-        firstname: { type: 'string', minLength: 1, maxLength: 100 },
-        lastname: { type: 'string', minLength: 1, maxLength: 100 },
-        affiliation: { type: 'string', minLength: 1, maxLength: 100 },
-        email: { type: 'string', minLength: 1, maxLength:100, format: 'email' },
+      type: 'array',
+      items:{
+        type:'object',
+        properties: {
+          firstname: { type: 'string', minLength: 1, maxLength: 100 },
+          lastname: { type: 'string', minLength: 1, maxLength: 100 },
+          affiliation: { type: 'string', minLength: 1, maxLength: 100 },
+          email: { type: 'string', minLength: 1, maxLength:100, format: 'email' },
+        },
       },
+      minItems: 1,
+      maxItems: 1,
       required: [
         'firstname',
         'lastname',

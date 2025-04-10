@@ -8,7 +8,7 @@ export const initialAbstract = (callForPapers: string) => {
     datasets: [],
     contact: [],
     authors: [authorEmpty],
-    preferredLanguage: LanguagePreference.PYTHON,
+    preferredLanguage: LanguagePreference.MAKE_A_CHOICE,
     dateCreated: new Date().toISOString(),
     dateLastModified: new Date(Date.now()).toISOString(),
     termsAccepted: false,
@@ -16,8 +16,13 @@ export const initialAbstract = (callForPapers: string) => {
 }
 
 export const datasetFields = [
-  { label: 'dataset.link', fieldName: 'link', placeholder:'link' },
-  { label: 'dataset.description', fieldName: 'description', type: 'textarea', placeholder:'description' },
+  { label: 'dataset.link', fieldName: 'link', placeholder: 'link' },
+  {
+    label: 'dataset.description',
+    fieldName: 'description',
+    type: 'textarea',
+    placeholder: 'description',
+  },
 ]
 
 export const datasetEmpty = {
@@ -26,22 +31,43 @@ export const datasetEmpty = {
 }
 
 export const authorFields = [
-  { label: 'author.firstname', fieldName: 'firstname', placeholder:'firstname', required: true },
-  { label: 'author.lastname', fieldName: 'lastname', placeholder:'lastname', required: true  },
-  { label: 'author.affiliation', fieldName: 'affiliation', placeholder:'affiliation', required: true  },
-  { label: 'author.email', fieldName: 'email', placeholder:'email', required: true  },
-  { label: 'author.orcid', fieldName: 'orcidUrl', placeholder:'orcid', required: true  },
-  { label: 'author.githubId', fieldName: 'githubId', placeholder:'githubId', required: true },
-  { label: 'author.blueskyId', fieldName: 'blueskyId', placeholder:'blueskyId', required: false },
-  { label: 'author.facebookId', fieldName: 'facebookId', placeholder:'facebookId', required: false },
-  { label: 'author.primaryContact', fieldName: 'primaryContact', type: 'checkbox', required: false },
+  { label: 'author.firstname', fieldName: 'firstname', placeholder: 'firstname', required: true },
+  { label: 'author.lastname', fieldName: 'lastname', placeholder: 'lastname', required: true },
+  {
+    label: 'author.affiliation',
+    fieldName: 'affiliation',
+    placeholder: 'affiliation',
+    required: true,
+  },
+  { label: 'author.email', fieldName: 'email', placeholder: 'email', required: true },
+  { label: 'author.orcid', fieldName: 'orcidUrl', placeholder: 'orcid', required: true },
+  { label: 'author.githubId', fieldName: 'githubId', placeholder: 'githubId', required: true },
+  { label: 'author.blueskyId', fieldName: 'blueskyId', placeholder: 'blueskyId', required: false },
+  {
+    label: 'author.facebookId',
+    fieldName: 'facebookId',
+    placeholder: 'facebookId',
+    required: false,
+  },
+  {
+    label: 'author.primaryContact',
+    fieldName: 'primaryContact',
+    type: 'checkbox',
+    required: false,
+  },
 ]
 
 export const contactFields = [
-  { label: 'contact.firstname', fieldName: 'firstname', placeholder:'firstname', required: true },
-  { label: 'contact.lastname', fieldName: 'lastname', placeholder:'lastname', required: true  },
-  { label: 'contact.affiliation', fieldName: 'affiliation', placeholder:'affiliation', required: true  },
-  { label: 'contact.email', fieldName: 'email', placeholder:'email', required: true  },
+  { label: 'contact.firstname', fieldName: 'firstname', placeholder: 'firstname', required: true },
+  { label: 'contact.lastname', fieldName: 'lastname', placeholder: 'lastname', required: true },
+  {
+    label: 'contact.affiliation',
+    fieldName: 'affiliation',
+    placeholder: 'affiliation',
+    required: true,
+  },
+  { label: 'contact.email', fieldName: 'email', placeholder: 'email', required: true },
+  { label: 'contact.confirmEmail', fieldName: 'confirmEmail', placeholder: 'email', required: true },
 ]
 
 export const authorEmpty = {
@@ -50,7 +76,7 @@ export const authorEmpty = {
   affiliation: '',
   email: '',
   orcidUrl: '',
-  githubId: '', 
+  githubId: '',
   blueskyId: '',
   facebookId: '',
   primaryContact: false,
@@ -60,9 +86,12 @@ export const contactEmpty = {
   firstname: '',
   lastname: '',
   email: '',
+  confirmEmail: '',
+  affiliation: '',
 }
 
 export const preferredLanguageOptions = [
+  { value: '/', label: 'Please make a choice' },
   { value: 'Python', label: 'Python' },
   { value: 'R', label: 'R' },
   { value: 'Default', label: 'No Preferences' },
@@ -74,6 +103,12 @@ export const dateFormat = {
   day: 'numeric',
   hour: '2-digit',
   minute: '2-digit',
-} as const;
+} as const
 
-export const mandatoryTopFields = ['title', 'abstract', 'authors', 'preferredLanguage', 'termsAccepted']
+export const mandatoryTopFields = [
+  'title',
+  'abstract',
+  'authors',
+  'preferredLanguage',
+  'termsAccepted',
+]

@@ -6,11 +6,10 @@ import { requiredFieldErrors, addErrorToSection } from './errors'
 
 const SubmissionStatusCard = ({
   data,
-  onReset,
+  // onReset,
   errors,
   githubError,
   mailError,
-  handleDownloadJson,
 }: SubmissionStatusCardProps) => {
   const { t } = useTranslation()
 
@@ -56,12 +55,9 @@ const SubmissionStatusCard = ({
           </div>
 
           <div className="d-flex flex-column">
-            <button className="btn btn-outline-dark mb-3" onClick={onReset}>
+            {/* <button className="btn btn-outline-dark mb-3" onClick={onReset}>
               {t('actions.resetForm')}
-            </button>
-            <button className="btn btn-outline-dark" onClick={handleDownloadJson}>
-              {t('actions.downloadAsJSON')}
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

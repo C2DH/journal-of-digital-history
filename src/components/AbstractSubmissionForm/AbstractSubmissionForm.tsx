@@ -28,6 +28,7 @@ import { debounce } from '../../logic/debounce'
 import { getLocalizedPath } from '../../logic/language'
 import { createAbstractSubmission } from '../../logic/api/postData'
 
+//
 function AbstractSubmissionForm({
   callForPapers,
   makesHeaderDisappear,
@@ -38,7 +39,6 @@ function AbstractSubmissionForm({
   const [emailError, setEmailError] = useState('')
   const [githubError, setGithubError] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(false)
-
 
   const recaptchaRef = useRef<ReCAPTCHA>(null)
 
@@ -65,7 +65,7 @@ function AbstractSubmissionForm({
 
     // TODO: Uncomment reCAPTCHA when form is ready
 
-    const recaptchaToken = await recaptchaRef.current?.executeAsync()
+    // const recaptchaToken = await recaptchaRef.current?.executeAsync()
     // if (!recaptchaToken) {
     //   console.error('ReCAPTCHA failed to generate a token.');
     //   return;
@@ -87,16 +87,6 @@ function AbstractSubmissionForm({
       //TODO: maybe try to display the summary on a new page /abstract-submitted and create a page for the errors comming from Django API
     }
   }
-
-  // const handleConfirmEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setConfirmEmail(event.target.value)
-
-  //   if (event.target.value !== formData.contact.email) {
-  //     setEmailError('emailMismatchError')
-  //   } else {
-  //     setEmailError('')
-  //   }
-  // }
 
   const handleGithubValidation = async (githubId: string) => {
     if (!githubId) {
@@ -145,10 +135,51 @@ function AbstractSubmissionForm({
     })
   }
 
-  const handleOnChangeComponent = (type: string, index: number, field: string, value: string| boolean) => {
+  const handleOnChangeComponent = (
+    type: string,
+    index: number,
+    field: string,
+    value: string | boolean,
+  ) => {
+    console.log('DATA BEFORE', formData)
     setFormData((prev) => {
       const updatedItems = [...prev[type]]
       updatedItems[index] = { ...updatedItems[index], [field]: value }
+
+      if (type === 'contact' && field === 'confirmEmail') {
+        const email = updatedItems[index].email;
+        if (email !== value) {
+          setEmailError('Emails do not match');
+        } else {
+          setEmailError('');
+        }
+      }
+  
+      if (type === 'authors') {
+        const updatedAuthors = updatedItems.map((author, i) => ({
+          ...author,
+          primaryContact: i === index ? true : false, // Set primaryContact to true only for the selected author
+        }))
+
+        const selectedAuthor = updatedItems[index]
+
+        if (selectedAuthor.primaryContact) {
+          return {
+            ...prev,
+            contact: [
+              {
+                ...prev.contact,
+                firstname: selectedAuthor.firstname,
+                lastname: selectedAuthor.lastname,
+                email: selectedAuthor.email,
+                affiliation: selectedAuthor.affiliation,
+              },
+            ],
+            authors: updatedAuthors,
+          }
+        }
+      }
+      console.log('DATA AFTER', { ...prev, [type]: updatedItems })
       return { ...prev, [type]: updatedItems }
     })
   }
@@ -189,44 +220,19 @@ function AbstractSubmissionForm({
   const handleDownloadJson = () => {
     const json = JSON.stringify(formData, null, 2)
     const blob = new Blob([json], { type: 'application/json' })
+
+    const dateNow = formData.dateLastModified.toString().split('T')[0]
+    const fileName = `jdh-abstract-${dateNow}.json`
+
     const url = URL.createObjectURL(blob)
 
     const link = document.createElement('a')
     link.href = url
-    link.download = 'submission-data.json'
+    link.download = fileName
     link.click()
 
     URL.revokeObjectURL(url)
   }
-
-  // const handleAutoFillChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const isChecked = event.target.checked
-  //   setAutoFillContributor(isChecked)
-
-  //   setFormData((prev) => {
-  //     if (isChecked) {
-  //       // Add contact details as first contributor
-  //       const contactAsContributor = {
-  //         firstname: prev.contact.firstname,
-  //         lastname: prev.contact.lastname,
-  //         affiliation: prev.contact.affiliation,
-  //         email: prev.contact.email,
-  //         orcidUrl: prev.contact.orcidUrl,
-  //         githubId: prev.contact.githubId,
-  //       }
-  //       return {
-  //         ...prev,
-  //         contributors: [contactAsContributor, ...prev.contributors],
-  //       }
-  //     } else {
-  //       // Remove first contributor
-  //       return {
-  //         ...prev,
-  //         contributors: prev.contributors.slice(1),
-  //       }
-  //     }
-  //   })
-  // }
 
   //Update page to show abstract submitted
   if (isSubmitted) {
@@ -275,8 +281,9 @@ function AbstractSubmissionForm({
             <hr />
             <div className="authors">
               <DynamicForm
-                id="contributors"
+                id="authors"
                 title={t('pages.abstractSubmission.section.authors')}
+                explanation={parse(t('pages.abstractSubmission.author.explanation'))}
                 buttonLabel="addAuthor"
                 items={formData.authors}
                 onChange={(index: number, field: string, value: string) =>
@@ -296,6 +303,7 @@ function AbstractSubmissionForm({
               <DynamicForm
                 id="contact"
                 title={t('pages.abstractSubmission.section.contact')}
+                explanation={parse(t('pages.abstractSubmission.contact.explanation'))}
                 buttonLabel="addContact"
                 items={formData.contact}
                 onChange={(index: number, field: string, value: string | boolean) =>
@@ -304,10 +312,11 @@ function AbstractSubmissionForm({
                 onAdd={() => handleAddComponent('contact', contactEmpty)}
                 onRemove={(index: number) => handleRemoveComponent('contact', index)}
                 errors={validate.errors || []}
+                confirmEmailError={emailError}
                 fieldConfig={contactFields}
               />
-              <br/>
-              <p>{t('pages.abstractSubmission.contact.explanation')}</p>
+              <br />
+              <em className="text-accent"></em>
             </div>
             <hr />
             <div className="repository">
@@ -327,10 +336,11 @@ function AbstractSubmissionForm({
                 reset={reset}
               />
               <hr />
-              <div className="tools-code-data">
+              <div className="tools-code-data ">
                 <DynamicForm
                   id="datasets"
                   title={t('pages.abstractSubmission.section.dataset')}
+                  explanation={t('pages.abstractSubmission.dataset.explanation')}
                   buttonLabel="addDataset"
                   items={formData.datasets}
                   onChange={(index: number, field: string, value: string) =>
@@ -375,13 +385,11 @@ function AbstractSubmissionForm({
               size="invisible"
               sitekey={reCaptchaSiteKey}
             /> */}
-            <div className="text-center">
-              <button
-                type="submit"
-                className="btn btn-primary btn-lg"
-                style={{ margin: '2em' }}
-                disabled={hasErrors}
-              >
+            <div className="text-align-right">
+              <button className="btn btn-outline-dark" onClick={handleDownloadJson}>
+                {t('actions.downloadAsJSON')}
+              </button>
+              <button type="submit" className="btn btn-primary " style={{ margin: '2em' }}>
                 {t('actions.submit')}
               </button>
             </div>
@@ -390,11 +398,10 @@ function AbstractSubmissionForm({
         <div className="col-lg-3 col-md-4 submission-status-card">
           <SubmissionStatusCard
             data={formData}
-            onReset={handleReset}
+            // onReset={handleReset}
             errors={validate.errors || []}
             githubError={githubError}
             mailError={emailError}
-            handleDownloadJson={handleDownloadJson}
           />
         </div>
       </div>

@@ -82,6 +82,7 @@
         "abstractSubmission": {
           "title": "Abstract Submission",
           "author": {
+            "explanation": "<em className='text-accent'>The order of the authors will determine the final sequence in the published article.</em>",
             "email": "Email Address",
             "confirmEmail": "Confirm email address",
             "firstname": "First Name",
@@ -98,9 +99,10 @@
           "article": {
             "title": "Title",
             "abstract": "Abstract",
-            "abstractHelpText": "Please take the multi-layered principle of the JDH articles into account. In particular, we would like you to describe the narrative layer, the hermeneutic layer and the data layer."
+            "abstractHelpText": "When addressing the multi-layered principle of JDH articles, please provide a detailed description of the narrative layer, the hermeneutic layer, and the data layer."
           },
           "dataset": {
+            "explanation": "If you wish to share your data, please provide a description. Include details about your findings, the tools or methods used, and any potential biases.",
             "link": "Link",
             "description": "Description, License (where applicable)"
           },
@@ -127,16 +129,16 @@
           },
           "section": {
             "titleAndAbstract": "Title & Abstract",
-            "contact": "Contact",
-            "dataset": "Tools, Code & Data",
             "authors": "Authors",
+            "contact": "Primary contact",
+            "dataset": "Tools, Code & Data",
             "repository": "Repository"
           },
           "placeholder": {
             "title": "Title",
             "abstract": "Write the abstract here ...",
             "link": "http://example.com",
-            "description": "Please describe the data you have used. We would like to know more about your findings, tools or methods you have followed and a reflection about possible bias",
+            "description": "Description of the dataset, tools or code",
             "firstname": "First name",
             "lastname": "Last name",
             "affiliation": "University, Institution or Company",
@@ -170,55 +172,31 @@
                 "maxLength": "Must be at most 1000 characters"
               }
             },
-            "firstname": {
-              "required": "First name is required",
-              "minLength": "Must be at least 1 character",
-              "maxLength": "Must be at most 100 characters"
+            "contact": {
+              "firstname": {
+                "required": "First name is required",
+                "minLength": "Must be at least 1 character",
+                "maxLength": "Must be at most 100 characters"
+              },
+              "lastname": {
+                "required": "Last name is required",
+                "minLength": "Must be at least 1 character",
+                "maxLength": "Must be at most 100 characters"
+              },
+              "affiliation": {
+                "required": "Affiliation is required",
+                "minLength": "Must be at least 1 character",
+                "maxLength": "Must be at most 100 characters"
+              },
+              "email": {
+                "required": "Email is required",
+                "minLength": "Must be at least 1 character",
+                "maxLength": "Must be at most 100 characters",
+                "format": "Must be a valid email address"
+              }
             },
-            "lastname": {
-              "required": "Last name is required",
-              "minLength": "Must be at least 1 character",
-              "maxLength": "Must be at most 100 characters"
-            },
-            "affiliation": {
-              "required": "Affiliation is required",
-              "minLength": "Must be at least 1 character",
-              "maxLength": "Must be at most 100 characters"
-            },
-            "email": {
-              "required": "Email is required",
-              "minLength": "Must be at least 1 character",
-              "maxLength": "Must be at most 100 characters",
-              "format": "Must be a valid email address"
-            },
-            "confirmEmail": {
-              "emailMismatchError": "Email addresses do not match"
-            },
-            "orcidUrl": {
-              "required": "ORCID is required",
-              "minLength": "Must be at least 1 character",
-              "maxLength": "Must be at most 100 characters",
-              "pattern": "Must be a valid ORCID URL as https://orcid.org/0000-0000-0000-0000"
-            },
-            "githubId": {
-              "required": "Github ID is required",
-              "minLength": "Must be at least 1 character",
-              "maxLength": "Must be at most 39 characters",
-              "pattern": "Must be a valid Github ID as your-username or username",
-              "invalidGithubId": "Github username does not exist",
-              "githubApiError": "Error retrieving user data from Github API"
-            },
-            "blueskyId": {
-              "minLength": "Must be at least 1 character",
-              "maxLength": "Must be at most 26 characters",
-              "pattern": "Must be a valid Bluesky ID as username.bsky.social"
-            },
-            "facebookId": {
-              "minLength": "Must be at least 5 character",
-              "maxLength": "Must be at most 50 characters",
-              "pattern": "Must be a valid Facebook ID as username"
-            },
-            "contributors": {
+            "confirmEmailMismatch": "Email addresses do not match",
+            "authors": {
               "firstname": {
                 "required": "First name is required",
                 "minLength": "Must be at least 1 character",
@@ -245,7 +223,28 @@
                 "minLength": "Must be at least 1 character",
                 "maxLength": "Must be at most 100 characters",
                 "pattern": "Must be a valid ORCID URL as https://orcid.org/0000-0000-0000-0000"
+              },
+              "githubId": {
+                "required": "Github ID is required",
+                "minLength": "Must be at least 1 character",
+                "maxLength": "Must be at most 39 characters",
+                "pattern": "Must be a valid Github ID as your-username or username",
+                "invalidGithubId": "Github username does not exist",
+                "githubApiError": "Error retrieving user data from Github API"
+              },
+              "blueskyId": {
+                "minLength": "Must be at least 1 character",
+                "maxLength": "Must be at most 26 characters",
+                "pattern": "Must be a valid Bluesky ID as username.bsky.social"
+              },
+              "facebookId": {
+                "minLength": "Must be at least 5 character",
+                "maxLength": "Must be at most 50 characters",
+                "pattern": "Must be a valid Facebook ID as username"
               }
+            },
+            "preferredLanguage": {
+              "enum": "Please select a programming language for your repository"
             },
             "termsAccepted": {
               "enum": "You must accept the terms of use"
