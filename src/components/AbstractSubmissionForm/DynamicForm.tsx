@@ -9,13 +9,15 @@ import ArrowDownButtonItem from '../Buttons/ArrowDownButtonItem'
 
 const DynamicForm = ({
   id,
-  items = [], 
+  items = [],
   onChange,
   onAdd,
   onRemove,
   moveItem,
   errors,
   confirmEmailError,
+  confirmGithubError,
+  
   fieldConfig,
   title,
   explanation,
@@ -97,7 +99,9 @@ const DynamicForm = ({
                         type={type}
                         className={`form-control ${
                           isTouched
-                            ? error || (fieldName === 'confirmEmail' && confirmEmailError)
+                            ? error ||
+                            (fieldName === 'confirmEmail' && confirmEmailError) ||
+                            (fieldName === 'githubId' && confirmGithubError)
                               ? 'is-invalid'
                               : 'is-valid'
                             : ''
@@ -112,10 +116,14 @@ const DynamicForm = ({
                       />
                     )}
                     {isTouched &&
-                      (error || (fieldName === 'confirmEmail' && confirmEmailError)) && (
+                      (error ||
+                        (fieldName === 'confirmEmail' && confirmEmailError) ||
+                        (fieldName === 'githubId' && confirmGithubError)) && (
                         <div className="text-error form-text">
                           {fieldName === 'confirmEmail' && confirmEmailError
                             ? t('pages.abstractSubmission.errors.confirmEmailMismatch')
+                            : fieldName === 'githubId' && confirmGithubError
+                            ? t(`pages.abstractSubmission.errors.${id}.${fieldName}.confirmInvalidGithub`)
                             : t(`pages.abstractSubmission.errors.${id}.${fieldName}.${error}`)}
                         </div>
                       )}

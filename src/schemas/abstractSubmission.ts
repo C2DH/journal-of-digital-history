@@ -25,6 +25,7 @@ export const submissionFormSchema = {
           lastname: { type: 'string', minLength: 1, maxLength: 100 },
           affiliation: { type: 'string', minLength: 1, maxLength: 100 },
           email: { type: 'string', minLength: 1, maxLength:100, format: 'email' },
+          confirmEmail: { type: 'string', minLength: 1, maxLength:100, format: 'email' },
         },
       },
       minItems: 1,
@@ -34,6 +35,7 @@ export const submissionFormSchema = {
         'lastname',
         'affiliation',
         'email',
+        'confirmEmail',
       ],
     },
     authors: {
@@ -88,5 +90,5 @@ export const submissionFormSchema = {
     },
     termsAccepted: { type: 'boolean', enum: [true] },
   },
-  required: ['title', 'abstract', 'authors', 'termsAccepted'],
+  required: ['title', 'abstract', 'authors', 'contact', 'termsAccepted'],
 }

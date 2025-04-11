@@ -1,16 +1,16 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useCallback } from 'react'
 import parse from 'html-react-parser'
 import ReCAPTCHA from 'react-google-recaptcha'
 import Ajv from 'ajv'
 import ajvformat from 'ajv-formats'
 import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
 
-import { getErrorByField, getErrorBySubfield } from './errors'
+import { getErrorByField } from './errors'
 import { FormData, AbstractSubmissionFormProps } from '../../interfaces/abstractSubmission'
 import { submissionFormSchema } from '../../schemas/abstractSubmission'
 import DynamicForm from './DynamicForm'
 import SubmissionStatusCard from './SubmissionStatus'
-import SubmissionSummary from './SubmissionSummary'
 import StaticForm from './StaticForm'
 // import { reCaptchaSiteKey } from '../../constants'
 import {
@@ -22,36 +22,27 @@ import {
   contactEmpty,
   initialAbstract,
   preferredLanguageOptions,
-} from '../../constants/abstractSubmission'
+} from '../../constants/abstractSubmissionForm'
 import checkGithubUsername from './checkGithubUsername'
 import { debounce } from '../../logic/debounce'
 import { getLocalizedPath } from '../../logic/language'
 import { createAbstractSubmission } from '../../logic/api/postData'
 
-//
-function AbstractSubmissionForm({
-  callForPapers,
-  makesHeaderDisappear,
-}: AbstractSubmissionFormProps) {
+const AbstractSubmissionForm = ({ callForPapers }: AbstractSubmissionFormProps) => {
   const { t } = useTranslation()
+  const history = useHistory()
+
   const [formData, setFormData] = useState<FormData>(initialAbstract(callForPapers))
-  const [confirmEmail, setConfirmEmail] = useState('')
   const [emailError, setEmailError] = useState('')
   const [githubError, setGithubError] = useState('')
-  const [isSubmitted, setIsSubmitted] = useState(false)
 
-  const recaptchaRef = useRef<ReCAPTCHA>(null)
-
-  //Reset UI when form is reset
-  const [reset, setReset] = useState(false)
+  // const recaptchaRef = useRef<ReCAPTCHA>(null)
 
   //Initialization of the JSON validation
   const ajv = new Ajv({ allErrors: true })
   ajvformat(ajv)
   const validate = ajv.compile(submissionFormSchema)
   const isValid = validate(formData)
-
-  const hasErrors = !!githubError || !!emailError || !isValid
 
   console.info('[AbstractSubmissionForm - AJV errors] validate.errors', validate.errors)
 
@@ -72,7 +63,7 @@ function AbstractSubmissionForm({
     // }
     // console.log('ReCAPTCHA token:', recaptchaToken);
 
-    if (hasErrors) {
+    if (!isValid || !!githubError || !!emailError) {
       console.error('[AbstractSubmissionForm] Form cannot be submitted due to errors.', {
         githubError,
         emailError,
@@ -81,10 +72,11 @@ function AbstractSubmissionForm({
       return
     } else {
       console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
+
+      localStorage.setItem('formData', JSON.stringify(formData))
+      history.push('/en/abstract-submitted', { data: formData })
       // createAbstractSubmission({item: formData, token: recaptchaToken})
-      setIsSubmitted(true)
-      makesHeaderDisappear(isSubmitted)
-      //TODO: maybe try to display the summary on a new page /abstract-submitted and create a page for the errors comming from Django API
+      //TODO: maybe try to display thes errors on error page for the submission with ErrorViewer
     }
   }
 
@@ -110,7 +102,6 @@ function AbstractSubmissionForm({
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value, type } = event.target
     const checked = type === 'checkbox' ? (event.target as HTMLInputElement).checked : undefined
-    const debouncedGithubValidation = debounce(handleGithubValidation, 3000)
 
     setFormData((prev: FormData) => {
       const updatedFormData = {
@@ -118,22 +109,14 @@ function AbstractSubmissionForm({
         dateLastModified: new Date(Date.now()).toISOString(),
       }
 
-      if (id in prev.contact) {
-        updatedFormData.contact = {
-          ...prev.contact,
-          [id]: type === 'checkbox' ? checked : value,
-        }
-
-        if (id === 'githubId') {
-          debouncedGithubValidation(value)
-        }
-      } else {
-        updatedFormData[id] = type === 'checkbox' ? checked : value
-      }
+      updatedFormData[id] = type === 'checkbox' ? checked : value
 
       return updatedFormData
     })
   }
+
+  // Debounce Github API validation of GithubId
+  const debouncedGithubValidation = useCallback(debounce(handleGithubValidation, 500), [])
 
   const handleOnChangeComponent = (
     type: string,
@@ -141,24 +124,27 @@ function AbstractSubmissionForm({
     field: string,
     value: string | boolean,
   ) => {
-    console.log('DATA BEFORE', formData)
     setFormData((prev) => {
       const updatedItems = [...prev[type]]
       updatedItems[index] = { ...updatedItems[index], [field]: value }
 
       if (type === 'contact' && field === 'confirmEmail') {
-        const email = updatedItems[index].email;
+        const email = updatedItems[index].email
         if (email !== value) {
-          setEmailError('Emails do not match');
+          setEmailError('Emails do not match')
         } else {
-          setEmailError('');
+          setEmailError('')
         }
       }
-  
+
+      if (type === 'authors' && field === 'githubId') {
+        debouncedGithubValidation(value as string)
+      }
+
       if (type === 'authors') {
         const updatedAuthors = updatedItems.map((author, i) => ({
           ...author,
-          primaryContact: i === index ? true : false, // Set primaryContact to true only for the selected author
+          primaryContact: i === index ? true : false,
         }))
 
         const selectedAuthor = updatedItems[index]
@@ -171,15 +157,15 @@ function AbstractSubmissionForm({
                 ...prev.contact,
                 firstname: selectedAuthor.firstname,
                 lastname: selectedAuthor.lastname,
-                email: selectedAuthor.email,
                 affiliation: selectedAuthor.affiliation,
+                email: selectedAuthor.email,
+                confirmEmail: '',
               },
             ],
             authors: updatedAuthors,
           }
         }
       }
-      console.log('DATA AFTER', { ...prev, [type]: updatedItems })
       return { ...prev, [type]: updatedItems }
     })
   }
@@ -207,16 +193,6 @@ function AbstractSubmissionForm({
     })
   }
 
-  const handleReset = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-    setFormData(initialAbstract(callForPapers))
-    setConfirmEmail('')
-    setReset(true)
-    setIsSubmitted(false)
-    makesHeaderDisappear(true)
-    window.scrollTo(0, 0)
-  }
-
   const handleDownloadJson = () => {
     const json = JSON.stringify(formData, null, 2)
     const blob = new Blob([json], { type: 'application/json' })
@@ -232,17 +208,6 @@ function AbstractSubmissionForm({
     link.click()
 
     URL.revokeObjectURL(url)
-  }
-
-  //Update page to show abstract submitted
-  if (isSubmitted) {
-    return (
-      <SubmissionSummary
-        formData={formData}
-        onReset={handleReset}
-        handleDownloadJson={handleDownloadJson}
-      />
-    )
   }
 
   return (
@@ -263,7 +228,6 @@ function AbstractSubmissionForm({
                 type="textarea"
                 onChange={handleInputChange}
                 error={getErrorByField(validate.errors || [], 'title')}
-                reset={reset}
                 placeholder={t('pages.abstractSubmission.placeholder.title')}
               />
               <StaticForm
@@ -274,7 +238,6 @@ function AbstractSubmissionForm({
                 type="textarea"
                 onChange={handleInputChange}
                 error={getErrorByField(validate.errors || [], 'abstract')}
-                reset={reset}
                 placeholder={t('pages.abstractSubmission.placeholder.abstract')}
               />
             </div>
@@ -295,6 +258,7 @@ function AbstractSubmissionForm({
                   handleMoveComponent('authors', fromIndex, toIndex)
                 }
                 errors={validate.errors || []}
+                confirmGithubError={githubError}
                 fieldConfig={authorFields}
               />
             </div>
@@ -314,9 +278,9 @@ function AbstractSubmissionForm({
                 errors={validate.errors || []}
                 confirmEmailError={emailError}
                 fieldConfig={contactFields}
+                maxItems={1}
               />
               <br />
-              <em className="text-accent"></em>
             </div>
             <hr />
             <div className="repository">
@@ -333,10 +297,9 @@ function AbstractSubmissionForm({
                 options={preferredLanguageOptions}
                 onChange={handleInputChange}
                 error={getErrorByField(validate.errors || [], 'preferredLanguage')}
-                reset={reset}
               />
               <hr />
-              <div className="tools-code-data ">
+              <div className="tools-code-data">
                 <DynamicForm
                   id="datasets"
                   title={t('pages.abstractSubmission.section.dataset')}
@@ -375,7 +338,6 @@ function AbstractSubmissionForm({
                 type="checkbox"
                 onChange={handleInputChange}
                 error={getErrorByField(validate.errors || [], 'termsAccepted')}
-                reset={reset}
               />
             </div>
             <br />
@@ -385,7 +347,7 @@ function AbstractSubmissionForm({
               size="invisible"
               sitekey={reCaptchaSiteKey}
             /> */}
-            <div className="text-align-right">
+            <div className="text-align-center">
               <button className="btn btn-outline-dark" onClick={handleDownloadJson}>
                 {t('actions.downloadAsJSON')}
               </button>
@@ -398,7 +360,6 @@ function AbstractSubmissionForm({
         <div className="col-lg-3 col-md-4 submission-status-card">
           <SubmissionStatusCard
             data={formData}
-            // onReset={handleReset}
             errors={validate.errors || []}
             githubError={githubError}
             mailError={emailError}

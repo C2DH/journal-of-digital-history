@@ -42,7 +42,6 @@ export interface Author {
 export interface ValidationErrors {
   [key: string]: ErrorObject[]
 }
-
 export interface FormFieldProps {
   id: string
   label: string | React.ReactNode
@@ -74,6 +73,7 @@ export interface DynamicFormProps {
   onRemove: (index: number) => void
   moveItem?: (fromIndex: number, toIndex: number) => void
   confirmEmailError?: string
+  confirmGithubError?: string
   errors: ErrorObject[] 
   fieldConfig: FieldConfig[]
   title: string
@@ -90,7 +90,7 @@ export interface SubmissionStatusCardProps {
 
 }
 
-export interface SubmissionSummaryProps {
+export interface AbstractSubmittedProps {
   formData: Record<string, any>
   handleDownloadJson: () => void
   onReset: (event: React.MouseEvent<HTMLButtonElement>) => void
@@ -98,5 +98,4 @@ export interface SubmissionSummaryProps {
 
 export interface AbstractSubmissionFormProps {
   callForPapers: string
-  makesHeaderDisappear: (isSubmitted: boolean) => void
 }

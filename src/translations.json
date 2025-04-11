@@ -85,6 +85,7 @@
             "explanation": "<em className='text-accent'>The order of the authors will determine the final sequence in the published article.</em>",
             "email": "Email Address",
             "confirmEmail": "Confirm email address",
+            "name": "Name",
             "firstname": "First Name",
             "lastname": "Last Name",
             "affiliation": "Affiliation",
@@ -107,11 +108,12 @@
             "description": "Description, License (where applicable)"
           },
           "contact": {
-            "explanation": "If none of the listed authors will serve as the primary contact, please add a designated contact person.",
+            "explanation": "If none of the listed authors will serve as the primary contact, please add a designated contact person. <span className='text-accent'>*</span>",
             "email": "Email Address",
             "confirmEmail": "Confirm email address",
             "firstname": "First Name",
             "lastname": "Last Name",
+            "name": "Name",
             "affiliation": "Affiliation"
           },
           "requiredFieldExplanation": "All field marked with an asterisk (*) are required",
@@ -120,6 +122,7 @@
             "title": "Title",
             "abstract": "Abstract",
             "authors": "Authors",
+            "contact": "Primary Contact",
             "preferredLanguage": "Repository",
             "termsAccepted": "Terms of use"
           },
@@ -137,8 +140,8 @@
           "placeholder": {
             "title": "Title",
             "abstract": "Write the abstract here ...",
-            "link": "http://example.com",
-            "description": "Description of the dataset, tools or code",
+            "link": "http://www.rtextminer.com ",
+            "description": "Description of the dataset, tools or code URL",
             "firstname": "First name",
             "lastname": "Last name",
             "affiliation": "University, Institution or Company",
@@ -229,7 +232,7 @@
                 "minLength": "Must be at least 1 character",
                 "maxLength": "Must be at most 39 characters",
                 "pattern": "Must be a valid Github ID as your-username or username",
-                "invalidGithubId": "Github username does not exist",
+                "confirmInvalidGithub": "Github username does not exist",
                 "githubApiError": "Error retrieving user data from Github API"
               },
               "blueskyId": {
