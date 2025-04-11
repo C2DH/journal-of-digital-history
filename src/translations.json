@@ -120,6 +120,7 @@
             "title": "Title",
             "abstract": "Abstract",
             "authors": "Authors",
+            "primaryContact": "Primary Contact",
             "preferredLanguage": "Repository",
             "termsAccepted": "Terms of use"
           },
@@ -137,8 +138,8 @@
           "placeholder": {
             "title": "Title",
             "abstract": "Write the abstract here ...",
-            "link": "http://example.com",
-            "description": "Description of the dataset, tools or code",
+            "link": "http://www.rtextminer.com ",
+            "description": "Description of the dataset, tools or code URL",
             "firstname": "First name",
             "lastname": "Last name",
             "affiliation": "University, Institution or Company",
@@ -229,7 +230,7 @@
                 "minLength": "Must be at least 1 character",
                 "maxLength": "Must be at most 39 characters",
                 "pattern": "Must be a valid Github ID as your-username or username",
-                "invalidGithubId": "Github username does not exist",
+                "confirmInvalidGithub": "Github username does not exist",
                 "githubApiError": "Error retrieving user data from Github API"
               },
               "blueskyId": {

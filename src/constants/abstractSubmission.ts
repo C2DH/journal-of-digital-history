@@ -109,6 +109,7 @@ export const mandatoryTopFields = [
   'title',
   'abstract',
   'authors',
+  'primaryContact',
   'preferredLanguage',
   'termsAccepted',
 ]

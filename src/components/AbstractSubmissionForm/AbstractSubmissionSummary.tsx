@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import parse from 'html-react-parser'
-import {  SubmissionSummaryProps } from '../../interfaces/abstractSubmission'
+import {  AbstractSubmittedProps } from '../../interfaces/abstractSubmission'
 import  InfoCard  from './InfoCard'
 
-const SubmissionSummary = ({ formData, onReset, handleDownloadJson }: SubmissionSummaryProps) => {
+const AbstractSubmissionSummary = ({ formData, onReset, handleDownloadJson }: AbstractSubmittedProps) => {
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -29,7 +29,7 @@ const SubmissionSummary = ({ formData, onReset, handleDownloadJson }: Submission
         </div>
         <InfoCard
           title={t('pages.abstractSubmission.section.contact')}
-          data={formData.contact}
+          data={formData.contact[0]}
           fields={[
             { label: t('pages.abstractSubmission.author.firstname'), key: 'firstname' },
             { label: t('pages.abstractSubmission.author.lastname'), key: 'lastname' },
@@ -42,7 +42,7 @@ const SubmissionSummary = ({ formData, onReset, handleDownloadJson }: Submission
         />
         <InfoCard
           title={t('pages.abstractSubmission.section.dataset')}
-          data={formData.datasets}
+          data={formData.datasets || []}
           fields={[
             { label: t('pages.abstractSubmission.dataset.link'), key: 'link' },
             { label: t('pages.abstractSubmission.dataset.description'), key: 'description' },
@@ -50,23 +50,13 @@ const SubmissionSummary = ({ formData, onReset, handleDownloadJson }: Submission
         />
         <InfoCard
           title={t('pages.abstractSubmission.section.contributors')}
-          data={formData.contributors}
+          data={formData.authors}
           fields={[
             { label: t('pages.abstractSubmission.author.firstname'), key: 'firstname' },
             { label: t('pages.abstractSubmission.author.lastname'), key: 'lastname' },
             { label: t('pages.abstractSubmission.author.email'), key: 'email' },
             { label: t('pages.abstractSubmission.author.affiliation'), key: 'affiliation' },
             { label: t('pages.abstractSubmission.author.orcid'), key: 'orcidUrl' },
-          ]}
-        />
-        <InfoCard
-          title={t('pages.abstractSubmission.section.socialMedia')}
-          data={formData.contact}
-          fields={[
-            { label: t('pages.abstractSubmission.author.githubId'), key: 'githubId' },
-            { label: t('pages.abstractSubmission.author.preferredLanguage'), key: 'preferredLanguage' },
-            { label: t('pages.abstractSubmission.author.blueskyId'), key: 'blueskyId' },
-            { label: t('pages.abstractSubmission.author.facebookId'), key: 'facebookId' },
           ]}
         />
 
@@ -91,4 +81,4 @@ const SubmissionSummary = ({ formData, onReset, handleDownloadJson }: Submission
   )
 }
 
-export default SubmissionSummary
+export default AbstractSubmissionSummary
