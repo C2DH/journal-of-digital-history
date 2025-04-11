@@ -42,7 +42,6 @@ export interface Author {
 export interface ValidationErrors {
   [key: string]: ErrorObject[]
 }
-
 export interface FormFieldProps {
   id: string
   label: string | React.ReactNode

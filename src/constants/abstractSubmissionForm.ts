@@ -85,9 +85,9 @@ export const authorEmpty = {
 export const contactEmpty = {
   firstname: '',
   lastname: '',
+  affiliation: '',
   email: '',
   confirmEmail: '',
-  affiliation: '',
 }
 
 export const preferredLanguageOptions = [
@@ -109,7 +109,7 @@ export const mandatoryTopFields = [
   'title',
   'abstract',
   'authors',
-  'primaryContact',
+  'contact',
   'preferredLanguage',
   'termsAccepted',
 ]

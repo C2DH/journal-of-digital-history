@@ -11,17 +11,17 @@ const FormField = ({
   options = [],
   onChange,
   error,
-  reset,
+  // reset,
   placeholder,
 }: FormFieldProps) => {
   const { t } = useTranslation()
   const [touched, setTouched] = useState(false)
 
-  useEffect(() => {
-    if (reset) {
-      setTouched(false)
-    }
-  }, [reset])
+  // useEffect(() => {
+  //   if (reset) {
+  //     setTouched(false)
+  //   }
+  // }, [reset])
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,

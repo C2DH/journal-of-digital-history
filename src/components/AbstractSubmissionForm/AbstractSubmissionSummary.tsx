@@ -14,6 +14,7 @@ const AbstractSubmissionSummary = ({
 }: AbstractSubmittedProps) => {
   const { t } = useTranslation()
   const [activeSection, setActiveSection] = useState<string>('contact')
+
   const [height, setHeight] = useState<number>(0)
 
   useEffect(() => {
@@ -41,7 +42,7 @@ const AbstractSubmissionSummary = ({
             activeSection={activeSection}
             onMenuClick={handleMenuClick}
             menuItems={menuItems}
-            height={ height }
+            height={height}
           />
         </div>
 
@@ -92,7 +93,9 @@ const AbstractSubmissionSummary = ({
           {/* Repository Section */}
           <section id="repository" className="mt-5">
             <h2>{t('pages.abstractSubmission.section.repository')}</h2>
-            <p>{formData.repository}</p>
+            <p>
+              <strong>{t('pages.abstractSubmission.languagePreferred')}:</strong> {formData.languagePreferred}
+            </p>
           </section>
 
           {/* Actions */}

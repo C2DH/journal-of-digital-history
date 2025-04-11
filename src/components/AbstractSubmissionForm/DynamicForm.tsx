@@ -33,7 +33,7 @@ const DynamicForm = ({
       [`${index}-${fieldName}`]: true,
     }))
   }
-console.log("🚀 ~ file: DynamicForm.tsx:20 ~ confirmGithubError:", confirmGithubError)
+
   return (
     <>
       <h3 className="progressiveHeading">{title}</h3>

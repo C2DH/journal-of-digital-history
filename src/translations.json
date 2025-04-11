@@ -108,7 +108,7 @@
             "description": "Description, License (where applicable)"
           },
           "contact": {
-            "explanation": "If none of the listed authors will serve as the primary contact, please add a designated contact person.",
+            "explanation": "If none of the listed authors will serve as the primary contact, please add a designated contact person. <span className='text-accent'>*</span>",
             "email": "Email Address",
             "confirmEmail": "Confirm email address",
             "firstname": "First Name",
@@ -122,7 +122,7 @@
             "title": "Title",
             "abstract": "Abstract",
             "authors": "Authors",
-            "primaryContact": "Primary Contact",
+            "contact": "Primary Contact",
             "preferredLanguage": "Repository",
             "termsAccepted": "Terms of use"
           },
