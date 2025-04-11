@@ -85,6 +85,7 @@
             "explanation": "<em className='text-accent'>The order of the authors will determine the final sequence in the published article.</em>",
             "email": "Email Address",
             "confirmEmail": "Confirm email address",
+            "name": "Name",
             "firstname": "First Name",
             "lastname": "Last Name",
             "affiliation": "Affiliation",
@@ -112,6 +113,7 @@
             "confirmEmail": "Confirm email address",
             "firstname": "First Name",
             "lastname": "Last Name",
+            "name": "Name",
             "affiliation": "Affiliation"
           },
           "requiredFieldExplanation": "All field marked with an asterisk (*) are required",

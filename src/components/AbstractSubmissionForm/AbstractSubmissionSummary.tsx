@@ -1,80 +1,113 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import parse from 'html-react-parser'
-import {  AbstractSubmittedProps } from '../../interfaces/abstractSubmission'
-import  InfoCard  from './InfoCard'
 
-const AbstractSubmissionSummary = ({ formData, onReset, handleDownloadJson }: AbstractSubmittedProps) => {
+import { AbstractSubmittedProps } from '../../interfaces/abstractSubmission'
+import SideMenu from './SideMenu'
+import { menuItems } from '../../constants/abstractSubmissionSummary'
+
+import '../../styles/components/AbstractSubmissionForm/AbstractSubmissionSummary.scss'
+
+const AbstractSubmissionSummary = ({
+  formData,
+  onReset,
+  handleDownloadJson,
+}: AbstractSubmittedProps) => {
   const { t } = useTranslation()
+  const [activeSection, setActiveSection] = useState<string>('contact')
+  const [height, setHeight] = useState<number>(0)
 
   useEffect(() => {
-    // Scroll to top of page when component is mounted
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 30);
-  }, []);
+    const element = document.getElementById(activeSection)
+    if (element) {
+      const offsetTop = element.getBoundingClientRect().top + window.pageYOffset
+      window.scrollTo({
+        top: offsetTop - 100,
+        behavior: 'smooth',
+      })
+      setHeight(offsetTop)
+    }
+  }, [activeSection])
+
+  const handleMenuClick = (section: string) => {
+    setActiveSection(section)
+  }
 
   return (
-    <div className="col-md-8 offset-md-2">
-      <div className="container my-5 text-center  ">
-        <h1>{t('pages.abstractSubmitted.title')}</h1>
-        <br />
-        <p>{t('pages.abstractSubmitted.heading')}</p>
-        <div>
-        <div className="card mt-5">
-          <div className="card-body">
-            <h2 className="card-title">{formData.title}</h2>
-            <p className="card-text">{formData.abstract}</p>
+    <div className="container my-5 text-start">
+      <div className="row">
+        {/* Side Menu */}
+        <div className="col-md-3">
+          <SideMenu
+            activeSection={activeSection}
+            onMenuClick={handleMenuClick}
+            menuItems={menuItems}
+            height={ height }
+          />
+        </div>
+
+        <div className="col-md-9">
+          <h1>{t('pages.abstractSubmitted.title')}</h1>
+          <p>{t('pages.abstractSubmitted.heading')}</p>
+          <br />
+          <h2>{formData.title}</h2>
+          <p>{formData.abstract}</p>
+
+          {/* Contact Section */}
+          <section id="contact" className="mt-5">
+            <h2>{t('pages.abstractSubmission.section.contact')}</h2>
+            <div className="info-section">
+              <p>
+                <strong>{t('pages.abstractSubmission.contact.email')}:</strong>{' '}
+                {formData.contact[0]?.email}
+              </p>
+              <p>
+                <strong>{t('pages.abstractSubmission.contact.name')}:</strong>{' '}
+                {formData.contact[0]?.firstname} {formData.contact[0]?.lastname}
+              </p>
+            </div>
+          </section>
+
+          {/* Authors Section */}
+          <section id="authors" className="mt-5">
+            <h2>{t('pages.abstractSubmission.section.authors')}</h2>
+            {formData.authors.map((author: any, index: number) => (
+              <div key={index} className="info-section">
+                <p>
+                  <strong>{t('pages.abstractSubmission.author.name')}:</strong> {author.firstname}{' '}
+                  {author.lastname}
+                </p>
+                <p>
+                  <strong>{t('pages.abstractSubmission.author.email')}:</strong> {author.email}
+                </p>
+              </div>
+            ))}
+          </section>
+
+          {/* Dataset Section */}
+          <section id="dataset" className="mt-5">
+            <h2>{t('pages.abstractSubmission.section.dataset')}</h2>
+            <p>{formData.dataset}</p>
+          </section>
+
+          {/* Repository Section */}
+          <section id="repository" className="mt-5">
+            <h2>{t('pages.abstractSubmission.section.repository')}</h2>
+            <p>{formData.repository}</p>
+          </section>
+
+          {/* Actions */}
+          <div className="d-flex justify-content-end mt-4">
+            <button className="btn btn-primary" onClick={onReset}>
+              {t('actions.submitAnotherAbstract')}
+            </button>
+            <button
+              className="btn btn-outline-dark"
+              onClick={handleDownloadJson}
+              style={{ marginLeft: '10px' }}
+            >
+              {t('actions.downloadAsJSON')}
+            </button>
           </div>
-        </div>
-        <InfoCard
-          title={t('pages.abstractSubmission.section.contact')}
-          data={formData.contact[0]}
-          fields={[
-            { label: t('pages.abstractSubmission.author.firstname'), key: 'firstname' },
-            { label: t('pages.abstractSubmission.author.lastname'), key: 'lastname' },
-            { label: t('pages.abstractSubmission.author.email'), key: 'email' },
-            { label: t('pages.abstractSubmission.author.affiliation'), key: 'affiliation' },
-            { label: t('pages.abstractSubmission.author.orcid'), key: 'orcidUrl' },
-          ]}
-          backgroundColor='bg-light'
-          borderColor='border-dark'
-        />
-        <InfoCard
-          title={t('pages.abstractSubmission.section.dataset')}
-          data={formData.datasets || []}
-          fields={[
-            { label: t('pages.abstractSubmission.dataset.link'), key: 'link' },
-            { label: t('pages.abstractSubmission.dataset.description'), key: 'description' },
-          ]}
-        />
-        <InfoCard
-          title={t('pages.abstractSubmission.section.contributors')}
-          data={formData.authors}
-          fields={[
-            { label: t('pages.abstractSubmission.author.firstname'), key: 'firstname' },
-            { label: t('pages.abstractSubmission.author.lastname'), key: 'lastname' },
-            { label: t('pages.abstractSubmission.author.email'), key: 'email' },
-            { label: t('pages.abstractSubmission.author.affiliation'), key: 'affiliation' },
-            { label: t('pages.abstractSubmission.author.orcid'), key: 'orcidUrl' },
-          ]}
-        />
-
-        </div>
-
-        <br />
-        <p>{parse(t('pages.abstractSubmitted.moreInfo'))}</p>
-        <div className="align-items-center">
-          <button className="btn btn-primary mt-4" onClick={onReset}>
-            {t('actions.submitAnotherAbstract')}
-          </button>
-          <button
-            className="btn btn-outline-dark mt-4"
-            onClick={handleDownloadJson}
-            style={{ marginLeft: '10px' }}
-          >
-            {t('actions.downloadAsJSON')}
-          </button>
         </div>
       </div>
     </div>

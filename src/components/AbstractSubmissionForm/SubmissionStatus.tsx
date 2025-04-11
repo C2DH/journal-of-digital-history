@@ -1,12 +1,11 @@
 import React from 'react'
 import { SubmissionStatusCardProps } from '../../interfaces/abstractSubmission'
 import { useTranslation } from 'react-i18next'
-import { dateFormat, mandatoryTopFields } from '../../constants/abstractSubmission'
+import { dateFormat, mandatoryTopFields } from '../../constants/abstractSubmissionForm'
 import { requiredFieldErrors, addErrorToSection } from './errors'
 
 const SubmissionStatusCard = ({
   data,
-  // onReset,
   errors,
   githubError,
   mailError,
@@ -55,9 +54,6 @@ const SubmissionStatusCard = ({
           </div>
 
           <div className="d-flex flex-column">
-            {/* <button className="btn btn-outline-dark mb-3" onClick={onReset}>
-              {t('actions.resetForm')}
-            </button> */}
           </div>
         </div>
       </div>

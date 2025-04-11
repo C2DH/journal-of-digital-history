@@ -1,0 +1,20 @@
+.side-menu a {
+  font-size: 1.2rem;
+  // TODO: needs to find why text-decoration:none does not work here
+  padding: 5px 10px;
+  display: block;
+}
+
+.side-menu a.active {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+}
+
+.side-menu a:hover {
+  color: none;
+}
+
+.list-unstyled{
+  position: absolute
+}
