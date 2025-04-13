@@ -13,17 +13,17 @@ const ErrorViewer = ({
   children,
 }) => {
   const { t } = useTranslation()
-  if (errorCode === 404) {
-    return (
-      <NotFound>
-        <div className="alert alert-warning" role="alert">
-          page: <b>{window.location.pathname}</b>
-          <br />
-          {error.message}
-        </div>
-      </NotFound>
-    )
-  }
+  // if (errorCode === 404) {
+  //   return (
+  //     <NotFound>
+  //       <div className="alert alert-warning" role="alert">
+  //         page: <b>{window.location.pathname}</b>
+  //         <br />
+  //         {error.message}
+  //       </div>
+  //     </NotFound>
+  //   )
+  // }
   const cleanedError = JSON.stringify(error, null, 2)
   const highlighted = language
     ? hljs.highlight(language, cleanedError)

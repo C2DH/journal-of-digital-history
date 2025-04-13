@@ -82,7 +82,7 @@
         "abstractSubmission": {
           "title": "Abstract Submission",
           "author": {
-            "explanation": "<em className='text-accent'>The order of the authors will determine the final sequence in the published article.</em>",
+            "explanation": "<em>The order of the authors will determine the final sequence in the published article.</em>",
             "email": "Email Address",
             "confirmEmail": "Confirm email address",
             "name": "Name",
@@ -95,7 +95,7 @@
             "blueskyId": "Bluesky",
             "facebookId": "Facebook",
             "githubId": "GitHub ID",
-            "primaryContact": "Use this author as primary contact "
+            "primaryContact": "<em className='text-accent'>Use this author as primary contact<em className='text-accent'> "
           },
           "article": {
             "title": "Title",
@@ -192,6 +192,12 @@
                 "maxLength": "Must be at most 100 characters"
               },
               "email": {
+                "required": "Email is required",
+                "minLength": "Must be at least 1 character",
+                "maxLength": "Must be at most 100 characters",
+                "format": "Must be a valid email address"
+              },
+              "confirmEmail": {
                 "required": "Email is required",
                 "minLength": "Must be at least 1 character",
                 "maxLength": "Must be at most 100 characters",

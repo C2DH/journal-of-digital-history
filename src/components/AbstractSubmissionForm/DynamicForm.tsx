@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import parse from 'html-react-parser'
 
 import { getErrorByItemAndByField } from './errors'
 import { Author, Contact, Dataset, DynamicFormProps } from '../../interfaces/abstractSubmission'
@@ -17,15 +18,24 @@ const DynamicForm = ({
   errors,
   confirmEmailError,
   confirmGithubError,
-  
   fieldConfig,
   title,
   explanation,
   buttonLabel,
   maxItems = 10,
+  touchedFields,
 }: DynamicFormProps) => {
   const { t } = useTranslation()
-  const [touched, setTouched] = useState({})
+  const [touched, setTouched] = useState<Record<string, boolean>>({})
+
+  useEffect(() => {
+    if (touchedFields) {
+      setTouched((prev) => ({
+        ...prev,
+        ...touchedFields,
+      }))
+    }
+  }, [touchedFields])
 
   const handleFieldTouch = (index: number, fieldName: string) => {
     setTouched((prev) => ({
@@ -54,7 +64,8 @@ const DynamicForm = ({
             <div className="w-100 mt-2">
               {fieldConfig.map(({ label, fieldName, type = 'text', placeholder, required }) => {
                 const error = getErrorByItemAndByField(errors, id, index, fieldName)
-                const isTouched = touched[`${index}-${fieldName}`]
+                const isTouched =
+                  touched[`${index}-${fieldName}`] || touchedFields?.[`${id}/${index}/${fieldName}`]
 
                 return (
                   <div className="form-group" key={label}>
@@ -91,7 +102,7 @@ const DynamicForm = ({
                           }}
                         />
                         <label className="form-check-label" htmlFor={`${fieldName}-${index}`}>
-                          {t(`pages.abstractSubmission.${label}`)}
+                          {parse(t(`pages.abstractSubmission.${label}`))}
                         </label>
                       </div>
                     ) : (
@@ -100,8 +111,8 @@ const DynamicForm = ({
                         className={`form-control ${
                           isTouched
                             ? error ||
-                            (fieldName === 'confirmEmail' && confirmEmailError) ||
-                            (fieldName === 'githubId' && confirmGithubError)
+                              (fieldName === 'confirmEmail' && confirmEmailError) ||
+                              (fieldName === 'githubId' && confirmGithubError)
                               ? 'is-invalid'
                               : 'is-valid'
                             : ''
@@ -123,7 +134,9 @@ const DynamicForm = ({
                           {fieldName === 'confirmEmail' && confirmEmailError
                             ? t('pages.abstractSubmission.errors.confirmEmailMismatch')
                             : fieldName === 'githubId' && confirmGithubError
-                            ? t(`pages.abstractSubmission.errors.${id}.${fieldName}.confirmInvalidGithub`)
+                            ? t(
+                                `pages.abstractSubmission.errors.${id}.${fieldName}.confirmInvalidGithub`,
+                              )
                             : t(`pages.abstractSubmission.errors.${id}.${fieldName}.${error}`)}
                         </div>
                       )}
@@ -132,12 +145,12 @@ const DynamicForm = ({
               })}
             </div>
             <div className="flex-shrink-1">
-              <CloseButtonItem
+              {id==='contact' ? <div className='empty-space' style={{height: '57px', width: '57px'}}></div>: <CloseButtonItem
                 index={index}
                 onRemove={(index) => {
                   onRemove(index)
                 }}
-              />
+              />}
               {index > 0 && <ArrowUpButtonItem index={index} moveItem={moveItem} />}
               {index < items.length - 1 && (
                 <ArrowDownButtonItem index={index} moveItem={moveItem} />

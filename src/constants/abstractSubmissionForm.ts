@@ -6,7 +6,7 @@ export const initialAbstract = (callForPapers: string) => {
     title: '',
     abstract: '',
     datasets: [],
-    contact: [],
+    contact: [contactEmpty],
     authors: [authorEmpty],
     preferredLanguage: LanguagePreference.MAKE_A_CHOICE,
     dateCreated: new Date().toISOString(),

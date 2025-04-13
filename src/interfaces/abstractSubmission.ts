@@ -55,6 +55,7 @@ export interface FormFieldProps {
   error?: string
   reset?: boolean
   placeholder?: string
+  isTouched: boolean
 }
 
 export interface FieldConfig {
@@ -80,6 +81,7 @@ export interface DynamicFormProps {
   explanation: string  | React.ReactNode
   buttonLabel: string
   maxItems?: number
+  touchedFields: Record<string, boolean>
 }
 export interface SubmissionStatusCardProps {
   data: FormData
@@ -98,4 +100,5 @@ export interface AbstractSubmittedProps {
 
 export interface AbstractSubmissionFormProps {
   callForPapers: string
+  onErrorAPI: (err:any) => void
 }

@@ -12,7 +12,8 @@ import { submissionFormSchema } from '../../schemas/abstractSubmission'
 import DynamicForm from './DynamicForm'
 import SubmissionStatusCard from './SubmissionStatus'
 import StaticForm from './StaticForm'
-// import { reCaptchaSiteKey } from '../../constants'
+
+// import { reCaptchaSiteKey } from '../../constants/globalConstants'
 import {
   datasetFields,
   datasetEmpty,
@@ -28,15 +29,16 @@ import { debounce } from '../../logic/debounce'
 import { getLocalizedPath } from '../../logic/language'
 import { createAbstractSubmission } from '../../logic/api/postData'
 
-const AbstractSubmissionForm = ({ callForPapers }: AbstractSubmissionFormProps) => {
+const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissionFormProps) => {
   const { t } = useTranslation()
   const history = useHistory()
 
   const [formData, setFormData] = useState<FormData>(initialAbstract(callForPapers))
   const [emailError, setEmailError] = useState('')
   const [githubError, setGithubError] = useState('')
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
 
-  // const recaptchaRef = useRef<ReCAPTCHA>(null)
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
 
   //Initialization of the JSON validation
   const ajv = new Ajv({ allErrors: true })
@@ -56,12 +58,32 @@ const AbstractSubmissionForm = ({ callForPapers }: AbstractSubmissionFormProps) 
 
     // TODO: Uncomment reCAPTCHA when form is ready
 
-    // const recaptchaToken = await recaptchaRef.current?.executeAsync()
+    const recaptchaToken = await recaptchaRef.current?.executeAsync()
     // if (!recaptchaToken) {
     //   console.error('ReCAPTCHA failed to generate a token.');
     //   return;
     // }
     // console.log('ReCAPTCHA token:', recaptchaToken);
+
+    const allFields = [
+      'title',
+      'abstract',
+      ...formData.authors.flatMap((_, index) =>
+        authorFields.map((field) => `authors/${index}/${field.fieldName}`),
+      ),
+      ...formData.contact.flatMap((_, index) =>
+        contactFields.map((field) => `contact/${index}/${field.fieldName}`),
+      ),
+      'preferredLanguage',
+      'termsAccepted',
+    ]
+
+    const updatedTouchedFields = allFields.reduce((acc, field) => {
+      acc[field] = true
+      return acc
+    }, {} as Record<string, boolean>)
+
+    setTouchedFields(updatedTouchedFields)
 
     if (!isValid || !!githubError || !!emailError) {
       console.error('[AbstractSubmissionForm] Form cannot be submitted due to errors.', {
@@ -71,12 +93,20 @@ const AbstractSubmissionForm = ({ callForPapers }: AbstractSubmissionFormProps) 
       })
       return
     } else {
-      console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
-
       localStorage.setItem('formData', JSON.stringify(formData))
-      history.push('/en/abstract-submitted', { data: formData })
-      // createAbstractSubmission({item: formData, token: recaptchaToken})
-      //TODO: maybe try to display thes errors on error page for the submission with ErrorViewer
+      // history.push('/en/abstract-submitted', { data: formData })
+      
+      createAbstractSubmission({ item: formData, token: recaptchaToken })
+        .then((res: { status: number }) => {
+          if (res?.status === 200 || res?.status === 201) {
+            console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
+            history.push('/en/abstract-submitted', { data: formData })
+          }
+        })
+        .catch((err: any) => {
+          console.info('[AbstractSubmissionForm] ERR',err.response.status, err.message)
+          onErrorAPI(err)
+        })
     }
   }
 
@@ -210,6 +240,8 @@ const AbstractSubmissionForm = ({ callForPapers }: AbstractSubmissionFormProps) 
     URL.revokeObjectURL(url)
   }
 
+
+
   return (
     <div className="container my-5">
       <div className="row">
@@ -228,6 +260,7 @@ const AbstractSubmissionForm = ({ callForPapers }: AbstractSubmissionFormProps) 
                 type="textarea"
                 onChange={handleInputChange}
                 error={getErrorByField(validate.errors || [], 'title')}
+                isTouched={touchedFields['title']}
                 placeholder={t('pages.abstractSubmission.placeholder.title')}
               />
               <StaticForm
@@ -238,6 +271,7 @@ const AbstractSubmissionForm = ({ callForPapers }: AbstractSubmissionFormProps) 
                 type="textarea"
                 onChange={handleInputChange}
                 error={getErrorByField(validate.errors || [], 'abstract')}
+                isTouched={touchedFields['abstract']}
                 placeholder={t('pages.abstractSubmission.placeholder.abstract')}
               />
             </div>
@@ -260,6 +294,7 @@ const AbstractSubmissionForm = ({ callForPapers }: AbstractSubmissionFormProps) 
                 errors={validate.errors || []}
                 confirmGithubError={githubError}
                 fieldConfig={authorFields}
+                touchedFields={touchedFields}
               />
             </div>
             <hr />
@@ -279,6 +314,7 @@ const AbstractSubmissionForm = ({ callForPapers }: AbstractSubmissionFormProps) 
                 confirmEmailError={emailError}
                 fieldConfig={contactFields}
                 maxItems={1}
+                touchedFields={touchedFields}
               />
               <br />
             </div>
@@ -297,6 +333,7 @@ const AbstractSubmissionForm = ({ callForPapers }: AbstractSubmissionFormProps) 
                 options={preferredLanguageOptions}
                 onChange={handleInputChange}
                 error={getErrorByField(validate.errors || [], 'preferredLanguage')}
+                isTouched={touchedFields['preferredLanguage']}
               />
               <hr />
               <div className="tools-code-data">
@@ -316,6 +353,7 @@ const AbstractSubmissionForm = ({ callForPapers }: AbstractSubmissionFormProps) 
                   }
                   errors={validate.errors || []}
                   fieldConfig={datasetFields}
+                  touchedFields={touchedFields}
                 />
                 <br />
                 <br />
@@ -338,6 +376,7 @@ const AbstractSubmissionForm = ({ callForPapers }: AbstractSubmissionFormProps) 
                 type="checkbox"
                 onChange={handleInputChange}
                 error={getErrorByField(validate.errors || [], 'termsAccepted')}
+                isTouched={touchedFields['termsAccepted']}
               />
             </div>
             <br />
