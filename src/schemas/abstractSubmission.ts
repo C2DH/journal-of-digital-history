@@ -83,7 +83,7 @@ export const submissionFormSchema = {
       maxItems: 10,
       required: ['firstname', 'lastname', 'affiliation', 'email', 'orcidUrl', 'githubId'],
     },
-    preferredLanguage: {
+    languagePreference: {
       type: 'string',
       enum: ['Python', 'R', 'Default'],
       default: 'Python',

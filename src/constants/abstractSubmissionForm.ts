@@ -8,7 +8,7 @@ export const initialAbstract = (callForPapers: string) => {
     datasets: [],
     contact: [contactEmpty],
     authors: [authorEmpty],
-    preferredLanguage: LanguagePreference.MAKE_A_CHOICE,
+    languagePreference: LanguagePreference.MAKE_A_CHOICE,
     dateCreated: new Date().toISOString(),
     dateLastModified: new Date(Date.now()).toISOString(),
     termsAccepted: false,
@@ -90,7 +90,7 @@ export const contactEmpty = {
   confirmEmail: '',
 }
 
-export const preferredLanguageOptions = [
+export const languagePreferenceOptions = [
   { value: '/', label: 'Please make a choice' },
   { value: 'Python', label: 'Python' },
   { value: 'R', label: 'R' },
@@ -110,6 +110,6 @@ export const mandatoryTopFields = [
   'abstract',
   'authors',
   'contact',
-  'preferredLanguage',
+  'languagePreference',
   'termsAccepted',
 ]

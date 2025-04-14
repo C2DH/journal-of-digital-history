@@ -6,8 +6,19 @@ import ajvformat from 'ajv-formats'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
-import { getErrorByField } from './errors'
-import { FormData, AbstractSubmissionFormProps } from '../../interfaces/abstractSubmission'
+import { getErrorByField } from '../../logic/errors'
+import {
+  FormData,
+  AbstractSubmissionFormProps,
+  InputChangeHandler,
+  UpdateFieldHandler,
+  AddItemHandler,
+  RemoveItemByTypeHandler,
+  MoveItemByTypeHandler,
+  ErrorField,
+  SubmitHandler,
+  GithubIdValidationHandler,
+} from '../../interfaces/abstractSubmission'
 import { submissionFormSchema } from '../../schemas/abstractSubmission'
 import DynamicForm from './DynamicForm'
 import SubmissionStatusCard from './SubmissionStatus'
@@ -22,9 +33,9 @@ import {
   contactFields,
   contactEmpty,
   initialAbstract,
-  preferredLanguageOptions,
+  languagePreferenceOptions,
 } from '../../constants/abstractSubmissionForm'
-import checkGithubUsername from './checkGithubUsername'
+import checkGithubUsername from '../../logic/checkGithubUsername'
 import { debounce } from '../../logic/debounce'
 import { getLocalizedPath } from '../../logic/language'
 import { createAbstractSubmission } from '../../logic/api/postData'
@@ -36,7 +47,8 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
   const [formData, setFormData] = useState<FormData>(initialAbstract(callForPapers))
   const [emailError, setEmailError] = useState('')
   const [githubError, setGithubError] = useState('')
-  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
+  const [missingFields, setMissingFields] = useState<ErrorField>({})
+  const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
 
   const recaptchaRef = useRef<ReCAPTCHA>(null)
 
@@ -53,8 +65,9 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
     setFormData((prev) => ({ ...prev, callForPapers }))
   }, [callForPapers])
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit: SubmitHandler = async (event) => {
     event.preventDefault()
+    setIsSubmitAttempted(true)
 
     // TODO: Uncomment reCAPTCHA when form is ready
 
@@ -74,16 +87,19 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
       ...formData.contact.flatMap((_, index) =>
         contactFields.map((field) => `contact/${index}/${field.fieldName}`),
       ),
-      'preferredLanguage',
+      ...formData.datasets.flatMap((_, index) =>
+        datasetFields.map((field) => `datasets/${index}/${field.fieldName}`),
+      ),
+      'languagePreference',
       'termsAccepted',
     ]
 
     const updatedTouchedFields = allFields.reduce((acc, field) => {
       acc[field] = true
       return acc
-    }, {} as Record<string, boolean>)
+    }, {} as ErrorField)
 
-    setTouchedFields(updatedTouchedFields)
+    setMissingFields(updatedTouchedFields)
 
     if (!isValid || !!githubError || !!emailError) {
       console.error('[AbstractSubmissionForm] Form cannot be submitted due to errors.', {
@@ -94,23 +110,23 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
       return
     } else {
       localStorage.setItem('formData', JSON.stringify(formData))
-      // history.push('/en/abstract-submitted', { data: formData })
-      
-      createAbstractSubmission({ item: formData, token: recaptchaToken })
-        .then((res: { status: number }) => {
-          if (res?.status === 200 || res?.status === 201) {
-            console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
-            history.push('/en/abstract-submitted', { data: formData })
-          }
-        })
-        .catch((err: any) => {
-          console.info('[AbstractSubmissionForm] ERR',err.response.status, err.message)
-          onErrorAPI(err)
-        })
+      history.push('/en/abstract-submitted', { data: formData })
+
+      // createAbstractSubmission({ item: formData, token: recaptchaToken })
+      //   .then((res: { status: number }) => {
+      //     if (res?.status === 200 || res?.status === 201) {
+      //       console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
+      //       history.push('/en/abstract-submitted', { data: formData })
+      //     }
+      //   })
+      //   .catch((err: any) => {
+      //     console.info('[AbstractSubmissionForm] ERR',err.response.status, err.message)
+      //     onErrorAPI(err)
+      //   })
     }
   }
 
-  const handleGithubValidation = async (githubId: string) => {
+  const handleGithubValidation: GithubIdValidationHandler = async (githubId) => {
     if (!githubId) {
       setGithubError('')
       return
@@ -129,7 +145,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
     }
   }
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange: InputChangeHandler = (event) => {
     const { id, value, type } = event.target
     const checked = type === 'checkbox' ? (event.target as HTMLInputElement).checked : undefined
 
@@ -148,12 +164,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
   // Debounce Github API validation of GithubId
   const debouncedGithubValidation = useCallback(debounce(handleGithubValidation, 500), [])
 
-  const handleOnChangeComponent = (
-    type: string,
-    index: number,
-    field: string,
-    value: string | boolean,
-  ) => {
+  const handleOnChangeComponent: UpdateFieldHandler = (type, index, field, value) => {
     setFormData((prev) => {
       const updatedItems = [...prev[type]]
       updatedItems[index] = { ...updatedItems[index], [field]: value }
@@ -200,21 +211,21 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
     })
   }
 
-  const handleAddComponent = (type: string, defaultItem: Record<string, any>) => {
+  const handleAddComponent: AddItemHandler = (type, defaultItem) => {
     setFormData((prev) => ({
       ...prev,
       [type]: [...prev[type], defaultItem],
     }))
   }
 
-  const handleRemoveComponent = (type: string, index: number) => {
+  const handleRemoveComponent: RemoveItemByTypeHandler = (type, index) => {
     setFormData((prev) => ({
       ...prev,
       [type]: prev[type].filter((_, i: number) => i !== index),
     }))
   }
 
-  const handleMoveComponent = (type: string, fromIndex: number, toIndex: number) => {
+  const handleMoveComponent: MoveItemByTypeHandler = (type, fromIndex, toIndex) => {
     setFormData((prev) => {
       const updatedItems = [...prev[type]]
       const [movedItem] = updatedItems.splice(fromIndex, 1)
@@ -240,8 +251,6 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
     URL.revokeObjectURL(url)
   }
 
-
-
   return (
     <div className="container my-5">
       <div className="row">
@@ -255,24 +264,24 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
               <StaticForm
                 id="title"
                 label={t('pages.abstractSubmission.article.title')}
+                placeholder={t('pages.abstractSubmission.placeholder.title')}
                 required={true}
                 value={formData.title}
                 type="textarea"
                 onChange={handleInputChange}
                 error={getErrorByField(validate.errors || [], 'title')}
-                isTouched={touchedFields['title']}
-                placeholder={t('pages.abstractSubmission.placeholder.title')}
+                isMissing={missingFields['title']}
               />
               <StaticForm
                 id="abstract"
                 label={t('pages.abstractSubmission.article.abstract')}
+                placeholder={t('pages.abstractSubmission.placeholder.abstract')}
                 required={true}
                 value={formData.abstract}
                 type="textarea"
                 onChange={handleInputChange}
                 error={getErrorByField(validate.errors || [], 'abstract')}
-                isTouched={touchedFields['abstract']}
-                placeholder={t('pages.abstractSubmission.placeholder.abstract')}
+                isMissing={missingFields['abstract']}
               />
             </div>
             <hr />
@@ -282,6 +291,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
                 title={t('pages.abstractSubmission.section.authors')}
                 explanation={parse(t('pages.abstractSubmission.author.explanation'))}
                 buttonLabel="addAuthor"
+                fieldConfig={authorFields}
                 items={formData.authors}
                 onChange={(index: number, field: string, value: string) =>
                   handleOnChangeComponent('authors', index, field, value)
@@ -293,8 +303,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
                 }
                 errors={validate.errors || []}
                 confirmGithubError={githubError}
-                fieldConfig={authorFields}
-                touchedFields={touchedFields}
+                missingFields={missingFields}
               />
             </div>
             <hr />
@@ -304,7 +313,9 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
                 title={t('pages.abstractSubmission.section.contact')}
                 explanation={parse(t('pages.abstractSubmission.contact.explanation'))}
                 buttonLabel="addContact"
+                fieldConfig={contactFields}
                 items={formData.contact}
+                maxItems={1}
                 onChange={(index: number, field: string, value: string | boolean) =>
                   handleOnChangeComponent('contact', index, field, value)
                 }
@@ -312,9 +323,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
                 onRemove={(index: number) => handleRemoveComponent('contact', index)}
                 errors={validate.errors || []}
                 confirmEmailError={emailError}
-                fieldConfig={contactFields}
-                maxItems={1}
-                touchedFields={touchedFields}
+                missingFields={missingFields}
               />
               <br />
             </div>
@@ -325,23 +334,24 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
               </h3>
               <p>{t('pages.abstractSubmission.github.explanation')}</p>
               <StaticForm
-                id="preferredLanguage"
-                label={t('pages.abstractSubmission.author.preferredLanguage')}
+                id="languagePreference"
+                label={t('pages.abstractSubmission.languagePreference')}
                 required={true}
-                value={formData.preferredLanguage || 'Python'}
+                value={formData.languagePreference || 'Python'}
                 type="select"
-                options={preferredLanguageOptions}
+                options={languagePreferenceOptions}
                 onChange={handleInputChange}
-                error={getErrorByField(validate.errors || [], 'preferredLanguage')}
-                isTouched={touchedFields['preferredLanguage']}
+                error={getErrorByField(validate.errors || [], 'languagePreference')}
+                isMissing={missingFields['languagePreference']}
               />
               <hr />
               <div className="tools-code-data">
                 <DynamicForm
                   id="datasets"
-                  title={t('pages.abstractSubmission.section.dataset')}
+                  title={t('pages.abstractSubmission.section.datasets')}
                   explanation={t('pages.abstractSubmission.dataset.explanation')}
                   buttonLabel="addDataset"
+                  fieldConfig={datasetFields}
                   items={formData.datasets}
                   onChange={(index: number, field: string, value: string) =>
                     handleOnChangeComponent('datasets', index, field, value)
@@ -352,8 +362,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
                     handleMoveComponent('datasets', fromIndex, toIndex)
                   }
                   errors={validate.errors || []}
-                  fieldConfig={datasetFields}
-                  touchedFields={touchedFields}
+                  missingFields={missingFields}
                 />
                 <br />
                 <br />
@@ -376,7 +385,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
                 type="checkbox"
                 onChange={handleInputChange}
                 error={getErrorByField(validate.errors || [], 'termsAccepted')}
-                isTouched={touchedFields['termsAccepted']}
+                isMissing={missingFields['termsAccepted']}
               />
             </div>
             <br />
@@ -386,17 +395,20 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
               size="invisible"
               sitekey={reCaptchaSiteKey}
             /> */}
-            <div className="text-align-center">
+            <div className="text-center">
+              {isSubmitAttempted && (!isValid || !!githubError || !!emailError) && (
+                <p className="text-error">{t('pages.abstractSubmission.errors.submitError')}</p>
+              )}
               <button className="btn btn-outline-dark" onClick={handleDownloadJson}>
                 {t('actions.downloadAsJSON')}
               </button>
-              <button type="submit" className="btn btn-primary " style={{ margin: '2em' }}>
+              <button type="submit" className="btn btn-primary" style={{ margin: '2em' }}>
                 {t('actions.submit')}
               </button>
             </div>
           </form>
         </div>
-        <div className="col-lg-3 col-md-4 submission-status-card">
+        <div className="col-lg-3 col-md-4">
           <SubmissionStatusCard
             data={formData}
             errors={validate.errors || []}

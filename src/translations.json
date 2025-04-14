@@ -58,8 +58,8 @@
         },
         "abstractSubmitted": {
           "title": "Congratulations ! ",
-          "heading": "Your abstract has been successfully submitted. Please find a summary of your submission below. Soon, you will be contacted by our editors via the email provided in the form.",
-          "moreInfo": "If any information needs to be changed, please contact us at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>."
+          "heading": "Your abstract has been successfully submitted. Below is a summary of your submission. Our editors will contact you shortly using the contact email address provided in the form.",
+          "moreInfo": "If you need to update any information, please reach out to us at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>."
         },
         "cfp": {
           "applyCallForPapers": "Submit an Abstract"
@@ -91,12 +91,12 @@
             "affiliation": "Affiliation",
             "orcid": "ORCID URL",
             "orcidHelpText": "Don't have an ORCID yet? Create one at <a href=\"https://orcid.org/\" target=\"_blank\" rel=\"noopener noreferrer\">orcid.org</a> for free!",
-            "preferredLanguage": "Programming language for Github repository",
             "blueskyId": "Bluesky",
             "facebookId": "Facebook",
             "githubId": "GitHub ID",
             "primaryContact": "<em className='text-accent'>Use this author as primary contact<em className='text-accent'> "
           },
+          "languagePreference": "Programming language for Github repository",
           "article": {
             "title": "Title",
             "abstract": "Abstract",
@@ -123,7 +123,7 @@
             "abstract": "Abstract",
             "authors": "Authors",
             "contact": "Primary Contact",
-            "preferredLanguage": "Repository",
+            "languagePreference": "Repository",
             "termsAccepted": "Terms of use"
           },
           "github": {
@@ -131,10 +131,11 @@
             "helpText": "Don't have a GitHub account yet? Create one at <a href=\"https://github.com/\" target=\"_blank\" rel=\"noopener noreferrer\">github.com</a> for free!"
           },
           "section": {
+            "informationSubmitted": "Get back to top ↑ ",
             "titleAndAbstract": "Title & Abstract",
             "authors": "Authors",
             "contact": "Primary contact",
-            "dataset": "Tools, Code & Data",
+            "datasets": "Tools, Code & Data",
             "repository": "Repository"
           },
           "placeholder": {
@@ -150,6 +151,12 @@
             "blueskyId": "username.bsky.social",
             "facebookId": "username",
             "githubId": "your-username or username"
+          },
+          "summary": {
+            "primaryContact": "Primary contact",
+            "primaryContactYes": "Yes",
+            "primaryContactNo": "No",
+            "notProvided": "not provided"
           },
           "socialMediaExplanation": "When your article is published, we promote it on Bluesky and Facebook. If you would like to be tagged, you can provide your username(s).",
           "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply.",
@@ -252,12 +259,13 @@
                 "pattern": "Must be a valid Facebook ID as username"
               }
             },
-            "preferredLanguage": {
+            "languagePreference": {
               "enum": "Please select a programming language for your repository"
             },
             "termsAccepted": {
               "enum": "You must accept the terms of use"
-            }
+            },
+            "submitError": "There are errors in your submission. Please fix them before submitting."
           }
         },
         "article": {

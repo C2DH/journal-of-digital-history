@@ -1,7 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
-import AbstractSubmissionSummary from '../components/AbstractSubmissionForm/AbstractSubmissionSummary'
+import SubmissionSummary from '../components/AbstractSubmitted/SubmissionSummary'
 
 const AbstractSubmitted = () => {
   const history = useHistory()
@@ -39,9 +39,9 @@ const AbstractSubmitted = () => {
 
   return (
     <Container className="page mb-5">
-      <AbstractSubmissionSummary
+      <SubmissionSummary
         formData={formData}
-        onReset={() => history.push('/en/submit')}
+        navigateBack={() => history.push('/en/submit')}
         handleDownloadJson={handleDownloadJson}
       />
     </Container>

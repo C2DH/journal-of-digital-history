@@ -1,0 +1,47 @@
+.side-menu{
+  position: fixed;
+  top: 150px;
+}
+
+.side-menu a {
+  font-size: 1.2rem;
+  padding: 5px 10px;
+  display: block;
+}
+
+.side-menu a.active {
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+}
+
+.side-menu a:hover {
+  color: none;
+}
+
+.list-unstyled{
+  position: absolute
+}
+
+.author-name{
+  font-size: large;
+  font-weight: bold;
+}
+
+.info-section p {
+  line-height: 1.4; 
+  margin-bottom: 0.5rem; 
+}
+
+/* Reset the counter only once at the parent container level */
+#datasets {
+  counter-reset: progressiveHeading 0; 
+}
+
+.info-section.progressiveHeading::before {
+  counter-increment: progressiveHeading; 
+  content: counter(progressiveHeading) ' ';
+  font-weight: bold; 
+  margin-right: 10px; 
+  
+}

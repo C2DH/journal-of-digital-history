@@ -1,5 +1,5 @@
 import { ErrorObject } from 'ajv'
-import { ValidationErrors } from '../../interfaces/abstractSubmission'
+import { ValidationErrors } from '../interfaces/abstractSubmission'
 
 /**
  * Transforms an array of AJV error objects into a structured object with paths as keys.

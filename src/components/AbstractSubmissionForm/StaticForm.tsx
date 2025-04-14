@@ -1,33 +1,31 @@
 import React, { useState, useEffect } from 'react'
-import { FormFieldProps } from '../../interfaces/abstractSubmission'
+import { FormFieldProps, InputChangeHandler } from '../../interfaces/abstractSubmission'
 import { useTranslation } from 'react-i18next'
 
 const FormField = ({
   id,
   label,
+  placeholder,
   required,
   value,
   type = 'text',
   options = [],
   onChange,
   error,
-  placeholder,
-  isTouched,
+  isMissing,
 }: FormFieldProps) => {
   const { t } = useTranslation()
-  const [touched, setTouched] = useState(false)
+  const [missing, setIsMissing] = useState(false)
 
   useEffect(() => {
-    if (isTouched) {
-      setTouched(true)
+    if (isMissing) {
+      setIsMissing(true)
     }
-  }, [isTouched])
+  }, [isMissing])
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
-  ) => {
-    if (!touched) {
-      setTouched(true)
+  const handleChange: InputChangeHandler = (event) => {
+    if (!missing) {
+      setIsMissing(true)
     }
     onChange(event)
   }
@@ -40,7 +38,7 @@ const FormField = ({
       </label>
       {type === 'textarea' ? (
         <textarea
-          className={`form-control ${touched ? (error ? 'is-invalid' : 'is-valid') : ''}`}
+          className={`form-control ${missing ? (error ? 'is-invalid' : 'is-valid') : ''}`}
           id={id}
           value={String(value)}
           onChange={handleChange}
@@ -50,7 +48,7 @@ const FormField = ({
       ) : type === 'checkbox' ? (
         <input
           type="checkbox"
-          className={`form-check-input ${touched ? (error ? 'is-invalid' : 'is-valid') : ''}`}
+          className={`form-check-input ${missing ? (error ? 'is-invalid' : 'is-valid') : ''}`}
           id={id}
           checked={Boolean(value)}
           onChange={handleChange}
@@ -58,7 +56,7 @@ const FormField = ({
       ) : type === 'select' ? (
         <select
           id={id}
-          className={`form-select ${touched ? (error ? 'is-invalid' : 'is-valid') : ''}`}
+          className={`form-select ${missing ? (error ? 'is-invalid' : 'is-valid') : ''}`}
           value={String(value)}
           onChange={handleChange}
         >
@@ -71,14 +69,14 @@ const FormField = ({
       ) : (
         <input
           type={type}
-          className={`form-control ${touched ? (error ? 'is-invalid' : 'is-valid') : ''}`}
+          className={`form-control ${missing ? (error ? 'is-invalid' : 'is-valid') : ''}`}
           id={id}
           value={String(value)}
           onChange={handleChange}
           placeholder={placeholder}
         />
       )}
-      {touched && error && (
+      {missing && error && (
         <div className="text-error form-text">
           {t(`pages.abstractSubmission.errors.${id}.${error}`)}
         </div>
