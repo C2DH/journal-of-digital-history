@@ -10,3 +10,8 @@ div.empty-space {
     height: 57px;
     width: 57px;
 }
+
+.form-control::placeholder{
+    color: lightgray;
+    font-style: italic;
+}

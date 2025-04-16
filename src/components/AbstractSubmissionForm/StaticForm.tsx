@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { FormFieldProps, InputChangeHandler } from '../../interfaces/abstractSubmission'
 import { useTranslation } from 'react-i18next'
 
+import { submissionFormSchema as schema } from '../../schemas/abstractSubmission'
+
 const FormField = ({
   id,
   label,
@@ -41,7 +43,9 @@ const FormField = ({
           className={`form-control ${missing ? (error ? 'is-invalid' : 'is-valid') : ''}`}
           id={id}
           value={String(value)}
-          onChange={handleChange}
+          onChange={(value) => {
+            handleChange(value)
+          }}
           placeholder={placeholder}
           rows={5}
         ></textarea>
@@ -76,11 +80,18 @@ const FormField = ({
           placeholder={placeholder}
         />
       )}
-      {missing && error && (
-        <div className="text-error form-text">
-          {t(`pages.abstractSubmission.errors.${id}.${error}`)}
-        </div>
-      )}
+      <div className="d-flex justify-content-between  mt-1">
+        {missing && error && (
+          <div className="text-error form-text">
+            {t(`pages.abstractSubmission.errors.${id}.${error}`)}
+          </div>
+        )}
+        {type === 'textarea' && (
+          <div className="text-muted ms-auto">
+            {String(value) ? `${String(value).length} / ${schema.properties[id].maxLength}` : ''}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

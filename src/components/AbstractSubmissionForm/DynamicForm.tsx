@@ -50,7 +50,7 @@ const DynamicForm = ({
       [`${index}-${fieldName}`]: true,
     }));
   };
-  console.log("🚀 ~ file: DynamicForm.tsx:18 ~ id:", id)
+
   return (
     <>
       <h3 className="progressiveHeading">{title}</h3>

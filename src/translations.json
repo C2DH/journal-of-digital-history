@@ -89,11 +89,16 @@
             "firstname": "First Name",
             "lastname": "Last Name",
             "affiliation": "Affiliation",
-            "orcid": "ORCID URL",
-            "orcidHelpText": "Don't have an ORCID yet? Create one at <a href=\"https://orcid.org/\" target=\"_blank\" rel=\"noopener noreferrer\">orcid.org</a> for free!",
+            "orcidUrl": "ORCID URL",
+            "orcid": {
+              "helpText": "Don't have an ORCID yet? Create one at <a href=\"https://orcid.org/\" target=\"_blank\" rel=\"noopener noreferrer\">orcid.org</a> for free!"
+            },
             "blueskyId": "Bluesky",
             "facebookId": "Facebook",
-            "githubId": "GitHub ID",
+            "githubId": "GitHub Username",
+            "github": {
+              "helpText": "Don't have a GitHub account yet? Create one at <a href=\"https://github.com/\" target=\"_blank\" rel=\"noopener noreferrer\">github.com</a> for free!"
+            },
             "primaryContact": "<em className='text-accent'>Use this author as primary contact<em className='text-accent'> "
           },
           "languagePreference": "Programming language for Github repository",
@@ -116,6 +121,9 @@
             "name": "Name",
             "affiliation": "Affiliation"
           },
+          "repository": {
+            "explanation": "Once your abstract is accepted, we will create a dedicated repository for your article on Github. This repository includes a structured template and Github actions to streamline the writing process."
+          },
           "requiredFieldExplanation": "All field marked with an asterisk (*) are required",
           "submissionStatus": {
             "header": "Submission Status",
@@ -125,10 +133,6 @@
             "contact": "Primary Contact",
             "languagePreference": "Repository",
             "termsAccepted": "Terms of use"
-          },
-          "github": {
-            "explanation": "Once your abstract is accepted, we will create a dedicated repository for your article on Github. This repository includes a structured template and Github actions to streamline the writing process.",
-            "helpText": "Don't have a GitHub account yet? Create one at <a href=\"https://github.com/\" target=\"_blank\" rel=\"noopener noreferrer\">github.com</a> for free!"
           },
           "section": {
             "informationSubmitted": "Get back to top ↑ ",

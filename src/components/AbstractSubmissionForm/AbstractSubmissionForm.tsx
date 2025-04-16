@@ -42,6 +42,7 @@ import { createAbstractSubmission } from '../../logic/api/postData'
 
 const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissionFormProps) => {
   const { t } = useTranslation()
+  //TODO: after Vite migration merged, change useHistory to useNavigate
   const history = useHistory()
 
   const [formData, setFormData] = useState<FormData>(initialAbstract(callForPapers))
@@ -69,7 +70,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
     event.preventDefault()
     setIsSubmitAttempted(true)
 
-    // TODO: Uncomment reCAPTCHA when form is ready
+    //TODO: uncomment captcha when ready
 
     const recaptchaToken = await recaptchaRef.current?.executeAsync()
     // if (!recaptchaToken) {
@@ -110,19 +111,19 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
       return
     } else {
       localStorage.setItem('formData', JSON.stringify(formData))
-      history.push('/en/abstract-submitted', { data: formData })
 
-      // createAbstractSubmission({ item: formData, token: recaptchaToken })
-      //   .then((res: { status: number }) => {
-      //     if (res?.status === 200 || res?.status === 201) {
-      //       console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
-      //       history.push('/en/abstract-submitted', { data: formData })
-      //     }
-      //   })
-      //   .catch((err: any) => {
-      //     console.info('[AbstractSubmissionForm] ERR',err.response.status, err.message)
-      //     onErrorAPI(err)
-      //   })
+      createAbstractSubmission({ item: formData, token: recaptchaToken })
+        .then((res: { status: number }) => {
+          if (res?.status === 200 || res?.status === 201) {
+            console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
+            //TODO: after Vite migration merged, change useHistory to useNavigate
+            history.push('/en/abstract-submitted', { data: formData })
+          }
+        })
+        .catch((err: any) => {
+          console.info('[AbstractSubmissionForm] ERR',err.response.status, err.message)
+          onErrorAPI(err)
+        })
     }
   }
 
@@ -332,7 +333,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
               <h3 className="progressiveHeading">
                 {t('pages.abstractSubmission.section.repository')}
               </h3>
-              <p>{t('pages.abstractSubmission.github.explanation')}</p>
+              <p>{t('pages.abstractSubmission.repository.explanation')}</p>
               <StaticForm
                 id="languagePreference"
                 label={t('pages.abstractSubmission.languagePreference')}
@@ -414,6 +415,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
             errors={validate.errors || []}
             githubError={githubError}
             mailError={emailError}
+            isSubmitAttempted={isSubmitAttempted}
           />
         </div>
       </div>

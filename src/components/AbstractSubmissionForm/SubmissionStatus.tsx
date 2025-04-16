@@ -12,6 +12,7 @@ const SubmissionStatusCard = ({
   errors,
   githubError,
   mailError,
+  isSubmitAttempted,
 }: SubmissionStatusCardProps) => {
   const { t } = useTranslation()
 
@@ -25,47 +26,32 @@ const SubmissionStatusCard = ({
   const topLevelErrors = Array.from(errorHeaders)
 
   return (
-    <div
-      className="submission-status-card m-0 pe-2 py-2 ps-4"
-    >
+    <div className="submission-status-card m-0 pe-6 py-2 ps-4">
       <div className="fw-bold mb-4 submission-status-title">
         <span>{t('pages.abstractSubmission.submissionStatus.header')}</span>
       </div>
       <div className="mb-3">
-        <div className="date-submission">
-          <div className="mb-3">
-            <span className="date-submission-badge btn-group btn-group-sm">
-              <span className="btn btn-outline-secondary">{t('labels.dateCreated')}</span>
-              <span className="btn btn-outline-secondary">
-                {new Date(data.dateCreated).toLocaleString('en-GB', dateFormat)}
-              </span>
-            </span>
-          </div>
-          <div className="mb-3">
-            <span className="date-submission-badge btn-group btn-group-sm">
-              <span className="btn btn-outline-secondary">
-                {t('labels.dateLastModified')}
-              </span>
-              <span className="btn btn-outline-secondary">
-                {new Date(data.dateLastModified).toLocaleString('en-GB', dateFormat)}
-              </span>
-            </span>
-          </div>
-        </div>
         <ul className="list-unstyled submission-status-list">
-          {mandatoryTopFields.map((section) => (
-            <li key={section} className="d-flex align-items-center position-relative">
-              <span
-                className={`me-2 material-symbols-outlined ${
-                  topLevelErrors.includes(section) ? 'text-danger' : 'text-success'
-                }`}
-              >
-                {topLevelErrors.includes(section) ? 'radio_button_unchecked' : 'check_circle'}
-              </span>
-              <div className="round-icon"></div>
-              <span>{t(`pages.abstractSubmission.submissionStatus.${section}`)}</span>
-            </li>
-          ))}
+          {mandatoryTopFields.map((section) => {
+            const hasError = topLevelErrors.includes(section)
+            const submissionError = isSubmitAttempted && hasError
+
+            return (
+              <li key={section} className="d-flex align-items-center position-relative">
+                <span
+                  className={`me-2 material-symbols-outlined ${
+                    submissionError ? 'text-error' : 'text-success'
+                  }`}
+                >
+                  {topLevelErrors.includes(section) ? 'radio_button_unchecked' : 'check_circle'}
+                </span>
+                <div className="round-icon"></div>
+                <span className={submissionError ? 'text-error' : ''}>
+                  {t(`pages.abstractSubmission.submissionStatus.${section}`)}
+                </span>
+              </li>
+            )
+          })}
         </ul>
       </div>
     </div>
