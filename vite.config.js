@@ -4,8 +4,6 @@ import svgr from 'vite-plugin-svgr'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import webfontDownload from 'vite-plugin-webfont-dl'
 
-import { serifPro, firaCode, firaSans } from './src/assets/fonts/fonts'
-
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
@@ -19,7 +17,7 @@ export default defineConfig(({ mode }) => {
           exportType: 'default',
         },
       }),
-      webfontDownload([serifPro, firaCode, firaSans]),
+      webfontDownload(),
     ],
     server: {
       proxy: {
