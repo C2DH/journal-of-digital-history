@@ -39,6 +39,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
+      outDir: 'build',
       emptyOutDir: true,
       commonjsOptions: {
         transformMixedEsModules: true,
