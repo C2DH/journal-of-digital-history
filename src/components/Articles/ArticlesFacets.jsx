@@ -19,15 +19,32 @@ function dimensionThresholdFn(groups, activeGroups) {
   return Math.min(10, Math.max(wished, 10))
 }
 
-function dimensionSortFn(a, b) {
-  return a.indices.length === b.indices.length
-    ? a.key > b.key
-      ? 1
-      : -1
-    : a.indices.length > b.indices.length
-    ? -1
-    : 1
+function dimensionSortFnAscending(a, b) {
+  return sortKeys(a, b, 'asc');
 }
+
+function dimensionSortFnDescending(a, b) {
+  return sortKeys(a, b, 'desc');
+}
+
+function sortKeys(a, b, order) {
+  const isNumericA = /^\d+$/.test(a.key);
+  const isNumericB = /^\d+$/.test(b.key);
+
+  if (isNumericA && isNumericB) {
+    return order === 'asc'
+      ? parseInt(a.key, 10) - parseInt(b.key, 10)
+      : parseInt(b.key, 10) - parseInt(a.key, 10);
+  }
+  if (!isNumericA && !isNumericB) {
+    return order === 'asc'
+      ? a.key.localeCompare(b.key)
+      : b.key.localeCompare(a.key);
+  }
+  // Mixed case: numeric keys come after string keys
+  return isNumericA ? 1 : -1;
+}
+
 
 const TagListItem = (props) => {
   return (
@@ -79,7 +96,7 @@ const Dimensions = [
   {
     fixed: true,
     name: 'issue',
-    sortFn: dimensionSortFn,
+    sortFn: dimensionSortFnDescending,
     thresholdFn: dimensionThresholdFn,
     fn: (d) => d.issue.pid,
     isArray: false,
@@ -88,7 +105,7 @@ const Dimensions = [
   {
     fixed: true,
     name: 'narrative',
-    sortFn: dimensionSortFn,
+    sortFn: dimensionSortFnAscending,
     thresholdFn: dimensionThresholdFn,
     fn: (d) => d.tags.filter((t) => t.category === 'narrative').map((t) => t.name),
     isArray: true,
@@ -97,7 +114,7 @@ const Dimensions = [
   {
     fixed: true,
     name: 'tool',
-    sortFn: dimensionSortFn,
+    sortFn: dimensionSortFnAscending,
     thresholdFn: dimensionThresholdFn,
     fn: (d) => d.tags.filter((t) => t.category === 'tool').map((t) => t.name),
     isArray: true,

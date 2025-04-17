@@ -21,29 +21,23 @@ export default class ArticleReference {
       } else if (ref.accessed?.year) {
         year = ref.accessed.year
       }
-      // set shortRef accodring to different condition: use elseif
+
       if (!ref.author && Array.isArray(ref.editor)) {
-        // this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} (Ed.) ${year}</a>`
         this.shortRefText = `${authorNames} (Ed.) ${year}`
       } else if (ref.type === 'webpage') {
         if (ref['container-title']) {
           reference = ref['container-title']
-          // this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${reference} ${year}</a>`
           this.shortRefText = `${reference} ${year}`
         } else {
-          // this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} ${year}</a>`
           this.shortRefText = `${authorNames} ${year}`
         }
       } else if (ref.type === 'article-magazine' || ref.type === 'article-newspaper') {
         if (!ref.title) {
-          // this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} ${year}</a>`
           this.shortRefText = `${authorNames} ${year}`
         } else {
-          // this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${ref.title} ${year}</a>`
           this.shortRefText = `${ref.title} ${year}`
         }
       } else {
-        // this.shortRef = `<a data-href="${ref.id}"><span class="ArticleReference_pointer"></span>${authorNames} ${year}</a>`
         this.shortRefText = `${authorNames} ${year}`
       }
 
@@ -55,16 +49,21 @@ export default class ArticleReference {
 
   getAuthorNames(ref) {
     if (!ref) {
-      console.warn(`[ArticleReference] Ref not found for id: ${this.id}, num: ${this.num}`)
-      return ''
+      console.warn(`[ArticleReference] Ref not found for id: ${this.id}, num: ${this.num}`);
+      return '';
     }
-    // add editors as authors when there are no authors
-    let authorNames = !ref.author && Array.isArray(ref.editor) ? ref.editor : ref.author
-    // remap authors to get nice stuff, like Turchin, Currie, Whitehouse, et al. 2018
-    authorNames = (authorNames ?? []).map((d) => d.family.trim())
-    if (authorNames.length > 3) {
-      authorNames = authorNames.slice(0, 3).concat(['et al.'])
+
+    let authorNames = !ref.author && Array.isArray(ref.editor) ? ref.editor : ref.author;
+    authorNames = (authorNames ?? []).map((d) => d.family.trim());
+
+    if (authorNames.length > 2) {
+      authorNames = `${authorNames[0]} et al.`;
+    } else if (authorNames.length === 2) {
+      authorNames = authorNames.join(' & ');
+    } else {
+      authorNames = authorNames.join('');
     }
-    return authorNames.join(', ')
+
+    return authorNames;
   }
 }

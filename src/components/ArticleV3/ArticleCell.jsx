@@ -52,13 +52,12 @@ const ArticleCell = ({
   const isMagic = RegexIsMagic.test(content)
   // issue #681: hyperlink are in blue for this specific article
   // Force isolation mode to prevent css conflict
-  const isolationMode = outputs.some(
-    (d) => typeof d.data === 'object' && d.data['text/html']
-  )
+  const isolationMode = outputs.some((d) => typeof d.data === 'object' && d.data['text/html'])
   // const isolationMode = outputs.some(
   //   (d) => typeof d.metadata === 'object' && d.metadata['text/html']?.isolated,
   // )
-  const renderUsingThebe = type === CellTypeCode && !figure?.isSound; //tags.includes('data');
+  const renderUsingThebe = type === CellTypeCode && !figure?.isSound //tags.includes('data');
+  const isCover = isFigure && figure?.isCover
 
   // const ref = useCallback(
   //   (node) => {
@@ -102,6 +101,25 @@ const ArticleCell = ({
   return (
     <div className={`ArticleCell ${layer}`} onClick={onClick}>
       <Container fluid={layer === LayerData} className={containerClassNames.join(' ')}>
+        {type === CellTypeCode && !isCover && renderUsingThebe && (
+          <Row>
+            <Col xs={7} className="code">
+              <React.Suspense fallback={<div>loading...</div>}>
+                <ArticleCellSourceCodeWrapper
+                  cellIdx={idx}
+                  toggleVisibility={false}
+                  visible={false}
+                  readOnly={!ready}
+                />
+              </React.Suspense>
+            </Col>
+
+            <Col xs={5} className="p-2">
+              <ArticleCellCodeTools cellIdx={idx} source={source} />
+            </Col>
+          </Row>
+        )}
+
         {(outputs.length > 0 || errors) && (
           <Row>
             <Col
@@ -142,7 +160,6 @@ const ArticleCell = ({
         {type === CellTypeMarkdown && content && (
           <Row>
             <Col {...cellBootstrapColumnLayout}>
-
               {figure ? (
                 <ArticleCellFigure
                   metadata={metadata}
@@ -160,9 +177,7 @@ const ArticleCell = ({
                     num={num}
                   />
                 </ArticleCellFigure>
-
               ) : (
-
                 <ArticleCellContent
                   headingLevel={headingLevel}
                   onNumClick={onNumClick}
@@ -172,29 +187,23 @@ const ArticleCell = ({
                   idx={idx}
                   num={num}
                 />
-                )}
+              )}
             </Col>
           </Row>
         )}
 
-        {type === CellTypeCode && (!isFigure || !figure?.isCover) && (
+        {type === CellTypeCode && !isCover && !renderUsingThebe && (
           <Row>
             <Col xs={!renderUsingThebe ? 12 : 7} className="code">
               <Suspense fallback={<div>loading...</div>}>
                 <ArticleCellSourceCodeWrapper
                   cellIdx={idx}
-                  toggleVisibility={!renderUsingThebe}
+                  toggleVisibility={true}
                   visible={false}
                   readOnly={!ready}
                 />
               </Suspense>
             </Col>
-
-            {renderUsingThebe && (
-              <Col xs={5} className="p-2">
-                <ArticleCellCodeTools cellIdx={idx} source={source} />
-              </Col>
-            )}
           </Row>
         )}
       </Container>

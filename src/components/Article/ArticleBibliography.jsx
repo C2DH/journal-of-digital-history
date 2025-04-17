@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import { Container, Col, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import {
-  BootstrapColumLayout,
-  // BootstrapSideColumLayout,
-  // BootstrapMainColumLayout
-} from '../../constants'
+import { BootstrapColumLayout } from '../../constants'
 import Facets, { sortFn } from '../Facets'
 import Sorting from '../Facets/Sorting'
 import Citation from '../Citation'
@@ -34,14 +30,6 @@ const Dimensions = [
         ? -1
         : 1
     },
-    // each group has these props:
-    // key: k, count: 0, indices: [], selected: []
-    // sortFn: (a,b) => {
-    //   return a.count === b.count
-    //     ? a.key > b.key
-    //       ? 1 : -1
-    //     : a.count > b.count ? -1 : 1
-    // },
     isArray: true,
   },
   {
