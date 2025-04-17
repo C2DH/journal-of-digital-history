@@ -7,8 +7,6 @@ import VideoReleaseTrigger from '../VideoRelease/VideoReleaseTrigger'
 import {
   BootstrapFullColumLayout,
   HomeRoute,
-  // ReferencesRoute,
-  // DatasetsRoute,
   AbstractSubmissionRoute,
   AboutRoute,
   ReleaseNotesRoute,
@@ -19,7 +17,7 @@ import {
 import { Facebook, GitHub } from 'react-feather'
 import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_Oldenbourg.svg?url'
 import UniluLogo from '../../assets/images/unilu-c2dh-logo.svg?url'
-import BlueskyIcon from '../../assets/images/bluesky.svg'
+import BlueskyIcon from '../../assets/images/bluesky.svg?url'
 import '../../styles/components/Footer.scss'
 
 const now = new Date()
@@ -63,7 +61,7 @@ const Footer = ({ hideOnRoutes = [] }) => {
                   {[HomeRoute, AbstractSubmissionRoute, AboutRoute, ReviewPolicy].map(
                     (route, i) => (
                       <Nav.Item key={i}>
-                        <LangNavLink to={route.to} >
+                        <LangNavLink to={route.to}>
                           <span>{t(route.label)}</span>
                         </LangNavLink>
                       </Nav.Item>
@@ -75,7 +73,7 @@ const Footer = ({ hideOnRoutes = [] }) => {
                 <Nav className="flex-column">
                   {[FaqRoute, ReleaseNotesRoute, TermsOfUseRoute].map((route, i) => (
                     <Nav.Item key={i}>
-                      <LangNavLink to={route.to} >
+                      <LangNavLink to={route.to}>
                         <span>{t(route.label)}</span>
                       </LangNavLink>
                     </Nav.Item>
@@ -84,14 +82,6 @@ const Footer = ({ hideOnRoutes = [] }) => {
               </div>
             </div>
           </Col>
-          {/*
-            <Col md={3}>
-              <Nav className="flex-column">
-                <Nav.Item><LangNavLink to={AboutRoute.to} >{t(AboutRoute.label)}</LangNavLink></Nav.Item>
-                <Nav.Item><LangNavLink to={TermsOfUseRoute.to} >{t(TermsOfUseRoute.label)}</LangNavLink></Nav.Item>
-              </Nav>
-            </Col>
-          */}
         </Row>
         <Row>
           <Col {...BootstrapFullColumLayout}>
@@ -103,7 +93,7 @@ const Footer = ({ hideOnRoutes = [] }) => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <BlueskyIcon style={{ width: '15px' }} /> @{import.meta.env.VITE_BLUESKY}
+                <img src={BlueskyIcon} alt="Bluesky Icon" style={{ width: '15px' }} /> @{import.meta.env.VITE_BLUESKY}
                 </a>
               </div>
               <div className="d-none d-md-block"> &middot;</div>
@@ -121,7 +111,9 @@ const Footer = ({ hideOnRoutes = [] }) => {
               <div className="mx-md-3 mb-3 mb-md-0">
                 <a
                   className="plain-a"
-                  href={`${import.meta.env.VITE_GITHUB}/commit/${import.meta.env.VITE_GIT_COMMIT_SHA}`}
+                  href={`${import.meta.env.VITE_GITHUB}/commit/${
+                    import.meta.env.VITE_GIT_COMMIT_SHA
+                  }`}
                   target="_blank"
                   rel="noreferrer"
                 >
