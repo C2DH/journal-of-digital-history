@@ -11,8 +11,9 @@ WORKDIR /jdh
 COPY package.json .
 COPY yarn.lock .
 COPY .eslintrc.json .
+COPY vite.config.js .
 
-RUN yarn install --production=false
+RUN yarn install
 
 COPY public ./public
 COPY .storybook ./.storybook
@@ -37,5 +38,5 @@ RUN yarn build-storybook
 FROM busybox
 
 WORKDIR /jdh
-COPY --from=builder /jdh/dist ./
+COPY --from=builder /jdh/build ./
 COPY --from=builder /jdh/storybook-static ./storybook

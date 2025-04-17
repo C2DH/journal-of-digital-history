@@ -91,7 +91,7 @@
   "scripts": {
     "analyze": "source-map-explorer 'dist/assets/*.js'",
     "start": "vite",
-    "build": "vite build",
+    "build": "vite build --config vite.config.js",
     "build-noindex": "vite build && echo 'User-agent: *\nDisallow: /' > dist/robots.txt && echo '/* /index.html  200' > dist/_redirects && cp -r src/data/mock-api dist",
     "test": "vitest",
     "lint": "eslint --fix src/**/*.js",
