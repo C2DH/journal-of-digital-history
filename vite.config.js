@@ -39,11 +39,10 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      outDir: 'build',
       emptyOutDir: true,
       commonjsOptions: {
         transformMixedEsModules: true,
-      }
+      },
     },
     define: {
       __APP_ENV__: JSON.stringify(env.VITE_APP_ENV),
