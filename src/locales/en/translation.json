@@ -1,4 +1,4 @@
-{ 
+{
   "navigation": {
     "about": "About",
     "datasets": "Datasets",
@@ -27,6 +27,7 @@
   "orderBydateAsc": "Sort by publication date, oldest to newest",
   "orderBydateDesc": "Sort by publication date, newest to oldest",
   "orderByissue": "Sort by issue",
+  "editorial": "Editorial",
   "Pages_NotebookViewer_Title": "Jupyter notebook viewer",
   "openNotebookInBinderLabel": "<b>Live interaction</b> &mdash; run notebooks in your browser, no installation needed!",
   "openNotebookInBinderButton": "Open in Binder",

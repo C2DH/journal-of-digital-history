@@ -12,7 +12,7 @@ COPY package.json .
 COPY yarn.lock .
 COPY .eslintrc.json .
 
-RUN yarn install
+RUN yarn install --production=false
 
 COPY public ./public
 COPY .storybook ./.storybook
