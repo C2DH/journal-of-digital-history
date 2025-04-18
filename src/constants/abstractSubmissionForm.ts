@@ -16,10 +16,10 @@ export const initialAbstract = (callForPapers: string) => {
 }
 
 export const datasetFields = [
-  { label: 'dataset.link', fieldName: 'link', placeholder: 'link' },
+  { label: 'dataset.link', fieldname: 'link', placeholder: 'link' },
   {
     label: 'dataset.description',
-    fieldName: 'description',
+    fieldname: 'description',
     type: 'textarea',
     placeholder: 'description',
   },
@@ -31,43 +31,60 @@ export const datasetEmpty = {
 }
 
 export const authorFields = [
-  { label: 'author.firstname', fieldName: 'firstname', placeholder: 'firstname', required: true },
-  { label: 'author.lastname', fieldName: 'lastname', placeholder: 'lastname', required: true },
+  { label: 'author.firstname', fieldname: 'firstname', placeholder: 'firstname', required: true },
+  { label: 'author.lastname', fieldname: 'lastname', placeholder: 'lastname', required: true },
   {
     label: 'author.affiliation',
-    fieldName: 'affiliation',
+    fieldname: 'affiliation',
     placeholder: 'affiliation',
     required: true,
   },
-  { label: 'author.email', fieldName: 'email', placeholder: 'email', required: true },
-  { label: 'author.orcid', fieldName: 'orcidUrl', placeholder: 'orcid', required: true },
-  { label: 'author.githubId', fieldName: 'githubId', placeholder: 'githubId', required: true },
-  { label: 'author.blueskyId', fieldName: 'blueskyId', placeholder: 'blueskyId', required: false },
+  { label: 'author.email', fieldname: 'email', placeholder: 'email', required: true },
+  {
+    label: 'author.orcidUrl',
+    fieldname: 'orcidUrl',
+    placeholder: 'orcid',
+    required: true,
+    helptext: 'author.orcid.helptext',
+  },
+  {
+    label: 'author.githubId',
+    fieldname: 'githubId',
+    placeholder: 'githubId',
+    required: false,
+    helptext: 'author.github.helptext',
+  },
+  { label: 'author.blueskyId', fieldname: 'blueskyId', placeholder: 'blueskyId', required: false },
   {
     label: 'author.facebookId',
-    fieldName: 'facebookId',
+    fieldname: 'facebookId',
     placeholder: 'facebookId',
     required: false,
   },
   {
     label: 'author.primaryContact',
-    fieldName: 'primaryContact',
+    fieldname: 'primaryContact',
     type: 'checkbox',
     required: false,
   },
 ]
 
 export const contactFields = [
-  { label: 'contact.firstname', fieldName: 'firstname', placeholder: 'firstname', required: true },
-  { label: 'contact.lastname', fieldName: 'lastname', placeholder: 'lastname', required: true },
+  { label: 'contact.firstname', fieldname: 'firstname', placeholder: 'firstname', required: true },
+  { label: 'contact.lastname', fieldname: 'lastname', placeholder: 'lastname', required: true },
   {
     label: 'contact.affiliation',
-    fieldName: 'affiliation',
+    fieldname: 'affiliation',
     placeholder: 'affiliation',
     required: true,
   },
-  { label: 'contact.email', fieldName: 'email', placeholder: 'email', required: true },
-  { label: 'contact.confirmEmail', fieldName: 'confirmEmail', placeholder: 'email', required: true },
+  { label: 'contact.email', fieldname: 'email', placeholder: 'email', required: true },
+  {
+    label: 'contact.confirmEmail',
+    fieldname: 'confirmEmail',
+    placeholder: 'email',
+    required: true,
+  },
 ]
 
 export const authorEmpty = {

@@ -91,13 +91,13 @@
             "affiliation": "Affiliation",
             "orcidUrl": "ORCID URL",
             "orcid": {
-              "helpText": "Don't have an ORCID yet? Create one at <a href=\"https://orcid.org/\" target=\"_blank\" rel=\"noopener noreferrer\">orcid.org</a> for free!"
+              "helptext": "Don't have an ORCID yet? Create one at <a href=\"https://orcid.org/\" target=\"_blank\" rel=\"noopener noreferrer\">orcid.org</a> for free!"
             },
             "blueskyId": "Bluesky",
             "facebookId": "Facebook",
             "githubId": "GitHub Username",
             "github": {
-              "helpText": "Don't have a GitHub account yet? Create one at <a href=\"https://github.com/\" target=\"_blank\" rel=\"noopener noreferrer\">github.com</a> for free!"
+              "helptext": "Don't have a GitHub account yet? Create one at <a href=\"https://github.com/\" target=\"_blank\" rel=\"noopener noreferrer\">github.com</a> for free!"
             },
             "primaryContact": "<em className='text-accent'>Use this author as primary contact<em className='text-accent'> "
           },
@@ -261,7 +261,8 @@
                 "minLength": "Must be at least 5 character",
                 "maxLength": "Must be at most 50 characters",
                 "pattern": "Must be a valid Facebook ID as username"
-              }
+              },
+              "atLeastOneGithubId": "⚠ At least one author must have a Github Username !"
             },
             "languagePreference": {
               "enum": "Please select a programming language for your repository"

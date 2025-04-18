@@ -31,7 +31,6 @@ const SubmissionSummary = ({
             menuItems={menuItems}
           />
         </div>
-
         <div className="col-md-9">
           <section id="informationSubmitted">
             <h1>{t('pages.abstractSubmitted.title')}</h1>
@@ -67,11 +66,11 @@ const SubmissionSummary = ({
                 {formData.contact[0]?.lastname || t('pages.abstractSubmission.contact.notProvided')}
               </p>
               {contactFields
-                .filter((field) => !['firstname', 'lastname'].includes(field.fieldName))
+                .filter((field) => !['firstname', 'lastname'].includes(field.fieldname))
                 .map((field) => (
-                  <p key={field.fieldName}>
+                  <p key={field.fieldname}>
                     <strong>{t(`pages.abstractSubmission.${field.label}`)}:</strong>{' '}
-                    {formData.contact[0]?.[field.fieldName] ||
+                    {formData.contact[0]?.[field.fieldname] ||
                       t('pages.abstractSubmission.contact.notProvided')}
                   </p>
                 ))}
@@ -92,12 +91,12 @@ const SubmissionSummary = ({
                   <div className="col-md-6">
                     {authorFields
                       .filter((field) =>
-                        ['affiliation', 'email', 'orcidUrl'].includes(field.fieldName),
+                        ['affiliation', 'email', 'orcidUrl'].includes(field.fieldname),
                       )
                       .map((field) => (
-                        <p key={field.fieldName}>
+                        <p key={field.fieldname}>
                           <strong>{parse(t(`pages.abstractSubmission.${field.label}`))}:</strong>{' '}
-                          {author[field.fieldName] ||
+                          {author[field.fieldname] ||
                             t('pages.abstractSubmission.author.notProvided')}
                         </p>
                       ))}
@@ -106,22 +105,22 @@ const SubmissionSummary = ({
                     {authorFields
                       .filter((field) =>
                         ['githubId', 'facebookId', 'blueskyId', 'primaryContact'].includes(
-                          field.fieldName,
+                          field.fieldname,
                         ),
                       )
                       .map((field) => (
-                        <p key={field.fieldName}>
+                        <p key={field.fieldname}>
                           <strong>
-                            {field.fieldName === 'primaryContact'
+                            {field.fieldname === 'primaryContact'
                               ? t('pages.abstractSubmission.summary.primaryContact')
                               : parse(t(`pages.abstractSubmission.${field.label}`))}
                             :
                           </strong>{' '}
-                          {field.fieldName === 'primaryContact'
-                            ? author[field.fieldName]
+                          {field.fieldname === 'primaryContact'
+                            ? author[field.fieldname]
                               ? t('pages.abstractSubmission.summary.primaryContactYes')
                               : t('pages.abstractSubmission.summary.primaryContactNo')
-                            : author[field.fieldName] ||
+                            : author[field.fieldname] ||
                               t('pages.abstractSubmission.summary.notProvided')}
                         </p>
                       ))}
@@ -135,14 +134,14 @@ const SubmissionSummary = ({
             {formData.datasets.map((dataset: any, index: number) => (
               <div key={index} className="info-section progressiveHeading">
                 {datasetFields.map((field) => (
-                  <p key={field.fieldName}>
-                    {field.fieldName === 'link' ? (
+                  <p key={field.fieldname}>
+                    {field.fieldname === 'link' ? (
                       <strong>
-                        {dataset[field.fieldName] ||
+                        {dataset[field.fieldname] ||
                           t('pages.abstractSubmission.dataset.notProvided')}
                       </strong>
                     ) : (
-                      dataset[field.fieldName] || t('pages.abstractSubmission.dataset.notProvided')
+                      dataset[field.fieldname] || t('pages.abstractSubmission.dataset.notProvided')
                     )}
                   </p>
                 ))}

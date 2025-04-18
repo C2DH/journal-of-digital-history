@@ -11,32 +11,26 @@ export const submissionFormSchema = {
           link: { type: 'string', minLength: 1, format: 'uri' },
           description: { type: 'string', minLength: 1, maxLength: 1000 },
         },
+        required: ['link', 'description'],
       },
       minItems: 0,
       maxItems: 10,
-      required: ['link', 'description'],
     },
     contact: {
       type: 'array',
-      items:{
-        type:'object',
+      items: {
+        type: 'object',
         properties: {
           firstname: { type: 'string', minLength: 1, maxLength: 100 },
           lastname: { type: 'string', minLength: 1, maxLength: 100 },
           affiliation: { type: 'string', minLength: 1, maxLength: 100 },
-          email: { type: 'string', minLength: 1, maxLength:100, format: 'email' },
-          confirmEmail: { type: 'string', minLength: 1, maxLength:100, format: 'email' },
+          email: { type: 'string', minLength: 1, maxLength: 100, format: 'email' },
+          confirmEmail: { type: 'string', minLength: 1, maxLength: 100, format: 'email' },
         },
+        required: ['firstname', 'lastname', 'affiliation', 'email', 'confirmEmail'],
       },
       minItems: 1,
       maxItems: 1,
-      required: [
-        'firstname',
-        'lastname',
-        'affiliation',
-        'email',
-        'confirmEmail',
-      ],
     },
     authors: {
       type: 'array',
@@ -53,10 +47,16 @@ export const submissionFormSchema = {
             pattern: '^https?://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9X]{4}$',
           },
           githubId: {
-            type: 'string',
-            minLength: 1,
-            maxLength: 39,
-            pattern: '^(?!-)(?!.*--)[a-z0-9-]{1,39}(?<!-)$',
+            anyOf: [
+              {
+                type: 'string',
+                minLength: 1,
+                maxLength: 39,
+                pattern: '^(?!-)(?!.*--)[a-z0-9-]{1,39}(?<!-)$',
+              },
+              { type: 'null' },
+              { type: 'string', maxLength: 0 },
+            ],
           },
           blueskyId: {
             anyOf: [
@@ -78,10 +78,10 @@ export const submissionFormSchema = {
             ],
           },
         },
+        required: ['firstname', 'lastname', 'affiliation', 'email', 'orcidUrl'],
       },
       minItems: 1,
       maxItems: 10,
-      required: ['firstname', 'lastname', 'affiliation', 'email', 'orcidUrl', 'githubId'],
     },
     languagePreference: {
       type: 'string',

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react'
 import parse from 'html-react-parser'
 import ReCAPTCHA from 'react-google-recaptcha'
 import Ajv from 'ajv'
-import ajvformat from 'ajv-formats'
+import addFormats from 'ajv-formats'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
@@ -18,6 +18,7 @@ import {
   ErrorField,
   SubmitHandler,
   GithubIdValidationHandler,
+  DynamicFieldUpdateHandler,
 } from '../../interfaces/abstractSubmission'
 import { submissionFormSchema } from '../../schemas/abstractSubmission'
 import DynamicForm from './DynamicForm'
@@ -55,8 +56,29 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
 
   //Initialization of the JSON validation
   const ajv = new Ajv({ allErrors: true })
-  ajvformat(ajv)
-  const validate = ajv.compile(submissionFormSchema)
+  addFormats(ajv)
+
+  //Add custom validation for githubId authors
+  ajv.addKeyword({
+    keyword: 'atLeastOneGithubId',
+    validate: function validateAtLeastOneGithubId(schema, data) {
+      if (!Array.isArray(data)) return false
+      return data.some((author) => author.githubId && author.githubId.trim() !== '')
+    },
+    errors: false,
+  })
+
+  const validate = ajv.compile({
+    ...submissionFormSchema,
+    properties: {
+      ...submissionFormSchema.properties,
+      authors: {
+        ...submissionFormSchema.properties.authors,
+        atLeastOneGithubId: true,
+      },
+    },
+  })
+
   const isValid = validate(formData)
 
   console.info('[AbstractSubmissionForm - AJV errors] validate.errors', validate.errors)
@@ -72,7 +94,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
 
     //TODO: uncomment captcha when ready
 
-    const recaptchaToken = await recaptchaRef.current?.executeAsync()
+    // const recaptchaToken = await recaptchaRef.current?.executeAsync()
     // if (!recaptchaToken) {
     //   console.error('ReCAPTCHA failed to generate a token.');
     //   return;
@@ -83,24 +105,24 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
       'title',
       'abstract',
       ...formData.authors.flatMap((_, index) =>
-        authorFields.map((field) => `authors/${index}/${field.fieldName}`),
+        authorFields.map((field) => `authors/${index}/${field.fieldname}`),
       ),
       ...formData.contact.flatMap((_, index) =>
-        contactFields.map((field) => `contact/${index}/${field.fieldName}`),
+        contactFields.map((field) => `contact/${index}/${field.fieldname}`),
       ),
       ...formData.datasets.flatMap((_, index) =>
-        datasetFields.map((field) => `datasets/${index}/${field.fieldName}`),
+        datasetFields.map((field) => `datasets/${index}/${field.fieldname}`),
       ),
       'languagePreference',
       'termsAccepted',
     ]
 
-    const updatedTouchedFields = allFields.reduce((acc, field) => {
+    const updatedMissingFields = allFields.reduce((acc, field) => {
       acc[field] = true
       return acc
     }, {} as ErrorField)
 
-    setMissingFields(updatedTouchedFields)
+    setMissingFields(updatedMissingFields)
 
     if (!isValid || !!githubError || !!emailError) {
       console.error('[AbstractSubmissionForm] Form cannot be submitted due to errors.', {
@@ -111,19 +133,20 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
       return
     } else {
       localStorage.setItem('formData', JSON.stringify(formData))
+      history.push('/en/abstract-submitted', { data: formData })
 
-      createAbstractSubmission({ item: formData, token: recaptchaToken })
-        .then((res: { status: number }) => {
-          if (res?.status === 200 || res?.status === 201) {
-            console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
-            //TODO: after Vite migration merged, change useHistory to useNavigate
-            history.push('/en/abstract-submitted', { data: formData })
-          }
-        })
-        .catch((err: any) => {
-          console.info('[AbstractSubmissionForm] ERR',err.response.status, err.message)
-          onErrorAPI(err)
-        })
+      // createAbstractSubmission({ item: formData, token: recaptchaToken })
+      //   .then((res: { status: number }) => {
+      //     if (res?.status === 200 || res?.status === 201) {
+      //       console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
+      //       //TODO: after Vite migration merged, change useHistory to useNavigate
+      //       history.push('/en/abstract-submitted', { data: formData })
+      //     }
+      //   })
+      //   .catch((err: any) => {
+      //     console.info('[AbstractSubmissionForm] ERR',err.response.status, err.message)
+      //     onErrorAPI(err)
+      //   })
     }
   }
 
@@ -294,12 +317,12 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
                 buttonLabel="addAuthor"
                 fieldConfig={authorFields}
                 items={formData.authors}
-                onChange={(index: number, field: string, value: string) =>
+                onChange={(index, field, value) =>
                   handleOnChangeComponent('authors', index, field, value)
                 }
                 onAdd={() => handleAddComponent('authors', authorEmpty)}
-                onRemove={(index: number) => handleRemoveComponent('authors', index)}
-                moveItem={(fromIndex: number, toIndex: number) =>
+                onRemove={(index) => handleRemoveComponent('authors', index)}
+                moveItem={(fromIndex, toIndex) =>
                   handleMoveComponent('authors', fromIndex, toIndex)
                 }
                 errors={validate.errors || []}
@@ -317,11 +340,11 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
                 fieldConfig={contactFields}
                 items={formData.contact}
                 maxItems={1}
-                onChange={(index: number, field: string, value: string | boolean) =>
+                onChange={(index, field, value) =>
                   handleOnChangeComponent('contact', index, field, value)
                 }
                 onAdd={() => handleAddComponent('contact', contactEmpty)}
-                onRemove={(index: number) => handleRemoveComponent('contact', index)}
+                onRemove={(index) => handleRemoveComponent('contact', index)}
                 errors={validate.errors || []}
                 confirmEmailError={emailError}
                 missingFields={missingFields}
@@ -354,12 +377,12 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
                   buttonLabel="addDataset"
                   fieldConfig={datasetFields}
                   items={formData.datasets}
-                  onChange={(index: number, field: string, value: string) =>
+                  onChange={(index, field, value) =>
                     handleOnChangeComponent('datasets', index, field, value)
                   }
                   onAdd={() => handleAddComponent('datasets', datasetEmpty)}
-                  onRemove={(index: number) => handleRemoveComponent('datasets', index)}
-                  moveItem={(fromIndex: number, toIndex: number) =>
+                  onRemove={(index) => handleRemoveComponent('datasets', index)}
+                  moveItem={(fromIndex, toIndex) =>
                     handleMoveComponent('datasets', fromIndex, toIndex)
                   }
                   errors={validate.errors || []}

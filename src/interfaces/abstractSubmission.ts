@@ -70,10 +70,11 @@ export interface FormFieldProps {
 
 export interface FieldConfig {
   label: string;
-  fieldName: string;
+  fieldname: string;
   type?: string;
   placeholder?: string;
   required?: boolean;
+  helptext?: string;
 }
 
 export type DynamicFormItem = Dataset | Author | Contact;
@@ -125,7 +126,7 @@ export type InputChangeHandler = (
 ) => void;
 export type DynamicFieldUpdateHandler = (
   index: number,
-  fieldName: string,
+  field: string,
   value: string | boolean
 ) => void;
 
@@ -143,7 +144,7 @@ export type UpdateFieldHandler = (
   value: string | boolean
 ) => void;
 export type AddItemHandler = (type: string, defaultItem: Record<string, any>) => void;
-export type FieldEmptyHandler = (index: number, fieldName: string) => void;
+export type FieldEmptyHandler = (index: number, field: string) => void;
 export type GithubIdValidationHandler = (githubId: string) => void;
 export type MoveItemHandler = (fromIndex: number, toIndex: number) => void;
 export type MoveItemByTypeHandler = (type: string, fromIndex: number, toIndex: number) => void;
