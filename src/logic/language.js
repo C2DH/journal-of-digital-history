@@ -4,18 +4,22 @@ import { matchPath } from 'react-router'
 import intersection from 'lodash/intersection'
 import find from 'lodash/find'
 
-const LANGUAGES = (process.env.REACT_APP_LANGUAGES ?? 'en-US,fr-FR').split(',')
+const LANGUAGES = (import.meta.env.VITE_LANGUAGES ?? 'en-GB,fr-FR').split(',')
 const LANGUAGES_SHORTS = LANGUAGES.map((l) => l.split('-')[0])
-const DEFAULT_LANGUAGE = process.env.REACT_APP_DEFAULT_LANGUAGE ?? 'en-US'
+const DEFAULT_LANGUAGE = import.meta.env.VITE_DEFAULT_LANGUAGE ?? 'en-GB'
 const DEFAULT_LANGUAGE_SHORT = DEFAULT_LANGUAGE.split('-')[0]
-const LANGUAGE_PATH = `/:lang(${LANGUAGES_SHORTS.join('|')})`
+// const LANGUAGE_PATH = `/:lang(${LANGUAGES_SHORTS.join('|')})`
+const LANGUAGE_PATH = `${LANGUAGES_SHORTS}`
 
 const getStartLang = () => {
-  const langMatch = matchPath(window.location.pathname, {
-    path: LANGUAGE_PATH,
-    exact: false,
-    strict: false,
-  })
+  const langMatch = matchPath(
+    {
+      path: LANGUAGE_PATH,
+      exact: false,
+      strict: false,
+    },
+    window.location.pathname,
+  )
   let startLangShort = langMatch?.params?.lang
   if (!startLangShort || !LANGUAGES_SHORTS.includes(startLangShort)) {
     // get default short language from browser
@@ -32,13 +36,7 @@ const getStartLang = () => {
 }
 
 function namespacePath(path, lang) {
-  let pathWithLang = `/${lang}`
-  if (path[0] === '/') {
-    pathWithLang += path
-  } else {
-    pathWithLang += `/${path}`
-  }
-  return pathWithLang
+  return `/${lang}${path.startsWith('/') ? '' : '/'}${path}`
 }
 
 const useToWithLang = (to) => {
@@ -49,6 +47,7 @@ const useToWithLang = (to) => {
     // fallback to current i81n language ...
     lang = i18n.language.split('-')[0]
   }
+  console.debug('[useToWithLang] lang:', lang, 'to:', to, i18n)
 
   if (typeof to === 'string') {
     return namespacePath(to, lang)

@@ -75,8 +75,8 @@ export const NotebookPoweredPaths = [
   '/guidelines/',
   '/guidelines',
 ]
-export const reCaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
-export const GaTrackingId = process.env.REACT_APP_GA_TRACKING_ID
+export const ReCaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY
+export const GaTrackingId = import.meta.env.VITE_GA_TRACKING_ID
 
 export const BootstrapColumLayout = Object.freeze({
   md: { span: 8, offset: 1 },
@@ -254,7 +254,7 @@ export const ArticleStatusDraft = 'Draft'
 export const ArticleVersionQueryParam = 'v'
 
 export const URLPathsAlwaysTrustJS = (
-  process.env.REACT_APP_ALWAYS_JS_FROM_URL_PATH_PREFIX || ''
+  import.meta.env.VITE_ALWAYS_JS_FROM_URL_PATH_PREFIX || ''
 ).split(',')
 
 export const ArticleCellContainerClassNames = [
