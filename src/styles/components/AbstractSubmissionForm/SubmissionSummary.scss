@@ -1,4 +1,4 @@
-.side-menu{
+.side-menu {
   position: fixed;
   top: 150px;
 }
@@ -19,29 +19,34 @@
   color: none;
 }
 
-.list-unstyled{
-  position: absolute
+.list-unstyled {
+  position: absolute;
 }
 
-.author-name{
+.author-name {
   font-size: large;
   font-weight: bold;
 }
 
 .info-section p {
-  line-height: 1.4; 
-  margin-bottom: 0.5rem; 
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
 }
 
 /* Reset the counter only once at the parent container level */
 #datasets {
-  counter-reset: progressiveHeading 0; 
+  counter-reset: progressiveHeading 0;
 }
 
 .info-section.progressiveHeading::before {
-  counter-increment: progressiveHeading; 
+  counter-increment: progressiveHeading;
   content: counter(progressiveHeading) ' ';
-  font-weight: bold; 
-  margin-right: 10px; 
-  
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+@media (max-width: 1024px) {
+  .side-menu {
+    display: none;
+  }
 }

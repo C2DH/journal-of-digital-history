@@ -92,7 +92,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
 
     //TODO: uncomment captcha when ready
 
-    // const recaptchaToken = await recaptchaRef.current?.executeAsync()
+    const recaptchaToken = await recaptchaRef.current?.executeAsync()
     // if (!recaptchaToken) {
     //   console.error('ReCAPTCHA failed to generate a token.');
     //   return;
@@ -131,19 +131,19 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
       return
     } else {
       localStorage.setItem('formData', JSON.stringify(formData))
-      navigate('/en/abstract-submitted', { state: { data: formData } });
+      // navigate('/en/abstract-submitted', { state: { data: formData } });
 
-      // createAbstractSubmission({ item: formData, token: recaptchaToken })
-      //   .then((res: { status: number }) => {
-      //     if (res?.status === 200 || res?.status === 201) {
-      //       console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
-      //       navigate('/en/abstract-submitted', { state: { data: formData } });
-      //     }
-      //   })
-      //   .catch((err: any) => {
-      //     console.info('[AbstractSubmissionForm] ERR',err.response.status, err.message)
-      //     onErrorAPI(err)
-      //   })
+      createAbstractSubmission({ item: formData, token: recaptchaToken })
+        .then((res: { status: number }) => {
+          if (res?.status === 200 || res?.status === 201) {
+            console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
+            navigate('/en/abstract-submitted', { state: { data: formData } });
+          }
+        })
+        .catch((err: any) => {
+          console.info('[AbstractSubmissionForm] ERR',err.response.status, err.message)
+          onErrorAPI(err)
+        })
     }
   }
 
