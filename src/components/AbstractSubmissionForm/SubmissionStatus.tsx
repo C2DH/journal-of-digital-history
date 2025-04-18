@@ -8,7 +8,6 @@ import { requiredFieldErrors, addErrorToSection } from '../../logic/errors'
 import '../../styles/components/AbstractSubmissionForm/SubmissionStatus.scss'
 
 const SubmissionStatusCard = ({
-  data,
   errors,
   githubError,
   mailError,
@@ -43,7 +42,11 @@ const SubmissionStatusCard = ({
                     submissionError ? 'text-error' : 'text-success'
                   }`}
                 >
-                  {topLevelErrors.includes(section) ? 'radio_button_unchecked' : 'check_circle'}
+                  {submissionError
+                    ? 'error'
+                    : topLevelErrors.includes(section)
+                    ? 'radio_button_unchecked'
+                    : 'check_circle'}
                 </span>
                 <div className="round-icon"></div>
                 <span className={submissionError ? 'text-error' : ''}>

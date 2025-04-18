@@ -31,13 +31,13 @@ const DynamicForm = ({
   confirmEmailError,
   confirmGithubError,
   missingFields,
+  isSubmitAttempted
 }: DynamicFormProps) => {
   const { t } = useTranslation()
   const [missing, setIsMissing] = useState<ErrorField>({})
   const atLeastOneGithubIdError = errors?.find((error) => error.keyword === 'atLeastOneGithubId')
     ? parse(t('pages.abstractSubmission.errors.authors.atLeastOneGithubId'))
     : null
-
   useEffect(() => {
     if (missingFields) {
       setIsMissing((prev) => ({
@@ -59,15 +59,15 @@ const DynamicForm = ({
       <h3 className="progressiveHeading">{title}</h3>
       <p>{explanation}</p>
       {id === 'authors' && atLeastOneGithubIdError && (
-          <div className="text-error mt-2">{atLeastOneGithubIdError}</div>
+          <div className={`text-${isSubmitAttempted? 'error': 'accent'} mt-2`}>{atLeastOneGithubIdError}</div>
       )}
       <div className="dynamic-list-form">
         {items.map((item: DynamicFormItem, index: number) => (
           <div
             key={index}
-            className="list-item d-flex align-items-top mb-2 ps-2 pe-1 pb-2 pt-0 border border-dark rounded shadow-sm"
+            className="list-item"
           >
-            <div className="w-100 mt-2">
+            <div className="fields-area">
               {fieldConfig.map(
                 ({ label, fieldname, type = 'text', placeholder, required, helptext }) => {
                   const error = getErrorByItemAndByField(errors, id, index, fieldname)
@@ -134,7 +134,7 @@ const DynamicForm = ({
                           placeholder={t(`pages.abstractSubmission.placeholder.${placeholder}`)}
                         />
                       )}
-                      {isMissing && (error || confirmEmailError || confirmGithubError) && (
+                      {isMissing && error && (
                         <div className="text-error form-text">
                           {fieldname === 'confirmEmail' && confirmEmailError
                             ? t('pages.abstractSubmission.errors.confirmEmailMismatch')
@@ -155,9 +155,9 @@ const DynamicForm = ({
                 },
               )}
             </div>
-            <div className="flex-shrink-1">
+            <div className="action-buttons">
               {id === 'contact' ? (
-                <div className="empty-space"> </div>
+                <div className="empty-space"></div>
               ) : (
                 <CloseButtonItem
                   index={index}
@@ -166,8 +166,8 @@ const DynamicForm = ({
                   }}
                 />
               )}
-              {index > 0 && <ArrowUpButtonItem index={index} moveItem={moveItem} />}
-              {index < items.length - 1 && (
+              {index > 0 && moveItem && <ArrowUpButtonItem index={index} moveItem={moveItem} />}
+              {index < items.length - 1 && moveItem &&(
                 <ArrowDownButtonItem index={index} moveItem={moveItem} />
               )}
             </div>

@@ -95,11 +95,11 @@ export interface DynamicFormProps {
   confirmEmailError?: string;
   confirmGithubError?: string;
   missingFields: ErrorField;
+  isSubmitAttempted?: boolean;
 }
 
 // Submission Status Interfaces
 export interface SubmissionStatusCardProps {
-  data: FormData;
   errors: ErrorObject[];
   githubError: string;
   mailError: string;

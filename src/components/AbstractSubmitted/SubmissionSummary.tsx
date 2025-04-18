@@ -36,7 +36,7 @@ const SubmissionSummary = ({
             <h1>{t('pages.abstractSubmitted.title')}</h1>
             <p>{t('pages.abstractSubmitted.heading')}</p>
             <p>{parse(t('pages.abstractSubmitted.moreInfo'))}</p>
-            <br/>
+            <br />
             <div className="d-flex justify-content-end mt-4">
               <button className="btn btn-primary" onClick={navigateBack}>
                 {t('actions.submitAnotherAbstract')}

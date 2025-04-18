@@ -1,17 +1,28 @@
 .list-item {
-    position: relative;
-    border: 1px solid #ccc;
-    padding: 16px;
-    margin-bottom: 16px;
-    border-radius: 4px;
+  display: flex;
+  align-items: top;
+  margin-bottom: 0.5rem;
+  padding: 8px;
+  border: 1px solid var(--bs-dark);
+  border-radius: 0.25rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
 div.empty-space {
-    height: 57px;
-    width: 57px;
+  height: 57px;
+  width: 57px;
 }
 
-.form-control::placeholder{
-    color: lightgray;
-    font-style: italic;
+.form-control::placeholder {
+  color: lightgray;
+  font-style: italic;
+}
+
+.action-buttons {
+  flex-shrink: 1;
+}
+
+.fields-area {
+    width: 100%;
+    margin-top: 0.5rem;
 }

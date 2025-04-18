@@ -6,12 +6,12 @@
  * @throws Logs an error to the console if the fetch request fails.
  */
 const checkGithubUsername = async (githubId: string) => {
-  const url = `${process.env.REACT_APP_GITHUB_USERS_API_ENDPOINT}${githubId}`
+  const url = `${import.meta.env.VITE_GITHUB_USERS_API_ENDPOINT}${githubId}`
 
   try {
     const response = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_GITHUB_ACCESS_TOKEN}`, 
+        Authorization: `Bearer ${import.meta.env.VITE_GITHUB_ACCESS_TOKEN}`, 
         
       },
     });

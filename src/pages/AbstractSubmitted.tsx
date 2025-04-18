@@ -1,12 +1,11 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 import SubmissionSummary from '../components/AbstractSubmitted/SubmissionSummary'
 
 const AbstractSubmitted = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
 
-  // Access the formData passed via history.push
+  // Access the formData 
   const formData = JSON.parse(localStorage.getItem('formData') || '{}')
 
   const handleDownloadJson = () => {
@@ -30,7 +29,7 @@ const AbstractSubmitted = () => {
           It seems like there is no submission data available. Please try submitting your abstract
           again.
         </p>
-        <button className="btn btn-primary" onClick={() => history.push('/en/submit')}>
+        <button className="btn btn-primary" onClick={() => navigate('/en/submit')}>
           Go to Homepage
         </button>
       </Container>
@@ -41,7 +40,7 @@ const AbstractSubmitted = () => {
     <Container className="page mb-5">
       <SubmissionSummary
         formData={formData}
-        navigateBack={() => history.push('/en/submit')}
+        navigateBack={() => navigate('/en/submit')}
         handleDownloadJson={handleDownloadJson}
       />
     </Container>

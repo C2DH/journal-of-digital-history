@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import parse from 'html-react-parser'
 import ReCAPTCHA from 'react-google-recaptcha'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { getErrorByField } from '../../logic/errors'
 import {
@@ -18,7 +18,6 @@ import {
   ErrorField,
   SubmitHandler,
   GithubIdValidationHandler,
-  DynamicFieldUpdateHandler,
 } from '../../interfaces/abstractSubmission'
 import { submissionFormSchema } from '../../schemas/abstractSubmission'
 import DynamicForm from './DynamicForm'
@@ -43,8 +42,7 @@ import { createAbstractSubmission } from '../../logic/api/postData'
 
 const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissionFormProps) => {
   const { t } = useTranslation()
-  //TODO: after Vite migration merged, change useHistory to useNavigate
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const [formData, setFormData] = useState<FormData>(initialAbstract(callForPapers))
   const [emailError, setEmailError] = useState('')
@@ -61,7 +59,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
   //Add custom validation for githubId authors
   ajv.addKeyword({
     keyword: 'atLeastOneGithubId',
-    validate: function validateAtLeastOneGithubId(schema, data) {
+    validate: function validateAtLeastOneGithubId(schema, data:FormData) {
       if (!Array.isArray(data)) return false
       return data.some((author) => author.githubId && author.githubId.trim() !== '')
     },
@@ -133,14 +131,13 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
       return
     } else {
       localStorage.setItem('formData', JSON.stringify(formData))
-      history.push('/en/abstract-submitted', { data: formData })
+      navigate('/en/abstract-submitted', { state: { data: formData } });
 
       // createAbstractSubmission({ item: formData, token: recaptchaToken })
       //   .then((res: { status: number }) => {
       //     if (res?.status === 200 || res?.status === 201) {
       //       console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
-      //       //TODO: after Vite migration merged, change useHistory to useNavigate
-      //       history.push('/en/abstract-submitted', { data: formData })
+      //       navigate('/en/abstract-submitted', { state: { data: formData } });
       //     }
       //   })
       //   .catch((err: any) => {
@@ -219,7 +216,6 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
             ...prev,
             contact: [
               {
-                ...prev.contact,
                 firstname: selectedAuthor.firstname,
                 lastname: selectedAuthor.lastname,
                 affiliation: selectedAuthor.affiliation,
@@ -328,6 +324,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
                 errors={validate.errors || []}
                 confirmGithubError={githubError}
                 missingFields={missingFields}
+                isSubmitAttempted={isSubmitAttempted}
               />
             </div>
             <hr />
@@ -434,7 +431,6 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
         </div>
         <div className="col-lg-3 col-md-4">
           <SubmissionStatusCard
-            data={formData}
             errors={validate.errors || []}
             githubError={githubError}
             mailError={emailError}

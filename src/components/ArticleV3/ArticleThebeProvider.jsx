@@ -47,13 +47,13 @@ export const ArticleThebeProvider = ({ url = '', kernelName, binderUrl, children
     '[ArticleThebeProvider] ',
     '\n - NODE_ENV:',
     process.env.NODE_ENV,
-    '\n - REACT_APP_THEBE_DEV_BINDER',
+    '\n - VITE_THEBE_DEV_BINDER',
     import.meta.env.VITE_THEBE_DEV_BINDER,
-    '\n - REACT_APP_THEBE_TOKEN',
+    '\n - VITE_THEBE_TOKEN',
     import.meta.env.VITE_THEBE_TOKEN,
-    '\n - REACT_APP_THEBE_BINDER_URL',
+    '\n - VITE_THEBE_BINDER_URL',
     import.meta.env.VITE_THEBE_BINDER_URL,
-    '\n - REACT_APP_THEBE_JUPYTER_URL',
+    '\n - VITE_THEBE_JUPYTER_URL',
     import.meta.env.VITE_THEBE_JUPYTER_URL,
     '\n - should use binder:',
     shouldUseBinder,
@@ -113,7 +113,7 @@ export const ArticleThebeProvider = ({ url = '', kernelName, binderUrl, children
   }, [shouldUseBinder, url, binderUrl])
 
   return (
-    <ThebeBundleLoaderProvider publicPath='/lib' start>
+    <ThebeBundleLoaderProvider publicPath="/lib" start>
       <ThebeServerProvider useBinder={shouldUseBinder} connect={false} options={options}>
         <ThebeRenderMimeRegistryProvider>
           <ThebeSessionProvider>{children}</ThebeSessionProvider>
