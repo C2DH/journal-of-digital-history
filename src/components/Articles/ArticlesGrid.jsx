@@ -16,7 +16,7 @@ import {
   LayerNarrative,
   LayerHermeneutics,
   StatusSuccess,
-} from '../../constants'
+} from '../../constants/globalConstants'
 import IssueArticles from '../Issue/IssueArticles'
 import OrderByDropdown from '../OrderByDropdown'
 import Article from '../../models/Article'

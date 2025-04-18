@@ -19,7 +19,7 @@ import {
   AvailableRefPrefixes,
   AvailableFigureRefPrefixes,
   DialogRefPrefix,
-} from '../constants'
+} from '../constants/globalConstants'
 import ArticleTreeWarning, {
   FigureAnchorWarningCode,
   MarkdownParserWarningCode,

@@ -11,7 +11,7 @@ import {
   ArticleStatusPublished,
   BootstrapMainColumnLayout,
   BootstrapFullColumLayout,
-} from '../../constants'
+} from '../../constants/globalConstants'
 import '../../styles/components/Article/ArticleHeader.scss'
 import ArticleDataModal from './ArticleDataModal'
 

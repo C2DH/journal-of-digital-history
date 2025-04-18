@@ -18,12 +18,12 @@ and laucnh via the browser http://localhost:3000/
 Makefile contains a couple of useful commands that inject local environmental variable:
 
     run-dev:
-         REACT_APP_GIT_TAG=$(shell git describe --tags --abbrev=0 HEAD) \
-         REACT_APP_GIT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD) \
-         REACT_APP_GIT_COMMIT_SHA=$(shell git rev-parse --short HEAD) \
+         VITE_GIT_TAG=$(shell git describe --tags --abbrev=0 HEAD) \
+         VITE_GIT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD) \
+         VITE_GIT_COMMIT_SHA=$(shell git rev-parse --short HEAD) \
          yarn start
 
-In development environment, to add a PROXY api different than `http://localhost` add the REACT_APP_PROXY as env variable (it can be stored in a local `.env.development` file)
+In development environment, to add a PROXY api different than `http://localhost` add the VITE_PROXY as env variable (it can be stored in a local `.env.development` file)
 
 ## Branch test on netlify
 

@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react'
 import { useStore } from '../../store'
-import { StatusSuccess } from '../../constants'
+import { StatusSuccess } from '../../constants/globalConstants'
 import { useGetJSON } from '../../logic/api/fetchData'
 
 const VideoReleaseLazy = ({

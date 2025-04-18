@@ -11,7 +11,11 @@ import ArticleCellObserver from './ArticleCellObserver'
 import ArticleHeader from '../Article/ArticleHeader'
 import Footer from '../Footer'
 import ArticleBibliography from '../Article/ArticleBibliography'
-import { CellTypeCode, DisplayLayerSectionBibliography, LayerData } from '../../constants'
+import {
+  CellTypeCode,
+  DisplayLayerSectionBibliography,
+  LayerData,
+} from '../../constants/globalConstants'
 import { WithWindowSize } from '../../hooks/windowSize'
 
 import '../../styles/components/ArticleV3/Article.scss'

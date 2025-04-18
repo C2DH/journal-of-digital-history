@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useOnScreen } from '../../hooks/graphics'
 import { useGetJSON } from '../../logic/api/fetchData'
-import { StatusSuccess } from '../../constants'
+import { StatusSuccess } from '../../constants/globalConstants'
 import MilestoneTimeline from '../MilestoneTimeline'
 
 const HomeMilestones = ({ isPortrait, extent }) => {

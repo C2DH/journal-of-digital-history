@@ -12,7 +12,11 @@ import UserProfile from './UserProfile'
 
 import deGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_white.svg?url'
 import uniluLogo from '../../assets/images/unilu-c2dh-logo-white.svg?url'
-import { PrimaryRoutes, TermsOfUseRoute, NotebookPoweredPaths } from '../../constants'
+import {
+  PrimaryRoutes,
+  TermsOfUseRoute,
+  NotebookPoweredPaths,
+} from '../../constants/globalConstants'
 import SwitchNightMode from '../SwitchNightMode'
 import '../../styles/components/Header.scss'
 import { useOnScreen } from '../../hooks/graphics'

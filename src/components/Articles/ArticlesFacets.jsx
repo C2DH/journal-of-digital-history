@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { IsMobile } from '../../constants'
+import { IsMobile } from '../../constants/globalConstants'
 import Facets from '../Facets'
 import DimensionGroupListItem from '../Facets/DimensionGroupListItem'
 import IssueLabel from '../Issue/IssueLabel'

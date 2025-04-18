@@ -12,7 +12,7 @@ import {
   BootstrapFullColumLayout,
   IsMobile,
   StatusSuccess,
-} from '../constants'
+} from '../constants/globalConstants'
 import StaticPageLoader from './StaticPageLoader'
 import '../styles/pages/Home.scss'
 import { randomFakeSentence } from '../logic/random'

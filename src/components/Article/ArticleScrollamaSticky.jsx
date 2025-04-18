@@ -5,7 +5,7 @@ import ArticleCellOutput from './ArticleCellOutput'
 import {
   BootstrapNarrativeStepFigureColumnLayout,
   BootstrapNarrativeStepCaptionColumnLayout,
-} from '../../constants'
+} from '../../constants/globalConstants'
 import { markdownParser } from '../../logic/ipynb'
 import { useCurrentWindowDimensions, useBoundingClientRect } from '../../hooks/graphics'
 

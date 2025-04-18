@@ -12,6 +12,7 @@ $theme-colors: (
   'accent': #5e2bff,
   'accent-light': lighten(#5e2bff, 20%),
   'accent-dark': darken(#5e2bff, 10%),
+  'error': #dc3545, 
   'dark': #1e152a,
   'white': white
 );

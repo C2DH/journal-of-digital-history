@@ -2,7 +2,7 @@ import React from 'react'
 import MarkdownIt from 'markdown-it'
 import { Container, Row, Col } from 'react-bootstrap'
 import StaticPageLoader from './StaticPageLoader'
-import { BootstrapFullColumLayout, StatusSuccess } from '../constants'
+import { BootstrapFullColumLayout, StatusSuccess } from '../constants/globalConstants'
 import '../styles/pages/WikiStaticPage.scss'
 import PropTypes from 'prop-types'
 

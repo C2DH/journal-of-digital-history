@@ -1,5 +1,13 @@
 export default class Author {
-  constructor({ firstname = '', lastname = '', email = '', affiliation = '', orcid = '', id, isValid } = {}) {
+  constructor({
+    firstname = '',
+    lastname = '',
+    email = '',
+    affiliation = '',
+    orcid = '',
+    id,
+    isValid,
+  } = {}) {
     this.id = id
     this.firstname = firstname
     this.lastname = lastname
@@ -15,6 +23,8 @@ export default class Author {
       this.email ? `(${this.email})` : null,
       this.affiliation ? `- ${this.affiliation}` : null,
       this.orcid ? `- 🆔 orcid:${this.orcid}` : null,
-    ].filter(d => d).join(' ')
+    ]
+      .filter((d) => d)
+      .join(' ')
   }
 }

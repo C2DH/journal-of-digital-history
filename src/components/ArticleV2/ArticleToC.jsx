@@ -1,22 +1,16 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQueryParams, withDefault, NumberParam, StringParam } from 'use-query-params'
-// import { useArticleToCStore } from '../../store'
 import {
-  // LayerHermeneutics,
   LayerNarrative,
   DisplayLayerQueryParam,
   DisplayLayerCellIdxQueryParam,
-  // DisplayLayerCellTopQueryParam,
   DisplayPreviousLayerQueryParam,
   DisplayLayerSectionParam,
   DisplayLayerSectionBibliography,
   DisplayLayerCellTopQueryParam,
-} from '../../constants'
+} from '../../constants/globalConstants'
 import ToCStep from '../ToCStep'
-// import ArticleToCBookmark from './ArticleToCBookmark'
-// import ToC from '../ToC'
-// import { useBoundingClientRect } from '../../hooks/graphics'
 import ArticleLayerSwitch from './ArticleLayerSwitch'
 import ArticleDataModal from '../Article/ArticleDataModal'
 import ArticleToCTitle from './ArticleToCTitle'
