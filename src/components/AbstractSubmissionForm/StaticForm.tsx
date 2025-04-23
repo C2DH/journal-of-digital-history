@@ -48,6 +48,7 @@ const FormField = ({
           }}
           placeholder={placeholder}
           rows={5}
+          data-test={`form-textarea-${id}`}
         ></textarea>
       ) : type === 'checkbox' ? (
         <input
@@ -56,6 +57,7 @@ const FormField = ({
           id={id}
           checked={Boolean(value)}
           onChange={handleChange}
+          data-test={`form-checkbox-${id}`}
         />
       ) : type === 'select' ? (
         <select
@@ -63,6 +65,7 @@ const FormField = ({
           className={`form-select ${missing ? (error ? 'is-invalid' : 'is-valid') : ''}`}
           value={String(value)}
           onChange={handleChange}
+          data-test={`form-select-${id}`}
         >
           {options.map((option) => (
             <option key={option.value} value={option.value}>
@@ -78,11 +81,12 @@ const FormField = ({
           value={String(value)}
           onChange={handleChange}
           placeholder={placeholder}
+          data-test={`form-control-${id}`}
         />
       )}
-      <div className="d-flex justify-content-between  mt-1">
+      <div className="d-flex justify-content-between mt-1">
         {missing && error && (
-          <div className="text-error form-text">
+          <div className="text-error form-text" data-test={`error-message-${id}`}>
             {t(`pages.abstractSubmission.errors.${id}.${error}`)}
           </div>
         )}

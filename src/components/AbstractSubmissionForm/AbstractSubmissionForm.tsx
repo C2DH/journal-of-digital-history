@@ -59,7 +59,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
   //Add custom validation for githubId authors
   ajv.addKeyword({
     keyword: 'atLeastOneGithubId',
-    validate: function validateAtLeastOneGithubId(schema, data:FormData) {
+    validate: function validateAtLeastOneGithubId(schema, data: FormData) {
       if (!Array.isArray(data)) return false
       return data.some((author) => author.githubId && author.githubId.trim() !== '')
     },
@@ -79,7 +79,7 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
 
   const isValid = validate(formData)
 
-  console.info('[AbstractSubmissionForm - AJV errors] validate.errors', validate.errors)
+  // console.info('[AbstractSubmissionForm - AJV errors] validate.errors', validate.errors)
 
   //Update callForPapers in formData
   useEffect(() => {
@@ -137,11 +137,11 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
         .then((res: { status: number }) => {
           if (res?.status === 200 || res?.status === 201) {
             console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
-            navigate('/en/abstract-submitted', { state: { data: formData } });
+            navigate('/en/abstract-submitted', { state: { data: formData } })
           }
         })
         .catch((err: any) => {
-          console.info('[AbstractSubmissionForm] ERR',err.response.status, err.message)
+          console.info('[AbstractSubmissionForm] ERR', err.response.status, err.message)
           onErrorAPI(err)
         })
     }
@@ -420,10 +420,22 @@ const AbstractSubmissionForm = ({ callForPapers, onErrorAPI }: AbstractSubmissio
               {isSubmitAttempted && (!isValid || !!githubError || !!emailError) && (
                 <p className="text-error">{t('pages.abstractSubmission.errors.submitError')}</p>
               )}
-              <button className="btn btn-outline-dark" onClick={handleDownloadJson}>
+              <button
+                className="btn btn-outline-dark"
+                onClick={(event) => {
+                  event.preventDefault() // Prevent form submission
+                  handleDownloadJson()
+                }}
+                data-test="button-download-as-json-form"
+              >
                 {t('actions.downloadAsJSON')}
               </button>
-              <button type="submit" className="btn btn-primary" style={{ margin: '2em' }}>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ margin: '2em' }}
+                data-test="button-submit-form"
+              >
                 {t('actions.submit')}
               </button>
             </div>

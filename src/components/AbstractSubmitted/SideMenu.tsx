@@ -19,7 +19,7 @@ const SideMenu = ({ activeSection, onMenuClick, menuItems }: SideMenuProps) => {
           top: offsetPosition,
           behavior: 'smooth',
         })
-      }, 15)
+      }, 30)
     }
   }, [activeSection])
 

@@ -56,6 +56,12 @@ const SubmissionSummary = ({
             <h2>{formData.title}</h2>
             <p>{formData.abstract}</p>
           </section>
+          <section id="callForPapers" className="mt-4">
+            <span className='text-bold'>
+              <b>Call for papers :</b>{' '}
+              {formData.callForPapers ? formData.callForPapers : 'Open call for papers'}
+            </span>
+          </section>
           <section id="contact" className="mt-5">
             <h2>{t('pages.abstractSubmission.section.contact')}</h2>
             <div className="info-section">

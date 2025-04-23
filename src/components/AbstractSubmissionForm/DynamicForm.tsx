@@ -30,14 +30,16 @@ const DynamicForm = ({
   errors,
   confirmEmailError,
   confirmGithubError,
+
   missingFields,
-  isSubmitAttempted
+  isSubmitAttempted,
 }: DynamicFormProps) => {
   const { t } = useTranslation()
   const [missing, setIsMissing] = useState<ErrorField>({})
   const atLeastOneGithubIdError = errors?.find((error) => error.keyword === 'atLeastOneGithubId')
     ? parse(t('pages.abstractSubmission.errors.authors.atLeastOneGithubId'))
     : null
+
   useEffect(() => {
     if (missingFields) {
       setIsMissing((prev) => ({
@@ -59,15 +61,17 @@ const DynamicForm = ({
       <h3 className="progressiveHeading">{title}</h3>
       <p>{explanation}</p>
       {id === 'authors' && atLeastOneGithubIdError && (
-          <div className={`text-${isSubmitAttempted? 'error': 'accent'} mt-2`}>{atLeastOneGithubIdError}</div>
+        <div
+          className={`text-${isSubmitAttempted ? 'error' : 'accent'} mt-2 my-2`}
+          data-test="error-message-authors-atLeastOneGithubId"
+        >
+          {atLeastOneGithubIdError}
+        </div>
       )}
       <div className="dynamic-list-form">
         {items.map((item: DynamicFormItem, index: number) => (
-          <div
-            key={index}
-            className="list-item"
-          >
-            <div className="fields-area">
+          <div key={index} className="list-item">
+            <div className="fields-area mt-0">
               {fieldConfig.map(
                 ({ label, fieldname, type = 'text', placeholder, required, helptext }) => {
                   const error = getErrorByItemAndByField(errors, id, index, fieldname)
@@ -76,7 +80,7 @@ const DynamicForm = ({
                     missingFields?.[`${id}/${index}/${fieldname}`]
 
                   return (
-                    <div className="form-group" key={label}>
+                    <div className="form-group my-1" key={label}>
                       {type !== 'checkbox' && (
                         <label htmlFor={`${fieldname}-${index}`}>
                           {t(`pages.abstractSubmission.${label}`)}
@@ -108,6 +112,7 @@ const DynamicForm = ({
                               onChange(index, fieldname, e.target.checked)
                               handleFieldEmpty(index, fieldname)
                             }}
+                            data-test={`form-check-input-${id}-${fieldname}-${index}`}
                           />
                           <label className="form-check-label" htmlFor={`${fieldname}-${index}`}>
                             {parse(t(`pages.abstractSubmission.${label}`))}
@@ -124,7 +129,7 @@ const DynamicForm = ({
                                 ? 'is-invalid'
                                 : 'is-valid'
                               : ''
-                          }`}
+                          } my-1`}
                           id={`${fieldname}-${index}`}
                           value={item[fieldname]}
                           onChange={(e) => {
@@ -132,19 +137,21 @@ const DynamicForm = ({
                             handleFieldEmpty(index, fieldname)
                           }}
                           placeholder={t(`pages.abstractSubmission.placeholder.${placeholder}`)}
+                          data-test={`form-control-${id}-${fieldname}-${index}`}
                         />
                       )}
-                      {isMissing && error && (
-                        <div className="text-error form-text">
-                          {fieldname === 'confirmEmail' && confirmEmailError
-                            ? t('pages.abstractSubmission.errors.confirmEmailMismatch')
-                            : fieldname === 'githubId' && confirmGithubError
-                            ? t(
-                                `pages.abstractSubmission.errors.${id}.githubId.confirmInvalidGithub`,
-                              )
-                            : t(`pages.abstractSubmission.errors.${id}.${fieldname}.${error}`)}
-                        </div>
-                      )}
+                      <div
+                        className="text-error form-text"
+                        data-test={`error-message-${id}-${fieldname}`}
+                      >
+                        {fieldname === 'confirmEmail' && confirmEmailError
+                          ? t('pages.abstractSubmission.errors.confirmEmailMismatch')
+                          : fieldname === 'githubId' && confirmGithubError
+                          ? t(`pages.abstractSubmission.errors.${id}.githubId.confirmInvalidGithub`)
+                          : error && isMissing
+                          ? t(`pages.abstractSubmission.errors.${id}.${fieldname}.${error}`)
+                          : null}
+                      </div>
                       {helptext && (
                         <div className="text-muted form-text">
                           {parse(t(`pages.abstractSubmission.${helptext}`))}
@@ -156,9 +163,7 @@ const DynamicForm = ({
               )}
             </div>
             <div className="action-buttons">
-              {id === 'contact' ? (
-                <div className="empty-space"></div>
-              ) : (
+              {index > 0 && (
                 <CloseButtonItem
                   index={index}
                   onRemove={(index) => {
@@ -167,14 +172,19 @@ const DynamicForm = ({
                 />
               )}
               {index > 0 && moveItem && <ArrowUpButtonItem index={index} moveItem={moveItem} />}
-              {index < items.length - 1 && moveItem &&(
+              {index < items.length - 1 && moveItem && (
                 <ArrowDownButtonItem index={index} moveItem={moveItem} />
               )}
             </div>
           </div>
         ))}
         {items.length < maxItems && (
-          <button type="button" className="btn btn-outline-dark btn-sm" onClick={onAdd}>
+          <button
+            type="button"
+            className="btn btn-outline-dark btn-sm"
+            onClick={onAdd}
+            data-test={`button-add-item-${id}`}
+          >
             {t(`actions.${buttonLabel}`)}
           </button>
         )}
