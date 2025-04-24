@@ -5,7 +5,7 @@ import parse from 'html-react-parser'
 import { AbstractSubmittedProps } from '../../interfaces/abstractSubmission'
 import SideMenu from './SideMenu'
 import { menuItems } from '../../constants/abstractSubmissionSummary'
-import { authorFields, contactFields, datasetFields } from '../../constants/abstractSubmissionForm'
+import { authorFields, datasetFields } from '../../constants/abstractSubmissionForm'
 
 import '../../styles/components/AbstractSubmissionForm/SubmissionSummary.scss'
 
@@ -61,26 +61,6 @@ const SubmissionSummary = ({
               <b>Call for papers :</b>{' '}
               {formData.callForPapers ? formData.callForPapers : 'Open call for papers'}
             </span>
-          </section>
-          <section id="contact" className="mt-5">
-            <h2>{t('pages.abstractSubmission.section.contact')}</h2>
-            <div className="info-section">
-              <p>
-                <strong>{t('pages.abstractSubmission.contact.name')}:</strong>{' '}
-                {formData.contact[0]?.firstname ||
-                  t('pages.abstractSubmission.contact.notProvided')}{' '}
-                {formData.contact[0]?.lastname || t('pages.abstractSubmission.contact.notProvided')}
-              </p>
-              {contactFields
-                .filter((field) => !['firstname', 'lastname'].includes(field.fieldname))
-                .map((field) => (
-                  <p key={field.fieldname}>
-                    <strong>{t(`pages.abstractSubmission.${field.label}`)}:</strong>{' '}
-                    {formData.contact[0]?.[field.fieldname] ||
-                      t('pages.abstractSubmission.contact.notProvided')}
-                  </p>
-                ))}
-            </div>
           </section>
           <section id="authors" className="mt-5">
             <h2>{t('pages.abstractSubmission.section.authors')}</h2>

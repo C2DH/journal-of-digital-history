@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import parse from 'html-react-parser'
 
@@ -30,14 +30,17 @@ const DynamicForm = ({
   errors,
   confirmEmailError,
   confirmGithubError,
-
   missingFields,
-  isSubmitAttempted,
 }: DynamicFormProps) => {
   const { t } = useTranslation()
   const [missing, setIsMissing] = useState<ErrorField>({})
   const atLeastOneGithubIdError = errors?.find((error) => error.keyword === 'atLeastOneGithubId')
     ? parse(t('pages.abstractSubmission.errors.authors.atLeastOneGithubId'))
+    : null
+  const atLeastOnePrimaryContact = errors?.find(
+    (error) => error.keyword === 'atLeastOnePrimaryContact',
+  )
+    ? parse(t('pages.abstractSubmission.errors.authors.atLeastOnePrimaryContact'))
     : null
 
   useEffect(() => {
@@ -60,20 +63,15 @@ const DynamicForm = ({
     <>
       <h3 className="progressiveHeading">{title}</h3>
       <p>{explanation}</p>
-      {id === 'authors' && atLeastOneGithubIdError && (
-        <div
-          className={`text-${isSubmitAttempted ? 'error' : 'accent'} mt-2 my-2`}
-          data-test="error-message-authors-atLeastOneGithubId"
-        >
-          {atLeastOneGithubIdError}
-        </div>
-      )}
       <div className="dynamic-list-form">
         {items.map((item: DynamicFormItem, index: number) => (
           <div key={index} className="list-item">
             <div className="fields-area mt-0">
               {fieldConfig.map(
-                ({ label, fieldname, type = 'text', placeholder, required, helptext }) => {
+                ({ label, fieldname, type = 'text', placeholder, required, helptext, tooltip }) => {
+                  if (fieldname === 'confirmEmail' && !item.primaryContact) {
+                    return null
+                  }
                   const error = getErrorByItemAndByField(errors, id, index, fieldname)
                   const isMissing =
                     missing[`${index}-${fieldname}`] ||
@@ -82,9 +80,20 @@ const DynamicForm = ({
                   return (
                     <div className="form-group my-1" key={label}>
                       {type !== 'checkbox' && (
-                        <label htmlFor={`${fieldname}-${index}`}>
+                        <label
+                          htmlFor={`${fieldname}-${index}`}
+                          className="d-flex align-items-center"
+                        >
                           {t(`pages.abstractSubmission.${label}`)}
                           {required && <span className="text-accent"> *</span>}
+                          {tooltip && (
+                            <span
+                              className="tooltip-icon material-symbols-outlined ms-2"
+                              data-tooltip={t(`pages.abstractSubmission.tooltips.${tooltip}`)}
+                            >
+                              {'help'}
+                            </span>
+                          )}
                         </label>
                       )}
                       {type === 'textarea' ? (
@@ -148,7 +157,11 @@ const DynamicForm = ({
                           ? t('pages.abstractSubmission.errors.confirmEmailMismatch')
                           : fieldname === 'githubId' && confirmGithubError
                           ? t(`pages.abstractSubmission.errors.${id}.githubId.confirmInvalidGithub`)
-                          : error && isMissing
+                          : fieldname === 'githubId' && isMissing && atLeastOneGithubIdError
+                          ? atLeastOneGithubIdError
+                          : fieldname === 'primaryContact' && isMissing && atLeastOnePrimaryContact
+                          ? atLeastOnePrimaryContact
+                          : isMissing && error
                           ? t(`pages.abstractSubmission.errors.${id}.${fieldname}.${error}`)
                           : null}
                       </div>

@@ -6,7 +6,6 @@ export interface FormData {
   callForPapers: string;
   title: string;
   abstract: string;
-  contact: Contact[];
   datasets: Dataset[];
   authors: Author[];
   dateCreated: string;
@@ -22,12 +21,6 @@ export enum LanguagePreference {
   DEFAULT = 'Default',
 }
 
-export interface Contact {
-  firstname: string;
-  lastname: string;
-  affiliation: string;
-  email: string;
-}
 
 export interface Dataset {
   link: string;
@@ -39,6 +32,7 @@ export interface Author {
   lastname: string;
   affiliation: string;
   email: string;
+  confirmEmail?: string;
   orcidUrl: string;
   githubId: string;
   blueskyId?: string;
@@ -75,9 +69,14 @@ export interface FieldConfig {
   placeholder?: string;
   required?: boolean;
   helptext?: string;
+  tooltip?: string;
 }
 
-export type DynamicFormItem = Dataset | Author | Contact;
+export interface DynamicFormItem {
+  [key: string]: any
+  primaryContact?: boolean
+}
+
 // Dynamic Form Interfaces
 export interface DynamicFormProps {
   id: string;
@@ -95,7 +94,6 @@ export interface DynamicFormProps {
   confirmEmailError?: string;
   confirmGithubError?: string;
   missingFields: ErrorField;
-  isSubmitAttempted?: boolean;
 }
 
 // Submission Status Interfaces
@@ -114,7 +112,6 @@ export interface AbstractSubmittedProps {
 }
 
 export interface AbstractSubmissionFormProps {
-  callForPapers: string;
   onErrorAPI: ErrorHandler;
 }
 

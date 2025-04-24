@@ -23,7 +23,7 @@
   "FormNotebookUrl_GenerateLink": "View notebook as journal article!",
   "FormNotebookUrl_PreviewFingerprint": "View notebook as fingerprint",
   "Navigation_NotebookViewer": "Preview Notebook",
-  "openCallForPapers": "Open call for papers",
+  "openCallForPapers": "Please select a call for papers",
   "orderBydateAsc": "Sort by publication date, oldest to newest",
   "orderBydateDesc": "Sort by publication date, newest to oldest",
   "orderByissue": "Sort by issue",
@@ -81,7 +81,7 @@
     "abstractSubmission": {
       "title": "Abstract Submission",
       "author": {
-        "explanation": "<em>The order of the authors will determine the final sequence in the published article.</em>",
+        "explanation": "<span>Please provide the contact information of all authors and contributors. At least one author must provide a <span className='text-accent' > GitHub username </span>, and at least one author must be designated as the <span className='text-accent'> primary contact.</span>These can be different individuals.</span><br/><br/><em>The order of the authors will determine the final sequence in the published article.</em>",
         "email": "Email Address",
         "confirmEmail": "Confirm email address",
         "name": "Name",
@@ -111,15 +111,6 @@
         "link": "Link",
         "description": "Description, License (where applicable)"
       },
-      "contact": {
-        "explanation": "If none of the listed authors will serve as the primary contact, please add a designated contact person. <span className='text-accent'>*</span>",
-        "email": "Email Address",
-        "confirmEmail": "Confirm email address",
-        "firstname": "First Name",
-        "lastname": "Last Name",
-        "name": "Name",
-        "affiliation": "Affiliation"
-      },
       "repository": {
         "explanation": "Once your abstract is accepted, we will create a dedicated repository for your article on Github. This repository includes a structured template and Github actions to streamline the writing process."
       },
@@ -128,16 +119,14 @@
         "header": "Submission Status",
         "title": "Title",
         "abstract": "Abstract",
-        "authors": "Authors",
-        "contact": "Primary Contact",
+        "authors": "Authors & Contributors",
         "languagePreference": "Repository",
         "termsAccepted": "Terms of use"
       },
       "section": {
         "informationSubmitted": "Get back to top ↑ ",
         "titleAndAbstract": "Title & Abstract",
-        "authors": "Authors",
-        "contact": "Primary contact",
+        "authors": "Authors & Contributors",
         "datasets": "Tools, Code & Data",
         "repository": "Repository"
       },
@@ -150,10 +139,14 @@
         "lastname": "Last name",
         "affiliation": "University, Institution or Company",
         "email": "mail@mail.com",
-        "orcid": "https://orcid.org/0000-0000-0000-0000",
+        "confirmEmail": "mail@mail.com",
+        "orcidUrl": "https://orcid.org/0000-0000-0000-0000",
         "blueskyId": "username.bsky.social",
         "facebookId": "username",
         "githubId": "your-username or username"
+      },
+      "tooltips": {
+        "githubId": "GitHub username must be a valid GitHub account."
       },
       "summary": {
         "primaryContact": "Primary contact",
@@ -165,6 +158,7 @@
       "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply.",
       "termsAcceptance": "I have read and I accept the terms and conditions available at <a href=\"{{termsUrl}}\" target=\"_blank\">Terms of use</a>",
       "errors": {
+        "callForPapersRequired": "Please select a call for papers",
         "title": {
           "required": "Title is required",
           "minLength": "Must be at least 10 characters",
@@ -185,7 +179,8 @@
             "maxLength": "Must be at most 1000 characters"
           }
         },
-        "contact": {
+        "confirmEmailMismatch": "Email addresses do not match",
+        "authors": {
           "firstname": {
             "required": "First name is required",
             "minLength": "Must be at least 1 character",
@@ -208,30 +203,6 @@
             "format": "Must be a valid email address"
           },
           "confirmEmail": {
-            "required": "Email is required",
-            "minLength": "Must be at least 1 character",
-            "maxLength": "Must be at most 100 characters",
-            "format": "Must be a valid email address"
-          }
-        },
-        "confirmEmailMismatch": "Email addresses do not match",
-        "authors": {
-          "firstname": {
-            "required": "First name is required",
-            "minLength": "Must be at least 1 character",
-            "maxLength": "Must be at most 100 characters"
-          },
-          "lastname": {
-            "required": "Last name is required",
-            "minLength": "Must be at least 1 character",
-            "maxLength": "Must be at most 100 characters"
-          },
-          "affiliation": {
-            "required": "Affiliation is required",
-            "minLength": "Must be at least 1 character",
-            "maxLength": "Must be at most 100 characters"
-          },
-          "email": {
             "required": "Email is required",
             "minLength": "Must be at least 1 character",
             "maxLength": "Must be at most 100 characters",
@@ -260,7 +231,8 @@
             "maxLength": "Must be at most 50 characters",
             "pattern": "Must be a valid Facebook ID as username"
           },
-          "atLeastOneGithubId": "⚠ At least one author must have a valid Github Username !"
+          "atLeastOneGithubId": "At least one author must have a valid Github Username",
+          "atLeastOnePrimaryContact": "At least one author must be selected as primary contact"
         },
         "languagePreference": {
           "enum": "Please select a programming language for your repository"
@@ -380,24 +352,12 @@
     "all": "Layer: both",
     "default": "Layer: Narrative"
   },
-  "labels": {
-    "formSubmissionIncomplete": "Please starts to fill the form...",
-    "formSubmissionReady": "ready to be submitted!",
-    "dateCreated": "Started on",
-    "dateLastModified": "Last edit",
-    "instance": {
-      "contact": "contact info",
-      "authors": "contributors",
-      "abstract": "abstract",
-      "title": "title",
-      "datasets": "datasets"
-    }
-  },
   "errors": {
     "binderUrlNotAvailable": "Binder is not available for this notebook ...",
     "explainCodeNotAvailable": "Code explanation is not available for this notebook. <br/> <i>Error received: {{ error }}</i>"
   },
-  "selectCallForPapers": "Please select the relevant <b class='text-accent'>call for papers<b>:",
+  "selectCallForPapers": "Please select the relevant <b>Call for Papers</b><span className='text-accent'> *</span> ",
+  "openSubmission": "Open submission",
   "numbers": {
     "issue": "Issue n.{{n}}",
     "dialog": "dialogue {{ n }}",

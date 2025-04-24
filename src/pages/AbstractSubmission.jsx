@@ -7,11 +7,8 @@ import { CfpParam } from '../logic/params'
 import AbstractSubmissionForm from '../components/AbstractSubmissionForm/AbstractSubmissionForm'
 import ErrorViewer from './ErrorViewer'
 
-import AbstractSubmissionCallForPapers from '../components/AbstractSubmissionCallForPapers'
-
 const AbstractSubmission = () => {
   const { t } = useTranslation()
-  const [callForPapers, setCallForPapers] = useQueryParam('cfp', withDefault(CfpParam, ''))
   const [errorAPI, setErrorAPI] = useState(null)
   const errorViewerRef = useRef(null)
 
@@ -43,17 +40,7 @@ const AbstractSubmission = () => {
             <h1 className="my-5">{t('pages.abstractSubmission.title')}</h1>
           </Col>
         </Row>
-        <div style={{ paddingLeft: '12px' }}>
-          <AbstractSubmissionCallForPapers
-            onChange={(cfp) => setCallForPapers(cfp)}
-            cfp={callForPapers}
-          />
-          <br />
-          <em className="text-accent offset-md-2">
-            {t('pages.abstractSubmission.requiredFieldExplanation')}
-          </em>
-        </div>
-        <AbstractSubmissionForm callForPapers={callForPapers} onErrorAPI={handleErrorAPI} />
+        <AbstractSubmissionForm onErrorAPI={handleErrorAPI} />
         <br />
       </>
     </Container>

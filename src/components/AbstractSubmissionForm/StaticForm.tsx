@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { FormFieldProps, InputChangeHandler } from '../../interfaces/abstractSubmission'
 import { useTranslation } from 'react-i18next'
 
@@ -84,18 +84,16 @@ const FormField = ({
           data-test={`form-control-${id}`}
         />
       )}
-      <div className="d-flex justify-content-between mt-1">
-        {missing && error && (
-          <div className="text-error form-text" data-test={`error-message-${id}`}>
-            {t(`pages.abstractSubmission.errors.${id}.${error}`)}
-          </div>
-        )}
-        {type === 'textarea' && (
-          <div className="text-muted ms-auto">
-            {String(value) ? `${String(value).length} / ${schema.properties[id].maxLength}` : ''}
-          </div>
-        )}
-      </div>
+      {missing && error && (
+        <div className="text-error form-text" data-test={`error-message-${id}`}>
+          {t(`pages.abstractSubmission.errors.${id}.${error}`)}
+        </div>
+      )}
+      {type === 'textarea' && (
+        <div className="text-muted ms-auto">
+          {String(value) ? `${String(value).length} / ${schema.properties[id].maxLength}` : ''}
+        </div>
+      )}
     </div>
   )
 }

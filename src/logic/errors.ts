@@ -5,18 +5,18 @@ import { ValidationErrors } from '../interfaces/abstractSubmission'
  * Transforms an array of AJV error objects into a structured object with paths as keys.
  * 
  * ### Example
- * Given an error object with an `instancePath` of `/contact/firstName`,
+ * Given an error object with an `instancePath` of `/author/0/firstName`,
  * the method will categorize it as:
  * 
  * ```json
  * {
- *   "contact": {
+ *   "author": {
  *     "firstName": [
  *       {
  *         "message": "Invalid value",
  *         "keyword": "type",
- *         "instancePath": "/contact/firstName",
- *         "schemaPath": "#/properties/contact/properties/firstName/type",
+ *         "instancePath": "/author/0/firstName",
+ *         "schemaPath": "#/properties/author/0/properties/firstName/type",
  *         "params": {
  *           "type": "string"
  *         }
@@ -67,21 +67,12 @@ export const getErrors = (errors: ErrorObject[] = []): ValidationErrors => {
  * based on the error's instance path.
  *
  * @param errors - An array of error objects, each containing an `instancePath` which indicates the location of the error.
- * @returns A set of unique section names as ['title', 'abstract', 'contact', 'contributors', 'github', 'termsAccepted'].
+ * @returns A set of unique section names as ['title', 'abstract', 'authors', 'termsAccepted'].
  */
 export const requiredFieldErrors = (errors: ErrorObject[]) => {
   return errors.reduce((acc: Set<string>, error) => {
     const pathParts = error.instancePath.split('/').filter(Boolean)
     let section = pathParts[0] || 'general'
-
-    if (section === 'contact') {
-      const subfield = pathParts[1]
-      if (['firstName', 'lastName', 'affiliation', 'email', 'orcidUrl'].includes(subfield)) {
-        section = 'contact'
-      } else if (['githubId', 'blueskyId', 'facebookId'].includes(subfield)) {
-        section = 'github'
-      }
-    }
 
     acc.add(section)
     return acc
@@ -92,7 +83,7 @@ export const requiredFieldErrors = (errors: ErrorObject[]) => {
  * Add error section to an array of header sections based on github API error or confirmation email error.
  *
  * @param errors - A set of error headers.
- * @param section - The section to which the error belongs (e.g., 'github', 'contact').   
+ * @param section - The section to which the error belongs (e.g., 'author').   
  * 
  *
  */

@@ -16,22 +16,6 @@ export const submissionFormSchema = {
       minItems: 0,
       maxItems: 10,
     },
-    contact: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          firstname: { type: 'string', minLength: 1, maxLength: 100 },
-          lastname: { type: 'string', minLength: 1, maxLength: 100 },
-          affiliation: { type: 'string', minLength: 1, maxLength: 100 },
-          email: { type: 'string', minLength: 1, maxLength: 100, format: 'email' },
-          confirmEmail: { type: 'string', minLength: 1, maxLength: 100, format: 'email' },
-        },
-        required: ['firstname', 'lastname', 'affiliation', 'email', 'confirmEmail'],
-      },
-      minItems: 1,
-      maxItems: 1,
-    },
     authors: {
       type: 'array',
       items: {
@@ -63,8 +47,9 @@ export const submissionFormSchema = {
               {
                 type: 'string',
                 minLength: 1,
-                maxLength: 26,
-                pattern: '^[a-zA-Z0-9_]{1,15}.bsky.social',
+                maxLength: 255,
+                pattern:
+                  '^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?.)+[a-zA-Z]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$',
               },
               { type: 'null' },
               { type: 'string', maxLength: 0 },
@@ -77,11 +62,14 @@ export const submissionFormSchema = {
               { type: 'string', maxLength: 0 },
             ],
           },
+          primaryContact: { type: 'boolean', enum: [true, false] },
         },
         required: ['firstname', 'lastname', 'affiliation', 'email', 'orcidUrl'],
       },
       minItems: 1,
       maxItems: 10,
+      atLeastOneGithubId: true,
+      atLeastOnePrimaryContact: true,
     },
     languagePreference: {
       type: 'string',
@@ -90,5 +78,5 @@ export const submissionFormSchema = {
     },
     termsAccepted: { type: 'boolean', enum: [true] },
   },
-  required: ['title', 'abstract', 'authors', 'contact', 'termsAccepted'],
+  required: ['title', 'abstract', 'authors', 'termsAccepted'],
 }
