@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { IsMobile } from '../../constants'
+import { IsMobile, ArticleStatusPublished } from '../../constants'
 import Facets from '../Facets'
 import DimensionGroupListItem from '../Facets/DimensionGroupListItem'
 import IssueLabel from '../Issue/IssueLabel'
@@ -98,7 +98,7 @@ const Dimensions = [
     name: 'issue',
     sortFn: dimensionSortFnDescending,
     thresholdFn: dimensionThresholdFn,
-    fn: (d) => d.issue.pid,
+    fn: (d) => d.issue.status === ArticleStatusPublished ? d.issue.pid : null,
     isArray: false,
     ListItem: IssueListItem,
   },
