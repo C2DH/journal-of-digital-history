@@ -36,11 +36,14 @@ const ArticleCellOutputsAsIframe = ({
 
           // application/javascript
           if (output.data['application/javascript']) {
-            acc.push(
-              '<script>',
-              output.data['application/javascript'],
-              '</script>'
-            );
+            acc.push('<script>');
+
+            if (Array.isArray(output.data['application/javascript']))
+              acc.push(...output.data['application/javascript']);
+            else
+              acc.push(output.data['application/javascript']);
+
+            acc.push('</script>');
           }
 
           // text/html
