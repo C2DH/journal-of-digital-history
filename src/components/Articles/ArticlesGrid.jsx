@@ -16,6 +16,8 @@ import {
   LayerNarrative,
   LayerHermeneutics,
   StatusSuccess,
+  ArticleStatusDraft,
+  ArticleStatusPublished
 } from '../../constants'
 import IssueArticles from '../Issue/IssueArticles'
 import OrderByDropdown from '../OrderByDropdown'
@@ -71,7 +73,17 @@ const ArticlesGrid = ({
     height: 0,
   }))
   const data = (items || []).map((d, idx) => new Article({ ...d, idx }))
-  const articles = sort(data, AvailablesOrderByComparators[orderBy])
+
+  const articles = sort(
+    data.filter(d => orderBy !== OrderByIssue || d.issue.status !== ArticleStatusDraft),  // filter out articles from draft issues
+    AvailablesOrderByComparators[orderBy]
+  );
+
+  // Advance articles are articles that are in draft issues
+  const advanceArticles = (items || [])
+    .filter(d => d.issue.status === ArticleStatusDraft)
+    .map((d, idx) => new Article({ ...d, idx }));
+  
   const { articlesByIssue, showFilters } = useMemo(() => {
     if (status !== StatusSuccess) {
       return {
@@ -226,34 +238,59 @@ const ArticlesGrid = ({
           )}
         </Col>
       </a.div>
-      {orderBy === OrderByIssue &&
-        issues.map((issue) => {
-          const numArticles = articlesByIssue[issue.pid]?.length
-          const numSelectedArticles = articlesByIssue[issue.pid]?.filter((d) => d.selected).length
 
-          return (
-            <React.Fragment key={issue.pid}>
-              <a className="anchor" id={`anchor-${issue.pid}`} />
+      {orderBy === OrderByIssue && (
+        <>
+          {advanceArticles.length > 0 && (
+            <IssueArticles
+              selected={selected}
+              data={advanceArticles || []}
+              onArticleMouseMove={onArticleMouseMoveHandler}
+              onArticleClick={onArticleClickHandler}
+              onArticleMouseOut={onArticleMouseOutHandler}
+            >
+              <Issue
+                numArticles={advanceArticles.length}
+                isInFilterMode={Array.isArray(selected)}
+                numSelectedArticles={advanceArticles.filter(d => d.selected).length}
+                item={{
+                  name: t('pages.articles.advanceArticles'),
+                  status: ArticleStatusPublished
+                }}
+                className="py-2 mb-1"
+              />
+            </IssueArticles>
+          )}
 
-              <IssueArticles
-                selected={selected}
-                data={articlesByIssue[issue.pid] || []}
-                onArticleMouseMove={onArticleMouseMoveHandler}
-                onArticleClick={onArticleClickHandler}
-                onArticleMouseOut={onArticleMouseOutHandler}
-              >
-                <Issue
-                  numArticles={numArticles}
-                  isInFilterMode={Array.isArray(selected)}
-                  numSelectedArticles={numSelectedArticles}
-                  hasSelectedArticles={!!articlesByIssue[issue.pid]}
-                  item={issue}
-                  className="py-2 mb-1"
-                />
-              </IssueArticles>
-            </React.Fragment>
-          )
-        })}
+          {issues.filter(issue => issue.status === ArticleStatusPublished).map((issue) => {
+            const numArticles = articlesByIssue[issue.pid]?.length
+            const numSelectedArticles = articlesByIssue[issue.pid]?.filter((d) => d.selected).length
+
+            return (
+              <React.Fragment key={issue.pid}>
+                <a className="anchor" id={`anchor-${issue.pid}`} />
+
+                <IssueArticles
+                  selected={selected}
+                  data={articlesByIssue[issue.pid] || []}
+                  onArticleMouseMove={onArticleMouseMoveHandler}
+                  onArticleClick={onArticleClickHandler}
+                  onArticleMouseOut={onArticleMouseOutHandler}
+                >
+                  <Issue
+                    numArticles={numArticles}
+                    isInFilterMode={Array.isArray(selected)}
+                    numSelectedArticles={numSelectedArticles}
+                    hasSelectedArticles={!!articlesByIssue[issue.pid]}
+                    item={issue}
+                    className="py-2 mb-1"
+                  />
+                </IssueArticles>
+              </React.Fragment>
+            )
+          })}
+        </>
+      )}
       {[OrderByPublicationDateAsc, OrderByPublicationDateDesc].includes(orderBy) && (
         <IssueArticles
           selected={selected}
