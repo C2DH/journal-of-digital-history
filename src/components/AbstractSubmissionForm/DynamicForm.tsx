@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import parse from 'html-react-parser'
 
 import { getErrorByItemAndByField } from '../../logic/errors'
@@ -33,7 +34,9 @@ const DynamicForm = ({
   missingFields,
 }: DynamicFormProps) => {
   const { t } = useTranslation()
+  const [tooltipPlacement, setTooltipPlacement] = useState<'auto' | 'right'>('right')
   const [missing, setIsMissing] = useState<ErrorField>({})
+
   const atLeastOneGithubIdError = errors?.find((error) => error.keyword === 'atLeastOneGithubId')
     ? parse(t('pages.abstractSubmission.errors.authors.atLeastOneGithubId'))
     : null
@@ -52,6 +55,21 @@ const DynamicForm = ({
     }
   }, [missingFields])
 
+  useEffect(() => {
+    const updatePlacement = () => {
+      if (window.innerWidth < 768) {
+        setTooltipPlacement('auto')
+      } else {
+        setTooltipPlacement('right')
+      }
+    }
+    updatePlacement()
+    window.addEventListener('resize', updatePlacement)
+    return () => {
+      window.removeEventListener('resize', updatePlacement)
+    }
+  }, [])
+
   const handleFieldEmpty: FieldEmptyHandler = (index, fieldname) => {
     setIsMissing((prev) => ({
       ...prev,
@@ -66,7 +84,7 @@ const DynamicForm = ({
       <div className="dynamic-list-form">
         {items.map((item: DynamicFormItem, index: number) => (
           <div key={index} className="list-item">
-            <div className="fields-area mt-0">
+            <div className="fields-area">
               {fieldConfig.map(
                 ({ label, fieldname, type = 'text', placeholder, required, helptext, tooltip }) => {
                   if (fieldname === 'confirmEmail' && !item.primaryContact) {
@@ -78,7 +96,7 @@ const DynamicForm = ({
                     missingFields?.[`${id}/${index}/${fieldname}`]
 
                   return (
-                    <div className="form-group my-1" key={label}>
+                    <div className="form-group-custom" key={label}>
                       {type !== 'checkbox' && (
                         <label
                           htmlFor={`${fieldname}-${index}`}
@@ -86,30 +104,26 @@ const DynamicForm = ({
                         >
                           {t(`pages.abstractSubmission.${label}`)}
                           {required && <span className="text-accent"> *</span>}
-                          {tooltip && (
-                            <span
-                              className="tooltip-icon material-symbols-outlined ms-2"
-                              data-tooltip={t(`pages.abstractSubmission.tooltips.${tooltip}`)}
-                            >
-                              {'help'}
-                            </span>
-                          )}
                         </label>
                       )}
                       {type === 'textarea' ? (
-                        <textarea
-                          className={`form-control ${
-                            isMissing ? (error ? 'is-invalid' : 'is-valid') : ''
-                          }`}
-                          id={`${fieldname}-${index}`}
-                          value={item[fieldname]}
-                          onChange={(e) => {
-                            onChange(index, fieldname, e.target.value)
-                            handleFieldEmpty(index, fieldname)
-                          }}
-                          placeholder={t(`pages.abstractSubmission.placeholder.${placeholder}`)}
-                          rows={5}
-                        ></textarea>
+                        <div className="input-group-custom">
+                          <textarea
+                            className={`form-control ${
+                              isMissing ? (error ? 'is-invalid' : 'is-valid') : ''
+                            }`}
+                            id={`${fieldname}-${index}`}
+                            value={item[fieldname]}
+                            onChange={(e) => {
+                              onChange(index, fieldname, e.target.value)
+                              handleFieldEmpty(index, fieldname)
+                            }}
+                            placeholder={t(`pages.abstractSubmission.placeholder.${placeholder}`)}
+                            data-test={`form-textarea-${id}-${fieldname}-${index}`}
+                            rows={5}
+                          ></textarea>
+                          <div className="empty-space"></div>
+                        </div>
                       ) : type === 'checkbox' ? (
                         <div className="form-check">
                           <input
@@ -121,33 +135,56 @@ const DynamicForm = ({
                               onChange(index, fieldname, e.target.checked)
                               handleFieldEmpty(index, fieldname)
                             }}
-                            data-test={`form-check-input-${id}-${fieldname}-${index}`}
+                            data-test={`form-checkbox-${id}-${fieldname}-${index}`}
                           />
                           <label className="form-check-label" htmlFor={`${fieldname}-${index}`}>
                             {parse(t(`pages.abstractSubmission.${label}`))}
                           </label>
                         </div>
                       ) : (
-                        <input
-                          type={type}
-                          className={`form-control ${
-                            isMissing
-                              ? error ||
-                                (fieldname === 'confirmEmail' && confirmEmailError) ||
-                                (fieldname === 'githubId' && confirmGithubError)
-                                ? 'is-invalid'
-                                : 'is-valid'
-                              : ''
-                          } my-1`}
-                          id={`${fieldname}-${index}`}
-                          value={item[fieldname]}
-                          onChange={(e) => {
-                            onChange(index, fieldname, e.target.value)
-                            handleFieldEmpty(index, fieldname)
-                          }}
-                          placeholder={t(`pages.abstractSubmission.placeholder.${placeholder}`)}
-                          data-test={`form-control-${id}-${fieldname}-${index}`}
-                        />
+                        <div className="input-group-custom">
+                          <input
+                            type={type}
+                            className={`form-control ${
+                              isMissing
+                                ? error ||
+                                  (fieldname === 'confirmEmail' && confirmEmailError) ||
+                                  (fieldname === 'githubId' && confirmGithubError)
+                                  ? 'is-invalid'
+                                  : 'is-valid'
+                                : ''
+                            } my-1`}
+                            id={`${fieldname}-${index}`}
+                            value={item[fieldname]}
+                            onChange={(e) => {
+                              onChange(index, fieldname, e.target.value)
+                              handleFieldEmpty(index, fieldname)
+                            }}
+                            placeholder={t(`pages.abstractSubmission.placeholder.${placeholder}`)}
+                            data-test={`form-control-${id}-${fieldname}-${index}`}
+                          />
+                          {tooltip && (
+                            <OverlayTrigger
+                              placement={tooltipPlacement}
+                              overlay={
+                                <Tooltip
+                                  id={`tooltip-${fieldname}-${index}`}
+                                  className="custom-tooltip"
+                                >
+                                  {t(`pages.abstractSubmission.tooltips.${tooltip}`)}
+                                </Tooltip>
+                              }
+                            >
+                              <span
+                                className="material-symbols-outlined ms-2"
+                                style={{ cursor: 'pointer' }}
+                              >
+                                help
+                              </span>
+                            </OverlayTrigger>
+                          )}
+                          {!tooltip && <div className="empty-space"></div>}
+                        </div>
                       )}
                       <div
                         className="text-error form-text"

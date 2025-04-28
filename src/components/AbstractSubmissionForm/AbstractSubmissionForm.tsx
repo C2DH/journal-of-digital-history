@@ -27,7 +27,7 @@ import DynamicForm from './DynamicForm'
 import SubmissionStatusCard from './SubmissionStatus'
 import StaticForm from './StaticForm'
 
-// import { reCaptchaSiteKey } from '../../constants/globalConstants'
+import { ReCaptchaSiteKey } from '../../constants/globalConstants'
 import {
   datasetFields,
   datasetEmpty,
@@ -41,6 +41,8 @@ import { debounce } from '../../logic/debounce'
 import { getLocalizedPath } from '../../logic/language'
 import { createAbstractSubmission } from '../../logic/api/postData'
 import { CfpParam } from '../../logic/params'
+
+import '../../styles/components/AbstractSubmissionForm/AbstractSubmissionForm.scss'
 
 const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => {
   const { t } = useTranslation()
@@ -81,7 +83,7 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
   const validate = ajv.compile(submissionFormSchema)
   const isValid = validate(formData)
 
-  console.info('[AbstractSubmissionForm - AJV errors] validate.errors', validate.errors)
+  // console.info('[AbstractSubmissionForm - AJV errors] validate.errors', validate.errors)
 
   //Update callForPapers in formData
   useEffect(() => {
@@ -97,14 +99,13 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
     event.preventDefault()
     setIsSubmitAttempted(true)
 
-    //TODO: uncomment captcha when ready
-
     const recaptchaToken = await recaptchaRef.current?.executeAsync()
-    // if (!recaptchaToken) {
-    //   console.error('ReCAPTCHA failed to generate a token.');
-    //   return;
-    // }
-    // console.log('ReCAPTCHA token:', recaptchaToken);
+    if (!recaptchaToken) {
+      console.error('ReCAPTCHA failed to generate a token.')
+      return
+    }
+    console.log('ReCAPTCHA token:', recaptchaToken)
+    recaptchaRef.current?.reset()
 
     const allFields = [
       'title',
@@ -126,10 +127,11 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
 
     setMissingFields(updatedMissingFields)
 
-    if (!isValid || !!githubError || !!emailError) {
+    if (!isValid || !!githubError || !!emailError || !!callForPapersError) {
       console.error('[AbstractSubmissionForm] Form cannot be submitted due to errors.', {
         githubError,
         emailError,
+        callForPapersError,
         isValid,
       })
       return
@@ -257,7 +259,7 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
         <em className="text-accent">{t('pages.abstractSubmission.requiredFieldExplanation')}</em>
         <br />
         <br />
-        <div className="d-flex align-items-left">
+        <div className="">
           <AbstractSubmissionCallForPapers
             onChange={(cfp: string) => setCallForPapers(cfp)}
             cfp={callForPapers}
@@ -385,17 +387,15 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
               </div>
               <br />
               <p>{parse(t('pages.abstractSubmission.recaptchaDisclaimer'))}</p>
-              {/* <ReCAPTCHA
-              ref={recaptchaRef}
-              size="invisible"
-              sitekey={reCaptchaSiteKey}
-            /> */}
-              <div className="text-center">
-                {isSubmitAttempted && (!isValid || !!githubError || !!emailError) && (
-                  <p className="text-error">{t('pages.abstractSubmission.errors.submitError')}</p>
-                )}
+              <div className="final-error-container">
+                {isSubmitAttempted &&
+                  (!isValid || !!githubError || !!emailError || !!callForPapersError) && (
+                    <p className="text-error">{t('pages.abstractSubmission.errors.submitError')}</p>
+                  )}
+              </div>
+              <div className="button-group">
                 <button
-                  className="btn btn-outline-dark"
+                  className="download-json-btn btn btn-outline-dark"
                   onClick={(event) => {
                     event.preventDefault() // Prevent form submission
                     handleDownloadJson()
@@ -404,10 +404,10 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
                 >
                   {t('actions.downloadAsJSON')}
                 </button>
+                <ReCAPTCHA ref={recaptchaRef} size="invisible" sitekey={ReCaptchaSiteKey} />
                 <button
                   type="submit"
-                  className="btn btn-primary"
-                  style={{ margin: '2em' }}
+                  className="submit-btn btn btn-primary"
                   data-test="button-submit-form"
                 >
                   {t('actions.submit')}
@@ -420,6 +420,7 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
               errors={validate.errors || []}
               githubError={githubError}
               mailError={emailError}
+              callForPapersError={callForPapersError}
               isSubmitAttempted={isSubmitAttempted}
             />
           </div>

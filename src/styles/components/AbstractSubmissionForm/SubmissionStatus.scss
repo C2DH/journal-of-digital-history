@@ -2,51 +2,29 @@
   position: fixed;
   top: 400px;
   right: 0px; 
-}
-
-.date-submission-badge {
-  width: 230px;
-  justify-content: space-between; 
-}
-
-.date-submission-badge .btn {
-  display: inline-flex; 
-  align-items: center;
-  justify-content: center;
-  padding: 0.375rem 0.75rem;
-  line-height: 1; 
-  height: 33px; 
-  text-align: center; 
-  border: 0.5px solid black;
-  border-radius: 0.25rem;
-  box-sizing: border-box;
-}
-
-
-.date-submission-badge .btn:first-child {
-  background-color: black; 
-  color: white;
-}
-
-.date-submission-badge .btn:last-child {
-  background-color: white;
-  color: black; 
-}
-
-.date-submission-badge .btn:hover {
-  cursor: default; 
+  margin: 0;
+  padding: 2.5rem 1.5rem 2.5rem 1.25rem; 
 }
 
 .submission-status-title {
+  margin: 0 0 1.5rem 1rem;
   font-size: large;
+  font-weight: 700;
+}
+
+.container{
+  margin-bottom: 1rem;
 }
 
 .submission-status-list {
   position: relative;
-  padding-left: 20px;
+  padding-left: 0;
+  list-style: none;
 }
 
 .submission-status-list li {
+  display: flex;
+  align-items: center;
   position: relative;
   padding-left: 10px;
   font-size: 16px;
@@ -66,6 +44,7 @@
 
 .material-symbols-outlined {
   z-index: 1;
+  margin-right: 0.5rem;
 }
 
 .round-icon {

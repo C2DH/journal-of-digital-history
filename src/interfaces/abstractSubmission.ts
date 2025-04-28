@@ -101,6 +101,7 @@ export interface SubmissionStatusCardProps {
   errors: ErrorObject[];
   githubError: string;
   mailError: string;
+  callForPapersError: string;
   isSubmitAttempted: boolean;
 }
 

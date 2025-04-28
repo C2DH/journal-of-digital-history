@@ -30,6 +30,12 @@ export const datasetEmpty = {
 }
 
 export const authorFields = [
+  {
+    label: 'author.primaryContact',
+    fieldname: 'primaryContact',
+    type: 'checkbox',
+    required: false,
+  },
   { label: 'author.firstname', fieldname: 'firstname', placeholder: 'firstname', required: true },
   { label: 'author.lastname', fieldname: 'lastname', placeholder: 'lastname', required: true },
   {
@@ -51,7 +57,7 @@ export const authorFields = [
     placeholder: 'orcidUrl',
     required: true,
     helptext: 'author.orcid.helptext',
-    tootltip: 'orcidUrl',
+    tooltip: 'orcidUrl',
   },
   {
     label: 'author.githubId',
@@ -74,17 +80,11 @@ export const authorFields = [
     placeholder: 'facebookId',
     required: false,
     tooltip: 'facebookId',
-  },
-  {
-    label: 'author.primaryContact',
-    fieldname: 'primaryContact',
-    type: 'checkbox',
-    required: false,
-    tooltip: 'author.primaryContact.tooltip',
-  },
+  }
 ]
 
 export const authorEmpty = {
+  primaryContact: false,
   firstname: '',
   lastname: '',
   affiliation: '',
@@ -93,8 +93,7 @@ export const authorEmpty = {
   orcidUrl: '',
   githubId: '',
   blueskyId: '',
-  facebookId: '',
-  primaryContact: false,
+  facebookId: ''
 }
 
 export const languagePreferenceOptions = [
@@ -113,6 +112,7 @@ export const dateFormat = {
 } as const
 
 export const mandatoryTopFields = [
+  'callForPapers',
   'title',
   'abstract',
   'authors',

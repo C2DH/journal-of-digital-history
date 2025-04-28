@@ -17,6 +17,9 @@
     "jsx": "react-jsx",
     "types": ["vite/client", "vite-plugin-svgr/client"],
     "noImplicitAny": false,
+    "paths": {
+      "react": [ "./node_modules/@types/react" ]
+    }
   },
   "include": ["src", ".storybook"]
 }

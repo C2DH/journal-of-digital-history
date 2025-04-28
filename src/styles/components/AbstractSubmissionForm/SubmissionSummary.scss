@@ -1,8 +1,27 @@
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.container-side-menu{
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+.container-summary{
+  flex: 0 0 75%;
+  max-width: 75%;
+}
+
 .side-menu {
   position: fixed;
   top: 150px;
 }
 
+/* Side menu styles */
 .side-menu a {
   font-size: 1.2rem;
   padding: 5px 10px;
@@ -17,6 +36,30 @@
 
 .side-menu a:hover {
   color: none;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.button-group button {
+  margin-left: 10px;
+}
+
+.call-for-papers {
+  margin-top: 1.5rem;
+}
+
+.authors, .datasets, .repository {
+  margin-top: 3rem;
+}
+
+.column {
+  flex: 0 0 50%;
+  max-width: 50%;
 }
 
 .list-unstyled {

@@ -84,16 +84,18 @@ const FormField = ({
           data-test={`form-control-${id}`}
         />
       )}
-      {missing && error && (
-        <div className="text-error form-text" data-test={`error-message-${id}`}>
-          {t(`pages.abstractSubmission.errors.${id}.${error}`)}
-        </div>
-      )}
-      {type === 'textarea' && (
-        <div className="text-muted ms-auto">
-          {String(value) ? `${String(value).length} / ${schema.properties[id].maxLength}` : ''}
-        </div>
-      )}
+      <div className="d-flex justify-content-between align-items-center">
+        {missing && error && (
+          <div className="text-error form-text" data-test={`error-message-${id}`}>
+            {t(`pages.abstractSubmission.errors.${id}.${error}`)}
+          </div>
+        )}
+        {type === 'textarea' && (
+          <div className="text-muted ms-auto">
+            {String(value) ? `${String(value).length} / ${schema.properties[id].maxLength}` : ''}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

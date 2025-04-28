@@ -23,7 +23,6 @@
   "FormNotebookUrl_GenerateLink": "View notebook as journal article!",
   "FormNotebookUrl_PreviewFingerprint": "View notebook as fingerprint",
   "Navigation_NotebookViewer": "Preview Notebook",
-  "openCallForPapers": "Please select a call for papers",
   "orderBydateAsc": "Sort by publication date, oldest to newest",
   "orderBydateDesc": "Sort by publication date, newest to oldest",
   "orderByissue": "Sort by issue",
@@ -81,7 +80,7 @@
     "abstractSubmission": {
       "title": "Abstract Submission",
       "author": {
-        "explanation": "<span>Please provide the contact information of all authors and contributors. At least one author must provide a <span className='text-accent' > GitHub username </span>, and at least one author must be designated as the <span className='text-accent'> primary contact.</span>These can be different individuals.</span><br/><br/><em>The order of the authors will determine the final sequence in the published article.</em>",
+        "explanation": "<span>Please provide the contact information of all authors and contributors. At least one author must provide a <span className='text-accent' > GitHub username </span>, and at least one author must be designated as the <span className='text-accent'> primary contact.</span> These can be different individuals.</span><br/><br/><em>The order of the authors will determine the final sequence in the published article.</em>",
         "email": "Email Address",
         "confirmEmail": "Confirm email address",
         "name": "Name",
@@ -117,6 +116,7 @@
       "requiredFieldExplanation": "All field marked with an asterisk (*) are required",
       "submissionStatus": {
         "header": "Submission Status",
+        "callForPapers": "Call for papers",
         "title": "Title",
         "abstract": "Abstract",
         "authors": "Authors & Contributors",
@@ -146,7 +146,10 @@
         "githubId": "your-username or username"
       },
       "tooltips": {
-        "githubId": "GitHub username must be a valid GitHub account."
+        "orcidUrl": "Providing an ORCID (Open Researcher and Contributor ID) helps uniquely identify each author and ensures proper attribution of their work.",
+        "githubId": "The Github username will be used to create a repository for your article.",
+        "blueskyId": "When your article is published, we promote it on Bluesky. If you would like to be tagged in our posts, you can provide your username here.",
+        "facebookId": "When your article is published, we promote it on Facebook. If you would like to be tagged in our posts, you can provide your username here."
       },
       "summary": {
         "primaryContact": "Primary contact",
@@ -356,7 +359,7 @@
     "binderUrlNotAvailable": "Binder is not available for this notebook ...",
     "explainCodeNotAvailable": "Code explanation is not available for this notebook. <br/> <i>Error received: {{ error }}</i>"
   },
-  "selectCallForPapers": "Please select the relevant <b>Call for Papers</b><span className='text-accent'> *</span> ",
+  "selectCallForPapers": "Please select a call for papers",
   "openSubmission": "Open submission",
   "numbers": {
     "issue": "Issue n.{{n}}",

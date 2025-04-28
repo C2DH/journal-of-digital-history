@@ -10,11 +10,15 @@ const SubmissionStatusCard = ({
   errors,
   githubError,
   mailError,
+  callForPapersError,
   isSubmitAttempted,
 }: SubmissionStatusCardProps) => {
   const { t } = useTranslation()
 
   const errorHeaders = requiredFieldErrors(errors)
+  if(callForPapersError) {
+    addErrorToSection(errorHeaders, 'callForPapers')
+  }
   if (githubError) {
     addErrorToSection(errorHeaders, 'github')
   }
@@ -24,20 +28,20 @@ const SubmissionStatusCard = ({
   const topLevelErrors = Array.from(errorHeaders)
 
   return (
-    <div className="submission-status-card m-0 pe-6 py-10 ps-5">
-      <div className="fw-bold mb-4 submission-status-title">
+    <div className="submission-status-card">
+      <div className="submission-status-title">
         <span>{t('pages.abstractSubmission.submissionStatus.header')}</span>
       </div>
-      <div className="mb-3">
-        <ul className="list-unstyled submission-status-list">
+      <div className="container">
+        <ul className="submission-status-list">
           {mandatoryTopFields.map((section) => {
             const hasError = topLevelErrors.includes(section)
             const submissionError = isSubmitAttempted && hasError
 
             return (
-              <li key={section} className="d-flex align-items-center position-relative">
+              <li key={section} >
                 <span
-                  className={`me-2 material-symbols-outlined  ${
+                  className={`material-symbols-outlined ${
                     submissionError ? 'text-error' : 'text-success'
                   }`}
                 >

@@ -22,47 +22,44 @@ const SubmissionSummary = ({
   }
 
   return (
-    <div className="container my-5 text-start">
+    <div className="container">
       <div className="row">
-        <div className="col-md-3">
+        <div className="container-side-menu" data-test="side-menu">
           <SideMenu
             activeSection={activeSection}
             onMenuClick={handleMenuClick}
             menuItems={menuItems}
           />
         </div>
-        <div className="col-md-9">
+        <div className="container-summary">
           <section id="informationSubmitted">
-            <h1>{t('pages.abstractSubmitted.title')}</h1>
+            <h1 data-test="header">{t('pages.abstractSubmitted.title')}</h1>
             <p>{t('pages.abstractSubmitted.heading')}</p>
             <p>{parse(t('pages.abstractSubmitted.moreInfo'))}</p>
             <br />
-            <div className="d-flex justify-content-end mt-4">
+            <div className="button-group" data-test="summary-button-group">
               <button className="btn btn-primary" onClick={navigateBack}>
                 {t('actions.submitAnotherAbstract')}
               </button>
-              <button
-                className="btn btn-outline-dark"
-                onClick={handleDownloadJson}
-                style={{ marginLeft: '10px' }}
-              >
+              <button className="btn btn-outline-dark" onClick={handleDownloadJson}>
                 {t('actions.downloadAsJSON')}
               </button>
             </div>
-            <div className="my-5"></div>
             <hr />
           </section>
           <section id="titleAndAbstract">
-            <h2>{formData.title}</h2>
-            <p>{formData.abstract}</p>
+            <h2 data-test="title">{formData.title}</h2>
+            <p data-test="abstract">{formData.abstract}</p>
           </section>
-          <section id="callForPapers" className="mt-4">
-            <span className='text-bold'>
+          <section id="callForPapers" className="call-for-papers" data-test="call-for-papers">
+            <span>
               <b>Call for papers :</b>{' '}
-              {formData.callForPapers ? formData.callForPapers : 'Open call for papers'}
+              {formData.callForPapers === 'openSubmission'
+                ? 'Open submission'
+                : formData.callForPapers}
             </span>
           </section>
-          <section id="authors" className="mt-5">
+          <section id="authors" className="authors" data-test="authors">
             <h2>{t('pages.abstractSubmission.section.authors')}</h2>
             {formData.authors.map((author: any, index: number) => (
               <div key={index} className="info-section">
@@ -74,7 +71,7 @@ const SubmissionSummary = ({
                   </div>
                 </span>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="column">
                     {authorFields
                       .filter((field) =>
                         ['affiliation', 'email', 'orcidUrl'].includes(field.fieldname),
@@ -87,7 +84,7 @@ const SubmissionSummary = ({
                         </p>
                       ))}
                   </div>
-                  <div className="col-md-6">
+                  <div className="column">
                     {authorFields
                       .filter((field) =>
                         ['githubId', 'facebookId', 'blueskyId', 'primaryContact'].includes(
@@ -115,7 +112,7 @@ const SubmissionSummary = ({
               </div>
             ))}
           </section>
-          <section id="datasets" className="mt-5">
+          <section id="datasets" className="datasets" data-test="datasets">
             <h2>{t('pages.abstractSubmission.section.datasets')}</h2>
             {formData.datasets.map((dataset: any, index: number) => (
               <div key={index} className="info-section progressiveHeading">
@@ -134,7 +131,7 @@ const SubmissionSummary = ({
               </div>
             ))}
           </section>
-          <section id="repository" className="mt-5">
+          <section id="repository" className="repository" data-test="repository">
             <h2>{t('pages.abstractSubmission.section.repository')}</h2>
             <p>
               <strong>{t('pages.abstractSubmission.languagePreference')}:</strong>{' '}

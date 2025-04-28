@@ -8,6 +8,17 @@
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
+.input-group-custom {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  text-align: center; 
+}
+
+.form-group{
+  margin: 0.25rem 0;
+}
+
 .form-control::placeholder {
   color: lightgray;
   font-style: italic;
@@ -19,30 +30,25 @@
 
 .fields-area {
     width: 100%;
-    margin-top: 0.5rem;
+    margin-top: 0rem;
 }
 
-
-.tooltip-icon {
-  display: inline-block;
-  font-size: 24px;
-  text-align: center;
-  cursor: pointer;
-  position: relative;
+.custom-tooltip {
+  max-width: 250px;
+  white-space: normal; 
+  word-wrap: break-word; 
+  overflow-wrap: break-word;
+  text-align: left;
 }
 
-.tooltip-icon:hover::after {
-  font-family: 'Fira Sans', sans-serif;
-  content: attr(data-tooltip);
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-20%);
-  background-color: var(--dark);
-  color: var(--white);
-  padding: 10px 20px;
-  border-radius: 4px;
-  white-space: nowrap;
-  font-size: 14px;
-  z-index: 10;
+.empty-space{
+  height: 40px;
+  width: 40px;
+}
+
+@media (max-width: 768px) {
+  .custom-tooltip {
+    font-size: 16px; 
+    max-width: 200px; 
+  }
 }

@@ -1,0 +1,38 @@
+.final-error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2%;
+}
+
+.button-group {
+  padding: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 1010px) {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  @media (min-width: 1200px) {
+    flex-direction: row;
+  }
+}
+
+.submit-btn {
+  margin-left: 2rem;
+}
+
+.submit-btn,
+.download-json-btn {
+  padding: 0.5rem 1rem;
+  font-size: 1.1rem;
+
+  @media (max-width: 1010px) {
+    width: 400px;
+    margin-left: 0px;
+    font-size: 1.3rem;
+  }
+}

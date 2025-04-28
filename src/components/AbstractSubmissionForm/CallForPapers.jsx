@@ -46,10 +46,10 @@ const AbstractSubmissionCallForPapers = ({
     cfp === 'openSubmission'
       ? t('openSubmission')
       : cfp.length
-      ? listStatus === StatusSuccess
-        ? listOfCfps?.find((item) => item.folder_name === cfp)?.title || t('loading')
+      ? statusListofCfps === StatusSuccess
+        ? listOfCfps.results.find((item) => item.folder_name === cfp)?.title || t('loading')
         : t('loading')
-      : t('openCallForPapers')
+      : t('selectCallForPapers')
 
   return (
     <Row className="AbstractSubmissionCallForPapers">
@@ -62,18 +62,19 @@ const AbstractSubmissionCallForPapers = ({
             title={dropdownButtonTitle}
             variant="outline-accent"
             size="sm"
+            data-test="form-select-callForPapers"
           >
             <Dropdown.Item
               className={`please-select ${cfp === '' ? 'disabled-option' : ''}`}
               active={cfp === ''}
               onClick={() => onChange('')}
             >
-              <span>{t('openCallForPapers')}</span>
+              <span>{t('selectCallForPapers')}</span>
             </Dropdown.Item>
             <Dropdown.Item
               className="open-submission"
-              // active={cfp === 'openSubmission'}
               onClick={() => onChange('openSubmission')}
+              data-test="form-select-callForPapers-openSubmission"
             >
               <span>{t('openSubmission')}</span>
             </Dropdown.Item>
@@ -90,7 +91,8 @@ const AbstractSubmissionCallForPapers = ({
           </DropdownButton>
           <span className="ms-2 text-accent">*</span>
         </div>
-        {cfp.length > 0 && listOfCfps && (
+        <br />
+        {cfp.length > 0 && cfp !== 'openSubmission' && (
           <div className="AbstractSubmissionCallForPapers_reel">
             {status === StatusSuccess ? (
               <div className="AbstractSubmissionCallForPapers_cfp">
