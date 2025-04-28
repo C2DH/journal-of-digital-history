@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import parse from 'html-react-parser'
 
+import Tooltip from '../Tooltip/Tooltip'
 import { getErrorByItemAndByField } from '../../logic/errors'
 import {
   DynamicFormItem,
@@ -164,24 +164,7 @@ const DynamicForm = ({
                             data-test={`form-control-${id}-${fieldname}-${index}`}
                           />
                           {tooltip && (
-                            <OverlayTrigger
-                              placement={tooltipPlacement}
-                              overlay={
-                                <Tooltip
-                                  id={`tooltip-${fieldname}-${index}`}
-                                  className="custom-tooltip"
-                                >
-                                  {t(`pages.abstractSubmission.tooltips.${tooltip}`)}
-                                </Tooltip>
-                              }
-                            >
-                              <span
-                                className="material-symbols-outlined ms-2"
-                                style={{ cursor: 'pointer' }}
-                              >
-                                help
-                              </span>
-                            </OverlayTrigger>
+                            <Tooltip tooltip={`pages.abstractSubmission.tooltips.${tooltip}`} fieldname={fieldname} index={index} />
                           )}
                           {!tooltip && <div className="empty-space"></div>}
                         </div>

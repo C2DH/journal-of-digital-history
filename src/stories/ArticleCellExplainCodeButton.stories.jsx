@@ -6,7 +6,7 @@ import ArticleCellExplainCodeButton, {
 import ArticleCellRunCodeButton from '../components/ArticleV3/ArticleCellRunCodeButton'
 
 export default {
-  title: 'ArticleCell EXPLAIN CODE button',
+  title: 'ArticleV3/Cell/ExplainCodeButton',
   component: ArticleCellExplainCodeButton,
   argTypes: {
     status: {

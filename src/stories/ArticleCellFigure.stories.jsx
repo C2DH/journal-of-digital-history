@@ -8,10 +8,10 @@ import ArticleCellContent from '../components/Article/ArticleCellContent'
 import ArticleCellFigure from '../components/Article/ArticleCellFigure'
 import { image5 } from './fixtures/images'
 
-// Stories for hoks and methds, following Josh Farrant https://farrant.me/posts/documenting-react-hooks-with-storybook
+// Stories for hooks and methods, following Josh Farrant https://farrant.me/posts/documenting-react-hooks-with-storybook
 // accessed 04 01 2023
 export default {
-  title: 'ArticleCellFigure',
+  title: 'Article/Cell/Figure',
   component: ArticleCellFigure,
   argTypes: {
     figure: { required: true, control: { type: 'object' }, defaultValue: {} },
@@ -21,7 +21,7 @@ export default {
 
 const Template = ({ figure, content, outputs, metadata }) => (
   <BrowserRouter>
-    <QueryParamProvider adapter={ReactRouter6Adapter}> 
+    <QueryParamProvider adapter={ReactRouter6Adapter}>
       <ArticleCellFigure figure={figure} outputs={outputs} metadata={metadata}>
         <ArticleCellContent content={content} idx={figure.idx} />
       </ArticleCellFigure>
@@ -62,8 +62,7 @@ Default.args = {
   outputs: [
     {
       data: {
-        'image/jpeg':
-          image5,
+        'image/jpeg': image5,
         'text/plain': ['<IPython.core.display.Image object>'],
       },
       metadata: {

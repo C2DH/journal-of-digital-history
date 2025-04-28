@@ -7,9 +7,8 @@ import ArticleToC from '../components/ArticleV3/ArticleToC'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import { image3, image4 } from './fixtures/images'
 
-
 export default {
-  title: 'ArticleV3/ArticleToC',
+  title: 'ArticleV3/Table of Contents',
   component: ArticleToC,
   argTypes: {
     metadata: { control: { type: 'object' }, defaultValue: {} },
@@ -24,7 +23,7 @@ const Template = ({ cells, metadata }) => {
   })
   return (
     <BrowserRouter>
-      <QueryParamProvider adapter={ReactRouter6Adapter}> 
+      <QueryParamProvider adapter={ReactRouter6Adapter}>
         <div className="w-100 d-flex">
           <ArticleToC
             width={100}
