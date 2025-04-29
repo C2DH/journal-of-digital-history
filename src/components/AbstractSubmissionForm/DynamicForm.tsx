@@ -164,14 +164,19 @@ const DynamicForm = ({
                             data-test={`form-control-${id}-${fieldname}-${index}`}
                           />
                           {tooltip && (
-                            <Tooltip tooltip={`pages.abstractSubmission.tooltips.${tooltip}`} fieldname={fieldname} index={index} />
+                            <Tooltip
+                              tooltip={`pages.abstractSubmission.tooltips.${tooltip}`}
+                              tooltipPlacement={tooltipPlacement}
+                              fieldname={fieldname}
+                              index={index}
+                            />
                           )}
                           {!tooltip && <div className="empty-space"></div>}
                         </div>
                       )}
                       <div
                         className="text-error form-text"
-                        data-test={`error-message-${id}-${fieldname}`}
+                        data-test={`error-message-${id}-${fieldname}-${index}`}
                       >
                         {fieldname === 'confirmEmail' && confirmEmailError
                           ? t('pages.abstractSubmission.errors.confirmEmailMismatch')
@@ -196,7 +201,7 @@ const DynamicForm = ({
               )}
             </div>
             <div className="action-buttons">
-              {index > 0 && (
+              {index > 0 || id === "datasets" && (
                 <CloseButtonItem
                   index={index}
                   onRemove={(index) => {

@@ -21,6 +21,7 @@ import {
   ErrorField,
   SubmitHandler,
   GithubIdValidationHandler,
+  AbstractSubmittedBackEnd,
 } from '../../interfaces/abstractSubmission'
 import { submissionFormSchema } from '../../schemas/abstractSubmission'
 import DynamicForm from './DynamicForm'
@@ -136,14 +137,12 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
       })
       return
     } else {
-      localStorage.setItem('formData', JSON.stringify(formData))
-      // navigate('/en/abstract-submitted', { state: { data: formData } });
-
       createAbstractSubmission({ item: formData, token: recaptchaToken })
-        .then((res: { status: number }) => {
+        .then((res: { status: number, data: AbstractSubmittedBackEnd }) => {
           if (res?.status === 200 || res?.status === 201) {
             console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
-            navigate('/en/abstract-submitted', { state: { data: formData } })
+            localStorage.setItem('formData', JSON.stringify(res.data))
+            navigate('/en/abstract-submitted', { state: { data: res.data } })
           }
         })
         .catch((err: any) => {

@@ -34,19 +34,9 @@ const ErrorViewer = ({ error = {}, language = 'python', className = 'page', chil
           <div className="alert alert-warning" role="alert">
             page: <b>{window.location.pathname}</b>
             <br />
-            {error.message}
+            error message: <b>{error.response.data.message}</b>
           </div>
-
-          <pre
-            className="hljs d-block text-wrap"
-            style={{
-              whiteSpace: 'pre-wrap',
-              wordBreak: 'break-word',
-              overflowWrap: 'break-word',
-              fontFamily: 'monospace',
-            }}
-            data-test="error-message"
-          >
+          <pre className="hljs" data-test="error-message">
             {cleanError.split('\n').map((line, index) => (
               <div key={index}>{parse(hljs.highlight(language, line).value)}</div>
             ))}

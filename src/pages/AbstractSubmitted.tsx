@@ -11,7 +11,7 @@ const AbstractSubmitted = () => {
   const handleDownloadJson = () => {
     const json = JSON.stringify(formData, null, 2)
     const blob = new Blob([json], { type: 'application/json' })
-    const dateNow = formData.dateLastModified.toString().split('T')[0]
+    const dateNow = new Date().toISOString().slice(0, 10)
     const fileName = `jdh-abstract-submission-${dateNow}.json`
     const url = URL.createObjectURL(blob)
     const link = document.createElement('a')

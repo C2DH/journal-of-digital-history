@@ -81,7 +81,7 @@
     "abstractSubmission": {
       "title": "Abstract Submission",
       "author": {
-        "explanation": "<span>Please provide the contact information of all authors and contributors. At least one author must provide a <span className='text-accent' > GitHub username </span>, and at least one author must be designated as the <span className='text-accent'> primary contact.</span> These can be different individuals.</span><br/><br/><em>The order of the authors will determine the final sequence in the published article.</em>",
+        "explanation": "<span>Please provide the contact information of all authors and contributors. At least one author must provide a <span className='text-accent' > GitHub username </span> and one author must be designated as the <span className='text-accent'> primary contact.</span> These can be different individuals.</span><br/><br/><em>The order of the authors will determine the final sequence in the published article.</em>",
         "email": "Email Address",
         "confirmEmail": "Confirm email address",
         "name": "Name",
@@ -98,7 +98,8 @@
         "github": {
           "helptext": "Don't have a GitHub account yet? Create one at <a href=\"https://github.com/\" target=\"_blank\" rel=\"noopener noreferrer\">github.com</a> for free!"
         },
-        "primaryContact": "<em className='text-accent'>Use this author as primary contact<em className='text-accent'> "
+        "primaryContact": "<em className='text-accent'>Use this author as primary contact<em className='text-accent'> ",
+        "notProvided": "not provided"
       },
       "languagePreference": "Programming language for Github repository",
       "article": {
@@ -109,7 +110,8 @@
       "dataset": {
         "explanation": "If you wish to share your data, please provide a description. Include details about your findings, the tools or methods used, and any potential biases.",
         "link": "Link",
-        "description": "Description, License (where applicable)"
+        "description": "Description, License (where applicable)",
+        "notProvided": "not provided"
       },
       "repository": {
         "explanation": "Once your abstract is accepted, we will create a dedicated repository for your article on Github. This repository includes a structured template and Github actions to streamline the writing process."
@@ -153,10 +155,12 @@
         "facebookId": "When your article is published, we promote it on Facebook. If you would like to be tagged in our posts, you can provide your username here."
       },
       "summary": {
+        "callForPapers": "Call for papers",
         "primaryContact": "Primary contact",
         "primaryContactYes": "Yes",
         "primaryContactNo": "No",
-        "notProvided": "not provided"
+        "notProvided": "not provided",
+        "openSubmission": "Open submission"
       },
       "socialMediaExplanation": "When your article is published, we promote it on Bluesky and Facebook. If you would like to be tagged, you can provide your username(s).",
       "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply.",

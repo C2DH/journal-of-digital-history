@@ -54,9 +54,9 @@ const SubmissionSummary = ({
           <section id="callForPapers" className="call-for-papers" data-test="call-for-papers">
             <span>
               <b>Call for papers :</b>{' '}
-              {formData.callForPapers === 'openSubmission'
-                ? 'Open submission'
-                : formData.callForPapers}
+              {formData.callpaper === null
+                ? t('pages.abstractSubmission.summary.openSubmission')
+                : formData.callpaper}
             </span>
           </section>
           <section id="authors" className="authors" data-test="authors">
@@ -112,30 +112,26 @@ const SubmissionSummary = ({
               </div>
             ))}
           </section>
-          <section id="datasets" className="datasets" data-test="datasets">
-            <h2>{t('pages.abstractSubmission.section.datasets')}</h2>
-            {formData.datasets.map((dataset: any, index: number) => (
-              <div key={index} className="info-section progressiveHeading">
-                {datasetFields.map((field) => (
-                  <p key={field.fieldname}>
-                    {field.fieldname === 'link' ? (
-                      <strong>
-                        {dataset[field.fieldname] ||
-                          t('pages.abstractSubmission.dataset.notProvided')}
-                      </strong>
-                    ) : (
-                      dataset[field.fieldname] || t('pages.abstractSubmission.dataset.notProvided')
-                    )}
+          {formData.datasets.length > 0 && (
+            <section id="datasets" className="datasets" data-test="datasets">
+              <h2>{t('pages.abstractSubmission.section.datasets')}</h2>
+              {formData.datasets.map((dataset: any, index: number) => (
+                <div key={index} className="info-section progressiveHeading">
+                  <p>
+                    <strong>{dataset.url || t('pages.abstractSubmission.dataset.notProvided')} </strong>
                   </p>
-                ))}
-              </div>
-            ))}
-          </section>
+                  <p>
+                    {dataset.description || t('pages.abstractSubmission.dataset.notProvided')}
+                  </p>
+                </div>
+              ))}
+            </section>
+          )}
           <section id="repository" className="repository" data-test="repository">
             <h2>{t('pages.abstractSubmission.section.repository')}</h2>
             <p>
               <strong>{t('pages.abstractSubmission.languagePreference')}:</strong>{' '}
-              {formData.languagePreference}
+              {formData.language_preference}
             </p>
           </section>
         </div>

@@ -20,13 +20,10 @@ export enum LanguagePreference {
   R = 'R',
   DEFAULT = 'Default',
 }
-
-
 export interface Dataset {
   link: string;
   description: string;
 }
-
 export interface Author {
   firstname: string;
   lastname: string;
@@ -39,6 +36,45 @@ export interface Author {
   facebookId?: string;
   primaryContact: boolean;
 }
+
+//Interface for formData from the back-end
+export interface AbstractSubmittedBackEnd {
+  id: number;
+  pid: string;
+  title: string;
+  abstract: string;
+  callpaper: string | null;
+  submitted_date: string;
+  validation_date: string | null;
+  language_preference: string;
+  contact_affiliation: string;
+  contact_email: string;
+  contact_lastname: string;
+  contact_firstname: string;
+  status: string;
+  consented: boolean;
+  authors: Author[];
+  datasets: Dataset[];
+}
+export interface AuthorBackEnd {
+  id: number;
+  lastname: string;
+  firstname: string;
+  affiliation: string;
+  orcid: string;
+  city: string | null;
+  country: string;
+  github_id: string;
+  bluesky_id: string;
+  facebook_id: string;
+}
+export interface DatasetBackEnd {
+  id: number;
+  url: string;
+  description: string;
+}
+
+
 
 // Validation and Error Interfaces
 export interface ValidationErrors {
@@ -107,7 +143,7 @@ export interface SubmissionStatusCardProps {
 
 // Abstract Submission Interfaces
 export interface AbstractSubmittedProps {
-  formData: FormData;
+  formData: AbstractSubmittedBackEnd;
   handleDownloadJson: ActionHandler;
   navigateBack: NavigateBackHandler;
 }
