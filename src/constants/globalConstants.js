@@ -251,7 +251,7 @@ export const DisplayLayerHeightQueryParam = 'lh'
 export const DisplayLayerSectionParam = 's'
 // article status
 export const ArticleStatusPublished = 'PUBLISHED'
-export const ArticleStatusDraft = 'Draft'
+export const ArticleStatusDraft = 'DRAFT'
 // article component version
 export const ArticleVersionQueryParam = 'v'
 

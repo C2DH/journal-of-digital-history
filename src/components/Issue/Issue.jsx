@@ -19,7 +19,7 @@ const Issue = ({
   const isOpen = useRef(false)
 
   const [{ height }, api] = useSpring(() => ({ height: 0 }))
-  const label = item.pid.replace(/jdh0+(\d+)/, (m, n) => t('numbers.issue', { n }))
+  const label = item.pid?.replace(/jdh0+(\d+)/, (m, n) => t('numbers.issue', { n }))
 
   const activeClass = isInFilterMode && numSelectedArticles > 0 ? 'active' : ''
   const disabledClass = isInFilterMode && numSelectedArticles < 1 ? 'disabled' : ''
@@ -67,7 +67,11 @@ const Issue = ({
         ) : null}
         {!isInFilterMode && numArticles > 0 ? (
           <>
-            &nbsp; &mdash; &nbsp;
+            {label &&
+              <>
+                &nbsp; &mdash; &nbsp;
+              </>
+            }
             <div
               className="d-inline-block Issue__numArticles"
               dangerouslySetInnerHTML={{ __html: t('numbers.articlesInIssue', { n: numArticles }) }}

@@ -10,6 +10,9 @@ export const MethodReset = 'reset'
 
 const reductor = (fn, selected, isActive) => (acc, item, idx) => {
   const key = fn(item)
+
+  if (key === null) return acc;
+
   if (Array.isArray(key)) {
     key.forEach((k) => {
       if (!acc[k]) {
