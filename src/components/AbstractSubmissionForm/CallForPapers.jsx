@@ -4,7 +4,7 @@ import { Row, Col, DropdownButton, Dropdown } from 'react-bootstrap'
 
 import { useGetJSON } from '../../logic/api/fetchData'
 import LangLink from '../LangLink'
-import { StatusSuccess, BootstrapColumLayout } from '../../constants/globalConstants'
+import { StatusSuccess } from '../../constants/globalConstants'
 
 import '../../styles/components/AbstractSubmissionForm/CallForPapers.scss'
 

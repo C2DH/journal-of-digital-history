@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import parse from 'html-react-parser'
 
 import { AbstractSubmittedProps } from '../../interfaces/abstractSubmission'
 import SideMenu from './SideMenu'
-import { menuItems } from '../../constants/abstractSubmissionSummary'
-import { authorFields, datasetFields } from '../../constants/abstractSubmissionForm'
+import { menuItems, menuItemsWithNoDatasets } from '../../constants/abstractSubmissionSummary'
 
 import '../../styles/components/AbstractSubmissionForm/SubmissionSummary.scss'
 
@@ -28,7 +27,7 @@ const SubmissionSummary = ({
           <SideMenu
             activeSection={activeSection}
             onMenuClick={handleMenuClick}
-            menuItems={menuItems}
+            menuItems={formData.datasets?.length === 0 ?  menuItemsWithNoDatasets : menuItems}
           />
         </div>
         <div className="container-summary">
@@ -61,7 +60,7 @@ const SubmissionSummary = ({
           </section>
           <section id="authors" className="authors" data-test="authors">
             <h2>{t('pages.abstractSubmission.section.authors')}</h2>
-            {formData.authors.map((author: any, index: number) => (
+            {formData.authors?.map((author: any, index: number) => (
               <div key={index} className="info-section">
                 <span className="progressiveHeading author-name">
                   <div key={index} className="info-section">
@@ -72,57 +71,55 @@ const SubmissionSummary = ({
                 </span>
                 <div className="row">
                   <div className="column">
-                    {authorFields
-                      .filter((field) =>
-                        ['affiliation', 'email', 'orcidUrl'].includes(field.fieldname),
-                      )
-                      .map((field) => (
-                        <p key={field.fieldname}>
-                          <strong>{parse(t(`pages.abstractSubmission.${field.label}`))}:</strong>{' '}
-                          {author[field.fieldname] ||
-                            t('pages.abstractSubmission.author.notProvided')}
-                        </p>
-                      ))}
+                    <p>
+                      <strong>{t('pages.abstractSubmission.author.affiliation')}:</strong>{' '}
+                      {author.affiliation || t('pages.abstractSubmission.author.notProvided')}
+                    </p>
+                    <p>
+                      <strong>{t('pages.abstractSubmission.author.email')}:</strong>{' '}
+                      {author.email || t('pages.abstractSubmission.author.notProvided')}
+                    </p>
+                    <p>
+                      <strong>{t('pages.abstractSubmission.author.orcidUrl')}:</strong>{' '}
+                      {author.orcid || t('pages.abstractSubmission.author.notProvided')}
+                    </p>
                   </div>
                   <div className="column">
-                    {authorFields
-                      .filter((field) =>
-                        ['githubId', 'facebookId', 'blueskyId', 'primaryContact'].includes(
-                          field.fieldname,
-                        ),
-                      )
-                      .map((field) => (
-                        <p key={field.fieldname}>
-                          <strong>
-                            {field.fieldname === 'primaryContact'
-                              ? t('pages.abstractSubmission.summary.primaryContact')
-                              : parse(t(`pages.abstractSubmission.${field.label}`))}
-                            :
-                          </strong>{' '}
-                          {field.fieldname === 'primaryContact'
-                            ? author[field.fieldname]
-                              ? t('pages.abstractSubmission.summary.primaryContactYes')
-                              : t('pages.abstractSubmission.summary.primaryContactNo')
-                            : author[field.fieldname] ||
-                              t('pages.abstractSubmission.summary.notProvided')}
-                        </p>
-                      ))}
+                    <p>
+                      <strong>{t('pages.abstractSubmission.author.githubId')}:</strong>{' '}
+                      {author.github_id || t('pages.abstractSubmission.author.notProvided')}
+                    </p>
+                    <p>
+                      <strong>{t('pages.abstractSubmission.author.facebookId')}:</strong>{' '}
+                      {author.facebook_id || t('pages.abstractSubmission.author.notProvided')}
+                    </p>
+                    <p>
+                      <strong>{t('pages.abstractSubmission.author.blueskyId')}:</strong>{' '}
+                      {author.bluesky_id || t('pages.abstractSubmission.author.notProvided')}
+                    </p>
+                    <p>
+                      <strong>{t('pages.abstractSubmission.summary.primaryContact')}:</strong>{' '}
+                      {author.firstname === formData.contact_firstname
+                        ? t('pages.abstractSubmission.summary.primaryContactYes')
+                        : t('pages.abstractSubmission.summary.primaryContactNo')}
+                    </p>
+                    <br/>
                   </div>
                 </div>
               </div>
             ))}
           </section>
-          {formData.datasets.length > 0 && (
+          {formData.datasets?.length > 0 && (
             <section id="datasets" className="datasets" data-test="datasets">
               <h2>{t('pages.abstractSubmission.section.datasets')}</h2>
-              {formData.datasets.map((dataset: any, index: number) => (
+              {formData.datasets?.map((dataset: any, index: number) => (
                 <div key={index} className="info-section progressiveHeading">
                   <p>
-                    <strong>{dataset.url || t('pages.abstractSubmission.dataset.notProvided')} </strong>
+                    <strong>
+                      {dataset.url || t('pages.abstractSubmission.dataset.notProvided')}{' '}
+                    </strong>
                   </p>
-                  <p>
-                    {dataset.description || t('pages.abstractSubmission.dataset.notProvided')}
-                  </p>
+                  <p>{dataset.description || t('pages.abstractSubmission.dataset.notProvided')}</p>
                 </div>
               ))}
             </section>

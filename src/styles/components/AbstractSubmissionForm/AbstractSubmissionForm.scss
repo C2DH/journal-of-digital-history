@@ -1,3 +1,21 @@
+.abstract-submission-form {
+  margin-left: 17%;
+  
+  @media (max-width: 768px) {
+    margin-left:5%;
+  }
+}
+.submission-form{
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  
+  width: 50%;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
 .final-error-container {
   display: flex;
   justify-content: center;
@@ -5,7 +23,7 @@
   padding: 2%;
 }
 
-.button-group {
+.submit-button-group {
   padding: 5%;
   display: flex;
   justify-content: center;

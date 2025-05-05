@@ -93,3 +93,25 @@
     display: none;
   }
 }
+
+@media (max-width: 768px) { 
+  .authors .datasets .row {
+    display: flex;
+    flex-direction: column;
+  }
+  .authors .datasets .column {
+    flex: 0 0 100%; 
+    max-width: 100%;
+  }
+  .info-section p {
+    margin-bottom: 0.5rem;
+    word-wrap: break-word;   
+  }
+  .container-side-menu{
+    display: none;
+  }
+  .container-summary{
+   box-sizing: content-box;
+   margin-top: 2rem;
+  }
+}

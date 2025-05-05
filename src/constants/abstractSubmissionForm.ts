@@ -35,16 +35,36 @@ export const authorFields = [
     fieldname: 'primaryContact',
     type: 'checkbox',
     required: false,
+    backend: '',
   },
-  { label: 'author.firstname', fieldname: 'firstname', placeholder: 'firstname', required: true },
-  { label: 'author.lastname', fieldname: 'lastname', placeholder: 'lastname', required: true },
+  {
+    label: 'author.firstname',
+    fieldname: 'firstname',
+    placeholder: 'firstname',
+    required: true,
+    backend: 'firstname',
+  },
+  {
+    label: 'author.lastname',
+    fieldname: 'lastname',
+    placeholder: 'lastname',
+    required: true,
+    backend: 'lastname',
+  },
   {
     label: 'author.affiliation',
     fieldname: 'affiliation',
     placeholder: 'affiliation',
     required: true,
+    backend: 'affiliation',
   },
-  { label: 'author.email', fieldname: 'email', placeholder: 'email', required: true },
+  {
+    label: 'author.email',
+    fieldname: 'email',
+    placeholder: 'email',
+    required: true,
+    backend: 'email',
+  },
   {
     label: 'author.confirmEmail',
     fieldname: 'confirmEmail',
@@ -58,6 +78,7 @@ export const authorFields = [
     required: true,
     helptext: 'author.orcid.helptext',
     tooltip: 'orcidUrl',
+    backend: 'orcid',
   },
   {
     label: 'author.githubId',
@@ -66,6 +87,7 @@ export const authorFields = [
     required: false,
     helptext: 'author.github.helptext',
     tooltip: 'githubId',
+    backend: 'github_id',
   },
   {
     label: 'author.blueskyId',
@@ -73,6 +95,7 @@ export const authorFields = [
     placeholder: 'blueskyId',
     required: false,
     tooltip: 'blueskyId',
+    backend: 'bluesky_id',
   },
   {
     label: 'author.facebookId',
@@ -80,7 +103,8 @@ export const authorFields = [
     placeholder: 'facebookId',
     required: false,
     tooltip: 'facebookId',
-  }
+    backend: 'facebook_id',
+  },
 ]
 
 export const authorEmpty = {
@@ -93,7 +117,7 @@ export const authorEmpty = {
   orcidUrl: '',
   githubId: '',
   blueskyId: '',
-  facebookId: ''
+  facebookId: '',
 }
 
 export const languagePreferenceOptions = [

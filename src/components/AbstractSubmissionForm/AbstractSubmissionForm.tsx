@@ -141,6 +141,7 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
         .then((res: { status: number, data: AbstractSubmittedBackEnd }) => {
           if (res?.status === 200 || res?.status === 201) {
             console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
+            console.info('[AbstractSubmissionForm] Response from back-end:', res)
             localStorage.setItem('formData', JSON.stringify(res.data))
             navigate('/en/abstract-submitted', { state: { data: res.data } })
           }
@@ -253,179 +254,175 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
   }
 
   return (
-    <>
-      <div className="callForPaper offset-md-2">
+    <div className="abstract-submission-form">
+      <div className="callForPaper">
         <em className="text-accent">{t('pages.abstractSubmission.requiredFieldExplanation')}</em>
         <br />
         <br />
-        <div className="">
-          <AbstractSubmissionCallForPapers
-            onChange={(cfp: string) => setCallForPapers(cfp)}
-            cfp={callForPapers}
-          />
-          {callForPapersError && isSubmitAttempted && (
-            <p className="text-error ms-3">{t(callForPapersError)}</p>
-          )}
-        </div>
+        <AbstractSubmissionCallForPapers
+          onChange={(cfp: string) => setCallForPapers(cfp)}
+          cfp={callForPapers}
+        />
+        {callForPapersError && isSubmitAttempted && (
+          <p className="text-error ms-3">{t(callForPapersError)}</p>
+        )}
       </div>
-      <div className="container my-5">
-        <div className="row">
-          <div className="col-md-6 offset-md-2 submission-form">
-            <form onSubmit={handleSubmit} className="form">
-              <div className="title-abstract">
-                <h3 className="progressiveHeading">
-                  {t('pages.abstractSubmission.section.titleAndAbstract')}
-                </h3>
-                <p>{t('pages.abstractSubmission.article.abstractHelpText')}</p>
-                <StaticForm
-                  id="title"
-                  label={t('pages.abstractSubmission.article.title')}
-                  placeholder={t('pages.abstractSubmission.placeholder.title')}
-                  required={true}
-                  value={formData.title}
-                  type="textarea"
-                  onChange={handleInputChange}
-                  error={getErrorByField(validate.errors || [], 'title')}
-                  isMissing={missingFields['title']}
-                />
-                <StaticForm
-                  id="abstract"
-                  label={t('pages.abstractSubmission.article.abstract')}
-                  placeholder={t('pages.abstractSubmission.placeholder.abstract')}
-                  required={true}
-                  value={formData.abstract}
-                  type="textarea"
-                  onChange={handleInputChange}
-                  error={getErrorByField(validate.errors || [], 'abstract')}
-                  isMissing={missingFields['abstract']}
-                />
-              </div>
+      <div className="container">
+        <div className="submission-form">
+          <form onSubmit={handleSubmit} className="form">
+            <div className="title-abstract">
+              <h3 className="progressiveHeading">
+                {t('pages.abstractSubmission.section.titleAndAbstract')}
+              </h3>
+              <p>{t('pages.abstractSubmission.article.abstractHelpText')}</p>
+              <StaticForm
+                id="title"
+                label={t('pages.abstractSubmission.article.title')}
+                placeholder={t('pages.abstractSubmission.placeholder.title')}
+                required={true}
+                value={formData.title}
+                type="textarea"
+                onChange={handleInputChange}
+                error={getErrorByField(validate.errors || [], 'title')}
+                isMissing={missingFields['title']}
+              />
+              <StaticForm
+                id="abstract"
+                label={t('pages.abstractSubmission.article.abstract')}
+                placeholder={t('pages.abstractSubmission.placeholder.abstract')}
+                required={true}
+                value={formData.abstract}
+                type="textarea"
+                onChange={handleInputChange}
+                error={getErrorByField(validate.errors || [], 'abstract')}
+                isMissing={missingFields['abstract']}
+              />
+            </div>
+            <hr />
+            <div className="authors">
+              <DynamicForm
+                id="authors"
+                title={t('pages.abstractSubmission.section.authors')}
+                explanation={parse(t('pages.abstractSubmission.author.explanation'))}
+                buttonLabel="addAuthor"
+                fieldConfig={authorFields}
+                items={formData.authors}
+                onChange={(index, field, value) =>
+                  handleOnChangeComponent('authors', index, field, value)
+                }
+                onAdd={() => handleAddComponent('authors', authorEmpty)}
+                onRemove={(index) => handleRemoveComponent('authors', index)}
+                moveItem={(fromIndex, toIndex) =>
+                  handleMoveComponent('authors', fromIndex, toIndex)
+                }
+                errors={validate.errors || []}
+                confirmEmailError={emailError}
+                confirmGithubError={githubError}
+                missingFields={missingFields}
+              />
+            </div>
+            <hr />
+            <div className="repository">
+              <h3 className="progressiveHeading">
+                {t('pages.abstractSubmission.section.repository')}
+              </h3>
+              <p>{t('pages.abstractSubmission.repository.explanation')}</p>
+              <StaticForm
+                id="languagePreference"
+                label={t('pages.abstractSubmission.languagePreference')}
+                required={true}
+                value={formData.languagePreference}
+                type="select"
+                options={languagePreferenceOptions}
+                onChange={handleInputChange}
+                error={getErrorByField(validate.errors || [], 'languagePreference')}
+                isMissing={missingFields['languagePreference']}
+              />
               <hr />
-              <div className="authors">
+              <div className="tools-code-data">
                 <DynamicForm
-                  id="authors"
-                  title={t('pages.abstractSubmission.section.authors')}
-                  explanation={parse(t('pages.abstractSubmission.author.explanation'))}
-                  buttonLabel="addAuthor"
-                  fieldConfig={authorFields}
-                  items={formData.authors}
+                  id="datasets"
+                  title={t('pages.abstractSubmission.section.datasets')}
+                  explanation={t('pages.abstractSubmission.dataset.explanation')}
+                  buttonLabel="addDataset"
+                  fieldConfig={datasetFields}
+                  items={formData.datasets}
                   onChange={(index, field, value) =>
-                    handleOnChangeComponent('authors', index, field, value)
+                    handleOnChangeComponent('datasets', index, field, value)
                   }
-                  onAdd={() => handleAddComponent('authors', authorEmpty)}
-                  onRemove={(index) => handleRemoveComponent('authors', index)}
+                  onAdd={() => handleAddComponent('datasets', datasetEmpty)}
+                  onRemove={(index) => handleRemoveComponent('datasets', index)}
                   moveItem={(fromIndex, toIndex) =>
-                    handleMoveComponent('authors', fromIndex, toIndex)
+                    handleMoveComponent('datasets', fromIndex, toIndex)
                   }
                   errors={validate.errors || []}
-                  confirmEmailError={emailError}
-                  confirmGithubError={githubError}
                   missingFields={missingFields}
                 />
+                <br />
+                <br />
               </div>
-              <hr />
-              <div className="repository">
-                <h3 className="progressiveHeading">
-                  {t('pages.abstractSubmission.section.repository')}
-                </h3>
-                <p>{t('pages.abstractSubmission.repository.explanation')}</p>
-                <StaticForm
-                  id="languagePreference"
-                  label={t('pages.abstractSubmission.languagePreference')}
-                  required={true}
-                  value={formData.languagePreference}
-                  type="select"
-                  options={languagePreferenceOptions}
-                  onChange={handleInputChange}
-                  error={getErrorByField(validate.errors || [], 'languagePreference')}
-                  isMissing={missingFields['languagePreference']}
-                />
-                <hr />
-                <div className="tools-code-data">
-                  <DynamicForm
-                    id="datasets"
-                    title={t('pages.abstractSubmission.section.datasets')}
-                    explanation={t('pages.abstractSubmission.dataset.explanation')}
-                    buttonLabel="addDataset"
-                    fieldConfig={datasetFields}
-                    items={formData.datasets}
-                    onChange={(index, field, value) =>
-                      handleOnChangeComponent('datasets', index, field, value)
-                    }
-                    onAdd={() => handleAddComponent('datasets', datasetEmpty)}
-                    onRemove={(index) => handleRemoveComponent('datasets', index)}
-                    moveItem={(fromIndex, toIndex) =>
-                      handleMoveComponent('datasets', fromIndex, toIndex)
-                    }
-                    errors={validate.errors || []}
-                    missingFields={missingFields}
-                  />
-                  <br />
-                  <br />
-                </div>
-              </div>
-              <div className="form-check d-flex align-items-center">
-                <StaticForm
-                  id="termsAccepted"
-                  label={
-                    <>
-                      {parse(
-                        t('pages.abstractSubmission.termsAcceptance', {
-                          termsUrl: getLocalizedPath('/terms'),
-                        }),
-                      )}
-                    </>
-                  }
-                  required={true}
-                  value={formData.termsAccepted}
-                  type="checkbox"
-                  onChange={handleInputChange}
-                  error={getErrorByField(validate.errors || [], 'termsAccepted')}
-                  isMissing={missingFields['termsAccepted']}
-                />
-              </div>
-              <br />
-              <p>{parse(t('pages.abstractSubmission.recaptchaDisclaimer'))}</p>
-              <div className="final-error-container">
-                {isSubmitAttempted &&
-                  (!isValid || !!githubError || !!emailError || !!callForPapersError) && (
-                    <p className="text-error">{t('pages.abstractSubmission.errors.submitError')}</p>
-                  )}
-              </div>
-              <div className="button-group">
-                <button
-                  className="download-json-btn btn btn-outline-dark"
-                  onClick={(event) => {
-                    event.preventDefault() // Prevent form submission
-                    handleDownloadJson()
-                  }}
-                  data-test="button-download-as-json-form"
-                >
-                  {t('actions.downloadAsJSON')}
-                </button>
-                <ReCAPTCHA ref={recaptchaRef} size="invisible" sitekey={ReCaptchaSiteKey} />
-                <button
-                  type="submit"
-                  className="submit-btn btn btn-primary"
-                  data-test="button-submit-form"
-                >
-                  {t('actions.submit')}
-                </button>
-              </div>
-            </form>
-          </div>
-          <div className="col-lg-3 col-md-4">
-            <SubmissionStatusCard
-              errors={validate.errors || []}
-              githubError={githubError}
-              mailError={emailError}
-              callForPapersError={callForPapersError}
-              isSubmitAttempted={isSubmitAttempted}
-            />
-          </div>
+            </div>
+            <div className="form-check d-flex align-items-center">
+              <StaticForm
+                id="termsAccepted"
+                label={
+                  <>
+                    {parse(
+                      t('pages.abstractSubmission.termsAcceptance', {
+                        termsUrl: getLocalizedPath('/terms'),
+                      }),
+                    )}
+                  </>
+                }
+                required={true}
+                value={formData.termsAccepted}
+                type="checkbox"
+                onChange={handleInputChange}
+                error={getErrorByField(validate.errors || [], 'termsAccepted')}
+                isMissing={missingFields['termsAccepted']}
+              />
+            </div>
+            <br />
+            <p>{parse(t('pages.abstractSubmission.recaptchaDisclaimer'))}</p>
+            <div className="final-error-container">
+              {isSubmitAttempted &&
+                (!isValid || !!githubError || !!emailError || !!callForPapersError) && (
+                  <p className="text-error">{t('pages.abstractSubmission.errors.submitError')}</p>
+                )}
+            </div>
+            <div className="submit-button-group">
+              <button
+                className="download-json-btn btn btn-outline-dark"
+                onClick={(event) => {
+                  event.preventDefault() // Prevent form submission
+                  handleDownloadJson()
+                }}
+                data-test="button-download-as-json-form"
+              >
+                {t('actions.downloadAsJSON')}
+              </button>
+              <ReCAPTCHA ref={recaptchaRef} size="invisible" sitekey={ReCaptchaSiteKey} />
+              <button
+                type="submit"
+                className="submit-btn btn btn-primary"
+                data-test="button-submit-form"
+              >
+                {t('actions.submit')}
+              </button>
+            </div>
+          </form>
+        </div>
+        <div className="col-lg-3 col-md-4">
+          <SubmissionStatusCard
+            errors={validate.errors || []}
+            githubError={githubError}
+            mailError={emailError}
+            callForPapersError={callForPapersError}
+            isSubmitAttempted={isSubmitAttempted}
+          />
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
