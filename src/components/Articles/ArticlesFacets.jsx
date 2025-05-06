@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { IsMobile, ArticleStatusPublished } from '../../constants'
+import { IsMobile, ArticleStatusPublished } from '../../constants/globalConstants'
 import Facets from '../Facets'
 import DimensionGroupListItem from '../Facets/DimensionGroupListItem'
 import IssueLabel from '../Issue/IssueLabel'
@@ -20,31 +20,28 @@ function dimensionThresholdFn(groups, activeGroups) {
 }
 
 function dimensionSortFnAscending(a, b) {
-  return sortKeys(a, b, 'asc');
+  return sortKeys(a, b, 'asc')
 }
 
 function dimensionSortFnDescending(a, b) {
-  return sortKeys(a, b, 'desc');
+  return sortKeys(a, b, 'desc')
 }
 
 function sortKeys(a, b, order) {
-  const isNumericA = /^\d+$/.test(a.key);
-  const isNumericB = /^\d+$/.test(b.key);
+  const isNumericA = /^\d+$/.test(a.key)
+  const isNumericB = /^\d+$/.test(b.key)
 
   if (isNumericA && isNumericB) {
     return order === 'asc'
       ? parseInt(a.key, 10) - parseInt(b.key, 10)
-      : parseInt(b.key, 10) - parseInt(a.key, 10);
+      : parseInt(b.key, 10) - parseInt(a.key, 10)
   }
   if (!isNumericA && !isNumericB) {
-    return order === 'asc'
-      ? a.key.localeCompare(b.key)
-      : b.key.localeCompare(a.key);
+    return order === 'asc' ? a.key.localeCompare(b.key) : b.key.localeCompare(a.key)
   }
   // Mixed case: numeric keys come after string keys
-  return isNumericA ? 1 : -1;
+  return isNumericA ? 1 : -1
 }
-
 
 const TagListItem = (props) => {
   return (
@@ -98,7 +95,7 @@ const Dimensions = [
     name: 'issue',
     sortFn: dimensionSortFnDescending,
     thresholdFn: dimensionThresholdFn,
-    fn: (d) => d.issue.status === ArticleStatusPublished ? d.issue.pid : null,
+    fn: (d) => (d.issue.status === ArticleStatusPublished ? d.issue.pid : null),
     isArray: false,
     ListItem: IssueListItem,
   },

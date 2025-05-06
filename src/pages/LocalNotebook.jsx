@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import { Form, Button, Container, Row, Col } from 'react-bootstrap'
+import { Cpu } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
-import { BootstrapColumLayout } from '../constants'
-import { Form, Button, Container, Row, Col } from 'react-bootstrap'
+
+import { BootstrapColumLayout } from '../constants/globalConstants'
 import { encodeNotebookUrl } from '../logic/notebook'
-import { Cpu } from 'react-feather'
 
 const LocalNotebook = () => {
   const navigate = useNavigate()
@@ -14,7 +15,7 @@ const LocalNotebook = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (value.isValid) {
-      navigate( `/${i18n.language.split('-')[0]}/notebook-viewer/${value.encodedURL}`)
+      navigate(`/${i18n.language.split('-')[0]}/notebook-viewer/${value.encodedURL}`)
     }
   }
 

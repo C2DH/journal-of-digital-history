@@ -3,49 +3,55 @@ import ArticleToC from './ArticleToC'
 import ArticleStream from './ArticleStream'
 import SwitchLayer from '../SwitchLayer'
 import { useBoundingClientRect } from '../../hooks/graphics'
-import { IsMobile } from '../../constants'
+import { IsMobile } from '../../constants/globalConstants'
 
 const ArticleText = ({
   memoid,
   paragraphs,
   headingsPositions,
   onDataHrefClick,
-  className='mt-5',
-  anchorPrefix='',
-  height=0,
-  tocOffset=99,
+  className = 'mt-5',
+  anchorPrefix = '',
+  height = 0,
+  tocOffset = 99,
   disableSwitchLayer,
   hasBibliography,
   binderUrl,
-  emailAddress
+  emailAddress,
 }) => {
   const [bbox, ref] = useBoundingClientRect()
   console.debug('ArticleText useBoundingClientRect():', bbox)
   return (
     <div className={`${className} ArticleText`}>
-      {!IsMobile
-        ? (
-          <div className='ArticleText_toc d-flex border-top border-dark flex-column' style={{
+      {!IsMobile ? (
+        <div
+          className="ArticleText_toc d-flex border-top border-dark flex-column"
+          style={{
             top: tocOffset,
-            height: height - tocOffset
-          }}>
-            {!disableSwitchLayer && <SwitchLayer binderUrl={binderUrl} emailAddress={emailAddress} className="flex-shrink-1 py-3 mb-0"/>}
-            {/* <div className="rounded border border-dark">N</div>*/}
+            height: height - tocOffset,
+          }}
+        >
+          {!disableSwitchLayer && (
+            <SwitchLayer
+              binderUrl={binderUrl}
+              emailAddress={emailAddress}
+              className="flex-shrink-1 py-3 mb-0"
+            />
+          )}
+          {/* <div className="rounded border border-dark">N</div>*/}
 
-              <div className="flex-grow-1 border-bottom mb-3 border-dark" ref={ref}>
-                <ArticleToC
-                  height={bbox.height}
-                  width={bbox.width}
-                  paragraphs={paragraphs}
-                  headingsPositions={headingsPositions}
-                  active
-                  hasBibliograhy={hasBibliography}
-                />
-              </div>
+          <div className="flex-grow-1 border-bottom mb-3 border-dark" ref={ref}>
+            <ArticleToC
+              height={bbox.height}
+              width={bbox.width}
+              paragraphs={paragraphs}
+              headingsPositions={headingsPositions}
+              active
+              hasBibliograhy={hasBibliography}
+            />
           </div>
-        )
-        : null
-      }
+        </div>
+      ) : null}
       <ArticleStream
         memoid={memoid}
         cells={paragraphs}
@@ -56,4 +62,4 @@ const ArticleText = ({
   )
 }
 
-export default ArticleText;
+export default ArticleText

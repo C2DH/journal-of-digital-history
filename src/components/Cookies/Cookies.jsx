@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button, Form, Container } from 'react-bootstrap'
 import { useStore } from '../../store'
-import { TermsOfUseRoute } from '../../constants'
+import { TermsOfUseRoute } from '../../constants/globalConstants'
 import LangLink from '../LangLink'
 import styles from './Cookies.module.scss'
 import { useTimeout } from '../../hooks/timeout'
@@ -48,9 +48,6 @@ const Cookies = ({ defaultAcceptCookies }) => {
         <p className={styles.disclaimer}>
           We uses cookies and other data to deliver, maintain and improve the platform (
           <b>"functional" cookies</b>).
-          {/*
-              <pre style={{color: 'white'}}>{JSON.stringify({acceptCookies, acceptAnalyticsCookies})}</pre>
-            */}
         </p>
         <Form>
           <Form.Switch
@@ -66,7 +63,11 @@ const Cookies = ({ defaultAcceptCookies }) => {
           options later.
         </p>
         <div className="mx-3 my-0 my-md-3">
-          <Button className={styles.AgreeButton} onClick={handleClickAgree}>
+          <Button
+            className={styles.AgreeButton}
+            onClick={handleClickAgree}
+            data-test="cookie-agree-button"
+          >
             Agree
           </Button>
         </div>

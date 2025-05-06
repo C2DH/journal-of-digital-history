@@ -1,6 +1,6 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import { BootstrapColumLayout } from '../../constants'
+import { BootstrapColumLayout } from '../../constants/globalConstants'
 import ArticleCellContent from '../Article/ArticleCellContent'
 import ArticleCellSourceCode from '../Article/ArticleCellSourceCode'
 import { ArrowDown } from 'react-feather'

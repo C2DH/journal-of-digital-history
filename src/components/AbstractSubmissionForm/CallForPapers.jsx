@@ -1,10 +1,12 @@
 import React from 'react'
-import { useGetJSON } from '../logic/api/fetchData'
-import { Row, Col, DropdownButton, Dropdown } from 'react-bootstrap'
-import LangLink from './LangLink'
-import { StatusSuccess, BootstrapColumLayout } from '../constants'
-import '../styles/components/AbstractSubmissionCallForPapers.scss'
 import { useTranslation } from 'react-i18next'
+import { Row, Col, DropdownButton, Dropdown } from 'react-bootstrap'
+
+import { useGetJSON } from '../../logic/api/fetchData'
+import LangLink from '../LangLink'
+import { StatusSuccess } from '../../constants/globalConstants'
+
+import '../../styles/components/AbstractSubmissionForm/CallForPapers.scss'
 
 const AbstractSubmissionCallForPapers = ({
   // cfp is a vaild slug identifier, tested on logic/params.js
@@ -39,25 +41,43 @@ const AbstractSubmissionCallForPapers = ({
     errorListOfCfps,
     statusListofCfps,
   )
-  const dropdownButtonTitle = cfp.length
-    ? statusListofCfps === StatusSuccess
-      ? listOfCfps.results.find((item) => item.folder_name === cfp).title
-      : t('loading')
-    : t('openCallForPapers')
+
+  const dropdownButtonTitle =
+    cfp === 'openSubmission'
+      ? t('openSubmission')
+      : cfp.length
+      ? statusListofCfps === StatusSuccess
+        ? listOfCfps.results.find((item) => item.folder_name === cfp)?.title || t('loading')
+        : t('loading')
+      : t('selectCallForPapers')
 
   return (
     <Row className="AbstractSubmissionCallForPapers">
-      <Col {...BootstrapColumLayout}>
-        <div className="mb-3">
-          <label dangerouslySetInnerHTML={{ __html: t('selectCallForPapers') }} />
+      <Col>
+        <div className="dropdown-container d-flex align-items-center">
           <DropdownButton
-            disabled={statusListofCfps !== StatusSuccess}
+            // disabled={statusListofCfps !== StatusSuccess}
             id="dropdown-basic-button"
             onChange={onChange}
             title={dropdownButtonTitle}
             variant="outline-accent"
             size="sm"
+            data-test="form-select-callForPapers"
           >
+            <Dropdown.Item
+              className={`please-select ${cfp === '' ? 'disabled-option' : ''}`}
+              active={cfp === ''}
+              onClick={() => onChange('')}
+            >
+              <span>{t('selectCallForPapers')}</span>
+            </Dropdown.Item>
+            <Dropdown.Item
+              className="open-submission"
+              onClick={() => onChange('openSubmission')}
+              data-test="form-select-callForPapers-openSubmission"
+            >
+              <span>{t('openSubmission')}</span>
+            </Dropdown.Item>
             {statusListofCfps === StatusSuccess &&
               listOfCfps.results.map((item, i) => (
                 <Dropdown.Item
@@ -68,12 +88,11 @@ const AbstractSubmissionCallForPapers = ({
                   <span>{item.title}</span>
                 </Dropdown.Item>
               ))}
-            <Dropdown.Item active={cfp === ''} onClick={() => onChange(undefined)}>
-              <span>{t('openCallForPapers')}</span>
-            </Dropdown.Item>
           </DropdownButton>
+          <span className="ms-2 text-accent">*</span>
         </div>
-        {cfp.length > 0 && (
+        <br />
+        {cfp.length > 0 && cfp !== 'openSubmission' && (
           <div className="AbstractSubmissionCallForPapers_reel">
             {status === StatusSuccess ? (
               <div className="AbstractSubmissionCallForPapers_cfp">

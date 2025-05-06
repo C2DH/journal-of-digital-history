@@ -7,7 +7,11 @@ import LangLink from '../LangLink'
 import { Badge } from 'react-bootstrap'
 import { useBoundingClientRect } from '../../hooks/graphics'
 import { extractMetadataFromArticle, stripHtml } from '../../logic/api/metadata'
-import { IsMobile, IsPrettyRecentTagName, ArticleStatusPublished } from '../../constants'
+import {
+  IsMobile,
+  IsPrettyRecentTagName,
+  ArticleStatusPublished,
+} from '../../constants/globalConstants'
 import '../../styles/components/IssueArticleGridItem.scss'
 import { ArrowRightCircle } from 'react-feather'
 import IssueLabel from './IssueLabel'
@@ -54,11 +58,11 @@ const IssueArticleGridItem = ({
           {t('editorial')}
         </Badge>
       )}
-      {article.issue.status === ArticleStatusPublished &&
+      {article.issue.status === ArticleStatusPublished && (
         <Badge bg="transparent" className="rounded border text-dark">
           <IssueLabel publication_date={article.issue.publication_date} pid={article.issue.pid} />
         </Badge>
-      }
+      )}
       {article.publication_date ? (
         <div className="IssueArticleGridItem_date">
           {t('dates.short', { date: new Date(article.publication_date) })}

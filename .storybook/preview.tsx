@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import type { Preview } from '@storybook/react'
-import '../src/styles/index.scss'
 import i18n from '../src/i18next.ts'
 import { I18nextProvider } from 'react-i18next'
+
+import '../src/styles/index.scss'
 
 //Set up language reads from right to left (eg. Arabic, Japanese)
 i18n.on('languageChanged', (locale) => {

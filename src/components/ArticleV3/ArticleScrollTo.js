@@ -3,7 +3,7 @@ import {
   DisplayLayerCellIdxQueryParam,
   DisplayLayerSectionBibliography,
   DisplayLayerSectionParam,
-} from '../../constants'
+} from '../../constants/globalConstants'
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 import { useArticleStore } from '../../store'
 import { asEnumParam } from '../../logic/params'

@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import Slider from 'react-slick'
 import { useBoundingClientRect } from '../../hooks/graphics'
 import { useGetRawContents } from '../../logic/api/fetchData'
-import { StatusSuccess } from '../../constants'
+import { StatusSuccess } from '../../constants/globalConstants'
 import HomeReelItem from './HomeReelItem'
 import '../../styles/components/HomeReel.scss'
 

@@ -9,7 +9,7 @@ import {
   StatusFetching,
   ArticleVersionQueryParam,
   URLPathsAlwaysTrustJS,
-} from '../constants'
+} from '../constants/globalConstants'
 import Article from '../components/Article'
 import ArticleV2 from '../components/ArticleV2'
 import ArticleV3 from '../components/ArticleV3'
@@ -18,7 +18,6 @@ import ErrorViewer from './ErrorViewer'
 import { useArticleStore, usePropsStore } from '../store'
 import { setBodyNoScroll } from '../logic/viewport'
 import { useParams } from 'react-router'
-
 
 /**
  * Loading bar inspired by
@@ -46,20 +45,19 @@ const NotebookViewer = ({
   pid,
   isJavascriptTrusted,
   parserVersion = 2,
-  encodedUrl: propEncodedUrl
+  encodedUrl: propEncodedUrl,
 }) => {
-
   const { encodedUrl: paramEncodedUrl } = useParams()
   const encodedUrl = propEncodedUrl || paramEncodedUrl
-  
+
   const [{ [ArticleVersionQueryParam]: version }] = useQueryParams({
     [ArticleVersionQueryParam]: withDefault(NumberParam, parserVersion),
   })
   const ArticleComponent = version === 3 ? ArticleV3 : version === 2 ? ArticleV2 : Article
   const setLoadingProgress = usePropsStore((state) => state.setLoadingProgress)
-  const clearIframeHeader  = useArticleStore((state) => state.clearIframeHeader);
-  const setArticleVersion = useArticleStore((state) => state.setArticleVersion);
-  setArticleVersion(version);
+  const clearIframeHeader = useArticleStore((state) => state.clearIframeHeader)
+  const setArticleVersion = useArticleStore((state) => state.setArticleVersion)
+  setArticleVersion(version)
 
   const url = useMemo(() => {
     if (!encodedUrl || !encodedUrl.length) {
@@ -82,8 +80,8 @@ const NotebookViewer = ({
 
   //  issue #701: Plotly problem due to isolation mode
   useEffect(() => {
-    clearIframeHeader();
-  }, [url]);
+    clearIframeHeader()
+  }, [url])
 
   const isJavascriptTrustedByOrigin =
     typeof url === 'string' ? URLPathsAlwaysTrustJS.some((d) => url.indexOf(d) === 0) : false

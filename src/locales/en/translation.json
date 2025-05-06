@@ -23,7 +23,6 @@
   "FormNotebookUrl_GenerateLink": "View notebook as journal article!",
   "FormNotebookUrl_PreviewFingerprint": "View notebook as fingerprint",
   "Navigation_NotebookViewer": "Preview Notebook",
-  "openCallForPapers": "Open call for papers",
   "orderBydateAsc": "Sort by publication date, oldest to newest",
   "orderBydateDesc": "Sort by publication date, newest to oldest",
   "orderByissue": "Sort by issue",
@@ -57,9 +56,9 @@
       "contact": "contact point"
     },
     "abstractSubmitted": {
-      "title": "Your Abstract has been submitted!",
-      "subheading": "You will soon be contacted by our editors via the email you have indicated in the contact form.",
-      "moreInfo": "If any information needs to be changed, please contact us via email at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>"
+      "title": "Congratulations ! ",
+      "heading": "Your abstract has been successfully submitted. Below is a summary of your submission. Our editors will contact you shortly using the contact email address provided in the form.",
+      "moreInfo": "If you need to update any information, please reach out to us at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>."
     },
     "cfp": {
       "applyCallForPapers": "Submit an Abstract"
@@ -81,31 +80,176 @@
     },
     "abstractSubmission": {
       "title": "Abstract Submission",
-      "subheading": "...",
-      "authorEmail": "Email Address",
-      "authorEmailCheck": "Email Address, again",
-      "authorFirstName": "First Name",
-      "authorLastName": "Last Name",
-      "authorOrcid": "ORCID URL",
-      "authorOrcidHelpText": "* ORCID is required. Don't have an ORCID yet? Create one at <a href=\"https://orcid.org/\" target=\"_blank\" rel=\"noopener noreferrer\">orcid.org</a> for free!",
-      "authorUsername": "nom utilisateur",
-      "articleContact": "Contact Info",
-      "articleTitle": "Title",
-      "articleAbstract": "Abstract",
-      "articleDataset": "Davaverse URL",
-      "articleAbstractHelpText": "<i>Please take the multi-layered principle of the JDH articles into account. In particular, we would like you to describe the narrative layer, the hermeneutic layer and the data layer.</i>",
-      "articleAbstractPlaceholder": "...",
-      "authorAffiliation": "Affiliation",
-      "githubId": "Specify a github account (user)",
-      "githubIdPlaceholder": "@octocat",
-      "preview": "Submission Status",
-      "ContactPointSectionTitle": "Contact",
-      "DataSectionTitle": "Tools, Code & Data",
-      "AuthorsSectionTitle": "Contributors",
-      "datasetDetails": "Please describe the data you've used: we would like to know more about your findings, the tools / methods you followed and a reflection about possible bias",
-      "datasetDetailsUrl": "Link URL",
-      "datasetDetailsLabel": "Link Description, License (where applicable)",
-      "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply."
+      "author": {
+        "explanation": "<span>Please provide the contact information of all authors and contributors. At least one author must provide a <span className='text-accent' > GitHub username </span> and one author must be designated as the <span className='text-accent'> primary contact.</span> These can be different individuals.</span><br/><br/><em>The order of the authors will determine the final sequence in the published article.</em>",
+        "email": "Email Address",
+        "confirmEmail": "Confirm email address",
+        "name": "Name",
+        "firstname": "First Name",
+        "lastname": "Last Name",
+        "affiliation": "Affiliation",
+        "orcidUrl": "ORCID URL",
+        "orcid": {
+          "helptext": "Don't have an ORCID yet? Create one at <a href=\"https://orcid.org/\" target=\"_blank\" rel=\"noopener noreferrer\">orcid.org</a> for free!"
+        },
+        "blueskyId": "Bluesky",
+        "facebookId": "Facebook",
+        "githubId": "GitHub Username",
+        "github": {
+          "helptext": "Don't have a GitHub account yet? Create one at <a href=\"https://github.com/\" target=\"_blank\" rel=\"noopener noreferrer\">github.com</a> for free!"
+        },
+        "primaryContact": "<em className='text-accent'>Use this author as primary contact<em className='text-accent'> ",
+        "notProvided": "not provided"
+      },
+      "languagePreference": "Programming language for Github repository",
+      "article": {
+        "title": "Title",
+        "abstract": "Abstract",
+        "abstractHelpText": "When addressing the multi-layered principle of JDH articles, please provide a detailed description of the narrative layer, the hermeneutic layer, and the data layer."
+      },
+      "dataset": {
+        "explanation": "If you wish to share your data, please provide a description. Include details about your findings, the tools or methods used, and any potential biases.",
+        "link": "Link",
+        "description": "Description, License (where applicable)",
+        "notProvided": "not provided"
+      },
+      "repository": {
+        "explanation": "Once your abstract is accepted, we will create a dedicated repository for your article on Github. This repository includes a structured template and Github actions to streamline the writing process."
+      },
+      "requiredFieldExplanation": "All field marked with an asterisk (*) are required",
+      "submissionStatus": {
+        "header": "Submission Status",
+        "callForPapers": "Call for papers",
+        "title": "Title",
+        "abstract": "Abstract",
+        "authors": "Authors & Contributors",
+        "languagePreference": "Repository",
+        "termsAccepted": "Terms of use"
+      },
+      "section": {
+        "informationSubmitted": "Get back to top ↑ ",
+        "titleAndAbstract": "Title & Abstract",
+        "authors": "Authors & Contributors",
+        "datasets": "Tools, Code & Data",
+        "repository": "Repository"
+      },
+      "placeholder": {
+        "title": "Title",
+        "abstract": "Write the abstract here ...",
+        "link": "http://www.rtextminer.com ",
+        "description": "Description of the dataset, tools or code URL",
+        "firstname": "First name",
+        "lastname": "Last name",
+        "affiliation": "University, Institution or Company",
+        "email": "mail@mail.com",
+        "confirmEmail": "mail@mail.com",
+        "orcidUrl": "https://orcid.org/0000-0000-0000-0000",
+        "blueskyId": "username.bsky.social",
+        "facebookId": "username",
+        "githubId": "your-username or username"
+      },
+      "tooltips": {
+        "orcidUrl": "Providing an ORCID (Open Researcher and Contributor ID) helps uniquely identify each author and ensures proper attribution of their work.",
+        "githubId": "The Github username will be used to create a repository for your article.",
+        "blueskyId": "When your article is published, we promote it on Bluesky. If you would like to be tagged in our posts, you can provide your username here.",
+        "facebookId": "When your article is published, we promote it on Facebook. If you would like to be tagged in our posts, you can provide your username here."
+      },
+      "summary": {
+        "callForPapers": "Call for papers",
+        "primaryContact": "Primary contact",
+        "primaryContactYes": "Yes",
+        "primaryContactNo": "No",
+        "notProvided": "not provided",
+        "openSubmission": "Open submission"
+      },
+      "socialMediaExplanation": "When your article is published, we promote it on Bluesky and Facebook. If you would like to be tagged, you can provide your username(s).",
+      "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply.",
+      "termsAcceptance": "I have read and I accept the terms and conditions available at <a href=\"{{termsUrl}}\" target=\"_blank\">Terms of use</a>",
+      "errors": {
+        "callForPapersRequired": "Please select a call for papers",
+        "title": {
+          "required": "Title is required",
+          "minLength": "Must be at least 10 characters",
+          "maxLength": "Must be at most 250 characters"
+        },
+        "abstract": {
+          "required": "Abstract is required",
+          "minLength": "Must be at least 100 characters",
+          "maxLength": "Must be at most 10000 characters"
+        },
+        "datasets": {
+          "link": {
+            "minLength": "Must be at least 1 character",
+            "format": "Must be a valid URL"
+          },
+          "description": {
+            "minLength": "Must be at least 1 character",
+            "maxLength": "Must be at most 1000 characters"
+          }
+        },
+        "confirmEmailMismatch": "Email addresses do not match",
+        "authors": {
+          "firstname": {
+            "required": "First name is required",
+            "minLength": "Must be at least 1 character",
+            "maxLength": "Must be at most 100 characters"
+          },
+          "lastname": {
+            "required": "Last name is required",
+            "minLength": "Must be at least 1 character",
+            "maxLength": "Must be at most 100 characters"
+          },
+          "affiliation": {
+            "required": "Affiliation is required",
+            "minLength": "Must be at least 1 character",
+            "maxLength": "Must be at most 100 characters"
+          },
+          "email": {
+            "required": "Email is required",
+            "minLength": "Must be at least 1 character",
+            "maxLength": "Must be at most 100 characters",
+            "format": "Must be a valid email address"
+          },
+          "confirmEmail": {
+            "required": "Email is required",
+            "minLength": "Must be at least 1 character",
+            "maxLength": "Must be at most 100 characters",
+            "format": "Must be a valid email address"
+          },
+          "orcidUrl": {
+            "required": "ORCID is required",
+            "minLength": "Must be at least 1 character",
+            "maxLength": "Must be at most 100 characters",
+            "pattern": "Must be a valid ORCID URL as https://orcid.org/0000-0000-0000-0000"
+          },
+          "githubId": {
+            "minLength": "Must be at least 1 character",
+            "maxLength": "Must be at most 39 characters",
+            "pattern": "Must be a valid Github ID as your-username or username",
+            "confirmInvalidGithub": "Github username does not exist",
+            "githubApiError": "Error retrieving user data from Github API"
+          },
+          "blueskyId": {
+            "minLength": "Must be at least 1 character",
+            "maxLength": "Must be at most 26 characters",
+            "pattern": "Must be a valid Bluesky ID as username.bsky.social"
+          },
+          "facebookId": {
+            "minLength": "Must be at least 5 character",
+            "maxLength": "Must be at most 50 characters",
+            "pattern": "Must be a valid Facebook ID as username"
+          },
+          "atLeastOneGithubId": "At least one author must have a valid Github Username",
+          "atLeastOnePrimaryContact": "At least one author must be selected as primary contact"
+        },
+        "languagePreference": {
+          "enum": "Please select a programming language for your repository"
+        },
+        "termsAccepted": {
+          "enum": "You must accept the terms of use"
+        },
+        "submitError": "There are errors in your submission. Please fix them before submitting."
+      }
     },
     "article": {
       "abstract": "Abstract",
@@ -184,16 +328,17 @@
     "logout": "(log out)",
     "submit": "Submit your Contribution",
     "addLink": "Add Link",
-    "addAuthor": "Add Contributor",
-    "addDataset": "Add Dataset / Tools / Code",
-    "downloadAsJSON": "Download as JSON",
-    "resetForm": "Start over ↻",
+    "addAuthor": "＋ Author",
+    "removeContact": "- Primary Contact",
+    "addDataset": "＋ Dataset / Tools / Code",
+    "downloadAsJSON": "Download as JSON ↓",
     "expand": "Expand",
     "switchToHermeneuticLayer": "See Hermeneutic Layer",
     "hidesourceCode": "hide source code",
     "showsourceCode": "show source code",
     "hideShadowLayer": "collapse",
     "showShadowLayer": "show",
+    "submitAnotherAbstract": "Submit another abstract",
     "switchLayer": {
       "narrative": "switch to narrative layer",
       "hermeneutics": "switch to hermeneutic layer",
@@ -214,45 +359,12 @@
     "all": "Layer: both",
     "default": "Layer: Narrative"
   },
-  "labels": {
-    "acceptConditions": "I have read and I accept the terms and conditions available at",
-    "formSubmissionIncomplete": "incomplete",
-    "formSubmissionReady": "ready to be submitted!",
-    "dateCreated": "started:",
-    "dateLastModified": "last edit",
-    "instance": {
-      "contact": "contact info",
-      "authors": "contributors",
-      "abstract": "abstract",
-      "title": "title",
-      "datasets": "datasets"
-    }
-  },
   "errors": {
-    "none": "",
-    "required": "missing",
-    "minItems": "not enough",
-    "minLength": "...not long enough",
-    "pattern": "not valid",
-    "enum": "not valid",
     "binderUrlNotAvailable": "Binder is not available for this notebook ...",
     "explainCodeNotAvailable": "Code explanation is not available for this notebook. <br/> <i>Error received: {{ error }}</i>"
   },
-  "selectCallForPapers": "Please select the relevant <b class='text-accent'>call for papers<b>:",
-  "schemaErrors": {
-    "instance-acceptConditions": "... and don't forget to check the <b>terms and conditions</b>",
-    "instance-contact": "Please fill the \"Contact\" section with your <b>email</b> and <b>ORCID URL</b>",
-    "instance-contact-email": "A valid <em>email address</em> is required for the <b>Contact</b> section",
-    "instance-contact-orcid": "An <em>ORCID</em> url is required for the <b>Contact</b> section",
-    "instance-authors": "At least <b>one contributor</b> is required",
-    "instance-authors-orcid": "One <b>contributor ORCID</b> URL provided is not valid, please provide either an empty value or a valid ORCID",
-    "instance-authors-email": "One <b>contributor email</b> address is not valid, please provide either an empty value or a valid email address",
-    "instance-datasets": "A <b>description</b> is required to add a valid \"Tools, Code & Data\" item",
-    "instance-datasets-url": "One <b>URL</b> in <b> \"Tools, Code & Data\"</b> is not valid, make sure it starts with <code>http</code>",
-    "instance-title": "<b>Title</b>",
-    "instance-abstract": "<b>Abstract</b>",
-    "instance-githubId": "A valid <em>github user identifier</em> contains only numbers and letters"
-  },
+  "selectCallForPapers": "Please select a call for papers",
+  "openSubmission": "Open submission",
   "numbers": {
     "issue": "Issue n.{{n}}",
     "dialog": "dialogue {{ n }}",

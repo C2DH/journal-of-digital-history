@@ -3,10 +3,10 @@ import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import ArticleCell from '../components/Article/ArticleCell'
 import { QueryParamProvider } from 'use-query-params'
 
-// Stories for hoks and methds, following Josh Farrant https://farrant.me/posts/documenting-react-hooks-with-storybook
+// Stories for hooks and methods, following Josh Farrant https://farrant.me/posts/documenting-react-hooks-with-storybook
 // accessed 04 01 2023
 export default {
-  title: 'ArticleCell with links',
+  title: 'Article/Cell/Links',
   component: ArticleCell,
   argTypes: {
     metadata: { control: { type: 'object' }, defaultValue: {} },

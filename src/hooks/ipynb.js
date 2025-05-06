@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect, useRef } from 'react'
 import { getArticleTreeFromIpynb } from '../logic/ipynb'
-import { StatusFetching, StatusIdle, StatusSuccess } from '../constants'
+import { StatusFetching, StatusIdle, StatusSuccess } from '../constants/globalConstants'
 
 export const useIpynbNotebookParagraphs = ({ id, cells, metadata }) => {
   console.info('[useIpynbNotebookParagraphs] \n - id:', id, '\n - n. cells:', cells.length)

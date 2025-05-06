@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, generatePath } from 'react-router'
 import { encodeNotebookURL } from '../logic/ipynb'
-import { BootstrapColumLayout } from '../constants'
+import { BootstrapColumLayout } from '../constants//globalConstants'
 import FormNotebookUrl from '../components/Forms/FormNotebookUrl'
 
 /**

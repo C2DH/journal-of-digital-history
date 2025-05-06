@@ -1,8 +1,7 @@
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
-import AbstractSubmission from './models/AbstractSubmission'
-import { DisplayLayerNarrative } from './constants'
-
+import { produce } from 'immer'
+import { DisplayLayerNarrative } from './constants//globalConstants'
 
 export const useArticleCellExplainerStore = create((set) => ({
   cellIdx: null,
@@ -95,83 +94,64 @@ export const useArticleStore = create((set) => ({
   iframeHeader: [],
   addIframeHeader: (iframeHeader) =>
     set((state) => {
-      if(!state.iframeHeader.includes(iframeHeader)) {
+      if (!state.iframeHeader.includes(iframeHeader)) {
         return { iframeHeader: [...state.iframeHeader, iframeHeader] }
-      } 
+      }
     }),
   clearIframeHeader: () => set(() => ({ iframeHeader: [] })),
 
   articleVersion: 2,
-  setArticleVersion: (articleVersion) => set(() => ({ articleVersion }))
-    
+  setArticleVersion: (articleVersion) => set(() => ({ articleVersion })),
 }))
 
 export const useStore = create(
   persist(
-    (set, get) => ({
-      backgroundColor: '#ffffff',
-      acceptAnalyticsCookies: true,
-      acceptCookies: false, // cookies should be accepted, session is stored locally
-      releaseNotified: false,
-      mode: 'dark', // or light
-      displayLayer: 'narrative',
-      temporaryAbstractSubmission: new AbstractSubmission(),
-      abstractSubmitted: new AbstractSubmission(),
-      changeBackgroundColor: (backgroundColor) => {
-        // usage in components:
-        //  const changeBackgroundColor = useStore(state => state.changeBackgroundColor)
-        //  useEffect(() => {
-        //    changeBackgroundColor(#ccffaa)
-        //  }, [])
-        //
-        const header = document.getElementById('Header_background')
-        document.body.style.backgroundColor = backgroundColor
-        // change header backgroundColor too...
-        if (header) {
-          header.style.backgroundColor = backgroundColor
-        }
-        return set({ backgroundColor })
+    produce(
+      (set, get) => ({
+        backgroundColor: '#ffffff',
+        acceptAnalyticsCookies: true,
+        acceptCookies: false, // cookies should be accepted, session is stored locally
+        releaseNotified: false,
+        mode: 'dark', // or light
+        displayLayer: 'narrative',
+        changeBackgroundColor: (backgroundColor) => {
+          const header = document.getElementById('Header_background')
+          document.body.style.backgroundColor = backgroundColor
+          // change header backgroundColor too...
+          if (header) {
+            header.style.backgroundColor = backgroundColor
+          }
+          return set({ backgroundColor })
+        },
+        setAcceptCookies: () => {
+          const state = get()
+          set({ ...state, acceptCookies: true })
+        },
+        setAcceptAnalyticsCookies: (value) => {
+          const state = get()
+          set({ ...state, acceptAnalyticsCookies: Boolean(value) })
+        },
+        getPersistentState: () => {
+          const state = get()
+          return { ...state }
+        },
+        setDisplayLayer: (value) => {
+          const state = get()
+          console.info('setDisplayLayer', value)
+          set({ ...state, displayLayer: value })
+        },
+        setReleaseNotified: (releaseNotifiedDate = new Date()) => {
+          const state = get()
+          set({
+            ...state,
+            releaseNotified: releaseNotifiedDate.toISOString(),
+          })
+        },
+      }),
+      {
+        name: 'JournalOfDigitalHistory',
       },
-      setTemporaryAbstractSubmission: (payload) => {
-        const state = get()
-        set({ ...state, temporaryAbstractSubmission: new AbstractSubmission(payload) })
-      },
-      setAbstractSubmitted: (payload) => {
-        const state = get()
-        set({
-          ...state,
-          temporaryAbstractSubmission: new AbstractSubmission(),
-          abstractSubmitted: new AbstractSubmission(payload),
-        })
-      },
-      setAcceptCookies: () => {
-        const state = get()
-        set({ ...state, acceptCookies: true })
-      },
-      setAcceptAnalyticsCookies: (value) => {
-        const state = get()
-        set({ ...state, acceptAnalyticsCookies: Boolean(value) })
-      },
-      getPersistentState: () => {
-        const state = get()
-        return { ...state }
-      },
-      setDisplayLayer: (value) => {
-        const state = get()
-        console.info('setDisplayLayer', value)
-        set({ ...state, displayLayer: value })
-      },
-      setReleaseNotified: (releaseNotifiedDate = new Date()) => {
-        const state = get()
-        set({
-          ...state,
-          releaseNotified: releaseNotifiedDate.toISOString(),
-        })
-      },
-    }),
-    {
-      name: 'JournalOfDigitalHistory',
-    },
+    ),
   ),
 )
 

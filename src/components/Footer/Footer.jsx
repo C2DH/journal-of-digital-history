@@ -13,7 +13,7 @@ import {
   TermsOfUseRoute,
   ReviewPolicy,
   FaqRoute,
-} from '../../constants'
+} from '../../constants/globalConstants'
 import { Facebook, GitHub } from 'react-feather'
 import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_Oldenbourg.svg?url'
 import UniluLogo from '../../assets/images/unilu-c2dh-logo.svg?url'

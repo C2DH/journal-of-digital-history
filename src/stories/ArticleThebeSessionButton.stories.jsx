@@ -5,7 +5,7 @@ import ArticleThebeSessionButton, {
 } from '../components/ArticleV3/ArticleThebeSessionButton'
 
 export default {
-  title: 'ArticleV3/ArticleThebeSessionButton',
+  title: 'ArticleV3/ThebeSessionButton',
   component: ArticleThebeSessionButton,
   argTypes: {
     status: {

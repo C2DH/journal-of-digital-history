@@ -7,54 +7,45 @@ import Article from '../components/ArticleV2'
 import LangLink from '../components/LangLink'
 import NotebookHelmet from '../components/NotebookHelmet'
 
-import {
-  LayerNarrative,
-  BootstrapColumLayout,
-  StatusSuccess
-} from '../constants'
+import { LayerNarrative, BootstrapColumLayout, StatusSuccess } from '../constants/globalConstants'
 import { useParams } from 'react-router'
-
 
 const CallForPapers = () => {
   const { permalink } = useParams()
   const { t } = useTranslation()
   // check that permalink is just lowercase characters
-  const cfpUrl = [
-    import.meta.env.VITE_NOTEBOOK_CFP_BASE_URL,
-    permalink,
-    `${permalink}.ipynb`
-  ].join('/')
+  const cfpUrl = [import.meta.env.VITE_NOTEBOOK_CFP_BASE_URL, permalink, `${permalink}.ipynb`].join(
+    '/',
+  )
 
-  return(
+  return (
     <StaticPageLoader
       url={cfpUrl}
       Component={({ data, status, url }) => (
         <Article
-          pageBackgroundColor='var(--gray-100)'
+          pageBackgroundColor="var(--gray-100)"
           ipynb={data}
           memoid={url + status}
-          category='pages.article.status.CFP'
+          category="pages.article.status.CFP"
           ignorePublicationStatus
           plainTitle="Guidelines"
           layers={[LayerNarrative]}
           ignoreHelmet
           ignoreBinder
         >
-          {status === StatusSuccess && (
-            <NotebookHelmet metadata={data.metadata} status={status} />
-          )}
+          {status === StatusSuccess && <NotebookHelmet metadata={data.metadata} status={status} />}
           <Container>
             <Row>
-            <Col {...BootstrapColumLayout} className="d-flex justify-content-right">
-              <LangLink to={`submit?cfp=${permalink}`}
-                className="btn btn-sm btn-accent d-flex align-items-center rounded mt-3"
-              >
-                <Zap className="me-2" size={16}/>
-                {t('pages.cfp.applyCallForPapers')}
-              </LangLink>
-            </Col>
+              <Col {...BootstrapColumLayout} className="d-flex justify-content-right">
+                <LangLink
+                  to={`submit?cfp=${permalink}`}
+                  className="btn btn-sm btn-accent d-flex align-items-center rounded mt-3"
+                >
+                  <Zap className="me-2" size={16} />
+                  {t('pages.cfp.applyCallForPapers')}
+                </LangLink>
+              </Col>
             </Row>
-
           </Container>
         </Article>
       )}

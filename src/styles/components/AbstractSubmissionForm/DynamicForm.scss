@@ -1,0 +1,53 @@
+.list-item {
+  display: flex;
+  align-items: top;
+  margin-bottom: 0.5rem;
+  padding: 8px;
+  border: 1px solid var(--bs-dark);
+  border-radius: 0.25rem;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.input-group-custom {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  text-align: center; 
+}
+
+.form-group{
+  margin: 0.25rem 0;
+}
+
+.form-control::placeholder {
+  color: lightgray;
+  font-style: italic;
+}
+
+.action-buttons {
+  flex-shrink: 1;
+}
+
+.fields-area {
+    width: 100%;
+    margin-top: 0rem;
+}
+
+.custom-tooltip {
+  max-width: 250px;
+  white-space: normal; 
+  word-wrap: break-word; 
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
+.empty-space{
+  width: 43px;
+}
+
+@media (max-width: 768px) {
+  .custom-tooltip {
+    font-size: 16px; 
+    max-width: 200px; 
+  }
+}

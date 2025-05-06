@@ -6,11 +6,10 @@ import { QueryParamProvider } from 'use-query-params'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import ArticleCell from '../components/Article/ArticleCell'
 
-
-// Stories for hoks and methds, following Josh Farrant https://farrant.me/posts/documenting-react-hooks-with-storybook
+// Stories for hooks and methods, following Josh Farrant https://farrant.me/posts/documenting-react-hooks-with-storybook
 // accessed 04 01 2023
 export default {
-  title: 'ArticleCell with figure captions',
+  title: 'Article/Cell/Figure with captions',
   component: ArticleCell,
   argTypes: {
     metadata: { control: { type: 'object' }, defaultValue: {} },
@@ -25,11 +24,11 @@ const Template = ({ cells, metadata, isJavascriptTrusted }) => {
   })
   return (
     <BrowserRouter>
-      <QueryParamProvider adapter={ReactRouter6Adapter}> 
+      <QueryParamProvider adapter={ReactRouter6Adapter}>
         {articleTree.paragraphs.map((p, i) => (
           <ArticleCell isJavascriptTrusted={isJavascriptTrusted} key={i} {...p} />
         ))}
-     </QueryParamProvider>
+      </QueryParamProvider>
     </BrowserRouter>
   )
 }

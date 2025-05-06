@@ -4,7 +4,7 @@ import { ArrowLeft } from 'react-feather'
 import { useSpring, a, config } from 'react-spring'
 import { setBodyNoScroll } from '../../logic/viewport'
 import { useArticleStore } from '../../store'
-import { DisplayLayerHermeneutics, DisplayLayerNarrative } from '../../constants'
+import { DisplayLayerHermeneutics, DisplayLayerNarrative } from '../../constants/globalConstants'
 import ArticleHeader from './ArticleHeader'
 
 const layerTransition = (x, y, width, height) => {
@@ -12,57 +12,76 @@ const layerTransition = (x, y, width, height) => {
 }
 
 const ArticleTextShadow = ({
-  width, height,
+  width,
+  height,
   // memoid='',
   title,
   issue,
   publicationDate,
   publicationStatus,
   doi,
-  children
+  children,
 }) => {
-  const [displayLayer, setDisplayLayer] = useArticleStore(state => [state.displayLayer, state.setDisplayLayer])
-  const [props, setProps] = useSpring(() => ({ clipPath: [width, 50, width, height], x:0, y:0, config: config.slow }))//, config: { mass: 1, tension: 50, friction: 10 } }))
+  const [displayLayer, setDisplayLayer] = useArticleStore((state) => [
+    state.displayLayer,
+    state.setDisplayLayer,
+  ])
+  const [props, setProps] = useSpring(() => ({
+    clipPath: [width, 50, width, height],
+    x: 0,
+    y: 0,
+    config: config.slow,
+  })) //, config: { mass: 1, tension: 50, friction: 10 } }))
 
   useEffect(() => {
     if (displayLayer === DisplayLayerHermeneutics) {
       setBodyNoScroll(true)
-      setProps.start({ clipPath: [0, 0, width, height], x:-width, y:0 })
+      setProps.start({ clipPath: [0, 0, width, height], x: -width, y: 0 })
     } else {
       setBodyNoScroll(false)
-      setProps.start({ clipPath: [width, 50, width, height], x:0, y:0 })
+      setProps.start({ clipPath: [width, 50, width, height], x: 0, y: 0 })
     }
   }, [displayLayer, width, height])
   // remove on exit
-  useEffect(() => () => {
-    setBodyNoScroll(false)
-    setDisplayLayer(DisplayLayerNarrative)
-  }, [])
+  useEffect(
+    () => () => {
+      setBodyNoScroll(false)
+      setDisplayLayer(DisplayLayerNarrative)
+    },
+    [],
+  )
 
   return (
-    <a.div className="ArticleTextShadow bg-hermeneutics" style={{
-      width,
-      height,
-      clipPath: props.clipPath.interpolate(layerTransition),
-    }}>
+    <a.div
+      className="ArticleTextShadow bg-hermeneutics"
+      style={{
+        width,
+        height,
+        clipPath: props.clipPath.interpolate(layerTransition),
+      }}
+    >
       <div className="ArticleTextShadow_mask bg-hermeneutics"></div>
       <div className="page mt-5">
-      <ArticleHeader
-        doi={doi}
-        issue={issue}
-        publicationDate={publicationDate}
-        title={title}
-        publicationStatus={publicationStatus}
-      >
-        <div className="jumbotron border border-dark p-3 my-3 shadow bg-hermeneutics rounded">
-        <h3>Hermeneutic-first version</h3>
-        <p>A brief explaination of what the hermeneutic view is.</p>
-        <Button variant="outline-secondary" size="sm" onClick={() => setDisplayLayer(DisplayLayerNarrative)}>
-          <ArrowLeft size={15}/> back to narrative-first mode
-        </Button>
-        </div>
-      </ArticleHeader>
-      {children}
+        <ArticleHeader
+          doi={doi}
+          issue={issue}
+          publicationDate={publicationDate}
+          title={title}
+          publicationStatus={publicationStatus}
+        >
+          <div className="jumbotron border border-dark p-3 my-3 shadow bg-hermeneutics rounded">
+            <h3>Hermeneutic-first version</h3>
+            <p>A brief explaination of what the hermeneutic view is.</p>
+            <Button
+              variant="outline-secondary"
+              size="sm"
+              onClick={() => setDisplayLayer(DisplayLayerNarrative)}
+            >
+              <ArrowLeft size={15} /> back to narrative-first mode
+            </Button>
+          </div>
+        </ArticleHeader>
+        {children}
       </div>
     </a.div>
   )

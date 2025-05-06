@@ -59,4 +59,20 @@ const useToWithLang = (to) => {
   }
 }
 
-export { getStartLang, useToWithLang, LANGUAGE_PATH, LANGUAGES }
+/**
+ * Constructs a localized URL path by appending the given path to the base path
+ * derived from the current window location.
+ *
+ * Example:
+ * If the current window location is '/en/some-path' and the provided path is'/terms',
+ * it will return '/en/terms'.
+ *
+ * @param {string} path - The relative path to append to the base path.
+ * @returns {string} The localized URL path.
+ */
+const getLocalizedPath = (path) => {
+  const basePath = window.location.pathname.split('/')[1]
+  return `/${basePath}${path}`
+}
+
+export { getStartLang, useToWithLang, getLocalizedPath, LANGUAGE_PATH, LANGUAGES }

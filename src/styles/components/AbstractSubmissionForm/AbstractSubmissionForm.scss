@@ -1,0 +1,56 @@
+.abstract-submission-form {
+  margin-left: 17%;
+  
+  @media (max-width: 768px) {
+    margin-left:5%;
+  }
+}
+.submission-form{
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  
+  width: 50%;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.final-error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2%;
+}
+
+.submit-button-group {
+  padding: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 1010px) {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  @media (min-width: 1200px) {
+    flex-direction: row;
+  }
+}
+
+.submit-btn {
+  margin-left: 2rem;
+}
+
+.submit-btn,
+.download-json-btn {
+  padding: 0.5rem 1rem;
+  font-size: 1.1rem;
+
+  @media (max-width: 1010px) {
+    width: 300px;
+    margin-left: 0px;
+    font-size: 1.3rem;
+  }
+}

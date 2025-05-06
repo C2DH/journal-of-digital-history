@@ -10,7 +10,7 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 
 import i18n from './i18next'
 import { getStartLang, LANGUAGES } from './logic/language'
-import { GaTrackingId, IsMobile, NotebookPoweredPaths } from './constants'
+import { IsMobile, GaTrackingId, NotebookPoweredPaths } from './constants/globalConstants'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import Cookies from './components/Cookies'
