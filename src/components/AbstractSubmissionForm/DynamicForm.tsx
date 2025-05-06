@@ -178,17 +178,19 @@ const DynamicForm = ({
                         className="text-error form-text"
                         data-test={`error-message-${id}-${fieldname}-${index}`}
                       >
-                        {fieldname === 'confirmEmail' && confirmEmailError
-                          ? t('pages.abstractSubmission.errors.confirmEmailMismatch')
-                          : fieldname === 'githubId' && confirmGithubError
-                          ? t(`pages.abstractSubmission.errors.${id}.githubId.confirmInvalidGithub`)
-                          : fieldname === 'githubId' && isMissing && atLeastOneGithubIdError
-                          ? atLeastOneGithubIdError
-                          : fieldname === 'primaryContact' && isMissing && atLeastOnePrimaryContact
-                          ? atLeastOnePrimaryContact
-                          : isMissing && error
-                          ? t(`pages.abstractSubmission.errors.${id}.${fieldname}.${error}`)
-                          : null}
+                        { fieldname === 'confirmEmail' && confirmEmailError ? (
+                          t('pages.abstractSubmission.errors.confirmEmailMismatch')
+                        ) : fieldname === 'githubId' && confirmGithubError ? (
+                          t(`pages.abstractSubmission.errors.${id}.githubId.confirmInvalidGithub`)
+                        ) : fieldname === 'githubId' && isMissing && atLeastOneGithubIdError ? (
+                          atLeastOneGithubIdError
+                        ) : fieldname === 'primaryContact' &&
+                          isMissing &&
+                          atLeastOnePrimaryContact ? (
+                          atLeastOnePrimaryContact
+                        ) : isMissing && error ? (
+                          t(`pages.abstractSubmission.errors.${id}.${fieldname}.${error}`)
+                        ) : null}
                       </div>
                       {helptext && (
                         <div className="text-muted form-text">
@@ -201,14 +203,15 @@ const DynamicForm = ({
               )}
             </div>
             <div className="action-buttons">
-              {index > 0 || id === "datasets" && (
-                <CloseButtonItem
-                  index={index}
-                  onRemove={(index) => {
-                    onRemove(index)
-                  }}
-                />
-              )}
+              {index > 0 ||
+                (id === 'datasets' && (
+                  <CloseButtonItem
+                    index={index}
+                    onRemove={(index) => {
+                      onRemove(index)
+                    }}
+                  />
+                ))}
               {index > 0 && moveItem && <ArrowUpButtonItem index={index} moveItem={moveItem} />}
               {index < items.length - 1 && moveItem && (
                 <ArrowDownButtonItem index={index} moveItem={moveItem} />

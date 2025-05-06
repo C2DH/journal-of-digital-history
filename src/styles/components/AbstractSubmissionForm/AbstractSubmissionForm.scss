@@ -1,5 +1,8 @@
 .abstract-submission-form {
+  max-width: 50%;  
   margin-left: 17%;
+  margin-right: 17%;
+
   
   @media (max-width: 768px) {
     margin-left:5%;
@@ -10,8 +13,7 @@
   flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
-  
-  width: 50%;
+
   margin-top: 3rem;
   margin-bottom: 3rem;
 }

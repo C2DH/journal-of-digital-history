@@ -52,7 +52,7 @@ const SubmissionSummary = ({
           </section>
           <section id="callForPapers" className="call-for-papers" data-test="call-for-papers">
             <span>
-              <b>Call for papers :</b>{' '}
+              <b>Call for papers n° :</b>{' '}
               {formData.callpaper === null
                 ? t('pages.abstractSubmission.summary.openSubmission')
                 : formData.callpaper}
