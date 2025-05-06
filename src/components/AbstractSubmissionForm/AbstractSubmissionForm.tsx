@@ -37,7 +37,7 @@ import {
   initialAbstract,
   languagePreferenceOptions,
 } from '../../constants/abstractSubmissionForm'
-import checkGithubUsername from '../../logic/checkGithubUsername'
+import checkGithubUsername from '../../logic/api/checkGithubUsername'
 import { debounce } from '../../logic/debounce'
 import { getLocalizedPath } from '../../logic/language'
 import { createAbstractSubmission } from '../../logic/api/postData'
