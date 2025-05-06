@@ -81,8 +81,8 @@ export const NotebookPoweredPaths = [
   '/guidelines/',
   '/guidelines',
 ]
-export const ReCaptchaSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY
-export const GaTrackingId = process.env.REACT_APP_GA_TRACKING_ID
+export const ReCaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY
+export const GaTrackingId = import.meta.env.VITE_GA_TRACKING_ID
 
 export const BootstrapColumLayout = Object.freeze({
   md: { span: 8, offset: 1 },
@@ -255,12 +255,12 @@ export const DisplayLayerHeightQueryParam = 'lh'
 export const DisplayLayerSectionParam = 's'
 // article status
 export const ArticleStatusPublished = 'PUBLISHED'
-export const ArticleStatusDraft = 'Draft'
+export const ArticleStatusDraft = 'DRAFT'
 // article component version
 export const ArticleVersionQueryParam = 'v'
 
 export const URLPathsAlwaysTrustJS = (
-  process.env.REACT_APP_ALWAYS_JS_FROM_URL_PATH_PREFIX || ''
+  import.meta.env.VITE_ALWAYS_JS_FROM_URL_PATH_PREFIX || ''
 ).split(',')
 
 export const ArticleCellContainerClassNames = [
