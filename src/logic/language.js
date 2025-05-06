@@ -47,7 +47,6 @@ const useToWithLang = (to) => {
     // fallback to current i81n language ...
     lang = i18n.language.split('-')[0]
   }
-  console.debug('[useToWithLang] lang:', lang, 'to:', to, i18n)
 
   if (typeof to === 'string') {
     return namespacePath(to, lang)

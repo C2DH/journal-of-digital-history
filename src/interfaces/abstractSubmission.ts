@@ -43,7 +43,7 @@ export interface AbstractSubmittedBackEnd {
   pid: string;
   title: string;
   abstract: string;
-  callpaper: string | null;
+  callpaper: number | null;
   submitted_date: string;
   validation_date: string | null;
   language_preference: string;
@@ -55,7 +55,8 @@ export interface AbstractSubmittedBackEnd {
   consented: boolean;
   authors: Author[];
   datasets: Dataset[];
-}
+} 
+
 export interface AuthorBackEnd {
   id: number;
   lastname: string;

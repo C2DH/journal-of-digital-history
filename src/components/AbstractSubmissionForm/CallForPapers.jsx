@@ -8,18 +8,14 @@ import { StatusSuccess } from '../../constants/globalConstants'
 
 import '../../styles/components/AbstractSubmissionForm/CallForPapers.scss'
 
-const AbstractSubmissionCallForPapers = ({
-  // cfp is a vaild slug identifier, tested on logic/params.js
-  cfp = '',
-  // function to update current CFP
-  onChange,
-}) => {
+const AbstractSubmissionCallForPapers = ({ cfp = '', onChange }) => {
   const { t } = useTranslation()
-  const url = cfp.length
-    ? `${import.meta.env.VITE_NOTEBOOK_CFP_BASE_URL}/${cfp}/${cfp}.ipynb`
-    : null
+  const url =
+    cfp && cfp !== 'openSubmission'
+      ? `${import.meta.env.VITE_NOTEBOOK_CFP_BASE_URL}/${cfp}/${cfp}.ipynb`
+      : null
   const { data, error, status } = useGetJSON({
-    url, // if url is null, no call will ever be made
+    url, // No call will be made if url is null
     delay: 0,
     raw: true,
   })
