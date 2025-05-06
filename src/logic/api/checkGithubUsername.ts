@@ -1,5 +1,5 @@
 /**
- * Checks if a given GitHub username exists by making a request to the GitHub Users API.
+ * Checks if a given GitHub username exists by making a request to the back-end /api/submit-abstract/check-github-id/:username
  *
  * @param githubId - The GitHub username to check.
  * @returns A promise that resolves to `true` if the username exists, or `false` otherwise.
@@ -10,11 +10,8 @@ const checkGithubUsername = async (githubId: string) => {
 
   try {
     const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_GITHUB_ACCESS_TOKEN}`, 
-        
-      },
-    });
+      method: 'GET',
+    })
     console.info('[GithubAPI] Username response:', response)
 
     if (response.status == 200) {
