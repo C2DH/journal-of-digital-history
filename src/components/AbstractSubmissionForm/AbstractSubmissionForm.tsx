@@ -100,14 +100,6 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
     event.preventDefault()
     setIsSubmitAttempted(true)
 
-    const recaptchaToken = await recaptchaRef.current?.executeAsync()
-    if (!recaptchaToken) {
-      console.error('ReCAPTCHA failed to generate a token.')
-      return
-    }
-    console.log('ReCAPTCHA token:', recaptchaToken)
-    recaptchaRef.current?.reset()
-
     const allFields = [
       'title',
       'abstract',
@@ -126,7 +118,7 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
       return acc
     }, {} as ErrorField)
 
-    setMissingFields(updatedMissingFields)
+    setMissingFields(updatedMissingFields)    
 
     if (!isValid || !!githubError || !!emailError || !!callForPapersError) {
       console.error('[AbstractSubmissionForm] Form cannot be submitted due to errors.', {
@@ -136,9 +128,18 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
         isValid,
       })
       return
-    } else {
+    } else {    
+      
+      const recaptchaToken = await recaptchaRef.current?.executeAsync()
+      if (!recaptchaToken) {
+        console.error('ReCAPTCHA failed to generate a token.')
+        return
+      }
+      console.log('ReCAPTCHA token:', recaptchaToken)
+      recaptchaRef.current?.reset()
+
       createAbstractSubmission({ item: formData, token: recaptchaToken })
-        .then((res: { status: number, data: AbstractSubmittedBackEnd }) => {
+        .then((res: { status: number; data: AbstractSubmittedBackEnd }) => {
           if (res?.status === 200 || res?.status === 201) {
             console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
             console.info('[AbstractSubmissionForm] Response from back-end:', res)
@@ -401,7 +402,10 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
               >
                 {t('actions.downloadAsJSON')}
               </button>
-              <ReCAPTCHA ref={recaptchaRef} size="invisible" sitekey={ReCaptchaSiteKey} />
+              {isValid && !githubError && !emailError && !callForPapersError && (
+                <ReCAPTCHA ref={recaptchaRef} size="invisible" sitekey={ReCaptchaSiteKey} />
+              )}
+
               <button
                 type="submit"
                 className="submit-btn btn btn-primary"
