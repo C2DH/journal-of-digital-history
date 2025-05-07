@@ -255,6 +255,7 @@ const ArticlesGrid = ({
                 numSelectedArticles={advanceArticles.filter((d) => d.selected).length}
                 item={{
                   name: t('pages.articles.advanceArticles'),
+                  description: t('pages.articles.advanceArticlesDescription'),
                   status: ArticleStatusPublished,
                   pid: '',
                 }}

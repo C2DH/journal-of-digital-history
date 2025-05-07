@@ -38,7 +38,7 @@ const Issue = ({
 
   useLayoutEffect(() => {
     if (ref.current) {
-      if (ref.current.offsetHeight < descriptionRef.current.offsetHeight) {
+      if (ref.current.offsetHeight + 5 < descriptionRef.current.offsetHeight) {
         buttonRef.current.style.display = 'block'
       } else {
         buttonRef.current.style.display = 'none'
