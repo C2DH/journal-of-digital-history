@@ -188,7 +188,6 @@
             "maxLength": "Must be at most 1000 characters"
           }
         },
-        "confirmEmailMismatch": "Email addresses do not match",
         "authors": {
           "firstname": {
             "required": "First name is required",
@@ -215,7 +214,8 @@
             "required": "Email is required",
             "minLength": "Must be at least 1 character",
             "maxLength": "Must be at most 100 characters",
-            "format": "Must be a valid email address"
+            "format": "Must be a valid email address",
+            "requireConfirmEmailForPrimaryContact": "Email addresses do not match"
           },
           "orcidUrl": {
             "required": "ORCID is required",
@@ -228,7 +228,8 @@
             "maxLength": "Must be at most 39 characters",
             "pattern": "Must be a valid Github ID as your-username or username",
             "confirmInvalidGithub": "Github username does not exist",
-            "githubApiError": "Error retrieving user data from Github API"
+            "githubApiError": "Error retrieving user data from Github API",
+            "atLeastOneGithubId": "At least one author must have a valid Github Username"
           },
           "blueskyId": {
             "minLength": "Must be at least 1 character",
@@ -240,8 +241,9 @@
             "maxLength": "Must be at most 50 characters",
             "pattern": "Must be a valid Facebook ID as username"
           },
-          "atLeastOneGithubId": "At least one author must have a valid Github Username",
-          "atLeastOnePrimaryContact": "At least one author must be selected as primary contact"
+          "primaryContact": {
+            "atLeastOnePrimaryContact": "At least one author must be selected as primary contact"
+          }
         },
         "languagePreference": {
           "enum": "Please select a programming language for your repository"

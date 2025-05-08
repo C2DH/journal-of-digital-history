@@ -51,7 +51,6 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
 
   const [callForPapers, setCallForPapers] = useQueryParam<string>('cfp', withDefault(CfpParam, ''))
   const [formData, setFormData] = useState<FormData>(initialAbstract(callForPapers))
-  const [emailError, setEmailError] = useState('')
   const [githubError, setGithubError] = useState('')
   const [callForPapersError, setCallForPapersError] = useState('')
   const [missingFields, setMissingFields] = useState<ErrorField>({})
@@ -71,7 +70,6 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
     },
     errors: false,
   })
-
   ajv.addKeyword({
     keyword: 'atLeastOnePrimaryContact',
     validate: function validateAtLeastOnePrimaryContact(schema, data: FormData) {
@@ -80,11 +78,24 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
     },
     errors: false,
   })
+  ajv.addKeyword({
+    keyword: 'requireConfirmEmailForPrimaryContact',
+    validate: function requireConfirmEmailForPrimaryContact(schema, data: FormData) {
+      if (!Array.isArray(data)) return false;
+      for (const author of data) {
+        if (author.primaryContact) {
+          if (author.email !== author.confirmEmail) {
+            return false; 
+          }
+        }
+      }
+      return true; 
+    },
+    errors: false, 
+  });
 
   const validate = ajv.compile(submissionFormSchema)
   const isValid = validate(formData)
-
-  // console.info('[AbstractSubmissionForm - AJV errors] validate.errors', validate.errors)
 
   //Update callForPapers in formData
   useEffect(() => {
@@ -95,6 +106,7 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
       setCallForPapersError('')
     }
   }, [callForPapers])
+
 
   const handleSubmit: SubmitHandler = async (event) => {
     event.preventDefault()
@@ -118,18 +130,17 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
       return acc
     }, {} as ErrorField)
 
-    setMissingFields(updatedMissingFields)    
+    setMissingFields(updatedMissingFields)
 
-    if (!isValid || !!githubError || !!emailError || !!callForPapersError) {
+    if (!isValid || !!githubError || !!callForPapersError) {
       console.error('[AbstractSubmissionForm] Form cannot be submitted due to errors.', {
         githubError,
-        emailError,
         callForPapersError,
         isValid,
       })
+      console.error('[AbstractSubmissionForm - AJV errors] validate.errors', validate.errors)
       return
-    } else {    
-      
+    } else {
       const recaptchaToken = await recaptchaRef.current?.executeAsync()
       if (!recaptchaToken) {
         console.error('ReCAPTCHA failed to generate a token.')
@@ -184,27 +195,17 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
       }
 
       updatedFormData[id] = type === 'checkbox' ? checked : value
-
       return updatedFormData
     })
   }
 
-  // Debounce Github API validation of GithubId
+  // // Debounce Github API validation of GithubId
   const debouncedGithubValidation = useCallback(debounce(handleGithubValidation, 500), [])
 
   const handleOnChangeComponent: UpdateFieldHandler = (type, index, field, value) => {
     setFormData((prev) => {
       const updatedItems = [...prev[type]]
       updatedItems[index] = { ...updatedItems[index], [field]: value }
-
-      if (type === 'authors' && field === 'confirmEmail') {
-        const email = updatedItems[index]?.email
-        if (email !== value) {
-          setEmailError('Emails do not match')
-        } else {
-          setEmailError('')
-        }
-      }
 
       if (type === 'authors' && field === 'githubId') {
         debouncedGithubValidation(value as string)
@@ -317,7 +318,6 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
                   handleMoveComponent('authors', fromIndex, toIndex)
                 }
                 errors={validate.errors || []}
-                confirmEmailError={emailError}
                 confirmGithubError={githubError}
                 missingFields={missingFields}
               />
@@ -386,10 +386,9 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
             <br />
             <p>{parse(t('pages.abstractSubmission.recaptchaDisclaimer'))}</p>
             <div className="final-error-container">
-              {isSubmitAttempted &&
-                (!isValid || !!githubError || !!emailError || !!callForPapersError) && (
-                  <p className="text-error">{t('pages.abstractSubmission.errors.submitError')}</p>
-                )}
+              {isSubmitAttempted && (!isValid ||  !!githubError || !!callForPapersError) && (
+                <p className="text-error">{t('pages.abstractSubmission.errors.submitError')}</p>
+              )}
             </div>
             <div className="submit-button-group">
               <button
@@ -402,7 +401,7 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
               >
                 {t('actions.downloadAsJSON')}
               </button>
-              {isValid && !githubError && !emailError && !callForPapersError && (
+              {isValid && !githubError && !callForPapersError && (
                 <ReCAPTCHA ref={recaptchaRef} size="invisible" sitekey={ReCaptchaSiteKey} />
               )}
 
@@ -419,8 +418,6 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
         <div className="col-lg-3 col-md-4">
           <SubmissionStatusCard
             errors={validate.errors || []}
-            githubError={githubError}
-            mailError={emailError}
             callForPapersError={callForPapersError}
             isSubmitAttempted={isSubmitAttempted}
           />

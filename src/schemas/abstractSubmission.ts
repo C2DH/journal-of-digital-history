@@ -25,6 +25,12 @@ export const submissionFormSchema = {
           lastname: { type: 'string', minLength: 1, maxLength: 100 },
           affiliation: { type: 'string', minLength: 1, maxLength: 100 },
           email: { type: 'string', format: 'email' },
+          confirmEmail: {
+            anyOf: [
+              { type: 'string', format: 'email' },
+              { type: 'null' },
+              { type: 'string', maxLength: 0 }]
+          },
           orcidUrl: {
             type: 'string',
             format: 'uri',
@@ -64,12 +70,13 @@ export const submissionFormSchema = {
           },
           primaryContact: { type: 'boolean', enum: [true, false] },
         },
-        required: ['firstname', 'lastname', 'affiliation', 'email', 'orcidUrl'],
+        required: ['firstname', 'lastname', 'affiliation', 'email', 'orcidUrl'],      
       },
       minItems: 1,
       maxItems: 10,
       atLeastOneGithubId: true,
       atLeastOnePrimaryContact: true,
+      requireConfirmEmailForPrimaryContact: true,
     },
     languagePreference: {
       type: 'string',
@@ -80,3 +87,4 @@ export const submissionFormSchema = {
   },
   required: ['title', 'abstract', 'authors', 'termsAccepted'],
 }
+        

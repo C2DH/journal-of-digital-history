@@ -128,7 +128,6 @@ export interface DynamicFormProps {
   onRemove: RemoveItemHandler;
   moveItem?: MoveItemHandler;
   errors: ErrorObject[];
-  confirmEmailError?: string;
   confirmGithubError?: string;
   missingFields: ErrorField;
 }
@@ -137,7 +136,6 @@ export interface DynamicFormProps {
 export interface SubmissionStatusCardProps {
   errors: ErrorObject[];
   githubError: string;
-  mailError: string;
   callForPapersError: string;
   isSubmitAttempted: boolean;
 }
