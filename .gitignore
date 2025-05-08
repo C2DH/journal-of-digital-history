@@ -6,6 +6,7 @@ node_modules
 .eslintcache
 .development.env
 .env.development
+.turbo
 .vscode/settings.json
 .yalc/*
 yalc.lock
