@@ -15815,7 +15815,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"thebe-core@npm:0.4.10, thebe-core@npm:^0.4.10":
+"thebe-core@npm:0.5.0":
+  version: 0.5.0
+  resolution: "thebe-core@npm:0.5.0"
+  dependencies:
+    "@jupyter-widgets/base": "npm:^6.0.10"
+    "@jupyter-widgets/controls": "npm:^5.0.11"
+    "@jupyter-widgets/html-manager": "npm:^1.0.13"
+    "@jupyter-widgets/jupyterlab-manager": "npm:^5.0.13"
+    "@jupyter-widgets/output": "npm:^6.0.10"
+    "@jupyterlab/javascript-extension": "npm:^4.2.5"
+    "@jupyterlab/json-extension": "npm:^4.2.5"
+    "@jupyterlab/mathjax2": "npm:^3.6.8"
+    "@jupyterlab/outputarea": "npm:^4.2.5"
+    "@jupyterlab/rendermime": "npm:^4.2.5"
+    "@jupyterlab/services": "npm:^7.2.5"
+    "@jupyterlab/testutils": "npm:^4.2.5"
+    "@jupyterlab/theme-light-extension": "npm:^4.2.5"
+    "@lumino/widgets": "npm:^2.5.0"
+    "@reduxjs/toolkit": "npm:^1.7.1"
+    jest-environment-jsdom: "npm:^28.1.2"
+    lodash.merge: "npm:^4.6.2"
+    nanoid: "npm:^3.2.0"
+  peerDependencies:
+    thebe-lite: ^0.5.0
+  bin:
+    copy-thebe-assets: bin/copy-thebe-assets.cjs
+  checksum: 10c0/be2d5478febc75718d3f383d3f718d58932730bfdaee11e07e5acabb6511b9c412def991ddc3594d58fe3a4f23a8a129b64bfa84fa87439f82bcb223835cf094
+  languageName: node
+  linkType: hard
+
+"thebe-core@npm:^0.4.10":
   version: 0.4.10
   resolution: "thebe-core@npm:0.4.10"
   dependencies:
@@ -17153,7 +17183,7 @@ __metadata:
     source-map-explorer: "npm:^2.4.2"
     storybook: "npm:^8.6.3"
     tabbable: "npm:^6.2.0"
-    thebe-core: "npm:0.4.10"
+    thebe-core: "npm:0.5.0"
     thebe-react: "npm:0.4.10"
     tslib: "npm:^2.8.1"
     typescript: "npm:^5.5.4"
