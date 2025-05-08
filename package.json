@@ -3,6 +3,7 @@
   "version": "6.0.0",
   "private": true,
   "type": "module",
+  "packageManager": "yarn@1.22.22",
   "dependencies": {
     "@auth0/auth0-react": "^1.1.0",
     "@c2dh/react-facets": "^1.1.0",
@@ -138,6 +139,7 @@
     "eslint-plugin-storybook": "^0.6.8",
     "playwright": "^1.50.1",
     "storybook": "^8.6.3",
+    "turbo": "^2.5.3",
     "vite": "^6.1.0",
     "vitest": "^3.0.7"
   },
