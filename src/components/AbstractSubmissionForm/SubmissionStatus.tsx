@@ -9,7 +9,6 @@ import '../../styles/components/AbstractSubmissionForm/SubmissionStatus.scss'
 const SubmissionStatusCard = ({
   errors,
   githubError,
-  mailError,
   callForPapersError,
   isSubmitAttempted,
 }: SubmissionStatusCardProps) => {
@@ -21,9 +20,6 @@ const SubmissionStatusCard = ({
   }
   if (githubError) {
     addErrorToSection(errorHeaders, 'github')
-  }
-  if (mailError) {
-    addErrorToSection(errorHeaders, 'contact')
   }
   const topLevelErrors = Array.from(errorHeaders)
 

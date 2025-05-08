@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import parse from 'html-react-parser'
 
 import Tooltip from '../Tooltip/Tooltip'
-import { getErrorByItemAndByField } from '../../logic/errors'
+import { findErrorByKeyword, getErrorByItemAndByField } from '../../logic/errors'
 import {
   DynamicFormItem,
   DynamicFormProps,
@@ -29,7 +29,6 @@ const DynamicForm = ({
   onRemove,
   moveItem,
   errors,
-  confirmEmailError,
   confirmGithubError,
   missingFields,
 }: DynamicFormProps) => {
@@ -37,14 +36,34 @@ const DynamicForm = ({
   const [tooltipPlacement, setTooltipPlacement] = useState<'auto' | 'right'>('right')
   const [missing, setIsMissing] = useState<ErrorField>({})
 
-  const atLeastOneGithubIdError = errors?.find((error) => error.keyword === 'atLeastOneGithubId')
-    ? parse(t('pages.abstractSubmission.errors.authors.atLeastOneGithubId'))
-    : null
-  const atLeastOnePrimaryContact = errors?.find(
-    (error) => error.keyword === 'atLeastOnePrimaryContact',
+  const atLeastOneGithubIdError = findErrorByKeyword(errors, 'atLeastOneGithubId')
+  const atLeastOnePrimaryContact = findErrorByKeyword(errors, 'atLeastOnePrimaryContact')
+  const requireConfirmEmailForPrimaryContact = findErrorByKeyword(
+    errors,
+    'requireConfirmEmailForPrimaryContact',
   )
-    ? parse(t('pages.abstractSubmission.errors.authors.atLeastOnePrimaryContact'))
-    : null
+
+  const getError = (fieldname: string, isMissing: boolean, error?: string) => {
+    switch (true) {
+      case fieldname === 'primaryContact' && isMissing && !!atLeastOnePrimaryContact:
+        return 'atLeastOnePrimaryContact'
+
+      case fieldname === 'confirmEmail' && isMissing && !!requireConfirmEmailForPrimaryContact:
+        return 'requireConfirmEmailForPrimaryContact'
+
+      case fieldname === 'githubId' && isMissing && !!atLeastOneGithubIdError:
+        return 'atLeastOneGithubId'
+
+      case fieldname === 'githubId' && !!confirmGithubError:
+        return 'confirmInvalidGithub'
+
+      case isMissing && !!error:
+        return error
+
+      default:
+        return null
+    }
+  }
 
   useEffect(() => {
     if (missingFields) {
@@ -145,15 +164,13 @@ const DynamicForm = ({
                         <div className="input-group-custom">
                           <input
                             type={type}
-                            className={`form-control ${
+                            className={`my-1 form-control ${
                               isMissing
-                                ? error ||
-                                  (fieldname === 'confirmEmail' && confirmEmailError) ||
-                                  (fieldname === 'githubId' && confirmGithubError)
+                                ? getError(fieldname, isMissing, error)
                                   ? 'is-invalid'
                                   : 'is-valid'
                                 : ''
-                            } my-1`}
+                            }`}
                             id={`${fieldname}-${index}`}
                             value={item[fieldname]}
                             onChange={(e) => {
@@ -178,19 +195,13 @@ const DynamicForm = ({
                         className="text-error form-text"
                         data-test={`error-message-${id}-${fieldname}-${index}`}
                       >
-                        { fieldname === 'confirmEmail' && confirmEmailError ? (
-                          t('pages.abstractSubmission.errors.confirmEmailMismatch')
-                        ) : fieldname === 'githubId' && confirmGithubError ? (
-                          t(`pages.abstractSubmission.errors.${id}.githubId.confirmInvalidGithub`)
-                        ) : fieldname === 'githubId' && isMissing && atLeastOneGithubIdError ? (
-                          atLeastOneGithubIdError
-                        ) : fieldname === 'primaryContact' &&
-                          isMissing &&
-                          atLeastOnePrimaryContact ? (
-                          atLeastOnePrimaryContact
-                        ) : isMissing && error ? (
-                          t(`pages.abstractSubmission.errors.${id}.${fieldname}.${error}`)
-                        ) : null}
+                        {(() => {
+                          const errorKeyword = getError(fieldname, isMissing, error)
+                          if (!errorKeyword) return null
+                          return t(
+                            `pages.abstractSubmission.errors.${id}.${fieldname}.${errorKeyword}`,
+                          )
+                        })()}
                       </div>
                       {helptext && (
                         <div className="text-muted form-text">

@@ -1,6 +1,5 @@
 import { ErrorObject } from 'ajv'
 import { ValidationErrors } from '../interfaces/abstractSubmission'
-
 /**
  * Transforms an array of AJV error objects into a structured object with paths as keys.
  * 
@@ -140,4 +139,16 @@ export const getErrorByItemAndByField = (
   field: string,
 ): string => {
   return getErrors(errors)?.[section]?.[item]?.[field]?.[0]?.keyword
+}
+
+
+/**
+ * Finds and returns the first error object in the provided array that matches the specified keyword.
+ *
+ * @param errors - An array of error objects to search through. Defaults to an empty array if not provided.
+ * @param keyword - The keyword to match against the `keyword` property of the error objects.
+ * @returns The first error object that matches the keyword, or `undefined` if no match is found.
+ */
+export const findErrorByKeyword  = (errors: ErrorObject[] = [], keyword: string): ErrorObject | undefined => {
+  return errors.find((error) => error.keyword === keyword)
 }
