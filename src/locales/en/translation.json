@@ -60,9 +60,6 @@
       "heading": "Your abstract has been successfully submitted. Below is a summary of your submission. Our editors will contact you shortly using the contact email address provided in the form.",
       "moreInfo": "If you need to update any information, please reach out to us at <a href='mailto:jdh.admin@uni.lu'>jdh.admin@uni.lu</a>."
     },
-    "cfp": {
-      "applyCallForPapers": "Submit an Abstract"
-    },
     "releaseNotes": {
       "title": "Release notes",
       "subheading": "{{n}} releases so far."
@@ -80,6 +77,7 @@
     },
     "abstractSubmission": {
       "title": "Abstract Submission",
+      "guidelines": "Please, do not hesitate to read our <a href=\"/en/guidelines\" target=\"_blank\">guidelines</a> before submitting.",
       "author": {
         "explanation": "<span>Please provide the contact information of all authors and contributors. At least one author must provide a <span className='text-accent' > GitHub username </span> and one author must be designated as the <span className='text-accent'> primary contact.</span> These can be different individuals.</span><br/><br/><em>The order of the authors will determine the final sequence in the published article.</em>",
         "email": "Email Address",

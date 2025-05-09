@@ -13,13 +13,14 @@ const SubmissionStatusCard = ({
   isSubmitAttempted,
 }: SubmissionStatusCardProps) => {
   const { t } = useTranslation()
-
+  
   const errorHeaders = requiredFieldErrors(errors)
+  
   if(callForPapersError) {
     addErrorToSection(errorHeaders, 'callForPapers')
   }
   if (githubError) {
-    addErrorToSection(errorHeaders, 'github')
+    addErrorToSection(errorHeaders, 'authors')
   }
   const topLevelErrors = Array.from(errorHeaders)
 

@@ -79,7 +79,7 @@ export const requiredFieldErrors = (errors: ErrorObject[]) => {
 }
 
 /**
- * Add error section to an array of header sections based on github API error or confirmation email error.
+ * Add error section to an array of header sections based on github API error or call for paper error.
  *
  * @param errors - A set of error headers.
  * @param section - The section to which the error belongs (e.g., 'author').   

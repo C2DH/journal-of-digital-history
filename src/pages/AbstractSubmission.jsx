@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Container, Col, Row } from 'react-bootstrap'
-import { useQueryParam, withDefault } from 'use-query-params'
-import { CfpParam } from '../logic/params'
 
 import AbstractSubmissionForm from '../components/AbstractSubmissionForm/AbstractSubmissionForm'
 import ErrorViewer from './ErrorViewer'
+
+import '../styles/pages/AbstractSubmission.scss'
 
 const AbstractSubmission = () => {
   const { t } = useTranslation()
@@ -37,7 +37,9 @@ const AbstractSubmission = () => {
       <>
         <Row>
           <Col md={{ span: 6, offset: 2 }}>
-            <h1 className="my-5">{t('pages.abstractSubmission.title')}</h1>
+            <h1 className="my-5 abstract-submission-title">
+              {t('pages.abstractSubmission.title')}
+            </h1>
           </Col>
         </Row>
         <AbstractSubmissionForm onErrorAPI={handleErrorAPI} />
