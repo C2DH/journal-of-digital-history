@@ -258,6 +258,8 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
   return (
     <div className="abstract-submission-form">
       <div className="callForPaper">
+        <p>{parse(t('pages.abstractSubmission.guidelines'))}</p>
+        <br />
         <em className="text-accent">{t('pages.abstractSubmission.requiredFieldExplanation')}</em>
         <br />
         <br />
@@ -404,7 +406,6 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
               {isValid && !githubError && !callForPapersError && (
                 <ReCAPTCHA ref={recaptchaRef} size="invisible" sitekey={ReCaptchaSiteKey} />
               )}
-
               <button
                 type="submit"
                 className="submit-btn btn btn-primary"
@@ -418,6 +419,7 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
         <div className="col-lg-3 col-md-4">
           <SubmissionStatusCard
             errors={validate.errors || []}
+            githubError={githubError}
             callForPapersError={callForPapersError}
             isSubmitAttempted={isSubmitAttempted}
           />
