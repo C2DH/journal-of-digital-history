@@ -3,11 +3,7 @@
 @import 'variables';
 
 //import matrial symbols outlined 
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100;200;300;400;500;600;700');
-.material-symbols-outlined {
-  font-variation-settings: 'wght' 200; 
-}
-
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 // Boostrap scss
 @import 'bootstrap/scss/bootstrap';
 :root {
@@ -22,6 +18,7 @@
   --accent-dark: #{map-get($theme-colors, 'accent-dark')};
   --primary: #{map-get($theme-colors, 'primary')};
   --secondary: #{map-get($theme-colors, 'secondary')};
+  --error: #{map-get($theme-colors, 'error')};
   --hermeneutics: #8bffef;
   --yellow: #ffee88;
   --yellowcrayola: #ffe787;

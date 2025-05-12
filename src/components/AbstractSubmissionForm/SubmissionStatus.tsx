@@ -13,10 +13,10 @@ const SubmissionStatusCard = ({
   isSubmitAttempted,
 }: SubmissionStatusCardProps) => {
   const { t } = useTranslation()
-  
+
   const errorHeaders = requiredFieldErrors(errors)
-  
-  if(callForPapersError) {
+
+  if (callForPapersError) {
     addErrorToSection(errorHeaders, 'callForPapers')
   }
   if (githubError) {
@@ -36,18 +36,24 @@ const SubmissionStatusCard = ({
             const submissionError = isSubmitAttempted && hasError
 
             return (
-              <li key={section} >
-                <span
-                  className={`material-symbols-outlined ${
-                    submissionError ? 'text-error' : 'text-success'
+              <li key={section}>
+                <div
+                  className={`icon-container ${
+                    topLevelErrors.includes(section)
+                      ? submissionError
+                        ? 'error'
+                        : 'outlined'
+                      : 'filled'
                   }`}
                 >
-                  {submissionError
-                    ? 'error'
-                    : topLevelErrors.includes(section)
-                    ? 'radio_button_unchecked'
-                    : 'check_circle'}
-                </span>
+                  <span className="material-symbols-outlined">
+                    {submissionError
+                      ? 'error'
+                      : topLevelErrors.includes(section)
+                      ? 'radio_button_unchecked'
+                      : 'check_circle'}
+                  </span>
+                </div>
                 <div className="round-icon"></div>
                 <span className={submissionError ? 'text-error' : ''}>
                   {t(`pages.abstractSubmission.submissionStatus.${section}`)}
