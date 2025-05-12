@@ -1,8 +1,8 @@
 import React from 'react'
-import { Container } from "react-bootstrap";
+import { Container } from 'react-bootstrap'
 import EditorWrapper from '../components/EditorWrapper'
 
-export default function Home(){
+export default function Home() {
   return (
     <div>
       <Container>
@@ -10,5 +10,5 @@ export default function Home(){
       </Container>
       <EditorWrapper />
     </div>
-  );
+  )
 }
