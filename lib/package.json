@@ -1,0 +1,23 @@
+{
+  "name": "jdh-lib",
+  "version": "0.1.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/jdh-lib.umd.index.cjs",
+  "module": "./dist/jdh-lib.es.index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/jdh-lib.es.index.js",
+      "require": "./dist/jdh-lib.umd.index.cjs"
+    }
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "scripts": {
+    "build": "vite build"
+  }
+}

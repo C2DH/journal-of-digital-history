@@ -46,5 +46,8 @@ export default defineConfig(({ mode }) => {
     define: {
       __APP_ENV__: JSON.stringify(env.VITE_APP_ENV),
     },
+    resolve: {
+      preserveSymlinks: true,
+    },
   }
 })

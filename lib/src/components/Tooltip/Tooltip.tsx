@@ -1,7 +1,7 @@
-
+import React from 'react'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { CustomTooltipProps} from '../../interfaces/tooltip'
+import { CustomTooltipProps} from '../../../../apps/website/src/interfaces/tooltip'
 
 const CustomTooltip= ({
   tooltip,
