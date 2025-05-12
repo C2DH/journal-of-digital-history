@@ -31,7 +31,10 @@
     position: relative;
     padding-left: 10px;
     font-size: 16px;
-    line-height: 3em;
+    line-height: 2em;
+  }
+  .icon-label{
+    margin-bottom: 13px;
   }
 }
 
@@ -78,7 +81,7 @@
   position: absolute;
   left: 14px;
   width: 17px;
-  height: 17px;
+  height: 18px;
   background-color: #f8f9fa;
   border-radius: 100%;
   top: 9px;
