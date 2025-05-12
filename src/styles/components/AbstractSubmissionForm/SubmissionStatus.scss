@@ -1,9 +1,11 @@
+
+
 .submission-status-card {
   position: fixed;
   top: 500px;
-  right: 0px; 
+  right: 0px;
   margin: 0;
-  padding: 2.5rem 1.5rem 2.5rem 1.25rem; 
+  padding: 2.5rem 1.5rem 2.5rem 1.25rem;
 }
 
 .submission-status-title {
@@ -12,7 +14,7 @@
   font-weight: 700;
 }
 
-.container{
+.container {
   margin-bottom: 1rem;
 }
 
@@ -22,13 +24,15 @@
   list-style: none;
 }
 
-.submission-status-list li {
-  display: flex;
-  align-items: center;
-  position: relative;
-  padding-left: 10px;
-  font-size: 16px;
-  line-height: 3em;
+.submission-status-list {
+  li {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 10px;
+    font-size: 16px;
+    line-height: 3em;
+  }
 }
 
 .submission-status-list li::before {
@@ -42,19 +46,42 @@
   z-index: -1;
 }
 
+.icon-container {
+  font-variation-settings: 'wght' 700, 'GRAD' 0, 'opsz' 48;
+
+  &.error {
+    font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+    color: var(--error);
+
+  }
+
+  &.filled {
+    font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48; 
+  }
+
+  &.outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48; 
+  }
+
+  .material-symbols-outlined {
+    color: inherit;
+  }
+}
+
 .material-symbols-outlined {
+  position: relative; 
   z-index: 1;
   margin-right: 0.5rem;
 }
 
 .round-icon {
   position: absolute;
-  left: 12px;
-  width: 16px;
+  left: 14px;
+  width: 17px;
   height: 17px;
   background-color: #f8f9fa;
-  border-radius: 50%;
-  margin-top: 1px;
+  border-radius: 100%;
+  top: 9px;
   z-index: 0;
 }
 
