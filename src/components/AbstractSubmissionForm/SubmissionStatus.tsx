@@ -55,7 +55,7 @@ const SubmissionStatusCard = ({
                   </span>
                 </div>
                 <div className="round-icon"></div>
-                <span className={submissionError ? 'text-error' : ''}>
+                <span className={`icon-label ${submissionError ? 'text-error' : ''}`}>
                   {t(`pages.abstractSubmission.submissionStatus.${section}`)}
                 </span>
               </li>
