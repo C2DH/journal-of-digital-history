@@ -1,11 +1,14 @@
-
-
 .submission-status-card {
   position: fixed;
-  top: 500px;
+  top: 20vh;
+  height: min-content;
   right: 0px;
-  margin: 0;
   padding: 2.5rem 1.5rem 2.5rem 1.25rem;
+  box-sizing: border-box;
+
+  @media (max-height: 250px) {
+    display: none;
+  }
 }
 
 .submission-status-title {
@@ -96,7 +99,7 @@
   bottom: 50%;
 }
 
-@media (max-width: 968px) {
+@media (max-width: 1100px) {
   .submission-status-card {
     display: none;
   }
