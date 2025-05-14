@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "module": "ES6",
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "@components/*": ["src/components/*"]
+    },
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true
+  }
+}

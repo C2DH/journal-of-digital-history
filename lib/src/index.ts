@@ -1,1 +1,1 @@
-export *  from './components'
+export {Tooltip}  from './components'

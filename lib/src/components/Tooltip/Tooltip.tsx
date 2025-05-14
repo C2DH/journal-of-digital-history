@@ -1,14 +1,13 @@
-import React from 'react'
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { CustomTooltipProps} from '../../../../apps/website/src/interfaces/tooltip'
+import { CustomTooltipProps } from './interface'
 
-const CustomTooltip= ({
+const CustomTooltip = ({
   tooltip,
   tooltipPlacement = 'right',
   fieldname,
   index,
-} : CustomTooltipProps ) => {
+}: CustomTooltipProps) => {
   const { t } = useTranslation()
 
   return (

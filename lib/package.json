@@ -2,22 +2,28 @@
   "name": "jdh-lib",
   "version": "0.1.0",
   "type": "module",
-  "files": [
-    "dist"
-  ],
-  "main": "./dist/jdh-lib.umd.index.cjs",
-  "module": "./dist/jdh-lib.es.index.js",
-  "exports": {
-    ".": {
-      "import": "./dist/jdh-lib.es.index.js",
-      "require": "./dist/jdh-lib.umd.index.cjs"
-    }
+  "source": "src/index.ts",
+  "main": "dist/jdh-lib.js",
+  "module": "dist/jdh-lib.js",
+  "types": "dist/jdh-lib.d.ts",
+  "scripts": {
+    "build": "tsc --project ./tsconfig.json && vite build"
+  },
+  "dependencies": {
+    "vite": "^6.3.5",
+    "vite-plugin-dts": "^4.5.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.18",
+    "@types/react": "^19.1.4",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
-  "scripts": {
-    "build": "vite build"
+    "@typescript-eslint/eslint-plugin": "^8.29.0",
+    "@typescript-eslint/parser": "^8.29.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "typescript": "^5.5.4"
   }
 }
