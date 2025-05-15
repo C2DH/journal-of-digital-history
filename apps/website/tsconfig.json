@@ -18,8 +18,23 @@
     "types": ["vite/client", "vite-plugin-svgr/client"],
     "noImplicitAny": false,
     "paths": {
-      "react": [ "./node_modules/@types/react" ]
+      "react": ["./node_modules/@types/react"]
     }
   },
-  "include": ["src", ".storybook", "apps/website/src/interfaces", "apps/website/src/schemas", "apps/website/i18nexapps/website/src/hookste/happs/website/src/logicte/lapps/website/src/modelse/models", "apps/website/src/pages", "apps/website/stories", "apps/website/src/App.jsx", "apps/website/src/index.jsx", "apps/website/src/routes.jsx", "apps/website/src/serviceWorker.js", "apps/website/src/setupTests.js", "apps/website/src/store.js", "../../lib/src/components/Tooltip/interface.ts"]
+  "include": [
+    "src",
+    ".storybook",
+    "apps/website/src/interfaces",
+    "apps/website/src/schemas",
+    "apps/website/i18nexapps/website/src/hookste/happs/website/src/logicte/lapps/website/src/modelse/models",
+    "apps/website/src/pages",
+    "apps/website/stories",
+    "apps/website/src/App.jsx",
+    "apps/website/src/index.jsx",
+    "apps/website/src/routes.jsx",
+    "apps/website/src/serviceWorker.js",
+    "apps/website/src/setupTests.js",
+    "apps/website/src/store.js",
+    "../../lib/src/components/Tooltip/interface.ts"
+  ]
 }

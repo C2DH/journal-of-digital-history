@@ -182,7 +182,7 @@ const DynamicForm = ({
                           />
                           {tooltip && (
                             <Tooltip
-                              tooltip={`pages.abstractSubmission.tooltips.${tooltip}`}
+                              tooltip={t(`pages.abstractSubmission.tooltips.${tooltip}`)}
                               tooltipPlacement={tooltipPlacement}
                               fieldname={fieldname}
                               index={index}
