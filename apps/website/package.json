@@ -56,7 +56,7 @@
     "markdown-it-replace-link": "^1.1.0",
     "mathjax": "^3.2.0",
     "moment": "^2.29.1",
-    "moo": "github:disarticulate/moo",
+    "moo": "github:C2DH/moo",
     "prosemirror-schema-basic": "^1.1.2",
     "prosemirror-state": "^1.3.3",
     "prosemirror-view": "^1.15.3",

@@ -11087,6 +11087,7 @@ __metadata:
     "@vitest/coverage-v8": "npm:^3.0.7"
     axios: "npm:^1.7.7"
     bootstrap: "npm:5.3.3"
+    codemirror: "npm:^5.65.18"
     eslint: "npm:^7.30.0"
     eslint-plugin-react: "npm:^7.24.0"
     eslint-plugin-react-hooks: "npm:^4.2.0"
@@ -11095,6 +11096,7 @@ __metadata:
     i18next: "npm:^24.2.2"
     i18next-browser-languagedetector: "npm:^8.0.4"
     i18next-http-backend: "npm:^3.0.2"
+    moo: "github:C2DH/moo"
     react: "npm:^19.1.0"
     react-bootstrap: "npm:2.10.9"
     react-dom: "npm:^19.1.0"
@@ -12749,13 +12751,6 @@ __metadata:
   version: 0.5.2
   resolution: "moo@https://github.com/disarticulate/moo.git#commit=84e65d48128351108bfcdaf1476b14b4cf87d3bb"
   checksum: 10c0/f044dbea7a94e701630b9291d73b40b28f77c03bbd51006002a363b75dea8569422f44446d14c6595f06609e00ccd239055970114533e3d9fdd17c6da3c0c4f0
-  languageName: node
-  linkType: hard
-
-"moo@npm:^0.5.1":
-  version: 0.5.2
-  resolution: "moo@npm:0.5.2"
-  checksum: 10c0/a9d9ad8198a51fe35d297f6e9fdd718298ca0b39a412e868a0ebd92286379ab4533cfc1f1f34516177f5129988ab25fe598f78e77c84e3bfe0d4a877b56525a8
   languageName: node
   linkType: hard
 
@@ -17124,7 +17119,7 @@ __metadata:
     markdown-it-replace-link: "npm:^1.1.0"
     mathjax: "npm:^3.2.0"
     moment: "npm:^2.29.1"
-    moo: "github:disarticulate/moo"
+    moo: "github:C2DH/moo"
     playwright: "npm:^1.50.1"
     prosemirror-schema-basic: "npm:^1.1.2"
     prosemirror-state: "npm:^1.3.3"
