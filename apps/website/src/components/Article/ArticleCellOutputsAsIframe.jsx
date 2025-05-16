@@ -1,5 +1,5 @@
 import React from 'react'
-import { useArticleStore } from '../../store';
+import { useArticleStore } from '../../store'
 /**
  * Renders a Jupyter Notebook cell's outputs as an iframe.
  *
@@ -24,26 +24,24 @@ const ArticleCellOutputsAsIframe = ({
     return null
   }
   const iframeHeight = isNaN(height) ? 200 : height
-  const iframeHeader = useArticleStore((state) => state.iframeHeader);
-  const articleVersion = useArticleStore((state) => state.articleVersion);
-  const addIframeHeader = useArticleStore((state) => state.addIframeHeader);
+  const iframeHeader = useArticleStore((state) => state.iframeHeader)
+  const articleVersion = useArticleStore((state) => state.articleVersion)
+  const addIframeHeader = useArticleStore((state) => state.addIframeHeader)
 
   // if in isolationMode, the srcDoc will be the output data
   const srcDoc = isolationMode
     ? outputs.reduce((acc, output) => {
         const isEmbeddable = ['execute_result', 'display_data'].includes(output.output_type)
         if (isEmbeddable) {
-
           // application/javascript
           if (output.data['application/javascript']) {
-            acc.push('<script>');
+            acc.push('<script>')
 
             if (Array.isArray(output.data['application/javascript']))
-              acc.push(...output.data['application/javascript']);
-            else
-              acc.push(output.data['application/javascript']);
+              acc.push(...output.data['application/javascript'])
+            else acc.push(output.data['application/javascript'])
 
-            acc.push('</script>');
+            acc.push('</script>')
           }
 
           // text/html
@@ -87,24 +85,26 @@ const ArticleCellOutputsAsIframe = ({
     }
     return <div dangerouslySetInnerHTML={{ __html: iframeSrcDoc }}></div>
   }
-  
+
   //  Issue #681: Isolation mode
   //  Check if iframeSrcDoc starts with a script tag
   //  If it does, remove the script tag and add it to the iframeHeader
-  const scriptTagMatch = iframeSrcDoc.match(/^<script[\s\S]*?<\/script>/);
+  const scriptTagMatch = iframeSrcDoc.match(/^<script[\s\S]*?<\/script>/)
   if (scriptTagMatch) {
-    const scriptTag = scriptTagMatch[0];
-    iframeSrcDoc = iframeSrcDoc.replace(scriptTag, '').trim();
-    addIframeHeader(scriptTag);
+    const scriptTag = scriptTagMatch[0]
+    iframeSrcDoc = iframeSrcDoc.replace(scriptTag, '').trim()
+    addIframeHeader(scriptTag)
   }
 
   //  Go deeper with the Iframe Inception Pattern  :)
   iframeSrcDoc =
-    (iframeHeader.length ? '<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>' : '') +
+    (iframeHeader.length
+      ? '<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>'
+      : '') +
     (articleVersion === 3 ? '<style> body { color:white; } </style>' : '') +
     '<link rel="stylesheet" href="/css/iframe.css">' +
     iframeHeader.join('') +
-    iframeSrcDoc;
+    iframeSrcDoc
 
   return (
     <iframe
