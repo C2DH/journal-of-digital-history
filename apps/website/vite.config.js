@@ -8,17 +8,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   return {
-    plugins: [
-      nodePolyfills(),
-      react(),
-      svgr({
-        include: '**/*.svg',
-        svgrOptions: {
-          exportType: 'default',
-        },
-      }),
-      webfontDownload(),
-    ],
+    base: '/website/',
     server: {
       proxy: {
         '/api/explain': {
@@ -36,6 +26,17 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
+    plugins: [
+      nodePolyfills(),
+      react(),
+      svgr({
+        include: '**/*.svg',
+        svgrOptions: {
+          exportType: 'default',
+        },
+      }),
+      webfontDownload(),
+    ],
     build: {
       outDir: 'build',
       emptyOutDir: true,
