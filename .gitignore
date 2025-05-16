@@ -8,10 +8,19 @@ node_modules
 .env.development
 .vscode/settings.json
 .yalc/*
-.yarn
 yalc.lock
 storybook-static
 # _redirects
 journal-of-digital-history.code-workspace
 
 *storybook.log
+
+# Yarn not PnP
+# https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
+.yarn/*
+.yarn/install-state.gz
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
