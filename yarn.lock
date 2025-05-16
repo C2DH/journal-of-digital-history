@@ -5171,13 +5171,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cookie@npm:^0.3.3":
-  version: 0.3.3
-  resolution: "@types/cookie@npm:0.3.3"
-  checksum: 10c0/96521593ca46d865d03b04b4af0324a45a1da8312b13aa2026d97a284cd6f559cc0d695a4f3255405cd301a8c93c13b22e77400ad42a0b903e06056202d49fed
-  languageName: node
-  linkType: hard
-
 "@types/d3-color@npm:^1":
   version: 1.4.5
   resolution: "@types/d3-color@npm:1.4.5"
@@ -5343,13 +5336,6 @@ __metadata:
   version: 2.0.13
   resolution: "@types/mdx@npm:2.0.13"
   checksum: 10c0/5edf1099505ac568da55f9ae8a93e7e314e8cbc13d3445d0be61b75941226b005e1390d9b95caecf5dcb00c9d1bab2f1f60f6ff9876dc091a48b547495007720
-  languageName: node
-  linkType: hard
-
-"@types/moo@npm:^0":
-  version: 0.5.10
-  resolution: "@types/moo@npm:0.5.10"
-  checksum: 10c0/23a126762e4ac44ccbd3eb6524cc3d57e979bfd64e3396c28c8e5d5107e4b33eb9aa3717274af4753f8c6d2e942acfeb31729caf19b305118dbb74ff180acef8
   languageName: node
   linkType: hard
 
@@ -7658,13 +7644,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:^0.4.0":
-  version: 0.4.2
-  resolution: "cookie@npm:0.4.2"
-  checksum: 10c0/beab41fbd7c20175e3a2799ba948c1dcc71ef69f23fe14eeeff59fc09f50c517b0f77098db87dbb4c55da802f9d86ee86cdc1cd3efd87760341551838d53fca2
-  languageName: node
-  linkType: hard
-
 "cookie@npm:^0.7.1":
   version: 0.7.2
   resolution: "cookie@npm:0.7.2"
@@ -7672,7 +7651,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:^1.0.1":
+"cookie@npm:^1.0.1, cookie@npm:^1.0.2":
   version: 1.0.2
   resolution: "cookie@npm:1.0.2"
   checksum: 10c0/fd25fe79e8fbcfcaf6aa61cd081c55d144eeeba755206c058682257cb38c4bd6795c6620de3f064c740695bb65b7949ebb1db7a95e4636efb8357a335ad3f54b
@@ -16496,13 +16475,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"universal-cookie@npm:^4.0.4":
-  version: 4.0.4
-  resolution: "universal-cookie@npm:4.0.4"
+"universal-cookie@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "universal-cookie@npm:8.0.1"
   dependencies:
-    "@types/cookie": "npm:^0.3.3"
-    cookie: "npm:^0.4.0"
-  checksum: 10c0/db5950601c2f0dbb22af930656bd6abe1f3a9eee4c488703fa806c38b27b98e2ad212445c152a4721c84ee05d1a8dd26decd13690f1c9870fac355682e17998a
+    cookie: "npm:^1.0.2"
+  checksum: 10c0/96b1f2eba8941e590892513ab3220fccad9606485452d2443f86c69388a0c663937feb386a2911d2dec5796840ae7af155c6deef8712906a931ae8a30ae93485
   languageName: node
   linkType: hard
 
@@ -17088,7 +17066,6 @@ __metadata:
     "@storybook/test": "npm:^8.6.3"
     "@tanstack/react-query": "npm:^5.25.0"
     "@tanstack/react-table": "npm:^8.10.7"
-    "@types/moo": "npm:^0"
     "@types/react-google-recaptcha": "npm:^2.1.9"
     "@u-wave/react-vimeo": "npm:^0.9.12"
     "@visx/axis": "npm:^1.3.0"
@@ -17142,7 +17119,7 @@ __metadata:
     storybook: "npm:^8.6.3"
     thebe-core: "npm:0.4.10"
     thebe-react: "npm:0.4.10"
-    universal-cookie: "npm:^4.0.4"
+    universal-cookie: "npm:^8.0.1"
     use-query-params: "npm:^2.2.1"
     vite: "npm:^6.3.5"
     zustand: "npm:^3.1.4"
