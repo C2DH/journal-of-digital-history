@@ -47,6 +47,9 @@
         "PEER_REVIEW": "Currently under Peer Review"
       }
     },
+    "cfp": {
+      "applyCallForPapers": "Submit an abstract"
+    },
     "loading": {
       "title": "loading...",
       "subheading": "..."
