@@ -97,7 +97,7 @@ const DynamicForm = ({
   }
 
   return (
-    <>
+    <div>
       <h3 className="progressiveHeading">{title}</h3>
       <p>{explanation}</p>
       <div className="dynamic-list-form">
@@ -241,7 +241,7 @@ const DynamicForm = ({
           </button>
         )}
       </div>
-    </>
+    </div>
   )
 }
 

@@ -32,3 +32,22 @@ This is a monorepo managed with **Yarn v4** using the Plug'n'Play (PnP) feature 
     yarn workspace dashboard dev
     ```
     Each app runs its own Vite dev server.
+
+## Setup VsCode editor for typescript files
+
+To remove the red underlining in all `.tsx` files in VsCode editor : 
+
+1. Install the ZipFS extension, which is maintained by the Yarn team.
+2. Run the following command, which will generate a .vscode/settings.json file:
+    ```bash
+    yarn dlx @yarnpkg/sdks vscode
+    ```
+
+3. For safety reason VSCode requires you to explicitly activate the custom TS settings:
+    - Press ctrl+shift+p in a TypeScript file
+    - Choose "Select TypeScript Version"
+    - Pick "Use Workspace Version"
+
+Do not hesitate to restart Vscode to apply the changes, and to restart from `New window` > `Open` > Open the `journal-of-digital-history` project.
+
+Please find Yarn documentation here : https://yarnpkg.com/getting-started/editor-sdks

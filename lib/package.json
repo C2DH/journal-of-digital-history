@@ -3,13 +3,20 @@
   "version": "0.1.0",
   "type": "module",
   "source": "src/index.ts",
-  "main": "dist/jdh-lib.js",
-  "module": "dist/jdh-lib.js",
-  "types": "dist/jdh-lib.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "tsc --project ./tsconfig.json && vite build"
   },
   "dependencies": {
+    "react-bootstrap": "^2.10.10",
     "vite": "^6.3.5",
     "vite-plugin-dts": "^4.5.3"
   },

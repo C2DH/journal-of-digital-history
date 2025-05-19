@@ -1,39 +1,23 @@
 {
   "compilerOptions": {
+    "jsx": "react-jsx",
     "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": false,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
-    "jsx": "react-jsx",
     "noImplicitAny": false,
-    "paths": {
-      "react": ["./node_modules/@types/react"]
-    }
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
   },
   "include": [
-    "src",
-    ".storybook",
-    "apps/website/src/interfaces",
-    "apps/website/src/schemas",
-    "apps/website/i18nexapps/website/src/hookste/happs/website/src/logicte/lapps/website/src/modelse/models",
-    "apps/website/src/pages",
-    "apps/website/stories",
-    "apps/website/src/App.jsx",
-    "apps/website/src/index.jsx",
-    "apps/website/src/routes.jsx",
-    "apps/website/src/serviceWorker.js",
-    "apps/website/src/setupTests.js",
-    "apps/website/src/store.js",
-    "../../lib/src/components/Tooltip/interface.ts"
+    "src/**/*",
   ]
 }
