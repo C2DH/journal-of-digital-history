@@ -28,7 +28,6 @@ const IssueArticles = ({
   children,
   className = '',
 }) => {
-  console.log('HERE')
   const ref = React.useRef()
   const bboxRef = React.useRef()
   const editorials = []
