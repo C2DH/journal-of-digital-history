@@ -30,4 +30,5 @@ body {
 :root {
   --navbar-width: 300px;
   --navbar-header-width: 220px;
+  --landing-page-header: 200px;
 }
