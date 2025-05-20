@@ -1,27 +1,82 @@
+/* Navbar container */
 .navbar {
-  width: 200px; 
-  background-color: var(--color-accent-light);
+  width: var(--navbar-width);
+  background-color: var(--color-white);
   height: 100vh;
   position: fixed;
-  top: 0; 
+  top: 0;
   left: 0;
+  font-size: 16px;
+  font-family: 'Fira Sans', monospace;
+  box-shadow: 4px 0 16px 0 rgba(0,0,0,0.08);
 }
 
+/* Header */
+.navbar-header {
+  display: flex;
+  align-items: center;
+  width: var(--navbar-header-width);
+  gap: 12px;
+  padding: 15%;
+}
+
+.navbar-header p {
+  margin: 0;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+/* List styles */
 .navbar ul {
-  list-style-type: none; 
-  padding: 0; 
+  list-style: none;
+  padding: 2% 15%;
+  margin: 0;
 }
 
+/* List item styles */
 .navbar li {
-  padding: 15px;
+  display: flex;
+  align-items: center;
+  margin: 10% 0%;
+  position: relative; /* Needed for ::before accent line */
 }
 
+/* Active item accent line */
+.navbar li.active::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--navbar-width) - 15% - 8%);
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background: var(--color-accent);
+  border-radius: 2px;
+}
+
+/* Link styles */
 .navbar a {
-  color: white;
-  text-decoration: none; 
-  display: block; 
+  color: var(--color-dark);
+  text-decoration: none;
+  display: block;
+  transition: color 0.2s;
 }
 
-.navbar a:hover {
-  background-color: #575757;
+/* Icon styles */
+.navbar-icons {
+  margin-right: 12px;
+  font-size: 24px;
+  color: var(--color-dark);
+  font-variation-settings: 'FILL' 0;
+  transition: color 0.2s, font-variation-settings 0.2s;
+}
+
+/* Active, hover, and focus states for both icon and link */
+.navbar li.active .navbar-icons,
+.navbar li:hover .navbar-icons,
+.navbar li:focus-within .navbar-icons,
+.navbar li.active a,
+.navbar li:hover a,
+.navbar li:focus-within a {
+  color: var(--color-accent);
+  font-variation-settings: 'FILL' 1;
 }

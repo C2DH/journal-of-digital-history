@@ -8519,6 +8519,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^5.2.0"
     eslint-plugin-react-refresh: "npm:^0.4.19"
     globals: "npm:^16.0.0"
+    jdh-lib: "npm:*"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
     typescript: "npm:~5.8.3"

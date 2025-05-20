@@ -1,15 +1,31 @@
-import './Navbar.css'; 
+import { useState } from 'react'
+import { Logo } from 'jdh-lib'
 
-const Navbar = () => {
+import { NavbarProps } from '../../interface/navbar'
+import './Navbar.css'
+
+const Navbar = ({items}: NavbarProps) => {
+  const [activeHref, setActiveHref] = useState(items[0].href)
+
   return (
     <div className="navbar">
+      <div className="navbar-header">
+        <Logo />
+        <p>Journal of Digital History</p>
+      </div>
       <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        {items.map((item) => (
+          <li
+            key={item.href}
+            className={activeHref === item.href ? 'active' : ''}
+            onClick={() => setActiveHref(item.href)}
+          >
+            <span className="material-symbols-outlined navbar-icons">{item.icon}</span>
+            <a href={item.href}>{item.label}</a>
+          </li>
+        ))}
       </ul>
     </div>
-  );
-};
-
-export default Navbar;
+  )
+}
+export default Navbar
