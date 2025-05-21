@@ -20,7 +20,7 @@ import {
 import SwitchNightMode from '../SwitchNightMode'
 import '../../styles/components/Header.scss'
 import { useOnScreen } from '../../hooks/graphics'
-import { Logo } from 'jdh-lib'
+import { Logo } from '@c2dh/jdh-ui'
 
 const MobileHeader = ({ langs, displayLangs }) => {
   const { t, i18n } = useTranslation()

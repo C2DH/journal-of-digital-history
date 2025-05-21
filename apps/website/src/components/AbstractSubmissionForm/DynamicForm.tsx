@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import parse from 'html-react-parser'
-import { Tooltip }  from 'jdh-lib'
+import { Tooltip }  from  '@c2dh/jdh-ui'
 
 import { findErrorByKeyword, getErrorByItemAndByField } from '../../logic/errors'
 import {

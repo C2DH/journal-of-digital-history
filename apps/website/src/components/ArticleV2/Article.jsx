@@ -9,7 +9,7 @@ import ArticleHelmet from './ArticleHelmet'
 import ArticleBibliography from '../Article/ArticleBibliography'
 import Footer from '../Footer'
 import LangNavLink from '../LangNavLink'
-import { Logo } from 'jdh-lib'
+import { Logo } from '@c2dh/jdh-ui'
 
 const Article = ({
   memoid = '',

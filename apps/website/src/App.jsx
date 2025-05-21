@@ -67,7 +67,7 @@ export default function App() {
       console.info('%cGA GaTrackingId not set', 'font-weight: bold', 'disabled by config.')
     }
   }, [])
-
+  console.log('🚀 ~ file: App.jsx:74 ~ i18n:', i18n)
   return (
     <BrowserRouter>
       <I18nextProvider i18n={i18n}>

@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^1.1.0",
+    "@c2dh/jdh-ui": "*",
     "@c2dh/react-facets": "^1.1.0",
     "@citation-js/core": "^0.7.18",
     "@citation-js/plugin-bibtex": "0.6.1",
@@ -61,7 +62,6 @@
     "i18next-http-backend": "^3.0.2",
     "iconoir-react": "^7.7.0",
     "immer": "^10.1.1",
-    "jdh-lib": "*",
     "lodash": "^4.17.21",
     "markdown-it": "14.1.0",
     "markdown-it-mathjax3": "^3.0.0-0",

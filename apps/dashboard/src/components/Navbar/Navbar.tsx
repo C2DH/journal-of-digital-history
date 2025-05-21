@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Logo } from 'jdh-lib'
+import { Logo } from '@c2dh/jdh-ui'
 
 import { NavbarProps } from '../../interface/navbar'
 import './Navbar.css'

@@ -10,9 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "jdh-lib": "*",
+    "@c2dh/jdh-ui": "*",
+    "i18next": "^25.2.0",
+    "i18next-http-backend": "^3.0.2",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-i18next": "^15.5.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

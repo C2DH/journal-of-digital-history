@@ -1,5 +1,5 @@
 {
-  "name": "jdh-lib",
+  "name": "@c2dh/jdh-ui",
   "version": "0.1.0",
   "type": "module",
   "source": "src/index.ts",
@@ -23,7 +23,6 @@
   "devDependencies": {
     "@types/node": "^22.15.18",
     "@types/react": "^19.1.4",
-    "tsup": "^8.4.0",
     "typescript": "^5.8.3"
   },
   "peerDependencies": {

@@ -11,7 +11,7 @@ export default defineConfig({
     copyPublicDir: false,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'jdh-lib',
+      name: '@c2dh/jdh-ui',
       formats: ['es', 'umd'],
       fileName: (format) => {
         if (format === 'es') return 'index.js'
