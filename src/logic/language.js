@@ -8,6 +8,16 @@ const DEFAULT_LANGUAGE = import.meta.env.VITE_DEFAULT_LANGUAGE ?? 'en-GB'
 const DEFAULT_LANGUAGE_SHORT = 'en'
 const LANGUAGE_PATH = `/:lang(${LANGUAGES_SHORTS.join('|')})`
 
+const EXCLUDED_PATHS = ['/dashboard', '/dashboard/']
+
+/**
+ * Determines the starting language for the application based on the current URL path
+ * and the user's browser language preferences.
+ *
+ * @returns {{ short: string, lng: string }} An object containing:
+ *   - short: The short language code (e.g., 'en', 'fr').
+ *   - lng: The full language string as found in LANGUAGES or the default language.
+ */
 const getStartLang = () => {
   const langMatch = matchPath(
     {
@@ -19,27 +29,48 @@ const getStartLang = () => {
   )
   let short = langMatch?.params?.lang
 
-  // If not in URL or not supported, check browser languages
+  // Check browser languages
   if (!short || !LANGUAGES_SHORTS.includes(short)) {
     const browserLangs = window.navigator?.languages ?? []
     const found = browserLangs.map((l) => l.split('-')[0]).find((l) => LANGUAGES_SHORTS.includes(l))
     short = found || DEFAULT_LANGUAGE_SHORT
   }
 
-  // Find the full language code (e.g. 'en-GB') for the short code
   const lng = LANGUAGES.find((l) => l.startsWith(short)) || DEFAULT_LANGUAGE
 
   return { short, lng }
 }
 
+/**
+ * Prepends a language code to a given path, unless the path is in the EXCLUDED_PATHS list.
+ *
+ * - If the path starts with '/', the language code is inserted after the leading slash.
+ * - If the path is in EXCLUDED_PATHS, it is returned unchanged.
+ * - Otherwise, the language code is prepended to the path.
+ *
+ * @param {string} path - The URL path to namespace.
+ * @param {string} lang - The language code to prepend.
+ * @returns {string} The namespaced path with the language code, or the original path if excluded.
+ */
 const namespacePath = (path, lang) => {
   if (path.startsWith('/')) {
     return `/${lang}${path}`
+  } else if (EXCLUDED_PATHS.includes(path)) {
+    return path
   } else {
     return `/${lang}/${path}`
   }
 }
 
+/**
+ * Returns a localized path or location object with the current language namespace.
+ *
+ * This hook uses the current language from the URL params or i18n context,
+ * and prepends the language namespace to the given path or location object.
+ *
+ * @param {string|Object} to - The target path as a string, or a location object with a `pathname` property.
+ * @returns {string|Object} The namespaced path as a string, or a location object with the namespaced `pathname`.
+ */
 const useToWithLang = (to) => {
   const { i18n } = useTranslation()
   let { lang } = useParams()

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Logo from '../../../../components/Logo'
+import Logo from '../../../../src/components/Logo'
 
 import { NavbarProps } from '../../interface/navbar'
 import './Navbar.css'

@@ -6,7 +6,6 @@ import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import webfontDownload from 'vite-plugin-webfont-dl'
-import { rollup } from 'd3-array'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -50,8 +49,8 @@ export default defineConfig(({ mode }) => {
       },
       rollupOptions: {
         input: {
-          main: resolve(__dirname, '/src/index.html'),
-          dashboard: resolve(__dirname, '/src/dashboard/index.html'),
+          main: resolve(__dirname, 'index.html'),
+          dashboard: resolve(__dirname, '/dashboard/index.html'),
         },
       },
     },
