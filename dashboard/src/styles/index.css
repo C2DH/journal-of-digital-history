@@ -6,6 +6,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap&subset=latin-ext');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap&subset=latin-ext');
 
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+
 /* Fonts */
 body {
   font-family: 'Source Serif Pro', serif;
@@ -17,22 +20,29 @@ body {
 :root {
   --color-primary: #51f6e0;
   --color-secondary: #222322;
-  --color-gray: #ececec;
+  --color-gray: #A3AED0;
+  --color-gray-light:#E9EDF7;
   --color-accent: #5e2bff;
   --color-accent-light: #a08cff; /* lighten(#5e2bff, 20%) */
   --color-accent-dark: #4e24d6;  /* darken(#5e2bff, 10%) */
   --color-error: #dc3545;
+  --color-warning: #FFCE20;
+  --color-success: #05CD99;
   --color-dark: #1e152a;
   --color-white: #fff;
 
-  --font-size-1: 0.8rem;
-  --font-size-2: 1rem;
-  --font-size-3: 1.2rem;
-  --font-size-4: 1.5rem;
-  --font-size-5: 2rem;
-  --font-size-6: 2.5rem;
-  --font-size-7: 3rem;
-  --font-size-8: 3.5rem;
+  --font-size-1: 0.75rem;
+  --font-size-2: 0.875rem;
+  --font-size-3: 1rem;
+  --font-size-4: 1.125rem;
+  --font-size-5: 1.25rem;
+  --font-size-6: 1.5rem;
+  --font-size-7: 1.75rem;
+  --font-size-8: 2rem;
+  --font-size-9: 2.5rem;
+  --font-size-10: 3rem;
+  --font-size-11: 3.5rem;
+  --font-size-12: 4rem;
 
   --gap-size-1: 0.5rem;
   --gap-size-2: 1rem;

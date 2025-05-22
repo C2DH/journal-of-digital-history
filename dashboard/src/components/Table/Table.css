@@ -1,6 +1,40 @@
-.card-table th,
-.card-table td {
+.table th,
+.table td {
+  font-family: 'DM Sans', sans-serif;
+  font-size: var(--font-size-2);
   text-align: left;
   vertical-align: top;
   padding-right: var(--gap-size-3);
+}
+
+.table th {
+  border-bottom: 0.25px solid var(--color-gray-light);
+  padding-bottom: var(--gap-size-1);
+}
+
+.table td {
+  color: var(--color-gray);
+  padding-top: var(--gap-size-2);
+}
+
+.icon-status {
+  margin-right: var(--gap-size-2);
+  vertical-align: middle;
+  font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+
+  &.error {
+    color: var(--color-error);
+  }
+  &.draft {
+    color: var(--color-warning);
+  }
+  &.published {
+    color: var(--color-success);
+  }
+}
+
+td.name {
+  color: var(--color-dark);
+  font-weight: 200;
+  font-family: 'Fira Sans', sans-serif;
 }
