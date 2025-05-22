@@ -1,53 +1,64 @@
 # Journal of Digital History
 
-**TL; DR**
+Frontend app (React) for the JDH journal: journal issues, write and read scholar publication on digital history
 
-To start use: `yarn install`
-This monorepo uses Yarn v4 PnP for efficient dependency management and Vite for fast development. Each app is isolated but shares dependencies via the PnP system. No traditional `node_modules` directories are used.
+## run via docker in development mode
 
----
+```
+   docker-compose up
+```
 
-This is a monorepo managed with **Yarn v4** using the Plug'n'Play (PnP) feature and **Vite**.
+and laucnh via the browser http://localhost:3000/
 
-## Architecture
+## installation
 
-- **Monorepo:** Managed with Yarn Workspaces and PnP.  
-- **Apps:** Each application (e.g., `dashboard`, `website`) has its own `package.json`, `public`, and `src` directories, as well as its own `vite.config.js` and `tsconfig.json`.
-- **Dependencies:** Dependencies are declared per app, but are installed and resolved centrally by Yarn PnP—**no `node_modules` directories are created by default**. (If you see `.yarn/unplugged` or `.yarn/cache`, these are managed by Yarn and not traditional `node_modules`.)
-
-## Development Setup
-
-1. **Install dependencies (from the root):**
-    ```bash
     yarn install
-    ```
-    This will:
-    - Set up the Yarn PnP environment.
-    - Create `.pnp.cjs` (for CommonJS) and `.pnp.loader.mjs` (for ESM) at the root.  
+    make run-dev
 
-2. **Start an app in development mode from workspace:**
-    ```bash
-    yarn workspace website dev
-    # or
-    yarn workspace dashboard dev
-    ```
-    Each app runs its own Vite dev server.
+Makefile contains a couple of useful commands that inject local environmental variable:
 
-## Setup VsCode editor for typescript files
+    run-dev:
+         VITE_GIT_TAG=$(shell git describe --tags --abbrev=0 HEAD) \
+         VITE_GIT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD) \
+         VITE_GIT_COMMIT_SHA=$(shell git rev-parse --short HEAD) \
+         yarn start
 
-To remove the red underlining in all `.tsx` files in VsCode editor : 
+In development environment, to add a PROXY api different than `http://localhost` add the VITE_PROXY as env variable (it can be stored in a local `.env.development` file)
 
-1. Install the ZipFS extension, which is maintained by the Yarn team.
-2. Run the following command, which will generate a .vscode/settings.json file:
-    ```bash
-    yarn dlx @yarnpkg/sdks vscode
-    ```
+## Branch test on netlify
 
-3. For safety reason VSCode requires you to explicitly activate the custom TS settings:
-    - Press ctrl+shift+p in a TypeScript file
-    - Choose "Select TypeScript Version"
-    - Pick "Use Workspace Version"
+This mimic a production ready _frontend_ app. The data comes from the production website as the api is proxied by netlify.
+It requries a netlify identifier stored locally in the `.netlify` git-ignored folder and a `_redirects` file that is used by netlify to redirect the api calls to the production website. Check the netlify documentation for more details.
 
-Do not hesitate to restart Vscode to apply the changes, and to restart from `New window` > `Open` > Open the `journal-of-digital-history` project.
+```bash
+BUILD_TAG=your-branch-name make run-build-netlify
+```
 
-Please find Yarn documentation here : https://yarnpkg.com/getting-started/editor-sdks
+## Production environment
+
+We use docker [c2dhunilu/journal-of-digital-history](https://hub.docker.com/repository/docker/c2dhunilu/journal-of-digital-history)
+The repo contains the built files and it is shipped automatically to docker hub with the github actions.
+See the docker-stack repo on how we do use the frontend app in production:
+[docker-compose.yml#L83](https://github.com/C2DH/journal-digital-history-docker-stack/blob/master/docker-compose.yml#L83)
+
+To build a preview docker image, you can use make `build-docker-image` with a custom `BUILD_TAG`
+
+```
+BUILD_TAG=latest-preview make build-docker-image
+```
+
+## Theme
+
+The frontend app uses bootstrap with [Reactbootstrap](https://react-bootstrap.github.io/getting-started/introduction). The main stylesheet is at `./src/styles/index.scss` and import all variables defined in the `./src/styles/_variables.scss` as [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties).
+Then every component has its own module.scss (read the [documentation on react scss module](https://create-react-app.dev/docs/adding-a-css-modules-stylesheet/)) that has access to the css variables e.g. `var(--gray-100)`;
+Fonts are loaded with WebFontLoader in ./src/index.js: Fira sans and Fira Mono
+
+## Release procedure
+
+1. Pull `develop` branch, increment version in `package.json` using [semver format](https://semver.org/)
+2. Perform `yarn install`, commit and push to `develop` branch.
+3. Create a pull request `develop -> master`. Name it with the new version in the semver format prefixed by `v`, e.g; `v2.1.0`.
+4. Merge it **without squashing**
+5. Check out and pull master, tag it with new version, e.g. git tag `v2.1.0`
+6. Push tags to GitHub: `git push origin --tags`
+7. Github Actions will build and push new images to docker hub. It may take up to 10 minutes.
