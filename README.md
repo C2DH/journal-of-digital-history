@@ -2,15 +2,15 @@
 
 Frontend app (React) for the JDH journal: journal issues, write and read scholar publication on digital history
 
-## run via docker in development mode
+## Run via docker in development mode
 
 ```
    docker-compose up
 ```
 
-and laucnh via the browser http://localhost:3000/
+and launch via the browser http://localhost:3000/
 
-## installation
+## Installation
 
     yarn install
     make run-dev
@@ -62,3 +62,9 @@ Fonts are loaded with WebFontLoader in ./src/index.js: Fira sans and Fira Mono
 5. Check out and pull master, tag it with new version, e.g. git tag `v2.1.0`
 6. Push tags to GitHub: `git push origin --tags`
 7. Github Actions will build and push new images to docker hub. It may take up to 10 minutes.
+
+## Dashboard
+
+### Get access in development mode 
+
+To get access to the dashboard in development mode, just access it by adding `/dashboard/` to your localhost address (eg. `http://localhost:5173/dashboard/`)

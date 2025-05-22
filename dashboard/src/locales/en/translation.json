@@ -1,3 +1,13 @@
 {
-  "welcome": "Welcome to the Dashboard"
+  "welcome": "Welcome to the Dashboard",
+  "issues": {
+    "title": "Issues",
+    "pid": "PID",
+    "name": "Name",
+    "creation_date": "Creation Date",
+    "publication_date": "Publication Date",
+    "status": "Status",
+    "volume": "Volume",
+    "issue": "Issue"
+  }
 }

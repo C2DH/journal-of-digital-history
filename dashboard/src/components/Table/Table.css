@@ -1,0 +1,6 @@
+.card-table th,
+.card-table td {
+  text-align: left;
+  vertical-align: top;
+  padding-right: var(--gap-size-3);
+}

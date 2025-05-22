@@ -23,24 +23,32 @@ const LandingPage = () => {
   }, [])
 
   // Prepare headers and rows for the Card
-    const headers = issues.length > 0
-    ? Object.keys(issues[0]).filter(h => h !== 'description' && h !== 'cover_date'  && h !== 'is_open_ended')
-    : [];
+  const headers =
+    issues.length > 0
+      ? Object.keys(issues[0]).filter(
+          (h) =>
+            h !== 'description' &&
+            h !== 'cover_date' &&
+            h !== 'is_open_ended' &&
+            h !== 'id' &&
+            h !== 'data',
+        )
+      : []
 
-    const data = issues.map(issue =>
-    headers.map(header => {
-    const value = issue[header];
-    if (typeof value === 'object' && value !== null) {
-        return JSON.stringify(value);
-    }
-    return value;
-    })
-    );
+  const data = issues.map((issue) =>
+    headers.map((header) => {
+      const value = issue[header]
+      if (typeof value === 'object' && value !== null) {
+        return JSON.stringify(value)
+      }
+      return value
+    }),
+  )
 
   return (
     <div className="landing-page">
       <h1>{t('welcome')}</h1>
-      <Card title="Issues" headers={headers} data={data} />
+      <Card item="issues" headers={headers} data={data} />
     </div>
   )
 }
