@@ -8,7 +8,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
-
 /* Fonts */
 body {
   font-family: 'Source Serif Pro', serif;
@@ -23,7 +22,8 @@ body {
   --color-gray: #A3AED0;
   --color-gray-light:#E9EDF7;
   --color-accent: #5e2bff;
-  --color-accent-light: #a08cff; /* lighten(#5e2bff, 20%) */
+  --color-accent-light: #a08cff;   /* lighten(#5e2bff, 20%) */
+  --color-accent-lighter: rgba(52, 152, 219, 0.02); /* lighten(#5e2bff, 40%) */
   --color-accent-dark: #4e24d6;  /* darken(#5e2bff, 10%) */
   --color-error: #dc3545;
   --color-warning: #FFCE20;

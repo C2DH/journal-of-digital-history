@@ -17,12 +17,20 @@
   padding-top: var(--gap-size-2);
 }
 
+.status-cell {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
 .icon-status {
-  margin-right: var(--gap-size-2);
+  margin-right: var(--gap-size-1);
   vertical-align: middle;
   font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;
 
-  &.error {
+  &.error,
+  &.abandoned,
+  &.declined {
     color: var(--color-error);
   }
   &.draft {
@@ -33,7 +41,8 @@
   }
 }
 
-td.name {
+td.name,
+& td.title {
   color: var(--color-dark);
   font-weight: 200;
   font-family: 'Fira Sans', sans-serif;

@@ -35,6 +35,7 @@
     "@types/jest": "^26.0.9",
     "@types/node": "^20.14.12",
     "@types/react-google-recaptcha": "^2.1.9",
+    "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^8.29.0",
     "@typescript-eslint/parser": "^8.29.0",
     "@u-wave/react-vimeo": "^0.9.12",
@@ -54,6 +55,7 @@
     "d3-scale": "^3.2.3",
     "deepdash-es": "^5.3.0",
     "downsize": "^0.0.8",
+    "globals": "^16.1.0",
     "highlight.js": "^10.5.0",
     "history": "^5.0.0",
     "html-react-parser": "^5.2.3",
@@ -88,7 +90,7 @@
     "react-i18next": "^15.4.1",
     "react-rocketjump": "^2.6.2",
     "react-router": "^7.2.0",
-    "react-router-dom": "^7.2.0",
+    "react-router-dom": "^7.6.0",
     "react-scrollama": "^2.2.15",
     "react-slick": "^0.30.3",
     "react-spring": "^9.1.2",
@@ -111,6 +113,8 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.5",
+    "@eslint/compat": "^1.2.9",
+    "@react-router/dev": "^7.6.0",
     "@storybook/addon-essentials": "^8.6.3",
     "@storybook/addon-onboarding": "^8.6.3",
     "@storybook/blocks": "^8.6.3",
@@ -127,13 +131,17 @@
     "@types/react-dom": "^19.1.5",
     "@vitest/browser": "^3.0.7",
     "@vitest/coverage-v8": "^3.0.7",
-    "eslint": "^7.30.0",
-    "eslint-plugin-react": "^7.24.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint": "^9.27.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-import-resolver-typescript": "^4.3.5",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-storybook": "^0.6.8",
     "playwright": "^1.50.1",
     "storybook": "^8.6.3",
     "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.1",
     "vite": "^6.1.0",
     "vitest": "^3.1.4"
   },
@@ -151,18 +159,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  },
-  "eslintConfig": {
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
     ]
   }
 }

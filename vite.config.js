@@ -10,7 +10,7 @@ import webfontDownload from 'vite-plugin-webfont-dl'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd())
+  const env = loadEnv(mode, __dirname)
 
   return {
     server: {
@@ -29,6 +29,9 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
         },
       },
+      // historyApiFallback: {
+      //   rewrites: [{ from: new RegExp(`^/dashboard/.*$`), to: `/dashboard/index.html` }],
+      // },
     },
     plugins: [
       nodePolyfills(),

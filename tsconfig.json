@@ -15,9 +15,7 @@
     "noImplicitAny": false,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": true
   },
-  "include": [
-    "src/**/*",
-  ]
+  "include": ["src/**/*", "dashboard/src/*", "vite.env.d.ts"]
 }

@@ -1,7 +1,7 @@
 {
   "welcome": "Welcome to the Dashboard",
   "issues": {
-    "title": "Issues",
+    "item": "Issues",
     "pid": "PID",
     "name": "Name",
     "creation_date": "Creation Date",
@@ -9,5 +9,16 @@
     "status": "Status",
     "volume": "Volume",
     "issue": "Issue"
+  },
+  "abstracts": {
+    "item": "Abstracts",
+    "pid": "PID",
+    "title": "Title",
+    "submitted_date": "Submitted Date",
+    "validation_date": "Validation Date",
+    "contact_lastname": "Lastname",
+    "contact_firstname": "Firstname",
+    "contact_affiliation": "Affiliation",
+    "status": "Status"
   }
 }

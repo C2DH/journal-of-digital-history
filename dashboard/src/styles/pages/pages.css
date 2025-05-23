@@ -1,11 +1,7 @@
-.landing-page {
+.page {
   margin-left: var(--navbar-width);
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 2%;
-}
-
-.landing-page h1 {
-   font-family: 'Fira Sans', monospace;
 }

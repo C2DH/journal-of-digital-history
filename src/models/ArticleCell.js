@@ -1,8 +1,8 @@
 import {
-  SectionDefault,
+  LayerHermeneutics,
   LayerNarrative,
   RoleDefault,
-  LayerHermeneutics,
+  SectionDefault,
 } from '../constants/globalConstants'
 
 export default class ArticleCell {
