@@ -14,6 +14,17 @@ export default defineConfig(({ mode }) => {
 
   return {
     server: {
+      fs: {
+        strict: false, // Allows serving files from outside the project root if needed
+      },
+      middleware: [
+        (req, res, next) => {
+          if (req.url.startsWith('/dashboard/')) {
+            req.url = '/dashboard.html'
+          }
+          next()
+        },
+      ],
       proxy: {
         '/api/explain': {
           target: env.VITE_ENABLE_CODE_EXPLAINER_PROXY,
