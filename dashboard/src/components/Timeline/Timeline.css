@@ -1,0 +1,51 @@
+.timeline-container {
+  position: relative;
+  width: 100%;
+  margin: 2em 0;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 50%;
+  left: 2.5%;
+  right: 2.5%;
+  height: 2px;
+  background: #ccc;
+  z-index: 0;
+}
+
+.timeline-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.timeline-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+}
+
+.timeline-icon-container {
+  background: white;
+  border-radius: 50%;
+  padding: 0.2em;
+  font-size: 2em;
+  color: #ccc;
+  transition: color 0.2s;
+}
+
+.timeline-icon-container.validated {
+  color: #4caf50;
+}
+
+.timeline-label {
+  margin-top: 0.5em;
+  font-size: 0.9em;
+}

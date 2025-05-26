@@ -2,49 +2,17 @@ import { DateTime } from 'luxon'
 import { useTranslation } from 'react-i18next'
 
 import { TableProps } from '../../interfaces/table'
+import { convertDate } from '../../logic/convertDate'
+import { convertStatus } from '../../logic/convertStatus'
+import { getCleanData, getVisibleHeaders } from '../../logic/tableUtils'
+
 import './Table.css'
-
-const statusIcons: Record<string, { icon: string }> = {
-  published: { icon: 'check_circle' },
-  error: { icon: 'error' },
-  abandoned: { icon: 'cancel' },
-  declined: { icon: 'cancel' },
-  draft: { icon: 'error' },
-}
-
-const convertDate = (date) => {
-  return DateTime.fromISO(date).toFormat('dd MMM yyyy')
-}
-
-const convertStatus = (cell: string) => {
-  const status = cell.toLowerCase()
-  const iconInfo = statusIcons[status] || { icon: 'help', color: 'gray' }
-
-  return (
-    <span className="status-cell">
-      <span
-        className={`material-symbols-outlined icon-status ${status}`}
-      >{`${iconInfo.icon}`}</span>
-      <span>{status} </span>
-    </span>
-  )
-}
 
 const Table = ({ title, headers, data }: TableProps) => {
   const { t } = useTranslation()
 
-  const visibleHeaders =
-    data.length > 0 ? Object.keys(data[0]).filter((h) => headers.includes(h)) : []
-
-  const cleanData = data.map((issue) =>
-    visibleHeaders.map((header) => {
-      const value = issue[header]
-      if (typeof value === 'object' && value !== null) {
-        return JSON.stringify(value)
-      }
-      return value
-    }),
-  )
+  const visibleHeaders = getVisibleHeaders({ data, headers })
+  const cleanData = getCleanData({ data, visibleHeaders })
 
   return (
     <table className="table">

@@ -24,8 +24,10 @@ body {
   --color-gray-light: #ecedf1;
   --color-accent: #5e2bff;
   --color-accent-light: #a08cff; /* lighten(#5e2bff, 20%) */
-  --color-accent-lighter: rgba(52, 152, 219, 0.04); /* lighten(#5e2bff, 40%) */
   --color-accent-dark: #4e24d6; /* darken(#5e2bff, 10%) */
+  /* --color-accent-lighter: rgba(52, 152, 219, 0.04);  */
+  --color-accent-lighter: #f4f7fe;
+  --color-deep-blue: #2b3674;
   --color-error: #dc3545;
   --color-warning: #ffce20;
   --color-success: #05cd99;

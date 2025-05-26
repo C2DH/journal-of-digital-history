@@ -2,6 +2,7 @@ import './Card.css'
 
 import { useTranslation } from 'react-i18next'
 
+import ProgressionTable from '../ProgressionTable/ProgressionTable'
 import Table from '../Table/Table'
 
 const Card = ({ item, headers, data }) => {
@@ -11,7 +12,11 @@ const Card = ({ item, headers, data }) => {
     <div className="card">
       {' '}
       <h1>{t(`${item}.item`)}</h1>
-      <Table title={item} headers={headers} data={data} />
+      {item === 'articles' ? (
+        <ProgressionTable title={item} headers={headers} data={data} />
+      ) : (
+        <Table title={item} headers={headers} data={data} />
+      )}
     </div>
   )
 }
