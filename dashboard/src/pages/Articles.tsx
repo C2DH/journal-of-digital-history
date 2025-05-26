@@ -1,0 +1,49 @@
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
+import { fetchItems } from '../api/fetchData'
+import Card from '../components/Card/Card'
+import { Abstract } from '../interfaces/abstract'
+
+import '../styles/pages/pages.css'
+
+const Articles = () => {
+  const { t } = useTranslation()
+  const [articles, setArticles] = useState<Abstract[]>([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const articlesList = await fetchItems(
+          '/api/articles',
+          import.meta.env.VITE_API_USERNAME,
+          import.meta.env.VITE_API_PASSWORD,
+        )
+        setArticles(articlesList.results)
+      } catch (error) {
+        console.error('[Fetch Error]', error)
+      }
+    }
+    fetchData()
+  }, [])
+
+  return (
+    <div className="articles page">
+      <Card
+        item="articles"
+        headers={[
+          'pid',
+          'title',
+          'callpaper',
+          'submitted_date',
+          'validation_date',
+          'status',
+          'repository_url',
+        ]}
+        data={articles}
+      />
+    </div>
+  )
+}
+
+export default Articles

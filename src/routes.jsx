@@ -52,7 +52,7 @@ export function AppRoutes({ languagePath = 'en' }) {
   console.debug('[AppRoutes] languagePath:', languagePath)
   return (
     <Routes>
-      <Route path="/" element={<Navigate to={`${languagePath}/`} replace />} />
+      {/* <Route path="/" element={<Navigate to={`${languagePath}/`} replace />} /> */}
       <Route path={`${languagePath}/*`} element={<Home />} />
       <Route path={`${languagePath}/about`} element={<About />} />
       <Route path={`${languagePath}/abstract`} element={<MockAbstract />} />
@@ -81,7 +81,7 @@ export function AppRoutes({ languagePath = 'en' }) {
       <Route path={`${languagePath}/guidelines/:notebook?`} element={<Guidelines />} />
       <Route path={`${languagePath}/cfp/:permalink`} element={<CallForPapers />} />
       <Route path={`${languagePath}/p/:pageId`} element={<Page />} />
-      <Route path="*" element={<NotFound />} />
+      {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
   )
 }

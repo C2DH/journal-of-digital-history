@@ -6,7 +6,7 @@
   padding: 24px;
   font-family: 'Fira Sans', monospace;
 
-  background: var(--color-accent-lighter);
+  background: var(--color-white);
   backdrop-filter: blur(50px);
-  -webkit-backdrop-filter: blur(50px); 
+  -webkit-backdrop-filter: blur(50px);
 }

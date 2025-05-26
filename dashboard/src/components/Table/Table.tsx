@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { useTranslation } from 'react-i18next'
 
-import { TableProps } from '../../interface/table'
+import { TableProps } from '../../interfaces/table'
 import './Table.css'
 
 const statusIcons: Record<string, { icon: string }> = {

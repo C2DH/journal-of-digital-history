@@ -1,0 +1,18 @@
+.breadcrumb {
+  font-family: 'Fira Sans', sans-serif;
+  margin-left: var(--navbar-width);
+  display: flex;
+  align-items: center;
+  padding: var(--gap-size-4);
+}
+
+.breadcrumb {
+  font-size: var(--font-size-4);
+}
+.breadcrumb a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+.breadcrumb span {
+  display: inline;
+}

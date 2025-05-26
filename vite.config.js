@@ -29,9 +29,6 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
         },
       },
-      // historyApiFallback: {
-      //   rewrites: [{ from: new RegExp(`^/dashboard/.*$`), to: `/dashboard/index.html` }],
-      // },
     },
     plugins: [
       nodePolyfills(),
@@ -43,6 +40,19 @@ export default defineConfig(({ mode }) => {
         },
       }),
       webfontDownload(),
+      // {
+      //   name: 'dashboard-middleware',
+      //   configureServer(server) {
+      //     return () => {
+      //       server.middlewares.use((req, res, next) => {
+      //         if (req.url.includes('/dashboard')) {
+      //           req.url = '/dashboard.html'
+      //         }
+      //         next()
+      //       })
+      //     }
+      //   },
+      // },
     ],
     build: {
       outDir: 'build',
@@ -53,7 +63,7 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         input: {
           main: resolve(__dirname, 'index.html'),
-          dashboard: resolve(__dirname, '/dashboard/index.html'),
+          dashboard: resolve(__dirname, 'dashboard.html'),
         },
       },
     },

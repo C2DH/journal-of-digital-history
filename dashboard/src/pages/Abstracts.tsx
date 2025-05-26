@@ -3,22 +3,11 @@ import { useTranslation } from 'react-i18next'
 
 import { fetchItems } from '../api/fetchData'
 import Card from '../components/Card/Card'
+import { Abstract } from '../interfaces/abstract'
 
 import '../styles/pages/pages.css'
 
-type Abstract = {
-  pid: string
-  title: string
-  submitted_date: string
-  validation_date: string
-  status: string
-  contact_lastname: string
-  contact_firstname: string
-  contact_affiliation: string
-}
-
 const Abstracts = () => {
-  console.log('here')
   const { t } = useTranslation()
   const [abstracts, setAbstracts] = useState<Abstract[]>([])
 

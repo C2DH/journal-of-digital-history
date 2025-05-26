@@ -1,21 +1,21 @@
 import { lazy } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 
-import { PATH_PREFIX } from './constants/global'
-
 const Home = lazy(() => import('./pages/Home'))
 const Abstracts = lazy(() => import('./pages/Abstracts'))
+const Articles = lazy(() => import('./pages/Articles'))
+const CallForPapers = lazy(() => import('./pages/CallForPapers'))
 const Error = lazy(() => import('./pages/Error'))
 
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route path={PATH_PREFIX}>
-        <Route path="" element={<Home />} />
-        <Route path="home" element={<Home />} />
-        <Route path="abstracts" element={<Abstracts />} />
-        <Route path="*" element={<Navigate to="" replace />} />
-      </Route>
+      <Route path="/" element={<Home />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/abstracts" element={<Abstracts />} />
+      <Route path="/articles" element={<Articles />} />
+      <Route path="/callforpapers" element={<CallForPapers />} />
+      <Route path="/*" element={<Navigate to="" replace />} />
     </Routes>
   )
 }

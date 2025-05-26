@@ -4,19 +4,10 @@ import { Outlet } from 'react-router'
 
 import { fetchItems } from '../api/fetchData'
 import Card from '../components/Card/Card'
+import { Issue } from '../interfaces/issue'
 
 import '../styles/pages/Home.css'
 import '../styles/pages/pages.css'
-
-type Issue = {
-  pid: string
-  name: string
-  creation_date: string
-  publication_date: string
-  status: string
-  volume: string
-  issue: string
-}
 
 const Home = () => {
   const { t } = useTranslation()

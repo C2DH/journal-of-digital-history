@@ -11,23 +11,24 @@
 /* Fonts */
 body {
   font-family: 'Source Serif Pro', serif;
-  background-image: linear-gradient(90deg,#f6f6f6 1px,#0000 1px),linear-gradient(#f6f6f6 1px,#0000 1px);
-  background-size: 14px 14px;
+  background-color: var(--color-accent-lighter);
+  /* background-image: linear-gradient(90deg,#f6f6f6 1px,#0000 1px),linear-gradient(#f6f6f6 1px,#0000 1px); */
+  /* background-size: 14px 14px; */
 }
 
 /* Color variables */
 :root {
   --color-primary: #51f6e0;
   --color-secondary: #222322;
-  --color-gray: #A3AED0;
-  --color-gray-light:#E9EDF7;
+  --color-gray: #a3aed0;
+  --color-gray-light: #ecedf1;
   --color-accent: #5e2bff;
-  --color-accent-light: #a08cff;   /* lighten(#5e2bff, 20%) */
-  --color-accent-lighter: rgba(52, 152, 219, 0.02); /* lighten(#5e2bff, 40%) */
-  --color-accent-dark: #4e24d6;  /* darken(#5e2bff, 10%) */
+  --color-accent-light: #a08cff; /* lighten(#5e2bff, 20%) */
+  --color-accent-lighter: rgba(52, 152, 219, 0.04); /* lighten(#5e2bff, 40%) */
+  --color-accent-dark: #4e24d6; /* darken(#5e2bff, 10%) */
   --color-error: #dc3545;
-  --color-warning: #FFCE20;
-  --color-success: #05CD99;
+  --color-warning: #ffce20;
+  --color-success: #05cd99;
   --color-dark: #1e152a;
   --color-white: #fff;
 
@@ -57,4 +58,3 @@ body {
   --navbar-header-width: 220px;
   --landing-page-header: 200px;
 }
-
