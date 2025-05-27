@@ -5,6 +5,10 @@ const Home = lazy(() => import('./pages/Home'))
 const Abstracts = lazy(() => import('./pages/Abstracts'))
 const Articles = lazy(() => import('./pages/Articles'))
 const CallForPapers = lazy(() => import('./pages/CallForPapers'))
+const Issues = lazy(() => import('./pages/Issues'))
+const Authors = lazy(() => import('./pages/Authors'))
+const Datasets = lazy(() => import('./pages/Datasets'))
+const Tags = lazy(() => import('./pages/Tags'))
 const Error = lazy(() => import('./pages/Error'))
 
 export default function AppRoutes() {
@@ -15,6 +19,10 @@ export default function AppRoutes() {
       <Route path="/abstracts" element={<Abstracts />} />
       <Route path="/articles" element={<Articles />} />
       <Route path="/callforpapers" element={<CallForPapers />} />
+      <Route path="/issues" element={<Issues />} />
+      <Route path="/authors" element={<Authors />} />
+      <Route path="/datasets" element={<Datasets />} />
+      <Route path="/tags" element={<Tags />} />
       <Route path="*" element={<Error />} />
     </Routes>
   )

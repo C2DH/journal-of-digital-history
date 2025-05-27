@@ -40,5 +40,20 @@
     "publication_date": "Publication Date",
     "status": "Status",
     "repository_url": "Repository URL"
+  },
+  "authors": {
+    "item": "Authors",
+    "id": "ID",
+    "lastname": "Lastname",
+    "firstname": "Firstname",
+    "affiliation": "Affiliation",
+    "email": "Email",
+    "orcid": "ORCID"
+  },
+  "datasets": {
+    "item": "Datasets",
+    "id": "ID",
+    "url": "Link",
+    "description": "Description"
   }
 }

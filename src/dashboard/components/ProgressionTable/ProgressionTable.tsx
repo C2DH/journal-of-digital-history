@@ -8,7 +8,6 @@ import { convertLink } from '../../logic/convertLink'
 import { getCleanData, getVisibleHeaders } from '../../logic/tableUtils'
 import Timeline from '../Timeline/Timeline'
 
-import './ProgressionTable.css'
 import '../Table/Table.css'
 
 const ProgressionTable = ({ title, headers, data }: TableProps) => {

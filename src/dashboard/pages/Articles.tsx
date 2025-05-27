@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { fetchItems } from '../api/fetchData'
 import Card from '../components/Card/Card'
+import { USERNAME, PASSWORD } from '../constants/global'
 import { Abstract } from '../interfaces/abstract'
 
 import '../styles/pages/pages.css'
@@ -12,11 +13,7 @@ const Articles = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const articlesList = await fetchItems(
-          '/api/articles',
-          import.meta.env.VITE_API_USERNAME,
-          import.meta.env.VITE_API_PASSWORD,
-        )
+        const articlesList = await fetchItems('/api/articles', USERNAME, PASSWORD)
         setArticles(articlesList.results)
       } catch (error) {
         console.error('[Fetch Error]', error)

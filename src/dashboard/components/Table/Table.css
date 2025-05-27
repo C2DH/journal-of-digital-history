@@ -56,4 +56,6 @@ button {
   border: none;
   font-size: var(--font-size-2);
   cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

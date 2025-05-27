@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { fetchItems } from '../api/fetchData'
 import Card from '../components/Card/Card'
+import { USERNAME, PASSWORD } from '../constants/global'
 import { Abstract } from '../interfaces/abstract'
 
 import '../styles/pages/pages.css'
@@ -14,11 +15,7 @@ const Abstracts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const abstractsList = await fetchItems(
-          '/api/abstracts',
-          import.meta.env.VITE_API_USERNAME,
-          import.meta.env.VITE_API_PASSWORD,
-        )
+        const abstractsList = await fetchItems('/api/abstracts', USERNAME, PASSWORD)
         setAbstracts(abstractsList.results)
       } catch (error) {
         console.error('[Fetch Error]', error)

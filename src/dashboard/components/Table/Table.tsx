@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 import { TableProps } from '../../interfaces/table'
 import { convertDate } from '../../logic/convertDate'
+import { convertLink } from '../../logic/convertLink'
 import { convertStatus } from '../../logic/convertStatus'
 import { getCleanData, getVisibleHeaders } from '../../logic/tableUtils'
 
@@ -34,6 +35,8 @@ const Table = ({ title, headers, data }: TableProps) => {
 
               if (typeof cell === 'string' && header === 'status') {
                 content = convertStatus(cell)
+              } else if (typeof cell === 'string' && cell.startsWith('http')) {
+                content = convertLink(cell)
               } else if (typeof cell === 'string' && DateTime.fromISO(cell).isValid) {
                 content = convertDate(cell)
               } else if (cell === null) {

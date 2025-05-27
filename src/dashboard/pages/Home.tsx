@@ -4,6 +4,7 @@ import { Outlet } from 'react-router'
 
 import { fetchItems } from '../api/fetchData'
 import Card from '../components/Card/Card'
+import { USERNAME, PASSWORD } from '../constants/global'
 import { Issue } from '../interfaces/issue'
 
 import '../styles/pages/Home.css'
@@ -16,11 +17,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const issuesList = await fetchItems(
-          '/api/issues',
-          import.meta.env.VITE_API_USERNAME,
-          import.meta.env.VITE_API_PASSWORD,
-        )
+        const issuesList = await fetchItems('/api/issues', USERNAME, PASSWORD)
         setIssues(issuesList.results)
       } catch (error) {
         console.error('[Fetch Error]', error)
