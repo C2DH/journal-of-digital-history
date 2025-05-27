@@ -1,5 +1,5 @@
 import { lazy } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 const Home = lazy(() => import('./pages/Home'))
 const Abstracts = lazy(() => import('./pages/Abstracts'))
@@ -15,7 +15,7 @@ export default function AppRoutes() {
       <Route path="/abstracts" element={<Abstracts />} />
       <Route path="/articles" element={<Articles />} />
       <Route path="/callforpapers" element={<CallForPapers />} />
-      <Route path="/*" element={<Navigate to="" replace />} />
+      <Route path="*" element={<Error />} />
     </Routes>
   )
 }

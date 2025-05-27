@@ -30,17 +30,14 @@
   },
   "articles": {
     "item": "Articles",
-    "id": "ID",
-    "pid": "PID",
-    "title": "Title",
-    "abstract": "Abstract",
+    "abstract": {
+      "pid": "PID",
+      "title": "Title"
+    },
     "callpaper": "Call For Paper Number",
     "submitted_date": "Submission date",
     "validation_date": "Validation date",
-    "contact_affiliation": "Affiliation",
-    "contact_email": "Email",
-    "contact_lastname": "Contact firstname",
-    "contact_firstname": "Contact lastname",
+    "publication_date": "Publication Date",
     "status": "Status",
     "repository_url": "Repository URL"
   }

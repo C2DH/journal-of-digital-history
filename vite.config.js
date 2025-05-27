@@ -8,6 +8,7 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import webfontDownload from 'vite-plugin-webfont-dl'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
+
 function dashboardPlugin() {
   return {
     name: 'dashboard-router',
@@ -21,6 +22,7 @@ function dashboardPlugin() {
     },
   }
 }
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, __dirname)
 
@@ -44,12 +46,10 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-
     plugins: [
+      dashboardPlugin(),
       nodePolyfills(),
       react(),
-      dashboardPlugin(),
-
       svgr({
         include: '**/*.svg',
         svgrOptions: {
@@ -57,20 +57,6 @@ export default defineConfig(({ mode }) => {
         },
       }),
       webfontDownload(),
-      
-      // {
-      //   name: 'dashboard-middleware',
-      //   configureServer(server) {
-      //     return () => {
-      //       server.middlewares.use((req, res, next) => {
-      //         if (req.url.includes('/dashboard')) {
-      //           req.url = '/dashboard.html'
-      //         }
-      //         next()
-      //       })
-      //     }
-      //   },
-      // },
     ],
     build: {
       outDir: 'build',

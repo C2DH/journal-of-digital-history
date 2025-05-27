@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon'
 import { useTranslation } from 'react-i18next'
 
-import { steps } from '../../constants/timeline'
+import { articleSteps } from '../../constants/article'
 import { TableProps } from '../../interfaces/table'
 import { convertDate } from '../../logic/convertDate'
 import { convertLink } from '../../logic/convertLink'
@@ -15,7 +15,6 @@ const ProgressionTable = ({ title, headers, data }: TableProps) => {
   const { t } = useTranslation()
   const visibleHeaders = getVisibleHeaders({ data, headers })
   const cleanData = getCleanData({ data, visibleHeaders })
-  console.log('🚀 ~ file: ProgressionTable.tsx:18 ~ cleanData:', cleanData)
 
   return (
     <table className="progression table">
@@ -23,7 +22,7 @@ const ProgressionTable = ({ title, headers, data }: TableProps) => {
         <tr>
           {visibleHeaders.map((header, idx) =>
             header === 'status' ? (
-              steps.map((step) => (
+              articleSteps.map((step) => (
                 <th key={step.key} className="status-header" title={step.label}>
                   <span className="material-symbols-outlined">{step.icon}</span>
                 </th>
@@ -40,13 +39,15 @@ const ProgressionTable = ({ title, headers, data }: TableProps) => {
         {cleanData.map((row, rIdx) => (
           <tr key={rIdx}>
             {row.map((cell, cIdx) => {
+              const header = headers[cIdx].toLowerCase().split('.').join(' ')
               let content: React.ReactNode = '-'
 
               const isStep =
-                typeof cell === 'string' && steps.some((step) => step.key === cell.toLowerCase())
+                typeof cell === 'string' &&
+                articleSteps.some((step) => step.key === cell.toLowerCase())
 
               if (isStep) {
-                content = <Timeline steps={steps.length} currentStep={cell} />
+                content = <Timeline steps={articleSteps} currentStatus={cell} />
               } else if (typeof cell === 'string' && DateTime.fromISO(cell).isValid) {
                 content = convertDate(cell)
               } else if (typeof cell === 'string' && cell.startsWith('http')) {
@@ -58,7 +59,7 @@ const ProgressionTable = ({ title, headers, data }: TableProps) => {
               }
 
               return (
-                <td key={cIdx} colSpan={isStep ? steps.length : 0}>
+                <td key={cIdx} colSpan={isStep ? articleSteps.length : 0} className={`${header}`}>
                   {content}
                 </td>
               )

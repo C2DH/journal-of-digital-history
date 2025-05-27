@@ -1,4 +1,4 @@
-export const steps = [
+export const articleSteps = [
   { key: 'draft', label: 'Submission', icon: 'upload_file' },
   { key: 'technical_review', label: 'Technical Review', icon: 'settings' },
   { key: 'peer_review', label: 'Peer Review', icon: 'check_circle' },

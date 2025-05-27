@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 
 import { fetchItems } from '../api/fetchData'
 import Card from '../components/Card/Card'
@@ -8,7 +7,6 @@ import { Abstract } from '../interfaces/abstract'
 import '../styles/pages/pages.css'
 
 const Articles = () => {
-  const { t } = useTranslation()
   const [articles, setArticles] = useState<Abstract[]>([])
 
   useEffect(() => {
@@ -32,11 +30,12 @@ const Articles = () => {
       <Card
         item="articles"
         headers={[
-          'pid',
-          'title',
+          'abstract.pid',
+          'abstract.title',
           'callpaper',
           'submitted_date',
           'validation_date',
+          'publication_date',
           'status',
           'repository_url',
         ]}

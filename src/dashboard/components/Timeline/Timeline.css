@@ -1,13 +1,12 @@
 .timeline-container {
   position: relative;
   width: 100%;
-  margin: 2em 0;
 }
 
 .timeline-line {
   position: absolute;
   top: 40%;
-  left: 5%;
+  left: 0%;
   right: 5%;
   height: 2px;
   background: var(--color-dark);
@@ -30,4 +29,23 @@
   flex-direction: column;
   align-items: center;
   background: white;
+}
+
+.timeline-done,
+.timeline-error,
+.timeline-pending {
+  font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+}
+
+.timeline-done {
+  color: var(--color-success);
+}
+.timeline-error {
+  color: var(--color-error);
+}
+.timeline-pending {
+  color: var(--color-warning);
+}
+.timeline-todo {
+  color: var(--color-dark);
 }
