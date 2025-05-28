@@ -1,3 +1,5 @@
+import { convertOrcid } from './isOrcid'
+
 /**
  * Converts a string cell value into a clickable button if it is a valid URL.
  * The button displays the main domain of the URL and opens the link in a new tab when clicked.
@@ -7,15 +9,20 @@
  * @returns A React button element displaying the main domain if the input is a valid URL, otherwise the original string.
  */
 export const convertLink = (cell: string) => {
+  let content = cell
+
+  if (!cell.startsWith('http')) {
+    content = convertOrcid(content)
+  }
   try {
-    const url = new URL(cell)
+    const url = new URL(content)
     const mainDomain = url.hostname.split('.').slice(-2, -1)[0]
     return (
-      <button type="button" onClick={() => window.open(cell, '_blank')} className="link-button">
+      <button type="button" onClick={() => window.open(content, '_blank')} className="link-button">
         {mainDomain}
       </button>
     )
   } catch {
-    return cell
+    return content
   }
 }

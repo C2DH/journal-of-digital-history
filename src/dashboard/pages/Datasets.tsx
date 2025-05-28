@@ -10,7 +10,7 @@ const Datasets = () => {
     data: datasets,
     error,
     loading,
-  } = useFetchItems<Dataset>('/api/datasets', USERNAME, PASSWORD)
+  } = useFetchItems<Dataset>('/api/datasets', 100, 0, USERNAME, PASSWORD)
 
   return (
     <div className="datasets page">

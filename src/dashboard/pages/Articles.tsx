@@ -10,7 +10,7 @@ const Articles = () => {
     data: articles,
     error,
     loading,
-  } = useFetchItems<Article>('/api/articles', USERNAME, PASSWORD)
+  } = useFetchItems<Article>('/api/articles', 100, 0, USERNAME, PASSWORD)
 
   return (
     <div className="articles page">

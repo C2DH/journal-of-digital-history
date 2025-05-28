@@ -33,9 +33,13 @@
   &.declined {
     color: var(--color-error);
   }
+
+  &.submitted,
+  &.suspended,
   &.draft {
     color: var(--color-warning);
   }
+  &.accepted,
   &.published {
     color: var(--color-success);
   }

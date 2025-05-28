@@ -6,7 +6,11 @@ import { Issue } from '../interfaces/issue'
 import '../styles/pages/pages.css'
 
 const Issues = () => {
-  const { data: issues, error, loading } = useFetchItems<Issue>('/api/issues', USERNAME, PASSWORD)
+  const {
+    data: issues,
+    error,
+    loading,
+  } = useFetchItems<Issue>('/api/issues', 100, 0, USERNAME, PASSWORD)
 
   return (
     <div className="issues page">

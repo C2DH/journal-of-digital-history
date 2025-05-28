@@ -25,6 +25,7 @@ const Card = ({ item, headers, data, error, loading }) => {
       <div className="card card-error">
         <h1>{t('error.title', 'Error')}</h1>
         <p>{error}</p>
+        <p>{error.response}</p>
       </div>
     )
   }

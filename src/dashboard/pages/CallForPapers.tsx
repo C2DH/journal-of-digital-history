@@ -10,7 +10,7 @@ const CallForPapers = () => {
     data: callforpapers,
     error,
     loading,
-  } = useFetchItems<Callforpaper>('/api/callofpaper', USERNAME, PASSWORD)
+  } = useFetchItems<Callforpaper>('/api/callofpaper', 100, 0, USERNAME, PASSWORD)
 
   return (
     <div className="callforpapers page">

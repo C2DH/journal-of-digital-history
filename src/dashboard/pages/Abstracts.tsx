@@ -10,7 +10,7 @@ const Abstracts = () => {
     data: abstracts,
     error,
     loading,
-  } = useFetchItems<Abstract>('/api/abstracts', USERNAME, PASSWORD)
+  } = useFetchItems<Abstract>('/api/abstracts', 100, 0, USERNAME, PASSWORD)
 
   return (
     <div className="abstract page">

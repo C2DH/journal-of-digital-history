@@ -25,11 +25,19 @@ export async function fetchItems(url: string, username?: string, password?: stri
  *
  * @template T - The type of items to fetch.
  * @param endpoint - The API endpoint to fetch data from.
+ * @param limit - Optional limit for pagination.
+ * @param offset - Optional offset for pagination.
  * @param username - Optional username for authentication.
  * @param password - Optional password for authentication.
  * @returns An object containing the fetched data, error message (if any), and loading state.
  */
-export function useFetchItems<T>(endpoint: string, username?: string, password?: string) {
+export function useFetchItems<T>(
+  endpoint: string,
+  limit?: number,
+  offset?: number,
+  username?: string,
+  password?: string,
+) {
   const [data, setData] = useState<T[]>([])
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
@@ -38,7 +46,11 @@ export function useFetchItems<T>(endpoint: string, username?: string, password?:
     const fetchData = async () => {
       setLoading(true)
       try {
-        const result = await fetchItems(endpoint, username, password)
+        const result = await fetchItems(
+          `${endpoint}?limit=${limit}&offset=${offset}`,
+          username,
+          password,
+        )
         setData(result.results)
         setError(null)
       } catch (error) {
