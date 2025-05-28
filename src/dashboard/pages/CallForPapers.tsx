@@ -1,28 +1,16 @@
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-
-import { fetchItems } from '../api/fetchData'
 import Card from '../components/Card/Card'
 import { USERNAME, PASSWORD } from '../constants/global'
-import { Abstract } from '../interfaces/abstract'
+import { useFetchItems } from '../hooks/fetchData'
+import { Callforpaper } from '../interfaces/callforpapers'
 
 import '../styles/pages/pages.css'
 
 const CallForPapers = () => {
-  const { t } = useTranslation()
-  const [callforpapers, setCallForPapers] = useState<Abstract[]>([])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const callforpaperList = await fetchItems('/api/callofpaper', USERNAME, PASSWORD)
-        setCallForPapers(callforpaperList.results)
-      } catch (error) {
-        console.error('[Fetch Error]', error)
-      }
-    }
-    fetchData()
-  }, [])
+  const {
+    data: callforpapers,
+    error,
+    loading,
+  } = useFetchItems<Callforpaper>('/api/callofpaper', USERNAME, PASSWORD)
 
   return (
     <div className="callforpapers page">
@@ -30,6 +18,8 @@ const CallForPapers = () => {
         item="callforpapers"
         headers={['id', 'title', 'deadline_abstract', 'deadline_article']}
         data={callforpapers}
+        error={error}
+        loading={loading}
       />
     </div>
   )

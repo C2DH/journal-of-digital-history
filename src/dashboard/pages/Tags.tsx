@@ -1,27 +1,13 @@
-import { useEffect, useState } from 'react'
-
 import ArticleKeywords from '../../components/Article/ArticleKeywords'
-import { fetchItems } from '../api/fetchData'
 import { USERNAME, PASSWORD } from '../constants/global'
-import { Issue } from '../interfaces/issue'
+import { useFetchItems } from '../hooks/fetchData'
+import { Tag } from '../interfaces/tag'
 
 import '../styles/pages/pages.css'
+import '../../styles/components/Article/ArticleKeywords.css'
 
 const Tags = () => {
-  const [tags, setTags] = useState<Issue[]>([])
-  console.log('🚀 ~ file: Tags.tsx:12 ~ tags:', tags)
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const tagsList = await fetchItems('/api/tags', USERNAME, PASSWORD)
-        setTags(tagsList.results)
-      } catch (error) {
-        console.error('[Fetch Error]', error)
-      }
-    }
-    fetchData()
-  }, [])
+  const { data: tags, error, loading } = useFetchItems<Tag>('/api/tags', USERNAME, PASSWORD)
 
   return (
     <div className="tags page">

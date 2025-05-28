@@ -10,7 +10,7 @@
 
 /* Fonts */
 body {
-  font-family: 'Source Serif Pro', serif;
+  font-family: 'Fira Sans', sans-serif;
   background-color: var(--color-accent-lighter);
 }
 
@@ -30,6 +30,7 @@ body {
   --color-warning: #ffce20;
   --color-success: #05cd99;
   --color-dark: #1e152a;
+  --dark: var(--color-dark); /* renaming for Tags with ArticleKeywords component */
   --color-white: #fff;
 
   --font-size-1: 0.75rem;
@@ -50,6 +51,7 @@ body {
   --gap-size-3: 1.5rem;
   --gap-size-4: 2rem;
   --gap-size-5: 2.5rem;
+  --spacer-1: var(--gap-size-1);
 }
 
 /* Size */

@@ -1,26 +1,16 @@
-import { useEffect, useState } from 'react'
-
-import { fetchItems } from '../api/fetchData'
 import Card from '../components/Card/Card'
 import { USERNAME, PASSWORD } from '../constants/global'
-import { Abstract } from '../interfaces/abstract'
+import { useFetchItems } from '../hooks/fetchData'
+import { Article } from '../interfaces/article'
 
 import '../styles/pages/pages.css'
 
 const Articles = () => {
-  const [articles, setArticles] = useState<Abstract[]>([])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const articlesList = await fetchItems('/api/articles', USERNAME, PASSWORD)
-        setArticles(articlesList.results)
-      } catch (error) {
-        console.error('[Fetch Error]', error)
-      }
-    }
-    fetchData()
-  }, [])
+  const {
+    data: articles,
+    error,
+    loading,
+  } = useFetchItems<Article>('/api/articles', USERNAME, PASSWORD)
 
   return (
     <div className="articles page">
@@ -37,6 +27,8 @@ const Articles = () => {
           'repository_url',
         ]}
         data={articles}
+        error={error}
+        loading={loading}
       />
     </div>
   )

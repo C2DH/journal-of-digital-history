@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router'
 
-import { fetchItems } from '../api/fetchData'
 import Card from '../components/Card/Card'
 import { USERNAME, PASSWORD } from '../constants/global'
+import { useFetchItems } from '../hooks/fetchData'
 import { Issue } from '../interfaces/issue'
 
 import '../styles/pages/Home.css'
@@ -12,19 +11,7 @@ import '../styles/pages/pages.css'
 
 const Home = () => {
   const { t } = useTranslation()
-  const [issues, setIssues] = useState<Issue[]>([])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const issuesList = await fetchItems('/api/issues', USERNAME, PASSWORD)
-        setIssues(issuesList.results)
-      } catch (error) {
-        console.error('[Fetch Error]', error)
-      }
-    }
-    fetchData()
-  }, [])
+  const { data: issues, error, loading } = useFetchItems<Issue>('/api/issues', USERNAME, PASSWORD)
 
   return (
     <div className="home page">
@@ -33,6 +20,8 @@ const Home = () => {
         item="issues"
         headers={['pid', 'name', 'creation_date', 'publication_date', 'status', 'volume', 'issue']}
         data={issues}
+        error={error}
+        loading={loading}
       />
       <Outlet />
     </div>

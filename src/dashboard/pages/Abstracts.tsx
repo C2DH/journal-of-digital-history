@@ -1,28 +1,16 @@
-import { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-
-import { fetchItems } from '../api/fetchData'
 import Card from '../components/Card/Card'
 import { USERNAME, PASSWORD } from '../constants/global'
+import { useFetchItems } from '../hooks/fetchData'
 import { Abstract } from '../interfaces/abstract'
 
 import '../styles/pages/pages.css'
 
 const Abstracts = () => {
-  const { t } = useTranslation()
-  const [abstracts, setAbstracts] = useState<Abstract[]>([])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const abstractsList = await fetchItems('/api/abstracts', USERNAME, PASSWORD)
-        setAbstracts(abstractsList.results)
-      } catch (error) {
-        console.error('[Fetch Error]', error)
-      }
-    }
-    fetchData()
-  }, [])
+  const {
+    data: abstracts,
+    error,
+    loading,
+  } = useFetchItems<Abstract>('/api/abstracts', USERNAME, PASSWORD)
 
   return (
     <div className="abstract page">
@@ -39,6 +27,8 @@ const Abstracts = () => {
           'status',
         ]}
         data={abstracts}
+        error={error}
+        loading={loading}
       />
     </div>
   )
