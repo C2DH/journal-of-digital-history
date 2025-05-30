@@ -7,11 +7,7 @@ import '../styles/pages/pages.css'
 import '../../styles/components/Article/ArticleKeywords.css'
 
 const Tags = () => {
-  const {
-    data: tags,
-    error,
-    loading,
-  } = useFetchItems<Tag>('/api/tags', 1000, 0, USERNAME, PASSWORD)
+  const { data: tags, error, loading } = useFetchItems<Tag>('/api/tags', USERNAME, PASSWORD, 250)
 
   return (
     <div className="tags page">

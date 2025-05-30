@@ -10,7 +10,9 @@ const Datasets = () => {
     data: datasets,
     error,
     loading,
-  } = useFetchItems<Dataset>('/api/datasets', 100, 0, USERNAME, PASSWORD)
+    hasMore,
+    loadMore,
+  } = useFetchItems<Dataset>('/api/datasets', USERNAME, PASSWORD, 20)
 
   return (
     <div className="datasets page">
@@ -20,6 +22,8 @@ const Datasets = () => {
         data={datasets}
         error={error}
         loading={loading}
+        hasMore={hasMore}
+        loadMore={loadMore}
       />
     </div>
   )

@@ -10,7 +10,9 @@ const Authors = () => {
     data: authors,
     error,
     loading,
-  } = useFetchItems<Author>('/api/authors', 100, 0, USERNAME, PASSWORD)
+    hasMore,
+    loadMore,
+  } = useFetchItems<Author>('/api/authors', USERNAME, PASSWORD, 20)
 
   return (
     <div className="authors page">
@@ -20,6 +22,8 @@ const Authors = () => {
         data={authors}
         error={error}
         loading={loading}
+        hasMore={hasMore}
+        loadMore={loadMore}
       />
     </div>
   )

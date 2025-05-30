@@ -1,70 +1,144 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useReducer, useCallback } from 'react'
 
-/**
- * Fetches items from the specified URL using the Fetch API.
- *
- * @param url - The endpoint from which to fetch data.
- * @returns A promise that resolves to the parsed JSON response.
- * @throws Will throw an error if the network response is not ok.
- */
-export async function fetchItems(url: string, username?: string, password?: string) {
-  const credentials = btoa(`${username}:${password}`) || ''
-  const response = await fetch(url, {
-    headers: {
-      Authorization: `Basic ${credentials}`,
-    },
-  })
-  if (!response.ok) {
-    throw new Error(`Failed to fetch from ${url}: ${response.statusText}`)
+type State<T> = {
+  data: T[]
+  error: string | null
+  loading: boolean
+  offset: number
+  hasMore: boolean
+}
+
+type Action<T> =
+  | { type: 'LOAD_START' }
+  | { type: 'LOAD_SUCCESS'; payload: { results: T[]; limit: number } }
+  | { type: 'LOAD_ERROR'; payload: string }
+  | { type: 'RESET' }
+
+function reducer<T>(state: State<T>, action: Action<T>): State<T> {
+  switch (action.type) {
+    case 'LOAD_START':
+      return { ...state, loading: true }
+    case 'LOAD_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        data: [...state.data, ...action.payload.results],
+        offset: state.offset + action.payload.limit,
+        hasMore: action.payload.results.length === action.payload.limit,
+        error: null,
+      }
+    case 'LOAD_ERROR':
+      return { ...state, loading: false, error: action.payload, hasMore: false }
+    case 'RESET':
+      return { data: [], error: null, loading: false, offset: 0, hasMore: true }
+    default:
+      return state
   }
-  return response.json()
 }
 
 /**
- * Custom React hook to fetch items from a given API endpoint.
+ * Custom React hook for fetching paginated data with infinite scroll support.
  *
- * @template T - The type of items to fetch.
+ * @template T The type of the items being fetched.
  * @param endpoint - The API endpoint to fetch data from.
- * @param limit - Optional limit for pagination.
- * @param offset - Optional offset for pagination.
- * @param username - Optional username for authentication.
- * @param password - Optional password for authentication.
- * @returns An object containing the fetched data, error message (if any), and loading state.
+ * @param username - Optional username for basic authentication.
+ * @param password - Optional password for basic authentication.
+ * @param limit - The number of items to fetch per page (default is 10).
+ * @returns An object containing:
+ *   - `data`: The accumulated array of fetched items.
+ *   - `error`: Any error message encountered during fetching.
+ *   - `loading`: Whether a fetch operation is in progress.
+ *   - `hasMore`: Whether there are more items to load.
+ *   - `loadMore`: Function to fetch the next page of items.
+ *
+ * @remarks
+ * This hook automatically resets and fetches data when the endpoint,
+ * credentials, or limit changes. It handles authentication via HTTP Basic Auth.
  */
 export function useFetchItems<T>(
   endpoint: string,
-  limit?: number,
-  offset?: number,
   username?: string,
   password?: string,
+  limit = 10,
 ) {
-  const [data, setData] = useState<T[]>([])
-  const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
+  const [state, dispatch] = useReducer(reducer<T>, {
+    data: [],
+    error: null,
+    loading: false,
+    offset: 0,
+    hasMore: true,
+  })
+
+  const loadMore = useCallback(async () => {
+    dispatch({ type: 'LOAD_START' })
+    try {
+      const credentials = btoa(`${username}:${password}`) || ''
+      const pagedUrl = endpoint.includes('?')
+        ? `${endpoint}&limit=${limit}&offset=${state.offset}`
+        : `${endpoint}?limit=${limit}&offset=${state.offset}`
+
+      const response = await fetch(pagedUrl, {
+        headers: { Authorization: `Basic ${credentials}` },
+      })
+      if (!response.ok) throw new Error(`Failed to fetch: ${response.statusText}`)
+      const result = await response.json()
+      dispatch({ type: 'LOAD_SUCCESS', payload: { results: result.results, limit } })
+    } catch (err) {
+      dispatch({
+        type: 'LOAD_ERROR',
+        payload: err instanceof Error ? err.message : String(err),
+      })
+    }
+  }, [endpoint, username, password, limit, state.offset])
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true)
-      try {
-        const result = await fetchItems(
-          `${endpoint}?limit=${limit}&offset=${offset}`,
-          username,
-          password,
-        )
-        setData(result.results)
-        setError(null)
-      } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message)
-        } else {
-          setError(String(error))
-        }
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchData()
-  }, [endpoint, username, password])
+    dispatch({ type: 'RESET' })
+  }, [endpoint, username, password, limit])
 
-  return { data, error, loading }
+  return {
+    data: state.data,
+    error: state.error,
+    loading: state.loading,
+    hasMore: state.hasMore,
+    loadMore,
+  }
+}
+
+/**
+ * Triggers callback when the ref element is visible in the viewport.
+ * @param ref - React ref to the loader element
+ * @param callback - Function to call when the element is visible
+ * @param enabled - Should the observer be active
+ * @param deps - Dependency array for useEffect
+ */
+export function useInfiniteScroll(
+  ref: React.RefObject<Element | null>,
+  callback: () => void,
+  enabled: boolean,
+  deps: any[] = [],
+) {
+  useEffect(() => {
+    if (!enabled) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          callback()
+        }
+      },
+      { threshold: 1 },
+    )
+
+    const current = ref.current
+    if (current) {
+      observer.observe(current)
+    }
+
+    return () => {
+      if (current) {
+        observer.unobserve(current)
+      }
+      observer.disconnect()
+    }
+  }, [ref, callback, enabled, ...deps])
 }

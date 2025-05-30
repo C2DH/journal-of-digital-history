@@ -10,7 +10,9 @@ const Issues = () => {
     data: issues,
     error,
     loading,
-  } = useFetchItems<Issue>('/api/issues', 100, 0, USERNAME, PASSWORD)
+    hasMore,
+    loadMore,
+  } = useFetchItems<Issue>('/api/issues', USERNAME, PASSWORD, 10)
 
   return (
     <div className="issues page">
@@ -20,6 +22,8 @@ const Issues = () => {
         data={issues}
         error={error}
         loading={loading}
+        hasMore={hasMore}
+        loadMore={loadMore}
       />
     </div>
   )
