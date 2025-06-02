@@ -4,8 +4,8 @@ import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useInfiniteScroll } from '../../hooks/fetchData'
+import Loading from '../Loading/Loading'
 import ProgressionTable from '../ProgressionTable/ProgressionTable'
-import Spinner from '../Spinner/Spinner'
 import Table from '../Table/Table'
 
 import './Card.css'
@@ -17,7 +17,7 @@ const Card = ({ item, headers, data, error, loading, hasMore, loadMore }) => {
   useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
 
   if (loading && data.length === 0) {
-    return <Spinner />
+    return <Loading />
   }
 
   if (error) {
@@ -41,7 +41,7 @@ const Card = ({ item, headers, data, error, loading, hasMore, loadMore }) => {
         )}
         <div ref={loaderRef} />
       </div>
-      {loading && data.length > 0 && <Spinner />}
+      {loading && data.length > 0 && <Loading />}
     </>
   )
 }

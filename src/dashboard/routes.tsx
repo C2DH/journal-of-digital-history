@@ -5,6 +5,7 @@ const Home = lazy(() => import('./pages/Home'))
 const Abstracts = lazy(() => import('./pages/Abstracts'))
 const Articles = lazy(() => import('./pages/Articles'))
 const CallForPapers = lazy(() => import('./pages/CallForPapers'))
+const Detail = lazy(() => import('./pages/Detail'))
 const Issues = lazy(() => import('./pages/Issues'))
 const Authors = lazy(() => import('./pages/Authors'))
 const Datasets = lazy(() => import('./pages/Datasets'))
@@ -17,6 +18,7 @@ export default function AppRoutes() {
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
       <Route path="/abstracts" element={<Abstracts />} />
+      <Route path="/abstracts/:id" element={<Detail />} />
       <Route path="/articles" element={<Articles />} />
       <Route path="/callforpapers" element={<CallForPapers />} />
       <Route path="/issues" element={<Issues />} />

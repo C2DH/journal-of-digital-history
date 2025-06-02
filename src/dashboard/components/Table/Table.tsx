@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router'
 
 import { TableProps } from '../../interfaces/table'
 import { convertDate } from '../../logic/convertDate'
@@ -10,11 +11,16 @@ import { getCleanData, getVisibleHeaders } from '../../logic/tableUtils'
 
 import './Table.css'
 
-const Table = ({ title, headers, data }: TableProps) => {
+const Table = ({ title, headers, data, onRowClick }: TableProps) => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
 
   const visibleHeaders = getVisibleHeaders({ data, headers })
   const cleanData = getCleanData({ data, visibleHeaders })
+
+  const handleRowClick = (pid: string) => {
+    navigate(`/${title}/${pid}`)
+  }
 
   return (
     <table className="table">
@@ -29,7 +35,11 @@ const Table = ({ title, headers, data }: TableProps) => {
       </thead>
       <tbody>
         {cleanData.map((row, rIdx) => (
-          <tr key={rIdx}>
+          <tr
+            key={rIdx}
+            onClick={() => handleRowClick(String(row[0]))}
+            style={{ cursor: 'pointer' }}
+          >
             {row.map((cell, cIdx) => {
               const header = headers[cIdx].toLowerCase()
               let content: React.ReactNode = '-'

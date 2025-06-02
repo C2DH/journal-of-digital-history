@@ -1,4 +1,4 @@
-.spinner-dots {
+.loading-dots {
   display: flex;
   gap: 8px;
   align-items: flex-end;

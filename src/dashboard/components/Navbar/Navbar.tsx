@@ -8,11 +8,11 @@ import './Navbar.css'
 
 const Navbar = ({ items }: NavbarProps) => {
   const location = useLocation()
-  const [activeHref, setActiveHref] = useState(location.pathname)
+  const [activeHref, setActiveHref] = useState(location.pathname.split('/')[1])
 
   useEffect(() => {
-    setActiveHref(location.pathname)
-  }, [location.pathname])
+    setActiveHref(location.pathname.split('/')[1])
+  }, [location])
 
   return (
     <div className="navbar">
@@ -22,11 +22,7 @@ const Navbar = ({ items }: NavbarProps) => {
       </div>
       <ul>
         {items.map((item) => (
-          <li
-            key={item.href}
-            className={activeHref === item.href ? 'active' : ''}
-            onClick={() => setActiveHref(item.href)}
-          >
+          <li key={item.href} className={activeHref === item.href ? 'active' : ''}>
             <span className="material-symbols-outlined navbar-icons">{item.icon}</span>
             <Link to={`${item.href}`}>{item.label}</Link>
           </li>

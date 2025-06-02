@@ -1,10 +1,8 @@
-import { useTranslation } from 'react-i18next'
 import { Link, useLocation } from 'react-router-dom'
 
 import './Breadcrumb.css'
 
 const Breadcrumb = () => {
-  const { t } = useTranslation()
   const location = useLocation()
   const pathnames = location.pathname.split('/').filter(Boolean)
 
@@ -17,7 +15,7 @@ const Breadcrumb = () => {
           const isLast = idx === pathnames.length - 1
           return (
             <span key={to}>
-              &nbsp;{'> '}
+              {'/'}
               {isLast ? value : <Link to={to}>{value}</Link>}
             </span>
           )

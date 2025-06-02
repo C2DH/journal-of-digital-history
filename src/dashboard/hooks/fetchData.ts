@@ -142,3 +142,80 @@ export function useInfiniteScroll(
     }
   }, [ref, callback, enabled, ...deps])
 }
+
+type SingleState<T> = {
+  data: T | null
+  error: string | null
+  loading: boolean
+}
+
+type SingleAction<T> =
+  | { type: 'LOAD_START' }
+  | { type: 'LOAD_SUCCESS'; payload: T }
+  | { type: 'LOAD_ERROR'; payload: string }
+  | { type: 'RESET' }
+
+function singleReducer<T>(state: SingleState<T>, action: SingleAction<T>): SingleState<T> {
+  switch (action.type) {
+    case 'LOAD_START':
+      return { ...state, loading: true }
+    case 'LOAD_SUCCESS':
+      return { data: action.payload, loading: false, error: null }
+    case 'LOAD_ERROR':
+      return { ...state, loading: false, error: action.payload }
+    case 'RESET':
+      return { data: null, error: null, loading: false }
+    default:
+      return state
+  }
+}
+
+/**
+ * Custom React hook for fetching a single item by ID.
+ *
+ * @template T The type of the item being fetched.
+ * @param endpoint - The API endpoint to fetch data from (should include the ID).
+ * @param username - Optional username for basic authentication.
+ * @param password - Optional password for basic authentication.
+ * @returns An object containing:
+ *   - `data`: The fetched item or null.
+ *   - `error`: Any error message encountered during fetching.
+ *   - `loading`: Whether a fetch operation is in progress.
+ */
+export function useFetchItem<T>(endpoint: string, username?: string, password?: string) {
+  const [state, dispatch] = useReducer(singleReducer<T>, {
+    data: null,
+    error: null,
+    loading: false,
+  })
+
+  useEffect(() => {
+    if (!endpoint) return
+    dispatch({ type: 'LOAD_START' })
+    const fetchData = async () => {
+      try {
+        const credentials = btoa(`${username}:${password}`) || ''
+        const response = await fetch(endpoint, {
+          headers: { Authorization: `Basic ${credentials}` },
+        })
+        if (!response.ok) throw new Error(`Failed to fetch: ${response.statusText}`)
+        const result = await response.json()
+        dispatch({ type: 'LOAD_SUCCESS', payload: result })
+      } catch (err) {
+        dispatch({
+          type: 'LOAD_ERROR',
+          payload: err instanceof Error ? err.message : String(err),
+        })
+      }
+    }
+    fetchData()
+    // Optionally reset on endpoint change
+    return () => dispatch({ type: 'RESET' })
+  }, [endpoint, username, password])
+
+  return {
+    data: state.data,
+    error: state.error,
+    loading: state.loading,
+  }
+}

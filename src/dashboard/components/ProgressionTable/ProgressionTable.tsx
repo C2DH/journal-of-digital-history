@@ -2,7 +2,6 @@ import { DateTime } from 'luxon'
 import { useTranslation } from 'react-i18next'
 
 import { articleSteps } from '../../constants/article'
-import { TableProps } from '../../interfaces/table'
 import { convertDate } from '../../logic/convertDate'
 import { convertLink } from '../../logic/convertLink'
 import { getCleanData, getVisibleHeaders } from '../../logic/tableUtils'
@@ -10,7 +9,7 @@ import Timeline from '../Timeline/Timeline'
 
 import '../Table/Table.css'
 
-const ProgressionTable = ({ title, headers, data }: TableProps) => {
+const ProgressionTable = ({ title, headers, data }) => {
   const { t } = useTranslation()
   const visibleHeaders = getVisibleHeaders({ data, headers })
   const cleanData = getCleanData({ data, visibleHeaders })
