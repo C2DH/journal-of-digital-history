@@ -1,6 +1,6 @@
 import ArticleKeywords from '../../components/Article/ArticleKeywords'
 import { USERNAME, PASSWORD } from '../constants/global'
-import { useFetchItems } from '../hooks/fetchData'
+import { useFetchItems } from '../hooks/useFetch'
 import { Tag } from '../interfaces/tag'
 
 import '../styles/pages/pages.css'

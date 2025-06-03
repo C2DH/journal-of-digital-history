@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router'
 
 import { articleSteps } from '../../constants/article'
 import { convertDate } from '../../logic/convertDate'
@@ -11,8 +12,13 @@ import '../Table/Table.css'
 
 const ProgressionTable = ({ title, headers, data }) => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const visibleHeaders = getVisibleHeaders({ data, headers })
   const cleanData = getCleanData({ data, visibleHeaders })
+
+  const handleRowClick = (pid: string) => {
+    navigate(`/${title}/${pid}`)
+  }
 
   return (
     <table className="progression table">
@@ -35,7 +41,11 @@ const ProgressionTable = ({ title, headers, data }) => {
       </thead>
       <tbody>
         {cleanData.map((row, rIdx) => (
-          <tr key={rIdx}>
+          <tr
+            key={rIdx}
+            onClick={() => handleRowClick(String(row[0]))}
+            style={{ cursor: 'pointer' }}
+          >
             {row.map((cell, cIdx) => {
               const header = headers[cIdx].toLowerCase().split('.').join(' ')
               let content: React.ReactNode = '-'

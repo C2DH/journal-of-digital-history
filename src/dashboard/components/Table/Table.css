@@ -10,6 +10,9 @@
 .table th {
   border-bottom: 0.25px solid var(--color-gray-light);
   padding-bottom: var(--gap-size-1);
+  color: var(--color-gray);
+  font-weight: 200;
+  font-size: var(--font-size-3);
 }
 
 .table td {
@@ -47,9 +50,8 @@
 
 td.name,
 & td.title {
-  color: var(--color-dark);
-  font-weight: 200;
-  font-family: 'Fira Sans', sans-serif;
+  color: var(--color-deep-blue);
+  font-weight: 600;
 }
 
 button {

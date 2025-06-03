@@ -3,10 +3,9 @@ import { Outlet } from 'react-router'
 
 import Card from '../components/Card/Card'
 import { USERNAME, PASSWORD } from '../constants/global'
-import { useFetchItems } from '../hooks/fetchData'
+import { useFetchItems } from '../hooks/useFetch'
 import { Issue } from '../interfaces/issue'
 
-import '../styles/pages/Home.css'
 import '../styles/pages/pages.css'
 
 const Home = () => {

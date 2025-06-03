@@ -1,5 +1,4 @@
 .breadcrumb {
-  font-family: 'Fira Code', sans-serif;
   margin-left: var(--navbar-width);
   display: flex;
   align-items: center;
@@ -7,6 +6,7 @@
 }
 
 .breadcrumb {
+  color: var(--color-deep-blue);
   font-size: var(--font-size-4);
 }
 .breadcrumb a {

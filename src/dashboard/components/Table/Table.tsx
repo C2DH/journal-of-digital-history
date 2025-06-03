@@ -11,7 +11,7 @@ import { getCleanData, getVisibleHeaders } from '../../logic/tableUtils'
 
 import './Table.css'
 
-const Table = ({ title, headers, data, onRowClick }: TableProps) => {
+const Table = ({ title, headers, data }: TableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
 

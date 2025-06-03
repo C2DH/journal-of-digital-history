@@ -3,7 +3,7 @@ import './Card.css'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useInfiniteScroll } from '../../hooks/fetchData'
+import { useInfiniteScroll } from '../../hooks/useFetch'
 import Loading from '../Loading/Loading'
 import ProgressionTable from '../ProgressionTable/ProgressionTable'
 import Table from '../Table/Table'

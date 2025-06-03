@@ -3,10 +3,12 @@ import { BrowserRouter } from 'react-router'
 
 import Breadcrumb from './components/Breadcrumb/Breadcrumb'
 import Navbar from './components/Navbar/Navbar'
+import Search from './components/Search/Search'
 import { navbarItems } from './constants/navbar'
 import i18n from './i18next'
 import AppRoutes from './routes'
 
+import './styles/app.css'
 import './styles/index.css'
 
 function DashboardApp() {
@@ -15,7 +17,11 @@ function DashboardApp() {
       <I18nextProvider i18n={i18n}>
         <div className="dashboard-app">
           <Navbar items={navbarItems} />
-          <Breadcrumb />
+          <div className="top-bar">
+            <Breadcrumb />
+            {/* TODO add search */}
+            <Search onSearch={(q) => console.log(q)} activeRoutes={['/abstracts', '/articles']} />
+          </div>
           <AppRoutes />
         </div>
       </I18nextProvider>

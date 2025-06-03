@@ -2,13 +2,15 @@
 .navbar {
   width: var(--navbar-width);
   background-color: var(--color-white);
-  height: 100vh;
+  height: 70vh;
+  min-height: 600px;
+  border-bottom-right-radius: 16px;
   position: fixed;
   top: 0;
   left: 0;
   font-size: 16px;
   font-family: 'Fira Sans', monospace;
-  box-shadow: 4px 0 16px 0 rgba(0,0,0,0.08);
+  box-shadow: 4px 0 16px 0 rgba(0, 0, 0, 0.08);
 }
 
 /* Header */
