@@ -57,6 +57,7 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
  */
 export function useFetchItems<T>(
   endpoint: string,
+
   username?: string,
   password?: string,
   limit = 10,
@@ -71,6 +72,7 @@ export function useFetchItems<T>(
 
   const loadMore = useCallback(async () => {
     dispatch({ type: 'LOAD_START' })
+
     try {
       const credentials = btoa(`${username}:${password}`) || ''
       const pagedUrl = endpoint.includes('?')
@@ -80,6 +82,7 @@ export function useFetchItems<T>(
       const response = await fetch(pagedUrl, {
         headers: { Authorization: `Basic ${credentials}` },
       })
+
       if (!response.ok) throw new Error(`Failed to fetch: ${response.statusText}`)
       const result = await response.json()
       dispatch({ type: 'LOAD_SUCCESS', payload: { results: result.results, limit } })

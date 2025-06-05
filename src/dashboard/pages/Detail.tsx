@@ -95,6 +95,7 @@ const Detail = ({ endpoint }) => {
       { label: 'Email', value: item.contact_email === undefined ? '-' : item.contact_email },
     ]
     url = `https://github.com/jdh-observer/${item?.pid}`
+    title = item.title
     abstractText = item.abstract
   } else if (isArticle(item)) {
     infoFields = [

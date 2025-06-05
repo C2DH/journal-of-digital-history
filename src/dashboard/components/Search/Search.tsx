@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router'
 
+import { PASSWORD, USERNAME } from '../../constants/global'
+import { useSearch } from '../../hooks/useSearch'
 import './Search.css'
 
 type SearchProps = {
@@ -20,9 +22,11 @@ const Search = ({
   const location = useLocation()
 
   //TODO: integrate the API search
-  if (activeRoutes && !activeRoutes.some((route) => location.pathname.startsWith(route))) {
+  if (activeRoutes && !activeRoutes.includes(location.pathname)) {
     return null
   }
+
+  // const { results, loading, error } = useSearch('/api/abstracts', query, USERNAME, PASSWORD)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
