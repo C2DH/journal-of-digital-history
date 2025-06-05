@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import StaticPageLoader from './StaticPageLoader'
-import { BootstrapFullColumLayout } from '../constants'
+import { BootstrapFullColumLayout } from '../constants/globalConstants'
 import MarkdownIt from 'markdown-it'
 import { useParams } from 'react-router-dom'
 import LangLink from '../components/LangLink'

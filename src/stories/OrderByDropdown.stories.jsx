@@ -3,7 +3,7 @@ import OrderByDropdown from '../components/OrderByDropdown'
 
 export default {
   component: OrderByDropdown,
-  title: 'OrderByDropdown',
+  title: 'Components/OrderByDropdown',
   argTypes: {
     id: {
       required: false,
@@ -52,21 +52,5 @@ Default.args = {
       label: 'this is the selected first value',
     },
     { value: 'secondValue', label: 'second Value' },
-  ], // array of [{value:'abc', label:''}]
+  ],
 }
-
-// const argTypes = {
-//   label: {
-//     name: 'label',
-//     type: { name: 'string', required: false },
-//     defaultValue: 'Hello',
-//     description: 'demo description',
-//     table: {
-//       type: { summary: 'string' },
-//       defaultValue: { summary: 'Hello' },
-//     },
-//     control: {
-//       type: 'text'
-//     }
-//   }
-// }

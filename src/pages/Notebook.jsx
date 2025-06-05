@@ -4,11 +4,15 @@ import { useParams, useNavigate, generatePath } from 'react-router'
 import Article from '../components/Article'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
 import { useGetNotebookFromURL } from '../logic/api/fetchData'
-import { BootstrapColumLayout, StatusIdle, StatusNone, StatusSuccess } from '../constants'
+import {
+  BootstrapColumLayout,
+  StatusIdle,
+  StatusNone,
+  StatusSuccess,
+} from '../constants/globalConstants'
 import { decodeNotebookURL } from '../logic/ipynb'
 // url=aHR0cHM6Ly9naXRodWIuY29tL0MyREgvamRoLW5vdGVib29rL2Jsb2IvbWFzdGVyL3BvYy5pcHluYg
 // as base64 encoded for url=https://github.com/C2DH/jdh-notebook/blob/master/poc.ipynb
-
 
 const Notebook = () => {
   const { i18n, t } = useTranslation()
@@ -16,30 +20,32 @@ const Notebook = () => {
   const navigate = useNavigate()
   const [value, setValue] = useState(null)
   const url = useMemo(() => {
-    try{
+    try {
       return decodeNotebookURL(encodedUrl)
-    } catch(e) {
+    } catch (e) {
       console.warn(e)
     }
-  }, [ encodedUrl ])
-  console.info('Notebook render:', url ,'from', encodedUrl)
+  }, [encodedUrl])
+  console.info('Notebook render:', url, 'from', encodedUrl)
   // check url...
   const { status, item } = useGetNotebookFromURL(url)
   const [uploadedNotebook, setUploadedNotebook] = useState(null)
   // resize if document is loaded
   useEffect(() => {
     let timer
-    if(status === StatusSuccess) {
+    if (status === StatusSuccess) {
       timer = setTimeout(() => window.dispatchEvent(new Event('resize')), 500)
     }
     return () => clearTimeout(timer)
   }, [status])
   // fetch url if available.
   const handleSubmit = () => {
-    navigate(generatePath("/:lang/notebook/:encodedUrl", {
-      encodedUrl: btoa(value.split('+').join('/')),
-      lang: i18n.language.split('-')[0]
-    }))
+    navigate(
+      generatePath('/:lang/notebook/:encodedUrl', {
+        encodedUrl: btoa(value.split('+').join('/')),
+        lang: i18n.language.split('-')[0],
+      }),
+    )
   }
   const handleNotebookUpload = (e) => {
     const [file] = e.target.files
@@ -59,21 +65,21 @@ const Notebook = () => {
   }
   return (
     <div>
-    {item === null && uploadedNotebook
-      ? <Article ipynb={uploadedNotebook}/>
-      : null
-    }
-    {item !== null && !!item.last_modified && (
-      <div className="Notebook_last_modified p-2 bg-primary rounded" style={{
-        position: 'fixed',
-        bottom: 'var(--spacer-2)',
-        right: 'var(--spacer-2)',
-      }}>
-        {t('dates.precise', { date: new Date(item.last_modified) })}
-      </div>
-    )}
-    {item !== null && <Article ipynb={item.content ? item.content : item} url={url}/>}
-    {status === StatusNone && (
+      {item === null && uploadedNotebook ? <Article ipynb={uploadedNotebook} /> : null}
+      {item !== null && !!item.last_modified && (
+        <div
+          className="Notebook_last_modified p-2 bg-primary rounded"
+          style={{
+            position: 'fixed',
+            bottom: 'var(--spacer-2)',
+            right: 'var(--spacer-2)',
+          }}
+        >
+          {t('dates.precise', { date: new Date(item.last_modified) })}
+        </div>
+      )}
+      {item !== null && <Article ipynb={item.content ? item.content : item} url={url} />}
+      {status === StatusNone && (
         <Container className="mt-5">
           <Row>
             <Col {...BootstrapColumLayout}>
@@ -86,33 +92,33 @@ const Notebook = () => {
                     type="url"
                     placeholder="https://"
                   />
-                  <Form.Text className="text-muted">
-                    Load your rendered ipytn notebook!
-                  </Form.Text>
+                  <Form.Text className="text-muted">Load your rendered ipytn notebook!</Form.Text>
                 </Form.Group>
-                <Button onClick={handleSubmit} block variant="primary" type="submit">try notebook!</Button>
-                <Form.Text className="text-muted">
-                  Or use our example POC
-                </Form.Text>
+                <Button onClick={handleSubmit} block variant="primary" type="submit">
+                  try notebook!
+                </Button>
+                <Form.Text className="text-muted">Or use our example POC</Form.Text>
                 <Button
-                  onClick={() => setValue('https://raw.githubusercontent.com/C2DH/jdh-notebook/master/poc.ipynb')}
+                  onClick={() =>
+                    setValue('https://raw.githubusercontent.com/C2DH/jdh-notebook/master/poc.ipynb')
+                  }
                   variant="secondary"
-                >try notebook!
+                >
+                  try notebook!
                 </Button>
 
-                  <Form.File
-                    id="custom-file"
-                    onChange={handleNotebookUpload}
-                    label="Upload notebook"
-                    custom
-                  />
+                <Form.File
+                  id="custom-file"
+                  onChange={handleNotebookUpload}
+                  label="Upload notebook"
+                  custom
+                />
               </Form>
             </Col>
           </Row>
         </Container>
-      )
-    }
-  </div>
+      )}
+    </div>
   )
 }
 

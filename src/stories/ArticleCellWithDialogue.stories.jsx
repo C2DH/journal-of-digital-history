@@ -7,7 +7,7 @@ import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import ArticleCell from '../components/Article/ArticleCell'
 
 export default {
-  title: 'ArticleCell tagged with dialogue',
+  title: 'ArticleV3/Cell/Dialogue',
   component: ArticleCell,
   argTypes: {
     metadata: { control: { type: 'object' }, defaultValue: {} },
@@ -59,7 +59,7 @@ const Template = ({ cells, metadata, isJavascriptTrusted }) => {
   })
   return (
     <BrowserRouter>
-      <QueryParamProvider adapter={ReactRouter6Adapter}> 
+      <QueryParamProvider adapter={ReactRouter6Adapter}>
         {articleTree.paragraphs.map((p) => (
           <ArticleCell isJavascriptTrusted={isJavascriptTrusted} key={p.idx} {...p} />
         ))}

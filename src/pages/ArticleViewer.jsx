@@ -10,7 +10,7 @@ import {
   StatusFetching,
   StatusIdle,
   StatusError,
-} from '../constants'
+} from '../constants/globalConstants'
 import Loading from '../components/Loading'
 import ErrorViewer from './ErrorViewer'
 import NotebookViewer from './NotebookViewer'

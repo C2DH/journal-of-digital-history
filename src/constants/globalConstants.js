@@ -15,10 +15,7 @@ export const AbstractSubmissionRoute = {
   label: 'navigation.submit',
 }
 export const AboutRoute = { to: '/about', label: 'navigation.about' }
-export const AbstractSubmissionPreviewRoute = {
-  to: '/abstract',
-  label: 'navigation.abstract',
-}
+
 export const ArticleRoute = { to: '/article', label: 'navigation.article' }
 export const ArticleHermeneuticsRoute = {
   to: '/article/hermeneutics',
@@ -64,10 +61,7 @@ export const FaqRoute = { to: '/faq', label: 'navigation.faq' }
 
 export const PrimaryRoutes = [
   HomeRoute,
-  // IssueRoute,
   ArticlesRoute,
-  // ReferencesRoute,
-  // DatasetsRoute,
   AbstractSubmissionRoute,
   GuidelinesRoute,
   NotebookViewerFormRoute,
@@ -81,7 +75,9 @@ export const NotebookPoweredPaths = [
   '/guidelines/',
   '/guidelines',
 ]
-export const ReCaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY
+export const ReCaptchaSiteKey = window.Cypress
+  ? import.meta.env.VITE_RECAPTCHA_SITE_KEY_CYPRESS
+  : import.meta.env.VITE_RECAPTCHA_SITE_KEY_APP
 export const GaTrackingId = import.meta.env.VITE_GA_TRACKING_ID
 
 export const BootstrapColumLayout = Object.freeze({

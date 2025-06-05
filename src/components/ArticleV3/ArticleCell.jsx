@@ -11,7 +11,7 @@ import {
   LayerData,
   CellTypeCode,
   CellTypeMarkdown,
-} from '../../constants'
+} from '../../constants/globalConstants'
 import { useExecutionScope } from './ExecutionScope'
 import ArticleCellCodeTools from './ArticleCellCodeTools'
 import { useArticleThebe } from './ArticleThebeProvider'

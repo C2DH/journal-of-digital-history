@@ -3,7 +3,7 @@ import ToCStepGroup from '../components/ToCStepGroup'
 
 export default {
   component: ToCStepGroup,
-  title: 'ToCStepGroup',
+  title: 'Components/Table of Contents/Group steps',
   argTypes: {
     width: { control: { type: 'number' } },
     steps: { control: { type: 'object' } },

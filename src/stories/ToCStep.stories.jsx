@@ -3,7 +3,7 @@ import ToCStep from '../components/ToCStep'
 
 export default {
   component: ToCStep,
-  title: 'ToCStep',
+  title: 'Components/Table of Contents/Steps',
   argTypes: {
     id: {
       required: true,

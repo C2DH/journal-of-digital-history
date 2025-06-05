@@ -1,21 +1,20 @@
-import React, {useRef, useState} from 'react'
+import React, { useRef, useState } from 'react'
 import Vimeo from '@u-wave/react-vimeo'
-import {animated, useSpring, config} from 'react-spring'
-import {useStore} from '../../store'
-import {useBoundingClientRect} from '../../hooks/graphics'
+import { animated, useSpring, config } from 'react-spring'
+import { useStore } from '../../store'
+import { useBoundingClientRect } from '../../hooks/graphics'
 import VideoReleaseButton from './VideoReleaseButton'
 import '../../styles/components/VideoRelease.scss'
 
-
-const VideoRelease= ({
+const VideoRelease = ({
   // releaseNotified=false,
-  title='',
-  releaseName='Serenity',
-  chaptersContents={},
+  title = '',
+  releaseName = 'Serenity',
+  chaptersContents = {},
   vimeoPlayerUrl,
 }) => {
   const setReleaseNotified = useStore((state) => state.setReleaseNotified)
-  const [{width, height}, ref] = useBoundingClientRect()
+  const [{ width, height }, ref] = useBoundingClientRect()
   const playerRef = useRef()
   const [chapters, setChapters] = useState([])
   const [currentChapter, setCurrentChapter] = useState(null)
@@ -29,7 +28,7 @@ const VideoRelease= ({
         // remove!
         setReleaseNotified()
       }
-    }
+    },
   }))
 
   const onReady = (player) => {
@@ -38,25 +37,26 @@ const VideoRelease= ({
         console.debug('[VideoRelease] chapter changed:', c)
         setCurrentChapter(c)
       })
-      player.getChapters().then(function(chapters) {
-        // `chapters` indicates an array of chapter objects
-        console.debug('[VideoRelease] player.getChapters():', chapters)
-        setChapters(chapters)
-
-      }).catch(function(error) {
-        // An error occurred
-        console.warn('[VideoRelease] error playback', error)
-      });
+      player
+        .getChapters()
+        .then(function (chapters) {
+          // `chapters` indicates an array of chapter objects
+          console.debug('[VideoRelease] player.getChapters():', chapters)
+          setChapters(chapters)
+        })
+        .catch(function (error) {
+          // An error occurred
+          console.warn('[VideoRelease] error playback', error)
+        })
       playerRef.current = player
-      apiModalStyle.start({ opacity: 1,y: 0 })
+      apiModalStyle.start({ opacity: 1, y: 0 })
     }
   }
 
   const gotoChapter = (chapter) => {
-    playerRef.current.setCurrentTime(chapter.startTime)
-      .then(() => {
-        playerRef.current.play()
-      })
+    playerRef.current.setCurrentTime(chapter.startTime).then(() => {
+      playerRef.current.play()
+    })
   }
 
   const onClose = () => {
@@ -67,34 +67,40 @@ const VideoRelease= ({
   return (
     <animated.div style={modalStyle} className="VideoRelease">
       <div className="VideoRelease__modal shadow-lg">
-        <VideoReleaseButton onClick={onClose}/>
+        <VideoReleaseButton onClick={onClose} />
         <aside className="VideoRelease__modal__aside p-4">
           <p>{releaseName}</p>
           <h1>{title}</h1>
-          <ul >
-          {chapters.map((chapter) => {
-            const isActive = currentChapter && chapter.index === currentChapter.index
-            return (
-              <li key={chapter.index}
-                onClick={() => gotoChapter(chapter)}
-                className={isActive ? 'active': ''}
-              >
-               <span>{chapter.title}</span>
-              </li>
-            )
-          })}
+          <ul>
+            {chapters.map((chapter) => {
+              const isActive = currentChapter && chapter.index === currentChapter.index
+              return (
+                <li
+                  key={chapter.index}
+                  onClick={() => gotoChapter(chapter)}
+                  className={isActive ? 'active' : ''}
+                >
+                  <span>{chapter.title}</span>
+                </li>
+              )
+            })}
           </ul>
         </aside>
-        <animated.div className="VideoRelease__modal__video" ref={ref} style={{
-          opcity: modalStyle.opacity
-        }}>
+        <animated.div
+          className="VideoRelease__modal__video"
+          ref={ref}
+          style={{
+            opcity: modalStyle.opacity,
+          }}
+        >
           <Vimeo
             video={vimeoPlayerUrl}
             responsive
             muted
             className="position-absolute"
             style={{
-              width, height
+              width,
+              height,
             }}
             onReady={onReady}
             autoplay
@@ -102,12 +108,14 @@ const VideoRelease= ({
         </animated.div>
         <div className="d-flex align-items-center px-3 VideoRelease__modal__description">
           {currentChapter ? (
-            <span dangerouslySetInnerHTML={{
-              __html: Array.isArray(chaptersContents[currentChapter.title])
-                ? chaptersContents[currentChapter.title].join(' ')
-                : '...'
-            }} />
-          ): null}
+            <span
+              dangerouslySetInnerHTML={{
+                __html: Array.isArray(chaptersContents[currentChapter.title])
+                  ? chaptersContents[currentChapter.title].join(' ')
+                  : '...',
+              }}
+            />
+          ) : null}
         </div>
       </div>
     </animated.div>

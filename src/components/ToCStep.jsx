@@ -10,7 +10,7 @@ import {
   VideoRefPrefix,
   SoundRefPrefix,
   LayerNarrative,
-} from '../constants'
+} from '../constants/globalConstants'
 import { MediaImage, MediaVideo, MessageText, SoundMin, Table } from 'iconoir-react'
 
 const FigureRefPrefixMapping = {

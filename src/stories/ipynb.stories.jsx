@@ -1,7 +1,7 @@
 import React from 'react'
 import { getArticleTreeFromIpynb } from '../logic/ipynb'
 
-// Stories for hoks and methds, following Josh Farrant https://farrant.me/posts/documenting-react-hooks-with-storybook
+// Stories for hooks and methods, following Josh Farrant https://farrant.me/posts/documenting-react-hooks-with-storybook
 // accessed 04 01 2023
 const Component = ({ id, cells, metadata }) => {
   const tree = getArticleTreeFromIpynb({

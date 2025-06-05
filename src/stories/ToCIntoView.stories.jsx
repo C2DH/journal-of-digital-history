@@ -3,7 +3,7 @@ import ToCIntoView from '../components/ToCIntoView'
 
 export default {
   component: ToCIntoView,
-  title: 'ToCIntoView',
+  title: 'Components/Table of Contents/ Table of contents into view',
   argTypes: {
     targetOffsetTop: { control: { type: 'number' } },
     width: { control: { type: 'number' } },

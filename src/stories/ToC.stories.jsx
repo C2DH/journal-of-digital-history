@@ -3,7 +3,7 @@ import ToC from '../components/ToC'
 
 export default {
   component: ToC,
-  title: 'Table of Contents',
+  title: 'Components/Table of Contents/ Default',
   argTypes: {
     steps: { control: { type: 'object' } },
     onClick: { action: 'clicked' },

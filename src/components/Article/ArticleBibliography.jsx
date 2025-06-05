@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Container, Col, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { BootstrapColumLayout } from '../../constants'
+import { BootstrapColumLayout } from '../../constants/globalConstants'
 import Facets, { sortFn } from '../Facets'
 import Sorting from '../Facets/Sorting'
 import Citation from '../Citation'
