@@ -27,7 +27,6 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, __dirname)
 
   return {
-    assetsInclude: ['**/*.html'],
     server: {
       middlewareMode: false,
       proxy: {
