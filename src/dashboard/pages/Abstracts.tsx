@@ -1,5 +1,4 @@
 import Card from '../components/Card/Card'
-import { USERNAME, PASSWORD } from '../constants/global'
 import { useFetchItems } from '../hooks/useFetch'
 import { Abstract } from '../interfaces/abstract'
 
@@ -12,7 +11,7 @@ const Abstracts = () => {
     loading,
     hasMore,
     loadMore,
-  } = useFetchItems<Abstract>('/api/abstracts', USERNAME, PASSWORD, 10)
+  } = useFetchItems<Abstract>('abstracts', 10)
 
   return (
     <div className="abstract page">

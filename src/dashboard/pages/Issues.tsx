@@ -1,18 +1,11 @@
 import Card from '../components/Card/Card'
-import { USERNAME, PASSWORD } from '../constants/global'
 import { useFetchItems } from '../hooks/useFetch'
 import { Issue } from '../interfaces/issue'
 
 import '../styles/pages/pages.css'
 
 const Issues = () => {
-  const {
-    data: issues,
-    error,
-    loading,
-    hasMore,
-    loadMore,
-  } = useFetchItems<Issue>('/api/issues', USERNAME, PASSWORD, 10)
+  const { data: issues, error, loading, hasMore, loadMore } = useFetchItems<Issue>('/issues', 10)
 
   return (
     <div className="issues page">

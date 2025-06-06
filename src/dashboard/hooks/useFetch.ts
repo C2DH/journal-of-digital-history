@@ -1,5 +1,7 @@
 import { useEffect, useReducer, useCallback } from 'react'
 
+import api from '../api/getToken'
+
 type State<T> = {
   data: T[]
   error: string | null
@@ -55,13 +57,7 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
  * This hook automatically resets and fetches data when the endpoint,
  * credentials, or limit changes. It handles authentication via HTTP Basic Auth.
  */
-export function useFetchItems<T>(
-  endpoint: string,
-
-  username?: string,
-  password?: string,
-  limit = 10,
-) {
+export function useFetchItems<T>(endpoint: string, limit = 10) {
   const [state, dispatch] = useReducer(reducer<T>, {
     data: [],
     error: null,
@@ -74,17 +70,13 @@ export function useFetchItems<T>(
     dispatch({ type: 'LOAD_START' })
 
     try {
-      const credentials = btoa(`${username}:${password}`) || ''
       const pagedUrl = endpoint.includes('?')
         ? `${endpoint}&limit=${limit}&offset=${state.offset}`
         : `${endpoint}?limit=${limit}&offset=${state.offset}`
 
-      const response = await fetch(pagedUrl, {
-        headers: { Authorization: `Basic ${credentials}` },
-      })
+      const response = await api.get(pagedUrl)
 
-      if (!response.ok) throw new Error(`Failed to fetch: ${response.statusText}`)
-      const result = await response.json()
+      const result = response.data
       dispatch({ type: 'LOAD_SUCCESS', payload: { results: result.results, limit } })
     } catch (err) {
       dispatch({
@@ -92,11 +84,11 @@ export function useFetchItems<T>(
         payload: err instanceof Error ? err.message : String(err),
       })
     }
-  }, [endpoint, username, password, limit, state.offset])
+  }, [endpoint, limit, state.offset])
 
   useEffect(() => {
     dispatch({ type: 'RESET' })
-  }, [endpoint, username, password, limit])
+  }, [endpoint, limit])
 
   return {
     data: state.data,

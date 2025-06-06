@@ -1,3 +1,4 @@
+/* global console */
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
@@ -25,6 +26,8 @@ function dashboardPlugin() {
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, __dirname)
+
+  console.log('ENV Proxy', env.VITE_PROXY)
 
   return {
     server: {

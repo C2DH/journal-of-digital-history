@@ -5,3 +5,17 @@
   gap: 20px;
   padding: 0% 2%;
 }
+
+.menu-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: fit-content;
+  padding: 4px 10px;
+  background-color: var(--color-white);
+
+  border-radius: 32px;
+  box-sizing: border-box;
+  height: 60px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}

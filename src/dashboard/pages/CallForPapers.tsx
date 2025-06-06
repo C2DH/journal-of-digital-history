@@ -1,5 +1,4 @@
 import Card from '../components/Card/Card'
-import { USERNAME, PASSWORD } from '../constants/global'
 import { useFetchItems } from '../hooks/useFetch'
 import { Callforpaper } from '../interfaces/callforpapers'
 
@@ -12,7 +11,7 @@ const CallForPapers = () => {
     loading,
     hasMore,
     loadMore,
-  } = useFetchItems<Callforpaper>('/api/callofpaper', USERNAME, PASSWORD, 10)
+  } = useFetchItems<Callforpaper>('/callofpaper', 10)
 
   return (
     <div className="callforpapers page">

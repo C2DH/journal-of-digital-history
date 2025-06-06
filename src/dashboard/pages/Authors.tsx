@@ -1,18 +1,11 @@
 import Card from '../components/Card/Card'
-import { USERNAME, PASSWORD } from '../constants/global'
 import { useFetchItems } from '../hooks/useFetch'
 import { Author } from '../interfaces/author'
 
 import '../styles/pages/pages.css'
 
 const Authors = () => {
-  const {
-    data: authors,
-    error,
-    loading,
-    hasMore,
-    loadMore,
-  } = useFetchItems<Author>('/api/authors', USERNAME, PASSWORD, 20)
+  const { data: authors, error, loading, hasMore, loadMore } = useFetchItems<Author>('/authors', 20)
 
   return (
     <div className="authors page">

@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
 import Card from '../components/Card/Card'
-import { USERNAME, PASSWORD } from '../constants/global'
 import { useFetchItems } from '../hooks/useFetch'
 import { Article } from '../interfaces/article'
 
@@ -15,7 +14,7 @@ const Articles = () => {
     loading,
     hasMore,
     loadMore,
-  } = useFetchItems<Article>('/api/articles', USERNAME, PASSWORD, 10)
+  } = useFetchItems<Article>('articles', 10)
 
   return (
     <div className="articles page">

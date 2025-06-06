@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router'
 
-import { PASSWORD, USERNAME } from '../../constants/global'
 import { useSearch } from '../../hooks/useSearch'
 import './Search.css'
 

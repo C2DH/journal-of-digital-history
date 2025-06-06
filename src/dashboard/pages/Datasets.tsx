@@ -1,5 +1,4 @@
 import Card from '../components/Card/Card'
-import { USERNAME, PASSWORD } from '../constants/global'
 import { useFetchItems } from '../hooks/useFetch'
 import { Dataset } from '../interfaces/dataset'
 
@@ -12,7 +11,7 @@ const Datasets = () => {
     loading,
     hasMore,
     loadMore,
-  } = useFetchItems<Dataset>('/api/datasets', USERNAME, PASSWORD, 20)
+  } = useFetchItems<Dataset>('/datasets', 20)
 
   return (
     <div className="datasets page">

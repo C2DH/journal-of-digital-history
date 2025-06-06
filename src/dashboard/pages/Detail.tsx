@@ -7,7 +7,6 @@ import { useLocation } from 'react-router'
 import GithubLink from '../components/GithubLink/GithubLink'
 import Loading from '../components/Loading/Loading'
 import { SmallCard } from '../components/SmallCard/SmallCard'
-import { USERNAME, PASSWORD } from '../constants/global'
 import { useFetchItem } from '../hooks/useFetch'
 import { Abstract } from '../interfaces/abstract'
 import { Article } from '../interfaces/article'
@@ -54,7 +53,7 @@ const Detail = ({ endpoint }) => {
   const location = useLocation()
   const id = location.pathname.split('/')[2]
 
-  const { data: item, error, loading } = useFetchItem(`${endpoint}${id}`, USERNAME, PASSWORD)
+  const { data: item, error, loading } = useFetchItem(`${endpoint}${id}`)
 
   if (loading) {
     return <Loading />
