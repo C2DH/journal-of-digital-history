@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Meta, StoryFn } from '@storybook/react'
 import DynamicForm from '../components/AbstractSubmissionForm/DynamicForm'
-import { DynamicFormItem } from '../interfaces/abstractSubmission'
+import { DynamicFormItem } from '../src/interfaces/abstractSubmission'
 
 export default {
   title: 'Components/AbstractSubmissionForm/DynamicForm',

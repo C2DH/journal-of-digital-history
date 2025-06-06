@@ -4,13 +4,12 @@ ARG GIT_TAG
 ARG GIT_BRANCH
 ARG GIT_REVISION
 
-WORKDIR /app
+WORKDIR /apps/website
 
 # add `/app/node_modules/.bin` to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
 
 COPY package.json ./
-COPY yarn.lock ./
 RUN yarn install
 
 COPY public ./public
@@ -22,11 +21,3 @@ ENV VITE_GIT_BRANCH=${GIT_BRANCH}
 ENV VITE_GIT_COMMIT_SHA=${GIT_REVISION}
 
 CMD ["yarn", "start"]
-
-# Stage 1, based on NGINX to provide a configuration to be used with react-router
-# FROM nginx:alpine
-#COPY --from=build /app/build /usr/share/nginx.html
-#R UN rm /etc/nginx/conf.d/default.conf
-#COPY nginx/nginx.conf /etc/nginx/conf.d
-#EXPOSE 80
-#CMD ["nginx", "-g", "daemon off;"]

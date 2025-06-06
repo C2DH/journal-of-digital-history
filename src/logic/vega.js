@@ -3,8 +3,8 @@ import moment from 'moment'
 import groupBy from 'lodash/groupBy'
 import findIndex from 'lodash/findIndex'
 
-import { extent, bisectLeft } from 'd3-array'
-import { scaleTime, scaleLinear, scalePow } from 'd3-scale'
+import { bisectLeft, extent } from 'd3-array'
+import { scaleLinear, scalePow, scaleTime } from 'd3-scale'
 
 const getFromEncodingPosition = ({ type, field, format} = {}) => {
   // The type of measurement ("quantitative", "temporal", "ordinal", or "nominal")

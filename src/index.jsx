@@ -43,7 +43,7 @@ if (process.env.NODE_ENV === 'production' && import.meta.env.VITE_BASEURL === lo
 
 createRoot(document.getElementById('root')).render(
   <MatomoProvider value={matomo}>
-      <App />
+    <App />
   </MatomoProvider>,
 )
 // If you want your app to work offline and load faster, you can change
@@ -58,5 +58,7 @@ console.info(
   import.meta.env.VITE_GIT_TAG,
   import.meta.env.VITE_GIT_BRANCH,
   import.meta.env.VITE_BUILD_DATE,
-  `\nhttps://github.com/C2DH/journal-of-digital-history/commit/${import.meta.env.VITE_GIT_COMMIT_SHA}`,
+  `\nhttps://github.com/C2DH/journal-of-digital-history/commit/${
+    import.meta.env.VITE_GIT_COMMIT_SHA
+  }`,
 )

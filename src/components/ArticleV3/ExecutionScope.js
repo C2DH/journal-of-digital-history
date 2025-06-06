@@ -48,7 +48,7 @@ export const useExecutionScope = create((set, get) => ({
     const errors = resolveExecuteErrors(await cell.thebe.execute(cell.source)) // execute the latest source from state, this does not update thebe.source
     if (errors) console.error(`[useExecutionScope] executeCell error: ${errors}`)
     set(({ cells }) => {
-      // eslint-disable-next-line no-unused-vars
+       
       const { [id]: current, ...others } = cells
       return {
         executing: Object.values(others).some((c) => c.executing),
@@ -115,7 +115,7 @@ export const useExecutionScope = create((set, get) => ({
 
       // success - update cell state
       set(({ cells }) => {
-        // eslint-disable-next-line no-unused-vars
+         
         const { [id]: current, ...others } = cells
         return {
           executing: Object.values(others).some((c) => c.executing),

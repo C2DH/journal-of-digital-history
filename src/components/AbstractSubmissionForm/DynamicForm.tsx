@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import parse from 'html-react-parser'
+import Tooltip  from  '../Tooltip'
 
-import Tooltip from '../Tooltip/Tooltip'
 import { findErrorByKeyword, getErrorByItemAndByField } from '../../logic/errors'
 import {
   DynamicFormItem,
@@ -97,7 +97,7 @@ const DynamicForm = ({
   }
 
   return (
-    <>
+    <div>
       <h3 className="progressiveHeading">{title}</h3>
       <p>{explanation}</p>
       <div className="dynamic-list-form">
@@ -182,7 +182,7 @@ const DynamicForm = ({
                           />
                           {tooltip && (
                             <Tooltip
-                              tooltip={`pages.abstractSubmission.tooltips.${tooltip}`}
+                              tooltip={t(`pages.abstractSubmission.tooltips.${tooltip}`)}
                               tooltipPlacement={tooltipPlacement}
                               fieldname={fieldname}
                               index={index}
@@ -241,7 +241,7 @@ const DynamicForm = ({
           </button>
         )}
       </div>
-    </>
+    </div>
   )
 }
 

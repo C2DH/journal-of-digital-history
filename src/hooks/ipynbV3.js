@@ -1,9 +1,9 @@
 import React, { useLayoutEffect, useMemo, useState } from 'react'
-import { useThebeLoader, useThebeConfig, useRenderMimeRegistry } from 'thebe-react'
+import { useRenderMimeRegistry, useThebeConfig, useThebeLoader } from 'thebe-react'
 import { useIpynbNotebookParagraphs } from './ipynb'
+import { useWindowSize } from './windowSize'
 import { LayerHidden } from '../constants/globalConstants'
 import { getFigureHeight, getFigureOutputs } from '../logic/ipynbV3'
-import { useWindowSize } from './windowSize'
 
 function useParagraphs(url, tree) {
   const paragraphs = React.useMemo(

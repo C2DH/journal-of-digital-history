@@ -18,7 +18,6 @@ import { extractMetadataFromArticle } from '../logic/api/metadata'
 import { useIssueStore } from '../store'
 import { setBodyNoScroll } from '../logic/viewport'
 
-
 const ArticleViewer = () => {
   const { pid } = useParams()
   const { t } = useTranslation()
@@ -132,7 +131,7 @@ const ArticleViewer = () => {
       bibjson={article.citation}
       parserVersion={parseInt(article.data.parserVersion) || 2}
       isJavascriptTrusted
-      encodedUrl={article.notebook_url} 
+      encodedUrl={article.notebook_url}
     />
   )
 }

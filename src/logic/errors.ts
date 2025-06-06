@@ -1,12 +1,13 @@
 import { ErrorObject } from 'ajv'
+
 import { ValidationErrors } from '../interfaces/abstractSubmission'
 /**
  * Transforms an array of AJV error objects into a structured object with paths as keys.
- * 
+ *
  * ### Example
  * Given an error object with an `instancePath` of `/author/0/firstName`,
  * the method will categorize it as:
- * 
+ *
  * ```json
  * {
  *   "author": {
@@ -24,7 +25,7 @@ import { ValidationErrors } from '../interfaces/abstractSubmission'
  *   }
  * }
  * ```
- * 
+ *
  * @param errors - An array of error objects conforming to the `ErrorObject` type. Defaults to an empty array.
  * @returns A `ValidationErrors` object where errors are organized hierarchically based on their `instancePath`.
  */
@@ -71,7 +72,7 @@ export const getErrors = (errors: ErrorObject[] = []): ValidationErrors => {
 export const requiredFieldErrors = (errors: ErrorObject[]) => {
   return errors.reduce((acc: Set<string>, error) => {
     const pathParts = error.instancePath.split('/').filter(Boolean)
-    let section = pathParts[0] || 'general'
+    const section = pathParts[0] || 'general'
 
     acc.add(section)
     return acc
@@ -82,14 +83,11 @@ export const requiredFieldErrors = (errors: ErrorObject[]) => {
  * Add error section to an array of header sections based on github API error or call for paper error.
  *
  * @param errors - A set of error headers.
- * @param section - The section to which the error belongs (e.g., 'author').   
- * 
+ * @param section - The section to which the error belongs (e.g., 'author').
+ *
  *
  */
-export const addErrorToSection = (
-  errorHeaders: Set<string>,
-  section: string,
-) => {
+export const addErrorToSection = (errorHeaders: Set<string>, section: string) => {
   if (!errorHeaders[section]) {
     errorHeaders[section] = []
   }
@@ -98,10 +96,10 @@ export const addErrorToSection = (
 
 /**
  * Retrieves the error keyword associated with a specific field from a list of error objects.
- * 
+ *
  * @param errors - Array of error objects. If not provided, the default is an empty array.
- * @param field - Name of the field 
- * @returns The error keyword for the specified field, or `undefined` if no error 
+ * @param field - Name of the field
+ * @returns The error keyword for the specified field, or `undefined` if no error
  */
 export const getErrorByField = (errors: ErrorObject[] = [], field: string): string => {
   return getErrors(errors)?.[field]?.[0]?.keyword
@@ -128,7 +126,7 @@ export const getErrorBySubfield = (
  *
  * @param errors - Array of error objects. If not provided, the default is an empty array.
  * @param section - Name of the section (e.g., 'datasets', 'contributors')
- * @param item - Index of the item 
+ * @param item - Index of the item
  * @param field - Name of the field
  * @returns The error keyword as a string, or `undefined` if no error
  */
@@ -141,7 +139,6 @@ export const getErrorByItemAndByField = (
   return getErrors(errors)?.[section]?.[item]?.[field]?.[0]?.keyword
 }
 
-
 /**
  * Finds and returns the first error object in the provided array that matches the specified keyword.
  *
@@ -149,6 +146,9 @@ export const getErrorByItemAndByField = (
  * @param keyword - The keyword to match against the `keyword` property of the error objects.
  * @returns The first error object that matches the keyword, or `undefined` if no match is found.
  */
-export const findErrorByKeyword  = (errors: ErrorObject[] = [], keyword: string): ErrorObject | undefined => {
+export const findErrorByKeyword = (
+  errors: ErrorObject[] = [],
+  keyword: string,
+): ErrorObject | undefined => {
   return errors.find((error) => error.keyword === keyword)
 }

@@ -11,7 +11,7 @@ export default {
   argTypes: {
     metadata: { control: { type: 'object' }, defaultValue: {} },
   },
-} 
+}
 
 const Template = ({ cells, metadata }) => {
   const articleTree = useIpynbNotebookParagraphs({
@@ -22,7 +22,13 @@ const Template = ({ cells, metadata }) => {
 
   console.debug('[Article] loading articleTree paragraphs:', articleTree.paragraphs.length)
 
-  return <>{articleTree.paragraphs.map((p) => <ArticleCell key={p.id} {...p} />)}</>
+  return (
+    <>
+      {articleTree.paragraphs.map((p) => (
+        <ArticleCell key={p.id} {...p} />
+      ))}
+    </>
+  )
 }
 
 export const Default = Template.bind({})

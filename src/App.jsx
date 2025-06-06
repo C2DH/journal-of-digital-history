@@ -33,7 +33,7 @@ console.info('%cacceptCookies', 'font-weight: bold', AcceptCookies)
 const csrfToken = new UniversalCookie().get('csrftoken')
 console.info('%ccsrftoken', 'font-weight: bold', csrfToken)
 
-const { startLangShort, lang } = getStartLang()
+const { short, lng } = getStartLang()
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -47,7 +47,7 @@ const queryClient = new QueryClient({
   },
 })
 
-console.info('start language:', lang, startLangShort)
+console.info('start language:', short, lng)
 console.info('IsMobile:', IsMobile)
 
 export default function App() {
@@ -79,7 +79,7 @@ export default function App() {
             <Cookies defaultAcceptCookies={AcceptCookies} />
             <main>
               <Suspense fallback={<Loading />} key={location.key}>
-                <AppRoutes languagePath={startLangShort} />
+                <AppRoutes languagePath={short} />
               </Suspense>
             </main>
             <Footer hideOnRoutes={NotebookPoweredPaths} />

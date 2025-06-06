@@ -1,0 +1,19 @@
+.breadcrumb {
+  margin-left: var(--navbar-width);
+  display: flex;
+  align-items: center;
+  padding: var(--gap-size-4);
+}
+
+.breadcrumb {
+  color: var(--color-deep-blue);
+  font-size: var(--font-size-4);
+}
+.breadcrumb a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+.breadcrumb span {
+  display: flex;
+  align-items: center;
+}

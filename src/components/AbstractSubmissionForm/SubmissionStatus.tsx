@@ -13,7 +13,7 @@ const SubmissionStatusCard = ({
   isSubmitAttempted,
 }: SubmissionStatusCardProps) => {
   const { t } = useTranslation()
-
+  
   const errorHeaders = requiredFieldErrors(errors)
 
   if (callForPapersError) {

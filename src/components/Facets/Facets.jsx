@@ -149,6 +149,7 @@ const Facets = ({
   style,
 }) => {
   const { t } = useTranslation()
+
   // Resulting state: { selected: [0, 14, 15 ...]}
   const [{ selected, isActive, dims }, setSelection] = useFacetsSelection(dimensions)
   const [stats, setStats] = useState(
