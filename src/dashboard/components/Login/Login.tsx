@@ -1,6 +1,6 @@
-import axios from 'axios'
 import { useState } from 'react'
 
+import { loginWithToken, refreshToken } from '../../api/getToken'
 import './Login.css'
 
 const Login = ({ onLogin }: { onLogin: (username: string, password: string) => void }) => {
@@ -12,15 +12,12 @@ const Login = ({ onLogin }: { onLogin: (username: string, password: string) => v
     e.preventDefault()
     setError(null)
     try {
-      const response = await axios.post('/api/token/', {
-        username,
-        password,
-      })
-      const { access, refresh } = response.data
-      localStorage.setItem('token', access)
-      //TODO: finish implement refresh token
-      localStorage.setItem('refreshToken', refresh)
-      console.log('Login successful - access token:', access)
+      await loginWithToken(username, password)
+      try {
+        await refreshToken()
+      } catch (refreshErr) {
+        console.error('Refresh token failed:', refreshErr)
+      }
       onLogin(username, password)
     } catch (err) {
       setError('Invalid username or password')

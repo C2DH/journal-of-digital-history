@@ -1,17 +1,15 @@
+import Cookies from 'js-cookie'
 import { useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router'
 
-import Avatar from './components/Avatar/Avatar'
-import Breadcrumb from './components/Breadcrumb/Breadcrumb'
+import Header from './components/Header/Header'
 import Login from './components/Login/Login'
 import Navbar from './components/Navbar/Navbar'
-import Search from './components/Search/Search'
 import { navbarItems } from './constants/navbar'
 import i18n from './i18next'
 import AppRoutes from './routes'
 
-import './styles/app.css'
 import './styles/index.css'
 
 function DashboardApp() {
@@ -23,14 +21,16 @@ function DashboardApp() {
   const handleLogin = (username: string) => {
     setIsLoggedIn(true)
     setUsername(username)
-    localStorage.setItem('isLoggedIn', 'true')
+    Cookies.set('isLoggedIn', 'true')
   }
 
   const handleLogout = () => {
     setIsLoggedIn(false)
     setUsername('')
-    localStorage.removeItem('isLoggedIn')
-    localStorage.removeItem('username')
+    Cookies.remove('isLoggedIn')
+    Cookies.remove('username')
+    Cookies.remove('token')
+    Cookies.remove('refreshToken')
   }
 
   if (!isLoggedIn) {
@@ -42,15 +42,7 @@ function DashboardApp() {
       <I18nextProvider i18n={i18n}>
         <div className="dashboard-app">
           <Navbar items={navbarItems} />
-          <div className="top-bar">
-            <Breadcrumb />
-            {/* TODO add search */}
-            <div className="menu-bar">
-              {' '}
-              <Search onSearch={(q) => console.log(q)} activeRoutes={['/abstracts', '/articles']} />
-              <Avatar username={username} onLogout={handleLogout} />
-            </div>
-          </div>
+          <Header username={username} onLogout={handleLogout} />
           <AppRoutes />
         </div>
       </I18nextProvider>
