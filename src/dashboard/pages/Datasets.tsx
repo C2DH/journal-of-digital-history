@@ -1,6 +1,6 @@
 import Card from '../components/Card/Card'
 import { useFetchItems } from '../hooks/useFetch'
-import { Dataset } from '../interfaces/dataset'
+import { Dataset } from '../utils/types'
 
 import '../styles/pages/pages.css'
 

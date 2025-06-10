@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { loginWithToken, refreshToken } from '../../api/getToken'
+import { loginWithToken, refreshToken } from '../../utils/getToken'
 import './Login.css'
 
 const Login = ({ onLogin }: { onLogin: (username: string, password: string) => void }) => {

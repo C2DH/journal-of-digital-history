@@ -1,5 +1,7 @@
 import axios, { AxiosInstance } from 'axios'
-import Cookies from 'js-cookie'
+import UniversalCookie from 'universal-cookie'
+
+const cookies = new UniversalCookie()
 
 /**
  * Creates a properly configured Axios instance with Bearer token authentication.
@@ -12,7 +14,7 @@ const api: AxiosInstance = axios.create({
 
 // Always get the latest token from the cookie
 api.interceptors.request.use((config) => {
-  const token = Cookies.get('token')
+  const token = cookies.get('token')
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`
   }
@@ -27,31 +29,50 @@ api.interceptors.response.use(
       originalRequest._retry = true
       try {
         await refreshToken()
-        const newToken = Cookies.get('token')
+        const newToken = cookies.get('token')
         if (newToken) {
           originalRequest.headers['Authorization'] = `Bearer ${newToken}`
         }
         return api(originalRequest)
       } catch (refreshError) {
-        Cookies.remove('token')
-        Cookies.remove('refreshToken')
+        cookies.remove('token')
+        cookies.remove('refreshToken')
       }
     }
     return Promise.reject(error)
   },
 )
 
+/**
+ * Authenticates a user with the provided username and password,
+ * retrieves access and refresh tokens, and stores them in cookies.
+ *
+ * @param username - The user's username.
+ * @param password - The user's password.
+ */
 export async function loginWithToken(username: string, password: string) {
   const response = await axios.post('/api/token/', { username, password })
   const { access, refresh } = response.data
-  Cookies.set('token', access, { expires: 1, secure: true, sameSite: 'strict' })
-  Cookies.set('refreshToken', refresh, { expires: 1, secure: true, sameSite: 'strict' })
+  cookies.set('token', access, { maxAge: 86400, secure: true, sameSite: 'strict' })
+  cookies.set('refreshToken', refresh, {
+    maxAge: 86400,
+    secure: true,
+    sameSite: 'strict',
+  })
 }
 
+/**
+ * Refreshes the authentication token using the stored refresh token.
+ * Updates the access token cookie upon success.
+ */
 export async function refreshToken() {
-  const refresh = Cookies.get('refreshToken')
+  const refresh = cookies.get('refreshToken')
   const response = await axios.post('/api/token/refresh/', { refresh })
-  Cookies.set('token', response.data.access, { expires: 1, secure: true, sameSite: 'strict' })
+  cookies.set('token', response.data.access, {
+    maxAge: 86400,
+    secure: true,
+    sameSite: 'strict',
+  })
 }
 
 export default api

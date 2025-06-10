@@ -1,15 +1,9 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router'
 
+import { SearchProps } from './interface'
 import { useSearch } from '../../hooks/useSearch'
 import './Search.css'
-
-type SearchProps = {
-  placeholder?: string
-  onSearch: (query: string) => void
-  className?: string
-  activeRoutes?: string[]
-}
 
 const Search = ({
   placeholder = 'Search',

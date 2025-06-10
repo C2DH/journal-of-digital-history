@@ -8,10 +8,9 @@ import GithubLink from '../components/GithubLink/GithubLink'
 import Loading from '../components/Loading/Loading'
 import { SmallCard } from '../components/SmallCard/SmallCard'
 import { useFetchItem } from '../hooks/useFetch'
-import { Abstract } from '../interfaces/abstract'
-import { Article } from '../interfaces/article'
-import { convertDate } from '../logic/convertDate'
-import { convertStatus } from '../logic/convertStatus'
+import { convertDate } from '../utils/convertDate'
+import { convertStatus } from '../utils/convertStatus'
+import { Abstract, Article } from '../utils/types'
 
 const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
   <div className="item">

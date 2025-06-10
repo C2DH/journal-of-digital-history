@@ -2,12 +2,12 @@ import { DateTime } from 'luxon'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
-import { TableProps } from '../../interfaces/table'
-import { convertDate } from '../../logic/convertDate'
-import { convertLink } from '../../logic/convertLink'
-import { convertStatus } from '../../logic/convertStatus'
-import { isOrcid } from '../../logic/isOrcid'
-import { getCleanData, getVisibleHeaders } from '../../logic/tableUtils'
+import { TableProps } from './interface'
+import { convertDate } from '../../utils/convertDate'
+import { convertLink } from '../../utils/convertLink'
+import { convertStatus } from '../../utils/convertStatus'
+import { isOrcid } from '../../utils/orcid'
+import { getCleanData, getVisibleHeaders } from '../../utils/table'
 
 import './Table.css'
 

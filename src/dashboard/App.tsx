@@ -1,7 +1,7 @@
-import Cookies from 'js-cookie'
 import { useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router'
+import UniversalCookie from 'universal-cookie'
 
 import Header from './components/Header/Header'
 import Login from './components/Login/Login'
@@ -12,6 +12,8 @@ import AppRoutes from './routes'
 
 import './styles/index.css'
 
+const cookies = new UniversalCookie()
+
 function DashboardApp() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     return localStorage.getItem('isLoggedIn') === 'true'
@@ -21,16 +23,16 @@ function DashboardApp() {
   const handleLogin = (username: string) => {
     setIsLoggedIn(true)
     setUsername(username)
-    Cookies.set('isLoggedIn', 'true')
+    cookies.set('isLoggedIn', 'true')
   }
 
   const handleLogout = () => {
     setIsLoggedIn(false)
     setUsername('')
-    Cookies.remove('isLoggedIn')
-    Cookies.remove('username')
-    Cookies.remove('token')
-    Cookies.remove('refreshToken')
+    cookies.remove('isLoggedIn')
+    cookies.remove('username')
+    cookies.remove('token')
+    cookies.remove('refreshToken')
   }
 
   if (!isLoggedIn) {

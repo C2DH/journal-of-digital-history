@@ -1,6 +1,6 @@
 import Card from '../components/Card/Card'
 import { useFetchItems } from '../hooks/useFetch'
-import { Callforpaper } from '../interfaces/callforpapers'
+import { Callforpaper } from '../utils/types'
 
 import '../styles/pages/pages.css'
 

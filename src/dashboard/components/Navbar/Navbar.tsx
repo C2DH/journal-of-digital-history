@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
+import { NavbarProps } from './interface'
 import Logo from '../../../../src/components/Logo'
-import { NavbarProps } from '../../interfaces/navbar'
 
 import './Navbar.css'
 

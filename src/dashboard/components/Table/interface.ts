@@ -1,4 +1,4 @@
-export type TableProps = {
+export interface TableProps {
   title: string
   headers: string[]
   data: (string | number)[][]

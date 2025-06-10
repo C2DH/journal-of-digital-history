@@ -3,7 +3,7 @@ import { Outlet } from 'react-router'
 
 import Card from '../components/Card/Card'
 import { useFetchItems } from '../hooks/useFetch'
-import { Issue } from '../interfaces/issue'
+import { Issue } from '../utils/types'
 
 import '../styles/pages/pages.css'
 

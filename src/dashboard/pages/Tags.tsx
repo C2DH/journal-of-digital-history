@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import ArticleKeywords from '../../components/Article/ArticleKeywords'
 import Loading from '../components/Loading/Loading'
 import { useFetchItems } from '../hooks/useFetch'
-import { Tag } from '../interfaces/tag'
+import { Tag } from '../utils/types'
 
 import '../styles/pages/pages.css'
 import '../../styles/components/Article/ArticleKeywords.css'

@@ -1,6 +1,6 @@
 import Card from '../components/Card/Card'
 import { useFetchItems } from '../hooks/useFetch'
-import { Abstract } from '../interfaces/abstract'
+import { Abstract } from '../utils/types'
 
 import '../styles/pages/pages.css'
 

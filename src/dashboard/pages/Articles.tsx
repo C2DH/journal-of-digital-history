@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 
 import Card from '../components/Card/Card'
 import { useFetchItems } from '../hooks/useFetch'
-import { Article } from '../interfaces/article'
+import { Article } from '../utils/types'
 
 import '../styles/pages/pages.css'
 

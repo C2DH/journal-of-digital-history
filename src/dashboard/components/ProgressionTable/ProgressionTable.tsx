@@ -2,15 +2,16 @@ import { DateTime } from 'luxon'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
+import { ProgressionTableProps } from './interface'
 import { articleSteps } from '../../constants/article'
-import { convertDate } from '../../logic/convertDate'
-import { convertLink } from '../../logic/convertLink'
-import { getCleanData, getVisibleHeaders } from '../../logic/tableUtils'
+import { convertDate } from '../../utils/convertDate'
+import { convertLink } from '../../utils/convertLink'
+import { getCleanData, getVisibleHeaders } from '../../utils/table'
 import Timeline from '../Timeline/Timeline'
 
 import '../Table/Table.css'
 
-const ProgressionTable = ({ title, headers, data }) => {
+const ProgressionTable = ({ title, headers, data }: ProgressionTableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const visibleHeaders = getVisibleHeaders({ data, headers })

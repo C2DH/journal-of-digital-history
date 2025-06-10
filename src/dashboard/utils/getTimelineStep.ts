@@ -1,4 +1,4 @@
-import { Step, StepVisual } from '../interfaces/timeline'
+import { Step, StepVisual } from '../components/Timeline/interface'
 
 /**
  * Generates an array of all the steps with their icon for each of them.

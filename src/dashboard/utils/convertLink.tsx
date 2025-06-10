@@ -1,4 +1,4 @@
-import { convertOrcid } from './isOrcid'
+import { convertOrcid } from './orcid'
 
 /**
  * Converts a string cell value into a clickable button if it is a valid URL.
