@@ -1,9 +1,12 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { loginWithToken, refreshToken } from '../../utils/getToken'
+
 import './Login.css'
 
 const Login = ({ onLogin }: { onLogin: (username: string, password: string) => void }) => {
+  const { t } = useTranslation()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -20,7 +23,7 @@ const Login = ({ onLogin }: { onLogin: (username: string, password: string) => v
       }
       onLogin(username, password)
     } catch (err) {
-      setError('Invalid username or password')
+      setError(t('error.invalidUser'))
       console.error('Login error:', err)
     }
   }

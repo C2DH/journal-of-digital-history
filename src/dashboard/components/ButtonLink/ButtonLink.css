@@ -16,7 +16,7 @@ button {
   outline: inherit;
 }
 
-.github-button {
+.button-link {
   background-color: var(--color-accent-lighter);
   color: var(--color-deep-blue);
   padding: var(--gap-size-0) var(--gap-size-3);

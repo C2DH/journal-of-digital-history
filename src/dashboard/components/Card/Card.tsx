@@ -9,10 +9,11 @@ import ProgressionTable from '../ProgressionTable/ProgressionTable'
 import Table from '../Table/Table'
 
 import './Card.css'
+import { CardProps } from './interface'
 
-const Card = ({ item, headers, data, error, loading, hasMore, loadMore }) => {
-  const loaderRef = useRef<HTMLDivElement | null>(null)
+const Card = ({ item, headers, data, error, loading, hasMore, loadMore }: CardProps) => {
   const { t } = useTranslation()
+  const loaderRef = useRef<HTMLDivElement | null>(null)
 
   useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
 
@@ -24,8 +25,7 @@ const Card = ({ item, headers, data, error, loading, hasMore, loadMore }) => {
     return (
       <div className="card card-error">
         <h1>{t('error.title', 'Error')}</h1>
-        <p>{error}</p>
-        <p>{error.response}</p>
+        <p>{error?.response}</p>
       </div>
     )
   }

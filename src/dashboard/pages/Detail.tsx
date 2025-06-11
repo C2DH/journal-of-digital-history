@@ -4,7 +4,7 @@ import '../styles/pages/pages.css'
 import parse from 'html-react-parser'
 import { useLocation } from 'react-router'
 
-import GithubLink from '../components/GithubLink/GithubLink'
+import ButtonLink from '../components/ButtonLink/ButtonLink'
 import Loading from '../components/Loading/Loading'
 import { SmallCard } from '../components/SmallCard/SmallCard'
 import { useFetchItem } from '../hooks/useFetch'
@@ -130,7 +130,7 @@ const Detail = ({ endpoint }) => {
         </SmallCard>
         <SmallCard className="card-repository">
           <h2>Repository</h2>
-          <GithubLink url={url} />
+          <ButtonLink url={url} />
         </SmallCard>
         <SmallCard className="card-abstract">
           <h2>{title}</h2>

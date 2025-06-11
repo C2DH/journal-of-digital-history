@@ -55,5 +55,9 @@
     "id": "ID",
     "url": "Link",
     "description": "Description"
+  },
+  "error": {
+    "title": "Sorry, you have an error",
+    "invalidUser": "Invalid username or password"
   }
 }

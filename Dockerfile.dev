@@ -4,12 +4,13 @@ ARG GIT_TAG
 ARG GIT_BRANCH
 ARG GIT_REVISION
 
-WORKDIR /apps/website
+WORKDIR /app
 
 # add `/app/node_modules/.bin` to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
 
 COPY package.json ./
+COPY yarn.lock ./
 RUN yarn install
 
 COPY public ./public

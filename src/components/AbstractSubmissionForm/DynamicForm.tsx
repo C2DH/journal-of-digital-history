@@ -1,18 +1,18 @@
+import parse from 'html-react-parser'
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import parse from 'html-react-parser'
-import Tooltip  from  '../Tooltip'
 
-import { findErrorByKeyword, getErrorByItemAndByField } from '../../logic/errors'
 import {
   DynamicFormItem,
   DynamicFormProps,
   ErrorField,
   FieldEmptyHandler,
 } from '../../interfaces/abstractSubmission'
-import CloseButtonItem from '../Buttons/CloseButtonItem'
-import ArrowUpButtonItem from '../Buttons/ArrowUpButtonItem'
+import { findErrorByKeyword, getErrorByItemAndByField } from '../../logic/errors'
 import ArrowDownButtonItem from '../Buttons/ArrowDownButtonItem'
+import ArrowUpButtonItem from '../Buttons/ArrowUpButtonItem'
+import CloseButtonItem from '../Buttons/CloseButtonItem'
+import Tooltip from '../Tooltip'
 
 import '../../styles/components/AbstractSubmissionForm/DynamicForm.scss'
 
