@@ -57,7 +57,7 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
  * This hook automatically resets and fetches data when the endpoint,
  * credentials, or limit changes. It handles authentication via HTTP Basic Auth.
  */
-export function useFetchItems<T>(endpoint: string, limit = 10) {
+export function useFetchItems<T>(endpoint: string, ordering: string, limit = 10) {
   const [state, dispatch] = useReducer(reducer<T>, {
     data: [],
     error: null,
@@ -70,10 +70,12 @@ export function useFetchItems<T>(endpoint: string, limit = 10) {
     dispatch({ type: 'LOAD_START' })
 
     try {
-      const pagedUrl = endpoint.includes('?')
-        ? `${endpoint}&limit=${limit}&offset=${state.offset}`
-        : `${endpoint}?limit=${limit}&offset=${state.offset}`
-
+      const pagedUrl =
+        endpoint +
+        '?' +
+        [ordering ? `ordering=${ordering}` : null, `limit=${limit}`, `offset=${state.offset}`]
+          .filter(Boolean)
+          .join('&')
       const response = await api.get(pagedUrl)
 
       const result = response.data
@@ -84,11 +86,11 @@ export function useFetchItems<T>(endpoint: string, limit = 10) {
         payload: err instanceof Error ? err.message : String(err),
       })
     }
-  }, [endpoint, limit, state.offset])
+  }, [endpoint, limit, ordering, state.offset])
 
   useEffect(() => {
     dispatch({ type: 'RESET' })
-  }, [endpoint, limit])
+  }, [endpoint, limit, ordering])
 
   return {
     data: state.data,

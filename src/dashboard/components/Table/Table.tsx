@@ -1,4 +1,6 @@
+import { ArrowSeparateVertical } from 'iconoir-react'
 import { DateTime } from 'luxon'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
@@ -11,12 +13,21 @@ import { getCleanData, getVisibleHeaders } from '../../utils/table'
 
 import './Table.css'
 
-const Table = ({ title, headers, data }: TableProps) => {
+const Table = ({ title, headers, data, sortBy, sortOrder, setSortBy, setSortOrder }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
 
   const visibleHeaders = getVisibleHeaders({ data, headers })
   const cleanData = getCleanData({ data, visibleHeaders })
+
+  const handleSort = (header: string) => {
+    if (sortBy === header) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortBy(header)
+      setSortOrder('asc')
+    }
+  }
 
   const handleRowClick = (pid: string) => {
     navigate(`/${title}/${pid}`)
@@ -28,7 +39,46 @@ const Table = ({ title, headers, data }: TableProps) => {
         <tr>
           {visibleHeaders.map((header, idx) => (
             <th key={idx} className={`${header}`}>
-              {t(`${title}.${header}`)}
+              <button
+                type="button"
+                onClick={() => handleSort(header)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: 0,
+                  marginLeft: 4,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                }}
+                aria-label={`Sort by ${header}`}
+              >
+                {t(`${title}.${header}`)}
+                <ArrowSeparateVertical
+                  style={{
+                    marginLeft: 4,
+                    verticalAlign: 'middle',
+                    transform:
+                      sortBy === header
+                        ? sortOrder === 'asc'
+                          ? 'rotate(0deg)'
+                          : 'rotate(180deg)'
+                        : 'rotate(0deg)',
+                    opacity: sortBy === header ? 1 : 0.4, // faded if not active
+                    transition: 'transform 0.2s, opacity 0.2s',
+                    display: 'inline-block',
+                  }}
+                  width={16}
+                  height={16}
+                  aria-label={
+                    sortBy === header
+                      ? sortOrder === 'asc'
+                        ? 'Ascending'
+                        : 'Descending'
+                      : 'Unsorted'
+                  }
+                />
+              </button>
             </th>
           ))}
         </tr>
