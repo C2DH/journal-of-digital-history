@@ -8,6 +8,8 @@ ARG BUILD_DATE
 
 WORKDIR /jdh
 
+RUN corepack enable && corepack prepare yarn@4.9.1 --activate
+
 COPY package.json .
 COPY eslint.config.js .
 COPY vite.config.js .
