@@ -76,10 +76,10 @@ describe('Table', () => {
   it('calls navigate on row click', () => {
     render(
       <MemoryRouter>
-        <Table title="articles" headers={headers} data={data} />
+        <Table title="abstracts" headers={headers} data={data} />
       </MemoryRouter>,
     )
     fireEvent.click(screen.getByText('123').closest('tr')!)
-    expect(mockNavigate).toHaveBeenCalledWith('/articles/123')
+    expect(mockNavigate).toHaveBeenCalledWith('/abstracts/123')
   })
 })
