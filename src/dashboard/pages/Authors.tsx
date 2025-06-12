@@ -5,7 +5,7 @@ import { Author } from '../utils/types'
 import '../styles/pages/pages.css'
 
 const Authors = () => {
-  const { data: authors, error, loading, hasMore, loadMore } = useFetchItems<Author>('/authors', 20)
+  const { data: authors, error, loading, hasMore, loadMore } = useFetchItems<Author>('/authors', 5)
 
   return (
     <div className="authors page">

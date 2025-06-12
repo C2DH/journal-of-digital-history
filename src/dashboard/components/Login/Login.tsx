@@ -29,27 +29,31 @@ const Login = ({ onLogin }: { onLogin: (username: string, password: string) => v
   }
 
   return (
-    <div className="login-page">
-      <form className="login-form" onSubmit={handleLogin}>
-        <h2>Dashboard Login</h2>
-        {error && <div className="error">{error}</div>}
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-    </div>
+    <>
+      <p className="login-version">Tartampion v0.1</p>
+      <div className="login-page">
+        <form className="login-form" onSubmit={handleLogin}>
+          <h2>Dashboard Login</h2>
+
+          {error && <div className="error">{error}</div>}
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </>
   )
 }
 

@@ -15,8 +15,8 @@ function dashboardPlugin() {
     name: 'dashboard-router',
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
-        if (req.url.startsWith('/dashboard')) {
-          req.url = '/dashboard.html'
+        if (req.url.startsWith('/tartampion')) {
+          req.url = '/tartampion.html'
         }
         next()
       })
@@ -69,7 +69,7 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         input: {
           main: resolve(__dirname, 'index.html'),
-          dashboard: resolve(__dirname, 'dashboard.html'),
+          tartampion: resolve(__dirname, 'tartampion.html'),
         },
       },
     },

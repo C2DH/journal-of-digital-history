@@ -34,36 +34,40 @@ const Table = ({ title, headers, data }: TableProps) => {
         </tr>
       </thead>
       <tbody>
-        {cleanData.map((row, rIdx) => (
-          <tr
-            key={rIdx}
-            onClick={() => handleRowClick(String(row[0]))}
-            style={{ cursor: 'pointer' }}
-          >
-            {row.map((cell, cIdx) => {
-              const header = headers[cIdx].toLowerCase()
-              let content: React.ReactNode = '-'
+        {cleanData.map((row, rIdx) => {
+          const isAbstract = title === 'abstracts'
+          return (
+            <tr
+              key={rIdx}
+              {...(isAbstract
+                ? { onClick: () => handleRowClick(String(row[0])), style: { cursor: 'pointer' } }
+                : {})}
+            >
+              {row.map((cell, cIdx) => {
+                const header = headers[cIdx].toLowerCase()
+                let content: React.ReactNode = '-'
 
-              if (typeof cell === 'string' && header === 'status') {
-                content = convertStatus(cell)
-              } else if (typeof cell === 'string' && (cell.startsWith('http') || isOrcid(cell))) {
-                content = convertLink(cell)
-              } else if (typeof cell === 'string' && DateTime.fromISO(cell).isValid) {
-                content = convertDate(cell)
-              } else if (cell === null) {
-                content = '-'
-              } else {
-                content = cell
-              }
+                if (cell === '' || cell === null) {
+                  content = '-'
+                } else if (typeof cell === 'string' && header === 'status') {
+                  content = convertStatus(cell)
+                } else if (typeof cell === 'string' && (cell.startsWith('http') || isOrcid(cell))) {
+                  content = convertLink(cell)
+                } else if (typeof cell === 'string' && DateTime.fromISO(cell).isValid) {
+                  content = convertDate(cell)
+                } else {
+                  content = cell
+                }
 
-              return (
-                <td key={cIdx} className={`${header}`}>
-                  {content}
-                </td>
-              )
-            })}
-          </tr>
-        ))}
+                return (
+                  <td key={cIdx} className={`${header}`}>
+                    {content}
+                  </td>
+                )
+              })}
+            </tr>
+          )
+        })}
       </tbody>
     </table>
   )
