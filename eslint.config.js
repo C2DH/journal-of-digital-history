@@ -1,5 +1,5 @@
 import js from '@eslint/js'
-import tseslint from '@typescript-eslint/eslint-plugin'
+import tseslint from 'typescript-eslint'
 import reactPlugin from 'eslint-plugin-react'
 import importPlugin from 'eslint-plugin-import'
 import globals from 'globals'

@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import Card from '../components/Card/Card'
 import { useFetchItems } from '../hooks/useFetch'
 import { Abstract } from '../utils/types'
@@ -5,13 +7,17 @@ import { Abstract } from '../utils/types'
 import '../styles/pages/pages.css'
 
 const Abstracts = () => {
+  const [sortBy, setSortBy] = useState<string>('id') // default sort field
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
+  const ordering = sortOrder === 'asc' ? sortBy : `-${sortBy}`
+
   const {
     data: abstracts,
     error,
     loading,
     hasMore,
     loadMore,
-  } = useFetchItems<Abstract>('abstracts', 10)
+  } = useFetchItems<Abstract>('abstracts', ordering, 10)
 
   return (
     <div className="abstract page">
@@ -32,6 +38,10 @@ const Abstracts = () => {
         loading={loading}
         hasMore={hasMore}
         loadMore={loadMore}
+        sortBy={sortBy}
+        sortOrder={sortOrder}
+        setSortBy={setSortBy}
+        setSortOrder={setSortOrder}
       />
     </div>
   )

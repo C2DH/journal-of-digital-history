@@ -3,15 +3,25 @@ import './Card.css'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { CardProps } from './interface'
 import { useInfiniteScroll } from '../../hooks/useFetch'
 import Loading from '../Loading/Loading'
 import ProgressionTable from '../ProgressionTable/ProgressionTable'
 import Table from '../Table/Table'
 
-import './Card.css'
-import { CardProps } from './interface'
-
-const Card = ({ item, headers, data, error, loading, hasMore, loadMore }: CardProps) => {
+const Card = ({
+  item,
+  headers,
+  data,
+  error,
+  loading,
+  hasMore,
+  loadMore,
+  sortBy,
+  sortOrder,
+  setSortBy,
+  setSortOrder,
+}) => {
   const { t } = useTranslation()
   const loaderRef = useRef<HTMLDivElement | null>(null)
 
@@ -37,7 +47,15 @@ const Card = ({ item, headers, data, error, loading, hasMore, loadMore }: CardPr
         {item === 'articles' ? (
           <ProgressionTable title={item} headers={headers} data={data} />
         ) : (
-          <Table title={item} headers={headers} data={data} />
+          <Table
+            title={item}
+            headers={headers}
+            data={data}
+            sortBy={sortBy}
+            sortOrder={sortOrder}
+            setSortBy={setSortBy}
+            setSortOrder={setSortOrder}
+          />
         )}
         <div ref={loaderRef} />
       </div>
