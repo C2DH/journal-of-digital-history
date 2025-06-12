@@ -9,7 +9,7 @@ ARG BUILD_DATE
 WORKDIR /jdh
 
 COPY package.json .
-COPY .eslint.config.js .
+COPY eslint.config.js .
 COPY vite.config.js .
 
 RUN yarn install
