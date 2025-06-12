@@ -9,7 +9,6 @@ ARG BUILD_DATE
 WORKDIR /jdh
 
 COPY package.json .
-COPY yarn.lock .
 COPY .eslintrc.json .
 COPY vite.config.js .
 

@@ -1,16 +1,23 @@
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { matchPath } from 'react-router'
-import intersection from 'lodash/intersection'
-import find from 'lodash/find'
 
 const LANGUAGES = (import.meta.env.VITE_LANGUAGES ?? 'en-GB,fr-FR').split(',')
 const LANGUAGES_SHORTS = LANGUAGES.map((l) => l.split('-')[0])
 const DEFAULT_LANGUAGE = import.meta.env.VITE_DEFAULT_LANGUAGE ?? 'en-GB'
-const DEFAULT_LANGUAGE_SHORT = DEFAULT_LANGUAGE.split('-')[0]
-// const LANGUAGE_PATH = `/:lang(${LANGUAGES_SHORTS.join('|')})`
-const LANGUAGE_PATH = `${LANGUAGES_SHORTS}`
+const DEFAULT_LANGUAGE_SHORT = 'en'
+const LANGUAGE_PATH = `/:lang(${LANGUAGES_SHORTS.join('|')})`
 
+const EXCLUDED_PATHS = ['/dashboard', '/dashboard/']
+
+/**
+ * Determines the starting language for the application based on the current URL path
+ * and the user's browser language preferences.
+ *
+ * @returns {{ short: string, lng: string }} An object containing:
+ *   - short: The short language code (e.g., 'en', 'fr').
+ *   - lng: The full language string as found in LANGUAGES or the default language.
+ */
 const getStartLang = () => {
   const langMatch = matchPath(
     {
@@ -20,31 +27,54 @@ const getStartLang = () => {
     },
     window.location.pathname,
   )
-  let startLangShort = langMatch?.params?.lang
-  if (!startLangShort || !LANGUAGES_SHORTS.includes(startLangShort)) {
-    // get default short language from browser
-    const browserLangsShort = window.navigator?.languages ?? []
-    console.info('browser languages detected:', browserLangsShort)
-    const availablesLangsShort = intersection(browserLangsShort, LANGUAGES_SHORTS)
-    startLangShort =
-      availablesLangsShort.length > 0 ? availablesLangsShort[0] : DEFAULT_LANGUAGE_SHORT
+  let short = langMatch?.params?.lang
+
+  // Check browser languages
+  if (!short || !LANGUAGES_SHORTS.includes(short)) {
+    const browserLangs = window.navigator?.languages ?? []
+    const found = browserLangs.map((l) => l.split('-')[0]).find((l) => LANGUAGES_SHORTS.includes(l))
+    short = found || DEFAULT_LANGUAGE_SHORT
   }
-  return {
-    startLangShort,
-    lang: find(LANGUAGES, (l) => l.indexOf(startLangShort) === 0),
+
+  const lng = LANGUAGES.find((l) => l.startsWith(short)) || DEFAULT_LANGUAGE
+
+  return { short, lng }
+}
+
+/**
+ * Prepends a language code to a given path, unless the path is in the EXCLUDED_PATHS list.
+ *
+ * - If the path starts with '/', the language code is inserted after the leading slash.
+ * - If the path is in EXCLUDED_PATHS, it is returned unchanged.
+ * - Otherwise, the language code is prepended to the path.
+ *
+ * @param {string} path - The URL path to namespace.
+ * @param {string} lang - The language code to prepend.
+ * @returns {string} The namespaced path with the language code, or the original path if excluded.
+ */
+const namespacePath = (path, lang) => {
+  if (path.startsWith('/')) {
+    return `/${lang}${path}`
+  } else if (EXCLUDED_PATHS.includes(path)) {
+    return path
+  } else {
+    return `/${lang}/${path}`
   }
 }
 
-function namespacePath(path, lang) {
-  return `/${lang}${path.startsWith('/') ? '' : '/'}${path}`
-}
-
+/**
+ * Returns a localized path or location object with the current language namespace.
+ *
+ * This hook uses the current language from the URL params or i18n context,
+ * and prepends the language namespace to the given path or location object.
+ *
+ * @param {string|Object} to - The target path as a string, or a location object with a `pathname` property.
+ * @returns {string|Object} The namespaced path as a string, or a location object with the namespaced `pathname`.
+ */
 const useToWithLang = (to) => {
   const { i18n } = useTranslation()
   let { lang } = useParams()
   if (!lang) {
-    // NOTE: Workaround when no lang in current path
-    // fallback to current i81n language ...
     lang = i18n.language.split('-')[0]
   }
 

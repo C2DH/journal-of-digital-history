@@ -3,7 +3,6 @@ import { useMatomo } from '@jonkoops/matomo-tracker-react'
 import ReactGA from 'react-ga'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 
-import { LANGUAGE_PATH } from './logic/language'
 import Page from './pages/Page'
 import { useStore } from './store'
 
@@ -54,7 +53,6 @@ export function AppRoutes({ languagePath = 'en' }) {
   return (
     <Routes>
       <Route path="/" element={<Navigate to={`${languagePath}/`} replace />} />
-      <Route path="/*" element={<Navigate to={`${languagePath}/`} replace />} />
       <Route path={`${languagePath}/*`} element={<Home />} />
       <Route path={`${languagePath}/about`} element={<About />} />
       <Route path={`${languagePath}/abstract`} element={<MockAbstract />} />

@@ -1,0 +1,47 @@
+.card-info {
+  grid-area: a;
+}
+.card-repository {
+  grid-area: b;
+}
+.card-abstract {
+  grid-area: c;
+}
+.card-contact {
+  grid-area: e;
+}
+
+.detail-grid {
+  color: var(--color-deep-blue);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+    'a a b'
+    'c c e'
+    'c c .';
+  gap: 16px;
+  margin: 32px;
+}
+
+.card-info {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  align-items: center;
+}
+
+/* FieldRow css */
+.item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.label {
+  text-align: right;
+  min-width: 150px;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.value {
+  flex-grow: 1;
+}

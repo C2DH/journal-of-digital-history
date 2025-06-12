@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
+import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 import {
   DisplayLayerCellIdxQueryParam,
   DisplayLayerSectionBibliography,
   DisplayLayerSectionParam,
 } from '../../constants/globalConstants'
-import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 import { useArticleStore } from '../../store'
 import { asEnumParam } from '../../logic/params'
 

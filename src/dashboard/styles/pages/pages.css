@@ -1,0 +1,7 @@
+.page {
+  margin-left: var(--navbar-width);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0% 2%;
+}

@@ -1,0 +1,56 @@
+/**
+ * Returns the headers that are included in the provided headers array.
+ * @param headers - The list of allowed headers.
+ * @param data - The table data as an array of rows (each row is an object).
+ * @returns An array of string which are the headers, we want to display.
+ */
+type GetVisibleHeadersParams = {
+  data: (string | number)[][]
+  headers: string[]
+}
+function getVisibleHeaders({ data, headers }: GetVisibleHeadersParams): string[] {
+  if (data.length === 0) return []
+  return headers.filter((header) => getNestedValue(data[0], header) !== undefined)
+}
+
+/**
+ * Retrieves the value at a given nested path within an object.
+ *
+ * @param obj - The object to query.
+ * @param path - The dot-separated string representing the path to the desired value (e.g., "a.b.c").
+ * @returns The value at the specified path, or `undefined` if the path does not exist.
+ *
+ * @example
+ * const obj = { a: { b: { c: 42 } } };
+ * getNestedValue(obj, "a.b.c"); // returns 42
+ * getNestedValue(obj, "a.x.c"); // returns undefined
+ */
+function getNestedValue(obj: any, path: string): any {
+  return path
+    .split('.')
+    .reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj)
+}
+
+/**
+ * Cleans the data by mapping only the data for selected headers.
+ * @param data - The table data as an array of row objects.
+ * @param visibleHeaders - The headers selected.
+ * @returns A 2D array of cleaned values.
+ */
+type GetCleanDataParams = {
+  data: (string | number)[][]
+  visibleHeaders: string[]
+}
+function getCleanData({ data, visibleHeaders }: GetCleanDataParams): (string | number)[][] {
+  return data.map((row) =>
+    visibleHeaders.map((header) => {
+      const value = getNestedValue(row, header)
+      if (typeof value === 'object' && value !== null) {
+        return JSON.stringify(value)
+      }
+      return value
+    }),
+  )
+}
+
+export { getVisibleHeaders, getCleanData }
