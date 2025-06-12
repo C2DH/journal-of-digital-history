@@ -11,10 +11,15 @@ WORKDIR /jdh
 RUN corepack enable && corepack prepare yarn@4.9.1 --activate
 
 COPY package.json .
+COPY yarn.lock .
+COPY .yarn/releases ./.yarn/releases
+COPY .yarn/plugins ./.yarn/plugins
+COPY .yarnrc.yml .
+
 COPY eslint.config.js .
 COPY vite.config.js .
 
-RUN yarn install
+RUN yarn install --immutable
 
 COPY public ./public
 COPY .storybook ./.storybook
