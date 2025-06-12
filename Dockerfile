@@ -8,7 +8,7 @@ ARG BUILD_DATE
 
 WORKDIR /jdh
 
-RUN corepack enable && corepack prepare yarn@4.9.1 --activate
+RUN npm install -g yarn@4
 
 COPY package.json .
 COPY yarn.lock .
