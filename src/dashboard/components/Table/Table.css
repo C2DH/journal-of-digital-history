@@ -1,3 +1,9 @@
+.table {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+}
+
 .table th,
 .table td {
   font-family: 'DM Sans', sans-serif;

@@ -1,4 +1,4 @@
-import { NavbarItem } from '../components/Navbar/interface'
+import { NavbarItem } from './interface'
 
 export const navbarItems: NavbarItem[] = [
   { label: 'Home', href: '', icon: 'home' },

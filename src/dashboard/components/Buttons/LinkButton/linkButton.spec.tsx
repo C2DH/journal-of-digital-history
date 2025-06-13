@@ -1,10 +1,11 @@
 import { render, screen } from '@testing-library/react'
-import ButtonLink from './ButtonLink'
+
+import LinkButton from './LinkButton'
 
 describe('ButtonLink', () => {
   it('renders the Github icon and link with path for github.com', () => {
     const url = 'https://github.com/user/repo'
-    render(<ButtonLink url={url} />)
+    render(<LinkButton url={url} />)
 
     expect(screen.getByRole('button')).toHaveTextContent('/user/repo')
     expect(screen.getByRole('link')).toHaveAttribute('href', url)
@@ -14,7 +15,7 @@ describe('ButtonLink', () => {
 
   it('renders the domain name and no icon if not a github.com url', () => {
     const url = 'https://example.com/user/repo'
-    render(<ButtonLink url={url} />)
+    render(<LinkButton url={url} />)
 
     expect(screen.getByRole('button')).toHaveTextContent('/user/repo')
     // The Github icon should NOT be present

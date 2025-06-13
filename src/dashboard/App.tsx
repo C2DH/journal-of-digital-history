@@ -5,8 +5,8 @@ import UniversalCookie from 'universal-cookie'
 
 import Header from './components/Header/Header'
 import Login from './components/Login/Login'
+import { navbarItems } from './components/Navbar/constant'
 import Navbar from './components/Navbar/Navbar'
-import { navbarItems } from './constants/navbar'
 import i18n from './i18next'
 import AppRoutes from './routes'
 

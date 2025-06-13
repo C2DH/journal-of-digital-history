@@ -1,10 +1,11 @@
 import { Github } from 'iconoir-react'
-import { ButtonLinkProps } from './interface'
-import './ButtonLink.css'
 
-const ButtonLink = ({ url }: ButtonLinkProps) => {
+import { ButtonLinkProps } from './interface'
+import './LinkButton.css'
+
+const LinkButton = ({ url }: ButtonLinkProps) => {
   const { hostname, pathname } = new URL(url)
-  let buttonLabel = pathname
+  const buttonLabel = pathname
   let isGithub = false
 
   if (hostname == 'github.com') {
@@ -19,4 +20,4 @@ const ButtonLink = ({ url }: ButtonLinkProps) => {
   )
 }
 
-export default ButtonLink
+export default LinkButton
