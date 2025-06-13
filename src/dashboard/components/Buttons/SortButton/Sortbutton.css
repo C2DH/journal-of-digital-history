@@ -1,0 +1,17 @@
+.sort-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 4px;
+  display: inline-flex;
+  align-items: center;
+  font: inherit;
+}
+
+.sort-arrow {
+  margin-left: 4px;
+  vertical-align: middle;
+  transition: transform 0.2s, opacity 0.2s;
+  display: inline-block;
+}

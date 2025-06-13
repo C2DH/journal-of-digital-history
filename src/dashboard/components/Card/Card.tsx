@@ -42,7 +42,7 @@ const Card = ({
 
   return (
     <>
-      <div className="card">
+      <div className={`${item} card`}>
         <h1>{t(`${item}.item`)}</h1>
         {item === 'articles' ? (
           <ProgressionTable title={item} headers={headers} data={data} />

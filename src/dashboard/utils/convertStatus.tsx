@@ -1,4 +1,4 @@
-import { statusIcons } from '../constants/statusIcon'
+import { statusIcons } from '../components/Status/constant'
 
 /**
  * Converts a status string into a JSX element displaying a corresponding icon and status text.
