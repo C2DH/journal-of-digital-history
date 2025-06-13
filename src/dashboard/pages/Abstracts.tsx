@@ -17,7 +17,7 @@ const Abstracts = () => {
     loading,
     hasMore,
     loadMore,
-  } = useFetchItems<Abstract>('abstracts', ordering, 10)
+  } = useFetchItems<Abstract>('abstracts', 10, ordering)
 
   return (
     <div className="abstract page">
