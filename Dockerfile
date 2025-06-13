@@ -26,8 +26,9 @@ COPY .env .
 COPY src/schemas ./public/schemas
 COPY src/data/mock-api ./public/mock-api
 COPY index.html .
+COPY tartempion.html .
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 ENV NODE_OPTIONS --max_old_space_size=4096
 
 ENV VITE_GIT_COMMIT_SHA=${GIT_COMMIT_SHA}
