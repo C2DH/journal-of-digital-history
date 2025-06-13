@@ -27,9 +27,9 @@ const Card = ({
 
   useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
 
-  if (loading && data.length === 0) {
-    return <Loading />
-  }
+  // if (loading && data.length === 0) {
+  //   return <Loading />
+  // }
 
   if (error) {
     return (

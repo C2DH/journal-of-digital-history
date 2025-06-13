@@ -8,13 +8,7 @@ import '../styles/pages/pages.css'
 
 const Articles = () => {
   const navigate = useNavigate()
-  const {
-    data: articles,
-    error,
-    loading,
-    hasMore,
-    loadMore,
-  } = useFetchItems<Article>('articles', 10)
+  const { data: articles, error, loading, hasMore, loadMore } = useFetchItems<Article>('articles')
 
   return (
     <div className="articles page">

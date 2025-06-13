@@ -65,6 +65,7 @@ const Table = ({ title, headers, data, sortBy, sortOrder, setSortBy, setSortOrde
                 if (cell === '' || cell === null) {
                   content = '-'
                 } else if (typeof cell === 'string' && header === 'status') {
+                  /* TODO : change this by the Status component */
                   content = convertStatus(cell)
                 } else if (typeof cell === 'string' && (cell.startsWith('http') || isOrcid(cell))) {
                   content = convertLink(cell)

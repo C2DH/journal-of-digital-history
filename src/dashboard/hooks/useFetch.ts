@@ -57,7 +57,7 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
  * This hook automatically resets and fetches data when the endpoint,
  * credentials, or limit changes. It handles authentication via HTTP Basic Auth.
  */
-export function useFetchItems<T>(endpoint: string, ordering: string, limit = 10) {
+export function useFetchItems<T>(endpoint: string, limit: number, ordering?: string) {
   const [state, dispatch] = useReducer(reducer<T>, {
     data: [],
     error: null,
