@@ -40,7 +40,7 @@ function DashboardApp() {
   }
 
   return (
-    <BrowserRouter basename="/tartampion">
+    <BrowserRouter basename="/tartempion">
       <I18nextProvider i18n={i18n}>
         <div className="dashboard-app">
           <Navbar items={navbarItems} />
