@@ -2,6 +2,7 @@ import axios, { AxiosInstance } from 'axios'
 import UniversalCookie from 'universal-cookie'
 
 const cookies = new UniversalCookie()
+const isSecure = window.location.protocol === 'https:'
 
 /**
  * Creates a properly configured Axios instance with Bearer token authentication.
@@ -51,13 +52,16 @@ api.interceptors.response.use(
  * @param password - The user's password.
  */
 export async function loginWithToken(username: string, password: string) {
-  const response = await axios.post('/api/token/', { username, password })
+  const response = await axios.post(
+    '/api/token/',
+    { username, password },
+    { withCredentials: true },
+  )
   const { access, refresh } = response.data
-  cookies.set('token', access, { maxAge: 86400, secure: true, sameSite: 'strict' })
+  cookies.set('token', access, { maxAge: 86400, secure: isSecure })
   cookies.set('refreshToken', refresh, {
     maxAge: 86400,
-    secure: true,
-    sameSite: 'strict',
+    secure: isSecure,
   })
 }
 
@@ -67,11 +71,10 @@ export async function loginWithToken(username: string, password: string) {
  */
 export async function refreshToken() {
   const refresh = cookies.get('refreshToken')
-  const response = await axios.post('/api/token/refresh/', { refresh })
+  const response = await axios.post('/api/token/refresh/', { refresh }, { withCredentials: true })
   cookies.set('token', response.data.access, {
     maxAge: 86400,
-    secure: true,
-    sameSite: 'strict',
+    secure: isSecure,
   })
 }
 
