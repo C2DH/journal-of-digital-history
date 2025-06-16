@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import UniversalCookie from 'universal-cookie'
 
 import Card from '../components/Card/Card'
 import { useFetchItems } from '../hooks/useFetch'

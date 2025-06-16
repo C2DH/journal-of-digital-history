@@ -35,15 +35,17 @@ function DashboardApp() {
     return <Login />
   }
 
-  return (
-    <I18nextProvider i18n={i18n}>
-      <div className="dashboard-app">
-        <Navbar items={navbarItems} />
-        <Header username={username} onLogout={handleLogout} />
-        <AppRoutes />
-      </div>
-    </I18nextProvider>
-  )
+  function DashboardApp() {
+    return (
+      <I18nextProvider i18n={i18n}>
+        <div className="dashboard-app">
+          <Navbar items={navbarItems} />
+          <Header username={username} onLogout={handleLogout} />
+          <AppRoutes />
+        </div>
+      </I18nextProvider>
+    )
+  }
 }
 
 export default DashboardApp
