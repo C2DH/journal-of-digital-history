@@ -1,0 +1,15 @@
+.Collapse .icon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+  z-index: 1;
+}
+
+.Collapse .collapse-box {
+  overflow: hidden;
+  transition: height 0.3s ease-in-out;
+  padding-top: 2rem; /* Because of the new tag at the top of articles */
+}

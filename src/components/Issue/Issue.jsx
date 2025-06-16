@@ -53,7 +53,11 @@ const Issue = ({
         {item.status !== 'PUBLISHED' ? <em>{t('status.' + item.status)}</em> : label}
         {isInFilterMode && numSelectedArticles > 0 ? (
           <>
-            &nbsp; &mdash; &nbsp;
+            {label &&
+              <>
+                &nbsp; &mdash; &nbsp;
+              </>
+            }
             <div
               className="d-inline-block Issue__numArticles"
               dangerouslySetInnerHTML={{

@@ -1,6 +1,7 @@
 import React, { useLayoutEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import IssueArticleGridItem from './IssueArticleGridItem'
+import Collapse from '../Collapse/Collapse';
 
 const BootstrapColumLayout = Object.freeze({
   lg: { span: 4, offset: 0 },
@@ -27,23 +28,25 @@ const IssueArticles = ({
   respectOrdering = false,
   children,
   className = '',
+  collapsable = false
 }) => {
   const ref = React.useRef()
   const bboxRef = React.useRef()
   const editorials = []
-  const articles = respectOrdering ? data : []
+  const articles = []
 
-  if (!respectOrdering) {
-    for (let i = 0, j = data.length; i < j; i++) {
-      console.debug('[IssueArticles] data:', +data[i].publication_date)
+  for (let i = 0, j = data.length; i < j; i++) {
+    console.debug('[IssueArticles] data:', +data[i].publication_date)
 
-      if (data[i].tags.some((t) => t.name === import.meta.env.VITE_TAG_EDITORIAL)) {
+    if (!selected || selected.indexOf(data[i].idx) !== -1) {
+      if (!respectOrdering && data[i].tags.some((t) => t.name === import.meta.env.VITE_TAG_EDITORIAL)) {
         editorials.push(data[i])
       } else {
         articles.push(data[i])
       }
     }
   }
+
   const onClickHandler = (e, datum, idx, article) => {
     if (typeof onArticleClick === 'function') {
       onArticleClick(e, datum, idx, article)
@@ -78,14 +81,11 @@ const IssueArticles = ({
   console.debug('[IssueArticles] rendered')
 
   return (
-    <Row ref={ref} className={`IssueArticles ${className}`}>
+    <Row ref={ref} className={`IssueArticles position-relative ${className}`}>
       {children}
-      {data.length > 0 && <Col sm={{ span: 12 }} className="py-3"></Col>}
-      {editorials.map((article, i) => {
-        if (Array.isArray(selected) && selected.indexOf(article.idx) === -1) {
-          return null
-        }
-        return (
+
+      <Collapse className='row' collapsable={collapsable && (editorials.length > 0 || articles.length > 0)}>
+        {editorials.map((article, i) => 
           <Col key={i} {...BootstrapColumLayout}>
             {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
             <IssueArticleGridItem
@@ -96,20 +96,12 @@ const IssueArticles = ({
               isEditorial
             />
           </Col>
-        )
-      })}
-      {articles.map((article, i) => {
-        let display = 'block'
-        if (Array.isArray(selected) && selected.indexOf(article.idx) === -1) {
-          display = 'none'
-        }
-        return (
+        )}
+        
+        {articles.map((article, i) => 
           <Col
             key={i + editorials.length}
             {...BootstrapColumLayout}
-            style={{
-              display,
-            }}
           >
             {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
             <IssueArticleGridItem
@@ -117,12 +109,10 @@ const IssueArticles = ({
               onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
               onMouseOut={onMouseOutHandler}
               article={article}
-              num={i + 1}
-              total={articles.length}
             />
           </Col>
-        )
-      })}
+        )}
+      </Collapse>
     </Row>
   )
 }
