@@ -1,3 +1,5 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import axios from 'axios'
 import { useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { BrowserRouter } from 'react-router'
@@ -14,39 +16,45 @@ import './styles/index.css'
 
 const cookies = new UniversalCookie()
 
-function DashboardApp() {
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return localStorage.getItem('isLoggedIn') === 'true'
+const csrfToken = new UniversalCookie().get('csrftoken')
+console.info('%ccsrftoken', 'font-weight: bold', csrfToken)
+
+axios
+  .get('/api/me', {
+    headers: {
+      'X-CSRFToken': csrfToken,
+    },
   })
-  const [username, setUsername] = useState(() => localStorage.getItem('username') || '')
+  .then((response) => {
+    console.info('%cUser data', 'font-weight: bold', response.data)
+  })
+  .catch((error) => {
+    console.error('%cError fetching user data', 'color: red', error)
+  })
 
-  const handleLogin = (username: string) => {
-    setIsLoggedIn(true)
-    setUsername(username)
-    cookies.set('isLoggedIn', 'true')
-  }
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 1000 * 60 * 60 * 24, // 24 hours
+      refetchOnWindowFocus: false,
+      headers: {
+        'X-CSRFToken': csrfToken,
+      },
+    },
+  },
+})
 
-  const handleLogout = () => {
-    setIsLoggedIn(false)
-    setUsername('')
-    cookies.remove('isLoggedIn')
-    cookies.remove('username')
-    cookies.remove('token')
-    cookies.remove('refreshToken')
-  }
-
-  if (!isLoggedIn) {
-    return <Login onLogin={handleLogin} />
-  }
-
+function DashboardApp() {
   return (
     <BrowserRouter basename="/tartempion">
       <I18nextProvider i18n={i18n}>
-        <div className="dashboard-app">
-          <Navbar items={navbarItems} />
-          <Header username={username} onLogout={handleLogout} />
-          <AppRoutes />
-        </div>
+        <QueryClientProvider client={queryClient}>
+          <div className="dashboard-app">
+            <Navbar items={navbarItems} />
+            <Header username={username} onLogout={handleLogout} />
+            <AppRoutes />
+          </div>
+        </QueryClientProvider>
       </I18nextProvider>
     </BrowserRouter>
   )

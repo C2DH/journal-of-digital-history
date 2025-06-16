@@ -1,7 +1,6 @@
 import Card from '../components/Card/Card'
 import { useFetchItems } from '../hooks/useFetch'
 import { Abstract } from '../utils/types'
-
 import '../styles/pages/pages.css'
 
 const Abstracts = () => {
@@ -20,8 +19,8 @@ const Abstracts = () => {
         headers={[
           'pid',
           'title',
+          'callpaper',
           'submitted_date',
-          'validation_date',
           'contact_lastname',
           'contact_firstname',
           'contact_affiliation',
