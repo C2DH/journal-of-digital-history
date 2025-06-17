@@ -6,38 +6,23 @@ import styles from './Collapse.module.css';
 
 
 const Collapse = ({
-  className = '',
   collapsable = false,
+  collapsed = false,
   children,
 }) => {
 
-  const [collapsed, setCollapsed] = useState(false);
+  const [isCollapsed, setCollapsed] = useState(collapsed);
   const ref = useRef();
 
-  useLayoutEffect(() => {
-    if (ref.current) {
-      // Set initial height to 0 to get the correct scrollHeight
-      // When children change (tag filters), we need to reset the height
-      // The transition has to be removed to get the correct height
-      if (collapsable) {
-        ref.current.style.transition = 'unset';
-        ref.current.style.height = '0';
-      }
-
-      ref.current.style.height = !collapsable ? 'auto' : collapsed ? 0 : `${ref.current.scrollHeight}px`;
-      ref.current.style.removeProperty('transition');
-    }
-  }, [children, collapsable, collapsed]);
-
   const onIconClickHandler = () => { 
-    setCollapsed(!collapsed);
+    setCollapsed(!isCollapsed);
   }
 
   return (
     <div className={styles.Collapse}>
       {collapsable &&
         <button onClick={onIconClickHandler} className={styles.icon}>
-            {collapsed ? 
+            {isCollapsed ? 
               <Plus size="28" strokeWidth="1" /> : 
               <Minus size="28" strokeWidth="1" />
             }
@@ -45,10 +30,12 @@ const Collapse = ({
        }
 
       <div
-        ref       = {ref}
-        className = {`${className} ${styles['collapse-box']}`}
+        className = {`${styles.collapse_box}`}
+        style     = {{ height: isCollapsed ? 0 : ref.current?.offsetHeight || 'auto' }}
       >
-        {children}
+        <div ref={ref}>
+          {children}
+        </div>
       </div>
     </div>
   )

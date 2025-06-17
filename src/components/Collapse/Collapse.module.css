@@ -12,7 +12,7 @@
   color: var(--bs-accent);
 }
 
-.Collapse .collapse-box {
+.Collapse .collapse_box {
   overflow: hidden;
   transition: height 0.3s ease-in-out;
 }
