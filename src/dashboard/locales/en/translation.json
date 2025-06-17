@@ -1,4 +1,9 @@
 {
+  "login": {
+    "title": "You are almost there ...",
+    "description": "You should be logged into the Django Authentication first.",
+    "button": "Login"
+  },
   "welcome": "Welcome to the Dashboard",
   "issues": {
     "item": "Issues",
