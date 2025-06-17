@@ -17,10 +17,10 @@ vi.mock('react-i18next', () => ({
 describe('Login', () => {
   it('renders login form', () => {
     render(<Login />)
-    expect(screen.getByText('Admin login')).toBeInTheDocument()
+    expect(screen.getByText('login.title')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Username')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /login.button/i })).toBeInTheDocument()
   })
 
   it('shows error message on login failure', async () => {
@@ -30,7 +30,7 @@ describe('Login', () => {
 
     fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: 'user' } })
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'pass' } })
-    fireEvent.click(screen.getByRole('button', { name: /login/i }))
+    fireEvent.click(screen.getByRole('button', { name: /login.button/i }))
 
     await waitFor(() => {
       expect(screen.getByText('error.invalidUser')).toBeInTheDocument()
@@ -44,7 +44,7 @@ describe('Login', () => {
     render(<Login />)
     fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: 'foo' } })
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'bar' } })
-    fireEvent.click(screen.getByRole('button', { name: /login/i }))
+    fireEvent.click(screen.getByRole('button', { name: /login.button/i }))
 
     await waitFor(() => {
       expect(userLoginRequest).toHaveBeenCalledWith('foo', 'bar')

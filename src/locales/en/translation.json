@@ -1,4 +1,8 @@
 {
+  "login": {
+    "title": "Admin login",
+    "button": "Login"
+  },
   "navigation": {
     "about": "About",
     "datasets": "Datasets",
