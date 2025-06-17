@@ -8,8 +8,11 @@
   z-index: 1;
 }
 
+.Collapse .icon:hover svg {
+  color: var(--bs-accent);
+}
+
 .Collapse .collapse-box {
   overflow: hidden;
   transition: height 0.3s ease-in-out;
-  padding-top: 2rem; /* Because of the new tag at the top of articles */
 }

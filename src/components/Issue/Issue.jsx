@@ -10,6 +10,7 @@ const Issue = ({
   numArticles = -1,
   numSelectedArticles = -1,
   isInFilterMode = false,
+  moreButton = false,
   className = '',
 }) => {
   const ref = useRef()
@@ -37,7 +38,7 @@ const Issue = ({
   }
 
   useLayoutEffect(() => {
-    if (ref.current) {
+    if (moreButton && ref.current) {
       if (ref.current.offsetHeight + 5 < descriptionRef.current.offsetHeight) {
         buttonRef.current.style.display = 'block'
       } else {
@@ -87,23 +88,25 @@ const Issue = ({
 
       <a.div
         className="col col-md-12 col-lg-6 position-relative "
-        style={{ overflow: 'hidden', height }}
+        style={{ overflow: 'hidden', height: moreButton ? height : 'auto' }}
       >
         <p
-          className="m-0 position-absolute top-0"
+          className={`m-0 ${moreButton ? 'position-absolute' : ''} top-0`}
           ref={descriptionRef}
           dangerouslySetInnerHTML={{ __html: item.description || ' ' }}
         />
       </a.div>
-      <Col md={{ span: 1 }} lg={{ span: 1 }} className="d-flex justify-content-end">
-        <button
-          className="btn btn-outline-secondary btn-sm btn-rounded"
-          ref={buttonRef}
-          onClick={toggleHeight}
-        >
-          more...
-        </button>
-      </Col>
+      {moreButton &&
+        <Col md={{ span: 1 }} lg={{ span: 1 }} className="d-flex justify-content-end">
+          <button
+            className="btn btn-outline-secondary btn-sm btn-rounded"
+            ref={buttonRef}
+            onClick={toggleHeight}
+          >
+            more...
+          </button>
+        </Col>
+      }
     </Row>
   )
 }

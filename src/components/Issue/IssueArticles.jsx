@@ -84,34 +84,36 @@ const IssueArticles = ({
     <Row ref={ref} className={`IssueArticles position-relative ${className}`}>
       {children}
 
-      <Collapse className='row' collapsable={collapsable && (editorials.length > 0 || articles.length > 0)}>
-        {editorials.map((article, i) => 
-          <Col key={i} {...BootstrapColumLayout}>
-            {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
-            <IssueArticleGridItem
-              onMouseMove={(e, datum, idx) => onMouseMoveHandler(e, datum, idx, article)}
-              onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
-              onMouseOut={onMouseOutHandler}
-              article={article}
-              isEditorial
-            />
-          </Col>
-        )}
+      <Collapse collapsable={collapsable && (editorials.length > 0 || articles.length > 0)}>
+        <div className="row pt-4">
+          {editorials.map((article, i) => 
+            <Col key={i} {...BootstrapColumLayout}>
+              {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
+              <IssueArticleGridItem
+                onMouseMove={(e, datum, idx) => onMouseMoveHandler(e, datum, idx, article)}
+                onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
+                onMouseOut={onMouseOutHandler}
+                article={article}
+                isEditorial
+              />
+            </Col>
+          )}
         
-        {articles.map((article, i) => 
-          <Col
-            key={i + editorials.length}
-            {...BootstrapColumLayout}
-          >
-            {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
-            <IssueArticleGridItem
-              onMouseMove={(e, datum, idx) => onMouseMoveHandler(e, datum, idx, article)}
-              onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
-              onMouseOut={onMouseOutHandler}
-              article={article}
+          {articles.map((article, i) => 
+            <Col
+              key={i + editorials.length}
+              {...BootstrapColumLayout}
+            >
+              {/* to rehab tooltip add onMouseMove={onMouseMoveHandler}  */}
+              <IssueArticleGridItem
+                onMouseMove={(e, datum, idx) => onMouseMoveHandler(e, datum, idx, article)}
+                onClick={(e, datum, idx) => onClickHandler(e, datum, idx, article)}
+                onMouseOut={onMouseOutHandler}
+                article={article}
             />
           </Col>
-        )}
+          )}
+        </div>
       </Collapse>
     </Row>
   )

@@ -1,4 +1,5 @@
 import { useState, useLayoutEffect, useRef } from 'react'; 
+import { Plus, Minus } from 'iconoir-react'
 import { ArrowUpCircle, ArrowDownCircle } from 'react-feather';
 
 import styles from './Collapse.module.css';
@@ -37,8 +38,8 @@ const Collapse = ({
       {collapsable &&
         <button onClick={onIconClickHandler} className={styles.icon}>
             {collapsed ? 
-              <ArrowDownCircle size="28" strokeWidth="1" /> : 
-              <ArrowUpCircle size="28" strokeWidth="1" />
+              <Plus size="28" strokeWidth="1" /> : 
+              <Minus size="28" strokeWidth="1" />
             }
         </button>
        }

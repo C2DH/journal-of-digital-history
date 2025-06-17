@@ -280,6 +280,7 @@ const ArticlesGrid = ({
                     onArticleMouseMove={onArticleMouseMoveHandler}
                     onArticleClick={onArticleClickHandler}
                     onArticleMouseOut={onArticleMouseOutHandler}
+                    collapsable={true}
                   >
                     <Issue
                       numArticles={numArticles}
