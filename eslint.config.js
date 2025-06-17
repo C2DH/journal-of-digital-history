@@ -1,7 +1,8 @@
 import js from '@eslint/js'
 import tseslint from '@typescript-eslint/eslint-plugin'
-import reactPlugin from 'eslint-plugin-react'
 import importPlugin from 'eslint-plugin-import'
+import reactPlugin from 'eslint-plugin-react'
+import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 
 export default [
@@ -32,6 +33,7 @@ export default [
     plugins: {
       react: reactPlugin,
       import: importPlugin,
+      'unused-imports': unusedImports,
     },
     rules: {
       'import/order': [
@@ -66,6 +68,7 @@ export default [
         },
       ],
       'no-unused-vars': 'off',
+      'unused-imports/no-unused-imports': 'warn',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
       'react/prop-types': 'off',

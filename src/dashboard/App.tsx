@@ -1,54 +1,49 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
-import { BrowserRouter } from 'react-router'
-import UniversalCookie from 'universal-cookie'
 
+import Login from '../components/Login/Login'
 import Header from './components/Header/Header'
-import Login from './components/Login/Login'
 import Navbar from './components/Navbar/Navbar'
 import { navbarItems } from './constants/navbar'
 import i18n from './i18next'
 import AppRoutes from './routes'
 
+import { fetchUsername, userLogoutRequest } from '../logic/api/login'
 import './styles/index.css'
 
-const cookies = new UniversalCookie()
-
 function DashboardApp() {
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return localStorage.getItem('isLoggedIn') === 'true'
-  })
-  const [username, setUsername] = useState(() => localStorage.getItem('username') || '')
+  const [username, setUsername] = useState<string>('Anonymous')
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
 
-  const handleLogin = (username: string) => {
-    setIsLoggedIn(true)
-    setUsername(username)
-    cookies.set('isLoggedIn', 'true')
+  const handleLogout = async () => {
+    await userLogoutRequest()
+    setIsAuthenticated(false)
+    setUsername('Anonymous')
   }
 
-  const handleLogout = () => {
-    setIsLoggedIn(false)
-    setUsername('')
-    cookies.remove('isLoggedIn')
-    cookies.remove('username')
-    cookies.remove('token')
-    cookies.remove('refreshToken')
-  }
+  useEffect(() => {
+    fetchUsername()
+      .then((name) => {
+        setUsername(name || 'Anonymous')
+        setIsAuthenticated(true)
+      })
+      .catch(() => {
+        setIsAuthenticated(false)
+      })
+  }, [])
 
-  if (!isLoggedIn) {
-    return <Login onLogin={handleLogin} />
+  if (isAuthenticated === false) {
+    return <Login />
   }
 
   return (
-    <BrowserRouter basename="/tartempion">
-      <I18nextProvider i18n={i18n}>
-        <div className="dashboard-app">
-          <Navbar items={navbarItems} />
-          <Header username={username} onLogout={handleLogout} />
-          <AppRoutes />
-        </div>
-      </I18nextProvider>
-    </BrowserRouter>
+    <I18nextProvider i18n={i18n}>
+      <div className="dashboard-app">
+        <Navbar items={navbarItems} />
+        <Header username={username} onLogout={handleLogout} />
+        <AppRoutes />
+      </div>
+    </I18nextProvider>
   )
 }
 

@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useCallback } from 'react'
 
-import api from '../utils/getToken'
+import api from '../utils/getData'
 
 type State<T> = {
   data: T[]

@@ -1,4 +1,8 @@
 {
+  "login": {
+    "title": "Admin login",
+    "button": "Login"
+  },
   "welcome": "Welcome to the Dashboard",
   "issues": {
     "item": "Issues",
@@ -14,6 +18,7 @@
     "item": "Abstracts",
     "pid": "PID",
     "title": "Title",
+    "callpaper": "Call for paper",
     "submitted_date": "Submitted Date",
     "validation_date": "Validation Date",
     "contact_lastname": "Lastname",
