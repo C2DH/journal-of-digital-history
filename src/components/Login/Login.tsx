@@ -28,10 +28,9 @@ const Login = () => {
 
   return (
     <>
-      <p className="login-version">Tartempion v0.1</p>
       <div className="login-page">
         <form className="login-form" onSubmit={handleLogin}>
-          <h2>Admin login</h2>
+          <h2>{t('login.title')}</h2>
 
           {error && <div className="error">{error}</div>}
           <input
@@ -48,7 +47,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit">Login</button>
+          <button type="submit">{t('login.button')}</button>
         </form>
       </div>
     </>

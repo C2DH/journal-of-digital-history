@@ -13,7 +13,7 @@ import './styles/index.css'
 
 function DashboardApp() {
   const [username, setUsername] = useState<string>('Anonymous')
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
 
   const handleLogout = async () => {
     await userLogoutRequest()
