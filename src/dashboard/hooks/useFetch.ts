@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useCallback } from 'react'
+import { useCallback, useEffect, useReducer } from 'react'
 
 import api from '../utils/getData'
 
@@ -73,7 +73,7 @@ export function useFetchItems<T>(endpoint: string, limit: number, ordering?: str
       const pagedUrl =
         endpoint +
         '?' +
-        [ordering ? `ordering=${ordering}` : null, `limit=${limit}`, `offset=${state.offset}`]
+        [ordering ? `ordering=${ordering}, id` : null, `limit=${limit}`, `offset=${state.offset}`]
           .filter(Boolean)
           .join('&')
       const response = await api.get(pagedUrl)

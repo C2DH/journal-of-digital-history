@@ -2,7 +2,6 @@ import { DateTime } from 'luxon'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
-import { TableProps } from './interface'
 import { convertDate } from '../../utils/convertDate'
 import { convertLink } from '../../utils/convertLink'
 import { convertStatus } from '../../utils/convertStatus'
@@ -14,6 +13,7 @@ import './Table.css'
 
 const Table = ({ title, headers, data, sortBy, sortOrder, setSortBy, setSortOrder }) => {
   const { t } = useTranslation()
+  const search = location.search
   const navigate = useNavigate()
 
   const visibleHeaders = getVisibleHeaders({ data, headers })
@@ -29,7 +29,7 @@ const Table = ({ title, headers, data, sortBy, sortOrder, setSortBy, setSortOrde
   }
 
   const handleRowClick = (pid: string) => {
-    navigate(`/${title}/${pid}`)
+    navigate(`/${title}/${pid}${search}`)
   }
 
   return (

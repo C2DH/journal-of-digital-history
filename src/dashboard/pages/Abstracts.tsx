@@ -1,15 +1,13 @@
-import { useState } from 'react'
-import UniversalCookie from 'universal-cookie'
-
 import Card from '../components/Card/Card'
 import { useFetchItems } from '../hooks/useFetch'
-import { Abstract } from '../utils/types'
+import { useFilters } from '../hooks/useFilters'
 import '../styles/pages/pages.css'
+import { Abstract } from '../utils/types'
 
 const Abstracts = () => {
-  const [sortBy, setSortBy] = useState<string>('id') // default sort field
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
-  const ordering = sortOrder === 'asc' ? sortBy : `-${sortBy}`
+  const { sortBy, sortOrder, setFilters } = useFilters()
+
+  const ordering = sortBy == null ? undefined : sortOrder === 'asc' ? sortBy : `-${sortBy}`
 
   const {
     data: abstracts,
@@ -17,7 +15,7 @@ const Abstracts = () => {
     loading,
     hasMore,
     loadMore,
-  } = useFetchItems<Abstract>('abstracts', 10, ordering)
+  } = useFetchItems<Abstract>('abstracts', 5, ordering)
 
   return (
     <div className="abstract page">
@@ -40,8 +38,8 @@ const Abstracts = () => {
         loadMore={loadMore}
         sortBy={sortBy}
         sortOrder={sortOrder}
-        setSortBy={setSortBy}
-        setSortOrder={setSortOrder}
+        setSortBy={(newSortBy) => setFilters({ sortBy: newSortBy })}
+        setSortOrder={(newSortOrder) => setFilters({ sortOrder: newSortOrder })}
       />
     </div>
   )
