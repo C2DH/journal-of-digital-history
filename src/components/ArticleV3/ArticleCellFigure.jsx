@@ -60,15 +60,12 @@ const ArticleCellFigure = ({
   //  Data table
   const isDataTable = tags.includes('data-table') || figure.refPrefix === DataTableRefPrefix
 
-  let dataTableContent = ''
-  if (isDataTable) {
-    if (htmlOutputs.length > 0) {
-      const htmlOutput = htmlOutputs[0].data['text/html'];
-      dataTableContent = Array.isArray(htmlOutput) ? htmlOutput.join('\n') : htmlOutput;
-    } else {
-      dataTableContent = children?.props?.content
-    }
-  }
+  const dataTableContent =
+    isDataTable && htmlOutputs.length > 0
+      ? Array.isArray(htmlOutputs[0].data['text/html'])
+        ? htmlOutputs[0].data['text/html'].join('\n')
+        : htmlOutputs[0].data['text/html'] || ''
+      : children?.props?.content
 
   return (
     <figure className={`ArticleCellFigure ${active ? 'active' : ''} ${figure.getPrefix()}`}>
