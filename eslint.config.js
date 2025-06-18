@@ -54,6 +54,11 @@ export default [
               position: 'before',
             },
             {
+              pattern: './interface',
+              group: 'sibling',
+              position: 'before',
+            },
+            {
               pattern: '**/*.+(css|scss|sass|less|styl)',
               group: 'object',
               position: 'after',

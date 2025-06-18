@@ -3,6 +3,8 @@ import './Card.css'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { CardProps } from './interface'
+
 import { useInfiniteScroll } from '../../hooks/useFetch'
 import Loading from '../Loading/Loading'
 import ProgressionTable from '../ProgressionTable/ProgressionTable'
@@ -20,7 +22,7 @@ const Card = ({
   sortOrder,
   setSortBy,
   setSortOrder,
-}) => {
+}: CardProps) => {
   const { t } = useTranslation()
   const loaderRef = useRef<HTMLDivElement | null>(null)
 

@@ -33,8 +33,8 @@ const Abstracts = () => {
         loading={loading}
         hasMore={hasMore}
         loadMore={loadMore}
-        sortBy={sortBy}
-        sortOrder={sortOrder}
+        sortBy={sortBy || undefined}
+        sortOrder={sortOrder || undefined}
         setSortBy={(newSortBy) => setFilters({ sortBy: newSortBy })}
         setSortOrder={(newSortOrder) => setFilters({ sortOrder: newSortOrder })}
       />
