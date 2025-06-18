@@ -17,17 +17,17 @@ function getVisibleHeaders({ data, headers }: GetVisibleHeadersParams): string[]
  * Retrieves the value at a given nested path within an object.
  *
  * @param obj - The object to query.
- * @param path - The dot-separated string representing the path to the desired value (e.g., "a.b.c").
+ * @param path - The double underscored string representing the path to the desired value (e.g., "a__b__c").
  * @returns The value at the specified path, or `undefined` if the path does not exist.
  *
  * @example
  * const obj = { a: { b: { c: 42 } } };
- * getNestedValue(obj, "a.b.c"); // returns 42
- * getNestedValue(obj, "a.x.c"); // returns undefined
+ * getNestedValue(obj, "a__b__c"); // returns 42
+ * getNestedValue(obj, "a__x__c"); // returns undefined
  */
 function getNestedValue(obj: any, path: string): any {
   return path
-    .split('.')
+    .split('__')
     .reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj)
 }
 
@@ -53,4 +53,4 @@ function getCleanData({ data, visibleHeaders }: GetCleanDataParams): (string | n
   )
 }
 
-export { getVisibleHeaders, getCleanData }
+export { getCleanData, getVisibleHeaders }

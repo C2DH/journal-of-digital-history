@@ -2,23 +2,33 @@ import { DateTime } from 'luxon'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
-import { ProgressionTableProps } from './interface'
 import { articleSteps } from '../../constants/article'
 import { convertDate } from '../../utils/convertDate'
 import { convertLink } from '../../utils/convertLink'
 import { getCleanData, getVisibleHeaders } from '../../utils/table'
+import SortButton from '../Buttons/SortButton/SortButton'
 import Timeline from '../Timeline/Timeline'
 
 import '../Table/Table.css'
 
-const ProgressionTable = ({ title, headers, data }: ProgressionTableProps) => {
+const ProgressionTable = ({ title, headers, data, sortBy, sortOrder, setSortBy, setSortOrder }) => {
   const { t } = useTranslation()
+  const search = location.search
   const navigate = useNavigate()
   const visibleHeaders = getVisibleHeaders({ data, headers })
   const cleanData = getCleanData({ data, visibleHeaders })
 
   const handleRowClick = (pid: string) => {
-    navigate(`/${title}/${pid}`)
+    navigate(`/${title}/${pid}${search}`)
+  }
+
+  const handleSort = (header: string) => {
+    if (sortBy === header) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortBy(header)
+      setSortOrder('asc')
+    }
   }
 
   return (
@@ -34,7 +44,14 @@ const ProgressionTable = ({ title, headers, data }: ProgressionTableProps) => {
               ))
             ) : (
               <th key={header} className={header}>
-                {t(`${title}.${header}`)}
+                {header !== 'repository_url' && header !== 'status' && (
+                  <SortButton
+                    active={sortBy === header}
+                    order={sortOrder}
+                    onClick={() => handleSort(header)}
+                    label={t(`${title}.${header}`)}
+                  />
+                )}
               </th>
             ),
           )}

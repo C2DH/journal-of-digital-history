@@ -35,10 +35,8 @@
   },
   "articles": {
     "item": "Articles",
-    "abstract": {
-      "pid": "PID",
-      "title": "Title"
-    },
+    "abstract__pid": "PID",
+    "abstract__title": "Title",
     "callpaper": "Call For Paper Number",
     "submitted_date": "Submission date",
     "validation_date": "Validation date",

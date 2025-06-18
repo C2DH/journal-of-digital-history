@@ -5,17 +5,14 @@ import '../styles/pages/pages.css'
 import { Abstract } from '../utils/types'
 
 const Abstracts = () => {
-  const { sortBy, sortOrder, setFilters } = useFilters()
-
-  const ordering = sortBy == null ? undefined : sortOrder === 'asc' ? sortBy : `-${sortBy}`
-
+  const { sortBy, sortOrder, ordering, setFilters } = useFilters()
   const {
     data: abstracts,
     error,
     loading,
     hasMore,
     loadMore,
-  } = useFetchItems<Abstract>('abstracts', 5, ordering)
+  } = useFetchItems<Abstract>('abstracts', 10, ordering)
 
   return (
     <div className="abstract page">

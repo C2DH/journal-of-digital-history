@@ -38,12 +38,16 @@ const Table = ({ title, headers, data, sortBy, sortOrder, setSortBy, setSortOrde
         <tr>
           {visibleHeaders.map((header, idx) => (
             <th key={header} className={`${header}`}>
-              <SortButton
-                active={sortBy === header}
-                order={sortOrder}
-                onClick={() => handleSort(header)}
-                label={t(`${title}.${header}`)}
-              />
+              {title === 'callforpapers' || title === 'issues' ? (
+                t(`${title}.${header}`)
+              ) : (
+                <SortButton
+                  active={sortBy === header}
+                  order={sortOrder}
+                  onClick={() => handleSort(header)}
+                  label={t(`${title}.${header}`)}
+                />
+              )}
             </th>
           ))}
         </tr>

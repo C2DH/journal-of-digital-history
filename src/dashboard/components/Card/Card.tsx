@@ -40,7 +40,15 @@ const Card = ({
       <div className={`${item} card`}>
         <h1>{t(`${item}.item`)}</h1>
         {item === 'articles' ? (
-          <ProgressionTable title={item} headers={headers} data={data} />
+          <ProgressionTable
+            title={item}
+            headers={headers}
+            data={data}
+            sortBy={sortBy}
+            sortOrder={sortOrder}
+            setSortBy={setSortBy}
+            setSortOrder={setSortOrder}
+          />
         ) : (
           <Table
             title={item}

@@ -1,5 +1,5 @@
 .table {
-  table-layout: fixed;
+  /* table-layout: fixed; */
   width: 100%;
   border-collapse: collapse;
 }
@@ -55,7 +55,8 @@
 }
 
 td.name,
-& td.title {
+& td.title,
+& td.abstract__title {
   color: var(--color-deep-blue);
   font-weight: 600;
 }

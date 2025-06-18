@@ -7,6 +7,9 @@ export function useFilters() {
   const sortBy = searchParams.get('sortBy')
   const sortOrder = searchParams.get('sortOrder')
 
+  const ordering =
+    sortBy == null ? undefined : sortOrder === 'asc' || !sortOrder ? sortBy : `-${sortBy}`
+
   const setFilters = useCallback((filters: { sortBy?: string; sortOrder?: string }) => {
     setSearchParams((params) => {
       if (filters.sortBy != undefined) {
@@ -24,6 +27,7 @@ export function useFilters() {
   return {
     sortBy,
     sortOrder,
+    ordering,
     setFilters,
   }
 }
