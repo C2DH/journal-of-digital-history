@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 import { NavbarProps } from './interface'
+
 import Logo from '../../../../src/components/Logo'
 
 import './Navbar.css'
@@ -17,8 +18,10 @@ const Navbar = ({ items }: NavbarProps) => {
   return (
     <div className="navbar">
       <div className="navbar-header">
-        <Logo />
-        <p>Journal of Digital History</p>
+        <a className="navbar-logo " href="/">
+          <Logo />
+          <p>Journal of Digital History</p>
+        </a>
       </div>
       <ul>
         {items.map((item) => (

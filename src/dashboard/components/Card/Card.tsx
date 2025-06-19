@@ -7,7 +7,6 @@ import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useFetch'
 import Loading from '../Loading/Loading'
-import ProgressionTable from '../ProgressionTable/ProgressionTable'
 import Table from '../Table/Table'
 
 const Card = ({
@@ -41,27 +40,15 @@ const Card = ({
     <>
       <div className={`${item} card`}>
         <h1>{t(`${item}.item`)}</h1>
-        {item === 'articles' ? (
-          <ProgressionTable
-            title={item}
-            headers={headers}
-            data={data}
-            sortBy={sortBy}
-            sortOrder={sortOrder}
-            setSortBy={setSortBy}
-            setSortOrder={setSortOrder}
-          />
-        ) : (
-          <Table
-            title={item}
-            headers={headers}
-            data={data}
-            sortBy={sortBy}
-            sortOrder={sortOrder}
-            setSortBy={setSortBy}
-            setSortOrder={setSortOrder}
-          />
-        )}
+        <Table
+          title={item}
+          headers={headers}
+          data={data}
+          sortBy={sortBy}
+          sortOrder={sortOrder}
+          setSortBy={setSortBy}
+          setSortOrder={setSortOrder}
+        />
         <div ref={loaderRef} />
       </div>
       {loading && data.length > 0 && <Loading />}

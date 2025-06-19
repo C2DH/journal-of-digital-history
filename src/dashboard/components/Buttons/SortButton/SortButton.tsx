@@ -1,13 +1,9 @@
 import { ArrowSeparateVertical } from 'iconoir-react'
 import { memo } from 'react'
-import './SortButton.css'
 
-interface SortButtonProps {
-  active: boolean
-  order: 'asc' | 'desc'
-  onClick: () => void
-  label: string
-}
+import { SortButtonProps } from './interface'
+
+import './SortButton.css'
 
 const SortButton = ({ active, order, onClick, label }: SortButtonProps) => (
   <button
