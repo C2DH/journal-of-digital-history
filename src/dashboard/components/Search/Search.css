@@ -1,0 +1,22 @@
+.search-input-frame {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 90%;
+  height: 40px;
+  padding: 0 8px;
+
+  border: none;
+  color: var(--color-deep-blue);
+  background: var(--color-accent-lighter);
+  font-size: 1rem;
+  border-radius: 32px;
+}
+
+.search-input {
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  color: var(--color-deep-blue);
+  outline: none;
+}

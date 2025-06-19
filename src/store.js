@@ -1,7 +1,7 @@
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
 import { produce } from 'immer'
-import { DisplayLayerNarrative } from './constants//globalConstants'
+import { DisplayLayerNarrative } from './constants/globalConstants'
 
 export const useArticleCellExplainerStore = create((set) => ({
   cellIdx: null,

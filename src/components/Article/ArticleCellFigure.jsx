@@ -118,7 +118,9 @@ const ArticleCellFigure = ({
     columnLayout = { md: 10, xxl: 11 }
 
     if (htmlOutputs.length > 0) {
-      dataTableContent = htmlOutputs[0].data['text/html'].join('\n')
+      dataTableContent = Array.isArray(htmlOutputs[0].data['text/html'])
+        ? htmlOutputs[0].data['text/html'].join('\n')
+        : htmlOutputs[0].data['text/html'] || ''
     } else {
       dataTableContent = children?.props?.content
     }

@@ -1,0 +1,68 @@
+{
+  "login": {
+    "title": "Admin login",
+    "button": "Login"
+  },
+  "welcome": "Welcome to the Dashboard",
+  "issues": {
+    "item": "Issues",
+    "pid": "PID",
+    "name": "Name",
+    "creation_date": "Creation Date",
+    "publication_date": "Publication Date",
+    "status": "Status",
+    "volume": "Volume",
+    "issue": "Issue"
+  },
+  "abstracts": {
+    "item": "Abstracts",
+    "pid": "PID",
+    "title": "Title",
+    "callpaper": "Call for paper",
+    "submitted_date": "Submitted Date",
+    "validation_date": "Validation Date",
+    "contact_lastname": "Lastname",
+    "contact_firstname": "Firstname",
+    "contact_affiliation": "Affiliation",
+    "status": "Status"
+  },
+  "callforpapers": {
+    "item": "Call for Papers",
+    "id": "ID",
+    "title": "Title",
+    "deadline_abstract": "Abstract deadline",
+    "deadline_article": "Article deadline"
+  },
+  "articles": {
+    "item": "Articles",
+    "abstract": {
+      "pid": "PID",
+      "title": "Title"
+    },
+    "callpaper": "Call For Paper Number",
+    "submitted_date": "Submission date",
+    "validation_date": "Validation date",
+    "publication_date": "Publication Date",
+    "status": "Status",
+    "repository_url": "Repository URL"
+  },
+  "authors": {
+    "item": "Authors",
+    "id": "ID",
+    "lastname": "Lastname",
+    "firstname": "Firstname",
+    "affiliation": "Affiliation",
+    "email": "Email",
+    "orcid": "ORCID"
+  },
+  "datasets": {
+    "item": "Datasets",
+    "id": "ID",
+    "url": "Link",
+    "description": "Description"
+  },
+  "error": {
+    "title": "Sorry, you have an error",
+    "invalidUser": "Invalid username or password"
+  }
+}

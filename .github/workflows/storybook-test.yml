@@ -13,14 +13,18 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '>=20.0.0'
-      - name: Setup yarn
-        run: npm install -g yarn
+
+      - name: Install Yarn 4 (Berry)
+        run: corepack enable && corepack prepare yarn@4.9.1 --activate
+
       - name: Install dependencies
         env:
           NODE_OPTIONS: '--openssl-legacy-provider'
         run: yarn install
+
       - name: Install Playwright
         run: npx playwright install --with-deps
+
       - name: Build Storybook
         env:
           NODE_OPTIONS: '--openssl-legacy-provider'

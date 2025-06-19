@@ -73,21 +73,13 @@ const ArticlesGrid = ({
     height: 0,
   }))
   const data = (items || []).map((d, idx) => new Article({ ...d, idx }))
+  const articles = sort(data, AvailablesOrderByComparators[orderBy])
 
-  const articles = sort(
-    data.filter((d) => orderBy !== OrderByIssue || d.issue.status !== ArticleStatusDraft), // filter out articles from draft issues
-    AvailablesOrderByComparators[orderBy],
-  )
-
-  // Advance articles are articles that are in draft issues
-  const advanceArticles = (items || [])
-    .filter((d) => d.issue.status === ArticleStatusDraft)
-    .map((d, idx) => new Article({ ...d, idx }))
-
-  const { articlesByIssue, showFilters } = useMemo(() => {
+ const { articlesByIssue, advanceArticles, showFilters } = useMemo(() => {
     if (status !== StatusSuccess) {
       return {
         articlesByIssue: {},
+        advanceArticles: [],
         issues: [],
         sortedItems: [],
         showFilters: false,
@@ -100,10 +92,15 @@ const ArticlesGrid = ({
     }))
     const articlesByIssue = groupBy(sortedItems, 'issue.pid')
 
+    // Advance articles are articles that are in draft issues
+    const advanceArticles = data
+      .filter((d) => d.issue.status === ArticleStatusDraft)
+      .map((d, idx) => ({ ...d, idx, selected: selected?.includes(idx) }))
+
     const showFilters = data.reduce((acc, d) => {
       return acc || d.tags.some((t) => categories.includes(t.category))
     }, false)
-    return { articlesByIssue, showFilters }
+    return { articlesByIssue, advanceArticles, showFilters }
   }, [url, selected, status])
 
   const onArticleMouseMoveHandler = (e, datum, idx, article, bounds) => {
@@ -248,6 +245,8 @@ const ArticlesGrid = ({
               onArticleMouseMove={onArticleMouseMoveHandler}
               onArticleClick={onArticleClickHandler}
               onArticleMouseOut={onArticleMouseOutHandler}
+              collapsable={true}
+              collapsed={true}
             >
               <Issue
                 numArticles={advanceArticles.length}
@@ -282,6 +281,7 @@ const ArticlesGrid = ({
                     onArticleMouseMove={onArticleMouseMoveHandler}
                     onArticleClick={onArticleClickHandler}
                     onArticleMouseOut={onArticleMouseOutHandler}
+                    collapsable={true}
                   >
                     <Issue
                       numArticles={numArticles}

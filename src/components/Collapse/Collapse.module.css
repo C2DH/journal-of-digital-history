@@ -1,0 +1,18 @@
+.Collapse .icon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+  z-index: 1;
+}
+
+.Collapse .icon:hover svg {
+  color: var(--bs-accent);
+}
+
+.Collapse .collapse_box {
+  overflow: hidden;
+  transition: height 0.3s ease-in-out;
+}

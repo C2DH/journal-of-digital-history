@@ -62,7 +62,9 @@ const ArticleCellFigure = ({
 
   const dataTableContent =
     isDataTable && htmlOutputs.length > 0
-      ? htmlOutputs[0].data['text/html'].join('\n')
+      ? Array.isArray(htmlOutputs[0].data['text/html'])
+        ? htmlOutputs[0].data['text/html'].join('\n')
+        : htmlOutputs[0].data['text/html'] || ''
       : children?.props?.content
 
   return (

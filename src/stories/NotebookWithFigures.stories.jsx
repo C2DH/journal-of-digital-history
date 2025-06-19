@@ -17,13 +17,13 @@ export default {
     metadata: { control: { type: 'object' }, defaultValue: {} },
   },
   decorators: [
-    (Story) =>  (
+    (Story) => (
       <BrowserRouter>
-        <QueryParamProvider adapter={ReactRouter6Adapter}> 
+        <QueryParamProvider adapter={ReactRouter6Adapter}>
           <Story />
         </QueryParamProvider>
       </BrowserRouter>
-    )
+    ),
   ],
 }
 

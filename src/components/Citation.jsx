@@ -1,4 +1,3 @@
-import React from 'react'
 import { Cite } from '@citation-js/core'
 import '@citation-js/plugin-bibtex'
 

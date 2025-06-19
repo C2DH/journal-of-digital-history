@@ -1,22 +1,19 @@
-
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
-import { useTranslation } from 'react-i18next'
-import { CustomTooltipProps} from '../../interfaces/tooltip'
+import { CustomTooltipProps } from './interface'
 
-const CustomTooltip= ({
+const CustomTooltip = ({
   tooltip,
   tooltipPlacement = 'right',
   fieldname,
   index,
-} : CustomTooltipProps ) => {
-  const { t } = useTranslation()
+}: CustomTooltipProps) => {
 
   return (
     <OverlayTrigger
       placement={tooltipPlacement}
       overlay={
         <Tooltip id={`tooltip-${fieldname}-${index}`} className="custom-tooltip">
-          {t(`${tooltip}`)}
+          {`${tooltip}`}
         </Tooltip>
       }
     >
