@@ -85,7 +85,10 @@ const Detail = ({ endpoint }) => {
       { label: 'Status', value: <Status value={String(item.status)} /> },
       { label: 'Terms accepted', value: item.consented ? 'Yes' : 'No' },
       { label: 'Submission date', value: convertDate(item.submitted_date) },
-      { label: 'Validation date', value: convertDate(item.validation_date) },
+      {
+        label: 'Validation date',
+        value: item.validation_date ? convertDate(item.validation_date) : '-',
+      },
     ]
     contactFields = [
       { label: 'Contact name', value: `${item.contact_firstname} ${item.contact_lastname}` },

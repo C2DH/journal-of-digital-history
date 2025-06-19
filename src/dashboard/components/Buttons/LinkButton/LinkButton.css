@@ -9,7 +9,7 @@ a {
 .github-icon {
   width: 20px;
   height: 20px;
-  margin: var(--gap-size-0);
+  margin: var(--gap-size-1);
 }
 
 button {
@@ -19,6 +19,7 @@ button {
   font: inherit;
   cursor: pointer;
   outline: inherit;
+  padding: 0;
 }
 
 .button-link {

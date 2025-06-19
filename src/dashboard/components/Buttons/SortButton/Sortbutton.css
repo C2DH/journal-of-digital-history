@@ -10,6 +10,11 @@
 }
 
 .sort-arrow {
+  color: var(--color-accent);
+  font-weight: 900;
+}
+
+.sort-arrow {
   margin-left: 4px;
   vertical-align: middle;
   transition: transform 0.2s, opacity 0.2s;

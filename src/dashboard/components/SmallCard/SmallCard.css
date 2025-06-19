@@ -1,5 +1,5 @@
 .small-card {
-  display: block;
+  /* display: block; */
   max-width: 100%;
   padding: 5%;
   background: var(--color-white);

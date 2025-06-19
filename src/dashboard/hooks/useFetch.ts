@@ -69,11 +69,20 @@ export function useFetchItems<T>(endpoint: string, limit: number, ordering?: str
   const loadMore = useCallback(async () => {
     dispatch({ type: 'LOAD_START' })
 
+    let finalOrdering = ordering
+    if (ordering === 'callpaper_title') {
+      finalOrdering = 'callpaper__title'
+    }
+
     try {
       const pagedUrl =
         endpoint +
         '?' +
-        [ordering ? `ordering=${ordering}, id` : null, `limit=${limit}`, `offset=${state.offset}`]
+        [
+          ordering ? `ordering=${finalOrdering}, id` : null,
+          `limit=${limit}`,
+          `offset=${state.offset}`,
+        ]
           .filter(Boolean)
           .join('&')
       const response = await api.get(pagedUrl)
