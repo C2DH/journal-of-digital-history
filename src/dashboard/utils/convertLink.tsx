@@ -1,4 +1,4 @@
-import { convertOrcid } from './orcid'
+import { convertOrcid } from './table'
 
 /**
  * Converts a string cell value into a clickable button if it is a valid URL.

@@ -5,6 +5,7 @@ export interface Abstract {
   title: string
   abstract: string
   callpaper: number | null
+  callpaper_title: string | null
   submitted_date: string
   validation_date: string
   contact_orcid: string
@@ -16,6 +17,7 @@ export interface Abstract {
   consented: boolean
   authors: number[]
   datasets: number[]
+  repository_url: string
 }
 
 export interface Issue {

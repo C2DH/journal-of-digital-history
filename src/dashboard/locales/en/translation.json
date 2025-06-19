@@ -18,7 +18,7 @@
     "item": "Abstracts",
     "pid": "PID",
     "title": "Title",
-    "callpaper": "Call for paper",
+    "callpaper_title": "Call for paper",
     "submitted_date": "Submitted Date",
     "validation_date": "Validation Date",
     "contact_lastname": "Lastname",
@@ -62,5 +62,19 @@
   "error": {
     "title": "Sorry, you have an error",
     "invalidUser": "Invalid username or password"
+  },
+  "status": {
+    "peer_review": "Peer Review",
+    "published": "Published",
+    "draft": "Draft",
+    "rejected": "Rejected",
+    "in_progress": "In Progress",
+    "submitted": "Submitted",
+    "accepted": "Accepted",
+    "abandoned": "Abandoned",
+    "declined": "Declined",
+    "suspended": "Suspended",
+    "technical_review": "Technical Review",
+    "design_review": "Design Review"
   }
 }

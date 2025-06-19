@@ -14,7 +14,7 @@ const LinkButton = ({ url }: ButtonLinkProps) => {
 
   return (
     <a href={url} className="button-link" target="_blank" rel="noopener noreferrer">
-      {isGithub && <Github width={20} height={20} data-testid="github-icon" />}
+      {isGithub && <Github className="github-icon" data-testid="github-icon" />}
       <button>{buttonLabel}</button>
     </a>
   )

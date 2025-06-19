@@ -1,70 +1,54 @@
-import { DateTime } from 'luxon'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
-import { TableProps } from './interface'
+import { renderCellProps, TableProps } from './interface'
 
 import { articleSteps } from '../../constants/article'
 import { convertDate } from '../../utils/convertDate'
 import { convertLink } from '../../utils/convertLink'
-import { convertStatus } from '../../utils/convertStatus'
-import { isOrcid } from '../../utils/orcid'
-import { getCleanData, getVisibleHeaders } from '../../utils/table'
+import {
+  getCleanData,
+  getVisibleHeaders,
+  isAbstract,
+  isArticle,
+  isCallForPapers,
+  isDateCell,
+  isIssues,
+  isLinkCell,
+  isRepositoryHeader,
+  isStatus,
+  isStatusHeader,
+  isStepCell,
+  isTitleHeader,
+} from '../../utils/table'
 import SortButton from '../Buttons/SortButton/SortButton'
+import Status from '../Status/Status'
 import Timeline from '../Timeline/Timeline'
 
 import './Table.css'
 
-function renderCell({
-  cell,
-  headers,
-  cIdx,
-  isAbstract,
-  isArticle,
-}: {
-  cell: any
-  header: string
-  headers: string[]
-  cIdx: number
-  title: string
-  isAbstract: boolean
-  isArticle: boolean
-}) {
+function renderCell({ isStep, cell, headers, cIdx, isAbstract, isArticle }: renderCellProps) {
   let content: React.ReactNode = '-'
   const headerKey = headers[cIdx].toLowerCase().split('.').join(' ')
-  const isStep =
-    typeof cell === 'string' && articleSteps.some((step) => step.key === cell.toLowerCase())
 
   if (isStep && isArticle) {
     content = <Timeline steps={articleSteps} currentStatus={cell} />
   } else if (cell === '' || cell === null) {
     content = '-'
-  } else if (typeof cell === 'string' && headerKey === 'status' && isAbstract) {
-    content = convertStatus(cell)
-  } else if (typeof cell === 'string' && (cell.startsWith('http') || isOrcid(cell))) {
+  } else if (isStatus(cell, headerKey) && isAbstract) {
+    content = <Status value={cell} />
+  } else if (isLinkCell(cell)) {
     content = convertLink(cell)
-  } else if (typeof cell === 'string' && DateTime.fromISO(cell).isValid) {
+  } else if (isDateCell(cell)) {
     content = convertDate(cell)
   } else {
     content = cell
   }
 
-  return (
-    <td key={cIdx} colSpan={isStep ? articleSteps.length : 0} className={headerKey}>
-      {content}
-    </td>
-  )
+  return content
 }
 
-const Table = ({
-  title,
-  headers,
-  data,
-  sortBy,
-  sortOrder,
-  setSortBy,
-  setSortOrder,
-}: TableProps) => {
+const Table = ({ item, headers, data, sortBy, sortOrder, setSortBy, setSortOrder }: TableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const search = location.search
@@ -73,7 +57,7 @@ const Table = ({
   const cleanData = getCleanData({ data, visibleHeaders })
 
   const handleRowClick = (pid: string) => {
-    navigate(`/${title}/${pid}${search}`)
+    navigate(`/${item}/${pid}${search}`)
   }
 
   const handleSort = (header: string) => {
@@ -91,7 +75,7 @@ const Table = ({
       <thead>
         <tr>
           {visibleHeaders.map((header, idx) =>
-            header === 'status' && title === 'articles' ? (
+            header === 'status' && isArticle(item) ? (
               articleSteps.map((step) => (
                 <th key={step.key} className="status-header" title={step.label}>
                   <span className="material-symbols-outlined">{step.icon}</span>
@@ -99,19 +83,19 @@ const Table = ({
               ))
             ) : (
               <th key={header} className={header}>
-                {header !== 'repository_url' &&
-                header !== 'status' &&
-                (title === 'callforpapers' || title === 'issues') ? (
-                  t(`${title}.${header}`)
+                {!isRepositoryHeader(header) &&
+                !isStatusHeader(header) &&
+                (isCallForPapers(item) || isIssues(item)) ? (
+                  t(`${item}.${header}`)
                 ) : setSortBy && setSortOrder ? (
                   <SortButton
                     active={sortBy === header}
                     order={sortOrder}
                     onClick={() => handleSort(header)}
-                    label={t(`${title}.${header}`)}
+                    label={t(`${item}.${header}`)}
                   />
                 ) : (
-                  t(`${title}.${header}`)
+                  t(`${item}.${header}`)
                 )}
               </th>
             ),
@@ -120,26 +104,41 @@ const Table = ({
       </thead>
       <tbody>
         {cleanData.map((row, rIdx) => {
-          const isAbstract = title === 'abstracts'
-          const isArticle = title === 'articles'
+          const isAbstractItem = isAbstract(item)
+          const isArticleItem = isArticle(item)
+          const isArticleOrAbstracts = isAbstractItem || isArticleItem
           return (
-            <tr
-              key={rIdx}
-              {...(isAbstract || isArticle
-                ? { onClick: () => handleRowClick(String(row[0])), style: { cursor: 'pointer' } }
-                : {})}
-            >
-              {row.map((cell, cIdx) =>
-                renderCell({
-                  cell,
-                  header: headers[cIdx],
-                  headers,
-                  cIdx,
-                  title,
-                  isAbstract,
-                  isArticle,
-                }),
-              )}
+            <tr key={rIdx}>
+              {row.map((cell, cIdx) => {
+                const headerName = headers[cIdx]
+                const isTitle = isTitleHeader(headerName)
+                const isStep = isStepCell(cell)
+
+                return (
+                  <td
+                    key={cIdx}
+                    className={headerName}
+                    colSpan={isStep ? articleSteps.length : 0}
+                    style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
+                    onClick={
+                      isTitle && isArticleOrAbstracts
+                        ? () => handleRowClick(String(row[0]))
+                        : undefined
+                    }
+                  >
+                    {renderCell({
+                      isStep,
+                      cell,
+                      header: headerName,
+                      headers,
+                      cIdx,
+                      title: item,
+                      isAbstract: isAbstractItem,
+                      isArticle: isArticleItem,
+                    })}
+                  </td>
+                )
+              })}
             </tr>
           )
         })}

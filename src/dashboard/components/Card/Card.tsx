@@ -41,7 +41,7 @@ const Card = ({
       <div className={`${item} card`}>
         <h1>{t(`${item}.item`)}</h1>
         <Table
-          title={item}
+          item={item}
           headers={headers}
           data={data}
           sortBy={sortBy}

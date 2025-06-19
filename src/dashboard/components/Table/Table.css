@@ -45,7 +45,10 @@
 
   &.submitted,
   &.suspended,
-  &.draft {
+  &.draft,
+  &.peer_review,
+  &.technical_review,
+  &.design_review {
     color: var(--color-warning);
   }
   &.accepted,

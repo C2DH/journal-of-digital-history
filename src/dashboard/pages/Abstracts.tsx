@@ -21,7 +21,7 @@ const Abstracts = () => {
         headers={[
           'pid',
           'title',
-          'callpaper',
+          'callpaper_title',
           'submitted_date',
           'contact_lastname',
           'contact_firstname',
