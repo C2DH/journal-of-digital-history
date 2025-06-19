@@ -28,7 +28,8 @@ const IssueArticles = ({
   respectOrdering = false,
   children,
   className = '',
-  collapsable = false
+  collapsable = false,
+  collapsed = false
 }) => {
   const ref = React.useRef()
   const bboxRef = React.useRef()
@@ -84,7 +85,7 @@ const IssueArticles = ({
     <Row ref={ref} className={`IssueArticles position-relative ${className}`}>
       {children}
 
-      <Collapse collapsable={collapsable && (editorials.length > 0 || articles.length > 0)}>
+      <Collapse collapsed={collapsed} collapsable={collapsable && (editorials.length > 0 || articles.length > 0)}>
         <div className="row pt-4">
           {editorials.map((article, i) => 
             <Col key={i} {...BootstrapColumLayout}>

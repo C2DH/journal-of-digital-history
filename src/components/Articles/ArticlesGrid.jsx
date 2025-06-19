@@ -246,6 +246,7 @@ const ArticlesGrid = ({
               onArticleClick={onArticleClickHandler}
               onArticleMouseOut={onArticleMouseOutHandler}
               collapsable={true}
+              collapsed={true}
             >
               <Issue
                 numArticles={advanceArticles.length}
