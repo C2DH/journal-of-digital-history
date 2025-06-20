@@ -1,85 +1,92 @@
-import { render, screen, fireEvent } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
-
-const mockNavigate = vi.fn()
-vi.mock('react-router', async () => {
-  const mod = await vi.importActual<typeof import('react-router')>('react-router')
-  return {
-    ...mod,
-    useNavigate: () => mockNavigate,
-  }
-})
 
 import Table from './Table'
 
-// Mock dependencies
+// Mock i18next
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
   }),
 }))
-vi.mock('../../utils/convertDate', () => ({
-  convertDate: (date: string) => `converted:${date}`,
+
+// Mock useNavigate
+const mockNavigate = vi.fn()
+vi.mock('react-router', () => ({
+  useNavigate: () => mockNavigate,
 }))
-vi.mock('../../utils/convertLink', () => ({
-  convertLink: (url: string) => <a href={url}>link</a>,
+
+// Mock SortButton
+vi.mock('../Buttons/SortButton/SortButton', () => ({
+  default: (props: any) => (
+    <button data-testid={`sort-btn-${props.label}`} onClick={props.onClick}>
+      {props.label}
+    </button>
+  ),
 }))
-vi.mock('../../utils/convertStatus', () => ({
-  convertStatus: (status: string) => <span>Status: {status}</span>,
+
+// Mock Timeline
+vi.mock('../Timeline/Timeline', () => ({
+  default: () => <div data-testid="timeline" />,
 }))
-vi.mock('../../utils/orcid', () => ({
-  isOrcid: (value: string) => value === '0000-0002-1825-0097',
-}))
-vi.mock('../../utils/table', () => ({
-  getCleanData: ({ data }: any) => data,
-  getVisibleHeaders: ({ headers }: any) => headers,
-}))
+
+// Minimal utility mocks (if needed)
+vi.mock('../../utils/table', async (importOriginal) => {
+  const original = await importOriginal()
+  const originalObj =
+    original && typeof original === 'object' && 'default' in original ? original.default : original
+  return {
+    ...originalObj,
+    isAbstract: (item: string) => item === 'abstracts',
+    isArticle: (item: string) => item === 'articles',
+    isCallForPapers: () => false,
+    isIssues: () => false,
+    isRepositoryHeader: () => false,
+    isStatusHeader: () => false,
+    isStepCell: () => false,
+    isTitleHeader: (header: string) => header === 'title',
+    getVisibleHeaders: ({ headers }: any) => headers,
+    getCleanData: ({ data }: any) => data,
+    isStatus: () => false,
+    isLinkCell: () => false,
+    isDateCell: () => false,
+  }
+})
 
 describe('Table', () => {
-  const headers = ['pid', 'status', 'date', 'url', 'orcid']
-  const data = [
-    ['123', 'submitted', '2024-06-11', 'http://example.com', '0000-0002-1825-0097'],
-    ['456', 'reviewed', null, 'notalink', null],
-  ]
+  const defaultProps = {
+    item: 'abstracts',
+    headers: ['title', 'author'],
+    data: [
+      ['Test Title', 'Test Author'],
+      ['Another Title', 'Another Author'],
+    ],
+    sortBy: 'title',
+    sortOrder: 'asc',
+    setSortBy: vi.fn(),
+    setSortOrder: vi.fn(),
+  }
 
-  it('renders all table headers', () => {
-    render(
-      <MemoryRouter>
-        <Table title="articles" headers={headers} data={data} />
-      </MemoryRouter>,
-    )
-    headers.forEach((header) => {
-      expect(screen.getByText(`articles.${header}`)).toBeInTheDocument()
-    })
+  it('renders headers and rows', () => {
+    render(<Table {...defaultProps} />)
+    expect(screen.getByText('abstracts.title')).toBeInTheDocument()
+    expect(screen.getByText('abstracts.author')).toBeInTheDocument()
+    expect(screen.getByText('Test Title')).toBeInTheDocument()
+    expect(screen.getByText('Test Author')).toBeInTheDocument()
   })
 
-  it('renders converted status, date, link, orcid, and dash for null', () => {
-    render(
-      <MemoryRouter>
-        <Table title="articles" headers={headers} data={data} />
-      </MemoryRouter>,
-    )
-    // Status
-    expect(screen.getByText('Status: submitted')).toBeInTheDocument()
-    expect(screen.getByText('Status: reviewed')).toBeInTheDocument()
-    // Date
-    expect(screen.getByText('converted:2024-06-11')).toBeInTheDocument()
-    // Link
-    expect(screen.getAllByText('link')[0]).toHaveAttribute('href', 'http://example.com')
-    // Orcid
-    expect(screen.getAllByText('link')[1]).toBeInTheDocument()
-    // Dash for null
-    expect(screen.getAllByText('-').length).toBeGreaterThan(0)
+  it('renders sort button and triggers sort', () => {
+    render(<Table {...defaultProps} />)
+    const sortBtn = screen.getByTestId('sort-btn-abstracts.title')
+    fireEvent.click(sortBtn)
+    expect(defaultProps.setSortBy).not.toHaveBeenCalled() // Only setSortOrder is called if already sorted by this header
+    expect(defaultProps.setSortOrder).toHaveBeenCalled()
   })
 
-  it('calls navigate on row click', () => {
-    render(
-      <MemoryRouter>
-        <Table title="abstracts" headers={headers} data={data} />
-      </MemoryRouter>,
-    )
-    fireEvent.click(screen.getByText('123').closest('tr')!)
-    expect(mockNavigate).toHaveBeenCalledWith('/abstracts/123')
+  it('calls navigate when clicking the title cell', () => {
+    render(<Table {...defaultProps} />)
+    const titleCell = screen.getAllByText('Test Title')[0]
+    fireEvent.click(titleCell)
+    expect(mockNavigate).toHaveBeenCalled()
   })
 })

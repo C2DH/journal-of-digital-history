@@ -7,4 +7,6 @@ export const statusIcons: Record<string, { icon: string }> = {
   abandoned: { icon: 'cancel' },
   declined: { icon: 'cancel' },
   draft: { icon: 'error' },
+  peer_review: { icon: 'error' },
+  technical_review: { icon: 'error' },
 }

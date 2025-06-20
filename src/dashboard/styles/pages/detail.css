@@ -20,7 +20,7 @@
     'c c e'
     'c c .';
   gap: 16px;
-  margin: 32px;
+  padding: 32px;
 }
 
 .card-info {
@@ -28,7 +28,6 @@
   grid-template-columns: max-content max-content;
   align-items: center;
 }
-
 /* FieldRow css */
 .item {
   display: flex;

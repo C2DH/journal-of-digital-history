@@ -8,9 +8,15 @@
   position: fixed;
   top: 0;
   left: 0;
-  font-size: 16px;
+  font-size: 16 px;
   font-family: 'Fira Sans', monospace;
   box-shadow: 4px 0 16px 0 rgba(0, 0, 0, 0.08);
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Optional: space between logo and text */
 }
 
 /* Header */
@@ -18,7 +24,6 @@
   display: flex;
   align-items: center;
   width: var(--navbar-header-width);
-  gap: 12px;
   padding: 15%;
 }
 
@@ -60,7 +65,6 @@
 .navbar a {
   color: var(--color-dark);
   text-decoration: none;
-  display: block;
   transition: color 0.2s;
 }
 

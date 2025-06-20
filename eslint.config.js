@@ -1,9 +1,9 @@
 import js from '@eslint/js'
-import tseslint from '@typescript-eslint/eslint-plugin'
 import importPlugin from 'eslint-plugin-import'
 import reactPlugin from 'eslint-plugin-react'
 import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
+import tseslint from 'typescript-eslint'
 
 export default [
   js.configs.recommended,
@@ -51,6 +51,11 @@ export default [
             {
               pattern: 'react|react-dom',
               group: 'external',
+              position: 'before',
+            },
+            {
+              pattern: './interface',
+              group: 'sibling',
               position: 'before',
             },
             {

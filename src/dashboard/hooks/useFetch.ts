@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useCallback } from 'react'
+import { useCallback, useEffect, useReducer } from 'react'
 
 import api from '../utils/getData'
 
@@ -17,6 +17,7 @@ type Action<T> =
   | { type: 'RESET' }
 
 function reducer<T>(state: State<T>, action: Action<T>): State<T> {
+  console.info('[Reducer]UseFetchItems - action:', action, 'offset:', state.offset)
   switch (action.type) {
     case 'LOAD_START':
       return { ...state, loading: true }
@@ -24,7 +25,8 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
       return {
         ...state,
         loading: false,
-        data: [...state.data, ...action.payload.results],
+        data:
+          state.offset > 0 ? [...state.data, ...action.payload.results] : action.payload.results,
         offset: state.offset + action.payload.limit,
         hasMore: action.payload.results.length === action.payload.limit,
         error: null,
@@ -32,7 +34,7 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
     case 'LOAD_ERROR':
       return { ...state, loading: false, error: action.payload, hasMore: false }
     case 'RESET':
-      return { data: [], error: null, loading: false, offset: 0, hasMore: true }
+      return { ...state, error: null, loading: false, offset: 0, hasMore: true }
     default:
       return state
   }
@@ -57,7 +59,7 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
  * This hook automatically resets and fetches data when the endpoint,
  * credentials, or limit changes. It handles authentication via HTTP Basic Auth.
  */
-export function useFetchItems<T>(endpoint: string, limit = 10) {
+export function useFetchItems<T>(endpoint: string, limit: number, ordering?: string) {
   const [state, dispatch] = useReducer(reducer<T>, {
     data: [],
     error: null,
@@ -66,29 +68,48 @@ export function useFetchItems<T>(endpoint: string, limit = 10) {
     hasMore: true,
   })
 
-  const loadMore = useCallback(async () => {
-    dispatch({ type: 'LOAD_START' })
+  const loadMore = useCallback(
+    async (offset: number = -1) => {
+      dispatch({ type: 'LOAD_START' })
 
-    try {
-      const pagedUrl = endpoint.includes('?')
-        ? `${endpoint}&limit=${limit}&offset=${state.offset}`
-        : `${endpoint}?limit=${limit}&offset=${state.offset}`
+      let finalOrdering = ordering
+      if (ordering === 'callpaper_title') {
+        finalOrdering = 'callpaper__title'
+      }
 
-      const response = await api.get(pagedUrl)
+      try {
+        const pagedUrl =
+          endpoint +
+          '?' +
+          [
+            ordering ? `ordering=${finalOrdering}, id` : null,
+            `limit=${limit}`,
+            `offset=${offset !== -1 ? offset : state.offset}`,
+          ]
+            .filter(Boolean)
+            .join('&')
+        const response = await api.get(pagedUrl)
 
-      const result = response.data
-      dispatch({ type: 'LOAD_SUCCESS', payload: { results: result.results, limit } })
-    } catch (err) {
-      dispatch({
-        type: 'LOAD_ERROR',
-        payload: err instanceof Error ? err.message : String(err),
-      })
-    }
-  }, [endpoint, limit, state.offset])
+        const result = response.data
+        dispatch({ type: 'LOAD_SUCCESS', payload: { results: result.results, limit } })
+      } catch (err) {
+        dispatch({
+          type: 'LOAD_ERROR',
+          payload: err instanceof Error ? err.message : String(err),
+        })
+      }
+    },
+    [endpoint, limit, ordering, state.offset],
+  )
 
   useEffect(() => {
     dispatch({ type: 'RESET' })
   }, [endpoint, limit])
+
+  useEffect(() => {
+    dispatch({ type: 'RESET' })
+    loadMore(0)
+  }, [ordering])
 
   return {
     data: state.data,

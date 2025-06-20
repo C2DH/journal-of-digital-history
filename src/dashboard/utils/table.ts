@@ -1,3 +1,7 @@
+import { DateTime } from 'luxon'
+
+import { articleSteps } from '../constants/article'
+
 /**
  * Returns the headers that are included in the provided headers array.
  * @param headers - The list of allowed headers.
@@ -17,17 +21,17 @@ function getVisibleHeaders({ data, headers }: GetVisibleHeadersParams): string[]
  * Retrieves the value at a given nested path within an object.
  *
  * @param obj - The object to query.
- * @param path - The dot-separated string representing the path to the desired value (e.g., "a.b.c").
+ * @param path - The double underscored string representing the path to the desired value (e.g., "a__b__c").
  * @returns The value at the specified path, or `undefined` if the path does not exist.
  *
  * @example
  * const obj = { a: { b: { c: 42 } } };
- * getNestedValue(obj, "a.b.c"); // returns 42
- * getNestedValue(obj, "a.x.c"); // returns undefined
+ * getNestedValue(obj, "a__b__c"); // returns 42
+ * getNestedValue(obj, "a__x__c"); // returns undefined
  */
 function getNestedValue(obj: any, path: string): any {
   return path
-    .split('.')
+    .split('__')
     .reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj)
 }
 
@@ -53,4 +57,86 @@ function getCleanData({ data, visibleHeaders }: GetCleanDataParams): (string | n
   )
 }
 
-export { getVisibleHeaders, getCleanData }
+/**
+ * Checks if a string matches the ORCID identifier format.
+ * @param str - The string to validate.
+ * @returns True if the string is a valid ORCID, otherwise false.
+ */
+function isOrcid(str: string): boolean {
+  // ORCID format: 0000-0000-0000-0000
+  return /^0000-\d{4}-\d{4}-\d{3}[\dX]$/.test(str)
+}
+
+/**
+ * Converts an ORCID identifier to its corresponding ORCID URL.
+ *
+ * @param orcid - The ORCID identifier string.
+ * @returns The full ORCID URL as a string.
+ */
+function convertOrcid(orcid: string): string {
+  return `https://orcid.org/${orcid}`
+}
+
+function isStepCell(cell: any): boolean {
+  return typeof cell === 'string' && articleSteps.some((step) => step.key === cell.toLowerCase())
+}
+
+function isStatus(cell: any, header: string): boolean {
+  return typeof cell === 'string' && header.toLowerCase() === 'status'
+}
+
+function isLinkCell(cell: any): boolean {
+  return typeof cell === 'string' && (cell.startsWith('http') || isOrcid(cell))
+}
+
+function isDateCell(cell: any): boolean {
+  return typeof cell === 'string' && DateTime.fromISO(cell).isValid
+}
+
+function isEmptyCell(cell: any): boolean {
+  return cell === '' || cell === null
+}
+
+function isTitleHeader(headerName: string) {
+  return headerName === 'title' || headerName === 'abstract__title'
+}
+
+function isStatusHeader(headerName: string) {
+  return headerName === 'status'
+}
+
+function isRepositoryHeader(headerName: string) {
+  return headerName === 'repository_url'
+}
+
+function isAbstract(item: string): boolean {
+  return item === 'abstracts'
+}
+function isArticle(item: string): boolean {
+  return item === 'articles'
+}
+function isCallForPapers(item: string): boolean {
+  return item === 'callforpapers'
+}
+function isIssues(item: string): boolean {
+  return item === 'issues'
+}
+
+export {
+  convertOrcid,
+  getCleanData,
+  getVisibleHeaders,
+  isAbstract,
+  isArticle,
+  isCallForPapers,
+  isDateCell,
+  isEmptyCell,
+  isIssues,
+  isLinkCell,
+  isOrcid,
+  isRepositoryHeader,
+  isStatus,
+  isStatusHeader,
+  isStepCell,
+  isTitleHeader,
+}

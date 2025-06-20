@@ -1,4 +1,5 @@
 import { TimelineProps } from './interface'
+
 import { getTimelineSteps } from '../../utils/getTimelineStep'
 import './Timeline.css'
 

@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
 
 import Login from '../components/Login/Login'
+import { fetchUsername, userLogoutRequest } from '../logic/api/login'
 import Header from './components/Header/Header'
+import { navbarItems } from './components/Navbar/constant'
 import Navbar from './components/Navbar/Navbar'
-import { navbarItems } from './constants/navbar'
 import i18n from './i18next'
 import AppRoutes from './routes'
-
-import { fetchUsername, userLogoutRequest } from '../logic/api/login'
 import './styles/index.css'
 
 function DashboardApp() {

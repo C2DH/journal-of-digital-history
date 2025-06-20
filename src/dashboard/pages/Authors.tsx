@@ -1,11 +1,19 @@
 import Card from '../components/Card/Card'
 import { useFetchItems } from '../hooks/useFetch'
+import { useFilters } from '../hooks/useFilters'
 import { Author } from '../utils/types'
 
 import '../styles/pages/pages.css'
 
 const Authors = () => {
-  const { data: authors, error, loading, hasMore, loadMore } = useFetchItems<Author>('/authors', 5)
+  const { sortBy, sortOrder, ordering, setFilters } = useFilters()
+  const {
+    data: authors,
+    error,
+    loading,
+    hasMore,
+    loadMore,
+  } = useFetchItems<Author>('/authors', 10, ordering)
 
   return (
     <div className="authors page">
@@ -17,6 +25,10 @@ const Authors = () => {
         loading={loading}
         hasMore={hasMore}
         loadMore={loadMore}
+        sortBy={sortBy ?? undefined}
+        sortOrder={sortOrder ?? undefined}
+        setSortBy={(newSortBy) => setFilters({ sortBy: newSortBy })}
+        setSortOrder={(newSortOrder) => setFilters({ sortOrder: newSortOrder })}
       />
     </div>
   )
