@@ -17,7 +17,7 @@ type Action<T> =
   | { type: 'RESET' }
 
 function reducer<T>(state: State<T>, action: Action<T>): State<T> {
-  console.log('Reducer action:', action, 'offset:', state.offset)
+  console.info('[Reducer]UseFetchItems - action:', action, 'offset:', state.offset)
   switch (action.type) {
     case 'LOAD_START':
       return { ...state, loading: true }
@@ -25,9 +25,8 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
       return {
         ...state,
         loading: false,
-        data: state.offset > 0
-          ? [...state.data, ...action.payload.results]
-          : action.payload.results,
+        data:
+          state.offset > 0 ? [...state.data, ...action.payload.results] : action.payload.results,
         offset: state.offset + action.payload.limit,
         hasMore: action.payload.results.length === action.payload.limit,
         error: null,
@@ -69,37 +68,39 @@ export function useFetchItems<T>(endpoint: string, limit: number, ordering?: str
     hasMore: true,
   })
 
-  const loadMore = useCallback(async (offset: number = -1) => {
-    dispatch({ type: 'LOAD_START' })
+  const loadMore = useCallback(
+    async (offset: number = -1) => {
+      dispatch({ type: 'LOAD_START' })
 
-    let finalOrdering = ordering
-    if (ordering === 'callpaper_title') {
-      finalOrdering = 'callpaper__title'
-    }
+      let finalOrdering = ordering
+      if (ordering === 'callpaper_title') {
+        finalOrdering = 'callpaper__title'
+      }
 
-    try {
-      const pagedUrl =
-        endpoint +
-        '?' +
-        [
-          ordering ? `ordering=${finalOrdering}, id` : null,
-          `limit=${limit}`,
-          `offset=${offset !== -1 ? offset : state.offset}`,
-        ]
-          .filter(Boolean)
-          .join('&')
-      console.log('Fetching data from:', pagedUrl)
-      const response = await api.get(pagedUrl)
+      try {
+        const pagedUrl =
+          endpoint +
+          '?' +
+          [
+            ordering ? `ordering=${finalOrdering}, id` : null,
+            `limit=${limit}`,
+            `offset=${offset !== -1 ? offset : state.offset}`,
+          ]
+            .filter(Boolean)
+            .join('&')
+        const response = await api.get(pagedUrl)
 
-      const result = response.data
-      dispatch({ type: 'LOAD_SUCCESS', payload: { results: result.results, limit } })
-    } catch (err) {
-      dispatch({
-        type: 'LOAD_ERROR',
-        payload: err instanceof Error ? err.message : String(err),
-      })
-    }
-  }, [endpoint, limit, ordering, state.offset])
+        const result = response.data
+        dispatch({ type: 'LOAD_SUCCESS', payload: { results: result.results, limit } })
+      } catch (err) {
+        dispatch({
+          type: 'LOAD_ERROR',
+          payload: err instanceof Error ? err.message : String(err),
+        })
+      }
+    },
+    [endpoint, limit, ordering, state.offset],
+  )
 
   useEffect(() => {
     dispatch({ type: 'RESET' })
@@ -107,8 +108,8 @@ export function useFetchItems<T>(endpoint: string, limit: number, ordering?: str
 
   useEffect(() => {
     dispatch({ type: 'RESET' })
-    loadMore(0);
-  }, [ordering]);
+    loadMore(0)
+  }, [ordering])
 
   return {
     data: state.data,

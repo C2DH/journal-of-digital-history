@@ -27,7 +27,15 @@ import Timeline from '../Timeline/Timeline'
 
 import './Table.css'
 
-function renderCell({ isStep, cell, headers, cIdx, isAbstract, isArticle }: renderCellProps) {
+function renderCell({
+  isStep,
+  cell,
+  headers,
+  cIdx,
+  isAbstract,
+  isArticle,
+  isIssues,
+}: renderCellProps) {
   let content: React.ReactNode = '-'
   const headerKey = headers[cIdx].toLowerCase().split('.').join(' ')
 
@@ -35,7 +43,7 @@ function renderCell({ isStep, cell, headers, cIdx, isAbstract, isArticle }: rend
     content = <Timeline steps={articleSteps} currentStatus={cell} />
   } else if (cell === '' || cell === null) {
     content = '-'
-  } else if (isStatus(cell, headerKey) && isAbstract) {
+  } else if (isStatus(cell, headerKey) && (isAbstract || isIssues)) {
     content = <Status value={cell} />
   } else if (isLinkCell(cell)) {
     content = convertLink(cell)
@@ -106,7 +114,9 @@ const Table = ({ item, headers, data, sortBy, sortOrder, setSortBy, setSortOrder
         {cleanData.map((row, rIdx) => {
           const isAbstractItem = isAbstract(item)
           const isArticleItem = isArticle(item)
+          const isIssuesItem = isIssues(item)
           const isArticleOrAbstracts = isAbstractItem || isArticleItem
+
           return (
             <tr key={rIdx}>
               {row.map((cell, cIdx) => {
@@ -118,7 +128,7 @@ const Table = ({ item, headers, data, sortBy, sortOrder, setSortBy, setSortOrder
                   <td
                     key={cIdx}
                     className={headerName}
-                    colSpan={isStep ? articleSteps.length : 0}
+                    colSpan={isStep && isArticleItem ? articleSteps.length : 0}
                     style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
                     onClick={
                       isTitle && isArticleOrAbstracts
@@ -135,6 +145,7 @@ const Table = ({ item, headers, data, sortBy, sortOrder, setSortBy, setSortOrder
                       title: item,
                       isAbstract: isAbstractItem,
                       isArticle: isArticleItem,
+                      isIssues: isIssuesItem,
                     })}
                   </td>
                 )

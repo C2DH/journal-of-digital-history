@@ -17,4 +17,5 @@ export interface renderCellProps {
   title: string
   isAbstract: boolean
   isArticle: boolean
+  isIssues: boolean
 }

@@ -7,6 +7,7 @@ import { statusIcons } from './constant'
 const Status = ({ value }: StatusProps) => {
   const { t } = useTranslation()
   const status = value.toLowerCase()
+
   const iconInfo = statusIcons[status] || { icon: 'help', color: 'gray' }
 
   return (
