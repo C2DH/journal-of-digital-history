@@ -17,6 +17,7 @@ type Action<T> =
   | { type: 'RESET' }
 
 function reducer<T>(state: State<T>, action: Action<T>): State<T> {
+  console.log('Reducer action:', action, 'offset:', state.offset)
   switch (action.type) {
     case 'LOAD_START':
       return { ...state, loading: true }
@@ -24,7 +25,9 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
       return {
         ...state,
         loading: false,
-        data: [...state.data, ...action.payload.results],
+        data: state.offset > 0
+          ? [...state.data, ...action.payload.results]
+          : action.payload.results,
         offset: state.offset + action.payload.limit,
         hasMore: action.payload.results.length === action.payload.limit,
         error: null,
@@ -32,7 +35,7 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
     case 'LOAD_ERROR':
       return { ...state, loading: false, error: action.payload, hasMore: false }
     case 'RESET':
-      return { data: [], error: null, loading: false, offset: 0, hasMore: true }
+      return { ...state, error: null, loading: false, offset: 0, hasMore: true }
     default:
       return state
   }
@@ -66,7 +69,7 @@ export function useFetchItems<T>(endpoint: string, limit: number, ordering?: str
     hasMore: true,
   })
 
-  const loadMore = useCallback(async () => {
+  const loadMore = useCallback(async (offset: number = -1) => {
     dispatch({ type: 'LOAD_START' })
 
     let finalOrdering = ordering
@@ -81,10 +84,11 @@ export function useFetchItems<T>(endpoint: string, limit: number, ordering?: str
         [
           ordering ? `ordering=${finalOrdering}, id` : null,
           `limit=${limit}`,
-          `offset=${state.offset}`,
+          `offset=${offset !== -1 ? offset : state.offset}`,
         ]
           .filter(Boolean)
           .join('&')
+      console.log('Fetching data from:', pagedUrl)
       const response = await api.get(pagedUrl)
 
       const result = response.data
@@ -99,7 +103,12 @@ export function useFetchItems<T>(endpoint: string, limit: number, ordering?: str
 
   useEffect(() => {
     dispatch({ type: 'RESET' })
-  }, [endpoint, limit, ordering])
+  }, [endpoint, limit])
+
+  useEffect(() => {
+    dispatch({ type: 'RESET' })
+    loadMore(0);
+  }, [ordering]);
 
   return {
     data: state.data,

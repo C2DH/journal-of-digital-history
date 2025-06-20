@@ -13,7 +13,7 @@ const Articles = () => {
     loading,
     hasMore,
     loadMore,
-  } = useFetchItems<Article>('articles', 10, ordering)
+  } = useFetchItems<Article>('articles', 20, ordering)
 
   return (
     <div className="articles page">
