@@ -5,7 +5,6 @@ import { renderCellProps, TableProps } from './interface'
 
 import { articleSteps } from '../../constants/article'
 import { convertDate } from '../../utils/convertDate'
-import { convertLink } from '../../utils/convertLink'
 import {
   getCleanData,
   getVisibleHeaders,
@@ -21,6 +20,8 @@ import {
   isStepCell,
   isTitleHeader,
 } from '../../utils/table'
+import ActionButton from '../Buttons/ActionButton/ActionButton'
+import IconButton from '../Buttons/IconButton/IconButton'
 import SortButton from '../Buttons/SortButton/SortButton'
 import Status from '../Status/Status'
 import Timeline from '../Timeline/Timeline'
@@ -41,14 +42,14 @@ function renderCell({
 
   if (isStep && isArticle) {
     content = <Timeline steps={articleSteps} currentStatus={cell} />
-  } else if (cell === '' || cell === null) {
-    content = '-'
   } else if (isStatus(cell, headerKey) && (isAbstract || isIssues)) {
     content = <Status value={cell} />
   } else if (isLinkCell(cell)) {
-    content = convertLink(cell)
+    content = <IconButton value={cell} />
   } else if (isDateCell(cell)) {
     content = convertDate(cell)
+  } else if (cell === '' || cell === null) {
+    content = '-'
   } else {
     content = cell
   }
@@ -150,6 +151,24 @@ const Table = ({ item, headers, data, sortBy, sortOrder, setSortBy, setSortOrder
                   </td>
                 )
               })}
+              <td className="actions-cell">
+                <ActionButton
+                  actions={[
+                    {
+                      label: 'Edit',
+                      onClick: () => {
+                        /* handle edit */
+                      },
+                    },
+                    {
+                      label: 'Delete',
+                      onClick: () => {
+                        /* handle delete */
+                      },
+                    },
+                  ]}
+                />
+              </td>
             </tr>
           )
         })}

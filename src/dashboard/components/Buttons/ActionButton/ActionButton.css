@@ -1,0 +1,16 @@
+.action-btn {
+  display: flex;
+  /* height: 0; */
+  height: var(--space-size-2);
+  width: var(--space-size-3);
+  padding: var(--space-size-2) var(--space-size-3);
+  border: 0;
+  border-radius: 20%;
+  background: var(--color-accent-lighter);
+  position: relative;
+}
+
+.action-dot {
+  font-size: 24px;
+  font-weight: 900;
+}
