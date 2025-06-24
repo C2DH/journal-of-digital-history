@@ -1,12 +1,13 @@
 import './Card.css'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useFetch'
 import Loading from '../Loading/Loading'
+import Modal from '../Modal/Modal'
 import Table from '../Table/Table'
 
 const Card = ({
@@ -24,6 +25,7 @@ const Card = ({
 }: CardProps) => {
   const { t } = useTranslation()
   const loaderRef = useRef<HTMLDivElement | null>(null)
+  const [modal, setModal] = useState<{ open: boolean; action?: string; row?: any }>({ open: false })
 
   useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
 
@@ -48,10 +50,26 @@ const Card = ({
           sortOrder={sortOrder}
           setSortBy={setSortBy}
           setSortOrder={setSortOrder}
+          setModal={setModal}
         />
         <div ref={loaderRef} />
       </div>
       {loading && data.length > 0 && <Loading />}
+      <Modal open={modal.open} onClose={() => setModal({ open: false })} title={modal.action}>
+        <div>
+          <p>
+            Are you sure you want to <b>{modal.action}</b> this item?
+          </p>
+          <button onClick={() => setModal({ open: false })}>Cancel</button>
+          <button
+            onClick={() => {
+              setModal({ open: false })
+            }}
+          >
+            Confirm
+          </button>
+        </div>
+      </Modal>
     </>
   )
 }
