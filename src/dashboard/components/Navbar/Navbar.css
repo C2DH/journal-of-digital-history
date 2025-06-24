@@ -2,7 +2,6 @@
 .navbar {
   width: var(--navbar-width);
   background-color: var(--color-white);
-  height: 70vh;
   min-height: 600px;
   border-bottom-right-radius: 16px;
   position: fixed;

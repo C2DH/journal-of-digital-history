@@ -1,8 +1,6 @@
 .action-btn {
+  color: var(--color-deep-blue);
   display: flex;
-  /* height: 0; */
-  height: var(--space-size-2);
-  width: var(--space-size-3);
   padding: var(--space-size-2) var(--space-size-3);
   border: 0;
   border-radius: 20%;
@@ -10,7 +8,13 @@
   position: relative;
 }
 
-.action-dot {
-  font-size: 24px;
-  font-weight: 900;
+.action-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.action-icon:hover,
+.action-icon.active {
+  background-color: var(--color-accent-lighter);
+  border-radius: 50%;
 }

@@ -22,7 +22,10 @@ const IconButton = (value: any) => {
       icon = (
         <img src="https://orcid.org/sites/default/files/images/orcid_24x24.png" alt="orcid"></img>
       )
+    } else {
+      icon = mainDomain
     }
+
     return (
       <button
         type="button"
