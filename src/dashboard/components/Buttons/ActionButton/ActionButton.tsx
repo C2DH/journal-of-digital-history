@@ -1,4 +1,7 @@
+import { MoreHoriz } from 'iconoir-react'
 import { useEffect, useRef, useState } from 'react'
+
+import Dropdown from '../../Dropdown/Dropdown'
 import './ActionButton.css'
 
 type Action = {
@@ -30,14 +33,12 @@ const ActionButton = ({ actions }: ActionButtonProps) => {
 
   return (
     <div className="action-btn-wrapper" ref={ref}>
-      <button
-        className="action-btn"
+      <MoreHoriz
+        className={`action-icon ${open ? 'active' : ''}`}
         onClick={() => setOpen((prev) => !prev)}
-        aria-label="Actions"
         type="button"
-      >
-        {/* <span className="action-dot"> ... </span> */}
-      </button>
+      />
+      {open && <Dropdown actions={actions} setOpen={setOpen} />}
     </div>
   )
 }

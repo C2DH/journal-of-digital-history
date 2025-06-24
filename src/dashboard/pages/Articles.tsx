@@ -22,9 +22,6 @@ const Articles = () => {
         headers={[
           'abstract__pid',
           'abstract__title',
-          'callpaper',
-          'submitted_date',
-          'validation_date',
           'publication_date',
           'status',
           'repository_url',

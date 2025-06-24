@@ -42,7 +42,7 @@
     "validation_date": "Validation date",
     "publication_date": "Publication Date",
     "status": "Status",
-    "repository_url": "Repository URL"
+    "repository_url": "Repository"
   },
   "authors": {
     "item": "Authors",

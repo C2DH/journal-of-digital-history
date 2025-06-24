@@ -8,5 +8,4 @@ export const navbarItems: NavbarItem[] = [
   { label: 'Issues', href: 'issues', icon: 'import_contacts' },
   { label: 'Authors', href: 'authors', icon: 'person' },
   { label: 'Datasets', href: 'datasets', icon: 'link' },
-  { label: 'Tags', href: 'tags', icon: 'tag' },
 ]

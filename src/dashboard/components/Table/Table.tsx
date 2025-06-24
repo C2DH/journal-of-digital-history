@@ -155,9 +155,21 @@ const Table = ({ item, headers, data, sortBy, sortOrder, setSortBy, setSortOrder
                 <ActionButton
                   actions={[
                     {
-                      label: 'Edit',
+                      label: 'Approved',
                       onClick: () => {
                         /* handle edit */
+                      },
+                    },
+                    {
+                      label: 'Abandonned',
+                      onClick: () => {
+                        /* handle delete */
+                      },
+                    },
+                    {
+                      label: 'Published',
+                      onClick: () => {
+                        /* handle delete */
                       },
                     },
                     {

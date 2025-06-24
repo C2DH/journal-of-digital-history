@@ -19,7 +19,7 @@ body {
 :root {
   --color-primary: #51f6e0;
   --color-secondary: #222322;
-  --color-gray: #a3aed0;
+  --color-gray: #637198;
   --color-gray-light: #ecedf1;
   --color-accent: #5e2bff;
   --color-accent-light: #a08cff; /* lighten(#5e2bff, 20%) */
@@ -74,4 +74,5 @@ body {
   --navbar-width: 300px;
   --navbar-header-width: 220px;
   --landing-page-header: 200px;
+  --navbar-height: 200px;
 }
