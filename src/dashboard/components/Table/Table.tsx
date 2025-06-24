@@ -57,7 +57,16 @@ function renderCell({
   return content
 }
 
-const Table = ({ item, headers, data, sortBy, sortOrder, setSortBy, setSortOrder }: TableProps) => {
+const Table = ({
+  item,
+  headers,
+  data,
+  sortBy,
+  sortOrder,
+  setSortBy,
+  setSortOrder,
+  setModal,
+}: TableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const search = location.search
@@ -80,112 +89,126 @@ const Table = ({ item, headers, data, sortBy, sortOrder, setSortBy, setSortOrder
   }
 
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          {visibleHeaders.map((header, idx) =>
-            header === 'status' && isArticle(item) ? (
-              articleSteps.map((step) => (
-                <th key={step.key} className="status-header" title={step.label}>
-                  <span className="material-symbols-outlined">{step.icon}</span>
+    <>
+      <table className="table">
+        <thead>
+          <tr>
+            {visibleHeaders.map((header, idx) =>
+              header === 'status' && isArticle(item) ? (
+                articleSteps.map((step) => (
+                  <th key={step.key} className="status-header" title={step.label}>
+                    <span className="material-symbols-outlined">{step.icon}</span>
+                  </th>
+                ))
+              ) : (
+                <th key={header} className={header}>
+                  {!isRepositoryHeader(header) &&
+                  !isStatusHeader(header) &&
+                  (isCallForPapers(item) || isIssues(item)) ? (
+                    t(`${item}.${header}`)
+                  ) : setSortBy && setSortOrder ? (
+                    <SortButton
+                      active={sortBy === header}
+                      order={sortOrder}
+                      onClick={() => handleSort(header)}
+                      label={t(`${item}.${header}`)}
+                    />
+                  ) : (
+                    t(`${item}.${header}`)
+                  )}
                 </th>
-              ))
-            ) : (
-              <th key={header} className={header}>
-                {!isRepositoryHeader(header) &&
-                !isStatusHeader(header) &&
-                (isCallForPapers(item) || isIssues(item)) ? (
-                  t(`${item}.${header}`)
-                ) : setSortBy && setSortOrder ? (
-                  <SortButton
-                    active={sortBy === header}
-                    order={sortOrder}
-                    onClick={() => handleSort(header)}
-                    label={t(`${item}.${header}`)}
+              ),
+            )}
+          </tr>
+        </thead>
+        <tbody>
+          {cleanData.map((row, rIdx) => {
+            const isAbstractItem = isAbstract(item)
+            const isArticleItem = isArticle(item)
+            const isIssuesItem = isIssues(item)
+            const isArticleOrAbstracts = isAbstractItem || isArticleItem
+
+            return (
+              <tr key={rIdx}>
+                {row.map((cell, cIdx) => {
+                  const headerName = headers[cIdx]
+                  const isTitle = isTitleHeader(headerName)
+                  const isStep = isStepCell(cell)
+
+                  return (
+                    <td
+                      key={cIdx}
+                      className={headerName}
+                      colSpan={isStep && isArticleItem ? articleSteps.length : 0}
+                      style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
+                      onClick={
+                        isTitle && isArticleOrAbstracts
+                          ? () => handleRowClick(String(row[0]))
+                          : undefined
+                      }
+                    >
+                      {renderCell({
+                        isStep,
+                        cell,
+                        header: headerName,
+                        headers,
+                        cIdx,
+                        title: item,
+                        isAbstract: isAbstractItem,
+                        isArticle: isArticleItem,
+                        isIssues: isIssuesItem,
+                      })}
+                    </td>
+                  )
+                })}
+                <td className="actions-cell">
+                  <ActionButton
+                    actions={[
+                      {
+                        label: 'Approved',
+                        onClick: () =>
+                          setModal && setModal({ open: true, action: 'Approved', row }),
+                      },
+                      {
+                        label: 'Abandonned',
+                        onClick: () =>
+                          setModal && setModal({ open: true, action: 'Abandonned', row }),
+                      },
+                      {
+                        label: 'Published',
+                        onClick: () =>
+                          setModal && setModal({ open: true, action: 'Published', row }),
+                      },
+                      {
+                        label: 'Delete',
+                        onClick: () => setModal && setModal({ open: true, action: 'Delete', row }),
+                      },
+                    ]}
                   />
-                ) : (
-                  t(`${item}.${header}`)
-                )}
-              </th>
-            ),
-          )}
-        </tr>
-      </thead>
-      <tbody>
-        {cleanData.map((row, rIdx) => {
-          const isAbstractItem = isAbstract(item)
-          const isArticleItem = isArticle(item)
-          const isIssuesItem = isIssues(item)
-          const isArticleOrAbstracts = isAbstractItem || isArticleItem
+                </td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+      {/* <Modal open={modal.open} onClose={() => setModal({ open: false })} title={modal.action}>
+        <div>
+          <p>
+            Are you sure you want to <b>{modal.action}</b> this item?
+          </p>
 
-          return (
-            <tr key={rIdx}>
-              {row.map((cell, cIdx) => {
-                const headerName = headers[cIdx]
-                const isTitle = isTitleHeader(headerName)
-                const isStep = isStepCell(cell)
-
-                return (
-                  <td
-                    key={cIdx}
-                    className={headerName}
-                    colSpan={isStep && isArticleItem ? articleSteps.length : 0}
-                    style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
-                    onClick={
-                      isTitle && isArticleOrAbstracts
-                        ? () => handleRowClick(String(row[0]))
-                        : undefined
-                    }
-                  >
-                    {renderCell({
-                      isStep,
-                      cell,
-                      header: headerName,
-                      headers,
-                      cIdx,
-                      title: item,
-                      isAbstract: isAbstractItem,
-                      isArticle: isArticleItem,
-                      isIssues: isIssuesItem,
-                    })}
-                  </td>
-                )
-              })}
-              <td className="actions-cell">
-                <ActionButton
-                  actions={[
-                    {
-                      label: 'Approved',
-                      onClick: () => {
-                        /* handle edit */
-                      },
-                    },
-                    {
-                      label: 'Abandonned',
-                      onClick: () => {
-                        /* handle delete */
-                      },
-                    },
-                    {
-                      label: 'Published',
-                      onClick: () => {
-                        /* handle delete */
-                      },
-                    },
-                    {
-                      label: 'Delete',
-                      onClick: () => {
-                        /* handle delete */
-                      },
-                    },
-                  ]}
-                />
-              </td>
-            </tr>
-          )
-        })}
-      </tbody>
-    </table>
+          <button onClick={() => setModal({ open: false })}>Cancel</button>
+          <button
+            onClick={() => {
+              // handle confirm action here
+              setModal({ open: false })
+            }}
+          >
+            Confirm
+          </button>
+        </div>
+      </Modal> */}
+    </>
   )
 }
 
