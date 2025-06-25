@@ -80,7 +80,7 @@ const Detail = ({ endpoint }) => {
       { label: 'PID', value: item.pid },
       {
         label: 'Call for papers',
-        value: item.callpaper_title === null ? 'Open Submission' : item.callpaper,
+        value: item.callpaper_title === null ? 'Open Submission' : item.callpaper_title,
       },
       { label: 'Status', value: <Status value={String(item.status)} /> },
       { label: 'Terms accepted', value: item.consented ? 'Yes' : 'No' },
