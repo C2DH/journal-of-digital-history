@@ -6,7 +6,6 @@
 
 .table th,
 .table td {
-  font-family: 'DM Sans', sans-serif;
   font-size: var(--font-size-2);
   text-align: left;
   vertical-align: top;

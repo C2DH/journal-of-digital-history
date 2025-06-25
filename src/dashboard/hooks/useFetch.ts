@@ -60,6 +60,7 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
  * credentials, or limit changes. It handles authentication via HTTP Basic Auth.
  */
 export function useFetchItems<T>(endpoint: string, limit: number, ordering?: string) {
+  console.log('🚀 ~ file: useFetch.ts:63 ~ endpoint:', endpoint)
   const [state, dispatch] = useReducer(reducer<T>, {
     data: [],
     error: null,
@@ -79,7 +80,7 @@ export function useFetchItems<T>(endpoint: string, limit: number, ordering?: str
 
       try {
         const pagedUrl =
-          endpoint +
+          `${endpoint}/` +
           '?' +
           [
             ordering ? `ordering=${finalOrdering}, id` : null,
