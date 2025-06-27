@@ -1,10 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
+
 import Timeline from './Timeline'
 
 // Mock getTimelineSteps
-vi.mock('../../utils/getTimelineStep', () => ({
-  getTimelineSteps: (currentStatus: string, steps: any[]) => [
+vi.mock('../../utils/helpers/getTimelineStep', () => ({
+  getTimelineSteps: () => [
     { icon: 'done', colorClass: 'green' },
     { icon: 'review', colorClass: 'blue' },
   ],
@@ -13,8 +14,8 @@ vi.mock('../../utils/getTimelineStep', () => ({
 describe('Timeline', () => {
   it('renders timeline items with correct icons and classes', () => {
     const steps = [
-      { key: 'submitted', label: 'Submitted', icon: 'done' },
-      { key: 'reviewed', label: 'Reviewed', icon: 'review' },
+      { key: 'Submission', label: 'Submission', icon: 'upload_file' },
+      { key: 'Design Review', label: 'Design Review', icon: 'palette' },
     ]
     render(<Timeline steps={steps} currentStatus="submitted" />)
 

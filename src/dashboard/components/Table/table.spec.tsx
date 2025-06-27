@@ -16,42 +16,54 @@ vi.mock('react-router', () => ({
   useNavigate: () => mockNavigate,
 }))
 
-// Mock SortButton
+vi.mock('../../utils/helpers/table', async () => {
+  const actual = await vi.importActual<any>('../../utils/helpers/table')
+  return {
+    ...actual,
+    getVisibleHeaders: vi.fn(({ headers }) => headers),
+    getCleanData: vi.fn(({ data }) => data),
+    getRowActions: vi.fn(() => [
+      { label: 'Approve', onClick: vi.fn() },
+      { label: 'Delete', onClick: vi.fn() },
+    ]),
+    isAbstract: vi.fn(() => true),
+    isArticle: vi.fn(() => false),
+    isCallForPapers: vi.fn(() => false),
+    isIssues: vi.fn(() => false),
+    isRepositoryHeader: vi.fn(() => false),
+    isStatusHeader: vi.fn(() => false),
+    isStepCell: vi.fn(() => false),
+    isTitleHeader: vi.fn((header) => header === 'title'),
+    isStatus: vi.fn(() => false),
+    isLinkCell: vi.fn(() => false),
+    isDateCell: vi.fn(() => false),
+  }
+})
+vi.mock('../Buttons/ActionButton/ActionButton', () => ({
+  default: ({ actions }: any) => (
+    <div data-testid="action-button">
+      {actions.map((a: any) => (
+        <button key={a.label}>{a.label}</button>
+      ))}
+    </div>
+  ),
+}))
 vi.mock('../Buttons/SortButton/SortButton', () => ({
-  default: (props: any) => (
-    <button data-testid={`sort-btn-${props.label}`} onClick={props.onClick}>
-      {props.label}
+  default: ({ label, onClick }: any) => (
+    <button data-testid={`sort-btn-${label}`} onClick={onClick}>
+      {label}
     </button>
   ),
 }))
-
-// Mock Timeline
-vi.mock('../Timeline/Timeline', () => ({
-  default: () => <div data-testid="timeline" />,
+vi.mock('../Buttons/IconButton/IconButton', () => ({
+  default: () => <span>icon</span>,
 }))
-
-// Minimal utility mocks (if needed)
-vi.mock('../../utils/table', async (importOriginal) => {
-  const original = await importOriginal()
-  const originalObj =
-    original && typeof original === 'object' && 'default' in original ? original.default : original
-  return {
-    ...originalObj,
-    isAbstract: (item: string) => item === 'abstracts',
-    isArticle: (item: string) => item === 'articles',
-    isCallForPapers: () => false,
-    isIssues: () => false,
-    isRepositoryHeader: () => false,
-    isStatusHeader: () => false,
-    isStepCell: () => false,
-    isTitleHeader: (header: string) => header === 'title',
-    getVisibleHeaders: ({ headers }: any) => headers,
-    getCleanData: ({ data }: any) => data,
-    isStatus: () => false,
-    isLinkCell: () => false,
-    isDateCell: () => false,
-  }
-})
+vi.mock('../Status/Status', () => ({
+  default: () => <span>Status</span>,
+}))
+vi.mock('../Timeline/Timeline', () => ({
+  default: () => <span>Timeline</span>,
+}))
 
 describe('Table', () => {
   const defaultProps = {
@@ -73,14 +85,19 @@ describe('Table', () => {
     expect(screen.getByText('abstracts.author')).toBeInTheDocument()
     expect(screen.getByText('Test Title')).toBeInTheDocument()
     expect(screen.getByText('Test Author')).toBeInTheDocument()
+    // expect(screen.getAllByTestId('action-button').length).toBe(2)
+    // expect(screen.getAllByText('Approve').length).toBe(2)
+    // expect(screen.getAllByText('Delete').length).toBe(2)
   })
 
   it('renders sort button and triggers sort', () => {
-    render(<Table {...defaultProps} />)
+    const setSortBy = vi.fn()
+    const setSortOrder = vi.fn()
+    render(<Table {...defaultProps} setSortBy={setSortBy} setSortOrder={setSortOrder} />)
     const sortBtn = screen.getByTestId('sort-btn-abstracts.title')
     fireEvent.click(sortBtn)
-    expect(defaultProps.setSortBy).not.toHaveBeenCalled() // Only setSortOrder is called if already sorted by this header
-    expect(defaultProps.setSortOrder).toHaveBeenCalled()
+    expect(setSortBy).not.toHaveBeenCalled() // Only setSortOrder is called if already sorted by this header
+    expect(setSortOrder).toHaveBeenCalled()
   })
 
   it('calls navigate when clicking the title cell', () => {

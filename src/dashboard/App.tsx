@@ -8,6 +8,7 @@ import { navbarItems } from './components/Navbar/constant'
 import Navbar from './components/Navbar/Navbar'
 import i18n from './i18next'
 import AppRoutes from './routes'
+
 import './styles/index.css'
 
 function DashboardApp() {

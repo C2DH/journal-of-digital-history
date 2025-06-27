@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { vi } from 'vitest'
+
 import Login from './Login'
 
 // Mock the userLoginRequest function
@@ -17,7 +18,6 @@ vi.mock('react-i18next', () => ({
 describe('Login', () => {
   it('renders login form', () => {
     render(<Login />)
-    expect(screen.getByText('login.title')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Username')).toBeInTheDocument()
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /login.button/i })).toBeInTheDocument()

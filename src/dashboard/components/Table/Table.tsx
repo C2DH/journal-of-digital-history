@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router'
 
 import { renderCellProps, TableProps } from './interface'
 
-import { articleSteps } from '../../constants/article'
-import { convertDate } from '../../utils/convertDate'
+import { articleSteps } from '../../utils/constants/article'
+import { convertDate } from '../../utils/helpers/convertDate'
 import {
   getCleanData,
+  getRowActions,
   getVisibleHeaders,
   isAbstract,
   isArticle,
@@ -19,7 +20,7 @@ import {
   isStatusHeader,
   isStepCell,
   isTitleHeader,
-} from '../../utils/table'
+} from '../../utils/helpers/table'
 import ActionButton from '../Buttons/ActionButton/ActionButton'
 import IconButton from '../Buttons/IconButton/IconButton'
 import SortButton from '../Buttons/SortButton/SortButton'
@@ -162,52 +163,15 @@ const Table = ({
                   )
                 })}
                 <td className="actions-cell">
-                  <ActionButton
-                    actions={[
-                      {
-                        label: 'Approved',
-                        onClick: () =>
-                          setModal && setModal({ open: true, action: 'Approved', row }),
-                      },
-                      {
-                        label: 'Abandonned',
-                        onClick: () =>
-                          setModal && setModal({ open: true, action: 'Abandonned', row }),
-                      },
-                      {
-                        label: 'Published',
-                        onClick: () =>
-                          setModal && setModal({ open: true, action: 'Published', row }),
-                      },
-                      {
-                        label: 'Delete',
-                        onClick: () => setModal && setModal({ open: true, action: 'Delete', row }),
-                      },
-                    ]}
-                  />
+                  {isAbstractItem && setModal && getRowActions(row, setModal, t).length > 0 && (
+                    <ActionButton actions={getRowActions(row, setModal, t)} />
+                  )}
                 </td>
               </tr>
             )
           })}
         </tbody>
       </table>
-      {/* <Modal open={modal.open} onClose={() => setModal({ open: false })} title={modal.action}>
-        <div>
-          <p>
-            Are you sure you want to <b>{modal.action}</b> this item?
-          </p>
-
-          <button onClick={() => setModal({ open: false })}>Cancel</button>
-          <button
-            onClick={() => {
-              // handle confirm action here
-              setModal({ open: false })
-            }}
-          >
-            Confirm
-          </button>
-        </div>
-      </Modal> */}
     </>
   )
 }

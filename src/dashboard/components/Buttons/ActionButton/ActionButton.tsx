@@ -1,17 +1,10 @@
 import { MoreHoriz } from 'iconoir-react'
 import { useEffect, useRef, useState } from 'react'
 
+import { ActionButtonProps } from './interface'
+
 import Dropdown from '../../Dropdown/Dropdown'
 import './ActionButton.css'
-
-type Action = {
-  label: string
-  onClick: () => void
-}
-
-type ActionButtonProps = {
-  actions: Action[]
-}
 
 const ActionButton = ({ actions }: ActionButtonProps) => {
   const [open, setOpen] = useState(false)
@@ -37,6 +30,7 @@ const ActionButton = ({ actions }: ActionButtonProps) => {
         className={`action-icon ${open ? 'active' : ''}`}
         onClick={() => setOpen((prev) => !prev)}
         type="button"
+        data-testid="action-button"
       />
       {open && <Dropdown actions={actions} setOpen={setOpen} />}
     </div>

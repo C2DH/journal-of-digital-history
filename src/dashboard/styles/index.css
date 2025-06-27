@@ -11,12 +11,21 @@
 /* Fonts */
 body {
   font-family: 'DM Sans', sans-serif;
-  background-color: var(--color-accent-lighter);
+  background: var(--color-background-gradient);
   color: var(--color-deep-blue);
 }
 
 /* Color variables */
 :root {
+  --color-background-gradient: linear-gradient(
+    120deg,
+    #f4f7fe 0%,
+    #e9eafc 40%,
+    #e0f2fe 100% /* very light blue */
+  );
+  --color-background-input: #f8fafc;
+  --color-border: #e0e0e0;
+  --color-hover: #e5edff;
   --color-primary: #51f6e0;
   --color-secondary: #222322;
   --color-gray: #637198;
@@ -24,7 +33,6 @@ body {
   --color-accent: #5e2bff;
   --color-accent-light: #a08cff; /* lighten(#5e2bff, 20%) */
   --color-accent-dark: #4e24d6; /* darken(#5e2bff, 10%) */
-  /* --color-accent-lighter: rgba(52, 152, 219, 0.04);  */
   --color-accent-lighter: #f4f7fe;
   --color-deep-blue: #2b3674;
   --color-error: #dc3545;
