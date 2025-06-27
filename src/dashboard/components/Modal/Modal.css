@@ -12,9 +12,10 @@
 }
 
 .modal-content {
-  background: #fff;
+  background: var(--color-white);
+  font-weight: lighter;
   border-radius: 8px;
-  padding: 2rem;
+  padding: var(--space-size-4);
   min-width: 300px;
   max-width: 90vw;
   max-height: 90vh;
@@ -28,6 +29,6 @@
   right: 12px;
   background: none;
   border: none;
-  font-size: 2rem;
+  font-size: var(--font-size-8);
   cursor: pointer;
 }

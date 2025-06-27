@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 
 import { articleSteps } from '../constants/article'
+import { ModalInfo, RowAction } from '../types'
 
 /**
  * Returns the headers that are included in the provided headers array.
@@ -55,6 +56,60 @@ function getCleanData({ data, visibleHeaders }: GetCleanDataParams): (string | n
       return value
     }),
   )
+}
+
+/**
+ * Generates a list of row actions based on the current status of the row.
+ *
+ * @param row - The data row from which to determine available actions.
+ * @param setModal - Function to open a modal dialog with action details.
+ * @param t - Translation function for localizing action labels.
+ * @returns An array of RowAction objects representing available actions for the row.
+ */
+function getRowActions(
+  row: any,
+  setModal: (modal: ModalInfo) => void,
+  t: (key: string) => string,
+): RowAction[] {
+  const status = row[7]
+  const id = row[0]
+
+  const actions: RowAction[] = []
+
+  if (status === 'SUBMITTED') {
+    actions.push({
+      label: 'Approved',
+      onClick: () =>
+        setModal &&
+        setModal({
+          open: true,
+          action: 'Approved',
+          row,
+          id: id,
+        }),
+    })
+    actions.push({
+      label: 'Declined',
+      onClick: () => setModal && setModal({ open: true, action: 'Declined', row, id: id }),
+    })
+    actions.push({
+      label: 'Abandoned',
+      onClick: () => setModal && setModal({ open: true, action: 'Abandoned', row, id: id }),
+    })
+  }
+
+  if (status === 'ACCEPTED') {
+    actions.push({
+      label: 'Abandoned',
+      onClick: () => setModal && setModal({ open: true, action: 'Abandoned', row, id: id }),
+    })
+    actions.push({
+      label: 'Suspended',
+      onClick: () => setModal && setModal({ open: true, action: 'Suspended', row, id: id }),
+    })
+  }
+
+  return actions
 }
 
 /**
@@ -125,6 +180,7 @@ function isIssues(item: string): boolean {
 export {
   convertOrcid,
   getCleanData,
+  getRowActions,
   getVisibleHeaders,
   isAbstract,
   isArticle,

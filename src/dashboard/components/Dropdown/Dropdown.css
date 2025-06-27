@@ -5,22 +5,25 @@
 
 .action-dropdown {
   position: absolute;
-  top: 100%;
   right: 0;
+  top: 100%;
   z-index: 1000;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   background: var(--color-accent-lighter);
+  border: 1px solid rgba(244, 244, 247, 0.3);
+  box-sizing: border-box;
   border-radius: var(--gap-size-1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  min-width: 120px;
   padding: 0;
 }
 
 .action-dropdown-item {
+  background-color: transparent;
   text-align: left;
 }
 
 .action-dropdown-item:hover {
-  background-color: var(--color-accent);
-  color: var(--color-white);
+  background-color: var(--color-hover);
   width: 100%;
 }

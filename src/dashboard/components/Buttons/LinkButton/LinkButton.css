@@ -12,7 +12,7 @@ a {
   margin: var(--gap-size-1);
 }
 
-button {
+.button-link-label {
   background: none;
   color: inherit;
   border: none;

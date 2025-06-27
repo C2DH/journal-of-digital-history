@@ -1,14 +1,6 @@
+import { DropdownProps } from './interface'
+
 import './Dropdown.css'
-
-type Action = {
-  label: string
-  onClick: () => void
-}
-
-type DropdownProps = {
-  actions: Action[]
-  setOpen: (open: boolean) => void
-}
 
 const Dropdown = ({ actions, setOpen }: DropdownProps) => {
   return (

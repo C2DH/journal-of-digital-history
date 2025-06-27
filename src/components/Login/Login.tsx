@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { userLoginRequest } from '../../logic/api/login'
-
+import Logo from '../Logo'
 import './Login.css'
 
 const Login = () => {
@@ -30,7 +30,10 @@ const Login = () => {
     <>
       <div className="login-page">
         <form className="login-form" onSubmit={handleLogin}>
-          <h2>{t('login.title')}</h2>
+          <div className="logo-container">
+            <Logo />
+            <h2>Journal of Digital History</h2>
+          </div>
 
           {error && <div className="error">{error}</div>}
           <input

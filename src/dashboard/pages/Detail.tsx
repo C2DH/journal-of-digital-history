@@ -9,7 +9,7 @@ import Loading from '../components/Loading/Loading'
 import SmallCard from '../components/SmallCard/SmallCard'
 import Status from '../components/Status/Status'
 import { useFetchItem } from '../hooks/useFetch'
-import { convertDate } from '../utils/convertDate'
+import { convertDate } from '../utils/helpers/convertDate'
 import { Abstract, Article } from '../utils/types'
 
 const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) => (

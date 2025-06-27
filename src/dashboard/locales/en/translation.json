@@ -76,5 +76,27 @@
     "suspended": "Suspended",
     "technical_review": "Technical Review",
     "design_review": "Design Review"
+  },
+  "email": {
+    "approved": {
+      "subject": "Abstract Approval",
+      "message": "Congratulations! Your abstract has been approved for presentation."
+    },
+    "declined": {
+      "subject": "Abstract Decline",
+      "message": "We regret to inform you that your abstract has been declined. Thank you for your submission."
+    },
+    "abandoned": {
+      "subject": "Abstract Abandonment",
+      "message": "Your abstract has been abandoned. If you have any questions, please contact us."
+    },
+    "accepted": {
+      "subject": "Abstract Acceptance",
+      "message": "Your abstract has been accepted for the conference. We look forward to your presentation."
+    },
+    "suspended": {
+      "subject": "Abstract Suspension",
+      "message": "Your abstract has been suspended. Please check your email for further instructions."
+    }
   }
 }
