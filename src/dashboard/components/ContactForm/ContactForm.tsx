@@ -68,6 +68,9 @@ const ContactForm = ({ contactEmail, pid, action, title }) => {
           type: 'success',
           message: res?.data?.message || 'Message sent successfully!',
         })
+        setTimeout(() => {
+          window.location.reload()
+        }, 300)
       } catch (err: any) {
         setNotification({
           type: 'error',
@@ -101,17 +104,7 @@ const ContactForm = ({ contactEmail, pid, action, title }) => {
         <textarea name="message" value={form.message} onChange={handleChange} required />
       </label>
       {notification && (
-        <div
-          className={`notification notification-${notification.type}`}
-          style={{
-            marginBottom: '1rem',
-            padding: '0.75rem 1rem',
-            borderRadius: '6px',
-            background: notification.type === 'success' ? '#e6ffed' : '#ffe6e6',
-            color: notification.type === 'success' ? '#207245' : '#a94442',
-            border: `1px solid ${notification.type === 'success' ? '#b7ebc6' : '#f5c6cb'}`,
-          }}
-        >
+        <div className={`notification notification-${notification.type}`}>
           {notification.message}
         </div>
       )}
