@@ -1,21 +1,41 @@
+import Ajv from 'ajv'
+import addFormats from 'ajv-formats'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { contactFormSchema } from '../../schemas/contactForm'
+import { modifyAbstractStatus } from '../../utils/helpers/postData'
 import './ContactForm.css'
 
-const ContactForm = ({ contactEmail, action }) => {
+function validateContactForm(data: any) {
+  const ajv = new Ajv({ allErrors: true })
+  addFormats(ajv)
+  const validate = ajv.compile(contactFormSchema)
+  const valid = validate(data)
+
+  return { valid, errors: validate.errors }
+}
+
+const ContactForm = ({ contactEmail, pid, action, title }) => {
   const { t } = useTranslation()
   const [form, setForm] = useState({
+    pid: '',
     from: 'jdh.admin@uni.lu',
     to: '',
+    subject: '',
+    message: t(`email.${action}.message`),
+    status: '',
   })
 
   useEffect(() => {
     setForm((prev) => ({
       ...prev,
+      pid: pid || '',
       to: contactEmail || '',
+      status: action || '',
+      subject: title || '',
     }))
-  }, [contactEmail])
+  }, [contactEmail, pid, title])
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -23,9 +43,25 @@ const ContactForm = ({ contactEmail, action }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    const data = {
+      from: form.from,
+      to: form.to,
+      subject: form.subject,
+      body: form.message,
+      status: form.status,
+    }
+    console.info('[ContactForm] Data:', data)
 
-    // TODO
-    // integrate backend call here to change status + send email
+    const { valid, errors } = validateContactForm(data)
+
+    if (valid) {
+      modifyAbstractStatus(form.pid, data)
+    }
+    if (!valid) {
+      console.error(errors)
+      return
+    }
+    // send data to backend
   }
 
   return (
@@ -40,21 +76,11 @@ const ContactForm = ({ contactEmail, action }) => {
       </label>
       <label>
         Subject
-        <input
-          name="subject"
-          value={t(`email.${action}.subject`)}
-          onChange={handleChange}
-          required
-        />
+        <input name="subject" value={form.subject} onChange={handleChange} required />
       </label>
       <label>
         Message
-        <textarea
-          name="message"
-          value={t(`email.${action}.message`)}
-          onChange={handleChange}
-          required
-        />
+        <textarea name="message" value={form.message} onChange={handleChange} required />
       </label>
       <button type="submit">Send</button>
     </form>

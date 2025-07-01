@@ -76,7 +76,9 @@ const Card = ({
       <Modal
         open={modal.open}
         onClose={() => setModal({ open: false })}
-        action={modal.action ?? ''}
+        action={modal.action || ''}
+        title={modal.title || ''}
+        pid={modal.id}
         contactEmail={email}
       />
     </>

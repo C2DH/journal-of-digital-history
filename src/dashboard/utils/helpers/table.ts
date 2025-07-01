@@ -73,40 +73,32 @@ function getRowActions(
 ): RowAction[] {
   const status = row[7]
   const id = row[0]
+  const title = row[1]
+
+  const defaultAction = (action: string, label?: string) => ({
+    label: label || action,
+    onClick: () =>
+      setModal &&
+      setModal({
+        open: true,
+        action,
+        row,
+        id,
+        title,
+      }),
+  })
 
   const actions: RowAction[] = []
 
   if (status === 'SUBMITTED') {
-    actions.push({
-      label: 'Approved',
-      onClick: () =>
-        setModal &&
-        setModal({
-          open: true,
-          action: 'Approved',
-          row,
-          id: id,
-        }),
-    })
-    actions.push({
-      label: 'Declined',
-      onClick: () => setModal && setModal({ open: true, action: 'Declined', row, id: id }),
-    })
-    actions.push({
-      label: 'Abandoned',
-      onClick: () => setModal && setModal({ open: true, action: 'Abandoned', row, id: id }),
-    })
+    actions.push(defaultAction('Accepted'))
+    actions.push(defaultAction('Declined'))
+    actions.push(defaultAction('Abandoned'))
   }
 
   if (status === 'ACCEPTED') {
-    actions.push({
-      label: 'Abandoned',
-      onClick: () => setModal && setModal({ open: true, action: 'Abandoned', row, id: id }),
-    })
-    actions.push({
-      label: 'Suspended',
-      onClick: () => setModal && setModal({ open: true, action: 'Suspended', row, id: id }),
-    })
+    actions.push(defaultAction('Abandoned'))
+    actions.push(defaultAction('Suspended'))
   }
 
   return actions

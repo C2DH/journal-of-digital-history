@@ -129,6 +129,7 @@ export interface ModalInfo {
   row?: any
   id?: string
   contact_email?: string
+  title?: string
 }
 
 export type RowAction = {

@@ -3,4 +3,6 @@ export interface ModalProps {
   onClose: () => void
   action: string
   contactEmail?: string
+  pid?: string
+  title: string
 }
