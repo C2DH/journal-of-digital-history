@@ -1,4 +1,5 @@
 import MarkdownIt from 'markdown-it'
+import { useMemo } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import ArticleCellContent from '../components/Article/ArticleCellContent'
@@ -26,48 +27,55 @@ const Home = ({ data = '', status }) => {
   const { t } = useTranslation()
   console.debug('[Home] loaded: ', status)
 
-  // Comment out useMemo and use a regular assignment instead
-  // const [intro, steps, editorialTeam, editorialBoard, callForPapers] = useMemo(() => { ... }, [status, data])
+  const [intro, steps, editorialTeam, editorialBoard, callForPapers] = useMemo(() => {
+    if (status !== StatusSuccess) {
+      // return preloaded, partial data
 
-  let intro, steps, editorialTeam, editorialBoard, callForPapers
-  if (status !== StatusSuccess) {
-    // return preloaded, partial data
-    ;[intro, steps, editorialTeam, editorialBoard, callForPapers] = [
-      [
-        'Write Digital History.',
-        'As an international, academic, peer-reviewed and open-access journal, the Journal of Digital History (JDH) will set new standards in history publishing based on the principle of multi-layered articles.',
-        randomFakeSentence(200),
-      ],
-      [
-        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-      ],
-      [
-        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-      ],
-      [
-        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-      ],
-      [randomFakeSentence(10) + '\n' + randomFakeSentence(60)],
-    ]
-  } else {
-    ;[intro, steps, editorialTeam, editorialBoard, callForPapers] = data.split('---').map((d) => {
+      return [
+        // fake intro. ↓
+        [
+          'Write Digital History.',
+          'As an international, academic, peer-reviewed and open-access journal, the Journal of Digital History (JDH) will set new standards in history publishing based on the principle of multi-layered articles.',
+          randomFakeSentence(200),
+        ],
+
+        // fake steps. ↓
+        [
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        ],
+
+        // fake editorialTeam. ↓
+        [
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        ],
+
+        // fake editorialBoard. ↓
+        [
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        ],
+        // fake call for papers
+        [randomFakeSentence(10) + '\n' + randomFakeSentence(60)],
+      ]
+    }
+    return data.split('---').map((d) => {
       return d
         .trim()
         .split(/\n\n/)
         .map((source) => markdownParser.render(source))
     })
-  }
+  }, [status, data])
+
   return (
     <>
       <Container className={`page Home ${status !== StatusSuccess ? 'is-fake' : ''}`}>
