@@ -1,21 +1,20 @@
-import React, { useMemo } from 'react'
 import MarkdownIt from 'markdown-it'
+import { Col, Container, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { Container, Row, Col } from 'react-bootstrap'
-import LangLink from '../components/LangLink'
 import ArticleCellContent from '../components/Article/ArticleCellContent'
-import HomeReel from '../components/HomeReel'
 import HomeMilestones from '../components/HomeMilestones'
+import HomeReel from '../components/HomeReel'
+import LangLink from '../components/LangLink'
 import {
-  IsPortrait,
   BootstrapColumLayout,
   BootstrapFullColumLayout,
   IsMobile,
+  IsPortrait,
   StatusSuccess,
 } from '../constants/globalConstants'
-import StaticPageLoader from './StaticPageLoader'
-import '../styles/pages/Home.scss'
 import { randomFakeSentence } from '../logic/random'
+import '../styles/pages/Home.scss'
+import StaticPageLoader from './StaticPageLoader'
 
 const markdownParser = MarkdownIt({
   html: false,
@@ -27,54 +26,48 @@ const Home = ({ data = '', status }) => {
   const { t } = useTranslation()
   console.debug('[Home] loaded: ', status)
 
-  const [intro, steps, editorialTeam, editorialBoard, callForPapers] = useMemo(() => {
-    if (status !== StatusSuccess) {
-      // return preloaded, partial data
-      return [
-        // fake intro. ↓
-        [
-          'Write Digital History.',
-          'As an international, academic, peer-reviewed and open-access journal, the Journal of Digital History (JDH) will set new standards in history publishing based on the principle of multi-layered articles.',
-          randomFakeSentence(200),
-        ],
-        // fake steps. ↓
-        [
-          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-        ],
-        // fake editorialTeam. ↓
-        [
-          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-        ],
-        // fake editorialBoard. ↓
-        [
-          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+  // Comment out useMemo and use a regular assignment instead
+  // const [intro, steps, editorialTeam, editorialBoard, callForPapers] = useMemo(() => { ... }, [status, data])
 
-          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-
-          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-
-          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-          randomFakeSentence(10) + '\n' + randomFakeSentence(200),
-        ],
-        // fake call for papers
-        [randomFakeSentence(10) + '\n' + randomFakeSentence(60)],
-      ]
-    }
-    return data.split('---').map((d) => {
+  let intro, steps, editorialTeam, editorialBoard, callForPapers
+  if (status !== StatusSuccess) {
+    // return preloaded, partial data
+    ;[intro, steps, editorialTeam, editorialBoard, callForPapers] = [
+      [
+        'Write Digital History.',
+        'As an international, academic, peer-reviewed and open-access journal, the Journal of Digital History (JDH) will set new standards in history publishing based on the principle of multi-layered articles.',
+        randomFakeSentence(200),
+      ],
+      [
+        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+      ],
+      [
+        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+      ],
+      [
+        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+        randomFakeSentence(10) + '\n' + randomFakeSentence(200),
+      ],
+      [randomFakeSentence(10) + '\n' + randomFakeSentence(60)],
+    ]
+  } else {
+    ;[intro, steps, editorialTeam, editorialBoard, callForPapers] = data.split('---').map((d) => {
       return d
         .trim()
         .split(/\n\n/)
         .map((source) => markdownParser.render(source))
     })
-  }, [status, data])
-
+  }
   return (
     <>
       <Container className={`page Home ${status !== StatusSuccess ? 'is-fake' : ''}`}>
