@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useReducer } from 'react'
 
-import api from '../utils/helpers/getData'
+import api from '../utils/helpers/setApiHeaders'
 
 type State<T> = {
   data: T[]
@@ -79,7 +79,7 @@ export function useFetchItems<T>(endpoint: string, limit: number, ordering?: str
 
       try {
         const pagedUrl =
-          `${endpoint}/` +
+          `/api/${endpoint}/` +
           '?' +
           [
             ordering ? `ordering=${finalOrdering}, id` : null,
