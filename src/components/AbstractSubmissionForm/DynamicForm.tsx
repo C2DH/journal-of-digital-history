@@ -1,5 +1,5 @@
 import parse from 'html-react-parser'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -18,6 +18,7 @@ import '../../styles/components/AbstractSubmissionForm/DynamicForm.scss'
 
 const DynamicForm = ({
   id,
+
   title,
   explanation,
   buttonLabel,
@@ -33,6 +34,8 @@ const DynamicForm = ({
   missingFields,
 }: DynamicFormProps) => {
   const { t } = useTranslation()
+  console.log('🚀 ~ file: DynamicForm.tsx:21 ~ id:', id)
+  console.log('id === authors && items.length > 0', id === 'authors' && items.length > 0)
   const [tooltipPlacement, setTooltipPlacement] = useState<'auto' | 'right'>('right')
   const [missing, setIsMissing] = useState<ErrorField>({})
 
@@ -214,15 +217,14 @@ const DynamicForm = ({
               )}
             </div>
             <div className="action-buttons">
-              {index > 0 ||
-                (id === 'datasets' && (
-                  <CloseButtonItem
-                    index={index}
-                    onRemove={(index) => {
-                      onRemove(index)
-                    }}
-                  />
-                ))}
+              {!(id === 'authors' && items.length === 1) && (
+                <CloseButtonItem
+                  index={index}
+                  onRemove={(index) => {
+                    onRemove(index)
+                  }}
+                />
+              )}
               {index > 0 && moveItem && <ArrowUpButtonItem index={index} moveItem={moveItem} />}
               {index < items.length - 1 && moveItem && (
                 <ArrowDownButtonItem index={index} moveItem={moveItem} />

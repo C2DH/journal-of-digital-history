@@ -2,8 +2,9 @@
 // Override variables
 @import 'variables';
 
-//import matrial symbols outlined 
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+//import matrial symbols outlined
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icons=help,radio_button_unchecked,check_circle,error');
+
 // Boostrap scss
 @import 'bootstrap/scss/bootstrap';
 :root {
@@ -126,9 +127,8 @@ html,
   color: var(--white);
 }
 
-.btn-pill{
+.btn-pill {
   border-radius: 50px;
-  
 }
 .border-double {
   border-width: 2px !important;

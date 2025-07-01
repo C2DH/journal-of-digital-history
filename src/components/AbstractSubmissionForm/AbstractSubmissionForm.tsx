@@ -1,47 +1,45 @@
-import { useEffect, useState, useRef, useCallback } from 'react'
-import parse from 'html-react-parser'
-import ReCAPTCHA from 'react-google-recaptcha'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
+import parse from 'html-react-parser'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import ReCAPTCHA from 'react-google-recaptcha'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useQueryParam, withDefault } from 'use-query-params'
 
-import AbstractSubmissionCallForPapers from './CallForPapers'
-
-import { getErrorByField } from '../../logic/errors'
 import {
-  FormData,
-  AbstractSubmissionFormProps,
-  InputChangeHandler,
-  UpdateFieldHandler,
-  AddItemHandler,
-  RemoveItemByTypeHandler,
-  MoveItemByTypeHandler,
-  ErrorField,
-  SubmitHandler,
-  GithubIdValidationHandler,
-  AbstractSubmittedBackEnd,
-} from '../../interfaces/abstractSubmission'
-import { submissionFormSchema } from '../../schemas/abstractSubmission'
-import DynamicForm from './DynamicForm'
-import SubmissionStatusCard from './SubmissionStatus'
-import StaticForm from './StaticForm'
-
-import { ReCaptchaSiteKey } from '../../constants/globalConstants'
-import {
-  datasetFields,
-  datasetEmpty,
-  authorFields,
   authorEmpty,
+  authorFields,
+  datasetEmpty,
+  datasetFields,
   initialAbstract,
   languagePreferenceOptions,
 } from '../../constants/abstractSubmissionForm'
+import { ReCaptchaSiteKey } from '../../constants/globalConstants'
+import {
+  AbstractSubmissionFormProps,
+  AbstractSubmittedBackEnd,
+  AddItemHandler,
+  ErrorField,
+  FormData,
+  GithubIdValidationHandler,
+  InputChangeHandler,
+  MoveItemByTypeHandler,
+  RemoveItemByTypeHandler,
+  SubmitHandler,
+  UpdateFieldHandler,
+} from '../../interfaces/abstractSubmission'
 import checkGithubUsername from '../../logic/api/checkGithubUsername'
-import { debounce } from '../../logic/debounce'
-import { getLocalizedPath } from '../../logic/language'
 import { createAbstractSubmission } from '../../logic/api/postData'
+import { debounce } from '../../logic/debounce'
+import { getErrorByField } from '../../logic/errors'
+import { getLocalizedPath } from '../../logic/language'
 import { CfpParam } from '../../logic/params'
+import { submissionFormSchema } from '../../schemas/abstractSubmission'
+import AbstractSubmissionCallForPapers from './CallForPapers'
+import DynamicForm from './DynamicForm'
+import StaticForm from './StaticForm'
+import SubmissionStatusCard from './SubmissionStatus'
 
 import '../../styles/components/AbstractSubmissionForm/AbstractSubmissionForm.scss'
 
@@ -81,18 +79,18 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
   ajv.addKeyword({
     keyword: 'requireConfirmEmailForPrimaryContact',
     validate: function requireConfirmEmailForPrimaryContact(schema, data: FormData) {
-      if (!Array.isArray(data)) return false;
+      if (!Array.isArray(data)) return false
       for (const author of data) {
         if (author.primaryContact) {
           if (author.email !== author.confirmEmail) {
-            return false; 
+            return false
           }
         }
       }
-      return true; 
+      return true
     },
-    errors: false, 
-  });
+    errors: false,
+  })
 
   const validate = ajv.compile(submissionFormSchema)
   const isValid = validate(formData)
@@ -106,7 +104,6 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
       setCallForPapersError('')
     }
   }, [callForPapers])
-
 
   const handleSubmit: SubmitHandler = async (event) => {
     event.preventDefault()
@@ -388,7 +385,7 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
             <br />
             <p>{parse(t('pages.abstractSubmission.recaptchaDisclaimer'))}</p>
             <div className="final-error-container">
-              {isSubmitAttempted && (!isValid ||  !!githubError || !!callForPapersError) && (
+              {isSubmitAttempted && (!isValid || !!githubError || !!callForPapersError) && (
                 <p className="text-error">{t('pages.abstractSubmission.errors.submitError')}</p>
               )}
             </div>
@@ -415,14 +412,14 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
               </button>
             </div>
           </form>
-        </div>
-        <div className="col-lg-3 col-md-4">
-          <SubmissionStatusCard
-            errors={validate.errors || []}
-            githubError={githubError}
-            callForPapersError={callForPapersError}
-            isSubmitAttempted={isSubmitAttempted}
-          />
+          <div>
+            <SubmissionStatusCard
+              errors={validate.errors || []}
+              githubError={githubError}
+              callForPapersError={callForPapersError}
+              isSubmitAttempted={isSubmitAttempted}
+            />
+          </div>
         </div>
       </div>
     </div>
