@@ -7,18 +7,18 @@ import {
   DynamicFormProps,
   ErrorField,
   FieldEmptyHandler,
-} from '../../interfaces/abstractSubmission'
-import { findErrorByKeyword, getErrorByItemAndByField } from '../../logic/errors'
-import ArrowDownButtonItem from '../Buttons/ArrowDownButtonItem'
-import ArrowUpButtonItem from '../Buttons/ArrowUpButtonItem'
-import CloseButtonItem from '../Buttons/CloseButtonItem'
-import Tooltip from '../Tooltip'
+} from '../../../interfaces/abstractSubmission'
+import { findErrorByKeyword, getErrorByItemAndByField } from '../../../logic/errors'
+import ArrowDownButtonItem from '../../Buttons/ArrowDownButtonItem'
+import ArrowUpButtonItem from '../../Buttons/ArrowUpButtonItem'
+import CloseButtonItem from '../../Buttons/CloseButtonItem'
+import Tooltip from '../../Tooltip'
+import Affiliation from './Affiliation'
 
-import '../../styles/components/AbstractSubmissionForm/DynamicForm.scss'
+import '../../../styles/components/AbstractSubmissionForm/DynamicForm.scss'
 
 const DynamicForm = ({
   id,
-
   title,
   explanation,
   buttonLabel,
@@ -34,8 +34,6 @@ const DynamicForm = ({
   missingFields,
 }: DynamicFormProps) => {
   const { t } = useTranslation()
-  console.log('🚀 ~ file: DynamicForm.tsx:21 ~ id:', id)
-  console.log('id === authors && items.length > 0', id === 'authors' && items.length > 0)
   const [tooltipPlacement, setTooltipPlacement] = useState<'auto' | 'right'>('right')
   const [missing, setIsMissing] = useState<ErrorField>({})
 
@@ -163,6 +161,15 @@ const DynamicForm = ({
                             {parse(t(`pages.abstractSubmission.${label}`))}
                           </label>
                         </div>
+                      ) : fieldname === 'affiliation' ? (
+                        <Affiliation
+                          value={item[fieldname]}
+                          onChange={(val) => {
+                            onChange(index, fieldname, val)
+                            handleFieldEmpty(index, fieldname)
+                          }}
+                          placeholder={t(`pages.abstractSubmission.placeholder.${placeholder}`)}
+                        />
                       ) : (
                         <div className="input-group-custom">
                           <input

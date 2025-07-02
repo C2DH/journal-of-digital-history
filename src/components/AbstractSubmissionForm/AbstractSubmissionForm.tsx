@@ -37,7 +37,7 @@ import { getLocalizedPath } from '../../logic/language'
 import { CfpParam } from '../../logic/params'
 import { submissionFormSchema } from '../../schemas/abstractSubmission'
 import AbstractSubmissionCallForPapers from './CallForPapers'
-import DynamicForm from './DynamicForm'
+import DynamicForm from './DynamicForm/DynamicForm'
 import StaticForm from './StaticForm'
 import SubmissionStatusCard from './SubmissionStatus'
 
