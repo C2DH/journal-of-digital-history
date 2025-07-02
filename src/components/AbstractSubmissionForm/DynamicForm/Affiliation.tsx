@@ -1,4 +1,6 @@
-import { useId, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
+
+import { useDebounce } from '../../../hooks/useDebounce'
 
 interface AffiliationProps {
   value: string
@@ -10,22 +12,26 @@ interface AffiliationProps {
 const Affiliation = ({ value, onChange, placeholder }: AffiliationProps) => {
   const [suggestions, setSuggestions] = useState<any[]>([])
   const datalistId = useId()
+  const debouncedValue = useDebounce(value, 500)
 
-  const fetchRorSuggestions = async (query: string) => {
-    if (!query) {
+  useEffect(() => {
+    if (!debouncedValue) {
       setSuggestions([])
       return
     }
-    try {
-      const res = await fetch(
-        `https://api.ror.org/organizations?query=${encodeURIComponent(query)}`,
-      )
-      const data = await res.json()
-      setSuggestions(data.items || [])
-    } catch {
-      setSuggestions([])
+    const fetchRorSuggestions = async (query: string) => {
+      try {
+        const res = await fetch(
+          `https://api.ror.org/organizations?query=${encodeURIComponent(query)}`,
+        )
+        const data = await res.json()
+        setSuggestions(data.items || [])
+      } catch {
+        setSuggestions([])
+      }
     }
-  }
+    fetchRorSuggestions(debouncedValue)
+  }, [debouncedValue])
 
   return (
     <div className="input-group-custom affiliation-autocomplete">
@@ -33,10 +39,7 @@ const Affiliation = ({ value, onChange, placeholder }: AffiliationProps) => {
         type="text"
         className="my-1 form-control"
         value={value}
-        onChange={(e) => {
-          onChange(e.target.value)
-          fetchRorSuggestions(e.target.value)
-        }}
+        onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         autoComplete="off"
         list={datalistId}
