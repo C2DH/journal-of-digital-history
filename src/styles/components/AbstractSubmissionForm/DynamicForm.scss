@@ -10,12 +10,12 @@
 
 .input-group-custom {
   display: flex;
-  justify-content: center; 
-  align-items: center; 
-  text-align: center; 
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
-.form-group{
+.form-group {
   margin: 0.25rem 0;
 }
 
@@ -29,25 +29,25 @@
 }
 
 .fields-area {
-    width: 100%;
-    margin-top: 0rem;
+  width: 100%;
+  margin-top: 0rem;
 }
 
 .custom-tooltip {
   max-width: 250px;
-  white-space: normal; 
-  word-wrap: break-word; 
+  white-space: normal;
+  word-wrap: break-word;
   overflow-wrap: break-word;
   text-align: left;
 }
 
-.empty-space{
+.empty-space {
   width: 43px;
 }
 
 @media (max-width: 768px) {
   .custom-tooltip {
-    font-size: 16px; 
-    max-width: 200px; 
+    font-size: 16px;
+    max-width: 200px;
   }
 }

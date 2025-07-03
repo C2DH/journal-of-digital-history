@@ -1,5 +1,5 @@
 import parse from 'html-react-parser'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -7,14 +7,15 @@ import {
   DynamicFormProps,
   ErrorField,
   FieldEmptyHandler,
-} from '../../interfaces/abstractSubmission'
-import { findErrorByKeyword, getErrorByItemAndByField } from '../../logic/errors'
-import ArrowDownButtonItem from '../Buttons/ArrowDownButtonItem'
-import ArrowUpButtonItem from '../Buttons/ArrowUpButtonItem'
-import CloseButtonItem from '../Buttons/CloseButtonItem'
-import Tooltip from '../Tooltip'
+} from '../../../interfaces/abstractSubmission'
+import { findErrorByKeyword, getErrorByItemAndByField } from '../../../logic/errors'
+import ArrowDownButtonItem from '../../Buttons/ArrowDownButtonItem'
+import ArrowUpButtonItem from '../../Buttons/ArrowUpButtonItem'
+import CloseButtonItem from '../../Buttons/CloseButtonItem'
+import Tooltip from '../../Tooltip'
+import Affiliation from './Affiliation'
 
-import '../../styles/components/AbstractSubmissionForm/DynamicForm.scss'
+import '../../../styles/components/AbstractSubmissionForm/DynamicForm.scss'
 
 const DynamicForm = ({
   id,
@@ -160,6 +161,15 @@ const DynamicForm = ({
                             {parse(t(`pages.abstractSubmission.${label}`))}
                           </label>
                         </div>
+                      ) : fieldname === 'affiliation' ? (
+                        <Affiliation
+                          value={item[fieldname]}
+                          onChange={(val) => {
+                            onChange(index, fieldname, val)
+                            handleFieldEmpty(index, fieldname)
+                          }}
+                          placeholder={t(`pages.abstractSubmission.placeholder.${placeholder}`)}
+                        />
                       ) : (
                         <div className="input-group-custom">
                           <input
@@ -214,15 +224,14 @@ const DynamicForm = ({
               )}
             </div>
             <div className="action-buttons">
-              {index > 0 ||
-                (id === 'datasets' && (
-                  <CloseButtonItem
-                    index={index}
-                    onRemove={(index) => {
-                      onRemove(index)
-                    }}
-                  />
-                ))}
+              {!(id === 'authors' && items.length === 1) && (
+                <CloseButtonItem
+                  index={index}
+                  onRemove={(index) => {
+                    onRemove(index)
+                  }}
+                />
+              )}
               {index > 0 && moveItem && <ArrowUpButtonItem index={index} moveItem={moveItem} />}
               {index < items.length - 1 && moveItem && (
                 <ArrowDownButtonItem index={index} moveItem={moveItem} />

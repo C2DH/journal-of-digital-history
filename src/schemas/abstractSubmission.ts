@@ -29,7 +29,8 @@ export const submissionFormSchema = {
             anyOf: [
               { type: 'string', format: 'email' },
               { type: 'null' },
-              { type: 'string', maxLength: 0 }]
+              { type: 'string', maxLength: 0 },
+            ],
           },
           orcidUrl: {
             type: 'string',
@@ -42,7 +43,7 @@ export const submissionFormSchema = {
                 type: 'string',
                 minLength: 1,
                 maxLength: 39,
-                pattern: '^(?!-)(?!.*--)[a-z0-9-]{1,39}(?<!-)$',
+                pattern: '^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9]))*$',
               },
               { type: 'null' },
               { type: 'string', maxLength: 0 },
@@ -70,7 +71,7 @@ export const submissionFormSchema = {
           },
           primaryContact: { type: 'boolean', enum: [true, false] },
         },
-        required: ['firstname', 'lastname', 'affiliation', 'email', 'orcidUrl'],      
+        required: ['firstname', 'lastname', 'affiliation', 'email', 'orcidUrl'],
       },
       minItems: 1,
       maxItems: 10,
@@ -87,4 +88,3 @@ export const submissionFormSchema = {
   },
   required: ['title', 'abstract', 'authors', 'termsAccepted'],
 }
-        

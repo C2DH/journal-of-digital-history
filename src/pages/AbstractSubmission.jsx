@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Col, Container, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { Container, Col, Row } from 'react-bootstrap'
 
 import AbstractSubmissionForm from '../components/AbstractSubmissionForm/AbstractSubmissionForm'
 import ErrorViewer from './ErrorViewer'
