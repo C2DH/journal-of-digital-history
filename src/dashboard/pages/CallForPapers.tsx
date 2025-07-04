@@ -11,7 +11,7 @@ const CallForPapers = () => {
     loading,
     hasMore,
     loadMore,
-  } = useFetchItems<Callforpaper>('/callofpaper', 10)
+  } = useFetchItems<Callforpaper>('callofpaper', 10)
 
   return (
     <div className="callforpapers page">
