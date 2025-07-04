@@ -42,7 +42,7 @@
     "validation_date": "Validation date",
     "publication_date": "Publication Date",
     "status": "Status",
-    "repository_url": "Repository URL"
+    "repository_url": "Repository"
   },
   "authors": {
     "item": "Authors",
@@ -76,5 +76,22 @@
     "suspended": "Suspended",
     "technical_review": "Technical Review",
     "design_review": "Design Review"
+  },
+  "email": {
+    "approved": {
+      "message": "Congratulations! Your abstract has been approved for presentation."
+    },
+    "declined": {
+      "message": "We regret to inform you that your abstract has been declined. Thank you for your submission."
+    },
+    "abandoned": {
+      "message": "Your abstract has been abandoned. If you have any questions, please contact us."
+    },
+    "accepted": {
+      "message": "Your abstract has been accepted for the conference. We look forward to your presentation."
+    },
+    "suspended": {
+      "message": "Your abstract has been suspended. Please check your email for further instructions."
+    }
   }
 }

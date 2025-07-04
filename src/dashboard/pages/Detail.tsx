@@ -9,7 +9,7 @@ import Loading from '../components/Loading/Loading'
 import SmallCard from '../components/SmallCard/SmallCard'
 import Status from '../components/Status/Status'
 import { useFetchItem } from '../hooks/useFetch'
-import { convertDate } from '../utils/convertDate'
+import { convertDate } from '../utils/helpers/convertDate'
 import { Abstract, Article } from '../utils/types'
 
 const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
@@ -51,8 +51,7 @@ function isArticle(item: any): item is Article {
 const Detail = ({ endpoint }) => {
   const location = useLocation()
   const id = location.pathname.split('/')[2]
-
-  const { data: item, error, loading } = useFetchItem(`${endpoint}${id}`)
+  const { data: item, error, loading } = useFetchItem(endpoint, id)
 
   if (loading) {
     return <Loading />
@@ -80,7 +79,7 @@ const Detail = ({ endpoint }) => {
       { label: 'PID', value: item.pid },
       {
         label: 'Call for papers',
-        value: item.callpaper_title === null ? 'Open Submission' : item.callpaper,
+        value: item.callpaper_title === null ? 'Open Submission' : item.callpaper_title,
       },
       { label: 'Status', value: <Status value={String(item.status)} /> },
       { label: 'Terms accepted', value: item.consented ? 'Yes' : 'No' },

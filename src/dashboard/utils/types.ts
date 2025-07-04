@@ -122,3 +122,17 @@ export interface Tag {
   name: string
   category: string
 }
+
+export interface ModalInfo {
+  open: boolean
+  action?: string
+  row?: any
+  id?: string
+  contact_email?: string
+  title?: string
+}
+
+export type RowAction = {
+  label: string
+  onClick: () => void
+}

@@ -6,6 +6,7 @@
 }
 .card-abstract {
   grid-area: c;
+  background-color: var(--color-white);
 }
 .card-contact {
   grid-area: e;
@@ -19,15 +20,17 @@
     'a a b'
     'c c e'
     'c c .';
-  gap: 16px;
-  padding: 32px;
+  gap: var(--gap-size-4);
+  padding: var(--space-size-1);
 }
 
 .card-info {
   display: grid;
   grid-template-columns: max-content max-content;
   align-items: center;
+  justify-content: space-between;
 }
+
 /* FieldRow css */
 .item {
   display: flex;
@@ -35,12 +38,15 @@
 }
 
 .label {
-  text-align: right;
+  text-align: left;
   min-width: 150px;
-  margin-right: 10px;
   font-weight: bold;
 }
 
 .value {
   flex-grow: 1;
+}
+
+h2 {
+  margin: 0 0 var(--space-size-3) 0;
 }

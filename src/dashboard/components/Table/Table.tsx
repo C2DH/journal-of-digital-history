@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router'
 
 import { renderCellProps, TableProps } from './interface'
 
-import { articleSteps } from '../../constants/article'
-import { convertDate } from '../../utils/convertDate'
-import { convertLink } from '../../utils/convertLink'
+import { articleSteps } from '../../utils/constants/article'
+import { convertDate } from '../../utils/helpers/convertDate'
 import {
   getCleanData,
+  getRowActions,
   getVisibleHeaders,
   isAbstract,
   isArticle,
@@ -20,7 +20,9 @@ import {
   isStatusHeader,
   isStepCell,
   isTitleHeader,
-} from '../../utils/table'
+} from '../../utils/helpers/table'
+import ActionButton from '../Buttons/ActionButton/ActionButton'
+import IconButton from '../Buttons/IconButton/IconButton'
 import SortButton from '../Buttons/SortButton/SortButton'
 import Status from '../Status/Status'
 import Timeline from '../Timeline/Timeline'
@@ -41,14 +43,14 @@ function renderCell({
 
   if (isStep && isArticle) {
     content = <Timeline steps={articleSteps} currentStatus={cell} />
-  } else if (cell === '' || cell === null) {
-    content = '-'
   } else if (isStatus(cell, headerKey) && (isAbstract || isIssues)) {
     content = <Status value={cell} />
   } else if (isLinkCell(cell)) {
-    content = convertLink(cell)
+    content = <IconButton value={cell} />
   } else if (isDateCell(cell)) {
     content = convertDate(cell)
+  } else if (cell === '' || cell === null) {
+    content = '-'
   } else {
     content = cell
   }
@@ -56,7 +58,16 @@ function renderCell({
   return content
 }
 
-const Table = ({ item, headers, data, sortBy, sortOrder, setSortBy, setSortOrder }: TableProps) => {
+const Table = ({
+  item,
+  headers,
+  data,
+  sortBy,
+  sortOrder,
+  setSortBy,
+  setSortOrder,
+  setModal,
+}: TableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const search = location.search
@@ -79,82 +90,89 @@ const Table = ({ item, headers, data, sortBy, sortOrder, setSortBy, setSortOrder
   }
 
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          {visibleHeaders.map((header, idx) =>
-            header === 'status' && isArticle(item) ? (
-              articleSteps.map((step) => (
-                <th key={step.key} className="status-header" title={step.label}>
-                  <span className="material-symbols-outlined">{step.icon}</span>
+    <>
+      <table className={`table ${item}`}>
+        <thead>
+          <tr>
+            {visibleHeaders.map((header, idx) =>
+              header === 'status' && isArticle(item) ? (
+                articleSteps.map((step) => (
+                  <th key={step.key} className="status-header" title={step.label}>
+                    <span className="material-symbols-outlined">{step.icon}</span>
+                  </th>
+                ))
+              ) : (
+                <th key={header} className={header}>
+                  {!isRepositoryHeader(header) &&
+                  !isStatusHeader(header) &&
+                  (isCallForPapers(item) || isIssues(item)) ? (
+                    t(`${item}.${header}`)
+                  ) : setSortBy && setSortOrder ? (
+                    <SortButton
+                      active={sortBy === header}
+                      order={sortOrder}
+                      onClick={() => handleSort(header)}
+                      label={t(`${item}.${header}`)}
+                    />
+                  ) : (
+                    t(`${item}.${header}`)
+                  )}
                 </th>
-              ))
-            ) : (
-              <th key={header} className={header}>
-                {!isRepositoryHeader(header) &&
-                !isStatusHeader(header) &&
-                (isCallForPapers(item) || isIssues(item)) ? (
-                  t(`${item}.${header}`)
-                ) : setSortBy && setSortOrder ? (
-                  <SortButton
-                    active={sortBy === header}
-                    order={sortOrder}
-                    onClick={() => handleSort(header)}
-                    label={t(`${item}.${header}`)}
-                  />
-                ) : (
-                  t(`${item}.${header}`)
-                )}
-              </th>
-            ),
-          )}
-        </tr>
-      </thead>
-      <tbody>
-        {cleanData.map((row, rIdx) => {
-          const isAbstractItem = isAbstract(item)
-          const isArticleItem = isArticle(item)
-          const isIssuesItem = isIssues(item)
-          const isArticleOrAbstracts = isAbstractItem || isArticleItem
+              ),
+            )}
+          </tr>
+        </thead>
+        <tbody>
+          {cleanData.map((row, rIdx) => {
+            const isAbstractItem = isAbstract(item)
+            const isArticleItem = isArticle(item)
+            const isIssuesItem = isIssues(item)
+            const isArticleOrAbstracts = isAbstractItem || isArticleItem
 
-          return (
-            <tr key={rIdx}>
-              {row.map((cell, cIdx) => {
-                const headerName = headers[cIdx]
-                const isTitle = isTitleHeader(headerName)
-                const isStep = isStepCell(cell)
+            return (
+              <tr key={rIdx}>
+                {row.map((cell, cIdx) => {
+                  const headerName = headers[cIdx]
+                  const isTitle = isTitleHeader(headerName)
+                  const isStep = isStepCell(cell)
 
-                return (
-                  <td
-                    key={cIdx}
-                    className={headerName}
-                    colSpan={isStep && isArticleItem ? articleSteps.length : 0}
-                    style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
-                    onClick={
-                      isTitle && isArticleOrAbstracts
-                        ? () => handleRowClick(String(row[0]))
-                        : undefined
-                    }
-                  >
-                    {renderCell({
-                      isStep,
-                      cell,
-                      header: headerName,
-                      headers,
-                      cIdx,
-                      title: item,
-                      isAbstract: isAbstractItem,
-                      isArticle: isArticleItem,
-                      isIssues: isIssuesItem,
-                    })}
-                  </td>
-                )
-              })}
-            </tr>
-          )
-        })}
-      </tbody>
-    </table>
+                  return (
+                    <td
+                      key={cIdx}
+                      className={headerName}
+                      colSpan={isStep && isArticleItem ? articleSteps.length : 0}
+                      style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
+                      onClick={
+                        isTitle && isArticleOrAbstracts
+                          ? () => handleRowClick(String(row[0]))
+                          : undefined
+                      }
+                    >
+                      {renderCell({
+                        isStep,
+                        cell,
+                        header: headerName,
+                        headers,
+                        cIdx,
+                        title: item,
+                        isAbstract: isAbstractItem,
+                        isArticle: isArticleItem,
+                        isIssues: isIssuesItem,
+                      })}
+                    </td>
+                  )
+                })}
+                <td className="actions-cell">
+                  {isAbstractItem && setModal && getRowActions(row, setModal, t).length > 0 && (
+                    <ActionButton actions={getRowActions(row, setModal, t)} />
+                  )}
+                </td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    </>
   )
 }
 

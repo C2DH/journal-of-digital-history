@@ -6,6 +6,16 @@
   background: linear-gradient(135deg, var(--color-white) 0%, var(--color-accent-lighter) 100%);
 }
 
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: black;
+  font-family: 'Fira Sans', sans-serif;
+}
+
 .login-form {
   background: var(--color-white);
   padding: 2.5rem 2rem 2rem 2rem;

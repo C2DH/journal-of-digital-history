@@ -1,0 +1,20 @@
+.action-btn {
+  color: var(--color-deep-blue);
+  display: flex;
+  padding: var(--space-size-2) var(--space-size-3);
+  border: 0;
+  border-radius: 20%;
+  background: var(--color-accent-lighter);
+  position: relative;
+}
+
+.action-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.action-icon:hover,
+.action-icon.active {
+  background-color: var(--color-accent-lighter);
+  border-radius: 50%;
+}

@@ -6,7 +6,6 @@ import UniversalCookie from 'universal-cookie'
  */
 
 const api: AxiosInstance = axios.create({
-  baseURL: '/api/',
   withCredentials: true,
 })
 
@@ -15,10 +14,11 @@ api.interceptors.request.use((config) => {
   const csrfToken = new UniversalCookie().get('csrftoken')
 
   if (csrfToken) {
-    config.headers['Authorization'] = `Bearer ${csrfToken}`
+    config.headers['X-CSRFToken'] = `${csrfToken}`
   } else {
     console.error('[Authorization] No csrf token available. Csrf Token :', csrfToken)
   }
+  console.info('[AxiosInstance] - Request headers:', config.headers)
   return config
 })
 

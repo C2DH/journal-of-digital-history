@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 
 import { articleSteps } from '../constants/article'
+import { ModalInfo, RowAction } from '../types'
 
 /**
  * Returns the headers that are included in the provided headers array.
@@ -55,6 +56,52 @@ function getCleanData({ data, visibleHeaders }: GetCleanDataParams): (string | n
       return value
     }),
   )
+}
+
+/**
+ * Generates a list of row actions based on the current status of the row.
+ *
+ * @param row - The data row from which to determine available actions.
+ * @param setModal - Function to open a modal dialog with action details.
+ * @param t - Translation function for localizing action labels.
+ * @returns An array of RowAction objects representing available actions for the row.
+ */
+function getRowActions(
+  row: any,
+  setModal: (modal: ModalInfo) => void,
+  t: (key: string) => string,
+): RowAction[] {
+  const status = row[7]
+  const id = row[0]
+  const title = row[1]
+
+  const defaultAction = (action: string, label?: string) => ({
+    label: label || action,
+    onClick: () =>
+      setModal &&
+      setModal({
+        open: true,
+        action,
+        row,
+        id,
+        title,
+      }),
+  })
+
+  const actions: RowAction[] = []
+
+  if (status === 'SUBMITTED') {
+    actions.push(defaultAction('Accepted'))
+    actions.push(defaultAction('Declined'))
+    actions.push(defaultAction('Abandoned'))
+  }
+
+  if (status === 'ACCEPTED') {
+    actions.push(defaultAction('Abandoned'))
+    actions.push(defaultAction('Suspended'))
+  }
+
+  return actions
 }
 
 /**
@@ -125,6 +172,7 @@ function isIssues(item: string): boolean {
 export {
   convertOrcid,
   getCleanData,
+  getRowActions,
   getVisibleHeaders,
   isAbstract,
   isArticle,

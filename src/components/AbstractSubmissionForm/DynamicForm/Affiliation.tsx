@@ -3,13 +3,14 @@ import { useEffect, useId, useState } from 'react'
 import { useDebounce } from '../../../hooks/useDebounce'
 
 interface AffiliationProps {
+  index: number
   value: string
   onChange: (value: string) => void
   placeholder?: string
   loadingText?: string
 }
 
-const Affiliation = ({ value, onChange, placeholder }: AffiliationProps) => {
+const Affiliation = ({ index, value, onChange, placeholder }: AffiliationProps) => {
   const [suggestions, setSuggestions] = useState<any[]>([])
   const datalistId = useId()
   const debouncedValue = useDebounce(value, 500)
@@ -43,6 +44,7 @@ const Affiliation = ({ value, onChange, placeholder }: AffiliationProps) => {
         placeholder={placeholder}
         autoComplete="off"
         list={datalistId}
+        data-test={`form-control-authors-affiliation-${index}`}
       />
       <datalist id={datalistId}>
         {suggestions.map((org: any) => (

@@ -1,12 +1,21 @@
 .table {
-  /* table-layout: fixed; */
   width: 100%;
   border-collapse: collapse;
+
+  @media (max-width: 1500px) {
+    table-layout: fixed;
+  }
+}
+
+/* To keep action butn inside the table */
+.table.abstracts {
+  @media (max-width: 1640px) {
+    table-layout: fixed;
+  }
 }
 
 .table th,
 .table td {
-  font-family: 'DM Sans', sans-serif;
   font-size: var(--font-size-2);
   text-align: left;
   vertical-align: top;
@@ -24,6 +33,11 @@
 .table td {
   color: var(--color-gray);
   padding-top: var(--gap-size-2);
+}
+
+.table tr {
+  height: 10px;
+  vertical-align: top;
 }
 
 .status-cell {
@@ -62,6 +76,8 @@ td.name,
 & td.abstract__title {
   color: var(--color-deep-blue);
   font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 button {
