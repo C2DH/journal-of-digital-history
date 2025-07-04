@@ -13,7 +13,7 @@ const Authors = () => {
     loading,
     hasMore,
     loadMore,
-  } = useFetchItems<Author>('/authors', 10, ordering)
+  } = useFetchItems<Author>('authors', 10, ordering)
 
   return (
     <div className="authors page">

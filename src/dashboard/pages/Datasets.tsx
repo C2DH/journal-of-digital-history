@@ -11,7 +11,7 @@ const Datasets = () => {
     loading,
     hasMore,
     loadMore,
-  } = useFetchItems<Dataset>('/datasets', 20)
+  } = useFetchItems<Dataset>('datasets', 20)
 
   return (
     <div className="datasets page">
