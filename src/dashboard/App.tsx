@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap'
 import { I18nextProvider } from 'react-i18next'
+import './styles/index.css'
 
 import Login from '../components/Login/Login'
 import { fetchUsername, userLogoutRequest } from '../logic/api/login'
@@ -9,8 +10,6 @@ import { navbarItems } from './components/Navbar/constant'
 import Navbar from './components/Navbar/Navbar'
 import i18n from './i18next'
 import AppRoutes from './routes'
-
-import './styles/index.css'
 
 function DashboardApp() {
   const [username, setUsername] = useState<string>('Anonymous')

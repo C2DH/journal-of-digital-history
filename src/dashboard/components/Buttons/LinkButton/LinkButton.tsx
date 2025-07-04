@@ -1,7 +1,7 @@
 import { Github } from 'iconoir-react'
+import './LinkButton.css'
 
 import { ButtonLinkProps } from './interface'
-import './LinkButton.css'
 
 const LinkButton = ({ url }: ButtonLinkProps) => {
   const { hostname, pathname } = new URL(url)

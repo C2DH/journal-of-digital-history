@@ -1,8 +1,8 @@
+import './Modal.css'
+
 import { ModalProps } from './interface'
 
 import ContactForm from '../ContactForm/ContactForm'
-
-import './Modal.css'
 
 const Modal = ({ open, onClose, action, contactEmail, title, pid }: ModalProps) => {
   if (!open) return null

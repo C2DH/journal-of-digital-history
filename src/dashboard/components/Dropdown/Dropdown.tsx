@@ -1,6 +1,6 @@
-import { DropdownProps } from './interface'
-
 import './Dropdown.css'
+
+import { DropdownProps } from './interface'
 
 const Dropdown = ({ actions, setOpen }: DropdownProps) => {
   return (

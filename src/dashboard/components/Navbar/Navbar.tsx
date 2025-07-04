@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import './Navbar.css'
 
 import { NavbarProps } from './interface'
 
 import Logo from '../../../../src/components/Logo'
-
-import './Navbar.css'
 
 const Navbar = ({ items }: NavbarProps) => {
   const location = useLocation()
