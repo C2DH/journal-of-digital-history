@@ -163,6 +163,7 @@ const DynamicForm = ({
                         </div>
                       ) : fieldname === 'affiliation' ? (
                         <Affiliation
+                          index={index}
                           value={item[fieldname]}
                           onChange={(val) => {
                             onChange(index, fieldname, val)
