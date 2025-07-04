@@ -1,5 +1,7 @@
-import { lazy } from 'react'
+import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
+
+import Loading from './components/Loading/Loading'
 
 const Home = lazy(() => import('./pages/Home'))
 const Abstracts = lazy(() => import('./pages/Abstracts'))
@@ -13,18 +15,20 @@ const Error = lazy(() => import('./pages/Error'))
 
 export default function AppRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/abstracts" element={<Abstracts />} />
-      <Route path="/abstracts/:id" element={<Detail endpoint="abstracts" />} />
-      <Route path="/articles" element={<Articles />} />
-      <Route path="/articles/:id" element={<Detail endpoint="articles" />} />
-      <Route path="/callforpapers" element={<CallForPapers />} />
-      <Route path="/issues" element={<Issues />} />
-      <Route path="/authors" element={<Authors />} />
-      <Route path="/datasets" element={<Datasets />} />
-      <Route path="*" element={<Error />} />
-    </Routes>
+    <Suspense fallback={<Loading />}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/abstracts" element={<Abstracts />} />
+        <Route path="/abstracts/:id" element={<Detail endpoint="abstracts" />} />
+        <Route path="/articles" element={<Articles />} />
+        <Route path="/articles/:id" element={<Detail endpoint="articles" />} />
+        <Route path="/callforpapers" element={<CallForPapers />} />
+        <Route path="/issues" element={<Issues />} />
+        <Route path="/authors" element={<Authors />} />
+        <Route path="/datasets" element={<Datasets />} />
+        <Route path="*" element={<Error />} />
+      </Routes>{' '}
+    </Suspense>
   )
 }

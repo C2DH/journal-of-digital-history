@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
+import './Table.css'
 
 import { renderCellProps, TableProps } from './interface'
 
@@ -26,8 +27,6 @@ import IconButton from '../Buttons/IconButton/IconButton'
 import SortButton from '../Buttons/SortButton/SortButton'
 import Status from '../Status/Status'
 import Timeline from '../Timeline/Timeline'
-
-import './Table.css'
 
 function renderCell({
   isStep,

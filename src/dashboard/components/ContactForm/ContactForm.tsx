@@ -2,13 +2,12 @@ import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import './ContactForm.css'
 
 import { ContactFormData } from './interface'
 
 import { contactFormSchema } from '../../schemas/contactForm'
 import { modifyAbstractStatus } from '../../utils/helpers/postData'
-
-import './ContactForm.css'
 
 function validateContactForm(data: any) {
   const ajv = new Ajv({ allErrors: true })

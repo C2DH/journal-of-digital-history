@@ -49,6 +49,11 @@ export default [
           ],
           pathGroups: [
             {
+              pattern: '**/*.+(css|scss|sass|less|styl)',
+              group: 'object',
+              position: 'after',
+            },
+            {
               pattern: 'react|react-dom',
               group: 'external',
               position: 'before',
@@ -57,11 +62,6 @@ export default [
               pattern: './interface',
               group: 'sibling',
               position: 'before',
-            },
-            {
-              pattern: '**/*.+(css|scss|sass|less|styl)',
-              group: 'object',
-              position: 'after',
             },
           ],
           pathGroupsExcludedImportTypes: ['react', 'react-dom'],
