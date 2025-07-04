@@ -17,9 +17,9 @@ export default function AppRoutes() {
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
       <Route path="/abstracts" element={<Abstracts />} />
-      <Route path="/abstracts/:id" element={<Detail endpoint="/api/abstracts/" />} />
+      <Route path="/abstracts/:id" element={<Detail endpoint="abstracts" />} />
       <Route path="/articles" element={<Articles />} />
-      <Route path="/articles/:id" element={<Detail endpoint="/api/articles/" />} />
+      <Route path="/articles/:id" element={<Detail endpoint="articles" />} />
       <Route path="/callforpapers" element={<CallForPapers />} />
       <Route path="/issues" element={<Issues />} />
       <Route path="/authors" element={<Authors />} />

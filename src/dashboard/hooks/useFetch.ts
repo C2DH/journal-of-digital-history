@@ -17,7 +17,14 @@ type Action<T> =
   | { type: 'RESET' }
 
 function reducer<T>(state: State<T>, action: Action<T>): State<T> {
-  console.info('[Reducer]UseFetchItems - action:', action, 'offset:', state.offset)
+  console.info(
+    '[Reducer]UseFetchItems - action:',
+    action,
+    'offset:',
+    state.offset,
+    'data:',
+    state.data,
+  )
   switch (action.type) {
     case 'LOAD_START':
       return { ...state, loading: true }
@@ -191,14 +198,13 @@ function singleReducer<T>(state: SingleState<T>, action: SingleAction<T>): Singl
  *
  * @template T The type of the item being fetched.
  * @param endpoint - The API endpoint to fetch data from (should include the ID).
- * @param username - Optional username for basic authentication.
- * @param password - Optional password for basic authentication.
+ * @param id - The ID of the item to fetch.
  * @returns An object containing:
  *   - `data`: The fetched item or null.
  *   - `error`: Any error message encountered during fetching.
  *   - `loading`: Whether a fetch operation is in progress.
  */
-export function useFetchItem<T>(endpoint: string, username?: string, password?: string) {
+export function useFetchItem<T>(endpoint: string, id: string) {
   const [state, dispatch] = useReducer(singleReducer<T>, {
     data: null,
     error: null,
@@ -210,12 +216,12 @@ export function useFetchItem<T>(endpoint: string, username?: string, password?: 
     dispatch({ type: 'LOAD_START' })
     const fetchData = async () => {
       try {
-        const credentials = btoa(`${username}:${password}`) || ''
-        const response = await fetch(endpoint, {
-          headers: { Authorization: `Basic ${credentials}` },
-        })
-        if (!response.ok) throw new Error(`Failed to fetch: ${response.statusText}`)
-        const result = await response.json()
+        const pagedUrl = `/api/${endpoint}/${id}`
+        const response = await api.get(pagedUrl)
+
+        const result = response.data
+        if (!response.status) throw new Error(`Failed to fetch: ${response.statusText}`)
+
         dispatch({ type: 'LOAD_SUCCESS', payload: result })
       } catch (err) {
         dispatch({
@@ -225,9 +231,9 @@ export function useFetchItem<T>(endpoint: string, username?: string, password?: 
       }
     }
     fetchData()
-    // Optionally reset on endpoint change
+
     return () => dispatch({ type: 'RESET' })
-  }, [endpoint, username, password])
+  }, [endpoint, id])
 
   return {
     data: state.data,

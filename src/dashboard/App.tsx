@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Spinner } from 'react-bootstrap'
 import { I18nextProvider } from 'react-i18next'
 
 import Login from '../components/Login/Login'
@@ -13,7 +14,8 @@ import './styles/index.css'
 
 function DashboardApp() {
   const [username, setUsername] = useState<string>('Anonymous')
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null) // null = unknown
+  const [isLoading, setIsLoading] = useState(true)
 
   const handleLogout = async () => {
     await userLogoutRequest()
@@ -22,17 +24,26 @@ function DashboardApp() {
   }
 
   useEffect(() => {
-    fetchUsername()
-      .then((name) => {
+    const checkAuth = async () => {
+      try {
+        const name = await fetchUsername()
         setUsername(name || 'Anonymous')
         setIsAuthenticated(true)
-      })
-      .catch(() => {
+      } catch (error) {
         setIsAuthenticated(false)
-      })
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    checkAuth()
   }, [])
 
-  if (isAuthenticated === false) {
+  if (isLoading) {
+    return <Spinner />
+  }
+
+  if (!isAuthenticated) {
     return <Login />
   }
 

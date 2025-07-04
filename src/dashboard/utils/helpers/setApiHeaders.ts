@@ -18,7 +18,7 @@ api.interceptors.request.use((config) => {
   } else {
     console.error('[Authorization] No csrf token available. Csrf Token :', csrfToken)
   }
-  console.log('[AxiosInstance] - Request headers:', config.headers)
+  console.info('[AxiosInstance] - Request headers:', config.headers)
   return config
 })
 

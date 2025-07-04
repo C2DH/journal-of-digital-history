@@ -70,7 +70,7 @@ const ContactForm = ({ contactEmail, pid, action, title }) => {
         })
         setTimeout(() => {
           window.location.reload()
-        }, 300)
+        }, 500)
       } catch (err: any) {
         setNotification({
           type: 'error',

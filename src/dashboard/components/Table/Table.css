@@ -1,7 +1,17 @@
 .table {
-  /* table-layout: fixed; */
   width: 100%;
   border-collapse: collapse;
+
+  @media (max-width: 1500px) {
+    table-layout: fixed;
+  }
+}
+
+/* To keep action butn inside the table */
+.table.abstracts {
+  @media (max-width: 1640px) {
+    table-layout: fixed;
+  }
 }
 
 .table th,

@@ -91,7 +91,7 @@ const Table = ({
 
   return (
     <>
-      <table className="table">
+      <table className={`table ${item}`}>
         <thead>
           <tr>
             {visibleHeaders.map((header, idx) =>

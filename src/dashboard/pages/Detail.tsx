@@ -51,8 +51,7 @@ function isArticle(item: any): item is Article {
 const Detail = ({ endpoint }) => {
   const location = useLocation()
   const id = location.pathname.split('/')[2]
-
-  const { data: item, error, loading } = useFetchItem(`${endpoint}${id}`)
+  const { data: item, error, loading } = useFetchItem(endpoint, id)
 
   if (loading) {
     return <Loading />
