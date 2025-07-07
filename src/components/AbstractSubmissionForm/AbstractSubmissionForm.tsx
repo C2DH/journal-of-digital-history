@@ -69,10 +69,11 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
     errors: false,
   })
   ajv.addKeyword({
-    keyword: 'atLeastOnePrimaryContact',
-    validate: function validateAtLeastOnePrimaryContact(schema, data: FormData) {
+    keyword: 'onlyOnePrimaryContact',
+    validate: function validateOnlyOnePrimaryContact(schema, data: FormData) {
       if (!Array.isArray(data)) return false
-      return data.some((author) => author.primaryContact === true)
+      const count = data.filter((author) => author.primaryContact === true).length
+      return count === 1
     },
     errors: false,
   })

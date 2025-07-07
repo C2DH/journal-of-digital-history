@@ -38,7 +38,7 @@ const DynamicForm = ({
   const [missing, setIsMissing] = useState<ErrorField>({})
 
   const atLeastOneGithubIdError = findErrorByKeyword(errors, 'atLeastOneGithubId')
-  const atLeastOnePrimaryContact = findErrorByKeyword(errors, 'atLeastOnePrimaryContact')
+  const onlyOnePrimaryContact = findErrorByKeyword(errors, 'onlyOnePrimaryContact')
   const requireConfirmEmailForPrimaryContact = findErrorByKeyword(
     errors,
     'requireConfirmEmailForPrimaryContact',
@@ -46,8 +46,8 @@ const DynamicForm = ({
 
   const getError = (fieldname: string, isMissing: boolean, error?: string) => {
     switch (true) {
-      case fieldname === 'primaryContact' && isMissing && !!atLeastOnePrimaryContact:
-        return 'atLeastOnePrimaryContact'
+      case fieldname === 'primaryContact' && isMissing && !!onlyOnePrimaryContact:
+        return 'onlyOnePrimaryContact'
 
       case fieldname === 'confirmEmail' && isMissing && !!requireConfirmEmailForPrimaryContact:
         return 'requireConfirmEmailForPrimaryContact'

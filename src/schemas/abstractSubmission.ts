@@ -76,7 +76,7 @@ export const submissionFormSchema = {
       minItems: 1,
       maxItems: 10,
       atLeastOneGithubId: true,
-      atLeastOnePrimaryContact: true,
+      onlyOnePrimaryContact: true,
       requireConfirmEmailForPrimaryContact: true,
     },
     languagePreference: {
