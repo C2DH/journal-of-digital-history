@@ -14,6 +14,7 @@ import {
   isArticle,
   isCallForPapers,
   isDateCell,
+  isFolderNameCell,
   isIssues,
   isLinkCell,
   isRepositoryHeader,
@@ -46,6 +47,10 @@ function renderCell({
     content = <Status value={cell} />
   } else if (isLinkCell(cell)) {
     content = <IconButton value={cell} />
+  } else if (isFolderNameCell(cell, headerKey)) {
+    return (
+      <IconButton value={`${import.meta.env.VITE_DASHBOARD_CALLFORPAPERS_GITHUB_URL}${cell}`} />
+    )
   } else if (isDateCell(cell)) {
     content = convertDate(cell)
   } else if (cell === '' || cell === null) {

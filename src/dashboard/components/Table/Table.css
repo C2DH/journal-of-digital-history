@@ -91,3 +91,10 @@ button {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+/* Specific padding for folder_name (callforpapers), repository_url(articles), and orcid_icon cells */
+td.folder_name,
+td.repository_url,
+td.orcid {
+  padding-top: var(--gap-size-1);
+}

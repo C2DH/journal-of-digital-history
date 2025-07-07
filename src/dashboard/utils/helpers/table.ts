@@ -148,6 +148,10 @@ function isTitleHeader(headerName: string) {
   return headerName === 'title' || headerName === 'abstract__title'
 }
 
+function isFolderNameCell(cell: any, header: string): boolean {
+  return typeof cell === 'string' && header.toLowerCase() === 'folder_name'
+}
+
 function isStatusHeader(headerName: string) {
   return headerName === 'status'
 }
@@ -179,6 +183,7 @@ export {
   isCallForPapers,
   isDateCell,
   isEmptyCell,
+  isFolderNameCell,
   isIssues,
   isLinkCell,
   isOrcid,
