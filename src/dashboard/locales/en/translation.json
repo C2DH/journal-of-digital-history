@@ -29,6 +29,7 @@
   "callforpapers": {
     "item": "Call for Papers",
     "id": "ID",
+    "folder_name": "Repository link",
     "title": "Title",
     "deadline_abstract": "Abstract deadline",
     "deadline_article": "Article deadline"
