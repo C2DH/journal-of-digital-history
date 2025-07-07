@@ -17,5 +17,5 @@
     "skipLibCheck": true,
     "strict": true
   },
-  "include": ["src/**/*", "dashboard/src/*", "vite.env.d.ts"]
+  "include": ["src/**/*", "dashboard/src/*", "vite-env.d.ts"]
 }
