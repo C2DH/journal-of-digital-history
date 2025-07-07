@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer } from 'react'
+import { useCallback, useEffect, useReducer, useRef } from 'react'
 
 import api from '../utils/helpers/setApiHeaders'
 
@@ -18,7 +18,7 @@ type Action<T> =
 
 function reducer<T>(state: State<T>, action: Action<T>): State<T> {
   console.info(
-    '[Reducer]UseFetchItems - action:',
+    `[Reducer]UseFetchItems - action:`,
     action,
     'offset:',
     state.offset,
@@ -52,8 +52,6 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
  *
  * @template T The type of the items being fetched.
  * @param endpoint - The API endpoint to fetch data from.
- * @param username - Optional username for basic authentication.
- * @param password - Optional password for basic authentication.
  * @param limit - The number of items to fetch per page (default is 10).
  * @returns An object containing:
  *   - `data`: The accumulated array of fetched items.
@@ -74,6 +72,7 @@ export function useFetchItems<T>(endpoint: string, limit: number, ordering?: str
     offset: 0,
     hasMore: true,
   })
+  const prevOrdering = useRef<string | undefined>(ordering)
 
   const loadMore = useCallback(
     async (offset: number = -1) => {
@@ -106,17 +105,16 @@ export function useFetchItems<T>(endpoint: string, limit: number, ordering?: str
         })
       }
     },
-    [endpoint, limit, ordering, state.offset],
+    [endpoint, limit, ordering, state.loading],
   )
 
   useEffect(() => {
     dispatch({ type: 'RESET' })
-  }, [endpoint, limit])
-
-  useEffect(() => {
-    dispatch({ type: 'RESET' })
-    loadMore(0)
-  }, [ordering])
+    if (prevOrdering.current !== ordering) {
+      loadMore(0)
+    }
+    prevOrdering.current = ordering
+  }, [ordering, endpoint, limit])
 
   return {
     data: state.data,
