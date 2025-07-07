@@ -86,10 +86,10 @@ const Table = ({
   const handleSort = (header: string) => {
     if (!setSortBy || !setSortOrder) return
     if (sortBy === header) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+      setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')
     } else {
       setSortBy(header)
-      setSortOrder('asc')
+      setSortOrder('desc')
     }
   }
 
