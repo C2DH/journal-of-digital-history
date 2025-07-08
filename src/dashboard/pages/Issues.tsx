@@ -1,15 +1,25 @@
-import Card from '../components/Card/Card'
+import '../styles/pages/pages.css'
+
+import AccordeonCard from '../components/AccordeonCard/AccordeonCard'
+// import Card from '../components/Card/Card'
 import { useFetchItems } from '../hooks/useFetch'
 import { Issue } from '../utils/types'
-
-import '../styles/pages/pages.css'
 
 const Issues = () => {
   const { data: issues, error, loading, hasMore, loadMore } = useFetchItems<Issue>('issues', 10)
 
   return (
     <div className="issues page">
-      <Card
+      {/* <Card
+        item="issues"
+        headers={['pid', 'name', 'creation_date', 'publication_date', 'status', 'volume', 'issue']}
+        data={issues}
+        error={error}
+        loading={loading}
+        hasMore={hasMore}
+        loadMore={loadMore}
+      /> */}
+      <AccordeonCard
         item="issues"
         headers={['pid', 'name', 'creation_date', 'publication_date', 'status', 'volume', 'issue']}
         data={issues}
