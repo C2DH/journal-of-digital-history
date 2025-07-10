@@ -1,3 +1,5 @@
+import './Status.css'
+
 import { useTranslation } from 'react-i18next'
 
 import { StatusProps } from './interface'

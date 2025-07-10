@@ -29,21 +29,13 @@ import SortButton from '../Buttons/SortButton/SortButton'
 import Status from '../Status/Status'
 import Timeline from '../Timeline/Timeline'
 
-function renderCell({
-  isStep,
-  cell,
-  headers,
-  cIdx,
-  isAbstract,
-  isArticle,
-  isIssues,
-}: renderCellProps) {
+function renderCell({ isStep, cell, headers, cIdx, isArticle }: renderCellProps) {
   let content: React.ReactNode = '-'
   const headerKey = headers[cIdx].toLowerCase().split('.').join(' ')
 
   if (isStep && isArticle) {
     content = <Timeline steps={articleSteps} currentStatus={cell} />
-  } else if (isStatus(cell, headerKey) && (isAbstract || isIssues)) {
+  } else if (isStatus(cell, headerKey)) {
     content = <Status value={cell} />
   } else if (isLinkCell(cell)) {
     content = <IconButton value={cell} />
@@ -130,7 +122,6 @@ const Table = ({
           {cleanData.map((row, rIdx) => {
             const isAbstractItem = isAbstract(item)
             const isArticleItem = isArticle(item)
-            const isIssuesItem = isIssues(item)
             const isArticleOrAbstracts = isAbstractItem || isArticleItem
 
             return (
@@ -159,9 +150,7 @@ const Table = ({
                         headers,
                         cIdx,
                         title: item,
-                        isAbstract: isAbstractItem,
                         isArticle: isArticleItem,
-                        isIssues: isIssuesItem,
                       })}
                     </td>
                   )
