@@ -1,6 +1,21 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  @media (max-width: 1500px) {
+    table-layout: fixed;
+  }
+}
+
+/* To keep action butn inside the table */
+.table.abstracts {
+  @media (max-width: 1640px) {
+    table-layout: fixed;
+  }
+}
+
 .table th,
 .table td {
-  font-family: 'DM Sans', sans-serif;
   font-size: var(--font-size-2);
   text-align: left;
   vertical-align: top;
@@ -18,6 +33,11 @@
 .table td {
   color: var(--color-gray);
   padding-top: var(--gap-size-2);
+}
+
+.table tr {
+  height: 10px;
+  vertical-align: top;
 }
 
 .status-cell {
@@ -39,7 +59,10 @@
 
   &.submitted,
   &.suspended,
-  &.draft {
+  &.draft,
+  &.peer_review,
+  &.technical_review,
+  &.design_review {
     color: var(--color-warning);
   }
   &.accepted,
@@ -49,9 +72,12 @@
 }
 
 td.name,
-& td.title {
+& td.title,
+& td.abstract__title {
   color: var(--color-deep-blue);
   font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 button {
@@ -64,4 +90,11 @@ button {
   cursor: pointer;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+/* Specific padding for folder_name (callforpapers), repository_url(articles), and orcid_icon cells */
+td.folder_name,
+td.repository_url,
+td.orcid {
+  padding-top: var(--gap-size-1);
 }

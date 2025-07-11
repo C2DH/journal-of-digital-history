@@ -11,13 +11,13 @@ const CallForPapers = () => {
     loading,
     hasMore,
     loadMore,
-  } = useFetchItems<Callforpaper>('/callofpaper', 10)
+  } = useFetchItems<Callforpaper>('callofpaper', 10)
 
   return (
     <div className="callforpapers page">
       <Card
         item="callforpapers"
-        headers={['id', 'title', 'deadline_abstract', 'deadline_article']}
+        headers={['id', 'title', 'deadline_abstract', 'deadline_article', 'folder_name']}
         data={callforpapers}
         error={error}
         loading={loading}

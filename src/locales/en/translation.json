@@ -87,7 +87,7 @@
       "title": "Abstract Submission",
       "guidelines": "Please, do not hesitate to read our <a href=\"/en/guidelines\" target=\"_blank\">guidelines</a> before submitting.",
       "author": {
-        "explanation": "<span>Please provide the contact information of all authors and contributors. At least one author must provide a <span className='text-accent' > GitHub username </span> and one author must be designated as the <span className='text-accent'> primary contact.</span> These can be different individuals.</span><br/><br/><em>The order of the authors will determine the final sequence in the published article.</em>",
+        "explanation": "<span>Please provide the contact information for the authors or contributors. You can list one or more individuals. At least one should have a <span className='text-accent'>GitHub username</span>, and only one must be the <span className='text-accent'>primary contact</span>. These can be different individuals.</span><br/><br/><em>The order of the authors will determine the final sequence in the published article.</em>",
         "email": "Email Address",
         "confirmEmail": "Confirm email address",
         "name": "Name",
@@ -247,7 +247,7 @@
             "pattern": "Must be a valid Facebook ID as username"
           },
           "primaryContact": {
-            "atLeastOnePrimaryContact": "At least one author must be selected as primary contact"
+            "onlyOnePrimaryContact": "Only one author must be selected as the primary contact"
           }
         },
         "languagePreference": {

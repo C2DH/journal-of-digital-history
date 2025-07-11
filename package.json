@@ -1,12 +1,13 @@
 {
   "name": "jdh",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "private": true,
   "type": "module",
   "packageManager": "yarn@4.9.1",
   "scripts": {
     "start": "vite",
     "build": "vite build --config vite.config.js",
+    "preview": "vite preview --port 5175",
     "test": "vitest --config vitest.config.js",
     "coverage": "vitest run --coverage",
     "lint": "eslint --fix src/**/*.js",

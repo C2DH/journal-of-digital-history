@@ -12,16 +12,29 @@ and launch via the browser http://localhost:3000/
 
 ## Installation
 
+To upgrade to yarn v4, if you are still using yarn v1.22.22, please do the followings :
+
+```
+    corepack enable
+    yarn set version berry
+```
+
+Then for the installation of the node modules :
+
+```
     yarn install
     make run-dev
+```
 
 Makefile contains a couple of useful commands that inject local environmental variable:
 
+```
     run-dev:
          VITE_GIT_TAG=$(shell git describe --tags --abbrev=0 HEAD) \
          VITE_GIT_BRANCH=$(shell git rev-parse --abbrev-ref HEAD) \
          VITE_GIT_COMMIT_SHA=$(shell git rev-parse --short HEAD) \
          yarn start
+```
 
 In development environment, to add a PROXY api different than `http://localhost` add the VITE_PROXY as env variable (it can be stored in a local `.env.development` file)
 
@@ -65,6 +78,6 @@ Fonts are loaded with WebFontLoader in ./src/index.js: Fira sans and Fira Mono
 
 ## Dashboard
 
-### Get access in development mode 
+### Get access in development mode
 
 To get access to the dashboard in development mode, just access it by adding `/dashboard/` to your localhost address (eg. `http://localhost:5173/dashboard/`)

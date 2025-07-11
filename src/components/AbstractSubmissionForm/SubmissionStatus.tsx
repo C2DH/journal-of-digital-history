@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
 
-import { SubmissionStatusCardProps } from '../../interfaces/abstractSubmission'
 import { mandatoryTopFields } from '../../constants/abstractSubmissionForm'
-import { requiredFieldErrors, addErrorToSection } from '../../logic/errors'
+import { SubmissionStatusCardProps } from '../../interfaces/abstractSubmission'
+import { addErrorToSection, requiredFieldErrors } from '../../logic/errors'
 
 import '../../styles/components/AbstractSubmissionForm/SubmissionStatus.scss'
 
@@ -13,7 +13,7 @@ const SubmissionStatusCard = ({
   isSubmitAttempted,
 }: SubmissionStatusCardProps) => {
   const { t } = useTranslation()
-  
+
   const errorHeaders = requiredFieldErrors(errors)
 
   if (callForPapersError) {

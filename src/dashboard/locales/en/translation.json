@@ -18,7 +18,7 @@
     "item": "Abstracts",
     "pid": "PID",
     "title": "Title",
-    "callpaper": "Call for paper",
+    "callpaper_title": "Call for paper",
     "submitted_date": "Submitted Date",
     "validation_date": "Validation Date",
     "contact_lastname": "Lastname",
@@ -29,22 +29,21 @@
   "callforpapers": {
     "item": "Call for Papers",
     "id": "ID",
+    "folder_name": "Repository link",
     "title": "Title",
     "deadline_abstract": "Abstract deadline",
     "deadline_article": "Article deadline"
   },
   "articles": {
     "item": "Articles",
-    "abstract": {
-      "pid": "PID",
-      "title": "Title"
-    },
+    "abstract__pid": "PID",
+    "abstract__title": "Title",
     "callpaper": "Call For Paper Number",
     "submitted_date": "Submission date",
     "validation_date": "Validation date",
     "publication_date": "Publication Date",
     "status": "Status",
-    "repository_url": "Repository URL"
+    "repository_url": "Repository"
   },
   "authors": {
     "item": "Authors",
@@ -64,5 +63,36 @@
   "error": {
     "title": "Sorry, you have an error",
     "invalidUser": "Invalid username or password"
+  },
+  "status": {
+    "peer_review": "Peer Review",
+    "published": "Published",
+    "draft": "Draft",
+    "rejected": "Rejected",
+    "in_progress": "In Progress",
+    "submitted": "Submitted",
+    "accepted": "Accepted",
+    "abandoned": "Abandoned",
+    "declined": "Declined",
+    "suspended": "Suspended",
+    "technical_review": "Technical Review",
+    "design_review": "Design Review"
+  },
+  "email": {
+    "approved": {
+      "message": "Congratulations! Your abstract has been approved for presentation."
+    },
+    "declined": {
+      "message": "We regret to inform you that your abstract has been declined. Thank you for your submission."
+    },
+    "abandoned": {
+      "message": "Your abstract has been abandoned. If you have any questions, please contact us."
+    },
+    "accepted": {
+      "message": "Your abstract has been accepted for the conference. We look forward to your presentation."
+    },
+    "suspended": {
+      "message": "Your abstract has been suspended. Please check your email for further instructions."
+    }
   }
 }

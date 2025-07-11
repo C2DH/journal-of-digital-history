@@ -4,12 +4,12 @@ import '../styles/pages/pages.css'
 import parse from 'html-react-parser'
 import { useLocation } from 'react-router'
 
-import ButtonLink from '../components/ButtonLink/ButtonLink'
+import LinkButton from '../components/Buttons/LinkButton/LinkButton'
 import Loading from '../components/Loading/Loading'
-import { SmallCard } from '../components/SmallCard/SmallCard'
+import SmallCard from '../components/SmallCard/SmallCard'
+import Status from '../components/Status/Status'
 import { useFetchItem } from '../hooks/useFetch'
-import { convertDate } from '../utils/convertDate'
-import { convertStatus } from '../utils/convertStatus'
+import { convertDate } from '../utils/helpers/convertDate'
 import { Abstract, Article } from '../utils/types'
 
 const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
@@ -51,8 +51,7 @@ function isArticle(item: any): item is Article {
 const Detail = ({ endpoint }) => {
   const location = useLocation()
   const id = location.pathname.split('/')[2]
-
-  const { data: item, error, loading } = useFetchItem(`${endpoint}${id}`)
+  const { data: item, error, loading } = useFetchItem(endpoint, id)
 
   if (loading) {
     return <Loading />
@@ -80,26 +79,29 @@ const Detail = ({ endpoint }) => {
       { label: 'PID', value: item.pid },
       {
         label: 'Call for papers',
-        value: item.callpaper === null ? 'Open Submission' : item.callpaper,
+        value: item.callpaper_title === null ? 'Open Submission' : item.callpaper_title,
       },
-      { label: 'Status', value: convertStatus(String(item.status)) },
+      { label: 'Status', value: <Status value={String(item.status)} /> },
       { label: 'Terms accepted', value: item.consented ? 'Yes' : 'No' },
       { label: 'Submission date', value: convertDate(item.submitted_date) },
-      { label: 'Validation date', value: convertDate(item.validation_date) },
+      {
+        label: 'Validation date',
+        value: item.validation_date ? convertDate(item.validation_date) : '-',
+      },
     ]
     contactFields = [
       { label: 'Contact name', value: `${item.contact_firstname} ${item.contact_lastname}` },
       { label: 'Affiliation', value: `${item.contact_affiliation}` },
-      { label: 'Email', value: item.contact_email === undefined ? '-' : item.contact_email },
+      { label: 'Email', value: item.contact_email === null ? '-' : item.contact_email },
     ]
-    url = `https://github.com/jdh-observer/${item?.pid}`
+    url = item.repository_url === undefined ? '-' : item.repository_url
     title = item.title
     abstractText = item.abstract
   } else if (isArticle(item)) {
     infoFields = [
       { label: 'PID', value: item.abstract.pid },
       { label: 'Call for papers', value: item.issue.name || 'Open Submission' },
-      { label: 'Status', value: convertStatus(String(item.status)) },
+      { label: 'Status', value: <Status value={String(item.status)} /> },
       { label: 'Terms accepted', value: item.abstract.consented ? 'Yes' : 'No' },
       { label: 'Submission date', value: convertDate(item.abstract.submitted_date) },
       { label: 'Validation date', value: convertDate(item.abstract.validation_date) },
@@ -130,7 +132,7 @@ const Detail = ({ endpoint }) => {
         </SmallCard>
         <SmallCard className="card-repository">
           <h2>Repository</h2>
-          <ButtonLink url={url} />
+          {url ? <LinkButton url={url} /> : '-'}
         </SmallCard>
         <SmallCard className="card-abstract">
           <h2>{title}</h2>

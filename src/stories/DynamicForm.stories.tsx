@@ -1,14 +1,23 @@
-import React, { useState } from 'react'
 import { Meta, StoryFn } from '@storybook/react'
-import DynamicForm from '../components/AbstractSubmissionForm/DynamicForm'
+import { useState } from 'react'
+
+import DynamicForm from '../components/AbstractSubmissionForm/DynamicForm/DynamicForm'
 import { DynamicFormItem } from '../src/interfaces/abstractSubmission'
 
 export default {
   title: 'Components/AbstractSubmissionForm/DynamicForm',
   component: DynamicForm,
   argTypes: {
-    maxItems: { control: 'number', defaultValue: 5, description: 'Maximum number of items allowed' },
-    buttonLabel: { control: 'text', defaultValue: 'addItem', description: 'Label for the add button' },
+    maxItems: {
+      control: 'number',
+      defaultValue: 5,
+      description: 'Maximum number of items allowed',
+    },
+    buttonLabel: {
+      control: 'text',
+      defaultValue: 'addItem',
+      description: 'Label for the add button',
+    },
     title: { control: 'text', description: 'Title of the form' },
     explanation: { control: 'text', description: 'Explanation text for the form' },
     fieldConfig: { control: 'object', description: 'Configuration for form fields' },
@@ -77,7 +86,7 @@ Default.args = {
     },
   ],
   items: [
-    { firstname: 'First name1', lastname:'Last name 1', primaryContact: true },
+    { firstname: 'First name1', lastname: 'Last name 1', primaryContact: true },
     { title: 'First name 2', description: 'Last name 2', primaryContact: false },
   ],
   maxItems: 5,

@@ -1,6 +1,7 @@
-import { TimelineProps } from './interface'
-import { getTimelineSteps } from '../../utils/getTimelineStep'
 import './Timeline.css'
+import { TimelineProps } from './interface'
+
+import { getTimelineSteps } from '../../utils/helpers/getTimelineStep'
 
 const Timeline = ({ steps, currentStatus }: TimelineProps) => {
   const visuals = getTimelineSteps(currentStatus, steps)

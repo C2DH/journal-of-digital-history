@@ -9,7 +9,7 @@ import '../styles/pages/pages.css'
 
 const Home = () => {
   const { t } = useTranslation()
-  const { data: issues, error, loading, hasMore, loadMore } = useFetchItems<Issue>('/issues', 10)
+  const { data: issues, error, loading, hasMore, loadMore } = useFetchItems<Issue>('issues', 10)
 
   return (
     <div className="home page">

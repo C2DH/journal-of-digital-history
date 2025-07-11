@@ -5,7 +5,7 @@ import { Issue } from '../utils/types'
 import '../styles/pages/pages.css'
 
 const Issues = () => {
-  const { data: issues, error, loading, hasMore, loadMore } = useFetchItems<Issue>('/issues', 10)
+  const { data: issues, error, loading, hasMore, loadMore } = useFetchItems<Issue>('issues', 10)
 
   return (
     <div className="issues page">

@@ -1,6 +1,6 @@
-import { useEffect, useReducer, useCallback } from 'react'
+import { useCallback, useEffect, useReducer, useRef } from 'react'
 
-import api from '../utils/getData'
+import api from '../utils/helpers/setApiHeaders'
 
 type State<T> = {
   data: T[]
@@ -17,6 +17,14 @@ type Action<T> =
   | { type: 'RESET' }
 
 function reducer<T>(state: State<T>, action: Action<T>): State<T> {
+  console.info(
+    `[Reducer]UseFetchItems - action:`,
+    action,
+    'offset:',
+    state.offset,
+    'data:',
+    state.data,
+  )
   switch (action.type) {
     case 'LOAD_START':
       return { ...state, loading: true }
@@ -24,7 +32,8 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
       return {
         ...state,
         loading: false,
-        data: [...state.data, ...action.payload.results],
+        data:
+          state.offset > 0 ? [...state.data, ...action.payload.results] : action.payload.results,
         offset: state.offset + action.payload.limit,
         hasMore: action.payload.results.length === action.payload.limit,
         error: null,
@@ -32,7 +41,7 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
     case 'LOAD_ERROR':
       return { ...state, loading: false, error: action.payload, hasMore: false }
     case 'RESET':
-      return { data: [], error: null, loading: false, offset: 0, hasMore: true }
+      return { ...state, error: null, loading: false, offset: 0, hasMore: true }
     default:
       return state
   }
@@ -43,8 +52,6 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
  *
  * @template T The type of the items being fetched.
  * @param endpoint - The API endpoint to fetch data from.
- * @param username - Optional username for basic authentication.
- * @param password - Optional password for basic authentication.
  * @param limit - The number of items to fetch per page (default is 10).
  * @returns An object containing:
  *   - `data`: The accumulated array of fetched items.
@@ -57,7 +64,7 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
  * This hook automatically resets and fetches data when the endpoint,
  * credentials, or limit changes. It handles authentication via HTTP Basic Auth.
  */
-export function useFetchItems<T>(endpoint: string, limit = 10) {
+export function useFetchItems<T>(endpoint: string, limit: number, ordering?: string) {
   const [state, dispatch] = useReducer(reducer<T>, {
     data: [],
     error: null,
@@ -65,30 +72,49 @@ export function useFetchItems<T>(endpoint: string, limit = 10) {
     offset: 0,
     hasMore: true,
   })
+  const prevOrdering = useRef<string | undefined>(ordering)
 
-  const loadMore = useCallback(async () => {
-    dispatch({ type: 'LOAD_START' })
+  const loadMore = useCallback(
+    async (offset: number = -1) => {
+      dispatch({ type: 'LOAD_START' })
 
-    try {
-      const pagedUrl = endpoint.includes('?')
-        ? `${endpoint}&limit=${limit}&offset=${state.offset}`
-        : `${endpoint}?limit=${limit}&offset=${state.offset}`
+      let finalOrdering = ordering
+      if (ordering === 'callpaper_title') {
+        finalOrdering = 'callpaper__title'
+      }
 
-      const response = await api.get(pagedUrl)
+      try {
+        const pagedUrl =
+          `/api/${endpoint}/` +
+          '?' +
+          [
+            ordering ? `ordering=${finalOrdering}, id` : null,
+            `limit=${limit}`,
+            `offset=${offset !== -1 ? offset : state.offset}`,
+          ]
+            .filter(Boolean)
+            .join('&')
+        const response = await api.get(pagedUrl)
 
-      const result = response.data
-      dispatch({ type: 'LOAD_SUCCESS', payload: { results: result.results, limit } })
-    } catch (err) {
-      dispatch({
-        type: 'LOAD_ERROR',
-        payload: err instanceof Error ? err.message : String(err),
-      })
-    }
-  }, [endpoint, limit, state.offset])
+        const result = response.data
+        dispatch({ type: 'LOAD_SUCCESS', payload: { results: result.results, limit } })
+      } catch (err) {
+        dispatch({
+          type: 'LOAD_ERROR',
+          payload: err instanceof Error ? err.message : String(err),
+        })
+      }
+    },
+    [endpoint, limit, ordering, state.loading],
+  )
 
   useEffect(() => {
     dispatch({ type: 'RESET' })
-  }, [endpoint, limit])
+    if (prevOrdering.current !== ordering) {
+      loadMore(0)
+    }
+    prevOrdering.current = ordering
+  }, [ordering, endpoint, limit])
 
   return {
     data: state.data,
@@ -170,14 +196,13 @@ function singleReducer<T>(state: SingleState<T>, action: SingleAction<T>): Singl
  *
  * @template T The type of the item being fetched.
  * @param endpoint - The API endpoint to fetch data from (should include the ID).
- * @param username - Optional username for basic authentication.
- * @param password - Optional password for basic authentication.
+ * @param id - The ID of the item to fetch.
  * @returns An object containing:
  *   - `data`: The fetched item or null.
  *   - `error`: Any error message encountered during fetching.
  *   - `loading`: Whether a fetch operation is in progress.
  */
-export function useFetchItem<T>(endpoint: string, username?: string, password?: string) {
+export function useFetchItem<T>(endpoint: string, id: string) {
   const [state, dispatch] = useReducer(singleReducer<T>, {
     data: null,
     error: null,
@@ -189,12 +214,12 @@ export function useFetchItem<T>(endpoint: string, username?: string, password?: 
     dispatch({ type: 'LOAD_START' })
     const fetchData = async () => {
       try {
-        const credentials = btoa(`${username}:${password}`) || ''
-        const response = await fetch(endpoint, {
-          headers: { Authorization: `Basic ${credentials}` },
-        })
-        if (!response.ok) throw new Error(`Failed to fetch: ${response.statusText}`)
-        const result = await response.json()
+        const pagedUrl = `/api/${endpoint}/${id}`
+        const response = await api.get(pagedUrl)
+
+        const result = response.data
+        if (!response.status) throw new Error(`Failed to fetch: ${response.statusText}`)
+
         dispatch({ type: 'LOAD_SUCCESS', payload: result })
       } catch (err) {
         dispatch({
@@ -204,9 +229,9 @@ export function useFetchItem<T>(endpoint: string, username?: string, password?: 
       }
     }
     fetchData()
-    // Optionally reset on endpoint change
+
     return () => dispatch({ type: 'RESET' })
-  }, [endpoint, username, password])
+  }, [endpoint, id])
 
   return {
     data: state.data,

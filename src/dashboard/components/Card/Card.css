@@ -1,15 +1,22 @@
 .card {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  width: fit-content;
+  /* width: fit-content; */
   height: 100%;
   min-height: 200px;
+  box-sizing: border-box;
+  position: relative;
   padding: 24px;
   color: var(--color-deep-blue);
 
   background: var(--color-white);
   backdrop-filter: blur(50px);
   -webkit-backdrop-filter: blur(50px);
+}
+
+/* Specifc style for Asbstracts */
+.card.abstracts {
+  min-height: 1000px;
 }
 
 .card.card-loading {
@@ -20,6 +27,18 @@
   align-items: center;
 }
 
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
 .card-error {
   width: 90%;
 }

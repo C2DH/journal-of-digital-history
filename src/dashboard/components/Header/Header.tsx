@@ -1,13 +1,10 @@
+import './Header.css'
+
+import { HeaderProps } from './interface'
+
 import Avatar from '../Avatar/Avatar'
 import Breadcrumb from '../Breadcrumb/Breadcrumb'
 import Search from '../Search/Search'
-
-import './Header.css'
-
-interface HeaderProps {
-  username: string
-  onLogout: () => void
-}
 
 const Header = ({ username, onLogout }: HeaderProps) => (
   <div className="top-bar">

@@ -1,9 +1,5 @@
 import './Avatar.css'
-
-interface UserAvatarProps {
-  username: string
-  onLogout: () => void
-}
+import { UserAvatarProps } from './interface'
 
 const Avatar = ({ username, onLogout }: UserAvatarProps) => {
   if (!username) return null
