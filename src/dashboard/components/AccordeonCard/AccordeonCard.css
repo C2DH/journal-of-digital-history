@@ -1,0 +1,19 @@
+.accordeon-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  height: 100%;
+  min-height: var(--space-size-4);
+  box-sizing: border-box;
+  position: relative;
+  padding: var(--space-size-2) var(--space-size-4);
+  color: var(--color-deep-blue);
+  background: var(--color-white);
+}
+
+.accordeon-title {
+  margin: var(--space-size-1) 0 var(--space-size-2) 0;
+}
+
+.accordeon-icon {
+  margin: var(--space-size-2) var(--space-size-6);
+}

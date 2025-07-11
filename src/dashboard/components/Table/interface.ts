@@ -16,7 +16,6 @@ export interface renderCellProps {
   headers: string[]
   cIdx: number
   title: string
-  isAbstract: boolean
+
   isArticle: boolean
-  isIssues: boolean
 }

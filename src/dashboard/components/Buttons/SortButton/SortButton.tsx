@@ -1,4 +1,4 @@
-import { ArrowSeparateVertical } from 'iconoir-react'
+import { ArrowDown } from 'iconoir-react'
 import { memo } from 'react'
 import './SortButton.css'
 
@@ -12,7 +12,7 @@ const SortButton = ({ active, order, onClick, label }: SortButtonProps) => (
     aria-label={`Sort by ${label}`}
   >
     {label}
-    <ArrowSeparateVertical
+    <ArrowDown
       className="sort-arrow"
       style={{
         transform: active ? (order === 'asc' ? 'rotate(0deg)' : 'rotate(180deg)') : 'rotate(0deg)',

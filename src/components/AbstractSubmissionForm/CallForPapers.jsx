@@ -1,10 +1,10 @@
 import React from 'react'
+import { Col, Dropdown, DropdownButton, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { Row, Col, DropdownButton, Dropdown } from 'react-bootstrap'
 
+import { StatusSuccess } from '../../constants/globalConstants'
 import { useGetJSON } from '../../logic/api/fetchData'
 import LangLink from '../LangLink'
-import { StatusSuccess } from '../../constants/globalConstants'
 
 import '../../styles/components/AbstractSubmissionForm/CallForPapers.scss'
 
@@ -25,14 +25,14 @@ const AbstractSubmissionCallForPapers = ({ cfp = '', onChange }) => {
     error: errorListOfCfps,
     status: statusListofCfps,
   } = useGetJSON({
-    url: '/api/callofpaper',
+    url: '/api/callforpaper/open',
     delay: 100,
   })
 
   console.debug('[AbstractSubmissionCallForPapers] url:', url, data, error, status)
   console.debug(
     '[AbstractSubmissionCallForPapers] url:',
-    '/api/callofpaper',
+    '/api/callforpaper/open',
     listOfCfps,
     errorListOfCfps,
     statusListofCfps,

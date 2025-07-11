@@ -53,6 +53,7 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
  * @template T The type of the items being fetched.
  * @param endpoint - The API endpoint to fetch data from.
  * @param limit - The number of items to fetch per page (default is 10).
+ * @param ordering - The field(s) to order the results by (optional).
  * @returns An object containing:
  *   - `data`: The accumulated array of fetched items.
  *   - `error`: Any error message encountered during fetching.
