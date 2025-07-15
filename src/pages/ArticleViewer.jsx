@@ -121,7 +121,7 @@ const ArticleViewer = () => {
       collaborators={collaborators}
       keywords={keywords}
       publicationStatus={article.status}
-      publicationDate={new Date(article.issue?.publication_date)}
+      publicationDate={article.issue?.publication_date && new Date(article.issue?.publication_date)}
       binderUrl={article.binder_url}
       repositoryUrl={article.repository_url}
       dataverseUrl={article.dataverse_url}

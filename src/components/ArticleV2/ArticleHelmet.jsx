@@ -31,10 +31,12 @@ const ArticleHelmet = ({
       <meta property="og:image" content={imageUrl} />
       <meta property="og:url" content={import.meta.env.VITE_BASEURL + window.location.pathname} />
       <meta property="article:author" content={plainContributor} />
-      <meta
-        property="article:published_time"
-        content={publicationDate.toISOString().split('T').shift()}
-      />
+      {publicationDate &&
+        <meta
+          property="article:published_time"
+          content={publicationDate.toISOString().split('T').shift()}
+        />
+      }
       <meta property="article:section" content={issue?.pid || ''} />
       {plainKeywords.map((k, i) => (
         <meta key={i} property="article:tag" content={k} />
