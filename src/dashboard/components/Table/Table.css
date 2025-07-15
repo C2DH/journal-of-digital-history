@@ -46,31 +46,6 @@
   vertical-align: middle;
 }
 
-.icon-status {
-  margin-right: var(--gap-size-1);
-  vertical-align: middle;
-  font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;
-
-  &.error,
-  &.abandoned,
-  &.declined {
-    color: var(--color-error);
-  }
-
-  &.submitted,
-  &.suspended,
-  &.draft,
-  &.peer_review,
-  &.technical_review,
-  &.design_review {
-    color: var(--color-warning);
-  }
-  &.accepted,
-  &.published {
-    color: var(--color-success);
-  }
-}
-
 td.name,
 & td.title,
 & td.abstract__title {
