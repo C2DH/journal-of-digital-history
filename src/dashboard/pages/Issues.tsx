@@ -1,8 +1,8 @@
+import '../styles/pages/pages.css'
+
 import Card from '../components/Card/Card'
 import { useFetchItems } from '../hooks/useFetch'
 import { Issue } from '../utils/types'
-
-import '../styles/pages/pages.css'
 
 const Issues = () => {
   const { data: issues, error, loading, hasMore, loadMore } = useFetchItems<Issue>('issues', 10)
