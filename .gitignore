@@ -43,6 +43,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Editor directories and files
+.vscode
 .vscode/*
 !.vscode/extensions.json
 .idea

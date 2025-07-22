@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
-import { useLocation } from 'react-router'
 import './Search.css'
 
+import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router'
+
 import { SearchProps } from './interface'
+
+import { useDebounce } from '../../../hooks/useDebounce'
 
 const Search = ({
   placeholder = 'Search',
@@ -10,19 +13,20 @@ const Search = ({
   className = '',
   activeRoutes,
 }: SearchProps) => {
-  const [query, setQuery] = useState('')
   const location = useLocation()
+  const [value, setValue] = useState('')
+  const debouncedValue = useDebounce(value, 300)
 
-  //TODO: integrate the API search
   if (activeRoutes && !activeRoutes.includes(location.pathname)) {
     return null
   }
 
-  // const { results, loading, error } = useSearch('/api/abstracts', query, USERNAME, PASSWORD)
+  useEffect(() => {
+    onSearch(debouncedValue)
+  }, [debouncedValue, onSearch])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value)
-    onSearch(e.target.value)
+    setValue(e.target.value)
   }
 
   return (
@@ -31,7 +35,7 @@ const Search = ({
         <span className="material-symbols-outlined">search</span>
         <input
           type="text"
-          value={query}
+          value={value}
           onChange={handleChange}
           placeholder={placeholder}
           className="search-input"

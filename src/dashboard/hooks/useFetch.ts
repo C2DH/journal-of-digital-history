@@ -3,6 +3,7 @@ import { useCallback, useEffect, useReducer, useRef } from 'react'
 import api from '../utils/helpers/setApiHeaders'
 
 type State<T> = {
+  count: number
   data: T[]
   error: string | null
   loading: boolean
@@ -12,7 +13,7 @@ type State<T> = {
 
 type Action<T> =
   | { type: 'LOAD_START' }
-  | { type: 'LOAD_SUCCESS'; payload: { results: T[]; limit: number } }
+  | { type: 'LOAD_SUCCESS'; payload: { count: number; results: T[]; limit: number } }
   | { type: 'LOAD_ERROR'; payload: string }
   | { type: 'RESET' }
 
@@ -32,6 +33,7 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
       return {
         ...state,
         loading: false,
+        count: action.payload.count,
         data:
           state.offset > 0 ? [...state.data, ...action.payload.results] : action.payload.results,
         offset: state.offset + action.payload.limit,
@@ -65,8 +67,14 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
  * This hook automatically resets and fetches data when the endpoint,
  * credentials, or limit changes. It handles authentication via HTTP Basic Auth.
  */
-export function useFetchItems<T>(endpoint: string, limit: number, ordering?: string) {
+export function useFetchItems<T>(
+  endpoint: string,
+  limit: number,
+  ordering?: string,
+  search?: string,
+) {
   const [state, dispatch] = useReducer(reducer<T>, {
+    count: 0,
     data: [],
     error: null,
     loading: false,
@@ -89,6 +97,7 @@ export function useFetchItems<T>(endpoint: string, limit: number, ordering?: str
           `/api/${endpoint}/` +
           '?' +
           [
+            search ? `search=${search}` : '',
             ordering ? `ordering=${finalOrdering}, id` : null,
             `limit=${limit}`,
             `offset=${offset !== -1 ? offset : state.offset}`,
@@ -96,9 +105,12 @@ export function useFetchItems<T>(endpoint: string, limit: number, ordering?: str
             .filter(Boolean)
             .join('&')
         const response = await api.get(pagedUrl)
-
         const result = response.data
-        dispatch({ type: 'LOAD_SUCCESS', payload: { results: result.results, limit } })
+
+        dispatch({
+          type: 'LOAD_SUCCESS',
+          payload: { count: result.count, results: result.results, limit },
+        })
       } catch (err) {
         dispatch({
           type: 'LOAD_ERROR',
@@ -106,18 +118,25 @@ export function useFetchItems<T>(endpoint: string, limit: number, ordering?: str
         })
       }
     },
-    [endpoint, limit, ordering, state.loading],
+    [endpoint, limit, ordering, search, state.loading],
   )
+
+  // useEffect(() => {
+  //   dispatch({ type: 'RESET' })
+  //   if (prevOrdering.current !== ordering) {
+  //     loadMore(0)
+  //   }
+  //   prevOrdering.current = ordering
+  // }, [ordering, endpoint, limit, search])
 
   useEffect(() => {
     dispatch({ type: 'RESET' })
-    if (prevOrdering.current !== ordering) {
-      loadMore(0)
-    }
+    loadMore(0)
     prevOrdering.current = ordering
-  }, [ordering, endpoint, limit])
+  }, [ordering, endpoint, limit, search])
 
   return {
+    count: state.count,
     data: state.data,
     error: state.error,
     loading: state.loading,

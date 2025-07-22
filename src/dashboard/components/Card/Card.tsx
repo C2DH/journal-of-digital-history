@@ -6,9 +6,11 @@ import { useTranslation } from 'react-i18next'
 import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useFetch'
+import { useSearchStore } from '../../store'
 import { Abstract, ModalInfo } from '../../utils/types'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
+import Search from '../Search/Search'
 import Table from '../Table/Table'
 
 function retrieveContactEmail(
@@ -26,6 +28,7 @@ function retrieveContactEmail(
 const Card = ({
   item,
   headers,
+  count,
   data,
   error,
   loading,
@@ -40,6 +43,7 @@ const Card = ({
   const loaderRef = useRef<HTMLDivElement | null>(null)
   const [modal, setModal] = useState<ModalInfo>({ open: false })
   const [email, setEmail] = useState<string>('')
+  const setSearch = useSearchStore((state) => state.setQuery)
 
   useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
 
@@ -59,7 +63,20 @@ const Card = ({
   return (
     <>
       <div className={`${item} card`}>
-        <h1>{t(`${item}.item`)}</h1>
+        <div className="card-header">
+          <div className="card-header-title">
+            <h1>{t(`${item}.item`)}</h1>
+            <p>
+              {count} {item}
+            </p>
+          </div>
+
+          <Search
+            onSearch={setSearch}
+            activeRoutes={['/abstracts', '/articles']}
+            placeholder={t('search.placeholder')}
+          />
+        </div>
         <Table
           item={item}
           headers={headers}
