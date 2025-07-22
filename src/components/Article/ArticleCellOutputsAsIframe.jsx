@@ -1,4 +1,4 @@
-import React from 'react'
+import { useRef, useState } from 'react';
 import { useArticleStore } from '../../store'
 /**
  * Renders a Jupyter Notebook cell's outputs as an iframe.
@@ -23,10 +23,17 @@ const ArticleCellOutputsAsIframe = ({
   if (!isJavascriptTrusted || !outputs.length) {
     return null
   }
-  const iframeHeight = isNaN(height) ? 200 : height
+  const ref = useRef(null);
+
+  const [iframeHeight, setHeight] = useState(isNaN(height) ? 200 : height);
   const iframeHeader = useArticleStore((state) => state.iframeHeader)
   const articleVersion = useArticleStore((state) => state.articleVersion)
   const addIframeHeader = useArticleStore((state) => state.addIframeHeader)
+
+  const onLoad = () => {
+    if(height === 0 || height === 'auto') 
+      setHeight(ref.current.contentWindow.document.body.scrollHeight);
+  };
 
   // if in isolationMode, the srcDoc will be the output data
   const srcDoc = isolationMode
@@ -108,6 +115,8 @@ const ArticleCellOutputsAsIframe = ({
 
   return (
     <iframe
+      ref={ref}
+      onLoad={onLoad}
       sandbox="allow-scripts allow-modal allow-same-origin"
       loading="eager"
       srcDoc={iframeSrcDoc}
