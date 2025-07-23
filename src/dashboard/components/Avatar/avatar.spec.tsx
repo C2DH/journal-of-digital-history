@@ -1,6 +1,7 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
+import { describe, expect, it, vi } from 'vitest'
+
 import Avatar from './Avatar'
-import { describe, it, expect, vi } from 'vitest'
 
 describe('Avatar', () => {
   it('renders the first letter of the username in uppercase', () => {

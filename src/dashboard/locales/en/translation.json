@@ -78,6 +78,9 @@
     "technical_review": "Technical Review",
     "design_review": "Design Review"
   },
+  "search": {
+    "placeholder": "Search on title or PID..."
+  },
   "email": {
     "approved": {
       "message": "Congratulations! Your abstract has been approved for presentation."

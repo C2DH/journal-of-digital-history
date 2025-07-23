@@ -13,7 +13,7 @@ import AppRoutes from './routes'
 
 function DashboardApp() {
   const [username, setUsername] = useState<string>('Anonymous')
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null) // null = unknown
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
   const handleLogout = async () => {

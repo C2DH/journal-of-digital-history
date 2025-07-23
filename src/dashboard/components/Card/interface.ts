@@ -1,6 +1,7 @@
 export type CardProps = {
   item: string
   headers: string[]
+  count: number
   data: any[]
   error?: any
   loading: boolean

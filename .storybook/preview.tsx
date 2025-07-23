@@ -1,31 +1,32 @@
-import React, { useEffect } from 'react'
 import type { Preview } from '@storybook/react'
-import i18n from '../src/i18next.ts'
+import { useEffect } from 'react'
 import { I18nextProvider } from 'react-i18next'
 
+import i18n from '../src/i18next.ts'
+
+import '../src/dashboard/styles/index.css'
 import '../src/styles/index.scss'
 
 //Set up language reads from right to left (eg. Arabic, Japanese)
 i18n.on('languageChanged', (locale) => {
-  let direction = i18n.dir(locale)
+  const direction = i18n.dir(locale)
   document.dir = direction
 })
 
 //Set up language change
-export const withI18next = 
-  (Story: any, context: any) => {
-    const { locale } = context.globals
+export const withI18next = (Story: any, context: any) => {
+  const { locale } = context.globals
 
-    useEffect(() => {
-      i18n.changeLanguage(locale)
-    }, [locale])
+  useEffect(() => {
+    i18n.changeLanguage(locale)
+  }, [locale])
 
-    return (
-      <I18nextProvider i18n={i18n}>
-        <Story />
-      </I18nextProvider>
-    )
-  }
+  return (
+    <I18nextProvider i18n={i18n}>
+      <Story />
+    </I18nextProvider>
+  )
+}
 export const decorators = [withI18next]
 
 const preview: Preview = {
