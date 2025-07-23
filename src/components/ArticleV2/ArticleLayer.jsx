@@ -52,6 +52,7 @@ const ArticleLayer = ({
   selectedSection = null,
   previousCellIdx = -1,
   layers = [],
+  timerRef = useRef(null),
   children,
   width = 0,
   height = 0,
@@ -117,7 +118,6 @@ const ArticleLayer = ({
     }
   }
 
-  const timerRef = useRef(null)
   const layerRef = useRefWithCallback(
     (layerDiv) => {
       setParagraphOffsets(layerDiv)
