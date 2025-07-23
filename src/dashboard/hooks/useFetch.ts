@@ -56,6 +56,7 @@ function reducer<T>(state: State<T>, action: Action<T>): State<T> {
  * @param endpoint - The API endpoint to fetch data from.
  * @param limit - The number of items to fetch per page (default is 10).
  * @param ordering - The field(s) to order the results by (optional).
+ * @param search - A search query to filter results (optional) according title or pid (only for abstracts and articles).
  * @returns An object containing:
  *   - `data`: The accumulated array of fetched items.
  *   - `error`: Any error message encountered during fetching.
@@ -82,6 +83,7 @@ export function useFetchItems<T>(
     hasMore: true,
   })
   const prevOrdering = useRef<string | undefined>(ordering)
+  const prevSearch = useRef<string | undefined>(search)
 
   const loadMore = useCallback(
     async (offset: number = -1) => {
@@ -121,18 +123,14 @@ export function useFetchItems<T>(
     [endpoint, limit, ordering, search, state.loading],
   )
 
-  // useEffect(() => {
-  //   dispatch({ type: 'RESET' })
-  //   if (prevOrdering.current !== ordering) {
-  //     loadMore(0)
-  //   }
-  //   prevOrdering.current = ordering
-  // }, [ordering, endpoint, limit, search])
-
   useEffect(() => {
     dispatch({ type: 'RESET' })
-    loadMore(0)
-    prevOrdering.current = ordering
+    //to avoid double issues fetches
+    if (prevOrdering.current !== ordering || search !== prevSearch.current) {
+      loadMore(0)
+      prevOrdering.current = ordering
+      prevSearch.current = search
+    }
   }, [ordering, endpoint, limit, search])
 
   return {
