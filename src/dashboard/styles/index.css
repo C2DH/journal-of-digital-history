@@ -15,6 +15,10 @@ body {
   color: var(--color-deep-blue);
 }
 
+.dashboard-app {
+  min-height: 100vh;
+}
+
 /* Color variables */
 :root {
   --color-background-gradient: linear-gradient(
