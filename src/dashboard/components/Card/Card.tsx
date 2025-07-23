@@ -66,9 +66,7 @@ const Card = ({
         <div className="card-header">
           <div className="card-header-title">
             <h1>{t(`${item}.item`)}</h1>
-            <p>
-              {count} {item}
-            </p>
+            <div>{count ? `${count} ${item}` : ''}</div>
           </div>
 
           <Search

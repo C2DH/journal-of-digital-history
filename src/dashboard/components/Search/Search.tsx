@@ -7,12 +7,7 @@ import { SearchProps } from './interface'
 
 import { useDebounce } from '../../../hooks/useDebounce'
 
-const Search = ({
-  placeholder = 'Search',
-  onSearch,
-  className = '',
-  activeRoutes,
-}: SearchProps) => {
+const Search = ({ placeholder = 'Search', onSearch, activeRoutes }: SearchProps) => {
   const location = useLocation()
   const [value, setValue] = useState('')
   const debouncedValue = useDebounce(value, 300)
@@ -30,7 +25,7 @@ const Search = ({
   }
 
   return (
-    <div className={`search-bar ${className}`}>
+    <div className={`search-bar`}>
       <div className="search-input-frame">
         <span className="material-symbols-outlined">search</span>
         <input

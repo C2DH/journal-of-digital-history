@@ -2,21 +2,28 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  width: 90%;
+
   height: 40px;
   padding: 0 8px;
+  margin-right: var(--gap-size-3);
 
   border: none;
   color: var(--color-deep-blue);
   background: var(--color-accent-lighter);
-  font-size: 1rem;
   border-radius: 32px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .search-input {
   background: transparent;
   border: none;
-  font-size: 1rem;
+  font-size: var(--font-size-3);
   color: var(--color-deep-blue);
   outline: none;
+}
+
+.search-input::placeholder {
+  color: var(--color-deep-blue);
+  opacity: 0.8;
+  font-size: var(--font-size-2);
 }

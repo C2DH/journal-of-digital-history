@@ -1,7 +1,6 @@
 .card {
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  /* width: fit-content; */
   height: 100%;
   min-height: 200px;
   box-sizing: border-box;
@@ -19,6 +18,13 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--space-size-2);
+}
+
+.card-header-title {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  gap: var(--gap-size-5);
 }
 
 /* Specifc style for Asbstracts */
