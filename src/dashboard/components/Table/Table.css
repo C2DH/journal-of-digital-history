@@ -13,16 +13,10 @@
 }
 
 .table th {
-  /* border-bottom: 0.25px solid var(--color-gray-light); */
   padding-bottom: var(--gap-size-1);
   color: var(--color-gray);
-  /* font-weight: 200; */
   font-weight: 600;
   font-size: var(--font-size-3);
-  /* overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  position: relative; */
 }
 
 .header {
@@ -39,6 +33,14 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   position: relative;
+}
+
+/* Remove ellipse text for actions-cell */
+td.actions-cell {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+  position: static;
 }
 
 .table tr {
