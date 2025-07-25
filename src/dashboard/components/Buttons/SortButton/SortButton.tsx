@@ -11,7 +11,7 @@ const SortButton = ({ active, order, onClick, label }: SortButtonProps) => (
     onClick={onClick}
     aria-label={`Sort by ${label}`}
   >
-    {label}
+    <span>{label}</span>
     <NavArrowDownSolid
       className="sort-arrow"
       style={{

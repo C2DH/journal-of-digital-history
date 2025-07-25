@@ -16,10 +16,10 @@
   },
   "abstracts": {
     "item": "Abstracts",
-    "pid": "PID",
+    "pid": "Pid",
     "title": "Title",
     "callpaper_title": "Call for paper",
-    "submitted_date": "Submitted Date",
+    "submitted_date": "Submitted ",
     "validation_date": "Validation Date",
     "contact_lastname": "Lastname",
     "contact_firstname": "Firstname",
@@ -36,7 +36,7 @@
   },
   "articles": {
     "item": "Articles",
-    "abstract__pid": "PID",
+    "abstract__pid": "Pid",
     "abstract__title": "Title",
     "abstract__contact_lastname": "Lastname",
     "abstract__contact_firstname": "Firstname",

@@ -97,11 +97,6 @@
     display: none;
   }
 
-  .navbar-logo {
-    display: flex;
-    justify-content: center;
-  }
-
   .navbar ul {
     padding: 5px;
   }

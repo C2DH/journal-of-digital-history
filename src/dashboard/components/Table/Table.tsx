@@ -101,12 +101,12 @@ const Table = ({
                   </th>
                 ))
               ) : (
-                <th key={header} className={header}>
-                  {(!isRepositoryHeader(header) &&
-                    !isStatusHeader(header) &&
-                    (isCallForPapers(item) || isIssues(item))) ||
-                  isFirstnameHeader(header) ||
-                  isLastnameHeader(header) ? (
+                <th key={header} className={`header ${header}`}>
+                  {isFirstnameHeader(header) ||
+                  isLastnameHeader(header) ||
+                  ((isCallForPapers(item) || isIssues(item)) &&
+                    !isRepositoryHeader(header) &&
+                    !isStatusHeader(header)) ? (
                     t(`${item}.${header}`)
                   ) : setSortBy && setSortOrder ? (
                     <SortButton

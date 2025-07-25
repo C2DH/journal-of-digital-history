@@ -19,6 +19,13 @@
   /* font-weight: 200; */
   font-weight: 600;
   font-size: var(--font-size-3);
+  /* overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative; */
+}
+
+.header {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -28,6 +35,10 @@
 .table td {
   color: var(--color-gray);
   padding-top: var(--gap-size-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
 }
 
 .table tr {
@@ -58,18 +69,6 @@ th.abstract__title {
 }
 
 /*TODO: rename abstract__title by article___title and title by abstract_title */
-
-td.name,
-& td.title,
-& td.abstract__title,
-& td.callpaper_title,
-& td.contact_affiliation {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  position: relative;
-}
-
 td.name,
 & td.title,
 & td.abstract__title {
