@@ -8,7 +8,7 @@
   top: 50%;
   left: 0%;
   right: 5%;
-  height: 2px;
+  height: 1px;
   background: var(--color-dark);
   z-index: 0;
 }
@@ -37,9 +37,9 @@
 .timeline-done,
 .timeline-error,
 .timeline-pending {
-  font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+  font-family: 'Material Symbols Outlined';
+  font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 48;
 }
-
 .timeline-done {
   color: var(--color-success);
 }
@@ -51,4 +51,5 @@
 }
 .timeline-todo {
   color: var(--color-dark);
+  font-variation-settings: 'FILL' 1, 'wght' 200, 'GRAD' 0, 'opsz' 48;
 }

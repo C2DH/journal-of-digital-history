@@ -97,6 +97,13 @@
     display: none;
   }
 
+  .navbar svg {
+    width: 25%;
+    height: auto;
+    margin-left: var(--space-size-0);
+    margin-top: var(--space-size-0);
+  }
+
   .navbar ul {
     padding: 5px;
   }
