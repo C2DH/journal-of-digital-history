@@ -82,19 +82,16 @@ export const getFigureRatio = tags =>
 
 
 /**
- * Get the height of the figure from tags
+ * Get the height of the figure output from tags
  *  
  * @param {string[]} tags     
  *    The list of tags from which to get the height       
- * @param {int} windowHeight  
- *    Height of the window used to calculate default height
- * @param {boolean} isCover   
- *    Boolean value which indicates the image is a cover. Used to calculate default height
+ * @param {int} defaultHeight  
+ *    The default height to return if the height is not specified in tags
  * 
  * @returns 
- *    The figure height if any has been specified with the tags. 
- *    Otherwise default is windowHeight * .5 for standard image
- *    windowHeight * .8 for cover image
+ *    The cell output height if any has been specified with the tags. 
+ *    Otherwise the default height
  */
 export const getFigureHeight = (tags, defaultHeight = 0) =>
   tags.reduce((acc, tag) => {

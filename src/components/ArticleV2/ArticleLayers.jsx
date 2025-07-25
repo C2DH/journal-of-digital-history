@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import ArticleLayer from './ArticleLayer'
 import { useQueryParams, StringParam, NumberParam, withDefault } from 'use-query-params'
 import {
@@ -32,6 +32,9 @@ const ArticleLayers = ({
   renderedFooterComponent,
   renderedLogoComponent,
 }) => {
+  // useRef to store the timer for scrolling. 
+  // issue #707: Delay the scroll to allow the layer to be rendered
+  const timerRef = useRef(null);
   const clearVisibleCellsIdx = useArticleToCStore((store) => store.clearVisibleCellsIdx)
   // Store indicies as a local ref, this represents the item order [0,1,2]
   // const order = React.useRef(layers.map((_, index) => index))
@@ -141,6 +144,7 @@ const ArticleLayers = ({
           height={height}
           width={width}
           layers={layers}
+          timerRef={timerRef}
           isJavascriptTrusted={isJavascriptTrusted}
           style={{
             width,

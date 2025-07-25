@@ -52,6 +52,7 @@ const ArticleLayer = ({
   selectedSection = null,
   previousCellIdx = -1,
   layers = [],
+  timerRef = useRef(null),
   children,
   width = 0,
   height = 0,
@@ -116,6 +117,7 @@ const ArticleLayer = ({
       })
     }
   }
+
   const layerRef = useRefWithCallback(
     (layerDiv) => {
       setParagraphOffsets(layerDiv)
@@ -165,14 +167,15 @@ const ArticleLayer = ({
         '\n scrollTo:',
         top,
       )
-      setTimeout(() => {
+      clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => {
         const top = cellElement.offsetTop + layerDiv.offsetTop - cellElementRefTop
 
         layerDiv.scrollTo({
           top,
           behavior: !previousLayer || previousLayer === selectedLayer ? 'smooth' : 'instant',
         })
-      }, 10)
+      }, timerRef.current ? 100 : 2000)
       // layerDiv.scrollTo({
       //   top,
       //   behavior: !previousLayer || previousLayer === selectedLayer ? 'smooth' : 'instant',
