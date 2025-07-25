@@ -84,6 +84,7 @@ body {
 /* Size */
 :root {
   --navbar-width: 300px;
+  --navbar-width-mobile: 100px;
   --navbar-header-width: 220px;
   --landing-page-header: 200px;
   --navbar-height: 200px;
