@@ -11,11 +11,14 @@ import {
   getRowActions,
   getVisibleHeaders,
   isAbstract,
+  isAffiliationHeader,
   isArticle,
+  isCallForPaperGithub,
   isCallForPapers,
   isDateCell,
-  isFolderNameCell,
+  isFirstnameHeader,
   isIssues,
+  isLastnameHeader,
   isLinkCell,
   isRepositoryHeader,
   isStatus,
@@ -39,7 +42,7 @@ function renderCell({ isStep, cell, headers, cIdx, isArticle }: renderCellProps)
     content = <Status value={cell} />
   } else if (isLinkCell(cell)) {
     content = <IconButton value={cell} />
-  } else if (isFolderNameCell(cell, headerKey)) {
+  } else if (isCallForPaperGithub(cell, headerKey)) {
     return (
       <IconButton value={`${import.meta.env.VITE_DASHBOARD_CALLFORPAPERS_GITHUB_URL}${cell}`} />
     )
@@ -99,9 +102,11 @@ const Table = ({
                 ))
               ) : (
                 <th key={header} className={header}>
-                  {!isRepositoryHeader(header) &&
-                  !isStatusHeader(header) &&
-                  (isCallForPapers(item) || isIssues(item)) ? (
+                  {(!isRepositoryHeader(header) &&
+                    !isStatusHeader(header) &&
+                    (isCallForPapers(item) || isIssues(item))) ||
+                  isFirstnameHeader(header) ||
+                  isLastnameHeader(header) ? (
                     t(`${item}.${header}`)
                   ) : setSortBy && setSortOrder ? (
                     <SortButton
@@ -129,12 +134,14 @@ const Table = ({
                 {row.map((cell, cIdx) => {
                   const headerName = headers[cIdx]
                   const isTitle = isTitleHeader(headerName)
+                  const isAffiliation = isAffiliationHeader(headerName)
                   const isStep = isStepCell(cell)
 
                   return (
                     <td
                       key={cIdx}
                       className={headerName}
+                      title={isTitle || isAffiliation ? String(cell) : undefined}
                       colSpan={isStep && isArticleItem ? articleSteps.length : 0}
                       style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
                       onClick={
@@ -156,8 +163,11 @@ const Table = ({
                   )
                 })}
                 <td className="actions-cell">
-                  {isAbstractItem && setModal && getRowActions(row, setModal, t).length > 0 && (
-                    <ActionButton actions={getRowActions(row, setModal, t)} />
+                  {isAbstractItem && setModal && (
+                    <ActionButton
+                      actions={getRowActions(row, setModal, t)}
+                      active={getRowActions(row, setModal, t).length > 0}
+                    />
                   )}
                 </td>
               </tr>

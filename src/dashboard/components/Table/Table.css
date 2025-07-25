@@ -1,17 +1,7 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-
-  @media (max-width: 1500px) {
-    table-layout: fixed;
-  }
-}
-
-/* To keep action butn inside the table */
-.table.abstracts {
-  @media (max-width: 1640px) {
-    table-layout: fixed;
-  }
+  table-layout: fixed;
 }
 
 .table th,
@@ -23,11 +13,16 @@
 }
 
 .table th {
-  border-bottom: 0.25px solid var(--color-gray-light);
+  /* border-bottom: 0.25px solid var(--color-gray-light); */
   padding-bottom: var(--gap-size-1);
   color: var(--color-gray);
-  font-weight: 200;
+  /* font-weight: 200; */
+  font-weight: 600;
   font-size: var(--font-size-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
 }
 
 .table td {
@@ -36,8 +31,11 @@
 }
 
 .table tr {
-  height: 10px;
   vertical-align: top;
+}
+
+.table tbody tr:hover {
+  background-color: var(--color-hover);
 }
 
 .status-cell {
@@ -46,25 +44,41 @@
   vertical-align: middle;
 }
 
+th.status-header {
+  width: 2%;
+}
+
+th.title,
+th.abstract__title {
+  width: 20%;
+
+  @media screen and (min-width: 2500px) {
+    width: 40%;
+  }
+}
+
+/*TODO: rename abstract__title by article___title and title by abstract_title */
+
+td.name,
+& td.title,
+& td.abstract__title,
+& td.callpaper_title,
+& td.contact_affiliation {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
+}
+
 td.name,
 & td.title,
 & td.abstract__title {
-  color: var(--color-deep-blue);
   font-weight: 600;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-button {
-  background-color: var(--color-accent-lighter);
-  color: var(--color-deep-blue);
-  padding: var(--gap-size-1) var(--gap-size-3);
-  border-radius: 8px;
-  border: none;
-  font-size: var(--font-size-2);
-  cursor: pointer;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+td.actions-cell {
+  margin-left: 5px;
+  text-align: center;
 }
 
 /* Specific padding for folder_name (callforpapers), repository_url(articles), and orcid_icon cells */
@@ -72,4 +86,5 @@ td.folder_name,
 td.repository_url,
 td.orcid {
   padding-top: var(--gap-size-1);
+  width: 1%;
 }
