@@ -27,6 +27,8 @@ const Articles = () => {
           'abstract__pid',
           'abstract__title',
           'publication_date',
+          'abstract__contact_lastname',
+          'abstract__contact_firstname',
           'status',
           'repository_url',
         ]}

@@ -148,7 +148,19 @@ function isTitleHeader(headerName: string) {
   return headerName === 'title' || headerName === 'abstract__title'
 }
 
-function isFolderNameCell(cell: any, header: string): boolean {
+function isAffiliationHeader(headerName: string) {
+  return headerName === 'contact_affiliation'
+}
+
+function isFirstnameHeader(headerName: string) {
+  return headerName === 'abstract__contact_firstname'
+}
+
+function isLastnameHeader(headerName: string) {
+  return headerName === 'abstract__contact_lastname'
+}
+
+function isCallForPaperGithub(cell: any, header: string): boolean {
   return typeof cell === 'string' && header.toLowerCase() === 'folder_name'
 }
 
@@ -179,12 +191,15 @@ export {
   getRowActions,
   getVisibleHeaders,
   isAbstract,
+  isAffiliationHeader,
   isArticle,
+  isCallForPaperGithub,
   isCallForPapers,
   isDateCell,
   isEmptyCell,
-  isFolderNameCell,
+  isFirstnameHeader,
   isIssues,
+  isLastnameHeader,
   isLinkCell,
   isOrcid,
   isRepositoryHeader,

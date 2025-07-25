@@ -25,8 +25,11 @@ const Navbar = ({ items }: NavbarProps) => {
       <ul>
         {items.map((item) => (
           <li key={item.href} className={activeHref === item.href ? 'active' : ''}>
-            <span className="material-symbols-outlined navbar-icons">{item.icon}</span>
-            <Link to={`${item.href}`}>{item.label}</Link>
+            <Link to={`${item.href}`}>
+              {' '}
+              <span className="material-symbols-outlined navbar-icons">{item.icon}</span>
+              <span className="navbar-labels">{item.label}</span>
+            </Link>
           </li>
         ))}
       </ul>

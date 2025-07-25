@@ -1,7 +1,8 @@
+import './styles/index.css'
+
 import { useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap'
 import { I18nextProvider } from 'react-i18next'
-import './styles/index.css'
 
 import Login from '../components/Login/Login'
 import { fetchUsername, userLogoutRequest } from '../logic/api/login'

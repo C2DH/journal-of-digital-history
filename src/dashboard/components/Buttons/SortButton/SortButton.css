@@ -1,21 +1,31 @@
 .sort-btn {
+  display: inline-flex;
+  align-items: center;
+  margin-left: var(--gap-size-0);
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
-  margin-left: 4px;
-  display: inline-flex;
-  align-items: center;
+
   font: inherit;
+  max-width: 110%;
+}
+
+.sort-btn span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
+  max-width: calc(100% - 20px);
 }
 
 .sort-arrow {
-  color: var(--color-accent);
+  color: var(--color-deep-blue);
   font-weight: 900;
 }
 
 .sort-arrow {
-  margin-left: 4px;
+  margin-left: var(--gap-size-0);
   vertical-align: middle;
   transition: transform 0.2s, opacity 0.2s;
   display: inline-block;

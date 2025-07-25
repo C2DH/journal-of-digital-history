@@ -100,7 +100,7 @@ export function useFetchItems<T>(
           '?' +
           [
             search ? `search=${search}` : '',
-            ordering ? `ordering=${finalOrdering}, id` : null,
+            ordering ? `ordering=${finalOrdering}` : null,
             `limit=${limit}`,
             `offset=${offset !== -1 ? offset : state.offset}`,
           ]
