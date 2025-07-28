@@ -70,3 +70,21 @@ h2 {
     align-items: flex-start;
   }
 }
+
+@media (max-width: 780px) {
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'b'
+      'e'
+      'a '
+      'c '
+      'c ';
+  }
+  .card-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
