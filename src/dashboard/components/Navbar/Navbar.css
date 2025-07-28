@@ -96,10 +96,9 @@
   .navbar-header p {
     display: none;
   }
-
-  .navbar svg {
+  .navbar-header {
     width: 25%;
-    height: auto;
+    padding: 6%;
     margin-left: var(--space-size-0);
     margin-top: var(--space-size-0);
   }
