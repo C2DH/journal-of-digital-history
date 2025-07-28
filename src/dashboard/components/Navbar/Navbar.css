@@ -86,3 +86,42 @@
   color: var(--color-accent);
   font-variation-settings: 'FILL' 1;
 }
+
+/* Responsive navbar for smaller viewport */
+@media (max-width: 1400px) {
+  .navbar {
+    width: var(--navbar-width-mobile);
+  }
+
+  .navbar-header p {
+    display: none;
+  }
+
+  .navbar svg {
+    width: 25%;
+    height: auto;
+    margin-left: var(--space-size-0);
+    margin-top: var(--space-size-0);
+  }
+
+  .navbar ul {
+    padding: 5px;
+  }
+
+  .navbar li {
+    justify-content: center;
+    margin: 20% 0;
+  }
+
+  .navbar li.active::before {
+    left: calc(var(--navbar-width-mobile) - 10%);
+  }
+
+  .navbar-icons {
+    font-size: 28px;
+  }
+
+  .navbar-labels {
+    display: none;
+  }
+}

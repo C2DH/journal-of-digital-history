@@ -22,12 +22,12 @@ describe('ActionButton', () => {
   ]
 
   it('renders MoreHoriz icon', () => {
-    render(<ActionButton actions={actions} />)
+    render(<ActionButton actions={actions} active={true} />)
     expect(screen.getByTestId('action-button')).toBeInTheDocument()
   })
 
   it('shows dropdown on icon click and calls action', () => {
-    render(<ActionButton actions={actions} />)
+    render(<ActionButton actions={actions} active={true} />)
     const icon = screen.getByTestId('action-button')
     fireEvent.click(icon)
     expect(screen.getByTestId('dropdown')).toBeInTheDocument()
@@ -37,7 +37,7 @@ describe('ActionButton', () => {
   })
 
   it('closes dropdown when clicking outside', () => {
-    render(<ActionButton actions={actions} />)
+    render(<ActionButton actions={actions} active={true} />)
     const icon = screen.getByTestId('action-button')
     fireEvent.click(icon)
     expect(screen.getByTestId('dropdown')).toBeInTheDocument()

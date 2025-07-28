@@ -17,3 +17,9 @@
   display: flex;
   align-items: center;
 }
+
+@media (max-width: 1400px) {
+  .breadcrumb {
+    margin-left: var(--navbar-width-mobile);
+  }
+}
