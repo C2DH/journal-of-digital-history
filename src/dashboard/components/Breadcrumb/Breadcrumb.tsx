@@ -8,7 +8,7 @@ const Breadcrumb = () => {
 
   return (
     <nav aria-label="breadcrumb" className="breadcrumb">
-      <Link to="/dashboard">Home </Link>
+      <Link to="/">Home </Link>
       {pathnames.map((value, idx) => {
         if (value != 'home') {
           const to = '/' + pathnames.slice(0, idx + 1).join('/')
