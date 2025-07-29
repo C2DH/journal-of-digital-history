@@ -81,9 +81,6 @@
     "placeholder": "Search on title or PID..."
   },
   "email": {
-    "approved": {
-      "message": "Congratulations! Your abstract has been approved for presentation."
-    },
     "declined": {
       "message": "We regret to inform you that your abstract has been declined. Thank you for your submission."
     },
