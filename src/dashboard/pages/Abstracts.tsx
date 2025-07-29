@@ -1,6 +1,6 @@
 import '../styles/pages/pages.css'
 
-import Card from '../components/Card/Card'
+import TabPanel from '../components/TabPanel/TabPanel'
 import { useFetchItems } from '../hooks/useFetch'
 import { useFilters } from '../hooks/useFilters'
 import { useSearchStore } from '../store'
@@ -18,10 +18,17 @@ const Abstracts = () => {
     hasMore,
     loadMore,
   } = useFetchItems<Abstract>('abstracts', 10, ordering, query)
-  console.log('🚀 ~ file: Abstracts.tsx:15 ~ count:', count)
+
+  const tabs = [
+    { label: 'Home', content: <div>Home Content</div> },
+    { label: 'Profile', content: <div>Profile Content</div> },
+    { label: 'Settings', content: <div>Settings Content</div> },
+  ]
+
   return (
     <div className="abstract page">
-      <Card
+      <TabPanel tabs={tabs} />
+      {/* <Card
         item="abstracts"
         headers={[
           'pid',
@@ -43,7 +50,7 @@ const Abstracts = () => {
         sortOrder={sortOrder || undefined}
         setSortBy={(newSortBy) => setFilters({ sortBy: newSortBy })}
         setSortOrder={(newSortOrder) => setFilters({ sortOrder: newSortOrder })}
-      />
+      /> */}
     </div>
   )
 }
