@@ -4,8 +4,8 @@ import { fileURLToPath } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 
 import react from '@vitejs/plugin-react'
-import svgr from 'vite-plugin-svgr'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
+import svgr from 'vite-plugin-svgr'
 import webfontDownload from 'vite-plugin-webfont-dl'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -43,8 +43,11 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
         },
         '/proxy-githubusercontent': {
-          target: env.VITE_PROXY,
+          target: env.VITE_GITHUB_RAW_CONTENT,
           changeOrigin: true,
+          rewrite: (path) => {
+            return path.replace(/^\/proxy-githubusercontent/, 'https://raw.githubusercontent.com')
+          },
         },
       },
     },
