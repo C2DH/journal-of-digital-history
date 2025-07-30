@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
 const CanonicalUpdater = () => {
+  // This component updates the canonical link in the document head
+  // use for Hypothes.is integration
   const location = useLocation()
 
   useEffect(() => {

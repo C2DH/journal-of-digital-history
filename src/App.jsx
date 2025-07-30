@@ -78,6 +78,7 @@ export default function App() {
             <Header availableLanguages={LANGUAGES} isAuthDisabled />
             {typeof csrfToken === 'string' && <Me />}
             <Cookies defaultAcceptCookies={AcceptCookies} />
+            {/* Hypothes.is integration */}
             <CanonicalUpdater />
             <main>
               <Suspense fallback={<Loading />} key={location.key}>
