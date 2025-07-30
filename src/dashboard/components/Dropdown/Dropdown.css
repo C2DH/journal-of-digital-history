@@ -27,3 +27,14 @@
   background-color: var(--color-hover);
   width: 100%;
 }
+
+button {
+  color: var(--color-deep-blue);
+  padding: var(--gap-size-1) var(--gap-size-3);
+  border-radius: 8px;
+  border: none;
+  font-size: var(--font-size-2);
+  cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

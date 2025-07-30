@@ -50,3 +50,41 @@
 h2 {
   margin: 0 0 var(--space-size-3) 0;
 }
+
+@media (max-width: 1400px) {
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      'b e'
+      'a a'
+      'c c'
+      'c c';
+  }
+}
+
+@media (max-width: 900px) {
+  .card-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 780px) {
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'b'
+      'e'
+      'a '
+      'c '
+      'c ';
+  }
+  .card-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

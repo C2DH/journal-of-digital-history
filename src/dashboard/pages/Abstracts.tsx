@@ -1,18 +1,23 @@
+import '../styles/pages/pages.css'
+
 import Card from '../components/Card/Card'
 import { useFetchItems } from '../hooks/useFetch'
 import { useFilters } from '../hooks/useFilters'
-import '../styles/pages/pages.css'
+import { useSearchStore } from '../store'
 import { Abstract } from '../utils/types'
 
 const Abstracts = () => {
   const { sortBy, sortOrder, ordering, setFilters } = useFilters()
+  const query = useSearchStore((state) => state.query)
+
   const {
+    count,
     data: abstracts,
     error,
     loading,
     hasMore,
     loadMore,
-  } = useFetchItems<Abstract>('abstracts', 10, ordering)
+  } = useFetchItems<Abstract>('abstracts', 10, ordering, query)
 
   return (
     <div className="abstract page">
@@ -28,6 +33,7 @@ const Abstracts = () => {
           'contact_affiliation',
           'status',
         ]}
+        count={count}
         data={abstracts}
         error={error}
         loading={loading}

@@ -9,12 +9,16 @@
 }
 
 .action-icon {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
 }
 
-.action-icon:hover,
-.action-icon.active {
+.action-icon.active:hover {
   background-color: var(--color-accent-lighter);
   border-radius: 50%;
+}
+
+.action-icon.inactive {
+  cursor: not-allowed;
+  opacity: 0.2;
 }

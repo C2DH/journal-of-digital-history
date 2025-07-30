@@ -1,19 +1,23 @@
+import '../styles/pages/pages.css'
+
 import Card from '../components/Card/Card'
 import { useFetchItems } from '../hooks/useFetch'
 import { useFilters } from '../hooks/useFilters'
+import { useSearchStore } from '../store'
 import { Article } from '../utils/types'
-
-import '../styles/pages/pages.css'
 
 const Articles = () => {
   const { sortBy, sortOrder, ordering, setFilters } = useFilters()
+  const query = useSearchStore((state) => state.query)
+
   const {
+    count,
     data: articles,
     error,
     loading,
     hasMore,
     loadMore,
-  } = useFetchItems<Article>('articles', 20, ordering)
+  } = useFetchItems<Article>('articles', 20, ordering, query)
 
   return (
     <div className="articles page">
@@ -23,9 +27,12 @@ const Articles = () => {
           'abstract__pid',
           'abstract__title',
           'publication_date',
+          'abstract__contact_lastname',
+          'abstract__contact_firstname',
           'status',
           'repository_url',
         ]}
+        count={count}
         data={articles}
         error={error}
         loading={loading}

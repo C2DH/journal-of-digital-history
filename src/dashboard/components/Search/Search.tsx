@@ -1,37 +1,36 @@
-import React, { useState } from 'react'
-import { useLocation } from 'react-router'
 import './Search.css'
+
+import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router'
 
 import { SearchProps } from './interface'
 
-const Search = ({
-  placeholder = 'Search',
-  onSearch,
-  className = '',
-  activeRoutes,
-}: SearchProps) => {
-  const [query, setQuery] = useState('')
-  const location = useLocation()
+import { useDebounce } from '../../../hooks/useDebounce'
 
-  //TODO: integrate the API search
+const Search = ({ placeholder = 'Search', onSearch, activeRoutes }: SearchProps) => {
+  const location = useLocation()
+  const [value, setValue] = useState('')
+  const debouncedValue = useDebounce(value, 300)
+
   if (activeRoutes && !activeRoutes.includes(location.pathname)) {
     return null
   }
 
-  // const { results, loading, error } = useSearch('/api/abstracts', query, USERNAME, PASSWORD)
+  useEffect(() => {
+    onSearch(debouncedValue)
+  }, [debouncedValue, onSearch])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value)
-    onSearch(e.target.value)
+    setValue(e.target.value)
   }
 
   return (
-    <div className={`search-bar ${className}`}>
+    <div className={`search-bar`}>
       <div className="search-input-frame">
         <span className="material-symbols-outlined">search</span>
         <input
           type="text"
-          value={query}
+          value={value}
           onChange={handleChange}
           placeholder={placeholder}
           className="search-input"

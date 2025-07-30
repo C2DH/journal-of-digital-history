@@ -10,6 +10,12 @@ vi.mock('react-i18next', () => ({
   }),
 }))
 
+// Mock useLocation
+const mockLocation = vi.fn()
+vi.mock('react-router', () => ({
+  useLocation: () => mockLocation,
+}))
+
 // Mock Table and Loading to simplify test output
 vi.mock('../Table/Table', () => ({
   default: () => <div data-testid="table-mock" />,

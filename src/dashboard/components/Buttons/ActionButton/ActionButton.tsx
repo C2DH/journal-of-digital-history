@@ -6,7 +6,7 @@ import { ActionButtonProps } from './interface'
 
 import Dropdown from '../../Dropdown/Dropdown'
 
-const ActionButton = ({ actions }: ActionButtonProps) => {
+const ActionButton = ({ actions, active }: ActionButtonProps) => {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -27,8 +27,8 @@ const ActionButton = ({ actions }: ActionButtonProps) => {
   return (
     <div className="action-btn-wrapper" ref={ref}>
       <MoreHoriz
-        className={`action-icon ${open ? 'active' : ''}`}
-        onClick={() => setOpen((prev) => !prev)}
+        className={`action-icon ${active ? 'active' : 'inactive'}`}
+        onClick={active ? () => setOpen((prev) => !prev) : undefined}
         type="button"
         data-testid="action-button"
       />
