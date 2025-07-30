@@ -78,7 +78,7 @@
     "design_review": "Design Review"
   },
   "search": {
-    "placeholder": "Search on title or PID..."
+    "placeholder": "Search by PID, title, or author"
   },
   "email": {
     "declined": {
