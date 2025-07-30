@@ -40,6 +40,11 @@
   margin: 0;
 }
 
+.navbar-link {
+  display: flex;
+  align-items: center;
+}
+
 /* List item styles */
 .navbar li {
   display: flex;
