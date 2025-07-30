@@ -1,22 +1,23 @@
-import React, { Suspense, useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import ReactGA from 'react-ga'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 
-import UniversalCookie from 'universal-cookie'
-import { I18nextProvider } from 'react-i18next'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { I18nextProvider } from 'react-i18next'
+import UniversalCookie from 'universal-cookie'
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 
-import i18n from './i18next'
-import { getStartLang, LANGUAGES } from './logic/language'
-import { IsMobile, GaTrackingId, NotebookPoweredPaths } from './constants/globalConstants'
-import Header from './components/Header'
-import Footer from './components/Footer'
 import Cookies from './components/Cookies'
+import Footer from './components/Footer'
+import Header from './components/Header'
+import PercentLoader from './components/PercentLoader'
 import ScrollToTop from './components/ScrollToTop'
 import VideoReleaseLazy from './components/VideoRelease/VideoReleaseLazy'
-import PercentLoader from './components/PercentLoader'
+import { GaTrackingId, IsMobile, NotebookPoweredPaths } from './constants/globalConstants'
+import CanonicalUpdater from './dashboard/utils/helpers/CanonicalUpdater'
+import i18n from './i18next'
+import { getStartLang, LANGUAGES } from './logic/language'
 import Loading from './pages/Loading'
 
 import { AcceptAnalyticsCookies, AcceptCookies } from './logic/tracking'
@@ -77,6 +78,8 @@ export default function App() {
             <Header availableLanguages={LANGUAGES} isAuthDisabled />
             {typeof csrfToken === 'string' && <Me />}
             <Cookies defaultAcceptCookies={AcceptCookies} />
+            {/* Hypothes.is integration */}
+            <CanonicalUpdater />
             <main>
               <Suspense fallback={<Loading />} key={location.key}>
                 <AppRoutes languagePath={short} />

@@ -18,7 +18,7 @@ const Abstracts = () => {
     hasMore,
     loadMore,
   } = useFetchItems<Abstract>('abstracts', 10, ordering, query)
-  console.log('🚀 ~ file: Abstracts.tsx:15 ~ count:', count)
+
   return (
     <div className="abstract page">
       <Card
