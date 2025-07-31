@@ -1,8 +1,10 @@
+import './ContactForm.css'
+
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
-import { useEffect, useState } from 'react'
+import parse from 'html-react-parser'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import './ContactForm.css'
 
 import { ContactFormData } from './interface'
 
@@ -18,30 +20,42 @@ function validateContactForm(data: any) {
   return { valid, errors: validate.errors }
 }
 
-const ContactForm = ({ contactEmail, pid, action, title }) => {
+const ContactForm = ({ data, action }) => {
+  console.log('🚀 ~ file: ContactForm.tsx:24 ~ data:', data)
   const { t } = useTranslation()
+  const formatMessage = (template) => {
+    return template
+      .replace(/\{recipientName\}/g, data?.row[4] + ' ' + data?.row[5] || 'author')
+      .replace(/\{submissionTitle\}/g, data?.title)
+      .replace(/\{submissionId\}/g, data?.id)
+      .replace(/\{contactEmail\}/g, 'jdh.admin@uni.lu')
+      .replace(/\{signature\}/g, 'JDH Team')
+  }
+
   const [form, setForm] = useState({
-    pid: '',
+    pid: data?.pid || '',
     from: 'jdh.admin@uni.lu',
-    to: '',
-    subject: '',
-    message: t(`email.${action}.message`),
+    to: data?.contact_email || '',
+    subject: data?.title || '',
+    message: formatMessage(parse(t(`email.${action}.message`))),
     status: '',
   })
+
+  console.log('Form message:', form)
   const [notification, setNotification] = useState<{
     type: 'success' | 'error'
     message: string
   } | null>(null)
 
-  useEffect(() => {
-    setForm((prev) => ({
-      ...prev,
-      pid: pid || '',
-      to: contactEmail || '',
-      status: action || '',
-      subject: title || '',
-    }))
-  }, [contactEmail, pid, title])
+  // useEffect(() => {
+  //   setForm((prev) => ({
+  //     ...prev,
+  //     pid: pid || '',
+  //     to: contactEmail || '',
+  //     status: action || '',
+  //     subject: title || '',
+  //   }))
+  // }, [contactEmail, pid, title])
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -53,7 +67,7 @@ const ContactForm = ({ contactEmail, pid, action, title }) => {
       from: form.from,
       to: form.to,
       subject: form.subject,
-      body: form.message,
+      body: String(form.message),
       status: form.status,
     }
     console.info('[ContactForm] Data:', data)
@@ -100,7 +114,7 @@ const ContactForm = ({ contactEmail, pid, action, title }) => {
       </label>
       <label>
         Message
-        <textarea name="message" value={form.message} onChange={handleChange} required />
+        <textarea name="message" value={String(form.message)} onChange={handleChange} required />
       </label>
       {notification && (
         <div className={`notification notification-${notification.type}`}>

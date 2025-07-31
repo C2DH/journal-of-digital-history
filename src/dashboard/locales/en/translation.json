@@ -88,7 +88,7 @@
       "message": "Your abstract has been abandoned. If you have any questions, please contact us."
     },
     "accepted": {
-      "message": "Your abstract has been accepted for the conference. We look forward to your presentation."
+      "message": "Dear {recipientName},\nThank you for submitting your abstract {submissionTitle} (ID: {submissionId}) to The Journal of Digital History (JDH). Regarding the next steps, we will contact you to propose a few dates to discuss the principle of multilayered articles.\n\nThe JDH publishes data-driven research articles, and we require authors to adhere to specific writing guidelines. These include collaboration via GitHub, the use of Jupyter Notebooks, and the writing of code using R or Python. Please refer to the following link for detailed instructions on our submission guidelines and for setting up the required writing environment on your machine: \n\nhttps://journalofdigitalhistory.org/en/guidelines .\n\nIf you require assistance with installing the necessary software or encounter any questions about the writing process, please do not hesitate to contact us at {contactEmail}. We will be happy to support you.\n\nRegarding the next steps, we will contact you to propose a few dates to discuss the principle of multilayered articles.\n\nKind regards,\n{signature}"
     },
     "suspended": {
       "message": "Your abstract has been suspended. Please check your email for further instructions."
