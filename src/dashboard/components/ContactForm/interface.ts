@@ -1,5 +1,5 @@
 export type ContactFormData = {
-  pid: string
+  pid?: string
   from: string
   to: string
   subject: string

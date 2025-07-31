@@ -35,38 +35,37 @@ const ContactForm = ({ data, action }) => {
     type: 'success' | 'error'
     message: string
   } | null>(null)
-
-  const [form, setForm] = useState<ContactFormData>()
+  const [form, setForm] = useState<ContactFormData | null>(null)
 
   useEffect(() => {
+    if (!data) return
+
     setForm({
-      pid: data?.pid || '',
+      pid: data.pid || '',
       from: 'jdh.admin@uni.lu',
-      to: data?.contactEmail || '',
-      subject: data?.title || '',
+      to: data.contactEmail || '',
+      subject: data.title || '',
       message: formatMessage(parse(t(`email.${action}.message`)), data),
       status: action || '',
     })
   }, [data, action, t])
 
-  const handleChange = (e) => {
-    setForm({
-      pid: form?.pid ?? '',
-      from: form?.from ?? '',
-      to: form?.to ?? '',
-      subject: form?.subject ?? '',
-      message: form?.message ?? '',
-    })
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setForm((prevForm) => ({
+      ...prevForm!,
+      [name]: value,
+    }))
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     const data: ContactFormData = {
-      from: form.from,
-      to: form.to,
-      subject: form.subject,
-      message: String(form.message),
-      status: form.status,
+      from: String(form?.from),
+      to: String(form?.to),
+      subject: String(form?.subject),
+      message: String(form?.message),
+      status: form?.status,
     }
     console.info('[ContactForm] Data:', data)
 
@@ -74,7 +73,7 @@ const ContactForm = ({ data, action }) => {
 
     if (valid) {
       try {
-        const res = await modifyAbstractStatus(form.pid, data)
+        const res = await modifyAbstractStatus(String(form?.pid), data)
         setNotification({
           type: 'success',
           message: res?.data?.message || 'Message sent successfully!',
