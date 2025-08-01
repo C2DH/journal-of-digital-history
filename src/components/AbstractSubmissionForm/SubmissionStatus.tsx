@@ -1,5 +1,8 @@
 import { useTranslation } from 'react-i18next'
 
+import CheckCircleIcon from '../../assets/icons/CheckCircleIcon'
+import ErrorIcon from '../../assets/icons/ErrorIcon'
+import RadioButtonUncheckedIcon from '../../assets/icons/RadioButtonUncheckedIcon'
 import { mandatoryTopFields } from '../../constants/abstractSubmissionForm'
 import { SubmissionStatusCardProps } from '../../interfaces/abstractSubmission'
 import { addErrorToSection, requiredFieldErrors } from '../../logic/errors'
@@ -47,11 +50,13 @@ const SubmissionStatusCard = ({
                   }`}
                 >
                   <span className="material-symbols-outlined">
-                    {submissionError
-                      ? 'error'
-                      : topLevelErrors.includes(section)
-                      ? 'radio_button_unchecked'
-                      : 'check_circle'}
+                    {submissionError ? (
+                      <ErrorIcon />
+                    ) : topLevelErrors.includes(section) ? (
+                      <RadioButtonUncheckedIcon />
+                    ) : (
+                      <CheckCircleIcon />
+                    )}
                   </span>
                 </div>
                 <div className="round-icon"></div>
