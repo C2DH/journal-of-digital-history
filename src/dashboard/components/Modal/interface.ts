@@ -2,7 +2,8 @@ export interface ModalProps {
   open: boolean
   onClose: () => void
   action: string
-  contactEmail?: string
-  pid?: string
-  title: string
+  rowData?: any // Optional raw data for more complex modals
+  // contactEmail?: string
+  // pid?: string
+  // title: string
 }

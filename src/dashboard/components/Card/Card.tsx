@@ -41,15 +41,19 @@ const Card = ({
 }: CardProps) => {
   const { t } = useTranslation()
   const loaderRef = useRef<HTMLDivElement | null>(null)
-  const [modal, setModal] = useState<ModalInfo>({ open: false })
-  const [email, setEmail] = useState<string>('')
+  const [rowData, setRowData] = useState<ModalInfo>({ open: false })
+
   const setSearch = useSearchStore((state) => state.setQuery)
 
   useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
 
   useEffect(() => {
-    retrieveContactEmail(modal.id, data, setEmail)
-  }, [modal.open])
+    if (rowData.open && rowData.id) {
+      retrieveContactEmail(rowData.id, data, (email: string) => {
+        setRowData((prev) => ({ ...prev, contactEmail: email }))
+      })
+    }
+  }, [rowData.open, rowData.id, data])
 
   if (error) {
     return (
@@ -68,7 +72,6 @@ const Card = ({
             <h1>{t(`${item}.item`)}</h1>
             <div>{count ? `${count} ${item}` : ''}</div>
           </div>
-
           <Search
             onSearch={setSearch}
             activeRoutes={['/abstracts', '/articles']}
@@ -83,18 +86,16 @@ const Card = ({
           sortOrder={sortOrder}
           setSortBy={setSortBy}
           setSortOrder={setSortOrder}
-          setModal={setModal}
+          setModal={setRowData}
         />
         <div ref={loaderRef} />
       </div>
       {loading && data.length > 0 && <Loading />}
       <Modal
-        open={modal.open}
-        onClose={() => setModal({ open: false })}
-        action={modal.action || ''}
-        title={modal.title || ''}
-        pid={modal.id}
-        contactEmail={email}
+        open={rowData.open}
+        onClose={() => setRowData({ open: false })}
+        action={rowData.action || ''}
+        rowData={rowData}
       />
     </>
   )

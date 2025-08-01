@@ -19,8 +19,8 @@
 }
 
 .action-dropdown-item {
+  display: flex;
   background-color: transparent;
-  text-align: left;
 }
 
 .action-dropdown-item:hover {
