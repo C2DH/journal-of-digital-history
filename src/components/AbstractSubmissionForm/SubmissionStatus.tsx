@@ -4,17 +4,17 @@ import CheckCircleIcon from '../../assets/icons/CheckCircleIcon'
 import ErrorIcon from '../../assets/icons/ErrorIcon'
 import RadioButtonUncheckedIcon from '../../assets/icons/RadioButtonUncheckedIcon'
 import { mandatoryTopFields } from '../../constants/abstractSubmissionForm'
-import { SubmissionStatusCardProps } from '../../interfaces/abstractSubmission'
+import { SubmissionStatusProps } from '../../interfaces/abstractSubmission'
 import { addErrorToSection, requiredFieldErrors } from '../../logic/errors'
 
 import '../../styles/components/AbstractSubmissionForm/SubmissionStatus.scss'
 
-const SubmissionStatusCard = ({
+const SubmissionStatus = ({
   errors,
   githubError,
   callForPapersError,
   isSubmitAttempted,
-}: SubmissionStatusCardProps) => {
+}: SubmissionStatusProps) => {
   const { t } = useTranslation()
 
   const errorHeaders = requiredFieldErrors(errors)
@@ -49,7 +49,7 @@ const SubmissionStatusCard = ({
                       : 'filled'
                   }`}
                 >
-                  <span className="material-symbols-outlined">
+                  <span className="submission-status-icon">
                     {submissionError ? (
                       <ErrorIcon />
                     ) : topLevelErrors.includes(section) ? (
@@ -72,4 +72,4 @@ const SubmissionStatusCard = ({
   )
 }
 
-export default SubmissionStatusCard
+export default SubmissionStatus

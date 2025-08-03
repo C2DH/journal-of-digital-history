@@ -39,7 +39,7 @@ import { submissionFormSchema } from '../../schemas/abstractSubmission'
 import AbstractSubmissionCallForPapers from './CallForPapers'
 import DynamicForm from './DynamicForm/DynamicForm'
 import StaticForm from './StaticForm'
-import SubmissionStatusCard from './SubmissionStatus'
+import SubmissionStatus from './SubmissionStatus'
 
 import '../../styles/components/AbstractSubmissionForm/AbstractSubmissionForm.scss'
 
@@ -414,7 +414,7 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
             </div>
           </form>
           <div>
-            <SubmissionStatusCard
+            <SubmissionStatus
               errors={validate.errors || []}
               githubError={githubError}
               callForPapersError={callForPapersError}
