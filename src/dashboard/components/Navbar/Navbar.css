@@ -49,31 +49,20 @@
 .navbar li {
   display: flex;
   align-items: center;
-  margin: 10% 0%;
+  height: var(--space-size-5);
+  margin: 2% 0%;
   position: relative; /* Needed for ::before accent line */
 }
-
-/* Active item accent line */
-/* .navbar li.active::before {
-  content: '';
-  position: absolute;
-  left: calc(var(--navbar-width) - 15% - 8%);
-  top: 0;
-  height: 100%;
-  width: 4px;
-  background: var(--color-accent);
-  border-radius: 2px;
-} */
 
 .navbar li.active {
   background-color: var(--color-deep-blue);
   color: var(--color-white);
-  height: var(--space-size-5);
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
   width: var(--navbar-header-width);
   margin-left: -50px;
 }
+
 .navbar li.active .navbar-link {
   margin-left: 50px;
 }
@@ -130,6 +119,9 @@
   .navbar li {
     justify-content: center;
     margin: 20% 0;
+  }
+  .navbar li.active {
+    width: var(--navbar-width-mobile-active);
   }
 
   .navbar-icons {
