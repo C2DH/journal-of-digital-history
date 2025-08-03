@@ -72,12 +72,12 @@
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
   }
 
-  .material-symbols-outlined {
+  .submission-status-icon {
     color: inherit;
   }
 }
 
-.material-symbols-outlined {
+.submission-status-icon {
   position: relative;
   z-index: 1;
   margin-right: 0.5rem;
@@ -90,7 +90,7 @@
   height: 19px;
   background-color: #f8f9fa;
   border-radius: 100%;
-  top: 8px;
+  top: 14px;
   z-index: 0;
 }
 

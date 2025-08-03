@@ -1,5 +1,10 @@
+import './tooltip.css'
+
 import { OverlayTrigger, Tooltip } from 'react-bootstrap'
+
 import { CustomTooltipProps } from './interface'
+
+import HelpIcon from '../../assets/icons/HelpIcon'
 
 const CustomTooltip = ({
   tooltip,
@@ -7,7 +12,6 @@ const CustomTooltip = ({
   fieldname,
   index,
 }: CustomTooltipProps) => {
-
   return (
     <OverlayTrigger
       placement={tooltipPlacement}
@@ -17,9 +21,7 @@ const CustomTooltip = ({
         </Tooltip>
       }
     >
-      <span className="material-symbols-outlined ms-2" style={{ cursor: 'pointer' }}>
-        help
-      </span>
+      <HelpIcon className="help-icon" />
     </OverlayTrigger>
   )
 }
