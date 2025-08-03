@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router'
 
 import Card from '../components/Card/Card'
+import Toast from '../components/Toast/Toast'
 import { useFetchItems } from '../hooks/useFetch'
 import { Issue } from '../utils/types'
 
@@ -14,6 +15,7 @@ const Home = () => {
   return (
     <div className="home page">
       <h1>{t('welcome')}</h1>
+      <Toast open={true} message={'Your Bluesky post was published!'} />
       <Card
         item="issues"
         headers={['pid', 'name', 'creation_date', 'publication_date', 'status', 'volume', 'issue']}
