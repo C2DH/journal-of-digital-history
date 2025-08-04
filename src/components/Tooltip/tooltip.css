@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,200,0,0');
-.material-symbols-outlined {
-  font-variation-settings: 'wght' 200;
+.help-icon {
+  cursor: pointer;
+  margin: 0.5rem;
 }

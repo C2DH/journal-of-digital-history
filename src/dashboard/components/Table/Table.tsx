@@ -162,14 +162,16 @@ const Table = ({
                     </td>
                   )
                 })}
-                <td className="actions-cell">
-                  {isAbstractItem && setModal && (
-                    <ActionButton
-                      actions={getRowActions(row, setModal, t)}
-                      active={getRowActions(row, setModal, t).length > 0}
-                    />
-                  )}
-                </td>
+                {isAbstractItem && (
+                  <td className="actions-cell">
+                    {setModal && (
+                      <ActionButton
+                        actions={getRowActions(row, setModal, t)}
+                        active={getRowActions(row, setModal, t).length > 0}
+                      />
+                    )}
+                  </td>
+                )}
               </tr>
             )
           })}
