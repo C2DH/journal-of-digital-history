@@ -15,7 +15,12 @@ const Home = () => {
   return (
     <div className="home page">
       <h1>{t('welcome')}</h1>
-      <Toast open={true} message={'Your Bluesky post was published!'} />
+      <Toast
+        open={true}
+        message={'Your Bluesky post was published!'}
+        submessage={'Take a look <a href="">here</a> →'}
+        onClose={() => true}
+      />
       <Card
         item="issues"
         headers={['pid', 'name', 'creation_date', 'publication_date', 'status', 'volume', 'issue']}
