@@ -29,26 +29,22 @@ function formatMessage(template, data) {
     .replace(/\{signature\}/g, 'JDH Team')
 }
 
-const ContactForm = ({ data, action }) => {
+const ContactForm = ({ data, action, onClose, onNotify }) => {
   const { t } = useTranslation()
-  const [notification, setNotification] = useState<{
-    type: 'success' | 'error'
-    message: string
-  } | null>(null)
   const [form, setForm] = useState<ContactFormData | null>(null)
 
   useEffect(() => {
     if (!data) return
 
     setForm({
-      pid: data.pid || '',
+      pid: data.id || '',
       from: 'jdh.admin@uni.lu',
       to: data.contactEmail || '',
       subject: data.title || '',
-      message: formatMessage(parse(t(`email.${action}.message`)), data),
+      body: formatMessage(parse(t(`email.${action}.body`)), data),
       status: action || '',
     })
-  }, [data, action, t])
+  }, [data, action])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -64,32 +60,35 @@ const ContactForm = ({ data, action }) => {
       from: String(form?.from),
       to: String(form?.to),
       subject: String(form?.subject),
-      message: String(form?.message),
+      body: String(form?.body),
       status: form?.status,
     }
-    console.info('[ContactForm] Data:', data)
-
     const { valid, errors } = validateContactForm(data)
 
     if (valid) {
       try {
         const res = await modifyAbstractStatus(String(form?.pid), data)
-        setNotification({
-          type: 'success',
-          message: res?.data?.message || 'Message sent successfully!',
-        })
-        setTimeout(() => {
-          window.location.reload()
-        }, 500)
+        if (onClose) onClose()
+        if (onNotify)
+          onNotify({
+            type: 'success',
+            message: res?.data?.message || 'Message sent successfully!',
+          })
       } catch (err: any) {
-        setNotification({
-          type: 'error',
-          message: err?.response?.data?.message || 'An error occurred.',
-        })
+        if (onClose) onClose()
+        if (onNotify)
+          onNotify({
+            type: 'error',
+            message: err?.response?.data?.message || 'An error occurred.',
+          })
       }
     }
     if (!valid) {
-      setNotification({ type: 'error', message: 'Validation failed. Please check your input.' })
+      onNotify({
+        type: 'error',
+        message: 'Validation failed.',
+        submessage: 'Please check your input.',
+      })
       console.error(errors)
       return
     }
@@ -99,25 +98,25 @@ const ContactForm = ({ data, action }) => {
     <form className="contact-form" onSubmit={handleSubmit}>
       <label>
         From
-        <input name="from" value={form?.from} onChange={handleChange} required />
+        <input name="from" value={form?.from || ''} onChange={handleChange} required />
       </label>
       <label>
         To
-        <input name="to" value={form?.to} onChange={handleChange} required />
+        <input name="to" value={form?.to || ''} onChange={handleChange} required />
       </label>
       <label>
         Subject
-        <input name="subject" value={form?.subject} onChange={handleChange} required />
+        <input name="subject" value={form?.subject || ''} onChange={handleChange} required />
       </label>
       <label>
-        Message
-        <textarea name="message" value={String(form?.message)} onChange={handleChange} required />
+        Body
+        <textarea
+          name="message"
+          value={String(form?.body) || ''}
+          onChange={handleChange}
+          required
+        />
       </label>
-      {notification && (
-        <div className={`notification notification-${notification.type}`}>
-          {notification.message}
-        </div>
-      )}
       <button type="submit">Send</button>
     </form>
   )

@@ -4,7 +4,7 @@ import { ModalProps } from './interface'
 
 import ContactForm from '../ContactForm/ContactForm'
 
-const Modal = ({ open, onClose, action, rowData }: ModalProps) => {
+const Modal = ({ open, onClose, action, rowData, onNotify }: ModalProps) => {
   if (!open) return null
   return (
     <div className="modal-backdrop" onClick={onClose} data-testid="modal-backdrop">
@@ -13,7 +13,12 @@ const Modal = ({ open, onClose, action, rowData }: ModalProps) => {
           ×
         </button>
         {action && <h2>{action}</h2>}
-        <ContactForm data={rowData} action={action.toLowerCase()} />
+        <ContactForm
+          data={rowData}
+          action={action.toLowerCase()}
+          onClose={onClose}
+          onNotify={onNotify}
+        />
       </div>
     </div>
   )

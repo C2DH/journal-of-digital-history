@@ -3,7 +3,9 @@ export interface ModalProps {
   onClose: () => void
   action: string
   rowData?: any // Optional raw data for more complex modals
-  // contactEmail?: string
-  // pid?: string
-  // title: string
+  onNotify?: (notification: {
+    type: 'success' | 'error'
+    message: string
+    submessage?: string
+  }) => void
 }

@@ -12,6 +12,7 @@ import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
 import Search from '../Search/Search'
 import Table from '../Table/Table'
+import Toast from '../Toast/Toast'
 
 function retrieveContactEmail(
   id: string = '',
@@ -40,10 +41,21 @@ const Card = ({
   setSortOrder,
 }: CardProps) => {
   const { t } = useTranslation()
+  const setSearch = useSearchStore((state) => state.setQuery)
   const loaderRef = useRef<HTMLDivElement | null>(null)
   const [rowData, setRowData] = useState<ModalInfo>({ open: false })
+  const [notification, setNotification] = useState<{
+    type: 'success' | 'error'
+    message: string
+    submessage?: string
+  } | null>(null)
 
-  const setSearch = useSearchStore((state) => state.setQuery)
+  const handleClose = () => setRowData({ open: false })
+
+  const handleNotify = (notif) => {
+    console.log('🚀 ~ file: Card.tsx:56 ~ notif:', notif)
+    setNotification(notif)
+  }
 
   useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
 
@@ -66,6 +78,12 @@ const Card = ({
 
   return (
     <>
+      <Toast
+        open={!!notification}
+        message={notification?.message || ''}
+        type={notification?.type}
+        onClose={() => setNotification(null)}
+      />
       <div className={`${item} card`}>
         <div className="card-header">
           <div className="card-header-title">
@@ -93,9 +111,10 @@ const Card = ({
       {loading && data.length > 0 && <Loading />}
       <Modal
         open={rowData.open}
-        onClose={() => setRowData({ open: false })}
+        onClose={handleClose}
         action={rowData.action || ''}
         rowData={rowData}
+        onNotify={handleNotify}
       />
     </>
   )
