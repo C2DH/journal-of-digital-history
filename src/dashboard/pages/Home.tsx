@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router'
 
@@ -11,15 +12,18 @@ import '../styles/pages/pages.css'
 const Home = () => {
   const { t } = useTranslation()
   const { data: issues, error, loading, hasMore, loadMore } = useFetchItems<Issue>('issues', 10)
+  const [toastOpen, setToastOpen] = useState(true)
+
+  const handleToastClose = () => setToastOpen(false)
 
   return (
     <div className="home page">
       <h1>{t('welcome')}</h1>
       <Toast
-        open={true}
+        open={toastOpen}
         message={'Your Bluesky post was published!'}
         submessage={'Take a look <a href="">here</a> →'}
-        onClose={() => true}
+        onClose={handleToastClose}
       />
       <Card
         item="issues"
