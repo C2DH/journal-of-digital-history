@@ -18,7 +18,7 @@
   padding: var(--space-size-1-1) var(--space-size-1);
   border: 1px solid var(--color-border);
   border-radius: 6px;
-  font-size: var(--font-size-3);
+  font-size: var(--text-size-3);
   background: var(--color-background-input);
   transition: border 0.2s;
   font-family: 'DM Sans', sans-serif;
@@ -32,7 +32,7 @@
 .contact-form button {
   align-self: flex-end;
   padding: var(--space-size-1) var(--space-size-3);
-  font-size: var(--font-size-3);
+  font-size: var(--text-size-3);
   background: var(--color-accent);
   color: var(--color-white);
   border: none;

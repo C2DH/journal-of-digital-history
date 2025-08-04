@@ -55,7 +55,7 @@
 }
 
 .navbar li.active {
-  background-color: var(--color-deep-blue);
+  background-color: var(--color-accent);
   color: var(--color-white);
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
@@ -88,7 +88,7 @@
 .navbar li:focus-within .navbar-icons,
 .navbar li:hover a,
 .navbar li:focus-within a {
-  color: var(--color-deep-bluet);
+  color: var(--color-accent);
   font-variation-settings: 'FILL' 1;
 }
 .navbar li.active .navbar-icons,
