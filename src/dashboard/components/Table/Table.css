@@ -70,6 +70,13 @@ th.abstract__title {
   }
 }
 
+th.header.id {
+  width: 5%;
+}
+th.header.url {
+  width: 25%;
+}
+
 /*TODO: rename abstract__title by article___title and title by abstract_title */
 td.name,
 & td.title,

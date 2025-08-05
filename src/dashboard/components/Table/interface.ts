@@ -7,6 +7,7 @@ export type TableProps = {
   setSortBy?: (header: string) => void
   setSortOrder?: (order: 'asc' | 'desc') => void
   setModal?: (modal: { open: boolean; action?: string; row?: any; id?: string }) => void
+  isAccordeon?: boolean
 }
 
 export interface renderCellProps {

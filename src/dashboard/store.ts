@@ -77,6 +77,8 @@ type ItemState<T> = {
   data: T | null
   loading: boolean
   error: string | null
+  fetchItem: (id: string, endpoint: string) => Promise<void>
+  reset: () => void
 }
 
 export const useItemsStore = create<ItemsState<any>>((set, get) => ({
@@ -92,6 +94,7 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
   search: undefined,
 
   fetchItems: async (reset = false) => {
+    console.log('🚀 ~ file: store.ts:95 ~ reset:', reset)
     const { endpoint, limit, ordering, search, offset, data } = get()
     if (!endpoint) return
 
@@ -114,6 +117,7 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
         ]
           .filter(Boolean)
           .join('&')
+      console.log('🚀 ~ file: store.ts:107 ~ pagedUrl:', pagedUrl)
       const response = await api.get(pagedUrl)
       const result = response.data
 
@@ -133,19 +137,20 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
       })
     }
   },
-  setParams: (params) =>
+  setParams: (params) => {
     set((state) => ({
-      endpoint: params.endpoint !== undefined ? params.endpoint : state.endpoint,
-      limit: params.limit !== undefined ? params.limit : state.limit,
-      ordering: params.ordering !== undefined ? params.ordering : state.ordering,
-      search: params.search !== undefined ? params.search : state.search,
-    })),
+      endpoint: params.endpoint === undefined ? state.endpoint : params.endpoint,
+      limit: params.limit === undefined ? state.limit : params.limit,
+      ordering: params.ordering === undefined ? state.ordering : params.ordering,
+      search: params.search === undefined ? state.search : params.search,
+    }))
+  },
   reset: () =>
     set({
       count: 0,
       data: [],
       error: null,
-      loading: false,
+      loading: true,
       offset: 0,
       hasMore: true,
     }),

@@ -7,24 +7,13 @@ import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useFetch'
 import { useItemsStore, useSearchStore } from '../../store'
-import { Abstract, ModalInfo } from '../../utils/types'
+import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
+import { ModalInfo } from '../../utils/types'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
 import Search from '../Search/Search'
 import Table from '../Table/Table'
 import Toast from '../Toast/Toast'
-
-function retrieveContactEmail(
-  id: string = '',
-  data: Abstract[],
-  setEmail: (email: string) => void,
-) {
-  data.forEach((row) => {
-    if (row.pid === id) {
-      setEmail(row.contact_email)
-    }
-  })
-}
 
 const Card = ({
   item,
@@ -41,8 +30,6 @@ const Card = ({
   setSortOrder,
 }: CardProps) => {
   const { t } = useTranslation()
-  const setSearch = useSearchStore((state) => state.setQuery)
-  const { fetchItems } = useItemsStore()
   const loaderRef = useRef<HTMLDivElement | null>(null)
   const [rowData, setRowData] = useState<ModalInfo>({ open: false })
   const [notification, setNotification] = useState<{
@@ -50,6 +37,9 @@ const Card = ({
     message: string
     submessage?: string
   } | null>(null)
+
+  const setSearch = useSearchStore((state) => state.setQuery)
+  const { fetchItems } = useItemsStore()
 
   const handleClose = () => setRowData({ open: false })
   const handleNotify = (notif) => {

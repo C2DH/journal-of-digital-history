@@ -7,9 +7,6 @@ import { renderCellProps, TableProps } from './interface'
 import { articleSteps } from '../../utils/constants/article'
 import { convertDate } from '../../utils/helpers/convertDate'
 import {
-  getCleanData,
-  getRowActions,
-  getVisibleHeaders,
   isAbstract,
   isAffiliationHeader,
   isArticle,
@@ -25,7 +22,8 @@ import {
   isStatusHeader,
   isStepCell,
   isTitleHeader,
-} from '../../utils/helpers/table'
+} from '../../utils/helpers/itemChecker'
+import { getCleanData, getRowActions, getVisibleHeaders } from '../../utils/helpers/table'
 import ActionButton from '../Buttons/ActionButton/ActionButton'
 import IconButton from '../Buttons/IconButton/IconButton'
 import SortButton from '../Buttons/SortButton/SortButton'
@@ -66,6 +64,7 @@ const Table = ({
   setSortBy,
   setSortOrder,
   setModal,
+  isAccordeon = false,
 }: TableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -162,7 +161,7 @@ const Table = ({
                     </td>
                   )
                 })}
-                {isAbstractItem && (
+                {isAbstractItem && !isAccordeon && (
                   <td className="actions-cell">
                     {setModal && (
                       <ActionButton

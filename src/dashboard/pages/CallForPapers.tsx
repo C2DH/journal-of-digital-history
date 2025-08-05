@@ -16,15 +16,21 @@ const CallForPapers = () => {
     fetchItems,
     setParams,
     loadMore,
+    reset,
   } = useItemsStore()
 
   useEffect(() => {
+    reset()
     setParams({ endpoint: 'callforpaper', limit: 10 })
     fetchItems(true)
   }, [setParams, fetchItems])
 
-  const { abstractsByCallForPaper, abstractsPublished } =
-    useFetchAbstractsByCallForPaper(callforpapers)
+  const isCallForPapersData =
+    callforpapers.length > 0 && callforpapers.some((item) => item.deadline_abstract !== undefined)
+
+  const { abstractsByCallForPaper, abstractsPublished } = useFetchAbstractsByCallForPaper(
+    isCallForPapersData ? callforpapers : [],
+  )
 
   return (
     <div className="callforpapers page">
