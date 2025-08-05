@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useFetch'
-import { useSearchStore } from '../../store'
+import { useItemsStore, useSearchStore } from '../../store'
 import { Abstract, ModalInfo } from '../../utils/types'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
@@ -42,6 +42,7 @@ const Card = ({
 }: CardProps) => {
   const { t } = useTranslation()
   const setSearch = useSearchStore((state) => state.setQuery)
+  const { fetchItems } = useItemsStore()
   const loaderRef = useRef<HTMLDivElement | null>(null)
   const [rowData, setRowData] = useState<ModalInfo>({ open: false })
   const [notification, setNotification] = useState<{
@@ -51,14 +52,12 @@ const Card = ({
   } | null>(null)
 
   const handleClose = () => setRowData({ open: false })
-
   const handleNotify = (notif) => {
-    console.log('🚀 ~ file: Card.tsx:56 ~ notif:', notif)
+    fetchItems(true)
     setNotification(notif)
   }
 
   useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
-
   useEffect(() => {
     if (rowData.open && rowData.id) {
       retrieveContactEmail(rowData.id, data, (email: string) => {

@@ -1,23 +1,30 @@
 import '../styles/pages/pages.css'
 
+import { useEffect } from 'react'
+
 import Card from '../components/Card/Card'
-import { useFetchItems } from '../hooks/useFetch'
 import { useFilters } from '../hooks/useFilters'
-import { useSearchStore } from '../store'
-import { Abstract } from '../utils/types'
+import { useItemsStore, useSearchStore } from '../store'
 
 const Abstracts = () => {
   const { sortBy, sortOrder, ordering, setFilters } = useFilters()
   const query = useSearchStore((state) => state.query)
-
   const {
     count,
     data: abstracts,
-    error,
     loading,
+    error,
     hasMore,
+    fetchItems,
+    setParams,
+    reset,
     loadMore,
-  } = useFetchItems<Abstract>('abstracts', 10, ordering, query)
+  } = useItemsStore()
+
+  useEffect(() => {
+    setParams({ endpoint: 'abstracts', limit: 20, ordering, search: query })
+    fetchItems(true)
+  }, [setParams, fetchItems, ordering, query])
 
   return (
     <div className="abstract page">
