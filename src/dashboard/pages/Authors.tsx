@@ -1,19 +1,27 @@
-import Card from '../components/Card/Card'
-import { useFetchItems } from '../hooks/useFetch'
-import { useFilters } from '../hooks/useFilters'
-import { Author } from '../utils/types'
-
 import '../styles/pages/pages.css'
+
+import { useEffect } from 'react'
+
+import Card from '../components/Card/Card'
+import { useFilters } from '../hooks/useFilters'
+import { useItemsStore } from '../store'
 
 const Authors = () => {
   const { sortBy, sortOrder, ordering, setFilters } = useFilters()
   const {
     data: authors,
-    error,
     loading,
+    error,
     hasMore,
+    fetchItems,
+    setParams,
     loadMore,
-  } = useFetchItems<Author>('authors', 10, ordering)
+  } = useItemsStore()
+
+  useEffect(() => {
+    setParams({ endpoint: 'authors', limit: 20, ordering })
+    fetchItems(true)
+  }, [ordering])
 
   return (
     <div className="authors page">

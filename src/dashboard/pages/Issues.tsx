@@ -1,11 +1,17 @@
 import '../styles/pages/pages.css'
 
+import { useEffect } from 'react'
+
 import Card from '../components/Card/Card'
-import { useFetchItems } from '../hooks/useFetch'
-import { Issue } from '../utils/types'
+import { useItemsStore } from '../store'
 
 const Issues = () => {
-  const { data: issues, error, loading, hasMore, loadMore } = useFetchItems<Issue>('issues', 10)
+  const { data: issues, loading, error, hasMore, fetchItems, setParams, loadMore } = useItemsStore()
+
+  useEffect(() => {
+    setParams({ endpoint: 'issues', limit: 20 })
+    fetchItems(true)
+  }, [])
 
   return (
     <div className="issues page">

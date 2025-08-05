@@ -17,7 +17,6 @@ const Abstracts = () => {
     hasMore,
     fetchItems,
     setParams,
-    reset,
     loadMore,
   } = useItemsStore()
 
