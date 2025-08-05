@@ -31,17 +31,17 @@ const AccordeonCard = ({
   return (
     <>
       <div className={`${item} accordeon-card`}>
-        <h1 className="accordeon-title">{title}</h1>
+        <h2 className="accordeon-title">{title}</h2>
         <Collapse
           className="accordeon"
           collapsed={collapsed}
           collapsable={collapsable}
           iconOpen={ArrowDown}
           iconClosed={ArrowUp}
-          iconSize={36}
+          iconSize={28}
           iconStrokeWidth={2}
         >
-          <Table item={item} headers={headers} data={data} />
+          <Table item={item} headers={headers} data={data} isAccordeon={true} />
         </Collapse>
       </div>
     </>
