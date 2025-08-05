@@ -10,6 +10,7 @@ import { ContactFormData } from './interface'
 
 import { contactFormSchema } from '../../schemas/contactForm'
 import { modifyAbstractStatus } from '../../utils/helpers/postData'
+import Button from '../Buttons/Button/Button'
 
 function validateContactForm(data: any) {
   const ajv = new Ajv({ allErrors: true })
@@ -117,7 +118,7 @@ const ContactForm = ({ data, action, onClose, onNotify }) => {
           required
         />
       </label>
-      <button type="submit">Send</button>
+      <Button type="submit" text={t('contactForm.send', 'Send')} />
     </form>
   )
 }

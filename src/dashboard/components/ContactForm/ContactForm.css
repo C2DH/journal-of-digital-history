@@ -31,12 +31,6 @@
 
 .contact-form button {
   align-self: flex-end;
-  padding: var(--space-size-1) var(--space-size-3);
-  font-size: var(--text-size-3);
-  background: var(--color-accent);
-  color: var(--color-white);
-  border: none;
-  border-radius: 4px;
   cursor: pointer;
 }
 

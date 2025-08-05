@@ -1,0 +1,13 @@
+.counter-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 0 var(--gap-size-1);
+  height: var(--space-size-3);
+  font-size: var(--text-size-3);
+  font-weight: 400;
+  color: var(--color-accent);
+  background: var(--color-accent-lighter);
+  border-radius: 6px;
+}

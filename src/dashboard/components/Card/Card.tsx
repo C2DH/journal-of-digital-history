@@ -9,6 +9,7 @@ import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 import { useItemsStore, useSearchStore } from '../../store'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
 import { ModalInfo } from '../../utils/types'
+import Counter from '../Counter/Counter'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
 import Search from '../Search/Search'
@@ -77,7 +78,7 @@ const Card = ({
         <div className="card-header">
           <div className="card-header-title">
             <h1>{t(`${item}.item`)}</h1>
-            <div>{count ? `${count} ${item}` : ''}</div>
+            <div>{count ? <Counter value={count} /> : ''}</div>
           </div>
           <Search
             onSearch={setSearch}
