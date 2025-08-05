@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import { CardProps } from './interface'
 
-import { useInfiniteScroll } from '../../hooks/useFetch'
+import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 import { useItemsStore, useSearchStore } from '../../store'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
 import { ModalInfo } from '../../utils/types'
@@ -95,9 +95,10 @@ const Card = ({
           setSortOrder={setSortOrder}
           setModal={setRowData}
         />
+        {loading && data.length > 0 && <Loading />}
         <div ref={loaderRef} />
       </div>
-      {loading && data.length > 0 && <Loading />}
+
       <Modal
         open={rowData.open}
         onClose={handleClose}

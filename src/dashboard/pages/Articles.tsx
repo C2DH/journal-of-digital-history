@@ -18,9 +18,11 @@ const Articles = () => {
     fetchItems,
     setParams,
     loadMore,
+    reset,
   } = useItemsStore()
 
   useEffect(() => {
+    reset()
     setParams({ endpoint: 'articles', limit: 20, ordering, search: query })
     fetchItems(true)
   }, [setParams, fetchItems, ordering, query])
