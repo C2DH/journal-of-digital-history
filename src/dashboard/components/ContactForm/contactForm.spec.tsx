@@ -1,90 +1,65 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { vi } from 'vitest'
 
-import { modifyAbstractStatus } from '../../utils/helpers/postData'
 import ContactForm from './ContactForm'
 
-// Mock dependencies
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key: string) => key,
-  }),
-}))
+// Mock the async helper
 vi.mock('../../utils/helpers/postData', () => ({
-  modifyAbstractStatus: vi.fn(() => Promise.resolve({ data: { message: 'Success!' } })),
+  modifyAbstractStatus: vi.fn(() =>
+    Promise.resolve({ data: { message: 'Message sent successfully!' } }),
+  ),
 }))
-vi.mock('../../schemas/contactForm', () => ({
-  contactFormSchema: {},
-}))
-vi.mock('ajv', () => ({
-  default: vi.fn().mockImplementation(() => ({
-    compile: vi.fn(() => () => ({ valid: true, errors: null })),
-  })),
-}))
-vi.mock('ajv-formats', () => ({
-  default: vi.fn(),
-}))
+
+const mockData = {
+  id: '123',
+  contactEmail: 'test@example.com',
+  title: 'Test Submission',
+  row: ['123', '', '', '', 'John', 'Doe'],
+}
+const mockAction = 'accepted'
+const mockOnClose = vi.fn()
+const mockOnNotify = vi.fn()
 
 describe('ContactForm', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
-
-  it('renders all fields and submits successfully', async () => {
+  it('calls onNotify with success message on valid submit', async () => {
     render(
       <ContactForm
-        contactEmail="test@example.com"
-        pid="PID123"
-        action="accepted"
-        title="Test Title"
+        data={mockData}
+        action={mockAction}
+        onClose={mockOnClose}
+        onNotify={mockOnNotify}
       />,
     )
+    // Fill all required fields (if needed)
+    fireEvent.change(screen.getByLabelText(/To/i), { target: { value: 'test@example.com' } })
+    fireEvent.change(screen.getByLabelText(/Body/i), { target: { value: 'this is a body' } })
+    fireEvent.click(screen.getByRole('button', { name: /Send/i }))
 
-    // Check fields
-    expect(screen.getByLabelText(/From/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/To/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/Subject/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/Message/i)).toBeInTheDocument()
-
-    // Fill fields
-    fireEvent.change(screen.getByLabelText(/From/i), { target: { value: 'sender@example.com' } })
-    fireEvent.change(screen.getByLabelText(/To/i), { target: { value: 'recipient@example.com' } })
-    fireEvent.change(screen.getByLabelText(/Subject/i), { target: { value: 'Hello' } })
-    fireEvent.change(screen.getByLabelText(/Message/i), { target: { value: 'Test message' } })
-
-    // Submit
-    fireEvent.click(screen.getByRole('button', { name: /send/i }))
-
-    // Wait for notification
-    await waitFor(() => expect(screen.getByText(/Success!/i)).toBeInTheDocument())
-  })
-
-  it('shows error notification when API call fails', async () => {
-    // Mock the API to reject with an error response
-    const mockedModifyAbstractStatus = vi.mocked(modifyAbstractStatus)
-    mockedModifyAbstractStatus.mockRejectedValueOnce({
-      response: { data: { message: 'error' } },
+    await waitFor(() => {
+      expect(mockOnNotify).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'success',
+          message: 'Message sent successfully!',
+        }),
+      )
     })
-
+  })
+  it('calls onNotify with error on invalid submit', async () => {
     render(
       <ContactForm
-        contactEmail="test@example.com"
-        pid="PID123"
-        action="accepted"
-        title="Test Title"
+        data={mockData}
+        action={mockAction}
+        onClose={mockOnClose}
+        onNotify={mockOnNotify}
       />,
     )
-
-    // Fill fields
-    fireEvent.change(screen.getByLabelText(/From/i), { target: { value: 'sender@example.com' } })
-    fireEvent.change(screen.getByLabelText(/To/i), { target: { value: 'recipient@example.com' } })
-    fireEvent.change(screen.getByLabelText(/Subject/i), { target: { value: 'Hello' } })
-    fireEvent.change(screen.getByLabelText(/Message/i), { target: { value: 'Test message' } })
-
-    // Submit
-    fireEvent.click(screen.getByRole('button', { name: /send/i }))
-
-    // Wait for error notification
-    await waitFor(() => expect(screen.getByText('error')).toBeInTheDocument())
+    // Clear required field
+    fireEvent.change(screen.getByLabelText(/To/i), {
+      target: { value: 'this is not an email address' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: /Send/i }))
+    expect(mockOnNotify).toHaveBeenCalledWith(
+      expect.objectContaining({ type: 'error', message: 'Validation failed.' }),
+    )
   })
 })
