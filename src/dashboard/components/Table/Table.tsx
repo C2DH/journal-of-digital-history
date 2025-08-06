@@ -161,6 +161,7 @@ const Table = ({
                     </td>
                   )
                 })}
+
                 {isAbstractItem && !isAccordeon && (
                   <td className="actions-cell">
                     {setModal && (
