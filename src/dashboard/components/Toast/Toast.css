@@ -5,7 +5,7 @@
   overflow: hidden;
   top: 2rem;
   right: 2rem;
-  z-index: 1000;
+  z-index: 3000;
 
   min-width: 280px;
   max-width: 400px;

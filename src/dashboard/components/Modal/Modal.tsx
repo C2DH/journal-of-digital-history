@@ -14,7 +14,7 @@ const Modal = ({ open, onClose, action, rowData, onNotify }: ModalProps) => {
         </button>
         {action && <h2>{action}</h2>}
         <ContactForm
-          data={rowData}
+          rowData={rowData}
           action={action.toLowerCase()}
           onClose={onClose}
           onNotify={onNotify}

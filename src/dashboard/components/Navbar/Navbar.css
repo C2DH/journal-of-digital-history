@@ -88,7 +88,7 @@
 .navbar li:focus-within .navbar-icons,
 .navbar li:hover a,
 .navbar li:focus-within a {
-  color: var(--color-deep-bluet);
+  color: var(--color-accent);
   font-variation-settings: 'FILL' 1;
 }
 .navbar li.active .navbar-icons,

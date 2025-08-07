@@ -47,15 +47,16 @@ const Card = ({
     fetchItems(true)
     setNotification(notif)
   }
+  const setEmail = (email: string) => {
+    setRowData((prev) => ({ ...prev, contactEmail: email }))
+  }
 
   useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
   useEffect(() => {
     if (rowData.open && rowData.id) {
-      retrieveContactEmail(rowData.id, data, (email: string) => {
-        setRowData((prev) => ({ ...prev, contactEmail: email }))
-      })
+      retrieveContactEmail(rowData.id, data, setEmail)
     }
-  }, [rowData.open, rowData.id, data])
+  }, [rowData.open])
 
   if (error) {
     return (
@@ -71,6 +72,7 @@ const Card = ({
       <Toast
         open={!!notification}
         message={notification?.message || ''}
+        submessage={notification?.submessage || ''}
         type={notification?.type}
         onClose={() => setNotification(null)}
       />

@@ -30,22 +30,20 @@ function formatMessage(template, data) {
     .replace(/\{signature\}/g, 'JDH Team')
 }
 
-const ContactForm = ({ data, action, onClose, onNotify }) => {
+const ContactForm = ({ rowData, action, onClose, onNotify }) => {
   const { t } = useTranslation()
   const [form, setForm] = useState<ContactFormData | null>(null)
 
   useEffect(() => {
-    if (!data) return
-
     setForm({
-      pid: data.id || '',
+      pid: rowData.id || '',
       from: 'jdh.admin@uni.lu',
-      to: data.contactEmail || '',
-      subject: data.title || '',
-      body: formatMessage(parse(t(`email.${action}.body`)), data),
+      to: rowData.contactEmail || '',
+      subject: rowData.title || '',
+      body: formatMessage(parse(t(`email.${action}.body`)), rowData),
       status: action || '',
     })
-  }, [data, action])
+  }, [rowData])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -73,22 +71,24 @@ const ContactForm = ({ data, action, onClose, onNotify }) => {
         if (onNotify)
           onNotify({
             type: 'success',
-            message: res?.data?.message || 'Message sent successfully!',
+            message: t('email.success.api.message'),
+            submessage: res?.data?.message || '',
           })
       } catch (err: any) {
         if (onClose) onClose()
         if (onNotify)
           onNotify({
             type: 'error',
-            message: err?.response?.data?.message || 'An error occurred.',
+            message: t('email.error.api.message'),
+            submessage: err?.response?.data?.message,
           })
       }
     }
     if (!valid) {
       onNotify({
         type: 'error',
-        message: 'Validation failed.',
-        submessage: 'Please check your input.',
+        message: t('email.error.validation.message'),
+        submessage: t('email.error.validation.submessage'),
       })
       console.error(errors)
       return
@@ -111,12 +111,7 @@ const ContactForm = ({ data, action, onClose, onNotify }) => {
       </label>
       <label>
         Body
-        <textarea
-          name="message"
-          value={String(form?.body) || ''}
-          onChange={handleChange}
-          required
-        />
+        <textarea name="body" value={String(form?.body) || ''} onChange={handleChange} required />
       </label>
       <Button type="submit" text={t('contactForm.send', 'Send')} />
     </form>

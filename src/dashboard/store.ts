@@ -94,7 +94,6 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
   search: undefined,
 
   fetchItems: async (reset = false) => {
-    console.log('🚀 ~ file: store.ts:95 ~ reset:', reset)
     const { endpoint, limit, ordering, search, offset, data } = get()
     if (!endpoint) return
 
@@ -117,7 +116,7 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
         ]
           .filter(Boolean)
           .join('&')
-      console.log('🚀 ~ file: store.ts:107 ~ pagedUrl:', pagedUrl)
+
       const response = await api.get(pagedUrl)
       const result = response.data
 

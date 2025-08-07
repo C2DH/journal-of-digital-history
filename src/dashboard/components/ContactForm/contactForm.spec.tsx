@@ -24,7 +24,7 @@ describe('ContactForm', () => {
   it('calls onNotify with success message on valid submit', async () => {
     render(
       <ContactForm
-        data={mockData}
+        rowData={mockData}
         action={mockAction}
         onClose={mockOnClose}
         onNotify={mockOnNotify}
@@ -39,7 +39,8 @@ describe('ContactForm', () => {
       expect(mockOnNotify).toHaveBeenCalledWith(
         expect.objectContaining({
           type: 'success',
-          message: 'Message sent successfully!',
+          message: 'email.success.api.message',
+          submessage: 'Message sent successfully!',
         }),
       )
     })
@@ -47,7 +48,7 @@ describe('ContactForm', () => {
   it('calls onNotify with error on invalid submit', async () => {
     render(
       <ContactForm
-        data={mockData}
+        rowData={mockData}
         action={mockAction}
         onClose={mockOnClose}
         onNotify={mockOnNotify}
@@ -59,7 +60,11 @@ describe('ContactForm', () => {
     })
     fireEvent.click(screen.getByRole('button', { name: /Send/i }))
     expect(mockOnNotify).toHaveBeenCalledWith(
-      expect.objectContaining({ type: 'error', message: 'Validation failed.' }),
+      expect.objectContaining({
+        type: 'error',
+        message: 'email.error.validation.message',
+        submessage: 'email.error.validation.submessage',
+      }),
     )
   })
 })

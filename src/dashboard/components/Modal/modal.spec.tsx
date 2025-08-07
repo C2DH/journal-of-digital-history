@@ -5,11 +5,13 @@ import Modal from './Modal'
 
 // Mock ContactForm
 vi.mock('../ContactForm/ContactForm', () => ({
-  default: ({ data = {}, action }: { data?: { contactEmail?: string }; action: string }) => (
-    <div data-testid="contact-form">
-      {data.contactEmail ?? ''} - {action}
-    </div>
-  ),
+  default: ({ rowData = {}, action }: { rowData?: { contactEmail?: string }; action: string }) => {
+    return (
+      <div data-testid="contact-form">
+        {rowData.contactEmail ?? ''} - {action}
+      </div>
+    )
+  },
 }))
 
 describe('Modal', () => {
