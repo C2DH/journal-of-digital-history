@@ -6,13 +6,12 @@ import { useTranslation } from 'react-i18next'
 import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
-import { useItemsStore, useSearchStore } from '../../store'
+import { useItemsStore } from '../../store'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
 import { ModalInfo } from '../../utils/types'
 import Counter from '../Counter/Counter'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
-import Search from '../Search/Search'
 import Table from '../Table/Table'
 import Toast from '../Toast/Toast'
 
@@ -39,7 +38,6 @@ const Card = ({
     submessage?: string
   } | null>(null)
 
-  const setSearch = useSearchStore((state) => state.setQuery)
   const { fetchItems } = useItemsStore()
 
   const handleClose = () => setRowData({ open: false })
@@ -82,11 +80,6 @@ const Card = ({
             <h1>{t(`${item}.item`)}</h1>
             <div>{count ? <Counter value={count} /> : ''}</div>
           </div>
-          <Search
-            onSearch={setSearch}
-            activeRoutes={['/abstracts', '/articles']}
-            placeholder={t('search.placeholder')}
-          />
         </div>
         <Table
           item={item}
