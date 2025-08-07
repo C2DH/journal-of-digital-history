@@ -105,6 +105,17 @@ export interface Callforpaper {
   deadline_article: string
 }
 
+export type AbstractsByCallforpaperValue = {
+  title?: string
+  data: Abstract[]
+  error?: string
+}
+export type AbstractsPublished = {
+  title?: string
+  data: Abstract[]
+  error?: string
+}
+
 /* Dataset */
 export interface Dataset {
   id: number

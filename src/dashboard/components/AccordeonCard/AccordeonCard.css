@@ -17,3 +17,12 @@
 .accordeon-icon {
   margin: var(--space-size-2) var(--space-size-6);
 }
+
+.header.title {
+  width: 60%;
+}
+
+/* Exception: .header.title inside .card*/
+.card .header.title {
+  width: 35%;
+}

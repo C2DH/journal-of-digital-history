@@ -1,81 +1,36 @@
-import { useEffect, useState } from 'react'
 import '../styles/pages/pages.css'
+
+import { useEffect } from 'react'
 
 import AccordeonCard from '../components/AccordeonCard/AccordeonCard'
 import Card from '../components/Card/Card'
-import { useFetchItems } from '../hooks/useFetch'
-import api from '../utils/helpers/setApiHeaders'
-import { Abstract, Callforpaper } from '../utils/types'
-
-type AbstractsByCallforpaperValue = {
-  title?: string
-  data: Abstract[]
-  error?: string
-}
-
-type AbstractsPublished = {
-  title?: string
-  data: Abstract[]
-  error?: string
-}
+import { useFetchAbstractsByCallForPaper } from '../hooks/useFetchAbstractsByCallforpaper'
+import { useItemsStore } from '../store'
 
 const CallForPapers = () => {
   const {
     data: callforpapers,
-    error,
     loading,
+    error,
     hasMore,
+    fetchItems,
+    setParams,
     loadMore,
-  } = useFetchItems<Callforpaper>('callforpaper', 10)
-  const [abstractsByCallForPaper, setAbstractsByCallForPaper] = useState<
-    Record<number, AbstractsByCallforpaperValue>
-  >({})
-  const [abstractsPublished, setAbstractsPublished] = useState<AbstractsPublished>({ data: [] })
+    reset,
+  } = useItemsStore()
 
   useEffect(() => {
-    callforpapers.forEach((callforpaper) => {
-      if (!abstractsByCallForPaper[callforpaper.id]) {
-        api
-          .get(`/api/abstracts/?callpaper=${callforpaper.id}&status=!PUBLISHED`)
-          .then((res) => {
-            const data = res.data
-            setAbstractsByCallForPaper((prev) => ({
-              ...prev,
-              [callforpaper.id]: {
-                title: callforpaper.title,
-                data: data.results || [],
-                error: undefined,
-              },
-            }))
-          })
-          .catch((err) => {
-            setAbstractsByCallForPaper((prev) => ({
-              ...prev,
-              [callforpaper.id]: {
-                data: [],
-                error: err.message || 'Failed to fetch abstracts',
-              },
-            }))
-          })
-      }
-    })
-    api
-      .get(`/api/abstracts?status=PUBLISHED&limit=1000`)
-      .then((res) => {
-        const data = res.data
-        setAbstractsPublished(() => ({
-          title: 'Abstracts published',
-          data: data.results || [],
-          error: undefined,
-        }))
-      })
-      .catch((err) => {
-        setAbstractsPublished(() => ({
-          data: [],
-          error: err.message || 'Failed to fetch abstracts',
-        }))
-      })
-  }, [callforpapers])
+    reset()
+    setParams({ endpoint: 'callforpaper', limit: 10 })
+    fetchItems(true)
+  }, [setParams, fetchItems])
+
+  const isCallForPapersData =
+    callforpapers.length > 0 && callforpapers.some((item) => item.deadline_abstract !== undefined)
+
+  const { abstractsByCallForPaper, abstractsPublished } = useFetchAbstractsByCallForPaper(
+    isCallForPapersData ? callforpapers : [],
+  )
 
   return (
     <div className="callforpapers page">

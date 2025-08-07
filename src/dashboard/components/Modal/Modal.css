@@ -29,6 +29,6 @@
   right: 12px;
   background: none;
   border: none;
-  font-size: var(--font-size-8);
+  font-size: var(--text-size-8);
   cursor: pointer;
 }

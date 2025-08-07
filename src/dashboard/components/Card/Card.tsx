@@ -5,25 +5,16 @@ import { useTranslation } from 'react-i18next'
 
 import { CardProps } from './interface'
 
-import { useInfiniteScroll } from '../../hooks/useFetch'
-import { useSearchStore } from '../../store'
-import { Abstract, ModalInfo } from '../../utils/types'
+import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
+import { useItemsStore, useSearchStore } from '../../store'
+import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
+import { ModalInfo } from '../../utils/types'
+import Counter from '../Counter/Counter'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
 import Search from '../Search/Search'
 import Table from '../Table/Table'
-
-function retrieveContactEmail(
-  id: string = '',
-  data: Abstract[],
-  setEmail: (email: string) => void,
-) {
-  data.forEach((row) => {
-    if (row.pid === id) {
-      setEmail(row.contact_email)
-    }
-  })
-}
+import Toast from '../Toast/Toast'
 
 const Card = ({
   item,
@@ -42,18 +33,30 @@ const Card = ({
   const { t } = useTranslation()
   const loaderRef = useRef<HTMLDivElement | null>(null)
   const [rowData, setRowData] = useState<ModalInfo>({ open: false })
+  const [notification, setNotification] = useState<{
+    type: 'success' | 'error'
+    message: string
+    submessage?: string
+  } | null>(null)
 
   const setSearch = useSearchStore((state) => state.setQuery)
+  const { fetchItems } = useItemsStore()
+
+  const handleClose = () => setRowData({ open: false })
+  const handleNotify = (notif) => {
+    fetchItems(true)
+    setNotification(notif)
+  }
+  const setEmail = (email: string) => {
+    setRowData((prev) => ({ ...prev, contactEmail: email }))
+  }
 
   useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
-
   useEffect(() => {
     if (rowData.open && rowData.id) {
-      retrieveContactEmail(rowData.id, data, (email: string) => {
-        setRowData((prev) => ({ ...prev, contactEmail: email }))
-      })
+      retrieveContactEmail(rowData.id, data, setEmail)
     }
-  }, [rowData.open, rowData.id, data])
+  }, [rowData.open])
 
   if (error) {
     return (
@@ -66,11 +69,18 @@ const Card = ({
 
   return (
     <>
+      <Toast
+        open={!!notification}
+        message={notification?.message || ''}
+        submessage={notification?.submessage || ''}
+        type={notification?.type}
+        onClose={() => setNotification(null)}
+      />
       <div className={`${item} card`}>
         <div className="card-header">
           <div className="card-header-title">
             <h1>{t(`${item}.item`)}</h1>
-            <div>{count ? `${count} ${item}` : ''}</div>
+            <div>{count ? <Counter value={count} /> : ''}</div>
           </div>
           <Search
             onSearch={setSearch}
@@ -88,14 +98,16 @@ const Card = ({
           setSortOrder={setSortOrder}
           setModal={setRowData}
         />
+        {loading && data.length > 0 && <Loading />}
         <div ref={loaderRef} />
       </div>
-      {loading && data.length > 0 && <Loading />}
+
       <Modal
         open={rowData.open}
-        onClose={() => setRowData({ open: false })}
+        onClose={handleClose}
         action={rowData.action || ''}
         rowData={rowData}
+        onNotify={handleNotify}
       />
     </>
   )

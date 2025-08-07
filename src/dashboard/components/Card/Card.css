@@ -21,10 +21,11 @@
 }
 
 .card-header-title {
+  margin: 0;
   display: flex;
   justify-content: flex-start;
-  align-items: baseline;
-  gap: var(--gap-size-5);
+  align-items: center;
+  gap: var(--gap-size-1);
 }
 
 .card.card-loading {

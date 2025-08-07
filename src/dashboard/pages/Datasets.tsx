@@ -1,17 +1,25 @@
-import Card from '../components/Card/Card'
-import { useFetchItems } from '../hooks/useFetch'
-import { Dataset } from '../utils/types'
-
 import '../styles/pages/pages.css'
+
+import { useEffect } from 'react'
+
+import Card from '../components/Card/Card'
+import { useItemsStore } from '../store'
 
 const Datasets = () => {
   const {
     data: datasets,
-    error,
     loading,
+    error,
     hasMore,
+    fetchItems,
+    setParams,
     loadMore,
-  } = useFetchItems<Dataset>('datasets', 20)
+  } = useItemsStore()
+
+  useEffect(() => {
+    setParams({ endpoint: 'datasets', limit: 20 })
+    fetchItems(true)
+  }, [])
 
   return (
     <div className="datasets page">

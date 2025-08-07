@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
+
 import Navbar from './Navbar'
 
 const items = [
@@ -14,12 +15,11 @@ vi.mock('../../../../src/components/Logo', () => ({
 
 describe('Navbar', () => {
   it('renders the logo and title', () => {
-    const print = render(
+    render(
       <MemoryRouter>
         <Navbar items={items} />
       </MemoryRouter>,
     )
-    console.log(print.container.innerHTML)
     expect(screen.getByTestId('logo')).toBeInTheDocument()
     expect(screen.getByText('Journal of Digital History')).toBeInTheDocument()
   })
