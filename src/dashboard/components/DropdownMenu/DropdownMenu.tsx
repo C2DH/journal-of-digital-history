@@ -20,7 +20,6 @@ const DropdownMenu = ({ options, value, onChange }) => {
   }, [])
 
   const selected = options.find((opt) => opt.value === value)
-
   return (
     <div className="dropdown-menu custom-dropdown" ref={ref}>
       <div
@@ -38,7 +37,7 @@ const DropdownMenu = ({ options, value, onChange }) => {
             <li
               key={opt.value}
               className={`dropdown-option${opt.value === value ? ' selected' : ''}`}
-              onClick={() => {
+              onMouseDown={() => {
                 onChange(opt.value)
                 setOpen(false)
               }}

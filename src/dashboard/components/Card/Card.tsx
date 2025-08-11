@@ -94,7 +94,6 @@ const Card = ({
         {loading && data.length > 0 && <Loading />}
         <div ref={loaderRef} />
       </div>
-
       <Modal
         open={rowData.open}
         onClose={handleClose}

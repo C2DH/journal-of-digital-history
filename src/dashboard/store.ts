@@ -1,6 +1,7 @@
 import create from 'zustand'
 
 import api from './utils/helpers/setApiHeaders'
+import { Callforpaper, Issue } from './utils/types'
 
 // SEARCH STORE
 /**
@@ -185,4 +186,58 @@ export const useItemStore = create<ItemState<any>>((set, get) => ({
     }
   },
   reset: () => set({ data: null, loading: false, error: null }),
+}))
+
+//FETCH CALLFORPAPERS TITLE
+type CallForPapersState = {
+  data: Callforpaper[]
+  error: string | null
+  fetchCallForPapers: () => Promise<void>
+  reset: () => void
+}
+
+export const useCallForPapersStore = create<CallForPapersState>((set) => ({
+  data: [],
+  error: null,
+  fetchCallForPapers: async () => {
+    try {
+      const response = await api.get('/api/callforpaper/')
+      const result = response.data
+      set({
+        data: result.results || [],
+        error: null,
+      })
+    } catch (err: any) {
+      set({
+        error: err instanceof Error ? err.message : String(err),
+      })
+    }
+  },
+  reset: () => set({ data: [], error: null }),
+}))
+
+//FETCH ISSUES TITLE
+type IssuesState = {
+  data: Issue[]
+  error: string | null
+  fetchIssues: () => Promise<void>
+  reset: () => void
+}
+
+export const useIssuesStore = create<IssuesState>((set) => ({
+  data: [],
+  error: null,
+  fetchIssues: async () => {
+    try {
+      const response = await api.get('/api/issues/')
+      const result = response.data
+      set({
+        data: result.results || [],
+        error: null,
+      })
+    } catch (err: any) {
+      set({ error: err instanceof Error ? err.message : String(err) })
+    }
+  },
+  reset: () => set({ data: [], error: null }),
 }))

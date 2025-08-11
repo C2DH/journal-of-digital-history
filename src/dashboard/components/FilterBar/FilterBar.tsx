@@ -13,11 +13,7 @@ const FilterBar = ({ filters, onFilterChange }) => {
 
   return (
     <div className="filter-bar">
-      <Search
-        onSearch={setSearch}
-        activeRoutes={['/abstracts', '/articles']}
-        placeholder={t('search.placeholder')}
-      />
+      <Search onSearch={setSearch} placeholder={t('search.placeholder')} />
       {filters.map((filter) => (
         <DropdownMenu
           key={filter.name}
@@ -26,7 +22,7 @@ const FilterBar = ({ filters, onFilterChange }) => {
           onChange={(value) => onFilterChange(filter.name, value)}
         />
       ))}
-      <Button type={'submit'} text="Go →"></Button>
+      <Button type={'submit'} text="Clear All" color="var(--color-deep-blue)"></Button>
     </div>
   )
 }

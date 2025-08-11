@@ -8,3 +8,8 @@ export const articleSteps = [
   { key: 'published', label: 'Published', icon: 'rocket_launch' },
   { key: 'archive', label: 'Archive', icon: 'inventory_2' },
 ]
+
+export const articleStatus = articleSteps.map((step) => ({
+  value: step.key,
+  label: step.label,
+}))

@@ -1,20 +1,14 @@
 import './Search.css'
 
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router'
 
 import { SearchProps } from './interface'
 
 import { useDebounce } from '../../../hooks/useDebounce'
 
-const Search = ({ placeholder = 'Search', onSearch, activeRoutes }: SearchProps) => {
-  const location = useLocation()
+const Search = ({ placeholder = 'Search', onSearch }: SearchProps) => {
   const [value, setValue] = useState('')
   const debouncedValue = useDebounce(value, 300)
-
-  if (activeRoutes && !activeRoutes.includes(location.pathname)) {
-    return null
-  }
 
   useEffect(() => {
     onSearch(debouncedValue)
