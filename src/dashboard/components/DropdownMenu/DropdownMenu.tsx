@@ -36,7 +36,7 @@ const DropdownMenu = ({ options, value, onChange }) => {
           {options.map((opt) => (
             <li
               key={opt.value}
-              className={`dropdown-option${opt.value === value ? ' selected' : ''}`}
+              className={`dropdown-option ${opt.value === value ? 'selected' : ''}`}
               onMouseDown={() => {
                 onChange(opt.value)
                 setOpen(false)

@@ -11,9 +11,16 @@ const FilterBar = ({ filters, onFilterChange }) => {
   const { t } = useTranslation()
   const setSearch = useSearchStore((state) => state.setQuery)
 
+  const handleClearAll = () => {
+    onFilterChange('callForPaper', '')
+    onFilterChange('issue', '')
+    onFilterChange('status', '')
+    setSearch('')
+  }
+
   return (
     <div className="filter-bar">
-      <Search onSearch={setSearch} placeholder={t('search.placeholder')} />
+      <Search placeholder={t('search.placeholder')} />
       {filters.map((filter) => (
         <DropdownMenu
           key={filter.name}
@@ -22,7 +29,7 @@ const FilterBar = ({ filters, onFilterChange }) => {
           onChange={(value) => onFilterChange(filter.name, value)}
         />
       ))}
-      <Button type={'submit'} text="Clear All" color="color-deep-blue"></Button>
+      <Button text="Clear All" color="color-deep-blue" onClick={handleClearAll}></Button>
     </div>
   )
 }

@@ -1,9 +1,9 @@
 export const abstractStatus = [
-  { value: '', label: 'Status' },
-  { value: 'published', label: 'Published' },
-  { value: 'accepted', label: 'Accepted' },
-  { value: 'submitted', label: 'Submitted' },
-  { value: 'suspended', label: 'Suspended' },
-  { value: 'abandoned', label: 'Abandoned' },
-  { value: 'declined', label: 'Declined' },
+  { key: 0, value: '', label: 'Status' },
+  { key: 1, value: 'PUBLISHED', label: 'Published' },
+  { key: 2, value: 'ACCEPTED', label: 'Accepted' },
+  { key: 3, value: 'SUBMITTED', label: 'Submitted' },
+  { key: 4, value: 'SUSPENDED', label: 'Suspended' },
+  { key: 5, value: 'ABANDONED', label: 'Abandoned' },
+  { key: 6, value: 'DECLINED', label: 'Declined' },
 ]

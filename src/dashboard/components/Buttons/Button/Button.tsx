@@ -1,14 +1,15 @@
 import './Button.css'
 
 type ButtonProps = {
-  type: 'button' | 'submit' | 'reset'
   text: string
+  type?: 'button' | 'submit' | 'reset'
   color?: string
+  onClick?: () => void
 }
 
-const Button = ({ type, text, color }: ButtonProps) => {
+const Button = ({ text, type, color, onClick }: ButtonProps) => {
   return (
-    <button className={`default-button ${color}`} type={type}>
+    <button type={type} className={`default-button ${color}`} onClick={onClick}>
       {text}
     </button>
   )

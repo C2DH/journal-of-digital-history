@@ -1,7 +1,7 @@
 import create from 'zustand'
 
 import api from './utils/helpers/setApiHeaders'
-import { Callforpaper, Issue } from './utils/types'
+import { CallForPapersState, IssuesState, ItemsState, ItemState, SearchState } from './utils/types'
 
 // SEARCH STORE
 /**
@@ -13,17 +13,6 @@ import { Callforpaper, Issue } from './utils/types'
  * - error: search error state
  * - setQuery, setResults, setLoading, setError: actions to update state
  */
-
-type SearchState = {
-  query: string
-  results: any[]
-  loading: boolean
-  error: any
-  setQuery: (query: string) => void
-  setResults: (results: any[]) => void
-  setLoading: (loading: boolean) => void
-  setError: (error: any) => void
-}
 
 export const useSearchStore = create<SearchState>((set) => ({
   query: '',
@@ -52,36 +41,6 @@ export const useSearchStore = create<SearchState>((set) => ({
  * - reset: resets store state
  * - loadMore: fetches next page
  */
-type ItemsState<T> = {
-  count: number
-  data: T[]
-  error: string | null
-  loading: boolean
-  offset: number
-  hasMore: boolean
-  endpoint: string
-  limit: number
-  ordering?: string
-  search?: string
-  fetchItems: (reset?: boolean) => Promise<void>
-  setParams: (params: {
-    ordering?: string | undefined
-    endpoint?: string | undefined
-    limit?: number | undefined
-    search?: string | undefined
-  }) => void
-  reset: () => void
-  loadMore: () => Promise<void>
-}
-
-type ItemState<T> = {
-  data: T | null
-  loading: boolean
-  error: string | null
-  fetchItem: (id: string, endpoint: string) => Promise<void>
-  reset: () => void
-}
-
 export const useItemsStore = create<ItemsState<any>>((set, get) => ({
   count: 0,
   data: [],
@@ -93,9 +52,10 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
   limit: 10,
   ordering: undefined,
   search: undefined,
+  params: {},
 
   fetchItems: async (reset = false) => {
-    const { endpoint, limit, ordering, search, offset, data } = get()
+    const { endpoint, limit, ordering, search, offset, data, params } = get()
     if (!endpoint) return
 
     set({ loading: true, error: null })
@@ -106,6 +66,13 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
     }
 
     try {
+      const dynamicParams = params
+        ? Object.entries(params)
+            .filter(([_, v]) => v !== undefined && v !== '')
+            .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v as string)}`)
+            .join('&')
+        : ''
+
       const pagedUrl =
         `/api/${endpoint}/` +
         '?' +
@@ -114,6 +81,7 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
           ordering ? `ordering=${finalOrdering}` : null,
           `limit=${limit}`,
           `offset=${reset ? 0 : offset}`,
+          dynamicParams,
         ]
           .filter(Boolean)
           .join('&')
@@ -143,6 +111,7 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
       limit: params.limit === undefined ? state.limit : params.limit,
       ordering: params.ordering === undefined ? state.ordering : params.ordering,
       search: params.search === undefined ? state.search : params.search,
+      params: params.params === undefined ? state.params : params.params,
     }))
   },
   reset: () =>
@@ -161,6 +130,16 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
   },
 }))
 
+// SINGLE ITEM FETCHING STORE
+/**
+ * useItemStore
+ * Zustand store for fetching and storing a single item by id.
+ * - data: the fetched item
+ * - loading: loading state
+ * - error: error state
+ * - fetchItem: fetches an item by id and endpoint
+ * - reset: resets store state
+ */
 export const useItemStore = create<ItemState<any>>((set, get) => ({
   data: null,
   loading: false,
@@ -188,13 +167,15 @@ export const useItemStore = create<ItemState<any>>((set, get) => ({
   reset: () => set({ data: null, loading: false, error: null }),
 }))
 
-//FETCH CALLFORPAPERS TITLE
-type CallForPapersState = {
-  data: Callforpaper[]
-  error: string | null
-  fetchCallForPapers: () => Promise<void>
-  reset: () => void
-}
+// CALL FOR PAPERS STORE
+/**
+ * useCallForPapersStore
+ * Zustand store for fetching all call for papers.
+ * - data: array of call for paper objects
+ * - error: error state
+ * - fetchCallForPapers: fetches all call for papers
+ * - reset: resets store state
+ */
 
 export const useCallForPapersStore = create<CallForPapersState>((set) => ({
   data: [],
@@ -216,13 +197,15 @@ export const useCallForPapersStore = create<CallForPapersState>((set) => ({
   reset: () => set({ data: [], error: null }),
 }))
 
-//FETCH ISSUES TITLE
-type IssuesState = {
-  data: Issue[]
-  error: string | null
-  fetchIssues: () => Promise<void>
-  reset: () => void
-}
+// ISSUES STORE
+/**
+ * useIssuesStore
+ * Zustand store for fetching all issues.
+ * - data: array of issue objects
+ * - error: error state
+ * - fetchIssues: fetches all issues
+ * - reset: resets store state
+ */
 
 export const useIssuesStore = create<IssuesState>((set) => ({
   data: [],

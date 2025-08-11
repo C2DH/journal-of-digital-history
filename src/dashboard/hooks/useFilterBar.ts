@@ -9,7 +9,7 @@ export function useFilterBar() {
 
   const [filters, setFilters] = useState([
     {
-      name: 'callForPaper',
+      name: 'callpaper',
       value: '',
       options: [{ key: 0, value: '', label: 'Call for Paper' }],
     },
@@ -33,7 +33,7 @@ export function useFilterBar() {
   useEffect(() => {
     setFilters((prev) =>
       prev.map((filter) =>
-        filter.name === 'callForPaper'
+        filter.name === 'callpaper'
           ? {
               ...filter,
               options: [
@@ -67,5 +67,5 @@ export function useFilterBar() {
     setFilters((prev) => prev.map((f) => (f.name === name ? { ...f, value: newValue } : f)))
   }
 
-  return { filters, setFiltersState: setFilters, handleFilterChange }
+  return { filters, handleFilterChange }
 }

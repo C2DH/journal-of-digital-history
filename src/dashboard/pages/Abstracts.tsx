@@ -21,13 +21,22 @@ const Abstracts = () => {
     setParams,
     loadMore,
   } = useItemsStore()
+  const { filters, handleFilterChange } = useFilterBar()
 
   useEffect(() => {
-    setParams({ endpoint: 'abstracts', limit: 20, ordering, search: query })
+    const params = filters.reduce((acc, filter) => {
+      if (filter.value) acc[filter.name] = filter.value
+      return acc
+    }, {})
+    setParams({
+      endpoint: 'abstracts',
+      limit: 20,
+      ordering,
+      search: query,
+      params,
+    })
     fetchItems(true)
-  }, [setParams, fetchItems, ordering, query])
-
-  const { filters, handleFilterChange } = useFilterBar()
+  }, [setParams, fetchItems, ordering, query, filters])
 
   return (
     <div className="abstract page">
