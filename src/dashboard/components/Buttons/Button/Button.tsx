@@ -8,11 +8,7 @@ type ButtonProps = {
 
 const Button = ({ type, text, color }: ButtonProps) => {
   return (
-    <button
-      className="default-button"
-      type={type}
-      style={{ color: `${color}`, borderColor: `${color}` }}
-    >
+    <button className={`default-button ${color}`} type={type}>
       {text}
     </button>
   )

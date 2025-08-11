@@ -22,7 +22,7 @@ const FilterBar = ({ filters, onFilterChange }) => {
           onChange={(value) => onFilterChange(filter.name, value)}
         />
       ))}
-      <Button type={'submit'} text="Clear All" color="var(--color-deep-blue)"></Button>
+      <Button type={'submit'} text="Clear All" color="color-deep-blue"></Button>
     </div>
   )
 }

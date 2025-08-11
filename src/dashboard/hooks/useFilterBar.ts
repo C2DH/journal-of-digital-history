@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useCallForPapersStore, useIssuesStore } from '../store'
 import { abstractStatus } from '../utils/constants/abstract'
 
-export function useAbstractFilters() {
+export function useFilterBar() {
   const { data: callForPapers, fetchCallForPapers } = useCallForPapersStore()
   const { data: issues, fetchIssues } = useIssuesStore()
 
@@ -37,6 +37,7 @@ export function useAbstractFilters() {
           ? {
               ...filter,
               options: [
+                { key: 0, value: '', label: 'Call for Paper' },
                 ...callForPapers.map((cfp) => ({
                   key: cfp.id,
                   value: String(cfp.id),
@@ -47,11 +48,14 @@ export function useAbstractFilters() {
           : filter.name === 'issue'
           ? {
               ...filter,
-              options: issues.map((issue) => ({
-                key: issue.id,
-                value: String(issue.pid),
-                label: String(issue.pid + ' ' + issue.name),
-              })),
+              options: [
+                { key: 0, value: '', label: 'Issue' },
+                ...issues.map((issue) => ({
+                  key: issue.id,
+                  value: String(issue.pid),
+                  label: String(issue.pid + ' ' + issue.name),
+                })),
+              ],
             }
           : filter,
       ),

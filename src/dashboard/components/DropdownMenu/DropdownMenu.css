@@ -1,7 +1,7 @@
 .dropdown-menu {
   display: flex;
   align-items: center;
-  margin-right: 1em;
+  margin-right: var(--space-size-3);
   height: var(--space-size-5);
   background: var(--color-white);
   border-radius: 16px;
@@ -25,8 +25,15 @@
   background: var(--color-white);
   color: var(--color-deep-blue);
   min-height: 40px;
-  width: 100%;
   transition: border 0.2s;
+  width: 100%;
+}
+
+.dropdown-selected span {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dropdown-selected:focus {

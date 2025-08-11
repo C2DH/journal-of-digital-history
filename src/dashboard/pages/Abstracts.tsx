@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 
 import Card from '../components/Card/Card'
 import FilterBar from '../components/FilterBar/FilterBar'
-import { useAbstractFilters } from '../hooks/useAbstractFilters'
+import { useFilterBar } from '../hooks/useFilterBar'
 import { useFilters } from '../hooks/useFilters'
 import { useItemsStore, useSearchStore } from '../store'
 
@@ -27,7 +27,7 @@ const Abstracts = () => {
     fetchItems(true)
   }, [setParams, fetchItems, ordering, query])
 
-  const { filters, handleFilterChange } = useAbstractFilters()
+  const { filters, handleFilterChange } = useFilterBar()
 
   return (
     <div className="abstract page">
