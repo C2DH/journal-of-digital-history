@@ -21,7 +21,7 @@ const Abstracts = () => {
     setParams,
     loadMore,
   } = useItemsStore()
-  const { filters, handleFilterChange } = useFilterBar()
+  const { filters, handleFilterChange } = useFilterBar(true)
 
   useEffect(() => {
     const params = filters.reduce((acc, filter) => {

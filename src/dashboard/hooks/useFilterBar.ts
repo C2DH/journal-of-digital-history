@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react'
 
 import { useCallForPapersStore, useIssuesStore } from '../store'
 import { abstractStatus } from '../utils/constants/abstract'
+import { articleStatus } from '../utils/constants/article'
 
-export function useFilterBar() {
+export function useFilterBar(isAbstract: boolean) {
   const { data: callForPapers, fetchCallForPapers } = useCallForPapersStore()
   const { data: issues, fetchIssues } = useIssuesStore()
 
@@ -21,7 +22,7 @@ export function useFilterBar() {
     {
       name: 'status',
       value: '',
-      options: abstractStatus,
+      options: isAbstract ? abstractStatus : articleStatus,
     },
   ])
 
