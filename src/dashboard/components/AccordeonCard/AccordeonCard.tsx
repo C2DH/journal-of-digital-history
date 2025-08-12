@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { AccordeonCardProps } from './interface'
 
 import Collapse from '../../../components/Collapse/Collapse'
-import Error from '../Error/Error'
+import Feedback from '../Feedback/Feedback'
 import Table from '../Table/Table'
 
 const AccordeonCard = ({
@@ -21,7 +21,7 @@ const AccordeonCard = ({
   const { t } = useTranslation()
 
   if (error) {
-    return <Error error={error} />
+    return <Feedback type="error" message={error} />
   }
 
   return (

@@ -23,12 +23,11 @@ vi.mock('../Table/Table', () => ({
 vi.mock('../Loading/Loading', () => ({
   default: () => <div data-testid="loading-mock" />,
 }))
-vi.mock('../Error/Error', () => ({
-  default: ({ error }: { error: string }) => {
+vi.mock('../Feedback/Feedback', () => ({
+  default: ({ message }: { message: string }) => {
     return (
-      <div data-testid="error-mock">
-        <h2>{`error.title`}</h2>
-        <p>{error}</p>
+      <div data-testid="feedback-mock">
+        <p>{message}</p>
       </div>
     )
   },
@@ -52,8 +51,7 @@ describe('Card', () => {
   })
 
   it('renders error state', () => {
-    render(<Card {...defaultProps} error="Something went wrong" />)
-    expect(screen.getByText('error.title')).toBeInTheDocument()
+    render(<Card {...defaultProps} error={'Something went wrong'} />)
     expect(screen.getByText('Something went wrong')).toBeInTheDocument()
   })
 

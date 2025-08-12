@@ -60,8 +60,11 @@
     "description": "Description"
   },
   "error": {
-    "title": "Sorry, you have an error",
+    "general": "Error",
     "invalidUser": "Invalid username or password"
+  },
+  "warning": {
+    "general": "Oups..."
   },
   "status": {
     "peer_review": "Peer Review",

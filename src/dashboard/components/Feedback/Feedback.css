@@ -1,12 +1,13 @@
-.error-container {
+.feedback-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 2rem;
 }
 
-.error-icon-bg {
-  background: radial-gradient(circle at 150% 40%, #ffe0b2 60%, #ffb3c6 100%);
+.feedback-icon-bg,
+.feedback-icon-bg-error,
+.feedback-icon-bg-warning {
   border-radius: 60% 40% 60% 40% / 50% 60% 40%;
   padding: 1.5rem 2.2rem 1.8rem 1.6rem;
   display: flex;
@@ -17,12 +18,20 @@
   filter: blur(0.2px);
 }
 
-.error-title {
+.feedback-icon-bg-error {
+  background: radial-gradient(circle at 160% 2%, #ffe0b2 60%, #ffb3c6 100%);
+}
+
+.feedback-icon-bg-warning {
+  background: radial-gradient(circle at 160% 2%, #b3b7ff 60%, #d5ffb2 100%);
+}
+
+.feedback-title {
   text-align: center;
   margin: 0;
 }
 
-.error-message {
+.feedback-message {
   text-align: center;
   margin-top: 0.5rem;
 }
