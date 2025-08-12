@@ -1,0 +1,28 @@
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.error-icon-bg {
+  background: radial-gradient(circle at 150% 40%, #ffe0b2 60%, #ffb3c6 100%);
+  border-radius: 60% 40% 60% 40% / 50% 60% 40%;
+  padding: 1.5rem 2.2rem 1.8rem 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 4px 24px 0 rgba(255, 179, 198, 0.18);
+  filter: blur(0.2px);
+}
+
+.error-title {
+  text-align: center;
+  margin: 0;
+}
+
+.error-message {
+  text-align: center;
+  margin-top: 0.5rem;
+}

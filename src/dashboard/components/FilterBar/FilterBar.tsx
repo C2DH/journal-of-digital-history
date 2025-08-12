@@ -2,14 +2,16 @@ import './FilterBar.css'
 
 import { useTranslation } from 'react-i18next'
 
+import { FilterBarProps } from './interface'
+
 import { useSearchStore } from '../../store'
 import Button from '../Buttons/Button/Button'
 import DropdownMenu from '../DropdownMenu/DropdownMenu'
 import Search from '../Search/Search'
 
-const FilterBar = ({ filters, onFilterChange }) => {
+const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
   const { t } = useTranslation()
-  const setSearch = useSearchStore((state) => state.setQuery)
+  const { setQuery: setSearch } = useSearchStore()
 
   const handleClearAll = () => {
     onFilterChange('callpaper', '')

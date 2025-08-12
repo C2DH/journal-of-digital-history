@@ -10,6 +10,7 @@ import { useItemsStore } from '../../store'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
 import { ModalInfo } from '../../utils/types'
 import Counter from '../Counter/Counter'
+import Error from '../Error/Error'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
 import Table from '../Table/Table'
@@ -57,12 +58,7 @@ const Card = ({
   }, [rowData.open])
 
   if (error) {
-    return (
-      <div className="card card-error">
-        <h1>{t('error.title', 'Error')}</h1>
-        <p>{error?.response}</p>
-      </div>
-    )
+    return <Error error={error} />
   }
 
   return (

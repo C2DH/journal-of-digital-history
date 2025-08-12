@@ -1,11 +1,6 @@
 import './Button.css'
 
-type ButtonProps = {
-  text: string
-  type?: 'button' | 'submit' | 'reset'
-  color?: string
-  onClick?: () => void
-}
+import { ButtonProps } from './interface'
 
 const Button = ({ text, type, color, onClick }: ButtonProps) => {
   return (

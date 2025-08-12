@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
 import './DropdownMenu.css'
+
+import { useEffect, useRef, useState } from 'react'
+
+import { DropdownMenuProps } from './interface'
 
 import ArrowDownInCircle from '../../../assets/icons/ArrowDownInCircle'
 
-const DropdownMenu = ({ options, value, onChange }) => {
+const DropdownMenu = ({ options, value, onChange }: DropdownMenuProps) => {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
