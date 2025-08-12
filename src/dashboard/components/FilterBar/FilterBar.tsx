@@ -12,7 +12,7 @@ const FilterBar = ({ filters, onFilterChange }) => {
   const setSearch = useSearchStore((state) => state.setQuery)
 
   const handleClearAll = () => {
-    onFilterChange('callForPaper', '')
+    onFilterChange('callpaper', '')
     onFilterChange('issue', '')
     onFilterChange('status', '')
     setSearch('')

@@ -25,7 +25,14 @@ const Abstracts = () => {
 
   useEffect(() => {
     const params = filters.reduce((acc, filter) => {
-      if (filter.value) acc[filter.name] = filter.value
+      if (filter.value) {
+        if (filter.name === 'issue') {
+          //exception for sorting on 'issues' it should call 'article__issue'
+          acc['article__issue'] = filter.value.replace(/^jdh0+/, '')
+        } else {
+          acc[filter.name] = filter.value
+        }
+      }
       return acc
     }, {})
     setParams({
