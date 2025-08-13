@@ -22,11 +22,14 @@ const Abstracts = () => {
   } = useItemsStore()
   const { setFilter, initFilters, updateFromStores } = useFilterBarStore()
   const filters = useFilterBarStore((state) => state.filters)
-  console.log('🚀 ~ file: Abstracts.tsx:25 ~ filters:', filters)
 
   useEffect(() => {
-    initFilters(true)
-    updateFromStores()
+    if (!filters || filters.length === 0) {
+      initFilters()
+      updateFromStores(true)
+    } else {
+      updateFromStores(true)
+    }
   }, [])
 
   useEffect(() => {

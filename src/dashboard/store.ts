@@ -236,13 +236,13 @@ interface FilterBarState {
   filters: Filter[]
   setFilter: (name: string, newValue: string) => void
   resetFilters: () => void
-  initFilters: (isAbstract: boolean) => void
-  updateFromStores: () => void
+  initFilters: () => void
+  updateFromStores: (isAbstract: boolean) => void
 }
 
 export const useFilterBarStore = create<FilterBarState>((set, get) => ({
   filters: [],
-  initFilters: (isAbstract: boolean) => {
+  initFilters: () => {
     set({
       filters: [
         {
@@ -258,7 +258,7 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
         {
           name: 'status',
           value: '',
-          options: isAbstract ? abstractStatus : articleStatus,
+          options: [],
         },
       ],
     })
@@ -273,7 +273,7 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
       filters: state.filters.map((f) => ({ ...f, value: '' })),
     }))
   },
-  updateFromStores: async () => {
+  updateFromStores: async (isAbstract: boolean) => {
     await Promise.all([
       useCallForPapersStore.getState().fetchCallForPapers(),
       useIssuesStore.getState().fetchIssues(),
@@ -307,6 +307,12 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
                 label: String(issue.pid + ' ' + issue.name),
               })),
             ],
+          }
+        }
+        if (filter.name === 'status') {
+          return {
+            ...filter,
+            options: isAbstract ? abstractStatus : articleStatus,
           }
         }
         return filter

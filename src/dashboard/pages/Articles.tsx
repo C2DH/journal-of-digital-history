@@ -24,8 +24,12 @@ const Articles = () => {
   const filters = useFilterBarStore((state) => state.filters)
 
   useEffect(() => {
-    initFilters(false)
-    updateFromStores()
+    if (!filters || filters.length === 0) {
+      initFilters()
+      updateFromStores(false)
+    } else {
+      updateFromStores(false)
+    }
   }, [])
 
   useEffect(() => {
