@@ -60,8 +60,11 @@
     "description": "Description"
   },
   "error": {
-    "title": "Sorry, you have an error",
+    "general": "Error",
     "invalidUser": "Invalid username or password"
+  },
+  "warning": {
+    "general": "Oups..."
   },
   "status": {
     "peer_review": "Peer Review",
@@ -78,7 +81,7 @@
     "design_review": "Design Review"
   },
   "search": {
-    "placeholder": "Search by PID, title, or author"
+    "placeholder": "Search"
   },
   "email": {
     "declined": {
@@ -88,7 +91,7 @@
       "body": "Dear {recipientName},\nWe have reached a decision regarding your abstract submission to the Journal of Digital History, {submissionTitle} (ID: {submissionId}), and we concluded that it will not be considered for publication.\n\n[---Editors to add their feedback---].\n\nIf you believe your work has the potential to develop into a data-driven research article that aligns with the theme or scope of our journal, we encourage you to contact us at jdh.admin@uni.lu to discuss potential revisions or areas of focus that may support a successful resubmission.\n\nWe hope that you will consider our journal for future publications.\n\nKind regards,\n{signature}"
     },
     "accepted": {
-      "body": "Dear {recipientName},\nThank you for submitting your abstract to the Journal of Digital History (JDH).\nFollowing an initial review of {submissionTitle} (ID: {submissionId}) and our discussion, we are pleased to inform you that your submission is accepted for publication with the journal. Please note that the final article will be subject to a single-blind peer review process.\n\nWe remind you that the JDH require authors to adhere to specific writing guidelines. Please refer to the following link for detailed instructions on our submission guidelines and for setting up the required writing environment on your machine: https://journalofdigitalhistory.org/en/guidelines .\n\nIf you require assistance with installing the necessary software or encounter any questions during the writing process, please do not hesitate to contact us at jdh.admin@uni.lu. We will be happy to support you.\n\nThe quality of the abstract you have sent us is very impressive, and we look forward to preparing this special issue with you.\n\nKind regards,\n{signature}"
+      "body": "Dear {recipientName},\nThank you for submitting your abstract to the Journal of Digital History (JDH).\nFollowing an initial review of {submissionTitle} (ID: {submissionId}) and our discussion, we are pleased to inform you that your submission is accepted for publication with the journal. Please note that the final article will be subject to a single-blind peer review process.\n\nWe remind you that the JDH require authors to adhere to specific writing guidelines. Please refer to the following link for detailed instructions on our submission guidelines and for setting up the required writing environment on your machine: https://journalofdigitalhistory.org/en/guidelines.\n\nIf you require assistance with installing the necessary software or encounter any questions during the writing process, please do not hesitate to contact us at jdh.admin@uni.lu. We will be happy to support you.\n\nThe quality of the abstract you have sent us is very impressive, and we look forward to preparing this special issue with you.\n\nKind regards,\n{signature}"
     },
     "suspended": {
       "body": "Dear {recipientName},\nWe have reached a decision regarding your abstract submission to the Journal of Digital History, {submissionTitle} (ID: {submissionId}), and we concluded that it will not be considered for publication.\n\n[---Editors to add their feedback---].\n\nIf you believe your work has the potential to develop into a data-driven research article that aligns with the theme or scope of our journal, we encourage you to contact us at jdh.admin@uni.lu to discuss potential revisions or areas of focus that may support a successful resubmission.\n\nWe hope that you will consider our journal for future publications.\n\nKind regards,\n{signature}"

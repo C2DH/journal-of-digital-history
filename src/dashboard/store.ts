@@ -1,6 +1,9 @@
 import create from 'zustand'
 
+import { abstractStatus } from './utils/constants/abstract'
+import { articleStatus } from './utils/constants/article'
 import api from './utils/helpers/setApiHeaders'
+import { CallForPapersState, IssuesState, ItemsState, ItemState, SearchState } from './utils/types'
 
 // SEARCH STORE
 /**
@@ -12,17 +15,6 @@ import api from './utils/helpers/setApiHeaders'
  * - error: search error state
  * - setQuery, setResults, setLoading, setError: actions to update state
  */
-
-type SearchState = {
-  query: string
-  results: any[]
-  loading: boolean
-  error: any
-  setQuery: (query: string) => void
-  setResults: (results: any[]) => void
-  setLoading: (loading: boolean) => void
-  setError: (error: any) => void
-}
 
 export const useSearchStore = create<SearchState>((set) => ({
   query: '',
@@ -51,36 +43,6 @@ export const useSearchStore = create<SearchState>((set) => ({
  * - reset: resets store state
  * - loadMore: fetches next page
  */
-type ItemsState<T> = {
-  count: number
-  data: T[]
-  error: string | null
-  loading: boolean
-  offset: number
-  hasMore: boolean
-  endpoint: string
-  limit: number
-  ordering?: string
-  search?: string
-  fetchItems: (reset?: boolean) => Promise<void>
-  setParams: (params: {
-    ordering?: string | undefined
-    endpoint?: string | undefined
-    limit?: number | undefined
-    search?: string | undefined
-  }) => void
-  reset: () => void
-  loadMore: () => Promise<void>
-}
-
-type ItemState<T> = {
-  data: T | null
-  loading: boolean
-  error: string | null
-  fetchItem: (id: string, endpoint: string) => Promise<void>
-  reset: () => void
-}
-
 export const useItemsStore = create<ItemsState<any>>((set, get) => ({
   count: 0,
   data: [],
@@ -92,9 +54,10 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
   limit: 10,
   ordering: undefined,
   search: undefined,
+  params: {},
 
   fetchItems: async (reset = false) => {
-    const { endpoint, limit, ordering, search, offset, data } = get()
+    const { endpoint, limit, ordering, search, offset, data, params } = get()
     if (!endpoint) return
 
     set({ loading: true, error: null })
@@ -105,6 +68,13 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
     }
 
     try {
+      const dynamicParams = params
+        ? Object.entries(params)
+            .filter(([_, v]) => v !== undefined && v !== '')
+            .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v as string)}`)
+            .join('&')
+        : ''
+
       const pagedUrl =
         `/api/${endpoint}/` +
         '?' +
@@ -113,6 +83,7 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
           ordering ? `ordering=${finalOrdering}` : null,
           `limit=${limit}`,
           `offset=${reset ? 0 : offset}`,
+          dynamicParams,
         ]
           .filter(Boolean)
           .join('&')
@@ -142,6 +113,7 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
       limit: params.limit === undefined ? state.limit : params.limit,
       ordering: params.ordering === undefined ? state.ordering : params.ordering,
       search: params.search === undefined ? state.search : params.search,
+      params: params.params === undefined ? state.params : params.params,
     }))
   },
   reset: () =>
@@ -160,6 +132,16 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
   },
 }))
 
+// SINGLE ITEM FETCHING STORE
+/**
+ * useItemStore
+ * Zustand store for fetching and storing a single item by id.
+ * - data: the fetched item
+ * - loading: loading state
+ * - error: error state
+ * - fetchItem: fetches an item by id and endpoint
+ * - reset: resets store state
+ */
 export const useItemStore = create<ItemState<any>>((set, get) => ({
   data: null,
   loading: false,
@@ -185,4 +167,156 @@ export const useItemStore = create<ItemState<any>>((set, get) => ({
     }
   },
   reset: () => set({ data: null, loading: false, error: null }),
+}))
+
+// CALL FOR PAPERS STORE
+/**
+ * useCallForPapersStore
+ * Zustand store for fetching all call for papers.
+ * - data: array of call for paper objects
+ * - error: error state
+ * - fetchCallForPapers: fetches all call for papers
+ * - reset: resets store state
+ */
+
+export const useCallForPapersStore = create<CallForPapersState>((set) => ({
+  data: [],
+  error: null,
+  fetchCallForPapers: async () => {
+    try {
+      const response = await api.get('/api/callforpaper/')
+      const result = response.data
+      set({
+        data: result.results || [],
+        error: null,
+      })
+    } catch (err: any) {
+      set({
+        error: err instanceof Error ? err.message : String(err),
+      })
+    }
+  },
+  reset: () => set({ data: [], error: null }),
+}))
+
+// ISSUES STORE
+/**
+ * useIssuesStore
+ * Zustand store for fetching all issues.
+ * - data: array of issue objects
+ * - error: error state
+ * - fetchIssues: fetches all issues
+ * - reset: resets store state
+ */
+
+export const useIssuesStore = create<IssuesState>((set) => ({
+  data: [],
+  error: null,
+  fetchIssues: async () => {
+    try {
+      const response = await api.get('/api/issues/')
+      const result = response.data
+      set({
+        data: result.results || [],
+        error: null,
+      })
+    } catch (err: any) {
+      set({ error: err instanceof Error ? err.message : String(err) })
+    }
+  },
+  reset: () => set({ data: [], error: null }),
+}))
+
+// FILTER BAR STORE
+
+type FilterOption = { key: number; value: string; label: string }
+type Filter = { name: string; value: string; options: FilterOption[] }
+
+interface FilterBarState {
+  filters: Filter[]
+  setFilter: (name: string, newValue: string) => void
+  resetFilters: () => void
+  initFilters: () => void
+  updateFromStores: (isAbstract: boolean) => void
+}
+
+export const useFilterBarStore = create<FilterBarState>((set, get) => ({
+  filters: [],
+  initFilters: () => {
+    set({
+      filters: [
+        {
+          name: 'callpaper',
+          value: '',
+          options: [{ key: 0, value: '', label: 'Call for Paper' }],
+        },
+        {
+          name: 'issue',
+          value: '',
+          options: [{ key: 0, value: '', label: 'Issue' }],
+        },
+        {
+          name: 'status',
+          value: '',
+          options: [],
+        },
+      ],
+    })
+  },
+  setFilter: (name: string, newValue: string) => {
+    set((state) => ({
+      filters: state.filters.map((f) => (f.name === name ? { ...f, value: newValue } : f)),
+    }))
+  },
+  resetFilters: () => {
+    set((state) => ({
+      filters: state.filters.map((f) => ({ ...f, value: '' })),
+    }))
+  },
+  updateFromStores: async (isAbstract: boolean) => {
+    await Promise.all([
+      useCallForPapersStore.getState().fetchCallForPapers(),
+      useIssuesStore.getState().fetchIssues(),
+    ])
+    const { data: callForPapers } = useCallForPapersStore.getState()
+    const { data: issues } = useIssuesStore.getState()
+
+    set((state) => ({
+      filters: state.filters.map((filter) => {
+        if (filter.name === 'callpaper') {
+          return {
+            ...filter,
+            options: [
+              { key: 0, value: '', label: 'Call for Paper' },
+              ...callForPapers.map((cfp) => ({
+                key: cfp.id,
+                value: String(cfp.id),
+                label: cfp.title,
+              })),
+            ],
+          }
+        }
+        if (filter.name === 'issue') {
+          return {
+            ...filter,
+            options: [
+              { key: 0, value: '', label: 'Issue' },
+              ...issues.map((issue) => ({
+                key: issue.id,
+                value: String(issue.pid),
+                label: String(issue.pid + ' ' + issue.name),
+              })),
+            ],
+          }
+        }
+        if (filter.name === 'status') {
+          return {
+            ...filter,
+            options: isAbstract ? abstractStatus : articleStatus,
+          }
+        }
+        return filter
+      }),
+    }))
+  },
 }))

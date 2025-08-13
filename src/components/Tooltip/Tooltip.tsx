@@ -4,7 +4,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap'
 
 import { CustomTooltipProps } from './interface'
 
-import HelpIcon from '../../assets/icons/HelpIcon'
+import Help from '../../assets/icons/Help'
 
 const CustomTooltip = ({
   tooltip,
@@ -21,7 +21,7 @@ const CustomTooltip = ({
         </Tooltip>
       }
     >
-      <HelpIcon className="help-icon" />
+      <Help className="help-icon" />
     </OverlayTrigger>
   )
 }

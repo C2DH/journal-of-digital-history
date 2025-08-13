@@ -6,13 +6,13 @@ import { useTranslation } from 'react-i18next'
 import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
-import { useItemsStore, useSearchStore } from '../../store'
+import { useItemsStore } from '../../store'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
 import { ModalInfo } from '../../utils/types'
 import Counter from '../Counter/Counter'
+import Feedback from '../Feedback/Feedback'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
-import Search from '../Search/Search'
 import Table from '../Table/Table'
 import Toast from '../Toast/Toast'
 
@@ -39,7 +39,6 @@ const Card = ({
     submessage?: string
   } | null>(null)
 
-  const setSearch = useSearchStore((state) => state.setQuery)
   const { fetchItems } = useItemsStore()
 
   const handleClose = () => setRowData({ open: false })
@@ -59,12 +58,7 @@ const Card = ({
   }, [rowData.open])
 
   if (error) {
-    return (
-      <div className="card card-error">
-        <h1>{t('error.title', 'Error')}</h1>
-        <p>{error?.response}</p>
-      </div>
-    )
+    return <Feedback type="error" message={error} />
   }
 
   return (
@@ -80,35 +74,35 @@ const Card = ({
         <div className="card-header">
           <div className="card-header-title">
             <h1>{t(`${item}.item`)}</h1>
-            <div>{count ? <Counter value={count} /> : ''}</div>
+            <Counter value={count === undefined ? 0 : count} />
           </div>
-          <Search
-            onSearch={setSearch}
-            activeRoutes={['/abstracts', '/articles']}
-            placeholder={t('search.placeholder')}
-          />
         </div>
-        <Table
-          item={item}
-          headers={headers}
-          data={data}
-          sortBy={sortBy}
-          sortOrder={sortOrder}
-          setSortBy={setSortBy}
-          setSortOrder={setSortOrder}
-          setModal={setRowData}
-        />
-        {loading && data.length > 0 && <Loading />}
-        <div ref={loaderRef} />
+        {count === 0 ? (
+          <Feedback type="warning" message={'No item corresponds to your search'} />
+        ) : (
+          <>
+            <Table
+              item={item}
+              headers={headers}
+              data={data}
+              sortBy={sortBy}
+              sortOrder={sortOrder}
+              setSortBy={setSortBy}
+              setSortOrder={setSortOrder}
+              setModal={setRowData}
+            />
+            {loading && data.length > 0 && <Loading />}
+            <div ref={loaderRef} />
+            <Modal
+              open={rowData.open}
+              onClose={handleClose}
+              action={rowData.action || ''}
+              rowData={rowData}
+              onNotify={handleNotify}
+            />
+          </>
+        )}
       </div>
-
-      <Modal
-        open={rowData.open}
-        onClose={handleClose}
-        action={rowData.action || ''}
-        rowData={rowData}
-        onNotify={handleNotify}
-      />
     </>
   )
 }

@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next'
 
-import CheckCircleIcon from '../../assets/icons/CheckCircleIcon'
-import ErrorIcon from '../../assets/icons/ErrorIcon'
-import RadioButtonUncheckedIcon from '../../assets/icons/RadioButtonUncheckedIcon'
+import CheckCircle from '../../assets/icons/CheckCircle'
+import Error from '../../assets/icons/Error'
+import RadioButtonUnchecked from '../../assets/icons/RadioButtonUnchecked'
 import { mandatoryTopFields } from '../../constants/abstractSubmissionForm'
 import { SubmissionStatusProps } from '../../interfaces/abstractSubmission'
 import { addErrorToSection, requiredFieldErrors } from '../../logic/errors'
@@ -51,11 +51,11 @@ const SubmissionStatus = ({
                 >
                   <span className="submission-status-icon">
                     {submissionError ? (
-                      <ErrorIcon />
+                      <Error />
                     ) : topLevelErrors.includes(section) ? (
-                      <RadioButtonUncheckedIcon />
+                      <RadioButtonUnchecked />
                     ) : (
-                      <CheckCircleIcon />
+                      <CheckCircle />
                     )}
                   </span>
                 </div>

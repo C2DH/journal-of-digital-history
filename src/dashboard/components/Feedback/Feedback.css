@@ -1,0 +1,37 @@
+.feedback-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.feedback-icon-bg,
+.feedback-icon-bg-error,
+.feedback-icon-bg-warning {
+  border-radius: 60% 40% 60% 40% / 50% 60% 40%;
+  padding: 1.5rem 2.2rem 1.8rem 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 4px 24px 0 rgba(255, 179, 198, 0.18);
+  filter: blur(0.2px);
+}
+
+.feedback-icon-bg-error {
+  background: radial-gradient(circle at 160% 2%, #ffe0b2 60%, #ffb3c6 100%);
+}
+
+.feedback-icon-bg-warning {
+  background: radial-gradient(circle at 160% 2%, #b3b7ff 60%, #d5ffb2 100%);
+}
+
+.feedback-title {
+  text-align: center;
+  margin: 0;
+}
+
+.feedback-message {
+  text-align: center;
+  margin-top: 0.5rem;
+}

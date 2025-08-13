@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-export function useFilters() {
+export function useSorting() {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const sortBy = searchParams.get('sortBy')

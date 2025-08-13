@@ -147,3 +147,61 @@ export type RowAction = {
   label: string
   onClick: () => void
 }
+
+/* Zustand store types */
+export type SearchState = {
+  query: string
+  results: any[]
+  loading: boolean
+  error: any
+  setQuery: (query: string) => void
+  setResults: (results: any[]) => void
+  setLoading: (loading: boolean) => void
+  setError: (error: any) => void
+}
+
+export type ItemsState<T> = {
+  count: number
+  data: T[]
+  error: string | null
+  loading: boolean
+  offset: number
+  hasMore: boolean
+  endpoint: string
+  limit: number
+  ordering?: string
+  search?: string
+  params?: Record<string, any>
+  fetchItems: (reset?: boolean) => Promise<void>
+  setParams: (params: {
+    ordering?: string | undefined
+    endpoint?: string | undefined
+    limit?: number | undefined
+    search?: string | undefined
+    params?: Record<string, any> | undefined
+  }) => void
+  reset: () => void
+  loadMore: () => Promise<void>
+}
+
+export type ItemState<T> = {
+  data: T | null
+  loading: boolean
+  error: string | null
+  fetchItem: (id: string, endpoint: string) => Promise<void>
+  reset: () => void
+}
+
+export type CallForPapersState = {
+  data: Callforpaper[]
+  error: string | null
+  fetchCallForPapers: () => Promise<void>
+  reset: () => void
+}
+
+export type IssuesState = {
+  data: Issue[]
+  error: string | null
+  fetchIssues: () => Promise<void>
+  reset: () => void
+}
