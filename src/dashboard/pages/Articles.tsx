@@ -4,9 +4,8 @@ import { useEffect } from 'react'
 
 import Card from '../components/Card/Card'
 import FilterBar from '../components/FilterBar/FilterBar'
-import { useFilterBar } from '../hooks/useFilterBar'
 import { useSorting } from '../hooks/useSorting'
-import { useItemsStore, useSearchStore } from '../store'
+import { useFilterBarStore, useItemsStore, useSearchStore } from '../store'
 
 const Articles = () => {
   const { sortBy, sortOrder, ordering, setFilters } = useSorting()
@@ -20,9 +19,14 @@ const Articles = () => {
     fetchItems,
     setParams,
     loadMore,
-    reset,
   } = useItemsStore()
-  const { filters, handleFilterChange } = useFilterBar(false)
+  const { setFilter, initFilters, updateFromStores } = useFilterBarStore()
+  const filters = useFilterBarStore((state) => state.filters)
+
+  useEffect(() => {
+    initFilters(false)
+    updateFromStores()
+  }, [])
 
   useEffect(() => {
     const params = filters.reduce((acc, filter) => {
@@ -38,14 +42,13 @@ const Articles = () => {
       }
       return acc
     }, {})
-    // reset()
     setParams({ endpoint: 'articles', limit: 20, ordering, search: query, params })
     fetchItems(true)
   }, [setParams, fetchItems, ordering, query, filters])
 
   return (
     <div className="articles page">
-      <FilterBar filters={filters} onFilterChange={handleFilterChange} />
+      <FilterBar filters={filters} onFilterChange={setFilter} />
       <Card
         item="articles"
         headers={[

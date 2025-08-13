@@ -1,5 +1,7 @@
 import create from 'zustand'
 
+import { abstractStatus } from './utils/constants/abstract'
+import { articleStatus } from './utils/constants/article'
 import api from './utils/helpers/setApiHeaders'
 import { CallForPapersState, IssuesState, ItemsState, ItemState, SearchState } from './utils/types'
 
@@ -223,4 +225,92 @@ export const useIssuesStore = create<IssuesState>((set) => ({
     }
   },
   reset: () => set({ data: [], error: null }),
+}))
+
+// FILTER BAR STORE
+
+type FilterOption = { key: number; value: string; label: string }
+type Filter = { name: string; value: string; options: FilterOption[] }
+
+interface FilterBarState {
+  filters: Filter[]
+  setFilter: (name: string, newValue: string) => void
+  resetFilters: () => void
+  initFilters: (isAbstract: boolean) => void
+  updateFromStores: () => void
+}
+
+export const useFilterBarStore = create<FilterBarState>((set, get) => ({
+  filters: [],
+  initFilters: (isAbstract: boolean) => {
+    set({
+      filters: [
+        {
+          name: 'callpaper',
+          value: '',
+          options: [{ key: 0, value: '', label: 'Call for Paper' }],
+        },
+        {
+          name: 'issue',
+          value: '',
+          options: [{ key: 0, value: '', label: 'Issue' }],
+        },
+        {
+          name: 'status',
+          value: '',
+          options: isAbstract ? abstractStatus : articleStatus,
+        },
+      ],
+    })
+  },
+  setFilter: (name: string, newValue: string) => {
+    set((state) => ({
+      filters: state.filters.map((f) => (f.name === name ? { ...f, value: newValue } : f)),
+    }))
+  },
+  resetFilters: () => {
+    set((state) => ({
+      filters: state.filters.map((f) => ({ ...f, value: '' })),
+    }))
+  },
+  updateFromStores: async () => {
+    await Promise.all([
+      useCallForPapersStore.getState().fetchCallForPapers(),
+      useIssuesStore.getState().fetchIssues(),
+    ])
+    const { data: callForPapers } = useCallForPapersStore.getState()
+    const { data: issues } = useIssuesStore.getState()
+
+    set((state) => ({
+      filters: state.filters.map((filter) => {
+        if (filter.name === 'callpaper') {
+          return {
+            ...filter,
+            options: [
+              { key: 0, value: '', label: 'Call for Paper' },
+              ...callForPapers.map((cfp) => ({
+                key: cfp.id,
+                value: String(cfp.id),
+                label: cfp.title,
+              })),
+            ],
+          }
+        }
+        if (filter.name === 'issue') {
+          return {
+            ...filter,
+            options: [
+              { key: 0, value: '', label: 'Issue' },
+              ...issues.map((issue) => ({
+                key: issue.id,
+                value: String(issue.pid),
+                label: String(issue.pid + ' ' + issue.name),
+              })),
+            ],
+          }
+        }
+        return filter
+      }),
+    }))
+  },
 }))

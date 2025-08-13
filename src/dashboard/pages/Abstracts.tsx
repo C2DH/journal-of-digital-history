@@ -4,9 +4,8 @@ import { useEffect } from 'react'
 
 import Card from '../components/Card/Card'
 import FilterBar from '../components/FilterBar/FilterBar'
-import { useFilterBar } from '../hooks/useFilterBar'
 import { useSorting } from '../hooks/useSorting'
-import { useItemsStore, useSearchStore } from '../store'
+import { useFilterBarStore, useItemsStore, useSearchStore } from '../store'
 
 const Abstracts = () => {
   const { sortBy, sortOrder, ordering, setFilters } = useSorting()
@@ -21,7 +20,14 @@ const Abstracts = () => {
     setParams,
     loadMore,
   } = useItemsStore()
-  const { filters, handleFilterChange } = useFilterBar(true)
+  const { setFilter, initFilters, updateFromStores } = useFilterBarStore()
+  const filters = useFilterBarStore((state) => state.filters)
+  console.log('🚀 ~ file: Abstracts.tsx:25 ~ filters:', filters)
+
+  useEffect(() => {
+    initFilters(true)
+    updateFromStores()
+  }, [])
 
   useEffect(() => {
     const params = filters.reduce((acc, filter) => {
@@ -47,7 +53,7 @@ const Abstracts = () => {
 
   return (
     <div className="abstract page">
-      <FilterBar filters={filters} onFilterChange={handleFilterChange} />
+      <FilterBar filters={filters} onFilterChange={setFilter} />
       <Card
         item="abstracts"
         headers={[
