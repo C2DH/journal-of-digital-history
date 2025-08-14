@@ -1,6 +1,8 @@
+import './Table.css'
+
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
-import './Table.css'
 
 import { renderCellProps, TableProps } from './interface'
 
@@ -27,6 +29,7 @@ import { getCleanData, getRowActions, getVisibleHeaders } from '../../utils/help
 import ActionButton from '../Buttons/ActionButton/ActionButton'
 import IconButton from '../Buttons/IconButton/IconButton'
 import SortButton from '../Buttons/SortButton/SortButton'
+import Checkbox from '../Checkbox/Checkbox'
 import Status from '../Status/Status'
 import Timeline from '../Timeline/Timeline'
 
@@ -72,7 +75,10 @@ const Table = ({
 
   const visibleHeaders = getVisibleHeaders({ data, headers })
   const cleanData = getCleanData({ data, visibleHeaders })
-
+  const [checkedRows, setCheckedRows] = useState<{ pid: string; check: boolean }[]>(
+    cleanData.map((row) => ({ pid: String(row[0]), check: false })),
+  )
+  console.log('🚀 ~ file: Table.tsx:79 ~ checkedRows:', checkedRows)
   const handleRowClick = (pid: string) => {
     navigate(`/${item}/${pid}${search}`)
   }
@@ -92,6 +98,7 @@ const Table = ({
       <table className={`table ${item}`}>
         <thead>
           <tr>
+            <th className="checkbox-header"></th>
             {visibleHeaders.map((header, idx) =>
               header === 'status' && isArticle(item) ? (
                 articleSteps.map((step) => (
@@ -130,6 +137,16 @@ const Table = ({
 
             return (
               <tr key={rIdx}>
+                <td>
+                  <Checkbox
+                    checked={checkedRows[rIdx].check}
+                    onChange={(checked: boolean) => {
+                      setCheckedRows((prev) =>
+                        prev.map((obj, idx) => (idx === rIdx ? { ...obj, check: checked } : obj)),
+                      )
+                    }}
+                  />
+                </td>
                 {row.map((cell, cIdx) => {
                   const headerName = headers[cIdx]
                   const isTitle = isTitleHeader(headerName)

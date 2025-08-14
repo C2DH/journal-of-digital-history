@@ -1,6 +1,7 @@
+import './ActionButton.css'
+
 import { MoreHoriz } from 'iconoir-react'
 import { useEffect, useRef, useState } from 'react'
-import './ActionButton.css'
 
 import { ActionButtonProps } from './interface'
 
