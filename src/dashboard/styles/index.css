@@ -33,6 +33,7 @@ body {
   --color-secondary: #222322;
   --color-gray: #637198;
   --color-gray-light: #ecedf1;
+  --color-gray-lighter: #a3aed0;
   --color-accent: #5e2bff;
   --color-accent-light: #a08cff; /* lighten(#5e2bff, 20%) */
   --color-accent-dark: #4e24d6; /* darken(#5e2bff, 10%) */
