@@ -147,3 +147,5 @@ export type RowAction = {
   label: string
   onClick: () => void
 }
+
+export type RowCheckbox = { [pid: string]: boolean }
