@@ -205,3 +205,4 @@ export type IssuesState = {
   fetchIssues: () => Promise<void>
   reset: () => void
 }
+export type RowCheckbox = { [pid: string]: boolean }

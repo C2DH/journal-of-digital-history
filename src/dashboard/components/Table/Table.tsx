@@ -26,6 +26,7 @@ import {
   isTitleHeader,
 } from '../../utils/helpers/itemChecker'
 import { getCleanData, getRowActions, getVisibleHeaders } from '../../utils/helpers/table'
+import { RowCheckbox } from '../../utils/types'
 import ActionButton from '../Buttons/ActionButton/Short/ActionButton'
 import IconButton from '../Buttons/IconButton/IconButton'
 import SortButton from '../Buttons/SortButton/SortButton'
@@ -75,7 +76,9 @@ const Table = ({
 
   const visibleHeaders = getVisibleHeaders({ data, headers })
   const cleanData = getCleanData({ data, visibleHeaders })
-  const [checkedRows, setCheckedRows] = useState<{ pid: string; check: boolean }[]>([])
+  const [checkedRows, setCheckedRows] = useState<RowCheckbox>({})
+  const allChecked =
+    cleanData.length > 0 && cleanData.every((row) => checkedRows[String(row[0])] === true)
 
   const handleRowClick = (pid: string) => {
     navigate(`/${item}/${pid}${search}`)
@@ -96,7 +99,22 @@ const Table = ({
       <table className={`table ${item}`}>
         <thead>
           <tr>
-            <th className="checkbox-header"></th>
+            <th className="checkbox-header">
+              <Checkbox
+                checked={allChecked}
+                onChange={(checked: boolean) => {
+                  if (checked) {
+                    const newMap: Record<string, boolean> = {}
+                    cleanData.forEach((row) => {
+                      newMap[String(row[0])] = true
+                    })
+                    setCheckedRows(newMap)
+                  } else {
+                    setCheckedRows({})
+                  }
+                }}
+              />
+            </th>
             {visibleHeaders.map((header, idx) =>
               header === 'status' && isArticle(item) ? (
                 articleSteps.map((step) => (
@@ -133,19 +151,30 @@ const Table = ({
             const isArticleItem = isArticle(item)
             const isArticleOrAbstracts = isAbstractItem || isArticleItem
 
+            const isRowChecked = checkedRows[String(row[0])] || false
+
             return (
               <tr key={rIdx}>
                 <td>
                   <Checkbox
-                    checked={checkedRows[rIdx]?.check}
+                    checked={isRowChecked}
                     onChange={(checked: boolean) => {
-                      setCheckedRows((prev) =>
-                        prev.map((obj, idx) => (idx === rIdx ? { ...obj, check: checked } : obj)),
-                      )
+                      if (checked === true) {
+                        setCheckedRows((prev) => ({
+                          ...prev,
+                          [String(row[0])]: true,
+                        }))
+                      } else {
+                        setCheckedRows((prev) => {
+                          const newCheckedRows = { ...prev }
+                          delete newCheckedRows[String(row[0])]
+                          return newCheckedRows
+                        })
+                      }
                     }}
                   />
                 </td>
-                {row.map((cell, cIdx) => {
+                {row.map((cell: string | number, cIdx: number) => {
                   const headerName = headers[cIdx]
                   const isTitle = isTitleHeader(headerName)
                   const isAffiliation = isAffiliationHeader(headerName)
