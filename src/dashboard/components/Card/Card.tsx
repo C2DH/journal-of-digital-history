@@ -9,6 +9,7 @@ import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 import { useItemsStore } from '../../store'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
 import { ModalInfo } from '../../utils/types'
+import ActionButtonLarge from '../Buttons/ActionButton/Large/ActionButtonLarge'
 import Counter from '../Counter/Counter'
 import Feedback from '../Feedback/Feedback'
 import Loading from '../Loading/Loading'
@@ -76,6 +77,15 @@ const Card = ({
             <h1>{t(`${item}.item`)}</h1>
             <Counter value={count === undefined ? 0 : count} />
           </div>
+          {/* <Search
+            onSearch={setSearch}
+            activeRoutes={['/abstracts', '/articles']}
+            placeholder={t('search.placeholder')}
+          /> */}
+          <ActionButtonLarge
+            actions={[{ label: t('actions.refresh') }, { label: t('actions.export') }]}
+            active={true}
+          />
         </div>
         {count === 0 ? (
           <Feedback type="warning" message={'No item corresponds to your search'} />

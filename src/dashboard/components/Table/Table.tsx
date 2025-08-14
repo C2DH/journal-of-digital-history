@@ -26,7 +26,7 @@ import {
   isTitleHeader,
 } from '../../utils/helpers/itemChecker'
 import { getCleanData, getRowActions, getVisibleHeaders } from '../../utils/helpers/table'
-import ActionButton from '../Buttons/ActionButton/ActionButton'
+import ActionButton from '../Buttons/ActionButton/Short/ActionButton'
 import IconButton from '../Buttons/IconButton/IconButton'
 import SortButton from '../Buttons/SortButton/SortButton'
 import Checkbox from '../Checkbox/Checkbox'
@@ -75,10 +75,8 @@ const Table = ({
 
   const visibleHeaders = getVisibleHeaders({ data, headers })
   const cleanData = getCleanData({ data, visibleHeaders })
-  const [checkedRows, setCheckedRows] = useState<{ pid: string; check: boolean }[]>(
-    cleanData.map((row) => ({ pid: String(row[0]), check: false })),
-  )
-  console.log('🚀 ~ file: Table.tsx:79 ~ checkedRows:', checkedRows)
+  const [checkedRows, setCheckedRows] = useState<{ pid: string; check: boolean }[]>([])
+
   const handleRowClick = (pid: string) => {
     navigate(`/${item}/${pid}${search}`)
   }
@@ -139,7 +137,7 @@ const Table = ({
               <tr key={rIdx}>
                 <td>
                   <Checkbox
-                    checked={checkedRows[rIdx].check}
+                    checked={checkedRows[rIdx]?.check}
                     onChange={(checked: boolean) => {
                       setCheckedRows((prev) =>
                         prev.map((obj, idx) => (idx === rIdx ? { ...obj, check: checked } : obj)),
