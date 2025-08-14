@@ -9,10 +9,10 @@ import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 import { useItemsStore, useSearchStore } from '../../store'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
 import { ModalInfo } from '../../utils/types'
+import ActionButtonLarge from '../Buttons/ActionButton/Large/ActionButtonLarge'
 import Counter from '../Counter/Counter'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
-import Search from '../Search/Search'
 import Table from '../Table/Table'
 import Toast from '../Toast/Toast'
 
@@ -82,10 +82,14 @@ const Card = ({
             <h1>{t(`${item}.item`)}</h1>
             <div>{count ? <Counter value={count} /> : ''}</div>
           </div>
-          <Search
+          {/* <Search
             onSearch={setSearch}
             activeRoutes={['/abstracts', '/articles']}
             placeholder={t('search.placeholder')}
+          /> */}
+          <ActionButtonLarge
+            actions={[{ label: t('actions.refresh') }, { label: t('actions.export') }]}
+            active={true}
           />
         </div>
         <Table
