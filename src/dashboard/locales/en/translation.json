@@ -105,5 +105,8 @@
       },
       "validation": { "message": "Validation failed", "submessage": "Please check your input" }
     }
+  },
+  "actions": {
+    "change": "Change status"
   }
 }

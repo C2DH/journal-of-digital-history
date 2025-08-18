@@ -2,8 +2,8 @@ import './Checkbox.css'
 
 import { CheckboxProps } from './interface'
 
-const Checkbox = ({ checked, onChange, disabled }: CheckboxProps) => (
-  <label className={`checkbox-root${disabled ? ' disabled' : ''}`}>
+const Checkbox = ({ checked, onChange, disabled, isHeader }: CheckboxProps) => (
+  <label className={`checkbox-root${disabled ? ' disabled' : ''} `}>
     <input
       type="checkbox"
       className="checkbox-input"
@@ -11,7 +11,7 @@ const Checkbox = ({ checked, onChange, disabled }: CheckboxProps) => (
       disabled={disabled}
       onChange={(e) => onChange(e.target.checked)}
     />
-    <span className="checkbox-custom" />
+    <span className={`checkbox-custom ${isHeader ? ' header' : ''}`} />
   </label>
 )
 

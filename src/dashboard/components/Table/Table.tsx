@@ -26,7 +26,7 @@ import {
   isTitleHeader,
 } from '../../utils/helpers/itemChecker'
 import { getCleanData, getRowActions, getVisibleHeaders } from '../../utils/helpers/table'
-import { RowCheckbox } from '../../utils/types'
+import { RowCheckboxMap } from '../../utils/types'
 import ActionButton from '../Buttons/ActionButton/Short/ActionButton'
 import IconButton from '../Buttons/IconButton/IconButton'
 import SortButton from '../Buttons/SortButton/SortButton'
@@ -76,9 +76,8 @@ const Table = ({
 
   const visibleHeaders = getVisibleHeaders({ data, headers })
   const cleanData = getCleanData({ data, visibleHeaders })
-  const [checkedRows, setCheckedRows] = useState<RowCheckbox>({})
-  const allChecked =
-    cleanData.length > 0 && cleanData.every((row) => checkedRows[String(row[0])] === true)
+  const [checkedRows, setCheckedRows] = useState<RowCheckboxMap>({})
+  const [selectAll, setSelectAll] = useState<boolean>(false)
 
   const handleRowClick = (pid: string) => {
     navigate(`/${item}/${pid}${search}`)
@@ -94,6 +93,20 @@ const Table = ({
     }
   }
 
+  const isRowChecked = (pid: string): boolean => {
+    if (selectAll) {
+      checkedRows.selectAll = true
+      return checkedRows[pid] !== false
+    } else {
+      return checkedRows[pid] === true
+    }
+  }
+
+  // Compute visual state of master checkbox
+  const totalLoaded = cleanData.length
+  const checkedLoadedCount = cleanData.filter((row) => isRowChecked(String(row[0]))).length
+  const allLoadedChecked = totalLoaded > 0 && checkedLoadedCount === totalLoaded
+
   return (
     <>
       <table className={`table ${item}`}>
@@ -101,16 +114,19 @@ const Table = ({
           <tr>
             <th className="checkbox-header">
               <Checkbox
-                checked={allChecked}
-                onChange={(checked: boolean) => {
+                isHeader={true}
+                checked={selectAll || allLoadedChecked}
+                onChange={(checked) => {
                   if (checked) {
+                    setSelectAll(true)
                     const newMap: Record<string, boolean> = {}
                     cleanData.forEach((row) => {
                       newMap[String(row[0])] = true
                     })
-                    setCheckedRows(newMap)
+                    setCheckedRows({ selectAll: false })
                   } else {
-                    setCheckedRows({})
+                    setSelectAll(false)
+                    setCheckedRows({ selectAll: false })
                   }
                 }}
               />
@@ -151,26 +167,31 @@ const Table = ({
             const isArticleItem = isArticle(item)
             const isArticleOrAbstracts = isAbstractItem || isArticleItem
 
-            const isRowChecked = checkedRows[String(row[0])] || false
-
             return (
               <tr key={rIdx}>
                 <td>
                   <Checkbox
-                    checked={isRowChecked}
-                    onChange={(checked: boolean) => {
-                      if (checked === true) {
-                        setCheckedRows((prev) => ({
-                          ...prev,
-                          [String(row[0])]: true,
-                        }))
-                      } else {
-                        setCheckedRows((prev) => {
-                          const newCheckedRows = { ...prev }
-                          delete newCheckedRows[String(row[0])]
-                          return newCheckedRows
-                        })
-                      }
+                    checked={isRowChecked(String(row[0]))}
+                    onChange={(checked) => {
+                      setCheckedRows((prev) => {
+                        const newState = { ...prev }
+                        const pid = String(row[0])
+                        if (selectAll) {
+                          if (checked) {
+                            delete newState[pid]
+                          } else {
+                            newState[pid] = false
+                          }
+                        } else {
+                          if (checked) {
+                            newState[pid] = true
+                          } else {
+                            delete newState[pid]
+                          }
+                        }
+
+                        return newState
+                      })
                     }}
                   />
                 </td>

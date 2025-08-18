@@ -206,3 +206,6 @@ export type IssuesState = {
   reset: () => void
 }
 export type RowCheckbox = { [pid: string]: boolean }
+export type RowCheckboxMap = {
+  selectAll?: boolean
+}

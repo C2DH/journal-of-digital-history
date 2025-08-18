@@ -8,6 +8,7 @@ import { CardProps } from './interface'
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 import { useItemsStore } from '../../store'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
+import api from '../../utils/helpers/setApiHeaders'
 import { ModalInfo } from '../../utils/types'
 import ActionButtonLarge from '../Buttons/ActionButton/Large/ActionButtonLarge'
 import Counter from '../Counter/Counter'
@@ -51,6 +52,10 @@ const Card = ({
     setRowData((prev) => ({ ...prev, contactEmail: email }))
   }
 
+  const handleChangeStatus = (action: string, ids: string[]) => {
+    api.post(`/api/dashboard/change-status/${item}/${ids}/`, { action })
+  }
+
   useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
   useEffect(() => {
     if (rowData.open && rowData.id) {
@@ -77,13 +82,8 @@ const Card = ({
             <h1>{t(`${item}.item`)}</h1>
             <Counter value={count === undefined ? 0 : count} />
           </div>
-          {/* <Search
-            onSearch={setSearch}
-            activeRoutes={['/abstracts', '/articles']}
-            placeholder={t('search.placeholder')}
-          /> */}
           <ActionButtonLarge
-            actions={[{ label: t('actions.refresh') }, { label: t('actions.export') }]}
+            actions={[{ label: t('actions.change'), onClick: () => fetchItems(true) }]}
             active={true}
           />
         </div>
@@ -113,6 +113,13 @@ const Card = ({
           </>
         )}
       </div>
+      <Modal
+        open={rowData.open}
+        onClose={handleClose}
+        action={rowData.action || ''}
+        rowData={rowData}
+        onNotify={handleNotify}
+      />
     </>
   )
 }
