@@ -26,7 +26,6 @@ import {
   isTitleHeader,
 } from '../../utils/helpers/itemChecker'
 import { getCleanData, getRowActions, getVisibleHeaders } from '../../utils/helpers/table'
-import { RowCheckboxMap } from '../../utils/types'
 import ActionButton from '../Buttons/ActionButton/Short/ActionButton'
 import IconButton from '../Buttons/IconButton/IconButton'
 import SortButton from '../Buttons/SortButton/SortButton'
@@ -67,8 +66,10 @@ const Table = ({
   sortOrder,
   setSortBy,
   setSortOrder,
-  setModal,
+  setRowModal,
   isAccordeon = false,
+  checkedRows,
+  setCheckedRows,
 }: TableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -76,7 +77,6 @@ const Table = ({
 
   const visibleHeaders = getVisibleHeaders({ data, headers })
   const cleanData = getCleanData({ data, visibleHeaders })
-  const [checkedRows, setCheckedRows] = useState<RowCheckboxMap>({})
   const [selectAll, setSelectAll] = useState<boolean>(false)
 
   const handleRowClick = (pid: string) => {
@@ -107,30 +107,36 @@ const Table = ({
   const checkedLoadedCount = cleanData.filter((row) => isRowChecked(String(row[0]))).length
   const allLoadedChecked = totalLoaded > 0 && checkedLoadedCount === totalLoaded
 
+  const isAbstractItem = isAbstract(item)
+  const isArticleItem = isArticle(item)
+  const isArticleOrAbstracts = isAbstractItem || isArticleItem
+
   return (
     <>
       <table className={`table ${item}`}>
         <thead>
           <tr>
-            <th className="checkbox-header">
-              <Checkbox
-                isHeader={true}
-                checked={selectAll || allLoadedChecked}
-                onChange={(checked) => {
-                  if (checked) {
-                    setSelectAll(true)
-                    const newMap: Record<string, boolean> = {}
-                    cleanData.forEach((row) => {
-                      newMap[String(row[0])] = true
-                    })
-                    setCheckedRows({ selectAll: false })
-                  } else {
-                    setSelectAll(false)
-                    setCheckedRows({ selectAll: false })
-                  }
-                }}
-              />
-            </th>
+            {isArticleOrAbstracts && !isAccordeon && (
+              <th className="checkbox-header">
+                <Checkbox
+                  isHeader={true}
+                  checked={selectAll || allLoadedChecked}
+                  onChange={(checked) => {
+                    if (checked) {
+                      setSelectAll(true)
+                      const newMap: Record<string, boolean> = {}
+                      cleanData.forEach((row) => {
+                        newMap[String(row[0])] = true
+                      })
+                      setCheckedRows({ selectAll: false })
+                    } else {
+                      setSelectAll(false)
+                      setCheckedRows({ selectAll: false })
+                    }
+                  }}
+                />{' '}
+              </th>
+            )}
             {visibleHeaders.map((header, idx) =>
               header === 'status' && isArticle(item) ? (
                 articleSteps.map((step) => (
@@ -163,38 +169,37 @@ const Table = ({
         </thead>
         <tbody>
           {cleanData.map((row, rIdx) => {
-            const isAbstractItem = isAbstract(item)
-            const isArticleItem = isArticle(item)
-            const isArticleOrAbstracts = isAbstractItem || isArticleItem
-
             return (
               <tr key={rIdx}>
-                <td>
-                  <Checkbox
-                    checked={isRowChecked(String(row[0]))}
-                    onChange={(checked) => {
-                      setCheckedRows((prev) => {
-                        const newState = { ...prev }
-                        const pid = String(row[0])
-                        if (selectAll) {
-                          if (checked) {
-                            delete newState[pid]
+                {isArticleOrAbstracts && !isAccordeon && (
+                  <td>
+                    <Checkbox
+                      checked={isRowChecked(String(row[0]))}
+                      onChange={(checked) => {
+                        setCheckedRows((prev) => {
+                          const newState = { ...prev }
+                          const pid = String(row[0])
+                          if (selectAll) {
+                            if (checked) {
+                              delete newState[pid]
+                            } else {
+                              newState[pid] = false
+                            }
                           } else {
-                            newState[pid] = false
+                            if (checked) {
+                              newState[pid] = true
+                            } else {
+                              delete newState[pid]
+                            }
                           }
-                        } else {
-                          if (checked) {
-                            newState[pid] = true
-                          } else {
-                            delete newState[pid]
-                          }
-                        }
 
-                        return newState
-                      })
-                    }}
-                  />
-                </td>
+                          return newState
+                        })
+                      }}
+                    />{' '}
+                  </td>
+                )}
+
                 {row.map((cell: string | number, cIdx: number) => {
                   const headerName = headers[cIdx]
                   const isTitle = isTitleHeader(headerName)
@@ -229,10 +234,10 @@ const Table = ({
 
                 {isAbstractItem && !isAccordeon && (
                   <td className="actions-cell">
-                    {setModal && (
+                    {setRowModal && (
                       <ActionButton
-                        actions={getRowActions(row, setModal, t)}
-                        active={getRowActions(row, setModal, t).length > 0}
+                        actions={getRowActions(row, setRowModal, t)}
+                        active={getRowActions(row, setRowModal, t).length > 0}
                       />
                     )}
                   </td>

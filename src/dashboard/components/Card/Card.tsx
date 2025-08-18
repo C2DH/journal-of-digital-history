@@ -9,7 +9,7 @@ import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 import { useItemsStore } from '../../store'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
 import api from '../../utils/helpers/setApiHeaders'
-import { ModalInfo } from '../../utils/types'
+import { RowCheckboxMap } from '../../utils/types'
 import ActionButtonLarge from '../Buttons/ActionButton/Large/ActionButtonLarge'
 import Counter from '../Counter/Counter'
 import Feedback from '../Feedback/Feedback'
@@ -34,34 +34,50 @@ const Card = ({
 }: CardProps) => {
   const { t } = useTranslation()
   const loaderRef = useRef<HTMLDivElement | null>(null)
-  const [rowData, setRowData] = useState<ModalInfo>({ open: false })
+  const [modalState, setModalState] = useState<{
+    open: boolean
+    action?: string
+    ids?: string[]
+    contactEmail?: string
+    id?: string
+    [key: string]: any
+  }>({ open: false })
   const [notification, setNotification] = useState<{
     type: 'success' | 'error'
     message: string
     submessage?: string
   } | null>(null)
+  const [checkedRows, setCheckedRows] = useState<RowCheckboxMap>({})
 
   const { fetchItems } = useItemsStore()
 
-  const handleClose = () => setRowData({ open: false })
+  const handleClose = () => setModalState({ open: false })
   const handleNotify = (notif) => {
     fetchItems(true)
     setNotification(notif)
   }
   const setEmail = (email: string) => {
-    setRowData((prev) => ({ ...prev, contactEmail: email }))
+    setModalState((prev) => ({ ...prev, contactEmail: email }))
   }
 
   const handleChangeStatus = (action: string, ids: string[]) => {
     api.post(`/api/dashboard/change-status/${item}/${ids}/`, { action })
   }
 
+  const openRowModal = (modal: { open: boolean; action?: string; row?: any; id?: string }) => {
+    setModalState(modal)
+  }
+
+  const openGeneralModal = (action: string, ids: string[]) => {
+    setModalState({ open: true, action, ids })
+  }
+
   useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
   useEffect(() => {
-    if (rowData.open && rowData.id) {
-      retrieveContactEmail(rowData.id, data, setEmail)
+    if (modalState.open && modalState.id) {
+      retrieveContactEmail(modalState.id, data, setEmail)
     }
-  }, [rowData.open])
+  }, [modalState.open, modalState.id])
 
   if (error) {
     return <Feedback type="error" message={error} />
@@ -83,7 +99,12 @@ const Card = ({
             <Counter value={count === undefined ? 0 : count} />
           </div>
           <ActionButtonLarge
-            actions={[{ label: t('actions.change'), onClick: () => fetchItems(true) }]}
+            actions={[
+              {
+                label: t('actions.change'),
+                onClick: () => openGeneralModal('change-status', /* selectedIds */ []),
+              },
+            ]}
             active={true}
           />
         </div>
@@ -99,25 +120,22 @@ const Card = ({
               sortOrder={sortOrder}
               setSortBy={setSortBy}
               setSortOrder={setSortOrder}
-              setModal={setRowData}
+              setRowModal={openRowModal}
+              checkedRows={checkedRows}
+              setCheckedRows={setCheckedRows}
             />
             {loading && data.length > 0 && <Loading />}
             <div ref={loaderRef} />
-            <Modal
-              open={rowData.open}
-              onClose={handleClose}
-              action={rowData.action || ''}
-              rowData={rowData}
-              onNotify={handleNotify}
-            />
           </>
         )}
       </div>
       <Modal
-        open={rowData.open}
+        open={modalState.open}
         onClose={handleClose}
-        action={rowData.action || ''}
-        rowData={rowData}
+        action={modalState.action || ''}
+        ids={modalState.ids}
+        rowData={modalState}
+        onAction={handleChangeStatus}
         onNotify={handleNotify}
       />
     </>
