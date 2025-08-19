@@ -101,13 +101,17 @@ const Table = ({
   }
 
   // Compute visual state of master checkbox
-  const totalLoaded = cleanData.length
-  const checkedLoadedCount = cleanData.filter((row) => isRowChecked(String(row[0]))).length
-  const allLoadedChecked = totalLoaded > 0 && checkedLoadedCount === totalLoaded
-
   const isAbstractItem = isAbstract(item)
   const isArticleItem = isArticle(item)
   const isArticleOrAbstracts = isAbstractItem || isArticleItem
+
+  // Compute master checkbox state
+  let allLoadedChecked = false
+  if (isArticleOrAbstracts && !isAccordeon) {
+    const totalLoaded = cleanData.length
+    const checkedLoadedCount = cleanData.filter((row) => isRowChecked(String(row[0]))).length
+    allLoadedChecked = totalLoaded > 0 && checkedLoadedCount === totalLoaded
+  }
 
   return (
     <>

@@ -98,7 +98,7 @@ const Card = ({
         <div className="card-header">
           <div className="card-header-title">
             <h1>{t(`${item}.item`)}</h1>
-            <Counter value={count === undefined ? 0 : count} />
+            {count && <Counter value={count} />}
           </div>
           <ActionButtonLarge
             actions={[

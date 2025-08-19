@@ -3,10 +3,8 @@
   flex-direction: column;
   gap: var(--gap-size-2);
   width: 70vh;
-  background: var(--color-background-input);
   border-radius: 8px;
   padding: var(--space-size-2);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .ids-container-label,
@@ -19,7 +17,7 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  background: var(--color-white);
+  background: var(--color-background-input);
   border-radius: 6px;
   border: 1px solid var(--color-border);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
@@ -32,6 +30,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.selected-list strong {
+  max-width: var(--modal-width);
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .selected-list li:last-child {
@@ -60,4 +66,10 @@
   border: 1.5px solid var(--color-accent);
   outline: none;
   background: var(--color-white);
+}
+
+.status-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--gap-size-2);
 }

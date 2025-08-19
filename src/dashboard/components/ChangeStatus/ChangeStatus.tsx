@@ -10,6 +10,7 @@ import Button from '../Buttons/Button/Button'
 
 const ChangeStatus = ({ item, selectedRows, status, setStatus, onClose }: ChangeStatusProps) => {
   const { t } = useTranslation()
+
   const handleChangeStatus = (action: string, ids: string[]) => {
     api.patch(`/api/${item}/status/`, { ids, action })
   }
@@ -44,8 +45,15 @@ const ChangeStatus = ({ item, selectedRows, status, setStatus, onClose }: Change
             </option>
           ))}
         </select>
-        <Button type="submit" text={t('contactForm.send', 'Send')} />
-        <Button type="button" text={t('contactForm.cancel', 'Cancel')} onClick={onClose} />
+        <div className="status-actions">
+          <Button type="submit" text={t('contactForm.send', 'Send')} />
+          <Button
+            type="button"
+            color="color-deep-blue"
+            text={t('contactForm.cancel', 'Cancel')}
+            onClick={onClose}
+          />
+        </div>
       </div>
     </div>
   )
