@@ -107,6 +107,11 @@
     }
   },
   "actions": {
-    "change": "Change status"
+    "change": "Change status",
+    "change.status": "Change status",
+    "Abandoned": "Abandoned the abstract",
+    "Accepted": "Accepted the abstract",
+    "Declined": "Declined the abstract",
+    "Suspended": "Suspended the abstract"
   }
 }

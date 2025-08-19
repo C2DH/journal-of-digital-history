@@ -1,6 +1,5 @@
 import './Table.css'
 
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
@@ -77,7 +76,6 @@ const Table = ({
 
   const visibleHeaders = getVisibleHeaders({ data, headers })
   const cleanData = getCleanData({ data, visibleHeaders })
-  const [selectAll, setSelectAll] = useState<boolean>(false)
 
   const handleRowClick = (pid: string) => {
     navigate(`/${item}/${pid}${search}`)
@@ -94,7 +92,7 @@ const Table = ({
   }
 
   const isRowChecked = (pid: string): boolean => {
-    if (selectAll) {
+    if (checkedRows.selectAll) {
       checkedRows.selectAll = true
       return checkedRows[pid] !== false
     } else {
@@ -120,17 +118,15 @@ const Table = ({
               <th className="checkbox-header">
                 <Checkbox
                   isHeader={true}
-                  checked={selectAll || allLoadedChecked}
+                  checked={allLoadedChecked}
                   onChange={(checked) => {
                     if (checked) {
-                      setSelectAll(true)
                       const newMap: Record<string, boolean> = {}
                       cleanData.forEach((row) => {
                         newMap[String(row[0])] = true
                       })
-                      setCheckedRows({ selectAll: false })
+                      setCheckedRows({ selectAll: true })
                     } else {
-                      setSelectAll(false)
                       setCheckedRows({ selectAll: false })
                     }
                   }}
@@ -179,7 +175,7 @@ const Table = ({
                         setCheckedRows((prev) => {
                           const newState = { ...prev }
                           const pid = String(row[0])
-                          if (selectAll) {
+                          if (checkedRows.selectAll) {
                             if (checked) {
                               delete newState[pid]
                             } else {

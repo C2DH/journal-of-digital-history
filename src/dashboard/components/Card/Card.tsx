@@ -8,7 +8,6 @@ import { CardProps } from './interface'
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 import { useItemsStore } from '../../store'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
-import api from '../../utils/helpers/setApiHeaders'
 import { RowCheckboxMap } from '../../utils/types'
 import ActionButtonLarge from '../Buttons/ActionButton/Large/ActionButtonLarge'
 import Counter from '../Counter/Counter'
@@ -60,17 +59,20 @@ const Card = ({
     setModalState((prev) => ({ ...prev, contactEmail: email }))
   }
 
-  const handleChangeStatus = (action: string, ids: string[]) => {
-    api.post(`/api/dashboard/change-status/${item}/${ids}/`, { action })
-  }
-
   const openRowModal = (modal: { open: boolean; action?: string; row?: any; id?: string }) => {
     setModalState(modal)
   }
 
-  const openGeneralModal = (action: string, ids: string[]) => {
-    setModalState({ open: true, action, ids })
+  const openGeneralModal = (action: string, selectedRows: { pid: string; title: string }[]) => {
+    setModalState({ open: true, action, selectedRows })
   }
+
+  const selectedRows = Object.keys(checkedRows)
+    .filter((pid) => checkedRows[pid])
+    .map((pid) => {
+      const row = data.find((row) => String(row.pid) === pid)
+      return row ? { pid, title: row.title } : { pid, title: '' }
+    })
 
   useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
   useEffect(() => {
@@ -102,7 +104,7 @@ const Card = ({
             actions={[
               {
                 label: t('actions.change'),
-                onClick: () => openGeneralModal('change-status', /* selectedIds */ []),
+                onClick: () => openGeneralModal('change.status', selectedRows),
               },
             ]}
             active={true}
@@ -130,12 +132,12 @@ const Card = ({
         )}
       </div>
       <Modal
+        item={item}
         open={modalState.open}
         onClose={handleClose}
         action={modalState.action || ''}
         ids={modalState.ids}
-        rowData={modalState}
-        onAction={handleChangeStatus}
+        data={modalState}
         onNotify={handleNotify}
       />
     </>
