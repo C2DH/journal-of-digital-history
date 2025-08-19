@@ -1,27 +1,24 @@
 import './Search.css'
 
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router'
 
 import { SearchProps } from './interface'
 
 import { useDebounce } from '../../../hooks/useDebounce'
+import { useSearchStore } from '../../store'
 
-const Search = ({ placeholder = 'Search', onSearch, activeRoutes }: SearchProps) => {
-  const location = useLocation()
-  const [value, setValue] = useState('')
-  const debouncedValue = useDebounce(value, 300)
+const Search = ({ placeholder = 'Search' }: SearchProps) => {
+  const [input, setInput] = useState('')
+  const setSearch = useSearchStore((state) => state.setQuery)
 
-  if (activeRoutes && !activeRoutes.includes(location.pathname)) {
-    return null
-  }
+  const debouncedValue = useDebounce(input, 500)
 
   useEffect(() => {
-    onSearch(debouncedValue)
-  }, [debouncedValue, onSearch])
+    setSearch(debouncedValue)
+  }, [debouncedValue, setSearch])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
+    setInput(e.target.value)
   }
 
   return (
@@ -30,7 +27,7 @@ const Search = ({ placeholder = 'Search', onSearch, activeRoutes }: SearchProps)
         <span className="material-symbols-outlined">search</span>
         <input
           type="text"
-          value={value}
+          value={input}
           onChange={handleChange}
           placeholder={placeholder}
           className="search-input"

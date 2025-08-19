@@ -5,8 +5,8 @@ import { useEffect, useRef } from 'react'
 
 import { ToastProps } from './interface'
 
-import CheckCircleIcon from '../../../assets/icons/CheckCircleIcon'
-import ErrorIcon from '../../../assets/icons/ErrorIcon'
+import CheckCircle from '../../../assets/icons/CheckCircle'
+import Error from '../../../assets/icons/Error'
 
 const Toast = ({ open, message, submessage, type = 'info', onClose }: ToastProps) => {
   const toastRef = useRef<HTMLDivElement>(null)
@@ -24,9 +24,9 @@ const Toast = ({ open, message, submessage, type = 'info', onClose }: ToastProps
   return (
     <div ref={toastRef} className={`toast-container ${type} toast-progress-animate`}>
       {type === 'success' || type === 'info' ? (
-        <CheckCircleIcon className="toast-icon" data-testid={`toast-icon-check`} />
+        <CheckCircle className="toast-icon" data-testid={`toast-icon-check`} />
       ) : (
-        <ErrorIcon className="toast-icon" data-testid={`toast-icon-error`} />
+        <Error className="toast-icon" data-testid={`toast-icon-error`} />
       )}
       <div className="toast-content">
         <div className="toast-message">{message}</div>

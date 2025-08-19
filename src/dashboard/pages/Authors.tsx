@@ -3,11 +3,11 @@ import '../styles/pages/pages.css'
 import { useEffect } from 'react'
 
 import Card from '../components/Card/Card'
-import { useFilters } from '../hooks/useFilters'
+import { useSorting } from '../hooks/useSorting'
 import { useItemsStore } from '../store'
 
 const Authors = () => {
-  const { sortBy, sortOrder, ordering, setFilters } = useFilters()
+  const { sortBy, sortOrder, ordering, setFilters } = useSorting()
   const {
     data: authors,
     loading,

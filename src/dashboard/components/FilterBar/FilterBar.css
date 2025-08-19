@@ -1,0 +1,9 @@
+.filter-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  padding: 0;
+  border: none;
+}
