@@ -7,22 +7,24 @@ export function useSorting() {
   const sortBy = searchParams.get('sortBy')
   const sortOrder = searchParams.get('sortOrder')
 
+  const setFilters = useCallback(
+    (filters: { sortBy?: string; sortOrder?: string }) => {
+      setSearchParams((prevParams) => {
+        const params = new URLSearchParams(prevParams)
+        if (filters.sortBy !== undefined) {
+          params.set('sortBy', filters.sortBy)
+        }
+        if (filters.sortOrder !== undefined) {
+          params.set('sortOrder', filters.sortOrder)
+        }
+        return params
+      })
+    },
+    [setSearchParams],
+  )
+
   const ordering =
-    sortBy == null ? undefined : sortOrder === 'asc' || !sortOrder ? sortBy : `-${sortBy}`
-
-  const setFilters = useCallback((filters: { sortBy?: string; sortOrder?: string }) => {
-    setSearchParams((params) => {
-      if (filters.sortBy != undefined) {
-        params.set('sortBy', filters.sortBy)
-      }
-
-      if (filters.sortOrder != undefined) {
-        params.set('sortOrder', filters.sortOrder)
-      }
-
-      return params
-    })
-  }, [])
+    sortBy == null ? `BLABLA` : sortOrder === 'asc' || !sortOrder ? sortBy : `-${sortBy}`
 
   return {
     sortBy,
