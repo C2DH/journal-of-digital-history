@@ -91,6 +91,19 @@ const Table = ({
     }
   }
 
+  // Compute visual state of master checkbox
+  const isAbstractItem = isAbstract(item)
+  const isArticleItem = isArticle(item)
+  const isArticleOrAbstracts = isAbstractItem || isArticleItem
+  const isUnsortableHeader = (header: any, item: any) => {
+    return (
+      isFirstnameHeader(header) ||
+      isLastnameHeader(header) ||
+      isCallForPapers(item) ||
+      (isIssues(item) && !isRepositoryHeader(header) && !isStatusHeader(header))
+    )
+  }
+
   const isRowChecked = (pid: string): boolean => {
     if (checkedRows.selectAll) {
       checkedRows.selectAll = true
@@ -99,11 +112,6 @@ const Table = ({
       return checkedRows[pid] === true
     }
   }
-
-  // Compute visual state of master checkbox
-  const isAbstractItem = isAbstract(item)
-  const isArticleItem = isArticle(item)
-  const isArticleOrAbstracts = isAbstractItem || isArticleItem
 
   // Compute master checkbox state
   let allLoadedChecked = false
@@ -146,11 +154,7 @@ const Table = ({
                 ))
               ) : (
                 <th key={header} className={`header ${header}`}>
-                  {isFirstnameHeader(header) ||
-                  isLastnameHeader(header) ||
-                  ((isCallForPapers(item) || isIssues(item)) &&
-                    !isRepositoryHeader(header) &&
-                    !isStatusHeader(header)) ? (
+                  {isUnsortableHeader(header, item) ? (
                     t(`${item}.${header}`)
                   ) : setSortBy && setSortOrder ? (
                     <SortButton
@@ -199,7 +203,6 @@ const Table = ({
                     />{' '}
                   </td>
                 )}
-
                 {row.map((cell: string | number, cIdx: number) => {
                   const headerName = headers[cIdx]
                   const isTitle = isTitleHeader(headerName)
