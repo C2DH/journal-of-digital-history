@@ -105,5 +105,13 @@
       },
       "validation": { "message": "Validation failed", "submessage": "Please check your input" }
     }
+  },
+  "actions": {
+    "change": "Change status",
+    "change.status": "Change status",
+    "Abandoned": "Abandoned the abstract",
+    "Accepted": "Accepted the abstract",
+    "Declined": "Declined the abstract",
+    "Suspended": "Suspended the abstract"
   }
 }

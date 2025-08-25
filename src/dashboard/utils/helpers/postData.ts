@@ -4,8 +4,9 @@ import api from './setApiHeaders'
 const modifyAbstractStatus = async (pid: string, body: ContactFormData) => {
   console.info('[modifyAbstractStatus] -  postData.ts')
 
+  // TO DO : CHANGE THE ENDPOINT
   return api
-    .put(`/api/dashboard/contact-form/${pid}`, body)
+    .patch(`/api/dashboard/contact-form/${pid}`, body)
     .catch((err) => {
       console.error(err)
       throw err

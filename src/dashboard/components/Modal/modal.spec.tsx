@@ -32,7 +32,7 @@ describe('Modal', () => {
         open={true}
         onClose={onClose}
         action="Contact"
-        rowData={{ contactEmail: 'test@example.com' }}
+        data={{ contactEmail: 'test@example.com' }}
       />,
     )
 
@@ -47,7 +47,7 @@ describe('Modal', () => {
         open={true}
         onClose={onClose}
         action="Contact"
-        rowData={{ contactEmail: 'test@example.com' }}
+        data={{ contactEmail: 'test@example.com' }}
       />,
     )
     fireEvent.click(screen.getByRole('button', { name: /×/ }))
@@ -60,7 +60,7 @@ describe('Modal', () => {
         open={true}
         onClose={onClose}
         action="Contact"
-        rowData={{ contactEmail: 'test@example.com' }}
+        data={{ contactEmail: 'test@example.com' }}
       />,
     )
     fireEvent.click(screen.getByTestId('modal-backdrop'))
