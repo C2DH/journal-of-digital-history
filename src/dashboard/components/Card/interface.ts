@@ -9,6 +9,5 @@ export type CardProps = {
   loadMore: () => void
   sortBy?: string
   sortOrder?: string
-  setSortBy?: (sortBy: string) => void
-  setSortOrder?: (sortOrder: string) => void
+  setSort?: (filters: { sortBy: string; sortOrder: 'asc' | 'desc' }) => void
 }

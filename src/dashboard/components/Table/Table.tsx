@@ -63,8 +63,7 @@ const Table = ({
   data,
   sortBy,
   sortOrder,
-  setSortBy,
-  setSortOrder,
+  setSort,
   setRowModal,
   isAccordeon = false,
   checkedRows,
@@ -82,13 +81,11 @@ const Table = ({
   }
 
   const handleSort = (header: string) => {
-    if (!setSortBy || !setSortOrder) return
-    if (sortBy === header) {
-      setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')
-    } else {
-      setSortBy(header)
-      setSortOrder('desc')
-    }
+    if (!setSort) return
+    setSort({
+      sortBy: header,
+      sortOrder: sortOrder === 'desc' ? 'asc' : 'desc',
+    })
   }
 
   // Compute visual state of master checkbox
@@ -156,15 +153,13 @@ const Table = ({
                 <th key={header} className={`header ${header}`}>
                   {isUnsortableHeader(header, item) ? (
                     t(`${item}.${header}`)
-                  ) : setSortBy && setSortOrder ? (
+                  ) : (
                     <SortButton
                       active={sortBy === header}
                       order={sortOrder}
                       onClick={() => handleSort(header)}
                       label={t(`${item}.${header}`)}
                     />
-                  ) : (
-                    t(`${item}.${header}`)
                   )}
                 </th>
               ),

@@ -28,8 +28,7 @@ const Card = ({
   loadMore,
   sortBy,
   sortOrder,
-  setSortBy,
-  setSortOrder,
+  setSort,
 }: CardProps) => {
   const { t } = useTranslation()
   const loaderRef = useRef<HTMLDivElement | null>(null)
@@ -120,8 +119,7 @@ const Card = ({
               data={data}
               sortBy={sortBy}
               sortOrder={sortOrder}
-              setSortBy={setSortBy}
-              setSortOrder={setSortOrder}
+              setSort={setSort}
               setRowModal={openRowModal}
               checkedRows={checkedRows}
               setCheckedRows={setCheckedRows}

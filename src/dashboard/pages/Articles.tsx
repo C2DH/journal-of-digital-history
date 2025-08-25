@@ -72,8 +72,7 @@ const Articles = () => {
         loadMore={loadMore}
         sortBy={sortBy || undefined}
         sortOrder={sortOrder || undefined}
-        setSortBy={(newSortBy) => setFilters({ sortBy: newSortBy })}
-        setSortOrder={(newSortOrder) => setFilters({ sortOrder: newSortOrder })}
+        setSort={({ sortOrder, sortBy }) => setFilters({ sortOrder, sortBy })}
       />
     </div>
   )

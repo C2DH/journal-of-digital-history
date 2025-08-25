@@ -8,8 +8,7 @@ export type TableProps = {
   setCheckedRows: React.Dispatch<React.SetStateAction<RowCheckboxMap>>
   sortBy?: string
   sortOrder?: string
-  setSortBy?: (header: string) => void
-  setSortOrder?: (order: 'asc' | 'desc') => void
+  setSort?: (filters: { sortBy: string; sortOrder: 'asc' | 'desc' }) => void
   setRowModal?: (modal: { open: boolean; action?: string; row?: any; id?: string }) => void
   isAccordeon?: boolean
 }
