@@ -26,7 +26,7 @@ const NotebookViewerForm = () => {
         encodeNotebookURL(proxyValue),
       )
       navigate(
-        generatePath('/:lang/notebook-viewer/:encodedUrl', {
+        generatePath('/:lang/notebook-viewer/:encodedUrl/?v=3', {
           encodedUrl: encodeNotebookURL(proxyValue),
           lang: i18n.language.split('-')[0],
         }),
