@@ -19,7 +19,7 @@ const ArticleCellSourceCodeWrapper = ({
 
   const [isSourceCodeVisible, setIsSourceCodeVisible] = useState(visible);
   const [isCollapsed, setIsCollapsed]                 = useState(!toggleVisibility);
-  const [lineCount, setLineCount]                     = useState(1);
+  const [lineCount, setLineCount]                     = useState(0);
 
   const executing = useExecutionScope((state) => state.cells[cellIdx]?.executing);
   const pending   = useExecutionScope((state) => state.cells[cellIdx]?.pending);
@@ -31,7 +31,7 @@ const ArticleCellSourceCodeWrapper = ({
   }, [executing, pending]);
 
   return (
-    <div className={`ArticleCellSourceCodeWrapper ${isCollapsed ? 'collapsed' : ''} mb-5 ${toggleVisibility ? 'toggle-visibility' : ''}`}>
+    <div className={`ArticleCellSourceCodeWrapper ${isCollapsed && lineCount > 10 ? 'collapsed' : ''} ${lineCount > 10 ? 'mb-5' : ''} ${toggleVisibility ? 'toggle-visibility' : ''}`}>
       {toggleVisibility &&
         <div>
           <Button
