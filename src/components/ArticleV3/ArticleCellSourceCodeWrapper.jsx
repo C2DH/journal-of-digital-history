@@ -7,7 +7,7 @@ import ArticleCellEditor from './ArticleCellEditor';
 import { useExecutionScope } from './ExecutionScope';
 
 import '../../styles/components/ArticleV3/ArticleCellSourceCodeWrapper.scss';
-import { ExpandLines } from 'iconoir-react';
+import { ExpandLines, CompressLines } from 'iconoir-react';
 
 
 const ArticleCellSourceCodeWrapper = ({
@@ -19,6 +19,7 @@ const ArticleCellSourceCodeWrapper = ({
 
   const [isSourceCodeVisible, setIsSourceCodeVisible] = useState(visible);
   const [isCollapsed, setIsCollapsed]                 = useState(!toggleVisibility);
+  const [lineCount, setLineCount]                     = useState(1);
 
   const executing = useExecutionScope((state) => state.cells[cellIdx]?.executing);
   const pending   = useExecutionScope((state) => state.cells[cellIdx]?.pending);
@@ -30,7 +31,7 @@ const ArticleCellSourceCodeWrapper = ({
   }, [executing, pending]);
 
   return (
-    <div className={`ArticleCellSourceCodeWrapper ${isCollapsed ? 'collapsed' : ''} ${toggleVisibility ? 'toggle-visibility' : ''}`}>
+    <div className={`ArticleCellSourceCodeWrapper ${isCollapsed ? 'collapsed' : ''} mb-5 ${toggleVisibility ? 'toggle-visibility' : ''}`}>
       {toggleVisibility &&
         <div>
           <Button
@@ -57,21 +58,26 @@ const ArticleCellSourceCodeWrapper = ({
             options           = {{
               readOnly: readOnly || isCollapsed ? 'nocursor' : false
             }}
+            onLineCountChange = {setLineCount}
           />
         </Suspense>
       }
 
-      {isCollapsed &&
+      {lineCount > 10 && (
         <div className="expandButton">
           <button
             className = "btn btn-sm btn-outline-white-secondary btn-pill d-flex align-items-center"
-            onClick   = {() => setIsCollapsed(false)}
+            onClick   = {() => setIsCollapsed(!isCollapsed)}
           >
-            <div className="px-2">{t('actions.expand')}</div>
-            <ExpandLines className="pe-1" width={16} height={16} />
+            <div className="px-2">{t(`actions.${isCollapsed ? 'expand' : 'collapse'}`)}</div>
+            {isCollapsed ? (
+              <ExpandLines className="pe-1" width={16} height={16} />
+            ) : (
+              <CompressLines className="pe-1" width={16} height={16} />
+            )}
           </button>
         </div>
-      }
+      )}
     </div>
   )
 }
