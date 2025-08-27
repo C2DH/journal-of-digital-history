@@ -97,11 +97,17 @@
       "body": "Dear {recipientName},\nWe have reached a decision regarding your abstract submission to the Journal of Digital History, {submissionTitle} (ID: {submissionId}), and we concluded that it will not be considered for publication.\n\n[---Editors to add their feedback---].\n\nIf you believe your work has the potential to develop into a data-driven research article that aligns with the theme or scope of our journal, we encourage you to contact us at jdh.admin@uni.lu to discuss potential revisions or areas of focus that may support a successful resubmission.\n\nWe hope that you will consider our journal for future publications.\n\nKind regards,\n{signature}"
     },
     "success": {
-      "api": { "message": "Email send" }
+      "api": {
+        "contactForm": "Email send",
+        "bulkStatus": {
+          "abstracts": "You have changed statuses for all these abstracts !",
+          "article": "You have changed statuses for all these articles !"
+        }
+      }
     },
     "error": {
       "api": {
-        "message": "An API error occurred while sending the email"
+        "message": "Something really bad happened..."
       },
       "validation": { "message": "Validation failed", "submessage": "Please check your input" }
     }

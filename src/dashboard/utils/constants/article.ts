@@ -6,7 +6,7 @@ export const articleSteps = [
   { key: 'copyediting', label: 'Copyediting', icon: 'edit' },
   { key: 'social', label: 'Social', icon: 'share' },
   { key: 'published', label: 'Published', icon: 'rocket_launch' },
-  { key: 'archive', label: 'Archive', icon: 'inventory_2' },
+  { key: 'archived', label: 'Archived', icon: 'inventory_2' },
 ]
 
 export const articleStatus = [

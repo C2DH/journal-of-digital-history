@@ -2,7 +2,7 @@ import { ContactFormData } from '../../components/ContactForm/interface'
 import api from './setApiHeaders'
 
 const modifyAbstractStatusWithEmail = async (pid: string, body: ContactFormData) => {
-  console.info('[modifyAbstractStatus] -  postData.ts')
+  console.info('PATCH [modifyAbstractStatusWithEmail]')
 
   return api
     .patch(`/api/abstracts/${pid}/status`, body)
@@ -16,11 +16,11 @@ const modifyAbstractStatusWithEmail = async (pid: string, body: ContactFormData)
     })
 }
 
-const modifyAbstractsStatus = async (body: { pids: string[]; status: string }) => {
-  console.info('[modifyAbstractsStatus] -  postData.ts')
+const modifyStatus = async (body: { pids: string[]; status: string }, item: string) => {
+  console.info(`PATCH [modifyStatus] - ${item} `)
 
   return api
-    .patch(`/api/abstracts/status`, body)
+    .patch(`/api/${item}/status`, body)
     .catch((err) => {
       console.error(err)
       throw err
@@ -31,4 +31,4 @@ const modifyAbstractsStatus = async (body: { pids: string[]; status: string }) =
     })
 }
 
-export { modifyAbstractsStatus, modifyAbstractStatusWithEmail }
+export { modifyAbstractStatusWithEmail, modifyStatus }

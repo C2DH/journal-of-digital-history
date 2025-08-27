@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { ContactFormData } from './interface'
 
 import { contactFormSchema } from '../../schemas/contactForm'
-import { modifyAbstractStatusWithEmail } from '../../utils/helpers/postData'
+import { modifyAbstractStatusWithEmail } from '../../utils/helpers/api'
 import Button from '../Buttons/Button/Button'
 
 function validateContactForm(data: any) {
@@ -71,7 +71,7 @@ const ContactForm = ({ rowData, action, onClose, onNotify }) => {
         if (onNotify)
           onNotify({
             type: 'success',
-            message: t('email.success.api.message'),
+            message: t('email.success.api.contactForm'),
             submessage: res?.data?.message || '',
           })
       } catch (err: any) {

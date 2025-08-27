@@ -66,12 +66,20 @@ const Card = ({
     setModalState({ open: true, action, selectedRows })
   }
 
-  const selectedRows = Object.keys(checkedRows)
-    .filter((pid) => checkedRows[pid])
-    .map((pid) => {
-      const row = data.find((row) => String(row.pid) === pid)
-      return row ? { pid, title: row.title } : { pid, title: '' }
-    })
+  const selectedRows = (item: string) =>
+    Object.keys(checkedRows)
+      .filter((pid) => checkedRows[pid])
+      .map((pid) => {
+        if (item === 'abstracts') {
+          const row = data.find((row) => String(row.pid) === pid)
+          return { pid, title: row.title }
+        } else if (item === 'articles') {
+          const row = data.find((row) => String(row.abstract.pid) === pid)
+          return { pid, title: row.data.title[0] }
+        } else {
+          return { pid, title: '' }
+        }
+      })
 
   useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
   useEffect(() => {
@@ -103,7 +111,7 @@ const Card = ({
             actions={[
               {
                 label: t('actions.change'),
-                onClick: () => openGeneralModal('change.status', selectedRows),
+                onClick: () => openGeneralModal('change.status', selectedRows(item)),
               },
             ]}
             active={true}

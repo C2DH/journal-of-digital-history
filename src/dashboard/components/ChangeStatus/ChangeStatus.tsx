@@ -6,14 +6,16 @@ import { useTranslation } from 'react-i18next'
 
 import { ChangeStatusProps } from './interface'
 
-import { changeStatusSchema } from '../../schemas/changeStatus'
-import { abstractStatus } from '../../utils/constants/abstracts'
-import { modifyAbstractsStatus } from '../../utils/helpers/postData'
+import { abstractStatusSchema, articleStatusSchema } from '../../schemas/changeStatus'
+import { abstractStatus } from '../../utils/constants/abstract'
+import { articleStatus } from '../../utils/constants/article'
+import { modifyStatus } from '../../utils/helpers/api'
 import Button from '../Buttons/Button/Button'
 
-function validateChangeStatusForm(data: any) {
+function validateChangeStatusForm(data: any, item: string) {
+  const schema = item === 'abstracts' ? abstractStatusSchema : articleStatusSchema
   const ajv = new Ajv({ allErrors: true })
-  const validate = ajv.compile(changeStatusSchema)
+  const validate = ajv.compile(schema)
   const valid = validate(data)
 
   return { valid, errors: validate.errors }
@@ -23,22 +25,24 @@ const ChangeStatus = ({ item, selectedRows, onClose, onNotify }: ChangeStatusPro
   const { t } = useTranslation()
   const [status, setStatus] = useState('')
 
+  const itemStatus = item === 'abstract' ? abstractStatus : articleStatus
+
   const handleSubmitStatus = async (e) => {
     e.preventDefault()
     const data = {
       pids: selectedRows.map((row) => row.pid),
       status: status,
     }
-    const { valid, errors } = validateChangeStatusForm(data)
+    const { valid, errors } = validateChangeStatusForm(data, item)
 
     if (valid) {
       try {
-        const res = await modifyAbstractsStatus(data)
+        const res = await modifyStatus(data, item)
         if (onClose) onClose()
         if (onNotify)
           onNotify({
             type: 'success',
-            message: 'You have changed statuses for all these abstracts !',
+            message: t(`email.error.api.bulkStatus.${item}`),
             submessage: res?.data?.message || '',
           })
       } catch (err: any) {
@@ -46,7 +50,7 @@ const ChangeStatus = ({ item, selectedRows, onClose, onNotify }: ChangeStatusPro
         if (onNotify)
           onNotify({
             type: 'error',
-            message: 'Something really bad happened...',
+            message: t('email.error.api.message'),
             submessage: err?.response?.data?.details,
           })
       }
@@ -86,8 +90,8 @@ const ChangeStatus = ({ item, selectedRows, onClose, onNotify }: ChangeStatusPro
           onChange={(e) => setStatus(e.target.value)}
         >
           <option value="">-- Choose status --</option>
-          {abstractStatus.map((opt) => (
-            <option key={opt.value} value={opt.value}>
+          {itemStatus.map((opt) => (
+            <option key={opt.value} value={opt.value.toLowerCase()}>
               {opt.label}
             </option>
           ))}
