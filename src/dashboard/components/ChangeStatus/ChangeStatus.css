@@ -4,7 +4,7 @@
   gap: var(--gap-size-2);
   width: 70vh;
   border-radius: 8px;
-  padding: var(--space-size-2);
+  padding-right: var(--space-size-2);
 }
 
 .ids-container-label,

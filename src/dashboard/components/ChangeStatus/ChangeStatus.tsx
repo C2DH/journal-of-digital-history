@@ -1,22 +1,69 @@
 import './ChangeStatus.css'
 
+import Ajv from 'ajv'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ChangeStatusProps } from './interface'
 
+import { changeStatusSchema } from '../../schemas/changeStatus'
 import { abstractStatus } from '../../utils/constants/abstracts'
-import api from '../../utils/helpers/setApiHeaders'
+import { modifyAbstractsStatus } from '../../utils/helpers/postData'
 import Button from '../Buttons/Button/Button'
 
-const ChangeStatus = ({ item, selectedRows, status, setStatus, onClose }: ChangeStatusProps) => {
-  const { t } = useTranslation()
+function validateChangeStatusForm(data: any) {
+  const ajv = new Ajv({ allErrors: true })
+  const validate = ajv.compile(changeStatusSchema)
+  const valid = validate(data)
 
-  const handleChangeStatus = (action: string, ids: string[]) => {
-    api.patch(`/api/${item}/status/`, { ids, action })
+  return { valid, errors: validate.errors }
+}
+
+const ChangeStatus = ({ item, selectedRows, onClose, onNotify }: ChangeStatusProps) => {
+  const { t } = useTranslation()
+  const [status, setStatus] = useState('')
+
+  const handleSubmitStatus = async (e) => {
+    e.preventDefault()
+    const data = {
+      pids: selectedRows.map((row) => row.pid),
+      status: status,
+    }
+    const { valid, errors } = validateChangeStatusForm(data)
+
+    if (valid) {
+      try {
+        const res = await modifyAbstractsStatus(data)
+        if (onClose) onClose()
+        if (onNotify)
+          onNotify({
+            type: 'success',
+            message: 'You have changed statuses for all these abstracts !',
+            submessage: res?.data?.message || '',
+          })
+      } catch (err: any) {
+        if (onClose) onClose()
+        if (onNotify)
+          onNotify({
+            type: 'error',
+            message: 'Something really bad happened...',
+            submessage: err?.response?.data?.details,
+          })
+      }
+    }
+    if (!valid) {
+      onNotify({
+        type: 'error',
+        message: t('email.error.validation.message'),
+        submessage: t('email.error.validation.submessage'),
+      })
+      console.error(errors)
+      return
+    }
   }
 
   return (
-    <div className="change-status-container">
+    <form className="change-status-container" onSubmit={handleSubmitStatus}>
       <div className="ids-container">
         <span className="ids-container-label">Selection</span>
         <ul className="selected-list">
@@ -55,7 +102,7 @@ const ChangeStatus = ({ item, selectedRows, status, setStatus, onClose }: Change
           />
         </div>
       </div>
-    </div>
+    </form>
   )
 }
 

@@ -1,7 +1,10 @@
 export interface ChangeStatusProps {
   item: string
   selectedRows: { pid: string; title: string }[]
-  status: string
-  setStatus: (status: string) => void
   onClose: () => void
+  onNotify: (notification: {
+    type: 'success' | 'error'
+    message: string
+    submessage?: string
+  }) => void
 }

@@ -31,12 +31,8 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
           <ChangeStatus
             item={item}
             selectedRows={data.selectedRows}
-            status={data.status}
-            setStatus={(status) => {
-              onNotify?.({ type: 'success', message: 'Status updated successfully' })
-              onClose()
-            }}
             onClose={onClose}
+            onNotify={onNotify ?? (() => {})}
           />
         )}
       </div>
