@@ -1,5 +1,5 @@
 /**
- * Checks if a given GitHub username exists by making a request to the back-end /api/submit-abstract/check-github-id/:username
+ * Checks if a given GitHub username exists by making a request to the back-end /api/check-github-id/:username
  *
  * @param githubId - The GitHub username to check.
  * @returns A promise that resolves to `true` if the username exists, or `false` otherwise.
