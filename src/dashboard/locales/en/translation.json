@@ -101,7 +101,7 @@
         "contactForm": "Email send",
         "bulkStatus": {
           "abstracts": "You have changed statuses for all these abstracts !",
-          "article": "You have changed statuses for all these articles !"
+          "articles": "You have changed statuses for all these articles !"
         }
       }
     },
@@ -113,7 +113,7 @@
     }
   },
   "actions": {
-    "change": "Change status",
+    "actions.change": "Change status",
     "Abandoned": "Abandoned the abstract",
     "Accepted": "Accepted the abstract",
     "Declined": "Declined the abstract",

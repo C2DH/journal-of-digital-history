@@ -25,7 +25,7 @@ const ChangeStatus = ({ item, selectedRows, onClose, onNotify }: ChangeStatusPro
   const { t } = useTranslation()
   const [status, setStatus] = useState('')
 
-  const itemStatus = item === 'abstracts' ? abstractStatus : articleStatus
+  const itemStatus = item === 'abstracts' ? abstractStatus.slice(1) : articleStatus.slice(1)
 
   const handleSubmitStatus = async (e) => {
     e.preventDefault()
@@ -42,7 +42,7 @@ const ChangeStatus = ({ item, selectedRows, onClose, onNotify }: ChangeStatusPro
         if (onNotify)
           onNotify({
             type: 'success',
-            message: t(`email.error.api.bulkStatus.${item}`),
+            message: t(`email.success.api.bulkStatus.${item}`),
             submessage: res?.data?.message || '',
           })
       } catch (err: any) {
@@ -89,7 +89,7 @@ const ChangeStatus = ({ item, selectedRows, onClose, onNotify }: ChangeStatusPro
           value={status}
           onChange={(e) => setStatus(e.target.value)}
         >
-          <option value="">-- Choose status --</option>
+          <option value="">Choose status</option>
           {itemStatus.map((opt) => (
             <option key={opt.value} value={opt.value.toLowerCase()}>
               {opt.label}

@@ -110,7 +110,7 @@ const Card = ({
           <ActionButtonLarge
             actions={[
               {
-                label: t('actions.change'),
+                label: t('actions.actions.change'),
                 onClick: () => openGeneralModal('actions.change', selectedRows(item)),
               },
             ]}
