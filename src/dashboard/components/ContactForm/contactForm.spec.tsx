@@ -4,8 +4,8 @@ import { vi } from 'vitest'
 import ContactForm from './ContactForm'
 
 // Mock the async helper
-vi.mock('../../utils/helpers/postData', () => ({
-  modifyAbstractStatus: vi.fn(() =>
+vi.mock('../../utils/helpers/api', () => ({
+  modifyAbstractStatusWithEmail: vi.fn(() =>
     Promise.resolve({ data: { message: 'Message sent successfully!' } }),
   ),
 }))
@@ -39,7 +39,7 @@ describe('ContactForm', () => {
       expect(mockOnNotify).toHaveBeenCalledWith(
         expect.objectContaining({
           type: 'success',
-          message: 'email.success.api.message',
+          message: 'email.success.api.contactForm',
           submessage: 'Message sent successfully!',
         }),
       )

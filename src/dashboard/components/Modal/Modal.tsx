@@ -19,7 +19,7 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
           ×
         </button>
         {action && <h2>{t(`actions.${action}`)}</h2>}
-        {action !== 'change.status' && (
+        {action !== 'action.change' && (
           <ContactForm
             rowData={data}
             action={action.toLowerCase()}
@@ -27,7 +27,7 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
             onNotify={onNotify}
           />
         )}
-        {action === 'change.status' && (
+        {action === 'action.change' && (
           <ChangeStatus
             item={item}
             selectedRows={data.selectedRows}

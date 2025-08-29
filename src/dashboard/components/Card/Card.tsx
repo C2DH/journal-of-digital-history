@@ -111,7 +111,7 @@ const Card = ({
             actions={[
               {
                 label: t('actions.change'),
-                onClick: () => openGeneralModal('change.status', selectedRows(item)),
+                onClick: () => openGeneralModal('actions.change', selectedRows(item)),
               },
             ]}
             active={true}
