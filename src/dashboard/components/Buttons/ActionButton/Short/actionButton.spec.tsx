@@ -3,7 +3,7 @@ import { vi } from 'vitest'
 
 import ActionButton from './ActionButton'
 
-vi.mock('../../Dropdown/Dropdown', () => ({
+vi.mock('../../../Dropdown/Dropdown', () => ({
   default: ({ actions, setOpen }: any) => (
     <div data-testid="dropdown">
       {actions.map((a: any) => (

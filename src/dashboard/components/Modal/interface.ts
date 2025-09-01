@@ -1,8 +1,11 @@
 export interface ModalProps {
+  item: string
   open: boolean
   onClose: () => void
   action: string
-  rowData?: any // Optional raw data for more complex modals
+  ids?: string[]
+  data?: any
+  onAction?: (action: string, ids: string[]) => void
   onNotify?: (notification: {
     type: 'success' | 'error'
     message: string

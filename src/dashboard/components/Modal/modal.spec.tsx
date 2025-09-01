@@ -22,32 +22,34 @@ describe('Modal', () => {
   })
 
   it('does not render when open is false', () => {
-    render(<Modal open={false} onClose={onClose} action="Contact" />)
+    render(<Modal item={'abstracts'} open={false} onClose={onClose} action="Contact" />)
     expect(screen.queryByTestId('contact-form')).not.toBeInTheDocument()
   })
 
   it('renders modal content when open is true', () => {
     render(
       <Modal
+        item={'abstracts'}
         open={true}
         onClose={onClose}
         action="Contact"
-        rowData={{ contactEmail: 'test@example.com' }}
+        data={{ contactEmail: 'test@example.com' }}
       />,
     )
 
     expect(screen.getByTestId('contact-form')).toHaveTextContent('test@example.com - contact')
     expect(screen.getByRole('button', { name: /×/ })).toBeInTheDocument()
-    expect(screen.getByText('Contact')).toBeInTheDocument()
+    expect(screen.getByText('actions.Contact')).toBeInTheDocument()
   })
 
   it('calls onClose when clicking the close button', () => {
     render(
       <Modal
+        item={'abstracts'}
         open={true}
         onClose={onClose}
         action="Contact"
-        rowData={{ contactEmail: 'test@example.com' }}
+        data={{ contactEmail: 'test@example.com' }}
       />,
     )
     fireEvent.click(screen.getByRole('button', { name: /×/ }))
@@ -57,10 +59,11 @@ describe('Modal', () => {
   it('calls onClose when clicking the backdrop', () => {
     render(
       <Modal
+        item={'abstracts'}
         open={true}
         onClose={onClose}
         action="Contact"
-        rowData={{ contactEmail: 'test@example.com' }}
+        data={{ contactEmail: 'test@example.com' }}
       />,
     )
     fireEvent.click(screen.getByTestId('modal-backdrop'))

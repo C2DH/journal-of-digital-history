@@ -1,10 +1,10 @@
-import { MoreHoriz } from 'iconoir-react'
-import { useEffect, useRef, useState } from 'react'
 import './ActionButton.css'
 
-import { ActionButtonProps } from './interface'
+import { MoreHoriz } from 'iconoir-react'
+import { useEffect, useRef, useState } from 'react'
 
-import Dropdown from '../../Dropdown/Dropdown'
+import Dropdown from '../../../Dropdown/Dropdown'
+import { ActionButtonProps } from '../interface'
 
 const ActionButton = ({ actions, active }: ActionButtonProps) => {
   const [open, setOpen] = useState(false)

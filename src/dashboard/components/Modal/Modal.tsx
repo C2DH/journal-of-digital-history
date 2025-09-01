@@ -1,24 +1,40 @@
 import './Modal.css'
 
+import { useTranslation } from 'react-i18next'
+
 import { ModalProps } from './interface'
 
+import ChangeStatus from '../ChangeStatus/ChangeStatus'
 import ContactForm from '../ContactForm/ContactForm'
 
-const Modal = ({ open, onClose, action, rowData, onNotify }: ModalProps) => {
+const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
+  const { t } = useTranslation()
+
   if (!open) return null
+
   return (
     <div className="modal-backdrop" onClick={onClose} data-testid="modal-backdrop">
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <button className="modal-close" onClick={onClose}>
           ×
         </button>
-        {action && <h2>{action}</h2>}
-        <ContactForm
-          rowData={rowData}
-          action={action.toLowerCase()}
-          onClose={onClose}
-          onNotify={onNotify}
-        />
+        {action && <h2>{t(`actions.${action}`)}</h2>}
+        {action !== 'actions.change' && (
+          <ContactForm
+            rowData={data}
+            action={action.toLowerCase()}
+            onClose={onClose}
+            onNotify={onNotify}
+          />
+        )}
+        {action === 'actions.change' && (
+          <ChangeStatus
+            item={item}
+            selectedRows={data.selectedRows}
+            onClose={onClose}
+            onNotify={onNotify ?? (() => {})}
+          />
+        )}
       </div>
     </div>
   )

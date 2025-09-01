@@ -49,6 +49,10 @@
   font-size: var(--text-size-2);
   font-weight: 400;
   margin-top: 0.25rem;
+  width: 280px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .toast-submessage a {
