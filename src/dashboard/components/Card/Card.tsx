@@ -107,15 +107,17 @@ const Card = ({
             <h1>{t(`${item}.item`)}</h1>
             {count && <Counter value={count} />}
           </div>
-          <ActionButtonLarge
-            actions={[
-              {
-                label: t('actions.actions.change'),
-                onClick: () => openGeneralModal('actions.change', selectedRows(item)),
-              },
-            ]}
-            active={true}
-          />
+          {
+            <ActionButtonLarge
+              actions={[
+                {
+                  label: t('actions.actions.change'),
+                  onClick: () => openGeneralModal('actions.change', selectedRows(item)),
+                },
+              ]}
+              active={checkedRows && Object.values(checkedRows).some((v) => v)}
+            />
+          }
         </div>
         {count === 0 ? (
           <Feedback type="warning" message={'No item corresponds to your search'} />

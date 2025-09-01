@@ -20,11 +20,13 @@
 }
 
 .large-action-btn-wrapper.active:hover {
-  background-color: var(--color-accent-lighter);
-  border-radius: 50%;
+  color: var(--color-accent);
+}
+.large-action-icon.active {
+  color: var(--color-accent);
 }
 
 .large-action-btn-wrapper.inactive {
   cursor: not-allowed;
-  opacity: 0.2;
+  opacity: 0.5;
 }
