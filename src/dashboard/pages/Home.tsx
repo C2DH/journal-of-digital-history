@@ -1,16 +1,20 @@
+import '../styles/pages/pages.css'
+
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router'
 
 import Card from '../components/Card/Card'
-import { useFetchItems } from '../hooks/useFetch'
-import { Issue } from '../utils/types'
-
-import '../styles/pages/pages.css'
+import { useItemsStore } from '../store'
 
 const Home = () => {
   const { t } = useTranslation()
-  const { data: issues, error, loading, hasMore, loadMore } = useFetchItems<Issue>('issues', 10)
+  const { data: issues, loading, error, hasMore, fetchItems, setParams, loadMore } = useItemsStore()
 
+  useEffect(() => {
+    setParams({ endpoint: 'issues', limit: 20 })
+    fetchItems(true)
+  }, [])
   return (
     <div className="home page">
       <h1>{t('welcome')}</h1>

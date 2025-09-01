@@ -5,25 +5,18 @@ import { useTranslation } from 'react-i18next'
 
 import { CardProps } from './interface'
 
-import { useInfiniteScroll } from '../../hooks/useFetch'
-import { useSearchStore } from '../../store'
-import { Abstract, ModalInfo } from '../../utils/types'
+import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
+import { useItemsStore } from '../../store'
+import { isAbstract } from '../../utils/helpers/itemChecker'
+import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
+import { RowCheckboxMap } from '../../utils/types'
+import ActionButtonLarge from '../Buttons/ActionButton/Large/ActionButtonLarge'
+import Counter from '../Counter/Counter'
+import Feedback from '../Feedback/Feedback'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
-import Search from '../Search/Search'
 import Table from '../Table/Table'
-
-function retrieveContactEmail(
-  id: string = '',
-  data: Abstract[],
-  setEmail: (email: string) => void,
-) {
-  data.forEach((row) => {
-    if (row.pid === id) {
-      setEmail(row.contact_email)
-    }
-  })
-}
+import Toast from '../Toast/Toast'
 
 const Card = ({
   item,
@@ -36,65 +29,125 @@ const Card = ({
   loadMore,
   sortBy,
   sortOrder,
-  setSortBy,
-  setSortOrder,
+  setSort,
 }: CardProps) => {
   const { t } = useTranslation()
   const loaderRef = useRef<HTMLDivElement | null>(null)
-  const [modal, setModal] = useState<ModalInfo>({ open: false })
-  const [email, setEmail] = useState<string>('')
-  const setSearch = useSearchStore((state) => state.setQuery)
+  const [modalState, setModalState] = useState<{
+    open: boolean
+    action?: string
+    ids?: string[]
+    contactEmail?: string
+    id?: string
+    [key: string]: any
+  }>({ open: false })
+  const [notification, setNotification] = useState<{
+    type: 'success' | 'error'
+    message: string
+    submessage?: string
+  } | null>(null)
+  const [checkedRows, setCheckedRows] = useState<RowCheckboxMap>({})
+
+  const { fetchItems } = useItemsStore()
+
+  const handleClose = () => setModalState({ open: false })
+  const handleNotify = (notif) => {
+    fetchItems(true)
+    setNotification(notif)
+  }
+  const setEmail = (email: string) => {
+    setModalState((prev) => ({ ...prev, contactEmail: email }))
+  }
+
+  const openRowModal = (modal: { open: boolean; action?: string; row?: any; id?: string }) => {
+    setModalState(modal)
+  }
+
+  const openGeneralModal = (action: string, selectedRows: { pid: string; title: string }[]) => {
+    setModalState({ open: true, action, selectedRows })
+  }
+
+  const selectedRows = (item: string) =>
+    Object.keys(checkedRows)
+      .filter((pid) => checkedRows[pid])
+      .map((pid) => {
+        if (item === 'abstracts') {
+          const row = data.find((row) => String(row.pid) === pid)
+          return { pid, title: row.title }
+        } else if (item === 'articles') {
+          const row = data.find((row) => String(row.abstract.pid) === pid)
+          return { pid, title: row.data.title[0] }
+        } else {
+          return { pid, title: '' }
+        }
+      })
 
   useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
-
   useEffect(() => {
-    retrieveContactEmail(modal.id, data, setEmail)
-  }, [modal.open])
+    if (modalState.open && modalState.id) {
+      retrieveContactEmail(modalState.id, data, setEmail)
+    }
+  }, [modalState.open, modalState.id])
 
   if (error) {
-    return (
-      <div className="card card-error">
-        <h1>{t('error.title', 'Error')}</h1>
-        <p>{error?.response}</p>
-      </div>
-    )
+    return <Feedback type="error" message={error} />
   }
 
   return (
     <>
+      <Toast
+        open={!!notification}
+        message={notification?.message || ''}
+        submessage={notification?.submessage || ''}
+        type={notification?.type}
+        onClose={() => setNotification(null)}
+      />
       <div className={`${item} card`}>
         <div className="card-header">
           <div className="card-header-title">
             <h1>{t(`${item}.item`)}</h1>
-            <div>{count ? `${count} ${item}` : ''}</div>
+            {count && <Counter value={count} />}
           </div>
-
-          <Search
-            onSearch={setSearch}
-            activeRoutes={['/abstracts', '/articles']}
-            placeholder={t('search.placeholder')}
-          />
+          {isAbstract(item) && (
+            <ActionButtonLarge
+              actions={[
+                {
+                  label: t('actions.actions.change'),
+                  onClick: () => openGeneralModal('actions.change', selectedRows(item)),
+                },
+              ]}
+              active={checkedRows && Object.values(checkedRows).some((v) => v)}
+            />
+          )}
         </div>
-        <Table
-          item={item}
-          headers={headers}
-          data={data}
-          sortBy={sortBy}
-          sortOrder={sortOrder}
-          setSortBy={setSortBy}
-          setSortOrder={setSortOrder}
-          setModal={setModal}
-        />
-        <div ref={loaderRef} />
+        {count === 0 ? (
+          <Feedback type="warning" message={'No item corresponds to your search'} />
+        ) : (
+          <>
+            <Table
+              item={item}
+              headers={headers}
+              data={data}
+              sortBy={sortBy}
+              sortOrder={sortOrder}
+              setSort={setSort}
+              setRowModal={openRowModal}
+              checkedRows={checkedRows}
+              setCheckedRows={setCheckedRows}
+            />
+            {loading && data.length > 0 && <Loading />}
+            <div ref={loaderRef} />
+          </>
+        )}
       </div>
-      {loading && data.length > 0 && <Loading />}
       <Modal
-        open={modal.open}
-        onClose={() => setModal({ open: false })}
-        action={modal.action || ''}
-        title={modal.title || ''}
-        pid={modal.id}
-        contactEmail={email}
+        item={item}
+        open={modalState.open}
+        onClose={handleClose}
+        action={modalState.action || ''}
+        ids={modalState.ids}
+        data={modalState}
+        onNotify={handleNotify}
       />
     </>
   )

@@ -39,11 +39,13 @@ vi.mock('../../utils/helpers/table', async () => {
     isDateCell: vi.fn(() => false),
   }
 })
-vi.mock('../Buttons/ActionButton/ActionButton', () => ({
-  default: ({ actions }: any) => (
+vi.mock('../Buttons/ActionButton/Short/ActionButton', () => ({
+  default: (props: { actions: [{ label: 'Approve' }, { label: 'Delete' }] }) => (
     <div data-testid="action-button">
-      {actions.map((a: any) => (
-        <button key={a.label}>{a.label}</button>
+      {props.actions.map((a: any) => (
+        <button data-testid={`action-button-${a.label}`} key={a.label}>
+          {a.label}
+        </button>
       ))}
     </div>
   ),
@@ -75,8 +77,11 @@ describe('Table', () => {
     ],
     sortBy: 'title',
     sortOrder: 'asc',
-    setSortBy: vi.fn(),
-    setSortOrder: vi.fn(),
+    setSort: vi.fn(),
+    setRowModal: vi.fn(),
+    isAccordeon: false,
+    checkedRows: { selectAll: false },
+    setCheckedRows: vi.fn(),
   }
 
   it('renders headers and rows', () => {
@@ -85,19 +90,19 @@ describe('Table', () => {
     expect(screen.getByText('abstracts.author')).toBeInTheDocument()
     expect(screen.getByText('Test Title')).toBeInTheDocument()
     expect(screen.getByText('Test Author')).toBeInTheDocument()
-    // expect(screen.getAllByTestId('action-button').length).toBe(2)
-    // expect(screen.getAllByText('Approve').length).toBe(2)
-    // expect(screen.getAllByText('Delete').length).toBe(2)
+    expect(screen.getByText('Another Title')).toBeInTheDocument()
+    expect(screen.getByText('Another Author')).toBeInTheDocument()
+    expect(screen.getAllByTestId('action-button').length).toBe(2)
+    expect(screen.getAllByTestId('action-button-Approve').length).toBe(2)
+    expect(screen.getAllByTestId('action-button-Delete').length).toBe(2)
   })
 
   it('renders sort button and triggers sort', () => {
-    const setSortBy = vi.fn()
-    const setSortOrder = vi.fn()
-    render(<Table {...defaultProps} setSortBy={setSortBy} setSortOrder={setSortOrder} />)
+    const setSort = vi.fn()
+    render(<Table {...defaultProps} setSort={setSort} />)
     const sortBtn = screen.getByTestId('sort-btn-abstracts.title')
     fireEvent.click(sortBtn)
-    expect(setSortBy).not.toHaveBeenCalled() // Only setSortOrder is called if already sorted by this header
-    expect(setSortOrder).toHaveBeenCalled()
+    expect(setSort).toHaveBeenCalled()
   })
 
   it('calls navigate when clicking the title cell', () => {

@@ -1,7 +1,7 @@
 /* Navbar container */
 .navbar {
   width: var(--navbar-width);
-  background-color: var(--color-white);
+  /* background-color: var(--color-white); */
   min-height: 600px;
   border-bottom-right-radius: 16px;
   position: fixed;
@@ -9,7 +9,7 @@
   left: 0;
   font-size: 16 px;
   font-family: 'Fira Sans', monospace;
-  box-shadow: 4px 0 16px 0 rgba(0, 0, 0, 0.08);
+  /* box-shadow: 4px 0 16px 0 rgba(0, 0, 0, 0.08); */
 }
 
 .navbar-logo {
@@ -49,20 +49,22 @@
 .navbar li {
   display: flex;
   align-items: center;
-  margin: 10% 0%;
+  height: var(--space-size-5);
+  margin: 2% 0%;
   position: relative; /* Needed for ::before accent line */
 }
 
-/* Active item accent line */
-.navbar li.active::before {
-  content: '';
-  position: absolute;
-  left: calc(var(--navbar-width) - 15% - 8%);
-  top: 0;
-  height: 100%;
-  width: 4px;
-  background: var(--color-accent);
-  border-radius: 2px;
+.navbar li.active {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  width: var(--navbar-header-width);
+  margin-left: -50px;
+}
+
+.navbar li.active .navbar-link {
+  margin-left: 50px;
 }
 
 /* Link styles */
@@ -82,13 +84,16 @@
 }
 
 /* Active, hover, and focus states for both icon and link */
-.navbar li.active .navbar-icons,
 .navbar li:hover .navbar-icons,
 .navbar li:focus-within .navbar-icons,
-.navbar li.active a,
 .navbar li:hover a,
 .navbar li:focus-within a {
   color: var(--color-accent);
+  font-variation-settings: 'FILL' 1;
+}
+.navbar li.active .navbar-icons,
+.navbar li.active a {
+  color: var(--color-white);
   font-variation-settings: 'FILL' 1;
 }
 
@@ -116,9 +121,8 @@
     justify-content: center;
     margin: 20% 0;
   }
-
-  .navbar li.active::before {
-    left: calc(var(--navbar-width-mobile) - 10%);
+  .navbar li.active {
+    width: var(--navbar-width-mobile-active);
   }
 
   .navbar-icons {

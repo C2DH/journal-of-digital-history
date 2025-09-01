@@ -2,13 +2,14 @@ import '../styles/pages/detail.css'
 import '../styles/pages/pages.css'
 
 import parse from 'html-react-parser'
+import { useEffect } from 'react'
 import { useLocation } from 'react-router'
 
 import LinkButton from '../components/Buttons/LinkButton/LinkButton'
 import Loading from '../components/Loading/Loading'
 import SmallCard from '../components/SmallCard/SmallCard'
 import Status from '../components/Status/Status'
-import { useFetchItem } from '../hooks/useFetch'
+import { useItemStore } from '../store'
 import { convertDate } from '../utils/helpers/convertDate'
 import { Abstract, Article } from '../utils/types'
 
@@ -51,7 +52,12 @@ function isArticle(item: any): item is Article {
 const Detail = ({ endpoint }) => {
   const location = useLocation()
   const id = location.pathname.split('/')[2]
-  const { data: item, error, loading } = useFetchItem(endpoint, id)
+  const { data: item, loading, error, fetchItem, reset } = useItemStore()
+
+  useEffect(() => {
+    reset()
+    fetchItem(id, endpoint)
+  }, [fetchItem, id, endpoint, reset])
 
   if (loading) {
     return <Loading />

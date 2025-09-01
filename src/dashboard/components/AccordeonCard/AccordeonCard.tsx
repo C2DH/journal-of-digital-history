@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { AccordeonCardProps } from './interface'
 
 import Collapse from '../../../components/Collapse/Collapse'
+import Feedback from '../Feedback/Feedback'
 import Table from '../Table/Table'
 
 const AccordeonCard = ({
@@ -20,28 +21,23 @@ const AccordeonCard = ({
   const { t } = useTranslation()
 
   if (error) {
-    return (
-      <div className="card card-error">
-        <h1>{t('error.title', 'Error')}</h1>
-        <p>{error?.response}</p>
-      </div>
-    )
+    return <Feedback type="error" message={error} />
   }
 
   return (
     <>
       <div className={`${item} accordeon-card`}>
-        <h1 className="accordeon-title">{title}</h1>
+        <h2 className="accordeon-title">{title}</h2>
         <Collapse
           className="accordeon"
           collapsed={collapsed}
           collapsable={collapsable}
           iconOpen={ArrowDown}
           iconClosed={ArrowUp}
-          iconSize={36}
+          iconSize={28}
           iconStrokeWidth={2}
         >
-          <Table item={item} headers={headers} data={data} />
+          <Table item={item} headers={headers} data={data} isAccordeon={true} />
         </Collapse>
       </div>
     </>

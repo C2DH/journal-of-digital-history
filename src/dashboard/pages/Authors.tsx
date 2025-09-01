@@ -1,19 +1,27 @@
-import Card from '../components/Card/Card'
-import { useFetchItems } from '../hooks/useFetch'
-import { useFilters } from '../hooks/useFilters'
-import { Author } from '../utils/types'
-
 import '../styles/pages/pages.css'
 
+import { useEffect } from 'react'
+
+import Card from '../components/Card/Card'
+import { useSorting } from '../hooks/useSorting'
+import { useItemsStore } from '../store'
+
 const Authors = () => {
-  const { sortBy, sortOrder, ordering, setFilters } = useFilters()
+  const { sortBy, sortOrder, ordering, setFilters } = useSorting()
   const {
     data: authors,
-    error,
     loading,
+    error,
     hasMore,
+    fetchItems,
+    setParams,
     loadMore,
-  } = useFetchItems<Author>('authors', 10, ordering)
+  } = useItemsStore()
+
+  useEffect(() => {
+    setParams({ endpoint: 'authors', limit: 20, ordering })
+    fetchItems(true)
+  }, [ordering])
 
   return (
     <div className="authors page">
@@ -27,8 +35,7 @@ const Authors = () => {
         loadMore={loadMore}
         sortBy={sortBy ?? undefined}
         sortOrder={sortOrder ?? undefined}
-        setSortBy={(newSortBy) => setFilters({ sortBy: newSortBy })}
-        setSortOrder={(newSortOrder) => setFilters({ sortOrder: newSortOrder })}
+        setSort={({ sortOrder, sortBy }) => setFilters({ sortOrder, sortBy })}
       />
     </div>
   )

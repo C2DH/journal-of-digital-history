@@ -1,13 +1,16 @@
+import './ContactForm.css'
+
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
+import parse from 'html-react-parser'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import './ContactForm.css'
 
 import { ContactFormData } from './interface'
 
 import { contactFormSchema } from '../../schemas/contactForm'
-import { modifyAbstractStatus } from '../../utils/helpers/postData'
+import { modifyAbstractStatusWithEmail } from '../../utils/helpers/api'
+import Button from '../Buttons/Button/Button'
 
 function validateContactForm(data: any) {
   const ajv = new Ajv({ allErrors: true })
@@ -18,67 +21,75 @@ function validateContactForm(data: any) {
   return { valid, errors: validate.errors }
 }
 
-const ContactForm = ({ contactEmail, pid, action, title }) => {
+function formatMessage(template, data) {
+  return template
+    .replace(/\{recipientName\}/g, data?.row[4] + ' ' + data?.row[5] || 'author')
+    .replace(/\{submissionTitle\}/g, data?.title)
+    .replace(/\{submissionId\}/g, data?.id)
+    .replace(/\{contactEmail\}/g, 'jdh.admin@uni.lu')
+    .replace(/\{signature\}/g, 'JDH Team')
+}
+
+const ContactForm = ({ rowData, action, onClose, onNotify }) => {
   const { t } = useTranslation()
-  const [form, setForm] = useState({
-    pid: '',
-    from: 'jdh.admin@uni.lu',
-    to: '',
-    subject: '',
-    message: t(`email.${action}.message`),
-    status: '',
-  })
-  const [notification, setNotification] = useState<{
-    type: 'success' | 'error'
-    message: string
-  } | null>(null)
+  const [form, setForm] = useState<ContactFormData | null>(null)
 
   useEffect(() => {
-    setForm((prev) => ({
-      ...prev,
-      pid: pid || '',
-      to: contactEmail || '',
+    setForm({
+      pid: rowData.id || '',
+      from: 'jdh.admin@uni.lu',
+      to: rowData.contactEmail || '',
+      subject: rowData.title || '',
+      body: formatMessage(parse(t(`email.${action}.body`)), rowData),
       status: action || '',
-      subject: title || '',
-    }))
-  }, [contactEmail, pid, title])
+    })
+  }, [rowData])
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setForm((prevForm) => ({
+      ...prevForm!,
+      [name]: value,
+    }))
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     const data: ContactFormData = {
-      from: form.from,
-      to: form.to,
-      subject: form.subject,
-      body: form.message,
-      status: form.status,
+      from: String(form?.from),
+      to: String(form?.to),
+      subject: String(form?.subject),
+      body: String(form?.body),
+      status: form?.status,
     }
-    console.info('[ContactForm] Data:', data)
-
     const { valid, errors } = validateContactForm(data)
 
     if (valid) {
       try {
-        const res = await modifyAbstractStatus(form.pid, data)
-        setNotification({
-          type: 'success',
-          message: res?.data?.message || 'Message sent successfully!',
-        })
-        setTimeout(() => {
-          window.location.reload()
-        }, 500)
+        const res = await modifyAbstractStatusWithEmail(String(form?.pid), data)
+        if (onClose) onClose()
+        if (onNotify)
+          onNotify({
+            type: 'success',
+            message: t('email.success.api.contactForm'),
+            submessage: res?.data?.message || '',
+          })
       } catch (err: any) {
-        setNotification({
-          type: 'error',
-          message: err?.response?.data?.message || 'An error occurred.',
-        })
+        if (onClose) onClose()
+        if (onNotify)
+          onNotify({
+            type: 'error',
+            message: t('email.error.api.message'),
+            submessage: err?.response?.data?.message,
+          })
       }
     }
     if (!valid) {
-      setNotification({ type: 'error', message: 'Validation failed. Please check your input.' })
+      onNotify({
+        type: 'error',
+        message: t('email.error.validation.message'),
+        submessage: t('email.error.validation.submessage'),
+      })
       console.error(errors)
       return
     }
@@ -88,26 +99,21 @@ const ContactForm = ({ contactEmail, pid, action, title }) => {
     <form className="contact-form" onSubmit={handleSubmit}>
       <label>
         From
-        <input name="from" value={form.from} onChange={handleChange} required />
+        <input name="from" value={form?.from || ''} onChange={handleChange} required />
       </label>
       <label>
         To
-        <input name="to" value={form.to} onChange={handleChange} required />
+        <input name="to" value={form?.to || ''} onChange={handleChange} required />
       </label>
       <label>
         Subject
-        <input name="subject" value={form.subject} onChange={handleChange} required />
+        <input name="subject" value={form?.subject || ''} onChange={handleChange} required />
       </label>
       <label>
-        Message
-        <textarea name="message" value={form.message} onChange={handleChange} required />
+        Body
+        <textarea name="body" value={String(form?.body) || ''} onChange={handleChange} required />
       </label>
-      {notification && (
-        <div className={`notification notification-${notification.type}`}>
-          {notification.message}
-        </div>
-      )}
-      <button type="submit">Send</button>
+      <Button type="submit" text={t('contactForm.send', 'Send')} />
     </form>
   )
 }

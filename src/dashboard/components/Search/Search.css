@@ -3,27 +3,27 @@
   align-items: center;
   gap: 8px;
 
-  height: 40px;
+  height: var(--space-size-5);
   padding: 0 8px;
   margin-right: var(--gap-size-3);
 
   border: none;
   color: var(--color-deep-blue);
-  background: var(--color-accent-lighter);
+  background: var(--color-white);
   border-radius: 32px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .search-input {
   background: transparent;
   border: none;
-  font-size: var(--font-size-3);
+  font-size: var(--text-size-3);
   color: var(--color-deep-blue);
   outline: none;
 }
 
 .search-input::placeholder {
+  font-family: 'DM Sans', sans-serif;
   color: var(--color-deep-blue);
   opacity: 0.8;
-  font-size: var(--font-size-2);
+  font-size: var(--text-size-3);
 }

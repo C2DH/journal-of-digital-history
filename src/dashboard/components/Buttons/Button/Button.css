@@ -1,0 +1,32 @@
+.default-button {
+  --btn-bg: var(--color-white);
+  --btn-color: var(--color-accent);
+  --btn-border: var(--color-accent);
+  --btn-bg-hover: var(--color-accent);
+  --btn-color-hover: var(--color-white);
+  --btn-border-hover: var(--color-accent);
+
+  background: var(--btn-bg);
+  color: var(--btn-color);
+  border: 1px solid var(--btn-border);
+  border-radius: 10px;
+  padding: var(--space-size-1) var(--space-size-3);
+  font-size: var(--text-size-3);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.default-button:hover,
+.default-button:focus {
+  background: var(--btn-bg-hover);
+  color: var(--btn-color-hover);
+  border-color: var(--btn-border-hover);
+}
+
+.color-deep-blue {
+  --btn-color: var(--color-deep-blue);
+  --btn-border: var(--color-deep-blue);
+  --btn-bg-hover: var(--color-deep-blue);
+  --btn-color-hover: var(--color-white);
+  --btn-border-hover: var(--color-deep-blue);
+}

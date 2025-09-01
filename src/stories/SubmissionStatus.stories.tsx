@@ -1,5 +1,5 @@
 import { Meta, StoryFn } from '@storybook/react'
-import SubmissionStatusCard from '../components/AbstractSubmissionForm/SubmissionStatus'
+import SubmissionStatus from '../components/AbstractSubmissionForm/SubmissionStatus'
 
 // Mock data for the story
 const mockErrors = [
@@ -21,16 +21,16 @@ const mockErrors = [
 
 export default {
   title: 'Components/AbstractSubmissionForm/SubmissionStatusCard',
-  component: SubmissionStatusCard,
+  component: SubmissionStatus,
   argTypes: {
     isSubmitAttempted: { control: 'boolean' },
     githubError: { control: 'text' },
     mailError: { control: 'text' },
     callForPapersError: { control: 'text' },
   },
-} as Meta<typeof SubmissionStatusCard>
+} as Meta<typeof SubmissionStatus>
 
-const Template: StoryFn<typeof SubmissionStatusCard> = (args) => <SubmissionStatusCard {...args} />
+const Template: StoryFn<typeof SubmissionStatus> = (args) => <SubmissionStatus {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
