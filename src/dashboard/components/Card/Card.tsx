@@ -7,6 +7,7 @@ import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 import { useItemsStore } from '../../store'
+import { isAbstract } from '../../utils/helpers/itemChecker'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
 import { RowCheckboxMap } from '../../utils/types'
 import ActionButtonLarge from '../Buttons/ActionButton/Large/ActionButtonLarge'
@@ -107,7 +108,7 @@ const Card = ({
             <h1>{t(`${item}.item`)}</h1>
             {count && <Counter value={count} />}
           </div>
-          {
+          {isAbstract(item) && (
             <ActionButtonLarge
               actions={[
                 {
@@ -117,7 +118,7 @@ const Card = ({
               ]}
               active={checkedRows && Object.values(checkedRows).some((v) => v)}
             />
-          }
+          )}
         </div>
         {count === 0 ? (
           <Feedback type="warning" message={'No item corresponds to your search'} />
