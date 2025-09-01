@@ -25,7 +25,7 @@ const ActionButtonLarge = ({ actions, active }: ActionButtonProps) => {
   }, [open])
 
   return (
-    <div className="large-action-btn-wrapper" ref={ref}>
+    <div className={`large-action-btn-wrapper ${active ? 'active' : 'inactive'}`} ref={ref}>
       <span>Actions</span>
       <MoreHoriz
         className={`large-action-icon ${active ? 'active' : 'inactive'}`}
