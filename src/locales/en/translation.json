@@ -341,6 +341,7 @@
     "addDataset": "＋ Dataset / Tools / Code",
     "downloadAsJSON": "Download as JSON ↓",
     "expand": "Expand",
+    "collapse": "Collapse",
     "switchToHermeneuticLayer": "See Hermeneutic Layer",
     "hidesourceCode": "hide source code",
     "showsourceCode": "show source code",

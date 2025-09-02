@@ -13,7 +13,8 @@ import 'codemirror/mode/python/python.js'
 
 const ArticleCellEditor = ({
   cellIdx = -1,
-  options
+  options,
+  onLineCountChange
 }) => {
 
   const source = useExecutionScope((state) => state.cells[cellIdx]?.source) ?? '';
@@ -32,8 +33,16 @@ const ArticleCellEditor = ({
     setValue(source); 
   }, [source]);
 
+
+  // Fonction pour notifier le nombre de lignes
+  const notifyLineCount = (editor) => {
+    if (onLineCountChange && editor) {
+      onLineCountChange(editor.lineCount());
+    }
+  };
+
   return (
-    <div className="ArticleCellEditor" >
+    <div className="ArticleCellEditor">
       <CodeMirror
         value={value}
         options={{
@@ -45,12 +54,16 @@ const ArticleCellEditor = ({
           matchBrackets: true,
           ...options,
         }}
+        editorDidMount={(editor) => {
+          notifyLineCount(editor);
+        }}
         onBeforeChange={(editor, data, value) => {
           setValue(value)
         }}
         onChange={(editor, data, value) => {
           console.debug('[ArticleCellEditor]', cellIdx, { value })
           onCellChangeHandler(value)
+          notifyLineCount(editor);
         }}
       />
     </div>

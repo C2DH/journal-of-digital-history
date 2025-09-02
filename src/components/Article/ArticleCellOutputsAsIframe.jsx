@@ -1,4 +1,4 @@
-import React from 'react'
+import { useRef, useState } from 'react';
 import { useArticleStore } from '../../store'
 /**
  * Renders a Jupyter Notebook cell's outputs as an iframe.
@@ -23,10 +23,18 @@ const ArticleCellOutputsAsIframe = ({
   if (!isJavascriptTrusted || !outputs.length) {
     return null
   }
-  const iframeHeight = isNaN(height) ? 200 : height
+  const ref = useRef(null);
+
   const iframeHeader = useArticleStore((state) => state.iframeHeader)
   const articleVersion = useArticleStore((state) => state.articleVersion)
   const addIframeHeader = useArticleStore((state) => state.addIframeHeader)
+
+  // issue #707: Adapt the iframe height to the content
+  const [iframeHeight, setHeight] = useState(isNaN(height) ? 200 : height);
+  const onLoad = () => {
+    if(height === 0 || height === 'auto') 
+      setHeight(ref.current.contentWindow.document.body.scrollHeight);
+  };
 
   // if in isolationMode, the srcDoc will be the output data
   const srcDoc = isolationMode
@@ -101,13 +109,15 @@ const ArticleCellOutputsAsIframe = ({
     (iframeHeader.length
       ? '<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>'
       : '') +
-    (articleVersion === 3 ? '<style> body { color:white; } </style>' : '') +
+    (articleVersion === 3 ? '<style> body { color:white; } table caption { color:white; }</style>' : '') +
     '<link rel="stylesheet" href="/css/iframe.css">' +
     iframeHeader.join('') +
     iframeSrcDoc
 
   return (
     <iframe
+      ref={ref}
+      onLoad={onLoad}
       sandbox="allow-scripts allow-modal allow-same-origin"
       loading="eager"
       srcDoc={iframeSrcDoc}
