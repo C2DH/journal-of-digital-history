@@ -71,9 +71,9 @@ const ArticleCellSourceCodeWrapper = ({
           >
             <div className="px-2">{t(`actions.${isCollapsed ? 'expand' : 'collapse'}`)}</div>
             {isCollapsed ? (
-              <ExpandLines className="pe-1" width={16} height={16} />
+              <ExpandLines className="pe-1" width={28} height={28} />
             ) : (
-              <CompressLines className="pe-1" width={16} height={16} />
+              <CompressLines className="pe-1" width={28} height={28} />
             )}
           </button>
         </div>
