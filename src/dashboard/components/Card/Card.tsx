@@ -6,13 +6,14 @@ import { useTranslation } from 'react-i18next'
 import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
-import { useItemsStore } from '../../store'
+import { useFilterBarStore, useItemsStore } from '../../store'
 import { isAbstract } from '../../utils/helpers/itemChecker'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
 import { RowCheckboxMap } from '../../utils/types'
 import ActionButtonLarge from '../Buttons/ActionButton/Large/ActionButtonLarge'
 import Counter from '../Counter/Counter'
 import Feedback from '../Feedback/Feedback'
+import FilterBar from '../FilterBar/FilterBar'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
 import Table from '../Table/Table'
@@ -47,6 +48,9 @@ const Card = ({
     submessage?: string
   } | null>(null)
   const [checkedRows, setCheckedRows] = useState<RowCheckboxMap>({})
+
+  const { setFilter, initFilters, updateFromStores } = useFilterBarStore()
+  const filters = useFilterBarStore((state) => state.filters)
 
   const { fetchItems } = useItemsStore()
 
@@ -108,6 +112,7 @@ const Card = ({
             <h1>{t(`${item}.item`)}</h1>
             {count && <Counter value={count} />}
           </div>
+
           {isAbstract(item) && (
             <ActionButtonLarge
               actions={[
@@ -120,6 +125,7 @@ const Card = ({
             />
           )}
         </div>
+        <FilterBar filters={filters} onFilterChange={setFilter} />
         {count === 0 ? (
           <Feedback type="warning" message={'No item corresponds to your search'} />
         ) : (

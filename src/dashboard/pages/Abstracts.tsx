@@ -3,7 +3,6 @@ import '../styles/pages/pages.css'
 import { useEffect } from 'react'
 
 import Card from '../components/Card/Card'
-import FilterBar from '../components/FilterBar/FilterBar'
 import { useSorting } from '../hooks/useSorting'
 import { useFilterBarStore, useItemsStore, useSearchStore } from '../store'
 
@@ -56,7 +55,6 @@ const Abstracts = () => {
 
   return (
     <div className="abstract page">
-      <FilterBar filters={filters} onFilterChange={setFilter} />
       <Card
         item="abstracts"
         headers={[

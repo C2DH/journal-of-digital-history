@@ -3,7 +3,7 @@
   align-items: center;
   margin-right: var(--space-size-3);
   height: var(--space-size-5);
-  background: var(--color-white);
+  /* background: var(--color-gray-light); */
   border-radius: 16px;
   position: relative;
   width: 180px;
@@ -22,7 +22,7 @@
   cursor: pointer;
   border-radius: 8px;
   padding: 0rem var(--space-size-1);
-  background: var(--color-white);
+  background: var(--color-gray-light);
   color: var(--color-deep-blue);
   min-height: 40px;
   transition: border 0.2s;

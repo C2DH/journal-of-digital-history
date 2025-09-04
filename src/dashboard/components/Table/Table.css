@@ -17,6 +17,11 @@
   color: var(--color-gray);
   font-weight: 600;
   font-size: var(--text-size-3);
+  position: sticky;
+  top: 80px;
+  background: var(--color-white);
+  height: 20px;
+  z-index: 5;
 }
 
 .header {
@@ -24,6 +29,26 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   position: relative;
+}
+
+th.status-header {
+  width: 2%;
+}
+
+th.title,
+th.abstract__title {
+  width: 20%;
+
+  @media screen and (min-width: 2500px) {
+    width: 40%;
+  }
+}
+
+th.header.id {
+  width: 5%;
+}
+th.header.url {
+  width: 25%;
 }
 
 .table td {
@@ -55,26 +80,6 @@ td.actions-cell {
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
-}
-
-th.status-header {
-  width: 2%;
-}
-
-th.title,
-th.abstract__title {
-  width: 20%;
-
-  @media screen and (min-width: 2500px) {
-    width: 40%;
-  }
-}
-
-th.header.id {
-  width: 5%;
-}
-th.header.url {
-  width: 25%;
 }
 
 /*TODO: rename abstract__title by article___title and title by abstract_title */
