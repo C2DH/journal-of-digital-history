@@ -230,7 +230,7 @@ export const useIssuesStore = create<IssuesState>((set) => ({
 // FILTER BAR STORE
 
 type FilterOption = { key: number; value: string; label: string }
-type Filter = { name: string; value: string; options: FilterOption[] }
+type Filter = { name: string; label: string; value: string; options: FilterOption[] }
 
 interface FilterBarState {
   filters: Filter[]
@@ -247,16 +247,19 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
       filters: [
         {
           name: 'callpaper',
+          label: 'Call for Paper',
           value: '',
-          options: [{ key: 0, value: '', label: 'Call for Paper' }],
+          options: [{ key: 0, value: '', label: '-' }],
         },
         {
           name: 'issue',
+          label: 'Issue',
           value: '',
-          options: [{ key: 0, value: '', label: 'Issue' }],
+          options: [{ key: 0, value: '', label: '-' }],
         },
         {
           name: 'status',
+          label: 'Status',
           value: '',
           options: [],
         },
@@ -287,7 +290,6 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
           return {
             ...filter,
             options: [
-              { key: 0, value: '', label: 'Call for Paper' },
               ...callForPapers.map((cfp) => ({
                 key: cfp.id,
                 value: String(cfp.id),
@@ -300,7 +302,6 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
           return {
             ...filter,
             options: [
-              { key: 0, value: '', label: 'Issue' },
               ...issues.map((issue) => ({
                 key: issue.id,
                 value: String(issue.pid),

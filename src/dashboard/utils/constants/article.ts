@@ -10,7 +10,6 @@ export const articleSteps = [
 ]
 
 export const articleStatus = [
-  { key: 0, value: '', label: 'Status' },
   { key: 1, value: 'DRAFT', label: 'Submission' },
   { key: 2, value: 'TECHNICAL_REVIEW', label: 'Technical review' },
   { key: 3, value: 'PEER_REVIEW', label: 'Peer review' },

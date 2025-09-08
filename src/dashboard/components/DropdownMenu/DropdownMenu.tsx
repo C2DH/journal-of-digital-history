@@ -31,7 +31,7 @@ const DropdownMenu = ({ options, value, onChange }: DropdownMenuProps) => {
         onBlur={() => setOpen(false)}
         tabIndex={0}
       >
-        <span>{selected ? selected.label : 'Select...'}</span>
+        <span>{selected ? selected.label : ' - '}</span>
         <ArrowDownInCircle className="dropdown-icon" width="20px" />
       </div>
       {open && (
