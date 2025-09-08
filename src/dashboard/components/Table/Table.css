@@ -32,7 +32,7 @@
 
 table.abstracts th,
 table.articles th {
-  padding-top: var(--gap-size-2);
+  padding-top: var(--gap-size-4);
   position: sticky;
   top: var(--table-headers-top-position);
   background: var(--color-white);

@@ -121,24 +121,6 @@ const Table = ({
   return (
     <>
       <table className={`table ${item}`}>
-        <colgroup>
-          {isArticleOrAbstracts && !isAccordeon && (
-            <col key="col-checkbox" style={{ width: '40px' }} />
-          )}
-
-          {visibleHeaders.map((header) =>
-            header === 'status' && isArticleItem ? (
-              articleSteps.map((step) => (
-                <col key={`col-step-${step.key}`} style={{ width: '48px' }} />
-              ))
-            ) : (
-              <col key={`col-${header}`} />
-            ),
-          )}
-
-          {isAbstractItem && <col key="col-actions" style={{ width: '80px' }} />}
-        </colgroup>
-
         <thead>
           <tr>
             {isArticleOrAbstracts && !isAccordeon && (

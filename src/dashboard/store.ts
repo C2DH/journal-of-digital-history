@@ -236,6 +236,7 @@ interface FilterBarState {
   filters: Filter[]
   setFilter: (name: string, newValue: string) => void
   resetFilters: () => void
+  resetSpecificFilter: (name: string) => void
   initFilters: () => void
   updateFromStores: (isAbstract: boolean) => void
 }
@@ -261,7 +262,7 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
           name: 'status',
           label: 'Status',
           value: '',
-          options: [],
+          options: [{ key: 0, value: '', label: '-' }],
         },
       ],
     })
@@ -274,6 +275,11 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
   resetFilters: () => {
     set((state) => ({
       filters: state.filters.map((f) => ({ ...f, value: '' })),
+    }))
+  },
+  resetSpecificFilter: (name: string) => {
+    set((state) => ({
+      filters: state.filters.map((f) => (f.name === name ? { ...f, value: '' } : f)),
     }))
   },
   updateFromStores: async (isAbstract: boolean) => {

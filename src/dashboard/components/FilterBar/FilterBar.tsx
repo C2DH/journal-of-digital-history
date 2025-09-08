@@ -28,6 +28,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
           <span className="filter-label">{filter.label}</span>
           <DropdownMenu
             key={filter.name}
+            name={filter.name}
             options={filter.options}
             value={filter.value}
             onChange={(value) => onFilterChange(filter.name, value)}
