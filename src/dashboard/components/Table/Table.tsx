@@ -164,6 +164,7 @@ const Table = ({
                 </th>
               ),
             )}
+            {isAbstractItem && <th className="actions-cell"></th>}
           </tr>
         </thead>
         <tbody>

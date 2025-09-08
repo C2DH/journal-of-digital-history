@@ -13,10 +13,21 @@
 }
 
 .table th {
-  padding-bottom: var(--gap-size-1);
+  padding-bottom: var(--gap-size-3);
   color: var(--color-gray);
   font-weight: 600;
   font-size: var(--text-size-3);
+}
+
+table.abstracts th,
+table.articles th {
+  width: 100%;
+  border-radius: 8px;
+  padding-top: var(--gap-size-2);
+  position: sticky;
+  top: var(--table-headers-top-position);
+  background: var(--color-white);
+  z-index: 5;
 }
 
 .header {
@@ -24,6 +35,26 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   position: relative;
+}
+
+th.status-header {
+  width: 2%;
+}
+
+th.title,
+th.abstract__title {
+  width: 20%;
+
+  @media screen and (min-width: 2500px) {
+    width: 40%;
+  }
+}
+
+th.header.id {
+  width: 5%;
+}
+th.header.url {
+  width: 25%;
 }
 
 .table td {
@@ -55,26 +86,6 @@ td.actions-cell {
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
-}
-
-th.status-header {
-  width: 2%;
-}
-
-th.title,
-th.abstract__title {
-  width: 20%;
-
-  @media screen and (min-width: 2500px) {
-    width: 40%;
-  }
-}
-
-th.header.id {
-  width: 5%;
-}
-th.header.url {
-  width: 25%;
 }
 
 /*TODO: rename abstract__title by article___title and title by abstract_title */

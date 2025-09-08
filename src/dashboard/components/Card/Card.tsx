@@ -1,7 +1,6 @@
 import './Card.css'
 
 import { useEffect, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 
 import { CardProps } from './interface'
 
@@ -28,7 +27,6 @@ const Card = ({
   sortOrder,
   setSort,
 }: CardProps) => {
-  const { t } = useTranslation()
   const loaderRef = useRef<HTMLDivElement | null>(null)
   const [modalState, setModalState] = useState<{
     open: boolean
