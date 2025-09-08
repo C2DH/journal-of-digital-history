@@ -1,11 +1,13 @@
 import './Card.css'
 
 import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 import { useItemsStore } from '../../store'
+import { isAbstract, isArticle } from '../../utils/helpers/itemChecker'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
 import { RowCheckboxMap } from '../../utils/types'
 import Feedback from '../Feedback/Feedback'
@@ -27,6 +29,7 @@ const Card = ({
   sortOrder,
   setSort,
 }: CardProps) => {
+  const { t } = useTranslation()
   const loaderRef = useRef<HTMLDivElement | null>(null)
   const [modalState, setModalState] = useState<{
     open: boolean
@@ -42,7 +45,9 @@ const Card = ({
     submessage?: string
   } | null>(null)
   const [checkedRows, setCheckedRows] = useState<RowCheckboxMap>({})
-
+  const isAbstractItem = isAbstract(item)
+  const isArticleItem = isArticle(item)
+  const isArticleOrAbstracts = isAbstractItem || isArticleItem
   const { fetchItems } = useItemsStore()
 
   const handleClose = () => setModalState({ open: false })
@@ -99,10 +104,10 @@ const Card = ({
       />
       <div className={`${item} card`}>
         <div className="card-header">
-          {/* <div className="card-header-title">
-            <h1>{t(`${item}.item`)}</h1>
-            {count && <Counter value={count} />}
-          </div> */}
+          <div className="card-header-title">
+            {!isArticleOrAbstracts && <h1>{t(`${item}.item`)}</h1>}
+          </div>
+
           {/* {isAbstract(item) && (
             <ActionButtonLarge
               actions={[
