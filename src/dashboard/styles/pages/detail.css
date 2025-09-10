@@ -8,8 +8,11 @@
   grid-area: c;
   background-color: var(--color-white);
 }
-.card-contact {
+.card-datasets {
   grid-area: e;
+}
+.card-contact {
+  grid-area: f;
 }
 
 .detail-grid {
@@ -19,6 +22,7 @@
   grid-template-areas:
     'a a b'
     'c c e'
+    'c c f'
     'c c .';
   gap: var(--gap-size-4);
   padding: var(--space-size-1);
@@ -50,6 +54,8 @@
 h2 {
   margin: 0 0 var(--space-size-3) 0;
 }
+
+/* RESPONSIVE */
 
 @media (max-width: 1400px) {
   .detail-grid {

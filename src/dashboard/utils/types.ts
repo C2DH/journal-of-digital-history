@@ -15,8 +15,8 @@ export interface Abstract {
   contact_firstname: string
   status: string
   consented: boolean
-  authors: number[]
-  datasets: number[]
+  authors: Author[]
+  datasets: Dataset[]
   repository_url: string
 }
 
