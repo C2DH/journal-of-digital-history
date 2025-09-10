@@ -5,6 +5,7 @@ import parse from 'html-react-parser'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router'
 
+import IconButton from '../components/Buttons/IconButton/IconButton'
 import LinkButton from '../components/Buttons/LinkButton/LinkButton'
 import Loading from '../components/Loading/Loading'
 import SmallCard from '../components/SmallCard/SmallCard'
@@ -145,7 +146,11 @@ const Detail = ({ endpoint }) => {
           <div>{abstractText ? parse(formatAbstract(String(abstractText))) : null}</div>
         </SmallCard>
         <SmallCard className="card-contact">
-          <h2>Contact</h2>
+          <div className="contact-header">
+            {' '}
+            <h2>Contact</h2>
+            <IconButton value={item.contact_orcid} />
+          </div>
           {contactFields.map(({ label, value }) => (
             <FieldRow key={label} label={label} value={value} />
           ))}

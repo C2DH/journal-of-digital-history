@@ -1,5 +1,6 @@
-import { Github } from 'iconoir-react'
 import './IconButton.css'
+
+import { Github } from 'iconoir-react'
 
 import { convertOrcid } from '../../../utils/helpers/itemChecker'
 

@@ -88,3 +88,19 @@ h2 {
     align-items: flex-start;
   }
 }
+
+/* CONTACT */
+
+.contact-header {
+  display: flex;
+  align-items: start;
+  gap: var(--gap-size-1);
+}
+
+.link-button-orcid {
+  border: 0;
+  cursor: pointer;
+}
+.link-button-orcid img {
+  height: 18px;
+}
