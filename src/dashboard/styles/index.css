@@ -10,7 +10,7 @@
 /* Fonts */
 body {
   font-family: 'DM Sans', sans-serif;
-  background: var(--color-background-gradient);
+  background: var(--color-background);
   color: var(--color-deep-blue);
 }
 
@@ -20,12 +20,7 @@ body {
 
 /* Color variables */
 :root {
-  --color-background-gradient: linear-gradient(
-    120deg,
-    #f4f7fe 0%,
-    #e9eafc 40%,
-    #e0f2fe 100% /* very light blue */
-  );
+  --color-background: #e9eafc 40%;
   --color-background-input: #f8fafc;
   --color-border: #e0e0e0;
   --color-hover: #e5edff;
@@ -89,4 +84,6 @@ body {
   --landing-page-header: 200px;
   --navbar-height: 200px;
   --modal-width: 350px;
+  --filter-bar-height: 80px;
+  --table-headers-top-position: 105px;
 }

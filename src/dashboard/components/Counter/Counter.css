@@ -8,6 +8,6 @@
   font-size: var(--text-size-3);
   font-weight: 400;
   color: var(--color-accent);
-  background: var(--color-accent-lighter);
+  background: var(--color-white);
   border-radius: 6px;
 }

@@ -46,7 +46,6 @@ describe('Card', () => {
 
   it('renders the card and table', () => {
     render(<Card {...defaultProps} />)
-    expect(screen.getByText('abstracts.item')).toBeInTheDocument()
     expect(screen.getByTestId('table-mock')).toBeInTheDocument()
   })
 

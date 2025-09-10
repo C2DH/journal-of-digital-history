@@ -1,6 +1,7 @@
 interface Filter {
   name: string
   value: string
+  label: string
   options: {
     key: number
     value: string

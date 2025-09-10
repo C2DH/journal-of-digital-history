@@ -1,4 +1,5 @@
 export interface DropdownMenuProps {
+  name: string
   options: {
     key: number
     value: string

@@ -3,7 +3,7 @@
     "jsx": "react-jsx",
     "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "es2015",
+    "module": "es2020",
     "moduleResolution": "bundler",
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
