@@ -23,9 +23,10 @@ a {
 }
 
 .button-link {
+  width: fit-content;
   background-color: var(--color-accent-lighter);
   color: var(--color-deep-blue);
-  padding: var(--gap-size-0) var(--gap-size-0);
+  padding: var(--gap-size-1);
   border-radius: 20px;
   border: none;
   font-size: var(--text-size-2);

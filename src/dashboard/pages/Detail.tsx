@@ -18,7 +18,13 @@ import { Abstract, Article } from '../utils/types'
 const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
   <div className="item">
     <span className="label">{label}</span>
-    <span className="value">{value}</span>
+    {label === 'Email' ? (
+      <a className="value" href={`mailto:${value}`}>
+        {value}
+      </a>
+    ) : (
+      <span className="value">{value}</span>
+    )}
   </div>
 )
 

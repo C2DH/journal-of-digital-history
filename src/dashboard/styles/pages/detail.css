@@ -51,21 +51,38 @@
   flex-grow: 1;
 }
 
+.value:hover a {
+  text-decoration: underline;
+}
+
 h2 {
   margin: 0 0 var(--space-size-3) 0;
 }
 
 /* RESPONSIVE */
 
+@media (min-width: 2000px) {
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      'a f b'
+      'c c e'
+      'c c .'
+      'c c .';
+  }
+}
+
 @media (max-width: 1400px) {
   .detail-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-areas:
-      'b e'
       'a a'
+      'b f'
       'c c'
-      'c c';
+      'c c'
+      'e e';
   }
 }
 
@@ -82,11 +99,12 @@ h2 {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:
-      'b'
-      'e'
-      'a '
-      'c '
-      'c ';
+      ' a '
+      ' b '
+      ' f '
+      ' c '
+      ' c '
+      ' e';
   }
   .card-info {
     display: flex;
