@@ -7,7 +7,7 @@ import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 import { useItemsStore } from '../../store'
-import { isAbstract } from '../../utils/helpers/itemChecker'
+import { isAbstract } from '../../utils/helpers/checkItem'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
 import { RowCheckboxMap } from '../../utils/types'
 import ActionButtonLarge from '../Buttons/ActionButton/Large/ActionButtonLarge'

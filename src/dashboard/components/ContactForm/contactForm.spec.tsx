@@ -4,7 +4,7 @@ import { vi } from 'vitest'
 import ContactForm from './ContactForm'
 
 // Mock the async helper
-vi.mock('../../utils/helpers/api', () => ({
+vi.mock('../../utils/api/api', () => ({
   modifyAbstractStatusWithEmail: vi.fn(() =>
     Promise.resolve({ data: { message: 'Message sent successfully!' } }),
   ),

@@ -25,25 +25,17 @@ const LinkButton = ({ url }: ButtonLinkProps) => {
   }
 
   const config = linkConfigs[hostname] || {
-    icon: <Link className="link-icon" data-testid="link-icon" style={{ width: '24px' }} />,
+    icon: <Link className="link-icon" data-testid="link-icon" />,
     label: pathname,
-    isDefault: true,
   }
 
   return (
     <a href={url} className="button-link" target="_blank" rel="noopener noreferrer">
-      <div className="link-container">
-        {config.isDefault ? (
-          <>
-            {config.icon}
-            <button>{config.label}</button>
-          </>
-        ) : (
-          <div className="link-content">
-            {config.icon}
-            <span>{config.label}</span>
-          </div>
-        )}
+      <div className={`link-container`}>
+        <div className="link-content">
+          {config.icon}
+          <span>{config.label}</span>
+        </div>
         <NavArrowRight className="arrow-right" />
       </div>
     </a>

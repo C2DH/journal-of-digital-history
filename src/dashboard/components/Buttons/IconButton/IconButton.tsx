@@ -2,7 +2,7 @@ import './IconButton.css'
 
 import { Github } from 'iconoir-react'
 
-import { convertOrcid } from '../../../utils/helpers/itemChecker'
+import { convertOrcid } from '../../../utils/helpers/checkItem'
 
 const IconButton = ({ value }: any) => {
   let content = value

@@ -12,21 +12,7 @@ import ReadMore from '../components/ReadMore/ReadMore'
 import SmallCard from '../components/SmallCard/SmallCard'
 import Status from '../components/Status/Status'
 import { useItemStore } from '../store'
-import { convertDate } from '../utils/helpers/convertDate'
-import { Abstract, Article } from '../utils/types'
-
-const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
-  <div className="item">
-    <span className="label">{label}</span>
-    {label === 'Email' ? (
-      <a className="value" href={`mailto:${value}`}>
-        {value}
-      </a>
-    ) : (
-      <span className="value">{value}</span>
-    )}
-  </div>
-)
+import { setDetails } from '../utils/helpers/setDetails'
 
 function formatAbstract(abstract?: string): string {
   if (!abstract) return ''
@@ -39,23 +25,20 @@ function formatAbstract(abstract?: string): string {
     .replace(/<br\s*<b>/g, '<br /><b>')
 }
 
-function isAbstract(item: any): item is Abstract {
-  return (
-    item &&
-    typeof item === 'object' &&
-    typeof item.pid === 'string' &&
-    typeof item.title === 'string'
-  )
-}
-
-function isArticle(item: any): item is Article {
-  return (
-    item &&
-    typeof item === 'object' &&
-    typeof item.abstract.pid === 'string' &&
-    typeof item.abstract.title === 'string'
-  )
-}
+const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
+  <div className="item">
+    <span className="label">{label}</span>
+    {label === 'Email' ? (
+      <a className="value" href={`mailto:${value}`}>
+        {value}
+      </a>
+    ) : label === 'Status' ? (
+      <Status value={String(value)} />
+    ) : (
+      <span className="value">{value}</span>
+    )}
+  </div>
+)
 
 const Detail = ({ endpoint }) => {
   const location = useLocation()
@@ -81,75 +64,8 @@ const Detail = ({ endpoint }) => {
     )
   }
 
-  // Type guard usage
-  let infoFields: { label: string; value: React.ReactNode }[] = []
-  let contactFields: { label: string; value: React.ReactNode }[] = []
-  let datasetFields: { label: string; value: React.ReactNode }[] = []
-  let url = ''
-  let title = ''
-  let abstractText = ''
-
-  if (isAbstract(item)) {
-    infoFields = [
-      { label: 'PID', value: item.pid },
-      {
-        label: 'Call for papers',
-        value: item.callpaper_title === null ? 'Open Submission' : item.callpaper_title,
-      },
-      { label: 'Status', value: <Status value={String(item.status)} /> },
-      { label: 'Terms accepted', value: item.consented ? 'Yes' : 'No' },
-      { label: 'Submission date', value: convertDate(item.submitted_date) },
-      {
-        label: 'Validation date',
-        value: item.validation_date ? convertDate(item.validation_date) : '-',
-      },
-    ]
-    contactFields = [
-      { label: 'Contact name', value: `${item.contact_firstname} ${item.contact_lastname}` },
-      { label: 'Affiliation', value: `${item.contact_affiliation}` },
-      { label: 'Email', value: item.contact_email === null ? '-' : item.contact_email },
-    ]
-    datasetFields = (item.datasets || []).map((d: any, i: number) => ({
-      label: `Dataset nº${i + 1}`,
-      value: (
-        <div className="dataset-entry">
-          {d.url ? <LinkButton url={d.url} /> : <span>-</span>}
-          {d.description ? (
-            <div className="dataset-desc">
-              <ReadMore text={d.description} maxLength={50} />
-            </div>
-          ) : null}
-        </div>
-      ),
-    }))
-
-    url = item.repository_url === undefined ? '-' : item.repository_url
-    title = item.title
-    abstractText = item.abstract
-  } else if (isArticle(item)) {
-    infoFields = [
-      { label: 'PID', value: item.abstract.pid },
-      { label: 'Call for papers', value: item.issue.name || 'Open Submission' },
-      { label: 'Status', value: <Status value={String(item.status)} /> },
-      { label: 'Terms accepted', value: item.abstract.consented ? 'Yes' : 'No' },
-      { label: 'Submission date', value: convertDate(item.abstract.submitted_date) },
-      { label: 'Validation date', value: convertDate(item.abstract.validation_date) },
-    ]
-    contactFields = [
-      {
-        label: 'Contact name',
-        value: `${item.abstract.contact_firstname} ${item.abstract.contact_lastname}`,
-      },
-      { label: 'Affiliation', value: `${item.abstract.contact_affiliation}` },
-      {
-        label: 'Email',
-        value: item.abstract.contact_email === undefined ? '-' : item.abstract.contact_email,
-      },
-    ]
-    url = item.repository_url
-    title = item.data?.title[0] || ''
-    abstractText = item.data?.abstract[0] || ''
-  }
+  const { infoFields, contactFields, datasetFields, urlFields, title, abstractText } =
+    setDetails(item)
 
   return (
     <div className="detail page ">
@@ -159,9 +75,31 @@ const Detail = ({ endpoint }) => {
             <FieldRow key={label} label={label} value={value} />
           ))}
         </SmallCard>
-        <SmallCard className="card-repository">
-          <h2>Repository</h2>
-          {url ? <LinkButton url={url} /> : '-'}
+        <SmallCard className="card-link">
+          <h2>Links</h2>
+          {urlFields ? (
+            urlFields.map(({ value }, index) =>
+              value ? <LinkButton key={index} url={String(value)} /> : null,
+            )
+          ) : (
+            <span>-</span>
+          )}
+          {datasetFields.length > 0 ? (
+            <>
+              <h4>Datasets</h4>
+              {datasetFields.map(({ label, value, description }, index) => (
+                <>
+                  {' '}
+                  <div key={index} className="item">
+                    {value ? <LinkButton url={String(value)} /> : <span>-</span>}
+                  </div>
+                  <div className="dataset-desc" style={{ marginLeft: '50px' }}>
+                    <ReadMore text={description} maxLength={0} />
+                  </div>
+                </>
+              ))}
+            </>
+          ) : null}
         </SmallCard>
         <SmallCard className="card-abstract">
           <h2>{title}</h2>
@@ -176,14 +114,6 @@ const Detail = ({ endpoint }) => {
           {contactFields.map(({ label, value }) => (
             <FieldRow key={label} label={label} value={value} />
           ))}
-        </SmallCard>
-        <SmallCard className="card-datasets">
-          <h2>Datasets</h2>
-          {item.datasets.length > 0
-            ? datasetFields.map(({ label, value }) => (
-                <FieldRow key={label} label={label} value={value} />
-              ))
-            : '-'}
         </SmallCard>
       </div>
     </div>

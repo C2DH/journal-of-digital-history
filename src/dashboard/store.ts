@@ -1,8 +1,8 @@
 import create from 'zustand'
 
+import api from './utils/api/headers'
 import { abstractStatus } from './utils/constants/abstract'
 import { articleStatus } from './utils/constants/article'
-import api from './utils/helpers/setApiHeaders'
 import { CallForPapersState, IssuesState, ItemsState, ItemState, SearchState } from './utils/types'
 
 // SEARCH STORE
