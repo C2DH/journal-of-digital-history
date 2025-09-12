@@ -2,6 +2,7 @@ import './IconButton.css'
 
 import { Github } from 'iconoir-react'
 
+import OrcidIcon from '../../../../assets/images/orcid_logo_icon_blue.svg?url'
 import { convertOrcid } from '../../../utils/helpers/checkItem'
 
 const IconButton = ({ value }: any) => {
@@ -19,13 +20,7 @@ const IconButton = ({ value }: any) => {
     if (mainDomain === 'github') {
       icon = <Github className="github-icon" data-testid="github-icon" />
     } else if (mainDomain === 'orcid') {
-      icon = (
-        <img
-          src="https://orcid.org/sites/default/files/images/orcid_24x24.png"
-          alt="orcid"
-          data-testid="orcid-icon"
-        ></img>
-      )
+      icon = <img src={OrcidIcon} alt="orcid" data-testid="orcid-icon"></img>
     } else {
       icon = mainDomain
     }

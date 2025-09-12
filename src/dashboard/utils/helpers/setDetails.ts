@@ -32,7 +32,7 @@ export function setDetails(item: Abstract | Article) {
     contactFields = [
       { label: 'Contact name', value: `${item.contact_firstname} ${item.contact_lastname}` },
       { label: 'Affiliation', value: `${item.contact_affiliation}` },
-      { label: 'Email', value: item.contact_email === null ? '-' : item.contact_email },
+      { label: 'Email', value: item.contact_email || '-' },
     ]
     urlFields = [{ value: item.repository_url }]
     datasetFields = [
@@ -62,7 +62,7 @@ export function setDetails(item: Abstract | Article) {
       { label: 'Affiliation', value: `${item.abstract.contact_affiliation}` },
       {
         label: 'Email',
-        value: item.abstract.contact_email === undefined ? '-' : item.abstract.contact_email,
+        value: item.abstract.contact_email || '-',
       },
     ]
     urlFields = [

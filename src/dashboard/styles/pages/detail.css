@@ -105,7 +105,7 @@ h2 {
 .contact-header {
   display: flex;
   align-items: start;
-  gap: var(--gap-size-1);
+  gap: var(--gap-size-0);
 }
 .link-button-orcid {
   border: 0;

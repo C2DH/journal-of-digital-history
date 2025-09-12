@@ -109,7 +109,11 @@ const Detail = ({ endpoint }) => {
           <div className="contact-header">
             {' '}
             <h2>Contact</h2>
-            {item.contact_orcid ? <IconButton value={item.contact_orcid} /> : ''}
+            {item.contact_orcid || item.abstract.contact_orcid ? (
+              <IconButton value={item.contact_orcid || item.abstract.contact_orcid} />
+            ) : (
+              ''
+            )}
           </div>
           {contactFields.map(({ label, value }) => (
             <FieldRow key={label} label={label} value={value} />
