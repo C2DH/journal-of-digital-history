@@ -5,8 +5,10 @@ import parse from 'html-react-parser'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router'
 
+import IconButton from '../components/Buttons/IconButton/IconButton'
 import LinkButton from '../components/Buttons/LinkButton/LinkButton'
 import Loading from '../components/Loading/Loading'
+import ReadMore from '../components/ReadMore/ReadMore'
 import SmallCard from '../components/SmallCard/SmallCard'
 import Status from '../components/Status/Status'
 import { useItemStore } from '../store'
@@ -16,7 +18,13 @@ import { Abstract, Article } from '../utils/types'
 const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
   <div className="item">
     <span className="label">{label}</span>
-    <span className="value">{value}</span>
+    {label === 'Email' ? (
+      <a className="value" href={`mailto:${value}`}>
+        {value}
+      </a>
+    ) : (
+      <span className="value">{value}</span>
+    )}
   </div>
 )
 
@@ -76,6 +84,7 @@ const Detail = ({ endpoint }) => {
   // Type guard usage
   let infoFields: { label: string; value: React.ReactNode }[] = []
   let contactFields: { label: string; value: React.ReactNode }[] = []
+  let datasetFields: { label: string; value: React.ReactNode }[] = []
   let url = ''
   let title = ''
   let abstractText = ''
@@ -100,6 +109,20 @@ const Detail = ({ endpoint }) => {
       { label: 'Affiliation', value: `${item.contact_affiliation}` },
       { label: 'Email', value: item.contact_email === null ? '-' : item.contact_email },
     ]
+    datasetFields = (item.datasets || []).map((d: any, i: number) => ({
+      label: `Dataset nº${i + 1}`,
+      value: (
+        <div className="dataset-entry">
+          {d.url ? <LinkButton url={d.url} /> : <span>-</span>}
+          {d.description ? (
+            <div className="dataset-desc">
+              <ReadMore text={d.description} maxLength={50} />
+            </div>
+          ) : null}
+        </div>
+      ),
+    }))
+
     url = item.repository_url === undefined ? '-' : item.repository_url
     title = item.title
     abstractText = item.abstract
@@ -145,10 +168,22 @@ const Detail = ({ endpoint }) => {
           <div>{abstractText ? parse(formatAbstract(String(abstractText))) : null}</div>
         </SmallCard>
         <SmallCard className="card-contact">
-          <h2>Contact</h2>
+          <div className="contact-header">
+            {' '}
+            <h2>Contact</h2>
+            {item.contact_orcid ? <IconButton value={item.contact_orcid} /> : ''}
+          </div>
           {contactFields.map(({ label, value }) => (
             <FieldRow key={label} label={label} value={value} />
           ))}
+        </SmallCard>
+        <SmallCard className="card-datasets">
+          <h2>Datasets</h2>
+          {item.datasets.length > 0
+            ? datasetFields.map(({ label, value }) => (
+                <FieldRow key={label} label={label} value={value} />
+              ))
+            : '-'}
         </SmallCard>
       </div>
     </div>
