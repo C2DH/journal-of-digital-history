@@ -1,21 +1,51 @@
-import { Github } from 'iconoir-react'
 import './LinkButton.css'
+
+import { Github, Link, NavArrowRight } from 'iconoir-react'
 
 import { ButtonLinkProps } from './interface'
 
+import BinderIcon from '../../../../assets/images/mybinder_logo_icon_blue.svg?url'
+
 const LinkButton = ({ url }: ButtonLinkProps) => {
   const { hostname, pathname } = new URL(url)
-  const buttonLabel = pathname
-  let isGithub = false
 
-  if (hostname == 'github.com') {
-    isGithub = true
+  const linkConfigs = {
+    'github.com': {
+      icon: <Github className="github-icon" data-testid="github-icon" />,
+      label: pathname,
+    },
+    'mybinder.org': {
+      icon: <img className="mybinder-icon" alt="Binder Icon" src={BinderIcon} />,
+      label: 'Binder url',
+    },
+    'journalofdigitalhistory.org': {
+      icon: <span className="preview-icon material-symbols-outlined">preview</span>,
+      label: 'Notebook preview',
+    },
+  }
+
+  const config = linkConfigs[hostname] || {
+    icon: <Link className="link-icon" data-testid="link-icon" style={{ width: '24px' }} />,
+    label: pathname,
+    isDefault: true,
   }
 
   return (
     <a href={url} className="button-link" target="_blank" rel="noopener noreferrer">
-      {isGithub && <Github className="github-icon" data-testid="github-icon" />}
-      <button className="button-link-label">{buttonLabel}</button>
+      <div className="link-container">
+        {config.isDefault ? (
+          <>
+            {config.icon}
+            <button>{config.label}</button>
+          </>
+        ) : (
+          <div className="link-content">
+            {config.icon}
+            <span>{config.label}</span>
+          </div>
+        )}
+        <NavArrowRight className="arrow-right" />
+      </div>
     </a>
   )
 }
