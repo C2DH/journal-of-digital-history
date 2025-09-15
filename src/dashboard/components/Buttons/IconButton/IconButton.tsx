@@ -2,7 +2,7 @@ import './IconButton.css'
 
 import { Github } from 'iconoir-react'
 
-import OrcidIcon from '../../../../assets/images/ORCID_logo_blue_inverted.svg?url'
+import OrcidIcon from '../../../../assets/images/orcid_logo_blue_inverted.svg?url'
 import { convertOrcid } from '../../../utils/helpers/checkItem'
 
 const IconButton = ({ value }: any) => {
