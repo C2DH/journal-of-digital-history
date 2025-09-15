@@ -7,18 +7,29 @@ describe('ButtonLink', () => {
     const url = 'https://github.com/user/repo'
     render(<LinkButton url={url} />)
 
-    expect(screen.getByRole('button')).toHaveTextContent('/user/repo')
+    expect(screen.getByTestId('link-button')).toHaveTextContent('/user/repo')
     expect(screen.getByRole('link')).toHaveAttribute('href', url)
-    // The Github icon should be present (by title or svg role)
     expect(screen.getByTestId('github-icon')).toBeInTheDocument()
   })
+  it('renders the Binder icon', () => {
+    const url = 'https://mybinder.org/blabla'
+    render(<LinkButton url={url} />)
 
-  it('renders the domain name and no icon if not a github.com url', () => {
+    expect(screen.getByTestId('binder-icon')).toBeInTheDocument()
+    expect(screen.getByRole('link')).toHaveAttribute('href', url)
+  })
+  it('renders the Preview icon', () => {
+    const url = 'https://journalofdigitalhistory.org/notebook-viewer/blabla'
+    render(<LinkButton url={url} />)
+
+    expect(screen.getByTestId('preview-icon')).toBeInTheDocument()
+    expect(screen.getByRole('link')).toHaveAttribute('href', url)
+  })
+  it('renders the domain name and a random link icon attributed', () => {
     const url = 'https://example.com/user/repo'
     render(<LinkButton url={url} />)
 
-    expect(screen.getByRole('button')).toHaveTextContent('/user/repo')
-    // The Github icon should NOT be present
-    expect(screen.queryByTestId('github-icon')).toBeNull()
+    expect(screen.getByTestId('link-button')).toHaveTextContent('/user/repo')
+    expect(screen.queryByTestId('link-icon')).toBeInTheDocument()
   })
 })

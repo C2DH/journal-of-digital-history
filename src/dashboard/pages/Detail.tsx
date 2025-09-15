@@ -5,10 +5,10 @@ import parse from 'html-react-parser'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router'
 
+import CustomTooltip from '../../components/Tooltip'
 import IconButton from '../components/Buttons/IconButton/IconButton'
 import LinkButton from '../components/Buttons/LinkButton/LinkButton'
 import Loading from '../components/Loading/Loading'
-import ReadMore from '../components/ReadMore/ReadMore'
 import SmallCard from '../components/SmallCard/SmallCard'
 import Status from '../components/Status/Status'
 import { useItemStore } from '../store'
@@ -87,17 +87,21 @@ const Detail = ({ endpoint }) => {
           {datasetFields.length > 0 ? (
             <>
               <h4>Datasets</h4>
-              {datasetFields.map(({ label, value, description }, index) => (
-                <>
-                  {' '}
-                  <div key={index} className="item">
-                    {value ? <LinkButton url={String(value)} /> : <span>-</span>}
+              {datasetFields.map(({ label, value, description }, index) =>
+                value ? (
+                  <div key={index} className="dataset">
+                    <LinkButton key={index} url={String(value)} />
+                    <CustomTooltip
+                      fieldname="description"
+                      index={0}
+                      text={description}
+                      icon="info"
+                    />
                   </div>
-                  <div className="dataset-desc" style={{ marginLeft: '50px' }}>
-                    <ReadMore text={description} maxLength={0} />
-                  </div>
-                </>
-              ))}
+                ) : (
+                  <span>-</span>
+                ),
+              )}
             </>
           ) : null}
         </SmallCard>
@@ -110,7 +114,10 @@ const Detail = ({ endpoint }) => {
             {' '}
             <h2>Contact</h2>
             {item.contact_orcid || item.abstract.contact_orcid ? (
-              <IconButton value={item.contact_orcid || item.abstract.contact_orcid} />
+              <IconButton
+                className="orcid-icon"
+                value={item.contact_orcid || item.abstract.contact_orcid}
+              />
             ) : (
               ''
             )}

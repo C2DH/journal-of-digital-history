@@ -15,11 +15,22 @@ const LinkButton = ({ url }: ButtonLinkProps) => {
       label: pathname,
     },
     'mybinder.org': {
-      icon: <img className="mybinder-icon" alt="Binder Icon" src={BinderIcon} />,
+      icon: (
+        <img
+          className="mybinder-icon"
+          alt="Binder Icon"
+          src={BinderIcon}
+          data-testid="binder-icon"
+        />
+      ),
       label: 'Binder url',
     },
     'journalofdigitalhistory.org': {
-      icon: <span className="preview-icon material-symbols-outlined">preview</span>,
+      icon: (
+        <span className="preview-icon material-symbols-outlined" data-testid="preview-icon">
+          preview
+        </span>
+      ),
       label: 'Notebook preview',
     },
   }
@@ -30,7 +41,13 @@ const LinkButton = ({ url }: ButtonLinkProps) => {
   }
 
   return (
-    <a href={url} className="button-link" target="_blank" rel="noopener noreferrer">
+    <a
+      href={url}
+      className="link"
+      target="_blank"
+      rel="noopener noreferrer"
+      data-testid="link-button"
+    >
       <div className={`link-container`}>
         <div className="link-content">
           {config.icon}

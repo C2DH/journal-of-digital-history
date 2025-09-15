@@ -1,11 +1,12 @@
 import { Meta, StoryFn } from '@storybook/react'
+
 import CustomTooltip from '../components/Tooltip/Tooltip'
 
 export default {
   title: 'Components/Tooltip',
   component: CustomTooltip,
   argTypes: {
-    tooltip: { control: 'text', description: 'The tooltip text key for translation' },
+    text: { control: 'text', description: 'The tooltip text key for translation' },
     tooltipPlacement: {
       control: { type: 'select' },
       options: ['auto', 'top', 'right', 'bottom', 'left'],
@@ -31,7 +32,7 @@ const Template: StoryFn<typeof CustomTooltip> = (args) => (
 
 export const Default = Template.bind({})
 Default.args = {
-  tooltip: 'This is an example tooltip text for right placement',
+  text: 'This is an example tooltip text for right placement',
   tooltipPlacement: 'right',
   fieldname: 'exampleField',
   index: 0,
@@ -39,7 +40,7 @@ Default.args = {
 
 export const TopPlacement = Template.bind({})
 TopPlacement.args = {
-  tooltip: 'This is an example tooltip text for top placement',
+  text: 'This is an example tooltip text for top placement',
   tooltipPlacement: 'top',
   fieldname: 'exampleField',
   index: 1,
@@ -47,7 +48,7 @@ TopPlacement.args = {
 
 export const BottomPlacement = Template.bind({})
 BottomPlacement.args = {
-  tooltip: 'This is an example tooltip text for bottom placement',
+  text: 'This is an example tooltip text for bottom placement',
   tooltipPlacement: 'bottom',
   fieldname: 'exampleField',
   index: 2,

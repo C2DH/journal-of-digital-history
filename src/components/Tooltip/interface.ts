@@ -1,6 +1,7 @@
 export interface CustomTooltipProps {
-  tooltip: string
+  text: string
   tooltipPlacement?: 'auto' | 'top' | 'right' | 'bottom' | 'left'
   fieldname: string
+  icon?: string
   index: number
 }
