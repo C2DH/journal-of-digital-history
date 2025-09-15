@@ -7,11 +7,9 @@ import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 import { useItemsStore } from '../../store'
-import { isAbstract } from '../../utils/helpers/checkItem'
+import { isAbstract, isArticle } from '../../utils/helpers/itemChecker'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
 import { RowCheckboxMap } from '../../utils/types'
-import ActionButtonLarge from '../Buttons/ActionButton/Large/ActionButtonLarge'
-import Counter from '../Counter/Counter'
 import Feedback from '../Feedback/Feedback'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
@@ -47,7 +45,9 @@ const Card = ({
     submessage?: string
   } | null>(null)
   const [checkedRows, setCheckedRows] = useState<RowCheckboxMap>({})
-
+  const isAbstractItem = isAbstract(item)
+  const isArticleItem = isArticle(item)
+  const isArticleOrAbstracts = isAbstractItem || isArticleItem
   const { fetchItems } = useItemsStore()
 
   const handleClose = () => setModalState({ open: false })
@@ -105,10 +105,10 @@ const Card = ({
       <div className={`${item} card`}>
         <div className="card-header">
           <div className="card-header-title">
-            <h1>{t(`${item}.item`)}</h1>
-            {count && <Counter value={count} />}
+            {!isArticleOrAbstracts && <h1>{t(`${item}.item`)}</h1>}
           </div>
-          {isAbstract(item) && (
+
+          {/* {isAbstract(item) && (
             <ActionButtonLarge
               actions={[
                 {
@@ -118,7 +118,7 @@ const Card = ({
               ]}
               active={checkedRows && Object.values(checkedRows).some((v) => v)}
             />
-          )}
+          )} */}
         </div>
         {count === 0 ? (
           <Feedback type="warning" message={'No item corresponds to your search'} />

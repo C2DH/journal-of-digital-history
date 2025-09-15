@@ -139,18 +139,18 @@ const Table = ({
                       setCheckedRows({ selectAll: false })
                     }
                   }}
-                />{' '}
+                />
               </th>
             )}
-            {visibleHeaders.map((header, idx) =>
-              header === 'status' && isArticle(item) ? (
+            {visibleHeaders.map((header) =>
+              header === 'status' && isArticleItem ? (
                 articleSteps.map((step) => (
                   <th key={step.key} className="status-header" title={step.label}>
                     <span className="material-symbols-outlined">{step.icon}</span>
                   </th>
                 ))
               ) : (
-                <th key={header} className={`header ${header}`}>
+                <th key={header} className={`${header}`}>
                   {isUnsortableHeader(header, item) ? (
                     t(`${item}.${header}`)
                   ) : (
@@ -164,6 +164,8 @@ const Table = ({
                 </th>
               ),
             )}
+
+            {isAbstractItem && <th className="actions-cell"></th>}
           </tr>
         </thead>
         <tbody>
@@ -209,7 +211,7 @@ const Table = ({
                       key={cIdx}
                       className={headerName}
                       title={isTitle || isAffiliation ? String(cell) : undefined}
-                      colSpan={isStep && isArticleItem ? articleSteps.length : 0}
+                      colSpan={isStep && isArticleItem ? 8 : 0}
                       style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
                       onClick={
                         isTitle && isArticleOrAbstracts

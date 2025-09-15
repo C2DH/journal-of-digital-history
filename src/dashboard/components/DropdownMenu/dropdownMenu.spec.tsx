@@ -31,6 +31,6 @@ describe('DropdownMenu', () => {
 
   it('shows placeholder when no value is selected', () => {
     render(<DropdownMenu options={options} value={''} onChange={() => {}} />)
-    expect(screen.getByText('Select...')).toBeInTheDocument()
+    expect(screen.getByText('-')).toBeInTheDocument()
   })
 })

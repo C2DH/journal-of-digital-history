@@ -24,12 +24,16 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
     <div className="filter-bar">
       <Search placeholder={t('search.placeholder')} />
       {filters.map((filter) => (
-        <DropdownMenu
-          key={filter.name}
-          options={filter.options}
-          value={filter.value}
-          onChange={(value) => onFilterChange(filter.name, value)}
-        />
+        <div className="filter-container" key={filter.name}>
+          <span className="filter-label">{filter.label}</span>
+          <DropdownMenu
+            key={filter.name}
+            name={filter.name}
+            options={filter.options}
+            value={filter.value}
+            onChange={(value) => onFilterChange(filter.name, value)}
+          />
+        </div>
       ))}
       <Button text="Clear All" color="color-deep-blue" onClick={handleClearAll}></Button>
     </div>

@@ -25,7 +25,7 @@ const ChangeStatus = ({ item, selectedRows, onClose, onNotify }: ChangeStatusPro
   const { t } = useTranslation()
   const [status, setStatus] = useState('')
 
-  const itemStatus = item === 'abstracts' ? abstractStatus.slice(1) : articleStatus.slice(1)
+  const itemStatus = item === 'abstracts' ? abstractStatus : articleStatus
 
   const handleSubmitStatus = async (e) => {
     e.preventDefault()

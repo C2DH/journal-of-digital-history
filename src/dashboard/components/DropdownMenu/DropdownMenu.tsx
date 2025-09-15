@@ -1,14 +1,17 @@
 import './DropdownMenu.css'
 
+import { XmarkCircle } from 'iconoir-react'
 import { useEffect, useRef, useState } from 'react'
 
 import { DropdownMenuProps } from './interface'
 
 import ArrowDownInCircle from '../../../assets/icons/ArrowDownInCircle'
+import { useFilterBarStore } from '../../store'
 
-const DropdownMenu = ({ options, value, onChange }: DropdownMenuProps) => {
+const DropdownMenu = ({ name, options, value, onChange }: DropdownMenuProps) => {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
+  const { resetSpecificFilter } = useFilterBarStore()
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -23,6 +26,7 @@ const DropdownMenu = ({ options, value, onChange }: DropdownMenuProps) => {
   }, [])
 
   const selected = options.find((opt) => opt.value === value)
+
   return (
     <div className="dropdown-menu custom-dropdown" ref={ref}>
       <div
@@ -31,8 +35,17 @@ const DropdownMenu = ({ options, value, onChange }: DropdownMenuProps) => {
         onBlur={() => setOpen(false)}
         tabIndex={0}
       >
-        <span>{selected ? selected.label : 'Select...'}</span>
-        <ArrowDownInCircle className="dropdown-icon" width="20px" />
+        <span>{selected ? selected.label : ' - '}</span>
+        {selected ? (
+          <XmarkCircle
+            onClick={(e: React.MouseEvent) => {
+              e.stopPropagation()
+              resetSpecificFilter(name)
+            }}
+          />
+        ) : (
+          <ArrowDownInCircle className="dropdown-icon" width="20px" />
+        )}
       </div>
       {open && (
         <ul className="dropdown-list">

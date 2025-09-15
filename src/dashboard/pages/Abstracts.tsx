@@ -1,13 +1,16 @@
 import '../styles/pages/pages.css'
 
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import Card from '../components/Card/Card'
+import Counter from '../components/Counter/Counter'
 import FilterBar from '../components/FilterBar/FilterBar'
 import { useSorting } from '../hooks/useSorting'
 import { useFilterBarStore, useItemsStore, useSearchStore } from '../store'
 
 const Abstracts = () => {
+  const { t } = useTranslation()
   const { sortBy, sortOrder, ordering, setFilters } = useSorting()
   const query = useSearchStore((state) => state.query)
   const {
@@ -56,6 +59,10 @@ const Abstracts = () => {
 
   return (
     <div className="abstract page">
+      <div className="card-header-title">
+        <h1>{t(`abstracts.item`)}</h1>
+        {count && <Counter value={count} />}
+      </div>
       <FilterBar filters={filters} onFilterChange={setFilter} />
       <Card
         item="abstracts"

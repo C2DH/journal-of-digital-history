@@ -1,9 +1,23 @@
 .filter-bar {
   display: flex;
   flex-direction: row;
-  align-items: center;
-  gap: 5px;
-  background: none;
-  padding: 0;
-  border: none;
+  align-items: end;
+  gap: var(--gap-size-2);
+  padding: var(--gap-size-2) 0;
+
+  position: sticky;
+  height: var(--filter-bar-height);
+  width: 100%;
+  margin-left: -10px;
+  padding-left: 20px;
+
+  top: 0;
+  z-index: 100;
+  margin-bottom: var(--space-size-2);
+  background: var(--color-background);
+}
+
+.filter-label {
+  color: var(--color-deep-blue);
+  font-size: var(--font-size-2);
 }
