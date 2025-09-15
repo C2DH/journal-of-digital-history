@@ -7,9 +7,9 @@ import { useTranslation } from 'react-i18next'
 import { ChangeStatusProps } from './interface'
 
 import { abstractStatusSchema, articleStatusSchema } from '../../schemas/changeStatus'
+import { modifyStatus } from '../../utils/api/api'
 import { abstractStatus } from '../../utils/constants/abstract'
 import { articleStatus } from '../../utils/constants/article'
-import { modifyStatus } from '../../utils/helpers/api'
 import Button from '../Buttons/Button/Button'
 
 function validateChangeStatusForm(data: any, item: string) {

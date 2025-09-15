@@ -7,7 +7,7 @@ import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 import { useItemsStore } from '../../store'
-import { isAbstract, isArticle } from '../../utils/helpers/itemChecker'
+import { isAbstract, isArticle } from '../../utils/helpers/checkItem'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
 import { RowCheckboxMap } from '../../utils/types'
 import Feedback from '../Feedback/Feedback'

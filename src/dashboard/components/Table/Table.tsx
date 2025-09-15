@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router'
 import { renderCellProps, TableProps } from './interface'
 
 import { articleSteps } from '../../utils/constants/article'
-import { convertDate } from '../../utils/helpers/convertDate'
 import {
   isAbstract,
   isAffiliationHeader,
@@ -23,7 +22,8 @@ import {
   isStatusHeader,
   isStepCell,
   isTitleHeader,
-} from '../../utils/helpers/itemChecker'
+} from '../../utils/helpers/checkItem'
+import { convertDate } from '../../utils/helpers/convertDate'
 import { getCleanData, getRowActions, getVisibleHeaders } from '../../utils/helpers/table'
 import ActionButton from '../Buttons/ActionButton/Short/ActionButton'
 import IconButton from '../Buttons/IconButton/IconButton'

@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { ContactFormData } from './interface'
 
 import { contactFormSchema } from '../../schemas/contactForm'
-import { modifyAbstractStatusWithEmail } from '../../utils/helpers/api'
+import { modifyAbstractStatusWithEmail } from '../../utils/api/api'
 import Button from '../Buttons/Button/Button'
 
 function validateContactForm(data: any) {

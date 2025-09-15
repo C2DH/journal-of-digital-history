@@ -1,7 +1,10 @@
+import '../../../styles/components/AbstractSubmissionForm/DynamicForm.scss'
+
 import parse from 'html-react-parser'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useTooltipPlacement } from '../../../hooks/tooltipPlacement'
 import {
   DynamicFormItem,
   DynamicFormProps,
@@ -14,8 +17,6 @@ import ArrowUpButtonItem from '../../Buttons/ArrowUpButtonItem'
 import CloseButtonItem from '../../Buttons/CloseButtonItem'
 import Tooltip from '../../Tooltip'
 import Affiliation from './Affiliation'
-
-import '../../../styles/components/AbstractSubmissionForm/DynamicForm.scss'
 
 const DynamicForm = ({
   id,
@@ -34,7 +35,7 @@ const DynamicForm = ({
   missingFields,
 }: DynamicFormProps) => {
   const { t } = useTranslation()
-  const [tooltipPlacement, setTooltipPlacement] = useState<'auto' | 'right'>('right')
+  const tooltipPlacement = useTooltipPlacement()
   const [missing, setIsMissing] = useState<ErrorField>({})
 
   const atLeastOneGithubIdError = findErrorByKeyword(errors, 'atLeastOneGithubId')
@@ -74,21 +75,6 @@ const DynamicForm = ({
       }))
     }
   }, [missingFields])
-
-  useEffect(() => {
-    const updatePlacement = () => {
-      if (window.innerWidth < 768) {
-        setTooltipPlacement('auto')
-      } else {
-        setTooltipPlacement('right')
-      }
-    }
-    updatePlacement()
-    window.addEventListener('resize', updatePlacement)
-    return () => {
-      window.removeEventListener('resize', updatePlacement)
-    }
-  }, [])
 
   const handleFieldEmpty: FieldEmptyHandler = (index, fieldname) => {
     setIsMissing((prev) => ({
@@ -193,7 +179,7 @@ const DynamicForm = ({
                           />
                           {tooltip && (
                             <Tooltip
-                              tooltip={t(`pages.abstractSubmission.tooltips.${tooltip}`)}
+                              text={t(`pages.abstractSubmission.tooltips.${tooltip}`)}
                               tooltipPlacement={tooltipPlacement}
                               fieldname={fieldname}
                               index={index}

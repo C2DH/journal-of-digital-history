@@ -11,7 +11,7 @@ const selectedRows = [
   { pid: 'def456yu3y', title: 'Second Abstract' },
 ]
 
-vi.mock('../../utils/helpers/api', () => ({
+vi.mock('../../utils/api/api', () => ({
   modifyStatus: vi.fn(() => Promise.resolve({ data: { message: 'success' } })),
 }))
 
