@@ -1,34 +1,56 @@
 .modal-backdrop {
+  display: block;
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  overflow: hidden;
+  pointer-events: auto;
+  inset: 0;
+  z-index: 2000;
   background: rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: background 240ms ease;
+}
+
+.modal-backdrop.open {
+  background: rgba(0, 0, 0, 0.35);
   z-index: 2000;
 }
 
+/* right sliding panel */
 .modal-content {
-  background: var(--color-white);
-  font-weight: lighter;
-  border-radius: 8px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 40vw;
+  max-width: var(--modal-max-width);
+  min-width: var(--modal-min-width);
   padding: var(--space-size-4);
-  min-width: 300px;
-  max-width: 90vw;
-  max-height: 90vh;
+  box-sizing: border-box;
+
+  background: var(--color-white);
+  box-shadow: -12px 0 30px rgba(0, 0, 0, 0.18);
   overflow: auto;
-  position: relative;
+  pointer-events: auto;
 }
 
+/* close button */
 .modal-close {
   position: absolute;
-  top: 8px;
-  right: 12px;
-  background: none;
-  border: none;
+  top: var(--space-size-2);
+  right: var(--space-size-2);
   font-size: var(--text-size-8);
+  background: 0;
+  border: 0;
   cursor: pointer;
+  z-index: 10;
+  padding: var(--gap-size-1);
+  border-radius: 6px;
+}
+
+/* small-screen adjustments: full width panel from right */
+@media (max-width: 720px) {
+  .modal-content {
+    width: calc(100vw);
+    max-width: 100vw;
+    border-radius: 0;
+  }
 }
