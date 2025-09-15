@@ -34,6 +34,6 @@ export const Default: Story = {}
 
 export const WithError: Story = {
   args: {
-    error: { response: 'Something went wrong!' },
+    error: 'Something went wrong!',
   },
 }

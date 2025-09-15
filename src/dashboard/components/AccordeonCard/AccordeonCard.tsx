@@ -1,7 +1,6 @@
 import './AccordeonCard.css'
 
 import { ArrowDown, ArrowUp } from 'iconoir-react'
-import { useTranslation } from 'react-i18next'
 
 import { AccordeonCardProps } from './interface'
 
@@ -18,8 +17,6 @@ const AccordeonCard = ({
   collapsable = true,
   collapsed = true,
 }: AccordeonCardProps) => {
-  const { t } = useTranslation()
-
   if (error) {
     return <Feedback type="error" message={error} />
   }
