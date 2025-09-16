@@ -10,7 +10,7 @@ const ConfirmationModal = ({ isOpen, message, onConfirm, onCancel }: Confirmatio
   return (
     <div className="confirmation-modal-backdrop">
       <div className="confirmation-modal-content">
-        <h2>Confirm</h2>
+        <h2 className="confirm-header">Confirm</h2>
         <button className="confirmation-modal-close" onClick={onCancel}>
           ×
         </button>

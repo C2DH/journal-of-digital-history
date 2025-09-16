@@ -15,10 +15,10 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
   return (
     <div className="modal-backdrop" onClick={onClose} data-testid="modal-backdrop">
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        {action && <h2>{t(`actions.${action}`)}</h2>}
         <button className="modal-close" onClick={onClose}>
           ×
         </button>
-        {action && <h2>{t(`actions.${action}`)}</h2>}
         {action !== 'actions.change' && (
           <ContactForm
             rowData={data}

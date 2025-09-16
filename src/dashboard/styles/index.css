@@ -83,8 +83,8 @@ body {
   --navbar-header-width: 220px;
   --landing-page-header: 200px;
   --navbar-height: 200px;
-  --modal-max-width: 560px;
-  --modal-min-width: 280px;
+  --modal-max-width: 40vw;
+  --modal-min-width: 30vw;
   --filter-bar-height: 80px;
   --table-headers-top-position: 105px;
 }

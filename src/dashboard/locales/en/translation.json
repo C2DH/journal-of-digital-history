@@ -110,6 +110,12 @@
         "message": "Something really bad happened..."
       },
       "validation": { "message": "Validation failed", "submessage": "Please check your input" }
+    },
+    "confirmation": {
+      "abandoned": "Send an email and switch status to abandoned ?",
+      "declined": "Send an email and switch status to declined ?",
+      "suspended": "Send an email and switch status to suspended ?",
+      "accepted": "Send an email and switch status to accepted ?"
     }
   },
   "actions": {

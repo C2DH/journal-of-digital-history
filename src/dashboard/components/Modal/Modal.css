@@ -1,7 +1,6 @@
 .modal-backdrop {
   display: block;
   position: fixed;
-  overflow: hidden;
   pointer-events: auto;
   inset: 0;
   z-index: 2000;
@@ -12,6 +11,7 @@
 .modal-backdrop.open {
   background: rgba(0, 0, 0, 0.35);
   z-index: 2000;
+  overflow: hidden;
 }
 
 /* right sliding panel */
@@ -20,7 +20,7 @@
   top: 0;
   right: 0;
   height: 100vh;
-  width: 40vw;
+  width: 50vw;
   max-width: var(--modal-max-width);
   min-width: var(--modal-min-width);
   padding: var(--space-size-4);
@@ -28,22 +28,19 @@
 
   background: var(--color-white);
   box-shadow: -12px 0 30px rgba(0, 0, 0, 0.18);
-  overflow: auto;
   pointer-events: auto;
 }
 
 /* close button */
 .modal-close {
   position: absolute;
-  top: var(--space-size-2);
-  right: var(--space-size-2);
+  top: var(--space-size-5);
+  right: var(--space-size-4);
   font-size: var(--text-size-8);
   background: 0;
   border: 0;
   cursor: pointer;
   z-index: 10;
-  padding: var(--gap-size-1);
-  border-radius: 6px;
 }
 
 /* small-screen adjustments: full width panel from right */

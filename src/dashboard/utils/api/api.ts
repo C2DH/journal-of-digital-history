@@ -1,7 +1,6 @@
-import { ContactFormData } from '../../components/ContactForm/interface'
 import api from './headers'
 
-const modifyAbstractStatusWithEmail = async (pid: string, body: ContactFormData) => {
+const modifyAbstractStatusWithEmail = async (pid: string, body: Record<string, any>) => {
   console.info('PATCH [modifyAbstractStatusWithEmail]')
 
   return api
