@@ -8,15 +8,17 @@ const ConfirmationModal = ({ isOpen, message, onConfirm, onCancel }: Confirmatio
   if (!isOpen) return null
 
   return (
-    <div className="small-modal-backdrop">
-      <div className="small-modal-content">
+    <div className="confirmation-modal-backdrop">
+      <div className="confirmation-modal-content">
         <h2>Confirm</h2>
-        <button className="modal-close" onClick={onCancel}>
+        <button className="confirmation-modal-close" onClick={onCancel}>
           ×
         </button>
         <p>{message}</p>
-        <Button type="submit" text="Send" onClick={onConfirm} />
-        <Button text="Cancel" onClick={onCancel} />
+        <div className="confirmation-modal-buttons">
+          <Button type="submit" text="Send" onClick={onConfirm} />
+          <Button text="Cancel" variant="secondary" onClick={onCancel} />
+        </div>
       </div>
     </div>
   )
