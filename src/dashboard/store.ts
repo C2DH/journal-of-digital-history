@@ -10,6 +10,7 @@ import {
   IssuesState,
   ItemsState,
   ItemState,
+  NotificationState,
   SearchState,
 } from './utils/types'
 
@@ -348,4 +349,23 @@ export const useFormStore = create<FormState>((set) => ({
   setFormData: (data: any) => set({ formData: data }),
   openModal: () => set({ isModalOpen: true }),
   closeModal: () => set({ isModalOpen: false }),
+}))
+
+//NOTIFICATION STORE
+/**
+ * useNotificationStore
+ * Zustand store for managing notification state.
+ * - isVisible: if the notification should be displayed
+ * - notification: notification data (type, message, submessage)
+ * - setNotification: updates notification data and shows it
+ * - clearNotification: clears notification data
+ */
+export const useNotificationStore = create<NotificationState>((set) => ({
+  isVisible: false,
+  notification: { type: 'info', message: '', submessage: '' },
+  setNotification: (notification) => {
+    set({ notification, isVisible: true })
+    setTimeout(() => set({ isVisible: false }), 5000)
+  },
+  clearNotification: () => set({ notification: { type: 'info', message: '', submessage: '' } }),
 }))

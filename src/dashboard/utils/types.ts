@@ -228,3 +228,12 @@ export interface FormState {
   openModal: () => void
   closeModal: () => void
 }
+
+export type NotificationType = 'success' | 'warning' | 'error' | 'info'
+export type Notification = { type: NotificationType; message: string; submessage?: string }
+export interface NotificationState {
+  isVisible: boolean
+  notification: Notification
+  setNotification: (notification: Notification) => void
+  clearNotification: () => void
+}
