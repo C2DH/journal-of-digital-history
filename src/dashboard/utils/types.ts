@@ -209,3 +209,22 @@ export type RowCheckbox = { [pid: string]: boolean }
 export type RowCheckboxMap = {
   selectAll?: boolean
 }
+
+type FilterOption = { key: number; value: string; label: string }
+type Filter = { name: string; label: string; value: string; options: FilterOption[] }
+
+export interface FilterBarState {
+  filters: Filter[]
+  setFilter: (name: string, newValue: string) => void
+  resetFilters: () => void
+  resetSpecificFilter: (name: string) => void
+  initFilters: () => void
+  updateFromStores: (isAbstract: boolean) => void
+}
+export interface FormState {
+  isModalOpen: boolean
+  formData: Record<string, any>
+  setFormData: (data: Record<string, any>) => void
+  openModal: () => void
+  closeModal: () => void
+}

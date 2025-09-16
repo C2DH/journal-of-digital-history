@@ -9,8 +9,10 @@ import { useTranslation } from 'react-i18next'
 import { ContactFormData } from './interface'
 
 import { contactFormSchema } from '../../schemas/contactForm'
+import { useFormStore } from '../../store'
 import { modifyAbstractStatusWithEmail } from '../../utils/api/api'
 import Button from '../Buttons/Button/Button'
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal'
 
 function validateContactForm(data: any) {
   const ajv = new Ajv({ allErrors: true })
@@ -33,6 +35,7 @@ function formatMessage(template, data) {
 const ContactForm = ({ rowData, action, onClose, onNotify }) => {
   const { t } = useTranslation()
   const [form, setForm] = useState<ContactFormData | null>(null)
+  const { isModalOpen, openModal, closeModal, setFormData } = useFormStore()
 
   useEffect(() => {
     setForm({
@@ -53,8 +56,12 @@ const ContactForm = ({ rowData, action, onClose, onNotify }) => {
     }))
   }
 
-  const handleSubmit = async (e) => {
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    openModal()
+  }
+
+  const handleConfirmSubmit = async () => {
     const data: ContactFormData = {
       from: String(form?.from),
       to: String(form?.to),
@@ -82,6 +89,8 @@ const ContactForm = ({ rowData, action, onClose, onNotify }) => {
             message: t('email.error.api.message'),
             submessage: err?.response?.data?.message,
           })
+      } finally {
+        closeModal()
       }
     }
     if (!valid) {
@@ -96,7 +105,7 @@ const ContactForm = ({ rowData, action, onClose, onNotify }) => {
   }
 
   return (
-    <form className="contact-form" onSubmit={handleSubmit}>
+    <form className="contact-form" onSubmit={handleFormSubmit}>
       <label>
         From
         <input name="from" value={form?.from || ''} onChange={handleChange} required />
@@ -114,6 +123,12 @@ const ContactForm = ({ rowData, action, onClose, onNotify }) => {
         <textarea name="body" value={String(form?.body) || ''} onChange={handleChange} required />
       </label>
       <Button type="submit" text={t('contactForm.send', 'Send')} />
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        message="Are you sure you want to send this email ?"
+        onConfirm={handleConfirmSubmit}
+        onCancel={closeModal}
+      />
     </form>
   )
 }
