@@ -122,3 +122,9 @@ td.orcid {
   padding-top: var(--gap-size-1);
   width: 1%;
 }
+
+/* Exception for Callforpapers table */
+table.callforpapers td,
+table.callforpapers th {
+  width: auto;
+}

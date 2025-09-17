@@ -164,8 +164,7 @@ const Table = ({
                 </th>
               ),
             )}
-
-            {isAbstractItem && <th className="actions-cell"></th>}
+            {isAbstractItem && !isAccordeon && <th className="actions-cell"></th>}
           </tr>
         </thead>
         <tbody>
