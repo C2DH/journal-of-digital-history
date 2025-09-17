@@ -117,7 +117,11 @@ const ContactForm = ({ rowData, action, onClose, onNotify }) => {
           required
         />
       </label>
-      <Button type="submit" text={t('contactForm.send', 'Send')} />
+      <Button
+        type="submit"
+        text={t('contactForm.send', 'Send')}
+        dataTestId="contact-form-send-button"
+      />
       <ConfirmationModal
         isOpen={isModalOpen}
         message={t(`email.confirmation.${action}`)}
