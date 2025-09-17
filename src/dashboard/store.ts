@@ -3,7 +3,16 @@ import create from 'zustand'
 import api from './utils/api/headers'
 import { abstractStatus } from './utils/constants/abstract'
 import { articleStatus } from './utils/constants/article'
-import { CallForPapersState, IssuesState, ItemsState, ItemState, SearchState } from './utils/types'
+import {
+  CallForPapersState,
+  FilterBarState,
+  FormState,
+  IssuesState,
+  ItemsState,
+  ItemState,
+  NotificationState,
+  SearchState,
+} from './utils/types'
 
 // SEARCH STORE
 /**
@@ -142,7 +151,7 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
  * - fetchItem: fetches an item by id and endpoint
  * - reset: resets store state
  */
-export const useItemStore = create<ItemState<any>>((set, get) => ({
+export const useItemStore = create<ItemState<any>>((set) => ({
   data: null,
   loading: false,
   error: null,
@@ -208,7 +217,6 @@ export const useCallForPapersStore = create<CallForPapersState>((set) => ({
  * - fetchIssues: fetches all issues
  * - reset: resets store state
  */
-
 export const useIssuesStore = create<IssuesState>((set) => ({
   data: [],
   error: null,
@@ -228,20 +236,17 @@ export const useIssuesStore = create<IssuesState>((set) => ({
 }))
 
 // FILTER BAR STORE
-
-type FilterOption = { key: number; value: string; label: string }
-type Filter = { name: string; label: string; value: string; options: FilterOption[] }
-
-interface FilterBarState {
-  filters: Filter[]
-  setFilter: (name: string, newValue: string) => void
-  resetFilters: () => void
-  resetSpecificFilter: (name: string) => void
-  initFilters: () => void
-  updateFromStores: (isAbstract: boolean) => void
-}
-
-export const useFilterBarStore = create<FilterBarState>((set, get) => ({
+/**
+ * useFilterBarStore
+ * Zustand store for filtering articles or abstracts.
+ * - filters: array of filters objects
+ * - initFilters: initializes filters with default values
+ * - setFilter: updates a specific filter's value
+ * - resetFilters: resets all filters to default values
+ * - resetSpecificFilter: resets a specific filter to default value
+ * - updateFromStores: fetches call for papers and issues to populate filter options
+ */
+export const useFilterBarStore = create<FilterBarState>((set) => ({
   filters: [],
   initFilters: () => {
     set({
@@ -326,4 +331,41 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
       }),
     }))
   },
+}))
+
+// FORM MODAL STORE
+/**
+ * useFormStore
+ * Zustand store for managing form modal state.
+ * - isModalOpen: if the modal is open
+ * - formData: data for the form
+ * - setFormData: updates form data
+ * - openModal: action to open the modal
+ * - closeModal: action to close the modal
+ */
+export const useFormStore = create<FormState>((set) => ({
+  isModalOpen: false,
+  formData: {},
+  setFormData: (data: any) => set({ formData: data }),
+  openModal: () => set({ isModalOpen: true }),
+  closeModal: () => set({ isModalOpen: false }),
+}))
+
+//NOTIFICATION STORE
+/**
+ * useNotificationStore
+ * Zustand store for managing notification state.
+ * - isVisible: if the notification should be displayed
+ * - notification: notification data (type, message, submessage)
+ * - setNotification: updates notification data and shows it
+ * - clearNotification: clears notification data
+ */
+export const useNotificationStore = create<NotificationState>((set) => ({
+  isVisible: false,
+  notification: { type: 'info', message: '', submessage: '' },
+  setNotification: (notification) => {
+    set({ notification, isVisible: true })
+    setTimeout(() => set({ isVisible: false }), 5000)
+  },
+  clearNotification: () => set({ notification: { type: 'info', message: '', submessage: '' } }),
 }))

@@ -18,11 +18,23 @@
   margin: var(--space-size-2) var(--space-size-6);
 }
 
-.header.title {
-  width: 60%;
+.accordeon-card .table {
+  table-layout: fixed;
+  width: 100%;
 }
 
-/* Exception: .header.title inside .card*/
-.card .header.title {
-  width: 35%;
+.accordeon-card .table th.pid {
+  width: 30% !important;
+}
+
+.accordeon-card .table th.status {
+  width: 30% !important;
+}
+
+/* Exception:  Override sticky header in accordion tables */
+.accordeon-card .table th {
+  position: static;
+  top: auto;
+  background: none;
+  z-index: auto;
 }

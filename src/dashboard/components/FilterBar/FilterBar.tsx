@@ -35,7 +35,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
           />
         </div>
       ))}
-      <Button text="Clear All" color="color-deep-blue" onClick={handleClearAll}></Button>
+      <Button text="Clear All" variant="secondary" onClick={handleClearAll}></Button>
     </div>
   )
 }

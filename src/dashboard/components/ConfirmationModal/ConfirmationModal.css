@@ -1,0 +1,41 @@
+.confirmation-modal-backdrop {
+  display: block;
+  position: fixed;
+  overflow: hidden;
+  pointer-events: auto;
+  inset: 0;
+  z-index: 3000;
+  background: rgba(0, 0, 0, 0.3);
+  transition: background 240ms ease;
+}
+
+.confirmation-modal-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--color-white);
+  padding: var(--space-size-4);
+  border-radius: 8px;
+
+  box-shadow: -12px 0 30px rgba(0, 0, 0, 0.18);
+}
+
+.confirm-header {
+  margin: 0;
+}
+
+.confirmation-modal-close {
+  position: absolute;
+  top: var(--space-size-2);
+  right: var(--space-size-1);
+  background: 0;
+  font-size: var(--text-size-8);
+}
+
+.confirmation-modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--gap-size-2);
+  margin-top: var(--space-size-2);
+}

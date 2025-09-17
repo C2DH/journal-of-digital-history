@@ -1,10 +1,27 @@
 import { Meta, StoryObj } from '@storybook/react'
+import { useEffect } from 'react'
 
+import { useNotificationStore } from '../../store'
 import Toast from './Toast'
 
-const meta: Meta<typeof Toast> = {
+// Wrapper component to set notification state
+const ToastWrapper = ({ message, type, submessage }) => {
+  const setNotification = useNotificationStore((state) => state.setNotification)
+
+  useEffect(() => {
+    setNotification({
+      message,
+      type,
+      submessage,
+    })
+  }, [message, type, submessage])
+
+  return <Toast />
+}
+
+const meta: Meta<typeof ToastWrapper> = {
   title: 'Dashboard/Toast',
-  component: Toast,
+  component: ToastWrapper,
   decorators: [
     (Story) => (
       <div style={{ width: '400px' }}>
@@ -13,18 +30,29 @@ const meta: Meta<typeof Toast> = {
     ),
   ],
   args: {
-    open: true,
     message: 'Your Bluesky post was published!',
     submessage: 'Take a look <a href="">here</a> →',
     type: 'info',
-    onClose: () => console.log('Toast closed'),
   },
 }
 
 export default meta
-type Story = StoryObj<typeof Toast>
+type Story = StoryObj<typeof ToastWrapper>
 
-export const Default: Story = {}
+export const Success: Story = {
+  args: {
+    type: 'success',
+    message: 'Operation completed successfully!',
+  },
+}
+
+export const Info: Story = {
+  args: {
+    type: 'info',
+    message: 'Your Bluesky post was published!',
+    submessage: 'Take a look <a href="">here</a> →',
+  },
+}
 
 export const Warning: Story = {
   args: {
@@ -40,14 +68,10 @@ export const Error: Story = {
   },
 }
 
-export const WithCustomSubmessage: Story = {
+export const WithSubmessage: Story = {
   args: {
+    type: 'info',
+    message: 'Main message',
     submessage: 'Click <a href="#">here</a> for more details.',
-  },
-}
-
-export const Closed: Story = {
-  args: {
-    open: false,
   },
 }

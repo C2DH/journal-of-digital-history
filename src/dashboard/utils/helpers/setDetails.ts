@@ -69,7 +69,7 @@ export function setDetails(item: Abstract | Article) {
       { value: item.repository_url },
       { value: item.binder_url },
       {
-        value: `https://journalofdigitalhistory.org/en/notebook-viewer/${item.notebook_url}`,
+        value: `https://journalofdigitalhistory.org/en/notebook-viewer/${item.notebook_url}/?v=3`,
       },
     ]
     datasetFields = [

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 
 import { ModalProps } from './interface'
 
-import ChangeStatus from '../ChangeStatus/ChangeStatus'
 import ContactForm from '../ContactForm/ContactForm'
 
 const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
@@ -15,10 +14,10 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
   return (
     <div className="modal-backdrop" onClick={onClose} data-testid="modal-backdrop">
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        {action && <h2>{t(`actions.${action}`)}</h2>}
         <button className="modal-close" onClick={onClose}>
           ×
         </button>
-        {action && <h2>{t(`actions.${action}`)}</h2>}
         {action !== 'actions.change' && (
           <ContactForm
             rowData={data}
@@ -27,14 +26,14 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
             onNotify={onNotify}
           />
         )}
-        {action === 'actions.change' && (
+        {/* {action === 'actions.change' && (
           <ChangeStatus
             item={item}
             selectedRows={data.selectedRows}
             onClose={onClose}
-            onNotify={onNotify ?? (() => {})}
+            onNotify={onNotify}
           />
-        )}
+        )} */}
       </div>
     </div>
   )

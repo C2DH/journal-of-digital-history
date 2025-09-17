@@ -100,7 +100,7 @@ const ChangeStatus = ({ item, selectedRows, onClose, onNotify }: ChangeStatusPro
           <Button type="submit" text={t('contactForm.send', 'Send')} />
           <Button
             type="button"
-            color="color-deep-blue"
+            variant="secondary"
             text={t('contactForm.cancel', 'Cancel')}
             onClick={onClose}
           />
