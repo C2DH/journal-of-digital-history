@@ -53,6 +53,7 @@ export function setDetails(item: Abstract | Article) {
       { label: 'Terms accepted', value: item.abstract.consented ? 'Yes' : 'No' },
       { label: 'Submission date', value: convertDate(item.abstract.submitted_date) },
       { label: 'Validation date', value: convertDate(item.abstract.validation_date) },
+      { label: 'DOI', value: item.doi || '-' },
     ]
     contactFields = [
       {
@@ -70,6 +71,9 @@ export function setDetails(item: Abstract | Article) {
       { value: item.binder_url },
       {
         value: `https://journalofdigitalhistory.org/en/notebook-viewer/${item.notebook_url}/?v=3`,
+      },
+      {
+        value: `https://journalofdigitalhistory.org/admin/jdhapi/article/${item.abstract.id}/change/`,
       },
     ]
     datasetFields = [

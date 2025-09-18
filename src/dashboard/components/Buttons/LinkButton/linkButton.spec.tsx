@@ -25,6 +25,13 @@ describe('ButtonLink', () => {
     expect(screen.getByTestId('preview-icon')).toBeInTheDocument()
     expect(screen.getByRole('link')).toHaveAttribute('href', url)
   })
+  it('renders the Django icon', () => {
+    const url = 'https://journalofdigitalhistory.org/admin/jdhapi/article/56754/change/'
+    render(<LinkButton url={url} />)
+
+    expect(screen.getByTestId('django-icon')).toBeInTheDocument()
+    expect(screen.getByRole('link')).toHaveAttribute('href', url)
+  })
   it('renders the domain name and a random link icon attributed', () => {
     const url = 'https://example.com/user/repo'
     render(<LinkButton url={url} />)
