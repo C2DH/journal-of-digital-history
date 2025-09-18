@@ -53,6 +53,7 @@ export function setDetails(item: Abstract | Article) {
       { label: 'Terms accepted', value: item.abstract.consented ? 'Yes' : 'No' },
       { label: 'Submission date', value: convertDate(item.abstract.submitted_date) },
       { label: 'Validation date', value: convertDate(item.abstract.validation_date) },
+      { label: 'DOI', value: item.doi || '-' },
     ]
     contactFields = [
       {
