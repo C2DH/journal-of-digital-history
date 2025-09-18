@@ -4,6 +4,7 @@ import { Github, Link, NavArrowRight } from 'iconoir-react'
 
 import { ButtonLinkProps } from './interface'
 
+import DjangoIcon from '../../../../assets/images/django_logo_blue.svg?url'
 import BinderIcon from '../../../../assets/images/mybinder_logo_icon_blue.svg?url'
 
 const LinkButton = ({ url }: ButtonLinkProps) => {
@@ -25,20 +26,40 @@ const LinkButton = ({ url }: ButtonLinkProps) => {
       ),
       label: 'Binder url',
     },
-    'journalofdigitalhistory.org': {
-      icon: (
-        <span className="preview-icon material-symbols-outlined" data-testid="preview-icon">
-          preview
-        </span>
-      ),
-      label: 'Notebook preview',
+    'journalofdigitalhistory.org': (path: string) => {
+      if (path.includes('notebook-viewer')) {
+        return {
+          icon: (
+            <span className="preview-icon material-symbols-outlined" data-testid="preview-icon">
+              preview
+            </span>
+          ),
+          label: 'Notebook preview',
+        }
+      }
+      if (path.includes('admin')) {
+        return {
+          icon: (
+            <img
+              className="mydjango-icon"
+              alt="Django Icon"
+              src={DjangoIcon}
+              data-testid="django-icon"
+            />
+          ),
+          label: 'Django admin page',
+        }
+      }
     },
   }
 
-  const config = linkConfigs[hostname] || {
-    icon: <Link className="link-icon" data-testid="link-icon" />,
-    label: pathname,
-  }
+  const config =
+    hostname === 'journalofdigitalhistory.org'
+      ? linkConfigs[hostname](pathname)
+      : linkConfigs[hostname] || {
+          icon: <Link className="link-icon" data-testid="link-icon" />,
+          label: pathname,
+        }
 
   return (
     <a

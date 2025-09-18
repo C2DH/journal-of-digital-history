@@ -72,6 +72,9 @@ export function setDetails(item: Abstract | Article) {
       {
         value: `https://journalofdigitalhistory.org/en/notebook-viewer/${item.notebook_url}/?v=3`,
       },
+      {
+        value: `https://journalofdigitalhistory.org/admin/jdhapi/article/${item.abstract.id}/change/`,
+      },
     ]
     datasetFields = [
       ...(item.abstract.datasets || []).map((dataset: any) => ({
