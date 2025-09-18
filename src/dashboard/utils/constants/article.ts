@@ -19,3 +19,16 @@ export const articleStatus = [
   { key: 7, value: 'PUBLISHED', label: 'Published' },
   { key: 8, value: 'ARCHIVED', label: 'Archived' },
 ]
+
+export const articlePieChart = [
+  { key: 0, value: 'DRAFT', label: 'Submission', color: 'info', icon: 'upload_file' },
+  {
+    key: 1,
+    value: 'TECHNICAL_REVIEW',
+    label: 'Technical review',
+    color: 'warning',
+    icon: 'settings',
+  },
+  { key: 2, value: 'PEER_REVIEW', label: 'Peer review', color: 'error', icon: 'check_circle' },
+  { key: 3, value: 'DESIGN_REVIEW', label: 'Design review', color: 'success', icon: 'palette' },
+]
