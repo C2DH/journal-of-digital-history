@@ -21,14 +21,14 @@ export const articleStatus = [
 ]
 
 export const articlePieChart = [
-  { key: 0, value: 'DRAFT', label: 'Submission', color: 'info', icon: 'upload_file' },
+  { key: 0, value: 'DRAFT', label: 'Submission' },
   {
     key: 1,
     value: 'TECHNICAL_REVIEW',
     label: 'Technical review',
-    color: 'warning',
+    color: 'JDH',
     icon: 'settings',
   },
-  { key: 2, value: 'PEER_REVIEW', label: 'Peer review', color: 'error', icon: 'check_circle' },
-  { key: 3, value: 'DESIGN_REVIEW', label: 'Design review', color: 'success', icon: 'palette' },
+  { key: 2, value: 'PEER_REVIEW', label: 'Peer review' },
+  { key: 3, value: 'DESIGN_REVIEW', label: 'Design review' },
 ]

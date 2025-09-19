@@ -1,7 +1,7 @@
+import '../styles/pages/Home.css'
 import '../styles/pages/pages.css'
 
 import { createTheme } from '@mui/system'
-import { ChartsLabelCustomMarkProps } from '@mui/x-charts/ChartsLabel'
 import { PieChart } from '@mui/x-charts/PieChart'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,37 +15,29 @@ import { articlePieChart } from '../utils/constants/article'
 const theme = createTheme({
   palette: {
     primary: {
-      main: 'var(--color-primary)',
+      dark: '#4527a0',
+      main: '#6366F1',
+      light: '#b39ddb',
     },
     secondary: {
-      main: 'var(--color-deep-blue)',
+      dark: '#00695c',
+      main: '#2DD4BF',
+      light: '#80cbc4',
     },
-    error: {
-      main: 'var(--color-error)',
-    },
-    warning: {
-      main: 'var(--color-warning',
-    },
-    info: {
-      main: 'var(--color-accent)',
-    },
-    success: {
-      main: 'var(--color-success)',
+    published: {
+      dark: '#37474f',
+      main: '#607d8b',
+      light: '#E0E0E0',
     },
   },
 })
 
-function SVGStar({ className, color }: ChartsLabelCustomMarkProps) {
-  return (
-    <svg viewBox="-7.423 -7.423 14.846 14.846">
-      <path
-        className={className}
-        d="M0,-7.528L1.69,-2.326L7.16,-2.326L2.735,0.889L4.425,6.09L0,2.875L-4.425,6.09L-2.735,0.889L-7.16,-2.326L-1.69,-2.326Z"
-        fill={color}
-      />
-    </svg>
-  )
-}
+const colorsPieChart = [
+  theme.palette.primary.main,
+  theme.palette.primary.dark,
+  theme.palette.primary.light,
+  theme.palette.secondary.main,
+]
 
 const Home = () => {
   const navigate = useNavigate()
@@ -72,8 +64,6 @@ const Home = () => {
           return {
             label: status.label,
             value: res.count || 0,
-            color: theme.palette[status.color as keyof typeof theme.palette].main,
-            labelMarkType: SVGStar,
           }
         }),
       )
@@ -90,31 +80,34 @@ const Home = () => {
   return (
     <div className="home page">
       <h1>{t('welcome')}</h1>
-      <SmallCard>
-        <PieChart
-          series={[
-            {
-              data: articlesCounts,
-              // arcLabel: (item) => (
-              //   <div className="material-symbols-outlined ">{`${item.value}`}</div>
-              // ),
-            },
-          ]}
-          onItemClick={handleSliceClick}
-          width={400}
-          height={400}
-          slotProps={{
-            legend: {
-              sx: {
-                fontSize: 16,
-                fontFamily: 'DM Sans, sans-serif',
-                color: 'var(--color-deep-blue)',
+      <div className="home-grid">
+        <SmallCard className="home-piechart">
+          <h3>Publication stages</h3>
+          <PieChart
+            series={[
+              {
+                innerRadius: 50,
+                outerRadius: 100,
+                data: articlesCounts,
+                arcLabel: 'value',
               },
-            },
-          }}
-        />
-      </SmallCard>
-
+            ]}
+            colors={colorsPieChart}
+            onItemClick={handleSliceClick}
+            width={200}
+            height={200}
+            slotProps={{
+              legend: {
+                sx: {
+                  fontSize: 16,
+                  fontFamily: 'DM Sans, sans-serif',
+                  color: 'var(--color-deep-blue)',
+                },
+              },
+            }}
+          />
+        </SmallCard>
+      </div>
       <Outlet />
     </div>
   )
