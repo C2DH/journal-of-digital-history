@@ -12,6 +12,7 @@ import { useFilterBarStore, useItemsStore, useSearchStore } from '../store'
 
 const Articles = () => {
   const { t } = useTranslation()
+  const [searchParams, setSearchParams] = useSearchParams()
   const { sortBy, sortOrder, ordering, setFilters } = useSorting()
   const query = useSearchStore((state) => state.query)
   const {
@@ -24,9 +25,8 @@ const Articles = () => {
     setParams,
     loadMore,
   } = useItemsStore()
-  const { initFilters, updateFromStores, changeFilters, resetFilters } = useFilterBarStore()
+  const { initFilters, updateFromStores, changeFilters } = useFilterBarStore()
   const filterConfig = useFilterBarStore((state) => state.filters)
-  const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
     if (!filters || filters.length === 0) {
