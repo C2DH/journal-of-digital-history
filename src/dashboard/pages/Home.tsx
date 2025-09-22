@@ -90,6 +90,8 @@ const Home = () => {
                   innerRadius: 50,
                   outerRadius: 100,
                   data: articlesCounts,
+                  highlightScope: { fade: 'global', highlight: 'item' },
+                  faded: { innerRadius: 0, additionalRadius: -10, color: 'gray' },
                   arcLabel: 'value',
                 },
               ]}

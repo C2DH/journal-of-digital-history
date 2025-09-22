@@ -66,9 +66,9 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
   ordering: undefined,
   search: undefined,
   params: {},
-
   fetchItems: async (reset = false) => {
     const { endpoint, limit, ordering, search, offset, data, params } = get()
+
     if (!endpoint) return
 
     set({ loading: true, error: null })
@@ -243,33 +243,83 @@ export const useIssuesStore = create<IssuesState>((set) => ({
  * Zustand store for filtering articles or abstracts.
  * - filters: array of filters objects
  * - initFilters: initializes filters with default values
+ * - syncFiltersWithURL: synchronize the filters with the url query parameters
+ * - changeQueryParams: change the params according to the filters
+ * - changeFilters: change the filters according to the url query parameters
  * - updateFromStores: fetches call for papers and issues to populate filter options
+ * - resetFilters: reset all filters
+ * - resetSpecificFilters : reset a specific filter
  */
-export const useFilterBarStore = create<FilterBarState>((set) => ({
+export const useFilterBarStore = create<FilterBarState>((set, get) => ({
   filters: [],
   initFilters: () => {
+    const newFilters = [
+      {
+        name: 'callpaper',
+        label: 'Call for Paper',
+        value: '',
+        options: [{ key: 0, value: '', label: '-' }],
+      },
+      {
+        name: 'issue',
+        label: 'Issue',
+        value: '',
+        options: [{ key: 0, value: '', label: '-' }],
+      },
+      {
+        name: 'status',
+        label: 'Status',
+        value: '',
+        options: [{ key: 0, value: '', label: '-' }],
+      },
+    ]
     set({
-      filters: [
-        {
-          name: 'callpaper',
-          label: 'Call for Paper',
-          value: '',
-          options: [{ key: 0, value: '', label: '-' }],
-        },
-        {
-          name: 'issue',
-          label: 'Issue',
-          value: '',
-          options: [{ key: 0, value: '', label: '-' }],
-        },
-        {
-          name: 'status',
-          label: 'Status',
-          value: '',
-          options: [{ key: 0, value: '', label: '-' }],
-        },
-      ],
+      filters: newFilters,
     })
+    return newFilters
+  },
+  syncFiltersWithURL: (searchParam: URLSearchParams) => {
+    let currentFilters = get().filters
+
+    if (!currentFilters || currentFilters.length === 0) {
+      currentFilters = get().initFilters()
+    }
+
+    const updatedFilters = currentFilters.map((filter) => ({
+      ...filter,
+      value: searchParam.get(filter.name) || '',
+    }))
+
+    set({ filters: updatedFilters })
+    get().changeQueryParams()
+  },
+  changeQueryParams: () => {
+    const filters = get().filters
+    const params = filters.reduce((acc, filter) => {
+      if (filter.value) {
+        if (filter.name === 'callpaper') {
+          //exception for sorting on 'call for paper' it should call 'abstract__callpaper'
+          acc['abstract__callpaper'] = filter.value
+        } else if (filter.name === 'issue') {
+          acc['issue'] = filter.value.replace(/^jdh0+/, '')
+        } else {
+          acc[filter.name] = filter.value
+        }
+      }
+      return acc
+    }, {})
+    return params
+  },
+  changeFilters: (name: string, value: string, searchParams, setSearchParams) => {
+    const newParams = new URLSearchParams(searchParams)
+
+    if (value) {
+      newParams.set(name, value)
+    } else {
+      newParams.delete(name)
+    }
+
+    setSearchParams(newParams, { replace: true })
   },
   updateFromStores: async (isAbstract: boolean) => {
     await Promise.all([
@@ -314,17 +364,6 @@ export const useFilterBarStore = create<FilterBarState>((set) => ({
         return filter
       }),
     }))
-  },
-  changeFilters: (name: string, value: string, searchParams, setSearchParams) => {
-    const newParams = new URLSearchParams(searchParams)
-
-    if (value) {
-      newParams.set(name, value)
-    } else {
-      newParams.delete(name)
-    }
-
-    setSearchParams(newParams, { replace: true })
   },
   resetFilters: (
     searchParams: URLSearchParams,
