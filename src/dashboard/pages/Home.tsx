@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next'
 import { Outlet, useNavigate } from 'react-router'
 
 import SmallCard from '../components/SmallCard/SmallCard'
-import { useFilterBarStore } from '../store'
 import { getArticlesByStatus } from '../utils/api/api'
 import { articlePieChart } from '../utils/constants/article'
 
@@ -42,7 +41,6 @@ const colorsPieChart = [
 const Home = () => {
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const { setFilter } = useFilterBarStore()
 
   const [articlesCounts, setArticleCounts] = useState<Array<{ label: string; value: number }>>([])
 
@@ -52,8 +50,10 @@ const Home = () => {
       console.warn('Unknown status for dataIndex:', index?.dataIndex)
       return
     }
-    setFilter('status', status.value)
-    navigate(`/articles`)
+    navigate({
+      pathname: `/articles`,
+      search: `?status=${encodeURIComponent(status.value)}`,
+    })
   }
 
   const getArticles = async () => {
@@ -83,29 +83,31 @@ const Home = () => {
       <div className="home-grid">
         <SmallCard className="home-piechart">
           <h3>Publication stages</h3>
-          <PieChart
-            series={[
-              {
-                innerRadius: 50,
-                outerRadius: 100,
-                data: articlesCounts,
-                arcLabel: 'value',
-              },
-            ]}
-            colors={colorsPieChart}
-            onItemClick={handleSliceClick}
-            width={200}
-            height={200}
-            slotProps={{
-              legend: {
-                sx: {
-                  fontSize: 16,
-                  fontFamily: 'DM Sans, sans-serif',
-                  color: 'var(--color-deep-blue)',
+          {articlesCounts.length > 0 && (
+            <PieChart
+              series={[
+                {
+                  innerRadius: 50,
+                  outerRadius: 100,
+                  data: articlesCounts,
+                  arcLabel: 'value',
                 },
-              },
-            }}
-          />
+              ]}
+              colors={colorsPieChart}
+              onItemClick={handleSliceClick}
+              width={200}
+              height={200}
+              slotProps={{
+                legend: {
+                  sx: {
+                    fontSize: 16,
+                    fontFamily: 'DM Sans, sans-serif',
+                    color: 'var(--color-deep-blue)',
+                  },
+                },
+              }}
+            />
+          )}
         </SmallCard>
       </div>
       <Outlet />

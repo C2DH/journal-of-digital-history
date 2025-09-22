@@ -1,7 +1,8 @@
 import '../styles/pages/pages.css'
 
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router-dom'
 
 import Card from '../components/Card/Card'
 import Counter from '../components/Counter/Counter'
@@ -23,17 +24,27 @@ const Articles = () => {
     setParams,
     loadMore,
   } = useItemsStore()
-  const { setFilter, initFilters, updateFromStores } = useFilterBarStore()
-  const filters = useFilterBarStore((state) => state.filters)
+  const { initFilters, updateFromStores, changeFilters, resetFilters } = useFilterBarStore()
+  const filterConfig = useFilterBarStore((state) => state.filters)
+  const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
     if (!filters || filters.length === 0) {
       initFilters()
-      updateFromStores(false)
-    } else {
-      updateFromStores(false)
     }
+    updateFromStores(false)
   }, [])
+  // Reset to first page when filters, search or sorting
+
+  const filters = useMemo(() => {
+    return filterConfig.map((filter) => {
+      const paramValue = searchParams.get(filter.name) || ''
+      return {
+        ...filter,
+        value: paramValue,
+      }
+    })
+  }, [filterConfig, searchParams])
 
   useEffect(() => {
     const params = filters.reduce((acc, filter) => {
@@ -59,7 +70,7 @@ const Articles = () => {
         <h1>{t(`articles.item`)}</h1>
         {count && <Counter value={count} />}
       </div>
-      <FilterBar filters={filters} onFilterChange={setFilter} />
+      <FilterBar filters={filters} onFilterChange={changeFilters} />
       <Card
         item="articles"
         headers={[

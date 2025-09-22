@@ -1,24 +1,20 @@
 import './FilterBar.css'
 
 import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router'
 
 import { FilterBarProps } from './interface'
 
-import { useSearchStore } from '../../store'
+import { useFilterBarStore, useSearchStore } from '../../store'
 import Button from '../Buttons/Button/Button'
 import DropdownMenu from '../DropdownMenu/DropdownMenu'
 import Search from '../Search/Search'
 
 const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
   const { t } = useTranslation()
+  const [searchParams, setSearchParams] = useSearchParams()
   const { setQuery: setSearch } = useSearchStore()
-
-  const handleClearAll = () => {
-    onFilterChange('callpaper', '')
-    onFilterChange('issue', '')
-    onFilterChange('status', '')
-    setSearch('')
-  }
+  const { resetFilters } = useFilterBarStore()
 
   return (
     <div className="filter-bar">
@@ -31,11 +27,18 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
             name={filter.name}
             options={filter.options}
             value={filter.value}
-            onChange={(value) => onFilterChange(filter.name, value)}
+            onChange={(value) => onFilterChange(filter.name, value, searchParams, setSearchParams)}
           />
         </div>
       ))}
-      <Button text="Clear All" variant="secondary" onClick={handleClearAll}></Button>
+      <Button
+        text="Clear All"
+        variant="secondary"
+        onClick={() => {
+          setSearch('')
+          resetFilters(searchParams, setSearchParams, filters)
+        }}
+      ></Button>
     </div>
   )
 }

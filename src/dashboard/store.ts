@@ -5,6 +5,7 @@ import { abstractStatus } from './utils/constants/abstract'
 import { articleStatus } from './utils/constants/article'
 import {
   CallForPapersState,
+  Filter,
   FilterBarState,
   FormState,
   IssuesState,
@@ -12,6 +13,7 @@ import {
   ItemState,
   NotificationState,
   SearchState,
+  SetSearchParams,
 } from './utils/types'
 
 // SEARCH STORE
@@ -241,9 +243,6 @@ export const useIssuesStore = create<IssuesState>((set) => ({
  * Zustand store for filtering articles or abstracts.
  * - filters: array of filters objects
  * - initFilters: initializes filters with default values
- * - setFilter: updates a specific filter's value
- * - resetFilters: resets all filters to default values
- * - resetSpecificFilter: resets a specific filter to default value
  * - updateFromStores: fetches call for papers and issues to populate filter options
  */
 export const useFilterBarStore = create<FilterBarState>((set) => ({
@@ -271,21 +270,6 @@ export const useFilterBarStore = create<FilterBarState>((set) => ({
         },
       ],
     })
-  },
-  setFilter: (name: string, newValue: string) => {
-    set((state) => ({
-      filters: state.filters.map((f) => (f.name === name ? { ...f, value: newValue } : f)),
-    }))
-  },
-  resetFilters: () => {
-    set((state) => ({
-      filters: state.filters.map((f) => ({ ...f, value: '' })),
-    }))
-  },
-  resetSpecificFilter: (name: string) => {
-    set((state) => ({
-      filters: state.filters.map((f) => (f.name === name ? { ...f, value: '' } : f)),
-    }))
   },
   updateFromStores: async (isAbstract: boolean) => {
     await Promise.all([
@@ -330,6 +314,35 @@ export const useFilterBarStore = create<FilterBarState>((set) => ({
         return filter
       }),
     }))
+  },
+  changeFilters: (name: string, value: string, searchParams, setSearchParams) => {
+    const newParams = new URLSearchParams(searchParams)
+
+    if (value) {
+      newParams.set(name, value)
+    } else {
+      newParams.delete(name)
+    }
+
+    setSearchParams(newParams, { replace: true })
+  },
+  resetFilters: (
+    searchParams: URLSearchParams,
+    setSearchParams: SetSearchParams,
+    filterConfig: Filter[],
+  ) => {
+    const newParams = new URLSearchParams(searchParams)
+    filterConfig.forEach((filter) => newParams.delete(filter.name))
+    setSearchParams(newParams, { replace: true })
+  },
+  resetSpecificFilter: (
+    searchParams: URLSearchParams,
+    setSearchParams: SetSearchParams,
+    name: string,
+  ) => {
+    const newParams = new URLSearchParams(searchParams)
+    newParams.delete(name)
+    setSearchParams(newParams, { replace: true })
   },
 }))
 

@@ -1,3 +1,4 @@
+import { SetURLSearchParams } from 'react-router-dom'
 /* Abstract */
 export interface Abstract {
   id: number
@@ -211,16 +212,30 @@ export type RowCheckboxMap = {
 }
 
 type FilterOption = { key: number; value: string; label: string }
-type Filter = { name: string; label: string; value: string; options: FilterOption[] }
-
+export type Filter = { name: string; label: string; value: string; options: FilterOption[] }
+export type SetSearchParams = SetURLSearchParams
 export interface FilterBarState {
   filters: Filter[]
-  setFilter: (name: string, newValue: string) => void
-  resetFilters: () => void
-  resetSpecificFilter: (name: string) => void
   initFilters: () => void
   updateFromStores: (isAbstract: boolean) => void
+  changeFilters: (
+    name: string,
+    value: string,
+    searchParams: URLSearchParams,
+    setSearchParams: SetSearchParams,
+  ) => void
+  resetFilters: (
+    searchParams: URLSearchParams,
+    setSearchParams: SetSearchParams,
+    filterConfig: Filter[],
+  ) => void
+  resetSpecificFilter: (
+    searchParams: URLSearchParams,
+    setSearchParams: SetSearchParams,
+    name: string,
+  ) => void
 }
+
 export interface FormState {
   isModalOpen: boolean
   formData: Record<string, any>
