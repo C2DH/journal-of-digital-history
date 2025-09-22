@@ -211,7 +211,7 @@ export type RowCheckboxMap = {
   selectAll?: boolean
 }
 
-type FilterOption = { key: number; value: string; label: string }
+export type FilterOption = { key: number; value: string; label: string }
 export type Filter = { name: string; label: string; value: string; options: FilterOption[] }
 export type SetSearchParams = SetURLSearchParams
 export interface FilterBarState {

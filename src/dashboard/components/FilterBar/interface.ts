@@ -1,15 +1,4 @@
-type Option = {
-  key: number
-  value: string
-  label: string
-}
-
-interface Filter {
-  name: string
-  value: string
-  label: string
-  options: Option[]
-}
+import { Filter } from '../../utils/types'
 
 export interface FilterBarProps {
   filters: Filter[]

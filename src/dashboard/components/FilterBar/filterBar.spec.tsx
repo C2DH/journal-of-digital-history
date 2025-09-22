@@ -45,19 +45,21 @@ describe('FilterBar', () => {
   const filters = [
     {
       name: 'callpaper',
+      label: 'callpaper',
+      value: '',
       options: [
         { key: 0, value: '', label: 'All' },
         { key: 1, value: 'cp1', label: 'Call 1' },
       ],
-      value: '',
     },
     {
       name: 'issue',
+      label: 'issue',
+      value: '',
       options: [
         { key: 2, value: '', label: 'All' },
         { key: 3, value: 'i1', label: 'Issue 1' },
       ],
-      value: '',
     },
   ]
   const onFilterChange = vi.fn()
