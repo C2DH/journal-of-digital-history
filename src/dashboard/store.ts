@@ -291,23 +291,37 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
     }))
 
     set({ filters: updatedFilters })
-    get().changeQueryParams()
   },
-  changeQueryParams: () => {
+  changeQueryParams: (isAbstract: boolean) => {
     const filters = get().filters
-    const params = filters.reduce((acc, filter) => {
-      if (filter.value) {
-        if (filter.name === 'callpaper') {
-          //exception for sorting on 'call for paper' it should call 'abstract__callpaper'
-          acc['abstract__callpaper'] = filter.value
-        } else if (filter.name === 'issue') {
-          acc['issue'] = filter.value.replace(/^jdh0+/, '')
-        } else {
-          acc[filter.name] = filter.value
+    let params
+    if (isAbstract) {
+      params = filters.reduce((acc, filter) => {
+        if (filter.value) {
+          if (filter.name === 'issue') {
+            //exception for sorting on 'issues' it should call 'article__issue'
+            acc['article__issue'] = filter.value.replace(/^jdh0+/, '')
+          } else {
+            acc[filter.name] = filter.value
+          }
         }
-      }
-      return acc
-    }, {})
+        return acc
+      }, {})
+    } else {
+      params = filters.reduce((acc, filter) => {
+        if (filter.value) {
+          if (filter.name === 'callpaper') {
+            //exception for sorting on 'call for paper' it should call 'abstract__callpaper'
+            acc['abstract__callpaper'] = filter.value
+          } else if (filter.name === 'issue') {
+            acc['issue'] = filter.value.replace(/^jdh0+/, '')
+          } else {
+            acc[filter.name] = filter.value
+          }
+        }
+        return acc
+      }, {})
+    }
     return params
   },
   changeFilters: (name: string, value: string, searchParams, setSearchParams) => {

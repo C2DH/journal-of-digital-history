@@ -218,7 +218,7 @@ export interface FilterBarState {
   filters: Filter[]
   initFilters: () => Filter[]
   syncFiltersWithURL: (searchParam: URLSearchParams) => void
-  changeQueryParams: () => object
+  changeQueryParams: (isAbstract: boolean) => object
   updateFromStores: (isAbstract: boolean) => void
   changeFilters: (
     name: string,

@@ -25,15 +25,15 @@ const Articles = () => {
     setParams,
     loadMore,
   } = useItemsStore()
-  const { updateFromStores, changeFilters, changeQueryParams } = useFilterBarStore()
-  const syncFiltersFromURL = useFilterBarStore((state) => state.syncFiltersWithURL)
+  const { updateFromStores, changeFilters, changeQueryParams, syncFiltersWithURL } =
+    useFilterBarStore()
   const filters = useFilterBarStore((state) => state.filters)
 
   useEffect(() => {
     updateFromStores(false)
-    syncFiltersFromURL(searchParams)
+    syncFiltersWithURL(searchParams)
 
-    const queryParams = changeQueryParams()
+    const queryParams = changeQueryParams(false)
     setParams({
       endpoint: 'articles',
       limit: 20,
@@ -42,7 +42,7 @@ const Articles = () => {
       params: queryParams,
     })
     fetchItems(true)
-  }, [searchParams, updateFromStores, syncFiltersFromURL, setParams, fetchItems, ordering, query])
+  }, [searchParams, updateFromStores, syncFiltersWithURL, setParams, fetchItems, ordering, query])
 
   return (
     <div className="articles page">
