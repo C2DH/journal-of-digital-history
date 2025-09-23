@@ -4,6 +4,11 @@
     "button": "Login"
   },
   "welcome": "Welcome to the Dashboard",
+  "KPI": {
+    "pieChart": {
+      "title": "Publication stages"
+    }
+  },
   "issues": {
     "item": "Issues",
     "pid": "PID",
