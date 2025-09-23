@@ -47,7 +47,7 @@ const CustomPieChart = () => {
   }, [])
 
   return (
-    <SmallCard className="home-piechart">
+    <SmallCard className="home-piechart chart">
       <h3>{t('KPI.pieChart.title')}</h3>
       {articlesCounts.length > 0 && (
         <PieChart

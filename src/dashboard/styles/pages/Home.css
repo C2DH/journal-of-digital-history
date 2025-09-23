@@ -1,12 +1,17 @@
-.home-piechart {
+.chart {
   background-color: var(--color-white);
 }
 
 .home-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-size-2);
 }
 
 h3 {
+  margin-top: 0;
+}
+
+p {
   margin-top: 0;
 }

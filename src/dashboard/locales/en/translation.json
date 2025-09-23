@@ -7,6 +7,10 @@
   "KPI": {
     "pieChart": {
       "title": "Publication stages"
+    },
+    "barChart": {
+      "title": "Issues",
+      "description": "Published Articles"
     }
   },
   "issues": {
