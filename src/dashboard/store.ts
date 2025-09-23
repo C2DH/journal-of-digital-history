@@ -193,7 +193,7 @@ export const useCallForPapersStore = create<CallForPapersState>((set) => ({
   error: null,
   fetchCallForPapers: async () => {
     try {
-      const response = await api.get('/api/callforpaper/')
+      const response = await api.get('/api/callforpaper?ordering=-id')
       const result = response.data
       set({
         data: result.results || [],
@@ -222,7 +222,7 @@ export const useIssuesStore = create<IssuesState>((set) => ({
   error: null,
   fetchIssues: async () => {
     try {
-      const response = await api.get('/api/issues/')
+      const response = await api.get('/api/issues?ordering=-pid')
       const result = response.data
       set({
         data: result.results || [],
