@@ -5,6 +5,7 @@ import { abstractStatus } from './utils/constants/abstract'
 import { articleStatus } from './utils/constants/article'
 import {
   CallForPapersState,
+  Filter,
   FilterBarState,
   FormState,
   IssuesState,
@@ -12,6 +13,7 @@ import {
   ItemState,
   NotificationState,
   SearchState,
+  SetSearchParams,
 } from './utils/types'
 
 // SEARCH STORE
@@ -64,9 +66,9 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
   ordering: undefined,
   search: undefined,
   params: {},
-
   fetchItems: async (reset = false) => {
     const { endpoint, limit, ordering, search, offset, data, params } = get()
+
     if (!endpoint) return
 
     set({ loading: true, error: null })
@@ -241,51 +243,97 @@ export const useIssuesStore = create<IssuesState>((set) => ({
  * Zustand store for filtering articles or abstracts.
  * - filters: array of filters objects
  * - initFilters: initializes filters with default values
- * - setFilter: updates a specific filter's value
- * - resetFilters: resets all filters to default values
- * - resetSpecificFilter: resets a specific filter to default value
+ * - syncFiltersWithURL: synchronize the filters with the url query parameters
+ * - changeQueryParams: change the params according to the filters
+ * - changeFilters: change the filters according to the url query parameters
  * - updateFromStores: fetches call for papers and issues to populate filter options
+ * - resetFilters: reset all filters
+ * - resetSpecificFilters : reset a specific filter
  */
-export const useFilterBarStore = create<FilterBarState>((set) => ({
+export const useFilterBarStore = create<FilterBarState>((set, get) => ({
   filters: [],
   initFilters: () => {
+    const newFilters = [
+      {
+        name: 'callpaper',
+        label: 'Call for Paper',
+        value: '',
+        options: [{ key: 0, value: '', label: '-' }],
+      },
+      {
+        name: 'issue',
+        label: 'Issue',
+        value: '',
+        options: [{ key: 0, value: '', label: '-' }],
+      },
+      {
+        name: 'status',
+        label: 'Status',
+        value: '',
+        options: [{ key: 0, value: '', label: '-' }],
+      },
+    ]
     set({
-      filters: [
-        {
-          name: 'callpaper',
-          label: 'Call for Paper',
-          value: '',
-          options: [{ key: 0, value: '', label: '-' }],
-        },
-        {
-          name: 'issue',
-          label: 'Issue',
-          value: '',
-          options: [{ key: 0, value: '', label: '-' }],
-        },
-        {
-          name: 'status',
-          label: 'Status',
-          value: '',
-          options: [{ key: 0, value: '', label: '-' }],
-        },
-      ],
+      filters: newFilters,
     })
+    return newFilters
   },
-  setFilter: (name: string, newValue: string) => {
-    set((state) => ({
-      filters: state.filters.map((f) => (f.name === name ? { ...f, value: newValue } : f)),
+  syncFiltersWithURL: (searchParam: URLSearchParams) => {
+    let currentFilters = get().filters
+
+    if (!currentFilters || currentFilters.length === 0) {
+      currentFilters = get().initFilters()
+    }
+
+    const updatedFilters = currentFilters.map((filter) => ({
+      ...filter,
+      value: searchParam.get(filter.name) || '',
     }))
+
+    set({ filters: updatedFilters })
   },
-  resetFilters: () => {
-    set((state) => ({
-      filters: state.filters.map((f) => ({ ...f, value: '' })),
-    }))
+  changeQueryParams: (isAbstract: boolean) => {
+    const filters = get().filters
+    let params
+    if (isAbstract) {
+      params = filters.reduce((acc, filter) => {
+        if (filter.value) {
+          if (filter.name === 'issue') {
+            //exception for sorting on 'issues' it should call 'article__issue'
+            acc['article__issue'] = filter.value.replace(/^jdh0+/, '')
+          } else {
+            acc[filter.name] = filter.value
+          }
+        }
+        return acc
+      }, {})
+    } else {
+      params = filters.reduce((acc, filter) => {
+        if (filter.value) {
+          if (filter.name === 'callpaper') {
+            //exception for sorting on 'call for paper' it should call 'abstract__callpaper'
+            acc['abstract__callpaper'] = filter.value
+          } else if (filter.name === 'issue') {
+            acc['issue'] = filter.value.replace(/^jdh0+/, '')
+          } else {
+            acc[filter.name] = filter.value
+          }
+        }
+        return acc
+      }, {})
+    }
+    return params
   },
-  resetSpecificFilter: (name: string) => {
-    set((state) => ({
-      filters: state.filters.map((f) => (f.name === name ? { ...f, value: '' } : f)),
-    }))
+  changeFilters: (name: string, value: string, searchParams, setSearchParams) => {
+    const newParams = new URLSearchParams(searchParams)
+
+    if (value) {
+      newParams.set(name, value)
+    } else {
+      newParams.delete(name)
+    }
+
+    setSearchParams(newParams, { replace: true })
   },
   updateFromStores: async (isAbstract: boolean) => {
     await Promise.all([
@@ -330,6 +378,24 @@ export const useFilterBarStore = create<FilterBarState>((set) => ({
         return filter
       }),
     }))
+  },
+  resetFilters: (
+    searchParams: URLSearchParams,
+    setSearchParams: SetSearchParams,
+    filterConfig: Filter[],
+  ) => {
+    const newParams = new URLSearchParams(searchParams)
+    filterConfig.forEach((filter) => newParams.delete(filter.name))
+    setSearchParams(newParams, { replace: true })
+  },
+  resetSpecificFilter: (
+    searchParams: URLSearchParams,
+    setSearchParams: SetSearchParams,
+    name: string,
+  ) => {
+    const newParams = new URLSearchParams(searchParams)
+    newParams.delete(name)
+    setSearchParams(newParams, { replace: true })
   },
 }))
 

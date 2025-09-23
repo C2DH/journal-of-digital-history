@@ -1,6 +1,6 @@
 import './Search.css'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { SearchProps } from './interface'
 
@@ -8,8 +8,7 @@ import { useDebounce } from '../../../hooks/useDebounce'
 import { useSearchStore } from '../../store'
 
 const Search = ({ placeholder = 'Search' }: SearchProps) => {
-  const [input, setInput] = useState('')
-  const setSearch = useSearchStore((state) => state.setQuery)
+  const { query: input, setQuery: setSearch } = useSearchStore()
 
   const debouncedValue = useDebounce(input, 500)
 
@@ -18,7 +17,7 @@ const Search = ({ placeholder = 'Search' }: SearchProps) => {
   }, [debouncedValue, setSearch])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value)
+    setSearch(e.target.value)
   }
 
   return (

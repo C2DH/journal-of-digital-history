@@ -2,6 +2,7 @@ import './DropdownMenu.css'
 
 import { XmarkCircle } from 'iconoir-react'
 import { useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router'
 
 import { DropdownMenuProps } from './interface'
 
@@ -10,12 +11,13 @@ import { useFilterBarStore } from '../../store'
 
 const DropdownMenu = ({ name, options, value, onChange }: DropdownMenuProps) => {
   const [open, setOpen] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams()
   const ref = useRef<HTMLDivElement>(null)
   const { resetSpecificFilter } = useFilterBarStore()
 
   // Close dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: any) => {
       if (ref.current && !ref.current.contains(event.target)) {
         setOpen(false)
       }
@@ -40,7 +42,7 @@ const DropdownMenu = ({ name, options, value, onChange }: DropdownMenuProps) => 
           <XmarkCircle
             onClick={(e: React.MouseEvent) => {
               e.stopPropagation()
-              resetSpecificFilter(name)
+              resetSpecificFilter(searchParams, setSearchParams, name)
             }}
           />
         ) : (
