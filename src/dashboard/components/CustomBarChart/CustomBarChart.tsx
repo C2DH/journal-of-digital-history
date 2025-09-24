@@ -11,24 +11,16 @@ import { articlePieChart } from '../../utils/constants/article'
 import { Issue } from '../../utils/types'
 import SmallCard from '../SmallCard/SmallCard'
 
-interface StatusNumber {
-  [label: string]: number
-}
-
-type ArticlesByIssues = StatusNumber & {
-  issue: string
-}
-
 type StatusCount = {
   data: number[]
   label: string
   stack: string
 }
 
-const CustomBarChart = async () => {
+const CustomBarChart = () => {
   const { t } = useTranslation()
   const { fetchIssues, data: issuesFromStore } = useIssuesStore()
-  const [articlesByIssues, setArticlesByIssue] = useState<Array<ArticlesByIssues>>([])
+  const [articlesByIssues, setArticlesByIssues] = useState<Array<StatusCount>>([])
 
   const getArticles = async () => {
     try {
@@ -36,21 +28,18 @@ const CustomBarChart = async () => {
       const issues = useIssuesStore.getState().data
 
       const counts = await Promise.all(
-        issues.map(async (issue: Issue) => {
-          // Start with the base object
-          const baseObj: ArticlesByIssues = { issue: issue.pid } as ArticlesByIssues
-
-          // Add the status counts
-          for (const status of articlePieChart) {
-            const res = await getArticlesByStatusAndIssues(issue.id, status.value)
-            baseObj[status.label] = res.count || 0
-          }
-
-          return baseObj
+        articlePieChart.map(async (status) => {
+          const list: StatusCount = { data: [], stack: 'unique', label: status.label }
+          await Promise.all(
+            issues.map(async (issue: Issue) => {
+              const res = await getArticlesByStatusAndIssues(issue.id, status.value)
+              list.data.push(res.count || 0)
+            }),
+          )
+          return list
         }),
       )
-      console.log('🚀 ~ file: CustomBarChart.tsx:39 ~ counts:', counts)
-      setArticlesByIssue(counts)
+      setArticlesByIssues(counts)
     } catch (error) {
       console.error('Error - Fetching count of articles by status for each issue:', error)
     }
@@ -70,15 +59,7 @@ const CustomBarChart = async () => {
           colors={colorsPieChart}
           width={200}
           height={200}
-          slotProps={{
-            legend: {
-              sx: {
-                fontSize: 16,
-                fontFamily: 'DM Sans, sans-serif',
-                color: 'var(--color-deep-blue)',
-              },
-            },
-          }}
+          hideLegend={true}
         />
       )}
     </SmallCard>
