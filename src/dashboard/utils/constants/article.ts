@@ -26,8 +26,6 @@ export const articlePieChart = [
     key: 1,
     value: 'TECHNICAL_REVIEW',
     label: 'Technical review',
-    color: 'JDH',
-    icon: 'settings',
   },
   { key: 2, value: 'PEER_REVIEW', label: 'Peer review' },
   { key: 3, value: 'DESIGN_REVIEW', label: 'Design review' },

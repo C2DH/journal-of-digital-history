@@ -1,31 +1,56 @@
 import './CustomBarChart.css'
 
 import { BarChart } from '@mui/x-charts/BarChart'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router'
 
+import { useIssuesStore } from '../../store'
 import { colorsPieChart } from '../../styles/theme'
-import { getArticlesByStatus } from '../../utils/api/api'
+import { getArticlesByStatusAndIssues } from '../../utils/api/api'
 import { articlePieChart } from '../../utils/constants/article'
+import { Issue } from '../../utils/types'
 import SmallCard from '../SmallCard/SmallCard'
 
-const CustomBarChart = () => {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
+interface StatusNumber {
+  [label: string]: number
+}
 
-  const data = [{ data: [4, 3, 5] }, { data: [1, 6, 3] }, { data: [2, 5, 6] }]
+type ArticlesByIssues = StatusNumber & {
+  issue: string
+}
+
+type StatusCount = {
+  data: number[]
+  label: string
+  stack: string
+}
+
+const CustomBarChart = async () => {
+  const { t } = useTranslation()
+  const { fetchIssues, data: issuesFromStore } = useIssuesStore()
+  const [articlesByIssues, setArticlesByIssue] = useState<Array<ArticlesByIssues>>([])
+
   const getArticles = async () => {
     try {
+      await fetchIssues()
+      const issues = useIssuesStore.getState().data
+
       const counts = await Promise.all(
-        articlePieChart.map(async (status) => {
-          const res = await getArticlesByStatus(status.value)
-          return {
-            label: status.label,
-            value: res.count || 0,
+        issues.map(async (issue: Issue) => {
+          // Start with the base object
+          const baseObj: ArticlesByIssues = { issue: issue.pid } as ArticlesByIssues
+
+          // Add the status counts
+          for (const status of articlePieChart) {
+            const res = await getArticlesByStatusAndIssues(issue.id, status.value)
+            baseObj[status.label] = res.count || 0
           }
+
+          return baseObj
         }),
       )
+      console.log('🚀 ~ file: CustomBarChart.tsx:39 ~ counts:', counts)
+      setArticlesByIssue(counts)
     } catch (error) {
       console.error('Error - Fetching count of articles by status for each issue:', error)
     }
@@ -39,9 +64,9 @@ const CustomBarChart = () => {
     <SmallCard className="home-barchart chart">
       <h3 className="barchart-title">{t('KPI.barChart.title')}</h3>
       <p>{t('KPI.barChart.description')}</p>
-      {data.length > 0 && (
+      {articlesByIssues.length > 0 && (
         <BarChart
-          series={data}
+          series={articlesByIssues}
           colors={colorsPieChart}
           width={200}
           height={200}
