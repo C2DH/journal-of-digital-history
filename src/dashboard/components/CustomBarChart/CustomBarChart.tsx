@@ -21,7 +21,6 @@ const CustomBarChart = () => {
   const { t } = useTranslation()
   const { fetchIssues, data: issuesFromStore } = useIssuesStore()
   const [articlesByIssues, setArticlesByIssues] = useState<Array<StatusCount>>([])
-
   const getArticles = async () => {
     try {
       await fetchIssues()
@@ -30,12 +29,13 @@ const CustomBarChart = () => {
       const counts = await Promise.all(
         articlePieChart.map(async (status) => {
           const list: StatusCount = { data: [], stack: 'unique', label: status.label }
-          await Promise.all(
+          const results = await Promise.all(
             issues.map(async (issue: Issue) => {
               const res = await getArticlesByStatusAndIssues(issue.id, status.value)
-              list.data.push(res.count || 0)
+              return res.count || 0
             }),
           )
+          list.data = results
           return list
         }),
       )
@@ -60,6 +60,7 @@ const CustomBarChart = () => {
           width={200}
           height={200}
           hideLegend={true}
+          borderRadius={5}
         />
       )}
     </SmallCard>
