@@ -93,7 +93,21 @@ export function useNotebook(url, ipynb) {
 export const useExtractOutputs = (idx, metadata, outputs) =>
   useMemo(() => getFigureOutputs(outputs, metadata), [idx, outputs])
 
-export const useFigureHeight = (tags, useDefault, isCover) => {
+/**
+ * Hook which returns the height of the output from tags
+ *  
+ * @param {string[]} tags     
+ *    The list of tags from which to get the height       
+ * @param {boolean} useDefault 
+ *    Optional. Boolean value which determines if the default image height must be used.
+ *    Default is false.
+ * @param {boolean} isCover
+ *    Optional. Boolean value which determines if the cover image height must be used.
+ *    Default is false.
+ * @returns
+ *    The height of the output
+ */
+export const useFigureHeight = (tags, useDefault = false, isCover = false) => {
   const { height } = useWindowSize()
 
   return getFigureHeight(tags, useDefault ? Math.max(height, 400) * (isCover ? 0.8 : 0.5) : 0)

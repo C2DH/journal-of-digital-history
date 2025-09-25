@@ -9,7 +9,7 @@ $module: ".ArticleCellSourceCodeWrapper";
   .expandButton {
     position: absolute;
     left: 50%;
-    bottom: var(--spacer-3);
+    bottom: 0;
     z-index: 1;
     transform: translateX(-50%);
   }
@@ -25,6 +25,10 @@ $module: ".ArticleCellSourceCodeWrapper";
       bottom: 0;
       height: 100px;
       background: linear-gradient(180deg,rgb(35, 32, 67, 0),rgba(35, 32, 67,1) 80%);
+    }
+
+    .expandButton {
+      bottom: var(--spacer-3);
     }
   }
 
