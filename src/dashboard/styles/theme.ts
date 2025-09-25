@@ -26,3 +26,11 @@ export const colorsPieChart = [
   theme.palette.primary.light,
   theme.palette.secondary.main,
 ]
+
+export const colorsBarChart = [
+  theme.palette.primary.main,
+  theme.palette.primary.dark,
+  theme.palette.primary.light,
+  theme.palette.secondary.main,
+  theme.palette.published.light,
+]
