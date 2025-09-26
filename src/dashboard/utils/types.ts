@@ -203,7 +203,7 @@ export type CallForPapersState = {
 export type IssuesState = {
   data: Issue[]
   error: string | null
-  fetchIssues: () => Promise<void>
+  fetchIssues: (revert: boolean) => Promise<void>
   reset: () => void
 }
 export type RowCheckbox = { [pid: string]: boolean }

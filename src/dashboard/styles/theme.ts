@@ -2,17 +2,17 @@ import { createTheme } from '@mui/system'
 
 export const theme = createTheme({
   palette: {
-    primary: {
-      dark: '#4527a0',
-      main: '#6366F1',
-      light: '#b39ddb',
+    blue: {
+      dark: '#4338CA',
+      main: '#3B82F6',
+      light: '#38BDF8',
     },
-    secondary: {
-      dark: '#00695c',
-      main: '#2DD4BF',
-      light: '#80cbc4',
+    green: {
+      dark: '#14B8A6',
+      main: '#5EEAD4',
+      light: '#A7F3F0',
     },
-    published: {
+    gray: {
       dark: '#37474f',
       main: '#607d8b',
       light: '#E0E0E0',
@@ -21,16 +21,16 @@ export const theme = createTheme({
 })
 
 export const colorsPieChart = [
-  theme.palette.primary.main,
-  theme.palette.primary.dark,
-  theme.palette.primary.light,
-  theme.palette.secondary.main,
+  theme.palette.blue.main,
+  theme.palette.blue.dark,
+  theme.palette.blue.light,
+  theme.palette.green.main,
 ]
 
 export const colorsBarChart = [
-  theme.palette.primary.main,
-  theme.palette.primary.dark,
-  theme.palette.primary.light,
-  theme.palette.secondary.main,
-  theme.palette.published.light,
+  theme.palette.blue.main,
+  theme.palette.blue.dark,
+  theme.palette.blue.light,
+  theme.palette.green.dark,
+  theme.palette.gray.light,
 ]

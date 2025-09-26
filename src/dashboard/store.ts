@@ -222,9 +222,9 @@ export const useCallForPapersStore = create<CallForPapersState>((set) => ({
 export const useIssuesStore = create<IssuesState>((set) => ({
   data: [],
   error: null,
-  fetchIssues: async () => {
+  fetchIssues: async (revert: boolean) => {
     try {
-      const response = await api.get('/api/issues?ordering=-pid')
+      const response = await api.get(`/api/issues?ordering=${revert ? '-' : ''}pid`)
       const result = response.data
       set({
         data: result.results || [],
@@ -338,7 +338,7 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
   updateFromStores: async (isAbstract: boolean) => {
     await Promise.all([
       useCallForPapersStore.getState().fetchCallForPapers(),
-      useIssuesStore.getState().fetchIssues(),
+      useIssuesStore.getState().fetchIssues(true),
     ])
     const { data: callForPapers } = useCallForPapersStore.getState()
     const { data: issues } = useIssuesStore.getState()

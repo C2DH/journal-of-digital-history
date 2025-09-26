@@ -1,6 +1,6 @@
 import './CustomBarChart.css'
 
-import { BarChart } from '@mui/x-charts/BarChart'
+import { BarChart, barLabelClasses } from '@mui/x-charts/BarChart'
 import { axisClasses } from '@mui/x-charts/ChartsAxis'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -26,7 +26,7 @@ const CustomBarChart = () => {
 
   const getArticles = async () => {
     try {
-      await fetchIssues()
+      await fetchIssues(false)
       const issues = useIssuesStore.getState().data
 
       const labels = issues.map((issue: Issue) => issue.pid)
@@ -67,7 +67,8 @@ const CustomBarChart = () => {
           width={400}
           height={400}
           hideLegend
-          borderRadius={15}
+          barLabel="value"
+          borderRadius={5}
           xAxis={[
             {
               id: 'issues',
@@ -75,7 +76,7 @@ const CustomBarChart = () => {
               scaleType: 'band',
               disableTicks: true,
               disableLine: true,
-              categoryGapRatio: 0.7,
+              categoryGapRatio: 0.6,
             },
           ]}
           yAxis={[{ width: 30, tickNumber: 5, disableTicks: true, disableLine: true }]}
@@ -85,6 +86,10 @@ const CustomBarChart = () => {
                 fill: 'var(--color-gray)',
                 fontFamily: "'DM Sans', sans-serif !important",
               },
+            },
+            [`.${barLabelClasses.root}`]: {
+              fill: 'var(--color-deep-blue)',
+              fontSize: 12,
             },
           })}
         />
