@@ -196,7 +196,7 @@ export type ItemState<T> = {
 export type CallForPapersState = {
   data: Callforpaper[]
   error: string | null
-  fetchCallForPapers: () => Promise<void>
+  fetchCallForPapers: (revert: boolean) => Promise<void>
   reset: () => void
 }
 
@@ -254,3 +254,7 @@ export interface NotificationState {
   setNotification: (notification: Notification) => void
   clearNotification: () => void
 }
+
+/* API types */
+export type APIResponse = Promise<APIResponseObject>
+export type APIResponseObject = { count: number; next: null; previous: null; results: any[] }

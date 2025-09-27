@@ -9,8 +9,14 @@
       "title": "Publication stages"
     },
     "barChart": {
-      "title": "Issues",
-      "description": "Articles"
+      "article": {
+        "title": "Issues",
+        "description": "Articles"
+      },
+      "abstract": {
+        "title": "Call for Papers",
+        "description": "Abstracts"
+      }
     }
   },
   "issues": {

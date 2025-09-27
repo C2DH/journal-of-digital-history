@@ -1,3 +1,25 @@
 .barchart-title {
   margin: 0;
 }
+
+.barchart-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.barchart-header-text {
+  flex-direction: 0;
+}
+
+/* FLIP BUTTON */
+.flip-button {
+  border: 0;
+  background-color: transparent;
+  color: var(--deep-color-blue);
+  margin-bottom: var(--space-size-4);
+}
+
+.flip-button:hover {
+  color: var(--color-accent);
+}
