@@ -1,11 +1,6 @@
 .chart {
   background-color: var(--color-white);
-}
-
-.home-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-size-2);
+  height: fit-content;
 }
 
 h3 {
@@ -14,4 +9,21 @@ h3 {
 
 p {
   margin-top: 0;
+}
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-size-2);
+}
+
+@media (min-width: 1600px) {
+  .home-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 978px) {
+  .home-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }

@@ -8,10 +8,10 @@ import { useTranslation } from 'react-i18next'
 import { ItemsByStatus } from './interface'
 
 import { useCallForPapersStore, useIssuesStore } from '../../store'
-import { colorsBarChart } from '../../styles/theme'
+import { colorsBarChartAbstract, colorsBarChartArticle } from '../../styles/theme'
 import { getAbstractsByCallForPapers, getArticlesByStatusAndIssues } from '../../utils/api/api'
 import { abstractStatus } from '../../utils/constants/abstract'
-import { articlePieChart } from '../../utils/constants/article'
+import { articleBarChart } from '../../utils/constants/article'
 import { APIResponseObject, Callforpaper, Issue } from '../../utils/types'
 import SmallCard from '../SmallCard/SmallCard'
 
@@ -39,20 +39,18 @@ const CustomBarChart = () => {
       const issues = useIssuesStore.getState().data
       const callforpapers = useCallForPapersStore.getState().data
 
-      let labels: string[] = []
+      const baseItems = isArticle ? issues : callforpapers
 
-      if (isArticle) {
-        labels = issues.map((issue: Issue) => issue.name)
-      } else {
-        labels = callforpapers.map((cfp: Callforpaper) => cfp.title)
-      }
+      const labels: string[] = isArticle
+        ? baseItems.map((issue: any | Issue) => issue.name)
+        : baseItems.map((cfp: any | Callforpaper) => cfp.title)
+
       setItemLabels(labels)
 
       const counts = await Promise.all(
-        (isArticle ? articlePieChart : abstractStatus).map(async (status) => {
-          const list: ItemsByStatus = { data: [], stack: 'unique', label: status.label }
-          const results = await Promise.all(
-            issues.map(async (issue: Issue) => {
+        (isArticle ? articleBarChart : abstractStatus).map(async (status) => {
+          const data = await Promise.all(
+            baseItems.map(async (entry: Issue | Callforpaper) => {
               let res: APIResponseObject = {
                 count: 0,
                 next: null,
@@ -60,15 +58,15 @@ const CustomBarChart = () => {
                 results: [],
               }
               if (isArticle) {
-                res = await getArticlesByStatusAndIssues(issue.id, status.value)
+                res = await getArticlesByStatusAndIssues((entry as Issue).id, status.value)
               } else {
-                res = await getAbstractsByCallForPapers(issue.id, status.value)
+                res = await getAbstractsByCallForPapers((entry as Callforpaper).id, status.value)
               }
+
               return res.count || 0
             }),
           )
-          list.data = results
-          return list
+          return { data, stack: 'unique', label: status.label } as ItemsByStatus
         }),
       )
       setItemByStatus(counts)
@@ -97,20 +95,21 @@ const CustomBarChart = () => {
       </div>
       {itemByStatus.length > 0 && (
         <BarChart
+          id={isArticle ? 'article-bar-chart' : 'abstract-bar-chart'}
           series={itemByStatus}
-          colors={colorsBarChart}
+          colors={isArticle ? colorsBarChartArticle : colorsBarChartAbstract}
           width={400}
           height={400}
           hideLegend
           // barLabel="value"
-          borderRadius={20}
-          margin={{ bottom: 10 }}
+          borderRadius={10}
+          margin={{ bottom: 10, right: 20 }}
           xAxis={[
             {
               id: 'issues',
               data: itemLabel,
               scaleType: 'band',
-              categoryGapRatio: 0.5,
+              categoryGapRatio: 0.6,
               disableTicks: true,
               disableLine: true,
               height: 80,
@@ -134,6 +133,7 @@ const CustomBarChart = () => {
               fontSize: 12,
             },
           })}
+          slotProps={{ tooltip: { trigger: 'item' } }}
         />
       )}
     </SmallCard>

@@ -66,11 +66,21 @@ const CustomPieChart = () => {
           height={200}
           slotProps={{
             legend: {
+              direction: 'horizontal',
+              position: {
+                vertical: 'bottom',
+                horizontal: 'center',
+              },
               sx: {
                 fontSize: 16,
                 fontFamily: 'DM Sans, sans-serif',
                 color: 'var(--color-deep-blue)',
               },
+            },
+          }}
+          sx={{
+            '.MuiChartsLegend-root': {
+              marginTop: '30px',
             },
           }}
         />

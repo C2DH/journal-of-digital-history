@@ -65,7 +65,7 @@ const getAbstractsByCallForPapers = async (callforpaper: number, status: string)
   console.info(`GET [getAbstractsByCallForPapers] - ${callforpaper} `)
 
   return api
-    .get(`/api/abstracts?callpaper=${callforpaper}&status=${status}`)
+    .get(`/api/abstracts/?callpaper=${callforpaper}&status=${status}`)
     .then((res) => {
       console.info(`Abstracts for callforpaper id: ${callforpaper}`, res.data)
       return res.data

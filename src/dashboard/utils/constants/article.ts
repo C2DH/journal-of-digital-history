@@ -29,5 +29,16 @@ export const articlePieChart = [
   },
   { key: 2, value: 'PEER_REVIEW', label: 'Peer review' },
   { key: 3, value: 'DESIGN_REVIEW', label: 'Design review' },
+]
+
+export const articleBarChart = [
+  { key: 0, value: 'DRAFT', label: 'Submission' },
+  {
+    key: 1,
+    value: 'TECHNICAL_REVIEW',
+    label: 'Technical review',
+  },
+  { key: 2, value: 'PEER_REVIEW', label: 'Peer review' },
+  { key: 3, value: 'DESIGN_REVIEW', label: 'Design review' },
   { key: 4, value: 'PUBLISHED', label: 'Published' },
 ]
