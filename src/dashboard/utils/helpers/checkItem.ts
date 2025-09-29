@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
 
 import { articleSteps } from '../constants/article'
+import { Abstract, Article } from '../types'
 
 /**
  * Checks if a string matches the ORCID identifier format.
@@ -83,6 +84,23 @@ function isIssues(item: string): boolean {
   return item === 'issues'
 }
 
+function isTypeAbstract(item: any): item is Abstract {
+  return (
+    item &&
+    typeof item === 'object' &&
+    typeof item.pid === 'string' &&
+    typeof item.title === 'string'
+  )
+}
+function isTypeArticle(item: any): item is Article {
+  return (
+    item &&
+    typeof item === 'object' &&
+    typeof item.abstract.pid === 'string' &&
+    typeof item.abstract.title === 'string'
+  )
+}
+
 export {
   convertOrcid,
   isAbstract,
@@ -102,4 +120,6 @@ export {
   isStatusHeader,
   isStepCell,
   isTitleHeader,
+  isTypeAbstract,
+  isTypeArticle,
 }

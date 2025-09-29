@@ -1,0 +1,22 @@
+.read-more {
+  margin: 0;
+}
+
+.read-more p {
+  display: inline;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.read-more-button {
+  display: inline;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-accent);
+  font-weight: 400;
+  font-size: var(--text-size-2);
+  cursor: pointer;
+  margin-left: var(--space-size-0);
+  margin-bottom: var(--space-size-1);
+}

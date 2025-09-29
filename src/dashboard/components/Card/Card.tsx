@@ -6,17 +6,14 @@ import { useTranslation } from 'react-i18next'
 import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
-import { useItemsStore } from '../../store'
-import { isAbstract } from '../../utils/helpers/itemChecker'
+import { useItemsStore, useNotificationStore } from '../../store'
+import { isAbstract, isArticle } from '../../utils/helpers/checkItem'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
-import { RowCheckboxMap } from '../../utils/types'
-import ActionButtonLarge from '../Buttons/ActionButton/Large/ActionButtonLarge'
-import Counter from '../Counter/Counter'
+import { Notification, RowCheckboxMap } from '../../utils/types'
 import Feedback from '../Feedback/Feedback'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
 import Table from '../Table/Table'
-import Toast from '../Toast/Toast'
 
 const Card = ({
   item,
@@ -41,19 +38,17 @@ const Card = ({
     id?: string
     [key: string]: any
   }>({ open: false })
-  const [notification, setNotification] = useState<{
-    type: 'success' | 'error'
-    message: string
-    submessage?: string
-  } | null>(null)
   const [checkedRows, setCheckedRows] = useState<RowCheckboxMap>({})
-
+  const isAbstractItem = isAbstract(item)
+  const isArticleItem = isArticle(item)
+  const isArticleOrAbstracts = isAbstractItem || isArticleItem
   const { fetchItems } = useItemsStore()
+  const { setNotification } = useNotificationStore()
 
   const handleClose = () => setModalState({ open: false })
-  const handleNotify = (notif) => {
+  const handleNotify = (notification: Notification) => {
     fetchItems(true)
-    setNotification(notif)
+    setNotification(notification)
   }
   const setEmail = (email: string) => {
     setModalState((prev) => ({ ...prev, contactEmail: email }))
@@ -95,20 +90,13 @@ const Card = ({
 
   return (
     <>
-      <Toast
-        open={!!notification}
-        message={notification?.message || ''}
-        submessage={notification?.submessage || ''}
-        type={notification?.type}
-        onClose={() => setNotification(null)}
-      />
       <div className={`${item} card`}>
         <div className="card-header">
           <div className="card-header-title">
-            <h1>{t(`${item}.item`)}</h1>
-            {count && <Counter value={count} />}
+            {!isArticleOrAbstracts && <h1>{t(`${item}.item`)}</h1>}
           </div>
-          {isAbstract(item) && (
+
+          {/* {isAbstract(item) && (
             <ActionButtonLarge
               actions={[
                 {
@@ -118,7 +106,7 @@ const Card = ({
               ]}
               active={checkedRows && Object.values(checkedRows).some((v) => v)}
             />
-          )}
+          )} */}
         </div>
         {count === 0 ? (
           <Feedback type="warning" message={'No item corresponds to your search'} />

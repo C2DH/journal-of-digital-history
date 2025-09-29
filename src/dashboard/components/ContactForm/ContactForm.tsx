@@ -3,16 +3,16 @@ import './ContactForm.css'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
 import parse from 'html-react-parser'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { ContactFormData } from './interface'
-
 import { contactFormSchema } from '../../schemas/contactForm'
-import { modifyAbstractStatusWithEmail } from '../../utils/helpers/api'
+import { useFormStore } from '../../store'
+import { modifyAbstractStatusWithEmail } from '../../utils/api/api'
 import Button from '../Buttons/Button/Button'
+import ConfirmationModal from '../ConfirmationModal/ConfirmationModal'
 
-function validateContactForm(data: any) {
+function validateForm(data: any) {
   const ajv = new Ajv({ allErrors: true })
   addFormats(ajv)
   const validate = ajv.compile(contactFormSchema)
@@ -32,10 +32,10 @@ function formatMessage(template, data) {
 
 const ContactForm = ({ rowData, action, onClose, onNotify }) => {
   const { t } = useTranslation()
-  const [form, setForm] = useState<ContactFormData | null>(null)
+  const { isModalOpen, openModal, closeModal, setFormData, formData } = useFormStore()
 
   useEffect(() => {
-    setForm({
+    setFormData({
       pid: rowData.id || '',
       from: 'jdh.admin@uni.lu',
       to: rowData.contactEmail || '',
@@ -47,26 +47,23 @@ const ContactForm = ({ rowData, action, onClose, onNotify }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setForm((prevForm) => ({
-      ...prevForm!,
+    setFormData({
+      ...(formData || {}),
       [name]: value,
-    }))
+    })
   }
 
-  const handleSubmit = async (e) => {
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const data: ContactFormData = {
-      from: String(form?.from),
-      to: String(form?.to),
-      subject: String(form?.subject),
-      body: String(form?.body),
-      status: form?.status,
-    }
-    const { valid, errors } = validateContactForm(data)
+    openModal()
+  }
+
+  const handleConfirmSubmit = async () => {
+    const { valid, errors } = validateForm(formData)
 
     if (valid) {
       try {
-        const res = await modifyAbstractStatusWithEmail(String(form?.pid), data)
+        const res = await modifyAbstractStatusWithEmail(formData?.pid, formData)
         if (onClose) onClose()
         if (onNotify)
           onNotify({
@@ -82,6 +79,8 @@ const ContactForm = ({ rowData, action, onClose, onNotify }) => {
             message: t('email.error.api.message'),
             submessage: err?.response?.data?.message,
           })
+      } finally {
+        closeModal()
       }
     }
     if (!valid) {
@@ -96,24 +95,39 @@ const ContactForm = ({ rowData, action, onClose, onNotify }) => {
   }
 
   return (
-    <form className="contact-form" onSubmit={handleSubmit}>
+    <form className="contact-form" onSubmit={handleFormSubmit}>
       <label>
         From
-        <input name="from" value={form?.from || ''} onChange={handleChange} required />
+        <input name="from" value={formData?.from || ''} onChange={handleChange} required />
       </label>
       <label>
         To
-        <input name="to" value={form?.to || ''} onChange={handleChange} required />
+        <input name="to" value={formData?.to || ''} onChange={handleChange} required />
       </label>
       <label>
         Subject
-        <input name="subject" value={form?.subject || ''} onChange={handleChange} required />
+        <input name="subject" value={formData?.subject || ''} onChange={handleChange} required />
       </label>
       <label>
         Body
-        <textarea name="body" value={String(form?.body) || ''} onChange={handleChange} required />
+        <textarea
+          name="body"
+          value={String(formData?.body) || ''}
+          onChange={handleChange}
+          required
+        />
       </label>
-      <Button type="submit" text={t('contactForm.send', 'Send')} />
+      <Button
+        type="submit"
+        text={t('contactForm.send', 'Send')}
+        dataTestId="contact-form-send-button"
+      />
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        message={t(`email.confirmation.${action}`)}
+        onConfirm={handleConfirmSubmit}
+        onCancel={closeModal}
+      />
     </form>
   )
 }

@@ -1,3 +1,4 @@
+import { SetURLSearchParams } from 'react-router-dom'
 /* Abstract */
 export interface Abstract {
   id: number
@@ -15,8 +16,8 @@ export interface Abstract {
   contact_firstname: string
   status: string
   consented: boolean
-  authors: number[]
-  datasets: number[]
+  authors: Author[]
+  datasets: Dataset[]
   repository_url: string
 }
 
@@ -208,4 +209,48 @@ export type IssuesState = {
 export type RowCheckbox = { [pid: string]: boolean }
 export type RowCheckboxMap = {
   selectAll?: boolean
+}
+
+export type FilterOption = { key: number; value: string; label: string }
+export type Filter = { name: string; label: string; value: string; options: FilterOption[] }
+export type SetSearchParams = SetURLSearchParams
+export interface FilterBarState {
+  filters: Filter[]
+  initFilters: () => Filter[]
+  syncFiltersWithURL: (searchParam: URLSearchParams) => void
+  changeQueryParams: (isAbstract: boolean) => object
+  updateFromStores: (isAbstract: boolean) => void
+  changeFilters: (
+    name: string,
+    value: string,
+    searchParams: URLSearchParams,
+    setSearchParams: SetSearchParams,
+  ) => void
+  resetFilters: (
+    searchParams: URLSearchParams,
+    setSearchParams: SetSearchParams,
+    filterConfig: Filter[],
+  ) => void
+  resetSpecificFilter: (
+    searchParams: URLSearchParams,
+    setSearchParams: SetSearchParams,
+    name: string,
+  ) => void
+}
+
+export interface FormState {
+  isModalOpen: boolean
+  formData: Record<string, any>
+  setFormData: (data: Record<string, any>) => void
+  openModal: () => void
+  closeModal: () => void
+}
+
+export type NotificationType = 'success' | 'warning' | 'error' | 'info'
+export type Notification = { type: NotificationType; message: string; submessage?: string }
+export interface NotificationState {
+  isVisible: boolean
+  notification: Notification
+  setNotification: (notification: Notification) => void
+  clearNotification: () => void
 }

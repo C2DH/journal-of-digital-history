@@ -10,11 +10,7 @@
   align-items: center;
   justify-content: space-between;
   width: fit-content;
-  /* padding: var(--gap-size-0) var(--gap-size-0); */
-  /* background-color: var(--color-white); */
-
   border-radius: 32px;
   box-sizing: border-box;
   height: var(--space-size-7);
-  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); */
 }

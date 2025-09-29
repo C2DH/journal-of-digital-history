@@ -4,17 +4,17 @@ import { vi } from 'vitest'
 import ContactForm from './ContactForm'
 
 // Mock the async helper
-vi.mock('../../utils/helpers/api', () => ({
+vi.mock('../../utils/api/api', () => ({
   modifyAbstractStatusWithEmail: vi.fn(() =>
     Promise.resolve({ data: { message: 'Message sent successfully!' } }),
   ),
 }))
 
 const mockData = {
-  id: '123',
+  id: 'K7b2L9mP4zQ1',
   contactEmail: 'test@example.com',
   title: 'Test Submission',
-  row: ['123', '', '', '', 'John', 'Doe'],
+  row: ['K7b2L9mP4zQ1', '', '', '', 'John', 'Doe'],
 }
 const mockAction = 'accepted'
 const mockOnClose = vi.fn()
@@ -33,7 +33,8 @@ describe('ContactForm', () => {
     // Fill all required fields (if needed)
     fireEvent.change(screen.getByLabelText(/To/i), { target: { value: 'test@example.com' } })
     fireEvent.change(screen.getByLabelText(/Body/i), { target: { value: 'this is a body' } })
-    fireEvent.click(screen.getByRole('button', { name: /Send/i }))
+    fireEvent.click(screen.getByTestId('contact-form-send-button'))
+    fireEvent.click(screen.getByTestId('confirmation-modal-send-button'))
 
     await waitFor(() => {
       expect(mockOnNotify).toHaveBeenCalledWith(
@@ -58,7 +59,8 @@ describe('ContactForm', () => {
     fireEvent.change(screen.getByLabelText(/To/i), {
       target: { value: 'this is not an email address' },
     })
-    fireEvent.click(screen.getByRole('button', { name: /Send/i }))
+    fireEvent.click(screen.getByTestId('contact-form-send-button'))
+    fireEvent.click(screen.getByTestId('confirmation-modal-send-button'))
     expect(mockOnNotify).toHaveBeenCalledWith(
       expect.objectContaining({
         type: 'error',

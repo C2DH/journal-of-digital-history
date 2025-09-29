@@ -7,9 +7,9 @@ import { useTranslation } from 'react-i18next'
 import { ChangeStatusProps } from './interface'
 
 import { abstractStatusSchema, articleStatusSchema } from '../../schemas/changeStatus'
+import { modifyStatus } from '../../utils/api/api'
 import { abstractStatus } from '../../utils/constants/abstract'
 import { articleStatus } from '../../utils/constants/article'
-import { modifyStatus } from '../../utils/helpers/api'
 import Button from '../Buttons/Button/Button'
 
 function validateChangeStatusForm(data: any, item: string) {
@@ -25,7 +25,7 @@ const ChangeStatus = ({ item, selectedRows, onClose, onNotify }: ChangeStatusPro
   const { t } = useTranslation()
   const [status, setStatus] = useState('')
 
-  const itemStatus = item === 'abstracts' ? abstractStatus.slice(1) : articleStatus.slice(1)
+  const itemStatus = item === 'abstracts' ? abstractStatus : articleStatus
 
   const handleSubmitStatus = async (e) => {
     e.preventDefault()
@@ -100,7 +100,7 @@ const ChangeStatus = ({ item, selectedRows, onClose, onNotify }: ChangeStatusPro
           <Button type="submit" text={t('contactForm.send', 'Send')} />
           <Button
             type="button"
-            color="color-deep-blue"
+            variant="secondary"
             text={t('contactForm.cancel', 'Cancel')}
             onClick={onClose}
           />

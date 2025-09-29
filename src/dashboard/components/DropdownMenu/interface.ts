@@ -1,9 +1,7 @@
+import { FilterOption } from '../../utils/types'
 export interface DropdownMenuProps {
-  options: {
-    key: number
-    value: string
-    label: string
-  }[]
+  name: string
+  options: FilterOption[]
   value: string
   onChange: (value: string) => void
 }

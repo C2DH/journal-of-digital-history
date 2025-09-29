@@ -5,9 +5,8 @@
   min-height: 200px;
   box-sizing: border-box;
   position: relative;
-  padding: var(--gap-size-4);
+  padding: 0 var(--gap-size-4) var(--gap-size-4);
   color: var(--color-deep-blue);
-
   background: var(--color-white);
   backdrop-filter: blur(50px);
   -webkit-backdrop-filter: blur(50px);

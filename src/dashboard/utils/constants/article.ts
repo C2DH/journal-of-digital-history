@@ -4,13 +4,12 @@ export const articleSteps = [
   { key: 'peer_review', label: 'Peer Review', icon: 'check_circle' },
   { key: 'design_review', label: 'Design Review', icon: 'palette' },
   { key: 'copyediting', label: 'Copyediting', icon: 'edit' },
-  { key: 'social', label: 'Social', icon: 'share' },
   { key: 'published', label: 'Published', icon: 'rocket_launch' },
+  { key: 'social', label: 'Social', icon: 'share' },
   { key: 'archived', label: 'Archived', icon: 'inventory_2' },
 ]
 
 export const articleStatus = [
-  { key: 0, value: '', label: 'Status' },
   { key: 1, value: 'DRAFT', label: 'Submission' },
   { key: 2, value: 'TECHNICAL_REVIEW', label: 'Technical review' },
   { key: 3, value: 'PEER_REVIEW', label: 'Peer review' },
@@ -19,4 +18,17 @@ export const articleStatus = [
   { key: 6, value: 'SOCIAL', label: 'Social' },
   { key: 7, value: 'PUBLISHED', label: 'Published' },
   { key: 8, value: 'ARCHIVED', label: 'Archived' },
+]
+
+export const articlePieChart = [
+  { key: 0, value: 'DRAFT', label: 'Submission' },
+  {
+    key: 1,
+    value: 'TECHNICAL_REVIEW',
+    label: 'Technical review',
+    color: 'JDH',
+    icon: 'settings',
+  },
+  { key: 2, value: 'PEER_REVIEW', label: 'Peer review' },
+  { key: 3, value: 'DESIGN_REVIEW', label: 'Design review' },
 ]

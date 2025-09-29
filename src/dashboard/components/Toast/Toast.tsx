@@ -1,25 +1,21 @@
 import './Toast.css'
 
 import parse from 'html-react-parser'
-import { useEffect, useRef } from 'react'
-
-import { ToastProps } from './interface'
+import { useRef } from 'react'
 
 import CheckCircle from '../../../assets/icons/CheckCircle'
 import Error from '../../../assets/icons/Error'
+import { useNotificationStore } from '../../store'
 
-const Toast = ({ open, message, submessage, type = 'info', onClose }: ToastProps) => {
+const Toast = () => {
+  const { notification, isVisible } = useNotificationStore()
+  const type = notification?.type
+  const message = notification?.message
+  const submessage = notification?.submessage
+
   const toastRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    if (!open) return
-    const timer = setTimeout(() => {
-      if (onClose) onClose()
-    }, 5000)
-    return () => clearTimeout(timer)
-  }, [open, onClose])
-
-  if (!open) return null
+  if (!isVisible || !message) return null
 
   return (
     <div ref={toastRef} className={`toast-container ${type} toast-progress-animate`}>

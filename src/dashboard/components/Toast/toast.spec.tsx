@@ -1,36 +1,64 @@
 import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
 
+import { useNotificationStore } from '../../store'
 import Toast from './Toast'
 
+vi.mock('../../store.ts', () => ({
+  useNotificationStore: vi.fn(),
+}))
+
+const createMockStore = (override = {}) => {
+  return {
+    notification: {
+      type: 'success',
+      message: 'Hello World',
+      submessage: 'Submessage here',
+    },
+    isVisible: true,
+    setNotification: vi.fn(),
+    ...override,
+  }
+}
+
 describe('Toast', () => {
+  beforeEach(() => {
+    vi.mocked(useNotificationStore).mockImplementation(() => createMockStore())
+  })
+
   it('renders with message and submessage', () => {
-    render(<Toast open={true} message="Hello World" submessage="Submessage here" type="info" />)
+    renderToast()
     expect(screen.getByText('Hello World')).toBeInTheDocument()
     expect(screen.getByText('Submessage here')).toBeInTheDocument()
   })
 
   it('renders CheckCircleIcon for info/success', () => {
-    render(<Toast open={true} message="msg" type="info" />)
+    renderToast()
     expect(screen.getByTestId('toast-icon-check')).toBeInTheDocument()
   })
 
   it('renders ErrorIcon for error', () => {
-    render(<Toast open={true} message="msg" type="error" />)
+    vi.mocked(useNotificationStore).mockImplementation(() =>
+      createMockStore({
+        notification: {
+          type: 'error',
+          message: 'This is an error message',
+          submessage: 'Error details',
+        },
+      }),
+    )
+
+    renderToast()
     expect(screen.getByTestId('toast-icon-error')).toBeInTheDocument()
   })
 
   it('does not render when open is false', () => {
-    render(<Toast open={false} message="msg" />)
+    vi.mocked(useNotificationStore).mockImplementation(() => createMockStore({ isVisible: false }))
+    renderToast()
     expect(screen.queryByText('msg')).not.toBeInTheDocument()
   })
-
-  it('calls onClose after 5 seconds', async () => {
-    vi.useFakeTimers()
-    const onClose = vi.fn()
-    render(<Toast open={true} message="msg" onClose={onClose} />)
-    vi.advanceTimersByTime(5000)
-    expect(onClose).toHaveBeenCalled()
-    vi.useRealTimers()
-  })
 })
+
+const renderToast = () => {
+  render(<Toast />)
+}

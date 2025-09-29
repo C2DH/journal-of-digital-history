@@ -1,9 +1,20 @@
 import create from 'zustand'
 
+import api from './utils/api/headers'
 import { abstractStatus } from './utils/constants/abstract'
 import { articleStatus } from './utils/constants/article'
-import api from './utils/helpers/setApiHeaders'
-import { CallForPapersState, IssuesState, ItemsState, ItemState, SearchState } from './utils/types'
+import {
+  CallForPapersState,
+  Filter,
+  FilterBarState,
+  FormState,
+  IssuesState,
+  ItemsState,
+  ItemState,
+  NotificationState,
+  SearchState,
+  SetSearchParams,
+} from './utils/types'
 
 // SEARCH STORE
 /**
@@ -55,9 +66,9 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
   ordering: undefined,
   search: undefined,
   params: {},
-
   fetchItems: async (reset = false) => {
     const { endpoint, limit, ordering, search, offset, data, params } = get()
+
     if (!endpoint) return
 
     set({ loading: true, error: null })
@@ -142,7 +153,7 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
  * - fetchItem: fetches an item by id and endpoint
  * - reset: resets store state
  */
-export const useItemStore = create<ItemState<any>>((set, get) => ({
+export const useItemStore = create<ItemState<any>>((set) => ({
   data: null,
   loading: false,
   error: null,
@@ -184,7 +195,7 @@ export const useCallForPapersStore = create<CallForPapersState>((set) => ({
   error: null,
   fetchCallForPapers: async () => {
     try {
-      const response = await api.get('/api/callforpaper/')
+      const response = await api.get('/api/callforpaper?ordering=-id')
       const result = response.data
       set({
         data: result.results || [],
@@ -208,13 +219,12 @@ export const useCallForPapersStore = create<CallForPapersState>((set) => ({
  * - fetchIssues: fetches all issues
  * - reset: resets store state
  */
-
 export const useIssuesStore = create<IssuesState>((set) => ({
   data: [],
   error: null,
   fetchIssues: async () => {
     try {
-      const response = await api.get('/api/issues/')
+      const response = await api.get('/api/issues?ordering=-pid')
       const result = response.data
       set({
         data: result.results || [],
@@ -228,50 +238,102 @@ export const useIssuesStore = create<IssuesState>((set) => ({
 }))
 
 // FILTER BAR STORE
-
-type FilterOption = { key: number; value: string; label: string }
-type Filter = { name: string; value: string; options: FilterOption[] }
-
-interface FilterBarState {
-  filters: Filter[]
-  setFilter: (name: string, newValue: string) => void
-  resetFilters: () => void
-  initFilters: () => void
-  updateFromStores: (isAbstract: boolean) => void
-}
-
+/**
+ * useFilterBarStore
+ * Zustand store for filtering articles or abstracts.
+ * - filters: array of filters objects
+ * - initFilters: initializes filters with default values
+ * - syncFiltersWithURL: synchronize the filters with the url query parameters
+ * - changeQueryParams: change the params according to the filters
+ * - changeFilters: change the filters according to the url query parameters
+ * - updateFromStores: fetches call for papers and issues to populate filter options
+ * - resetFilters: reset all filters
+ * - resetSpecificFilters : reset a specific filter
+ */
 export const useFilterBarStore = create<FilterBarState>((set, get) => ({
   filters: [],
   initFilters: () => {
+    const newFilters = [
+      {
+        name: 'callpaper',
+        label: 'Call for Paper',
+        value: '',
+        options: [{ key: 0, value: '', label: '-' }],
+      },
+      {
+        name: 'issue',
+        label: 'Issue',
+        value: '',
+        options: [{ key: 0, value: '', label: '-' }],
+      },
+      {
+        name: 'status',
+        label: 'Status',
+        value: '',
+        options: [{ key: 0, value: '', label: '-' }],
+      },
+    ]
     set({
-      filters: [
-        {
-          name: 'callpaper',
-          value: '',
-          options: [{ key: 0, value: '', label: 'Call for Paper' }],
-        },
-        {
-          name: 'issue',
-          value: '',
-          options: [{ key: 0, value: '', label: 'Issue' }],
-        },
-        {
-          name: 'status',
-          value: '',
-          options: [],
-        },
-      ],
+      filters: newFilters,
     })
+    return newFilters
   },
-  setFilter: (name: string, newValue: string) => {
-    set((state) => ({
-      filters: state.filters.map((f) => (f.name === name ? { ...f, value: newValue } : f)),
+  syncFiltersWithURL: (searchParam: URLSearchParams) => {
+    let currentFilters = get().filters
+
+    if (!currentFilters || currentFilters.length === 0) {
+      currentFilters = get().initFilters()
+    }
+
+    const updatedFilters = currentFilters.map((filter) => ({
+      ...filter,
+      value: searchParam.get(filter.name) || '',
     }))
+
+    set({ filters: updatedFilters })
   },
-  resetFilters: () => {
-    set((state) => ({
-      filters: state.filters.map((f) => ({ ...f, value: '' })),
-    }))
+  changeQueryParams: (isAbstract: boolean) => {
+    const filters = get().filters
+    let params
+    if (isAbstract) {
+      params = filters.reduce((acc, filter) => {
+        if (filter.value) {
+          if (filter.name === 'issue') {
+            //exception for sorting on 'issues' it should call 'article__issue'
+            acc['article__issue'] = filter.value.replace(/^jdh0+/, '')
+          } else {
+            acc[filter.name] = filter.value
+          }
+        }
+        return acc
+      }, {})
+    } else {
+      params = filters.reduce((acc, filter) => {
+        if (filter.value) {
+          if (filter.name === 'callpaper') {
+            //exception for sorting on 'call for paper' it should call 'abstract__callpaper'
+            acc['abstract__callpaper'] = filter.value
+          } else if (filter.name === 'issue') {
+            acc['issue'] = filter.value.replace(/^jdh0+/, '')
+          } else {
+            acc[filter.name] = filter.value
+          }
+        }
+        return acc
+      }, {})
+    }
+    return params
+  },
+  changeFilters: (name: string, value: string, searchParams, setSearchParams) => {
+    const newParams = new URLSearchParams(searchParams)
+
+    if (value) {
+      newParams.set(name, value)
+    } else {
+      newParams.delete(name)
+    }
+
+    setSearchParams(newParams, { replace: true })
   },
   updateFromStores: async (isAbstract: boolean) => {
     await Promise.all([
@@ -287,7 +349,6 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
           return {
             ...filter,
             options: [
-              { key: 0, value: '', label: 'Call for Paper' },
               ...callForPapers.map((cfp) => ({
                 key: cfp.id,
                 value: String(cfp.id),
@@ -300,7 +361,6 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
           return {
             ...filter,
             options: [
-              { key: 0, value: '', label: 'Issue' },
               ...issues.map((issue) => ({
                 key: issue.id,
                 value: String(issue.pid),
@@ -319,4 +379,59 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
       }),
     }))
   },
+  resetFilters: (
+    searchParams: URLSearchParams,
+    setSearchParams: SetSearchParams,
+    filterConfig: Filter[],
+  ) => {
+    const newParams = new URLSearchParams(searchParams)
+    filterConfig.forEach((filter) => newParams.delete(filter.name))
+    setSearchParams(newParams, { replace: true })
+  },
+  resetSpecificFilter: (
+    searchParams: URLSearchParams,
+    setSearchParams: SetSearchParams,
+    name: string,
+  ) => {
+    const newParams = new URLSearchParams(searchParams)
+    newParams.delete(name)
+    setSearchParams(newParams, { replace: true })
+  },
+}))
+
+// FORM MODAL STORE
+/**
+ * useFormStore
+ * Zustand store for managing form modal state.
+ * - isModalOpen: if the modal is open
+ * - formData: data for the form
+ * - setFormData: updates form data
+ * - openModal: action to open the modal
+ * - closeModal: action to close the modal
+ */
+export const useFormStore = create<FormState>((set) => ({
+  isModalOpen: false,
+  formData: {},
+  setFormData: (data: any) => set({ formData: data }),
+  openModal: () => set({ isModalOpen: true }),
+  closeModal: () => set({ isModalOpen: false }),
+}))
+
+//NOTIFICATION STORE
+/**
+ * useNotificationStore
+ * Zustand store for managing notification state.
+ * - isVisible: if the notification should be displayed
+ * - notification: notification data (type, message, submessage)
+ * - setNotification: updates notification data and shows it
+ * - clearNotification: clears notification data
+ */
+export const useNotificationStore = create<NotificationState>((set) => ({
+  isVisible: false,
+  notification: { type: 'info', message: '', submessage: '' },
+  setNotification: (notification) => {
+    set({ notification, isVisible: true })
+    setTimeout(() => set({ isVisible: false }), 5000)
+  },
+  clearNotification: () => set({ notification: { type: 'info', message: '', submessage: '' } }),
 }))

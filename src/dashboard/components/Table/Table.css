@@ -1,3 +1,4 @@
+/* TABLE STYLES */
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -12,20 +13,69 @@
   padding-right: var(--gap-size-3);
 }
 
+/* ROW STYLES */
+.table tr {
+  vertical-align: top;
+}
+
+.table tbody tr:hover {
+  background-color: var(--color-hover);
+}
+
+/* HEADER STYLES */
 .table th {
-  padding-bottom: var(--gap-size-1);
+  padding-bottom: var(--gap-size-3);
   color: var(--color-gray);
   font-weight: 600;
   font-size: var(--text-size-3);
 }
 
-.header {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  position: relative;
+table.abstracts th,
+table.articles th {
+  padding-top: var(--gap-size-4);
+  position: sticky;
+  top: var(--table-headers-top-position);
+  background: var(--color-white);
+  z-index: 5;
 }
 
+table.abstracts th:not(.title):not(.contact_affiliation),
+table.articles th:not(.status-header):not(.abstract__title) {
+  width: 100%;
+}
+
+th.pid,
+th.abstract__pid {
+  width: 5%;
+}
+th.title,
+th.abstract__title {
+  width: 100%;
+
+  @media screen and (min-width: 2000px) {
+    width: 700px;
+  }
+  @media screen and (min-width: 3000px) {
+    width: 1200px;
+  }
+}
+th.abstract__contact_firstname,
+th.abstract__contact_lastname {
+  width: 10%;
+}
+th.contact_affiliation {
+  @media screen and (min-width: 2000px) {
+    width: 300px;
+  }
+}
+th.status-header {
+  width: 15%;
+}
+th.header.url {
+  width: 25%;
+}
+
+/* CELL STYLES */
 .table td {
   color: var(--color-gray);
   padding-top: var(--gap-size-2);
@@ -35,46 +85,22 @@
   position: relative;
 }
 
-/* Remove ellipse text for actions-cell */
-td.actions-cell {
+/* Remove ellipse text*/
+td.actions-cell,
+td.repository_url {
   overflow: visible;
   text-overflow: clip;
   white-space: normal;
   position: static;
 }
-
-.table tr {
-  vertical-align: top;
-}
-
-.table tbody tr:hover {
-  background-color: var(--color-hover);
+td.status {
+  padding-right: 0;
 }
 
 .status-cell {
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
-}
-
-th.status-header {
-  width: 2%;
-}
-
-th.title,
-th.abstract__title {
-  width: 20%;
-
-  @media screen and (min-width: 2500px) {
-    width: 40%;
-  }
-}
-
-th.header.id {
-  width: 5%;
-}
-th.header.url {
-  width: 25%;
 }
 
 /*TODO: rename abstract__title by article___title and title by abstract_title */
@@ -95,4 +121,10 @@ td.repository_url,
 td.orcid {
   padding-top: var(--gap-size-1);
   width: 1%;
+}
+
+/* Exception for Callforpapers table */
+table.callforpapers td,
+table.callforpapers th {
+  width: auto;
 }

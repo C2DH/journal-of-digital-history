@@ -5,7 +5,7 @@
   overflow: hidden;
   top: 2rem;
   right: 2rem;
-  z-index: 3000;
+  z-index: 10000;
 
   min-width: 280px;
   max-width: 400px;
@@ -13,7 +13,7 @@
   padding: 1rem 4rem 1rem 1rem;
   border-radius: 0 0 8px 8px;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
-  background: #ffffffa9;
+  background: var(--color-white);
 
   display: flex;
   align-items: center;

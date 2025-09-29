@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import api from '../utils/helpers/setApiHeaders'
+import api from '../utils/api/headers'
 import { AbstractsByCallforpaperValue, AbstractsPublished } from '../utils/types'
 
 export function useFetchAbstractsByCallForPaper(callforpapers: any[]) {

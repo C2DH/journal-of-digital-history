@@ -4,6 +4,11 @@
     "button": "Login"
   },
   "welcome": "Welcome to the Dashboard",
+  "KPI": {
+    "pieChart": {
+      "title": "Publication stages"
+    }
+  },
   "issues": {
     "item": "Issues",
     "pid": "PID",
@@ -110,6 +115,12 @@
         "message": "Something really bad happened..."
       },
       "validation": { "message": "Validation failed", "submessage": "Please check your input" }
+    },
+    "confirmation": {
+      "abandoned": "Send an email and switch status to abandoned ?",
+      "declined": "Send an email and switch status to declined ?",
+      "suspended": "Send an email and switch status to suspended ?",
+      "accepted": "Send an email and switch status to accepted ?"
     }
   },
   "actions": {

@@ -13,7 +13,10 @@
   padding: var(--space-size-1) var(--space-size-3);
   font-size: var(--text-size-3);
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
 }
 
 .default-button:hover,
@@ -23,7 +26,7 @@
   border-color: var(--btn-border-hover);
 }
 
-.color-deep-blue {
+.secondary {
   --btn-color: var(--color-deep-blue);
   --btn-border: var(--color-deep-blue);
   --btn-bg-hover: var(--color-deep-blue);
