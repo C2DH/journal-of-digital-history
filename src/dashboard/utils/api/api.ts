@@ -61,8 +61,11 @@ const getArticlesByStatusAndIssues = async (issue: number, status: string): APIR
     })
 }
 
-const getAbstractsByCallForPapers = async (callforpaper: number, status: string): APIResponse => {
-  console.info(`GET [getAbstractsByCallForPapers] - ${callforpaper} `)
+const getAbstractsByStatusAndCallForPapers = async (
+  callforpaper: number,
+  status: string,
+): APIResponse => {
+  console.info(`GET [getAbstractsByStatusAndCallForPapers] - ${callforpaper} `)
 
   return api
     .get(`/api/abstracts/?callpaper=${callforpaper}&status=${status}`)
@@ -77,7 +80,7 @@ const getAbstractsByCallForPapers = async (callforpaper: number, status: string)
 }
 
 export {
-  getAbstractsByCallForPapers,
+  getAbstractsByStatusAndCallForPapers,
   getArticlesByStatus,
   getArticlesByStatusAndIssues,
   modifyAbstractStatusWithEmail,

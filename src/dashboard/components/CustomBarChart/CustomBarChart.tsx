@@ -9,7 +9,10 @@ import { ItemsByStatus } from './interface'
 
 import { useCallForPapersStore, useIssuesStore } from '../../store'
 import { colorsBarChartAbstract, colorsBarChartArticle } from '../../styles/theme'
-import { getAbstractsByCallForPapers, getArticlesByStatusAndIssues } from '../../utils/api/api'
+import {
+  getAbstractsByStatusAndCallForPapers,
+  getArticlesByStatusAndIssues,
+} from '../../utils/api/api'
 import { abstractStatus } from '../../utils/constants/abstract'
 import { articleBarChart } from '../../utils/constants/article'
 import { APIResponseObject, Callforpaper, Issue } from '../../utils/types'
@@ -17,7 +20,11 @@ import SmallCard from '../SmallCard/SmallCard'
 
 const FlipButton = ({ isArticle, onClick }) => {
   return (
-    <button className="flip-button material-symbols-outlined" onClick={onClick}>
+    <button
+      className="flip-button material-symbols-outlined"
+      onClick={onClick}
+      data-testid="flip-button"
+    >
       {isArticle ? 'draft' : 'description'}
     </button>
   )
@@ -60,7 +67,10 @@ const CustomBarChart = () => {
               if (isArticle) {
                 res = await getArticlesByStatusAndIssues((entry as Issue).id, status.value)
               } else {
-                res = await getAbstractsByCallForPapers((entry as Callforpaper).id, status.value)
+                res = await getAbstractsByStatusAndCallForPapers(
+                  (entry as Callforpaper).id,
+                  status.value,
+                )
               }
 
               return res.count || 0
@@ -102,7 +112,6 @@ const CustomBarChart = () => {
           height={400}
           hideLegend
           // barLabel="value"
-          borderRadius={10}
           margin={{ bottom: 10, right: 20 }}
           xAxis={[
             {
@@ -136,6 +145,7 @@ const CustomBarChart = () => {
           slotProps={{ tooltip: { trigger: 'item' } }}
         />
       )}
+      {itemByStatus.length === 0 && <p>{t('KPI.barChart.noData')}</p>}
     </SmallCard>
   )
 }
