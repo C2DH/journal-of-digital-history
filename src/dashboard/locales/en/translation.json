@@ -7,6 +7,17 @@
   "KPI": {
     "pieChart": {
       "title": "Publication stages"
+    },
+    "barChart": {
+      "article": {
+        "title": "Issues",
+        "description": "Articles"
+      },
+      "abstract": {
+        "title": "Call for Papers",
+        "description": "Abstracts"
+      },
+      "noData": "No data to display"
     }
   },
   "issues": {

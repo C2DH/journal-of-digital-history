@@ -4,6 +4,7 @@ import '../styles/pages/pages.css'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router'
 
+import CustomBarChart from '../components/CustomBarChart/CustomBarChart'
 import CustomPieChart from '../components/CustomPieChart/CustomPieChart'
 
 const Home = () => {
@@ -14,6 +15,7 @@ const Home = () => {
       <h1>{t('welcome')}</h1>
       <div className="home-grid">
         <CustomPieChart />
+        <CustomBarChart />
       </div>
       <Outlet />
     </div>
