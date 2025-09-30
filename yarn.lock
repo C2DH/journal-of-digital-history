@@ -12008,7 +12008,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"iconoir-react@npm:^7.7.0":
+"iconoir-react@npm:^7.11.0":
   version: 7.11.0
   resolution: "iconoir-react@npm:7.11.0"
   peerDependencies:
@@ -12850,7 +12850,7 @@ __metadata:
     i18next: "npm:^24.2.2"
     i18next-browser-languagedetector: "npm:^8.0.4"
     i18next-http-backend: "npm:^3.0.2"
-    iconoir-react: "npm:^7.7.0"
+    iconoir-react: "npm:^7.11.0"
     immer: "npm:^10.1.1"
     lodash: "npm:^4.17.21"
     luxon: "npm:^3.6.1"
