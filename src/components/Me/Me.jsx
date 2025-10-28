@@ -1,6 +1,6 @@
-import '../../styles/components/Me.css'
+import './Me.css'
 
-import React, { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGetJSON } from '../../logic/api/fetchData'
 import { generateColorList } from './helper'
@@ -9,21 +9,21 @@ import { LogOut, OpenInBrowser, ProfileCircle } from 'iconoir-react'
 
 /**
  * React component that loads the username from the rest url /api/me.
- * If the request succeeds, the components render the user first_name and username.
+ * If the request succeeds, the components render the user username.
  * If the request fails, the component silently fails.
- * @return {React.Component} The component.
  */
 const Me = () => {
   const { t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
+
   const { data, error } = useGetJSON({
     url: '/api/me',
     failSilently: true,
   })
+  const username = data?.username || data?.first_name || 'User'
+  const avatarBg = useMemo(() => generateColorList(username), [username])
 
-  console.debug('[Me]', error, data)
-  if (error) return null
-  if (!data) return null
+  if (error || !data) return null
 
   return (
     <div className="me">
@@ -38,14 +38,14 @@ const Me = () => {
               <ProfileCircle /> My profile
             </a>
             <a href={`/dashboard/`} title="Switch to dashboard">
-              <OpenInBrowser /> Go to dashboard
+              <OpenInBrowser /> Go to Dashboard
             </a>
             <a href={`/admin/logout/`} title="Log out">
               <LogOut /> Sign out
             </a>
           </div>
         )}
-        <div className="me-avatar" style={{ background: generateColorList(data.username) }}></div>
+        <div className="me-avatar" style={{ background: avatarBg }}></div>
       </div>
     </div>
   )

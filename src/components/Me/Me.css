@@ -53,15 +53,14 @@
 
   position: absolute;
   left: -40%;
-  padding: 0.5em;
   margin-top: var(--spacer-3);
+  padding: var(--spacer-2);
 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 
-  border: 1px solid;
-  border-color: var(--dark);
+  border: 1px solid var(--dark);
   border-radius: 3px;
   box-shadow:
     rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
@@ -75,8 +74,6 @@
 
   a:hover {
     font-weight: bold;
-    background-color: transparent;
-    color: var(--dark);
   }
 
   a:hover svg,
