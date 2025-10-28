@@ -14,7 +14,10 @@ import { LogOut, OpenInBrowser, ProfileCircle } from 'iconoir-react'
  */
 const Me = () => {
   const { t } = useTranslation()
-  const [isOpen, setIsOpen] = useState(false)
+  const pathname = window.location.pathname
+  const cleanPathname = pathname.split('/').filter(Boolean)[0] || ''
+
+  const [isDropdownOpen, setDropdownOpen] = useState(false)
 
   const { data, error } = useGetJSON({
     url: '/api/me',
@@ -26,26 +29,32 @@ const Me = () => {
   if (error || !data) return null
 
   return (
-    <div className="me">
+    <div className={`me ${cleanPathname}`}>
       <div>
-        {t('welcomeBack')}
-        <button className="me-dropdown-button" onClick={() => setIsOpen(!isOpen)}>
-          {data.first_name.length ? data.first_name : data.username} {isOpen ? '▲' : '▼'}
+        {t('loggedInAs')}
+        <button
+          className={`me-dropdown-button ${cleanPathname}`}
+          onClick={() => setDropdownOpen(!isDropdownOpen)}
+        >
+          {data.first_name.length ? data.first_name : data.username} {isDropdownOpen ? '▲' : '▼'}
         </button>
-        {isOpen && (
-          <div className="me-dropdown-menu">
+        {isDropdownOpen && (
+          <div className={`me-dropdown-menu ${cleanPathname}`}>
             <a href={`/admin/auth/user/${data.id}/change/`} title="User settings">
               <ProfileCircle /> My profile
             </a>
-            <a href={`/dashboard/`} title="Switch to dashboard">
-              <OpenInBrowser /> Go to Dashboard
+            <a
+              href={cleanPathname === 'dashboard' ? `/` : `/dashboard/`}
+              title="Switch to dashboard"
+            >
+              <OpenInBrowser /> {cleanPathname === 'dashboard' ? 'Go to JDH' : 'Go to Dashboard'}
             </a>
             <a href={`/admin/logout/`} title="Log out">
               <LogOut /> Sign out
             </a>
           </div>
         )}
-        <div className="me-avatar" style={{ background: avatarBg }}></div>
+        <div className={`me-avatar ${cleanPathname}`} style={{ background: avatarBg }}></div>
       </div>
     </div>
   )

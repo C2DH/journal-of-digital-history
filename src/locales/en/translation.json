@@ -447,6 +447,6 @@
     "DRAFT": "Coming soon",
     "INTERNAL_REVIEW": "Internal Review"
   },
-  "welcomeBack": "Logged in as",
+  "loggedInAs": "Logged in as",
   "Hello": "Hello! Test internationalization by clicking on 🌐 in the Storybook menu."
 }

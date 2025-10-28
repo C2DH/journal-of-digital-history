@@ -1,15 +1,12 @@
 /* Navbar container */
 .navbar {
   width: var(--navbar-width);
-  /* background-color: var(--color-white); */
   min-height: 600px;
-  border-bottom-right-radius: 16px;
   position: fixed;
   top: 0;
   left: 0;
   font-size: 16 px;
   font-family: 'Fira Sans', monospace;
-  /* box-shadow: 4px 0 16px 0 rgba(0, 0, 0, 0.08); */
 }
 
 .navbar-logo {
@@ -23,7 +20,7 @@
   display: flex;
   align-items: center;
   width: var(--navbar-header-width);
-  padding: 15%;
+  padding: 10%;
 }
 
 .navbar-header p {
@@ -80,7 +77,9 @@
   font-size: 24px;
   color: var(--color-dark);
   font-variation-settings: 'FILL' 0;
-  transition: color 0.2s, font-variation-settings 0.2s;
+  transition:
+    color 0.2s,
+    font-variation-settings 0.2s;
 }
 
 /* Active, hover, and focus states for both icon and link */
