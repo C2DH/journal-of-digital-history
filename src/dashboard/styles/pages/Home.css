@@ -7,6 +7,10 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
+h1 {
+  margin-bottom: var(--space-size-4);
+}
+
 h3 {
   margin-top: 0;
 }

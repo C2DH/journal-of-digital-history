@@ -15,7 +15,8 @@
 
 .me.dashboard {
   padding: var(--gap-size-2);
-  margin: var(--space-size-3);
+  margin-top: var(--space-size-3);
+  margin-right: var(--space-size-5);
   background-color: var(--color-white);
   width: fit-content;
   border-radius: 30px;
@@ -107,7 +108,7 @@
 }
 
 .me-dropdown-menu.dashboard {
-  left: -80%;
+  left: -70%;
   top: 2.2em;
   margin-top: var(--space-size-1);
   padding: var(--space-size-2);
