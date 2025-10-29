@@ -8,7 +8,7 @@ import UniversalCookie from 'universal-cookie'
 
 import Login from '../components/Login/Login'
 import Me from '../components/Me/Me'
-import { fetchUsername, userLogoutRequest } from '../logic/api/login'
+import { fetchUsername } from '../logic/api/login'
 import { navbarItems } from './components/Navbar/constant'
 import Navbar from './components/Navbar/Navbar'
 import Toast from './components/Toast/Toast'
@@ -27,23 +27,21 @@ const queryClient = new QueryClient({
 })
 
 function DashboardApp() {
-  // const [username, setUsername] = useState<string>('Anonymous')
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-
-  const handleLogout = async () => {
-    await userLogoutRequest()
-    setIsAuthenticated(false)
-    // setUsername('Anonymous')
-  }
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const name = await fetchUsername()
-        // setUsername(name || 'Anonymous')
-        setIsAuthenticated(true)
+        if (name) {
+          console.info('[Dashboard] Success checking authentication')
+          setIsAuthenticated(true)
+        } else {
+          setIsAuthenticated(false)
+        }
       } catch (error) {
+        console.info('[Dashboard] Error checking authentication:', error)
         setIsAuthenticated(false)
       } finally {
         setIsLoading(false)
