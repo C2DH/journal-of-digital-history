@@ -1,9 +1,9 @@
 {
   "name": "jdh",
-  "version": "6.0.6",
+  "version": "6.0.8",
   "private": true,
   "type": "module",
-  "packageManager": "yarn@4.9.1",
+  "packageManager": "yarn@4.10.3",
   "scripts": {
     "start": "vite",
     "build": "vite build --config vite.config.js",
@@ -143,7 +143,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-storybook": "^0.6.8",
     "eslint-plugin-unused-imports": "^4.1.4",
-    "playwright": "^1.50.1",
+    "playwright": "^1.56.1",
     "storybook": "^8.6.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1",

@@ -3,6 +3,10 @@
   height: fit-content;
 }
 
+h1 {
+  margin-bottom: var(--space-size-4);
+}
+
 h3 {
   margin-top: 0;
 }

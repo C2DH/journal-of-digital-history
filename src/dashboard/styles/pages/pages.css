@@ -6,6 +6,11 @@
   padding: 0% 2%;
 }
 
+.empty-space {
+  height: var(--filter-bar-height);
+  padding-bottom: var(--space-size-4);
+}
+
 @media (max-width: 1400px) {
   .page {
     margin-left: var(--navbar-width-mobile);

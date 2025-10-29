@@ -57,7 +57,7 @@ const CustomPieChart = () => {
               outerRadius: 100,
               data: articlesCounts,
               highlightScope: { fade: 'global', highlight: 'item' },
-              arcLabel: 'value',
+              arcLabel: (item) => (item.value != 0 ? `${item.value}` : ''),
             },
           ]}
           colors={colorsPieChart}

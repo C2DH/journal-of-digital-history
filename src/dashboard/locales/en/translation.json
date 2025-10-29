@@ -3,6 +3,7 @@
     "title": "Admin login",
     "button": "Login"
   },
+  "loggedInAs": "",
   "welcome": "Welcome to the Dashboard",
   "KPI": {
     "pieChart": {
