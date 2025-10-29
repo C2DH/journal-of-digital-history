@@ -34,6 +34,7 @@ const CallForPapers = () => {
 
   return (
     <div className="callforpapers page">
+      <div className="empty-space"></div>
       <Card
         item="callforpapers"
         headers={['id', 'title', 'deadline_abstract', 'deadline_article', 'folder_name']}
