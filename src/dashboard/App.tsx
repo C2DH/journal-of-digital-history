@@ -8,11 +8,11 @@ import { I18nextProvider } from 'react-i18next'
 import Login from '../components/Login/Login'
 import { fetchUsername } from '../logic/api/login'
 import Header from './components/Header/Header'
-import { navbarItems } from './components/Navbar/constant'
 import Navbar from './components/Navbar/Navbar'
 import Toast from './components/Toast/Toast'
 import i18n from './i18next'
 import AppRoutes from './routes'
+import { navbarItems } from './utils/constants/navbar'
 
 const queryClient = new QueryClient({
   defaultOptions: {
