@@ -3,6 +3,7 @@ import './Me.css'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useGetJSON } from '../../logic/api/fetchData'
+import { userLogoutRequest } from '../../logic/api/login'
 import { generateColorList } from './helper'
 
 import { LogOut, OpenInBrowser, ProfileCircle } from 'iconoir-react'
@@ -28,6 +29,10 @@ const Me = () => {
 
   if (error || !data) return null
 
+  const handleLogout = async () => {
+    await userLogoutRequest()
+  }
+
   return (
     <div className={`me ${cleanPathname}`}>
       <div>
@@ -49,7 +54,13 @@ const Me = () => {
             >
               <OpenInBrowser /> {cleanPathname === 'dashboard' ? 'Go to JDH' : 'Go to Dashboard'}
             </a>
-            <a href={`/admin/logout/`} title="Log out">
+            <a
+              title="Log out"
+              onClick={async () => {
+                await handleLogout()
+                window.location.href = '/'
+              }}
+            >
               <LogOut /> Sign out
             </a>
           </div>

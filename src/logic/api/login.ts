@@ -83,6 +83,7 @@ export async function userLogoutRequest() {
         withCredentials: true,
       },
     )
+    console.info('Logout successful')
   } catch (error) {
     console.error('Logout failed:', error)
   }
