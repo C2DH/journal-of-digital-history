@@ -69,7 +69,6 @@ const Detail = ({ endpoint }) => {
 
   return (
     <div className="detail page ">
-      <div className="empty-space"></div>
       <div className="detail-grid">
         <SmallCard className="card-info">
           {infoFields.map(({ label, value }) => (

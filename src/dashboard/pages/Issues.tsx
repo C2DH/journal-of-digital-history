@@ -15,7 +15,6 @@ const Issues = () => {
 
   return (
     <div className="issues page">
-      <div className="empty-space"></div>
       <Card
         item="issues"
         headers={['pid', 'name', 'creation_date', 'publication_date', 'status', 'volume', 'issue']}
