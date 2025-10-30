@@ -1,16 +1,12 @@
 import './Header.css'
 
-import { HeaderProps } from './interface'
-
-import Avatar from '../Avatar/Avatar'
+import Me from '../../../components/Me/Me'
 import Breadcrumb from '../Breadcrumb/Breadcrumb'
 
-const Header = ({ username, onLogout }: HeaderProps) => (
+const Header = () => (
   <div className="top-bar">
     <Breadcrumb />
-    <div className="menu-bar">
-      <Avatar username={username} onLogout={onLogout} />
-    </div>
+    <Me />
   </div>
 )
 

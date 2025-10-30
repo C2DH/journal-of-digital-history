@@ -14,6 +14,21 @@
   "KPI": {
     "pieChart": {
       "title": "Publication stages"
+    },
+    "barChart": {
+      "button": {
+        "article": "See CFP →",
+        "abstract": "See Issues →"
+      },
+      "article": {
+        "title": "Issues",
+        "description": "Published articles"
+      },
+      "abstract": {
+        "title": "Call for Papers",
+        "description": "Abstracts"
+      },
+      "noData": "No data to display"
     }
   },
   "issues": {

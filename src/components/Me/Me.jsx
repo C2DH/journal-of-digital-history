@@ -1,7 +1,12 @@
 import './Me.css'
 
+import { LogOut, OpenInBrowser, ProfileCircle } from 'iconoir-react'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { StringParam, useQueryParams, withDefault } from 'use-query-params'
+
+import { DisplayLayerQueryParam, LayerNarrative } from '../../constants/globalConstants'
+
 import { useGetJSON } from '../../logic/api/fetchData'
 import { userLogoutRequest } from '../../logic/api/login'
 import { generateColorList } from './helper'
@@ -15,9 +20,6 @@ import { GithubCircle, LogOut, OpenInBrowser, ProfileCircle } from 'iconoir-reac
  */
 const Me = () => {
   const { t } = useTranslation()
-  const pathname = window.location.pathname
-  const cleanPathname = pathname.split('/').filter(Boolean)[0] || ''
-
   const [isDropdownOpen, setDropdownOpen] = useState(false)
 
   const { data, error } = useGetJSON({
@@ -27,6 +29,19 @@ const Me = () => {
   const username = data?.username || data?.first_name || 'User'
   const avatarBg = useMemo(() => generateColorList(username), [username])
 
+  //To see if we are in dashboard or in JDH
+  const pathname = window.location.pathname
+  const path = pathname.split('/').filter(Boolean)[0] || ''
+
+  // To see if narrative or hermeneutics layer is selected for article view
+  let layer = ''
+  if (path != 'dashboard') {
+    const [selectedLayer] = useQueryParams({
+      [DisplayLayerQueryParam]: withDefault(StringParam, LayerNarrative),
+    })
+    layer = selectedLayer.layer
+  }
+
   if (error || !data) return null
 
   const handleLogout = async () => {
@@ -34,17 +49,17 @@ const Me = () => {
   }
 
   return (
-    <div className={`me ${cleanPathname}`}>
+    <div className={`me ${path}`}>
       <div>
         {t('loggedInAs')}
         <button
-          className={`me-dropdown-button ${cleanPathname}`}
+          className={`me-dropdown-button ${path}`}
           onClick={() => setDropdownOpen(!isDropdownOpen)}
         >
           {data.first_name.length ? data.first_name : data.username} {isDropdownOpen ? '▲' : '▼'}
         </button>
         {isDropdownOpen && (
-          <div className={`me-dropdown-menu ${cleanPathname}`}>
+          <div className={`me-dropdown-menu ${path} ${layer}`}>
             <a href={`/admin/auth/user/${data.id}/change/`} title="User settings">
               <ProfileCircle /> {t('login.profile')}
             </a>
@@ -68,7 +83,7 @@ const Me = () => {
             </a>
           </div>
         )}
-        <div className={`me-avatar ${cleanPathname}`} style={{ background: avatarBg }}></div>
+        <div className={`me-avatar ${path}`} style={{ background: avatarBg }}></div>
       </div>
     </div>
   )

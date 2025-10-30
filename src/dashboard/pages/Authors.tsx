@@ -25,7 +25,6 @@ const Authors = () => {
 
   return (
     <div className="authors page">
-      <div className="empty-space"></div>
       <Card
         item="authors"
         headers={['id', 'lastname', 'firstname', 'email', 'orcid', 'affiliation']}

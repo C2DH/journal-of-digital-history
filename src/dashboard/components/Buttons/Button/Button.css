@@ -19,8 +19,7 @@
     border-color 0.2s;
 }
 
-.default-button:hover,
-.default-button:focus {
+.default-button:hover {
   background: var(--btn-bg-hover);
   color: var(--btn-color-hover);
   border-color: var(--btn-border-hover);
@@ -29,6 +28,15 @@
 .secondary {
   --btn-color: var(--color-deep-blue);
   --btn-border: var(--color-deep-blue);
+  --btn-bg-hover: var(--color-deep-blue);
+  --btn-color-hover: var(--color-white);
+  --btn-border-hover: var(--color-deep-blue);
+}
+
+.tertiary {
+  --btn-bg: var(--color-accent-lighter);
+  --btn-color: var(--color-deep-blue);
+  --btn-border: none;
   --btn-bg-hover: var(--color-deep-blue);
   --btn-color-hover: var(--color-white);
   --btn-border-hover: var(--color-deep-blue);

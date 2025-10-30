@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   width: var(--navbar-header-width);
-  padding: 10%;
+  padding: 9% 10%;
 }
 
 .navbar-header p {
