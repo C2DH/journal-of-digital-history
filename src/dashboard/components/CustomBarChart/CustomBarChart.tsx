@@ -115,7 +115,7 @@ const CustomBarChart = () => {
         fontSize: 12,
       },
     }),
-    slotProps: { tooltip: { trigger: 'item' as const } },
+    // slotProps: { tooltip: { trigger: 'item' as const } },
   }
 
   const showNoData = isArticle
@@ -159,7 +159,7 @@ const CustomBarChart = () => {
             hideLegend={commonProps.hideLegend}
             margin={commonProps.margin}
             sx={commonProps.sx}
-            slotProps={commonProps.slotProps}
+            // slotProps={commonProps.slotProps}
           />
         </div>
       )}
@@ -184,7 +184,7 @@ const CustomBarChart = () => {
             hideLegend={commonProps.hideLegend}
             margin={commonProps.margin}
             sx={commonProps.sx}
-            slotProps={commonProps.slotProps}
+            // slotProps={commonProps.slotProps}
           />
         </div>
       )}
