@@ -1,7 +1,13 @@
 {
   "login": {
     "title": "Admin login",
-    "button": "Login"
+    "button": "Login",
+    "profile": "My profile",
+    "signOut": "Sign out",
+    "githubArticleWorkflow": "Article workflow",
+    "goJDH": {
+      "en": "Go to Dashboard"
+    }
   },
   "navigation": {
     "about": "About",

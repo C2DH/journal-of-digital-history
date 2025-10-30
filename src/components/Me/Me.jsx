@@ -6,7 +6,7 @@ import { useGetJSON } from '../../logic/api/fetchData'
 import { userLogoutRequest } from '../../logic/api/login'
 import { generateColorList } from './helper'
 
-import { LogOut, OpenInBrowser, ProfileCircle } from 'iconoir-react'
+import { GithubCircle, LogOut, OpenInBrowser, ProfileCircle } from 'iconoir-react'
 
 /**
  * React component that loads the username from the rest url /api/me.
@@ -46,13 +46,16 @@ const Me = () => {
         {isDropdownOpen && (
           <div className={`me-dropdown-menu ${cleanPathname}`}>
             <a href={`/admin/auth/user/${data.id}/change/`} title="User settings">
-              <ProfileCircle /> My profile
+              <ProfileCircle /> {t('login.profile')}
+            </a>
+            <a href="https://github.com/orgs/C2DH/projects/10" title="Github article workflow">
+              <GithubCircle /> {t('login.githubArticleWorkflow')}
             </a>
             <a
               href={cleanPathname === 'dashboard' ? `/` : `/dashboard/`}
               title="Switch to dashboard"
             >
-              <OpenInBrowser /> {cleanPathname === 'dashboard' ? 'Go to JDH' : 'Go to Dashboard'}
+              <OpenInBrowser /> {t(`login.goJDH.${cleanPathname}`)}
             </a>
             <a
               title="Log out"
@@ -61,7 +64,7 @@ const Me = () => {
                 window.location.href = '/'
               }}
             >
-              <LogOut /> Sign out
+              <LogOut /> {t('login.signOut')}
             </a>
           </div>
         )}
