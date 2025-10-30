@@ -16,19 +16,8 @@ import {
 import { abstractStatus } from '../../utils/constants/abstract'
 import { articleBarChart } from '../../utils/constants/article'
 import { APIResponseObject, Callforpaper, Issue } from '../../utils/types'
+import Button from '../Buttons/Button/Button'
 import SmallCard from '../SmallCard/SmallCard'
-
-const FlipButton = ({ isArticle, onClick }) => {
-  return (
-    <button
-      className="flip-button material-symbols-outlined"
-      onClick={onClick}
-      data-testid="flip-button"
-    >
-      {isArticle ? 'draft' : 'description'}
-    </button>
-  )
-}
 
 const CustomBarChart = () => {
   const { t } = useTranslation()
@@ -101,15 +90,21 @@ const CustomBarChart = () => {
           </h3>
           <p>{t(`KPI.barChart.${isArticle ? 'article' : 'abstract'}.description`)}</p>
         </div>
-        <FlipButton isArticle={isArticle} onClick={() => handleClick()} />
+        <Button
+          variant="tertiary"
+          text={isArticle ? `See CFP →` : `See Issues →`}
+          onClick={() => handleClick()}
+          style={{ padding: `var(--space-size-1)`, height: `37px` }}
+        />
       </div>
       {itemByStatus.length > 0 && (
         <BarChart
+          // skipAnimation
           id={isArticle ? 'article-bar-chart' : 'abstract-bar-chart'}
           series={itemByStatus}
           colors={isArticle ? colorsBarChartArticle : colorsBarChartAbstract}
           width={400}
-          height={400}
+          height={330}
           hideLegend
           // barLabel="value"
           margin={{ bottom: 10, right: 20 }}
@@ -121,9 +116,9 @@ const CustomBarChart = () => {
               categoryGapRatio: 0.6,
               disableTicks: true,
               disableLine: true,
-              height: 80,
+              height: 50,
               tickLabelStyle: {
-                angle: -50,
+                angle: -40,
                 fontSize: 10,
                 textAnchor: 'end',
               },

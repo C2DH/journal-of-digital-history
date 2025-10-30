@@ -33,3 +33,12 @@
   --btn-color-hover: var(--color-white);
   --btn-border-hover: var(--color-deep-blue);
 }
+
+.tertiary {
+  --btn-bg: var(--color-accent-lighter);
+  --btn-color: var(--color-deep-blue);
+  --btn-border: none;
+  --btn-bg-hover: var(--color-deep-blue);
+  --btn-color-hover: var(--color-white);
+  --btn-border-hover: var(--color-deep-blue);
+}
