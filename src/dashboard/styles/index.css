@@ -87,4 +87,6 @@ body {
   --modal-min-width: 30vw;
   --filter-bar-height: 60px;
   --table-headers-top-position: 105px;
+  --KPI-standard-width: 400px;
+  --KPI-standard-height: 445px;
 }

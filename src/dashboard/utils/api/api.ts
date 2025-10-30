@@ -52,7 +52,7 @@ const getArticlesByStatusAndIssues = async (issue: number, status: string): APIR
   return api
     .get(`/api/articles?issue=${issue}&status=${status}`)
     .then((res) => {
-      console.info(`Articles for status: ${status} for issue id: ${issue}`, res.data)
+      // console.info(`Articles for status: ${status} for issue id: ${issue}`, res.data)
       return res.data
     })
     .catch((err) => {
@@ -70,7 +70,7 @@ const getAbstractsByStatusAndCallForPapers = async (
   return api
     .get(`/api/abstracts/?callpaper=${callforpaper}&status=${status}`)
     .then((res) => {
-      console.info(`Abstracts for callforpaper id: ${callforpaper}`, res.data)
+      // console.info(`Abstracts for callforpaper id: ${callforpaper}`, res.data)
       return res.data
     })
     .catch((err) => {

@@ -19,8 +19,7 @@
     border-color 0.2s;
 }
 
-.default-button:hover,
-.default-button:focus {
+.default-button:hover {
   background: var(--btn-bg-hover);
   color: var(--btn-color-hover);
   border-color: var(--btn-border-hover);
