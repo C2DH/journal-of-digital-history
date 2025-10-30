@@ -1,7 +1,13 @@
 {
   "login": {
     "title": "Admin login",
-    "button": "Login"
+    "button": "Login",
+    "profile": "My profile",
+    "signOut": "Sign out",
+    "githubArticleWorkflow": "Article workflow",
+    "goJDH": {
+      "dashboard": "Go to JDH"
+    }
   },
   "loggedInAs": "",
   "welcome": "Welcome to the Dashboard",
