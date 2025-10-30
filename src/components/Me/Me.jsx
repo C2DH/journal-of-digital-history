@@ -1,6 +1,6 @@
 import './Me.css'
 
-import { LogOut, OpenInBrowser, ProfileCircle } from 'iconoir-react'
+import { GithubCircle, LogOut, OpenInBrowser, ProfileCircle } from 'iconoir-react'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StringParam, useQueryParams, withDefault } from 'use-query-params'
@@ -10,8 +10,6 @@ import { DisplayLayerQueryParam, LayerNarrative } from '../../constants/globalCo
 import { useGetJSON } from '../../logic/api/fetchData'
 import { userLogoutRequest } from '../../logic/api/login'
 import { generateColorList } from './helper'
-
-import { GithubCircle, LogOut, OpenInBrowser, ProfileCircle } from 'iconoir-react'
 
 /**
  * React component that loads the username from the rest url /api/me.
@@ -66,11 +64,8 @@ const Me = () => {
             <a href="https://github.com/orgs/C2DH/projects/10" title="Github article workflow">
               <GithubCircle /> {t('login.githubArticleWorkflow')}
             </a>
-            <a
-              href={cleanPathname === 'dashboard' ? `/` : `/dashboard/`}
-              title="Switch to dashboard"
-            >
-              <OpenInBrowser /> {t(`login.goJDH.${cleanPathname}`)}
+            <a href={path === 'dashboard' ? `/` : `/dashboard/`} title="Switch to dashboard">
+              <OpenInBrowser /> {t(`login.goJDH.${path}`)}
             </a>
             <a
               title="Log out"
