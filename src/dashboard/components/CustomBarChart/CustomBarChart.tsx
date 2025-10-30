@@ -136,6 +136,7 @@ const CustomBarChart = () => {
           text={t(`KPI.barChart.button.${isArticle ? 'article' : 'abstract'}`)}
           onClick={() => handleClick()}
           style={{ padding: `var(--space-size-1)`, height: `37px` }}
+          dataTestId="flip-button"
         />
       </div>
 
@@ -144,6 +145,7 @@ const CustomBarChart = () => {
         <div style={{ display: isArticle ? 'block' : 'none' }}>
           <BarChart
             id="article-bar-chart"
+            data-testid="bar-chart-article"
             skipAnimation
             series={articleSeries}
             colors={colorsBarChartArticle}
@@ -169,6 +171,7 @@ const CustomBarChart = () => {
         <div style={{ display: isArticle ? 'none' : 'block' }}>
           <BarChart
             id="abstract-bar-chart"
+            data-testid="bar-chart-abstract"
             skipAnimation
             series={abstractSeries}
             colors={colorsBarChartAbstract}

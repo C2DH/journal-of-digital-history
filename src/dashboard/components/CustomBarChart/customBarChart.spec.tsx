@@ -63,7 +63,7 @@ vi.mock('../../store', () => {
 // MUI BarChart test double
 vi.mock('@mui/x-charts/BarChart', () => ({
   BarChart: (props: any) => (
-    <div data-testid="bar-chart">
+    <div data-testid={`${props['data-testid']}`}>
       <div>bar-mock</div>
     </div>
   ),
@@ -84,9 +84,9 @@ describe('CustomBarChart', () => {
 
     render(<CustomBarChart />)
 
-    await screen.findByTestId('bar-chart')
+    await screen.findByTestId('bar-chart-abstract')
 
-    expect(screen.getByTestId('bar-chart')).toBeInTheDocument()
+    expect(screen.getByTestId('bar-chart-abstract')).toBeInTheDocument()
     expect(screen.getByTestId('flip-button')).toBeInTheDocument()
 
     // Call for each status x each issue
@@ -100,7 +100,7 @@ describe('CustomBarChart', () => {
 
     render(<CustomBarChart />)
 
-    await waitFor(() => expect(screen.getByText('KPI.barChart.noData')).toBeInTheDocument())
+    await waitFor(() => expect(screen.getByTestId('loading-dots')).toBeInTheDocument())
   })
 
   it('switches to abstract dataset when clicking the flip button', async () => {
@@ -111,16 +111,15 @@ describe('CustomBarChart', () => {
 
     render(<CustomBarChart />)
 
-    await screen.findByTestId('bar-chart')
+    await screen.findByTestId('bar-chart-article')
 
     const flipBtn = screen.getByTestId('flip-button')
-    // initial isArticle=true -> button shows 'draft'
-    expect(flipBtn).toHaveTextContent('draft')
+    expect(flipBtn).toHaveTextContent('KPI.barChart.button.article')
 
     fireEvent.click(flipBtn)
 
     // after flip -> isArticle=false -> button shows 'description'
-    await waitFor(() => expect(flipBtn).toHaveTextContent('description'))
+    await waitFor(() => expect(flipBtn).toHaveTextContent('KPI.barChart.button.abstract'))
 
     const expectedAbstractCalls = abstractStatus.length * cfpData.length
     expect(getAbstractsByStatusAndCallForPapers).toHaveBeenCalledTimes(expectedAbstractCalls)
