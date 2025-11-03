@@ -10,7 +10,7 @@ import { useEffect } from 'react'
 export function useInfiniteScroll(
   ref: React.RefObject<Element | null>,
   callback: () => void,
-  enabled: boolean,
+  enabled: boolean | undefined,
   deps: any[] = [],
 ) {
   useEffect(() => {

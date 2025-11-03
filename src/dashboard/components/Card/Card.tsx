@@ -79,9 +79,12 @@ const Card = ({
         }
       })
 
-  if (loadMore && hasMore && !loading) {
-    useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
-  }
+  useInfiniteScroll(loaderRef, loadMore ?? (() => {}), hasMore && !loading, [
+    hasMore,
+    loading,
+    loadMore,
+  ])
+
   useEffect(() => {
     if (modalState.open && modalState.id) {
       retrieveContactEmail(modalState.id, data, setEmail)
@@ -114,14 +117,7 @@ const Card = ({
         {count === 0 ? (
           <Feedback type="warning" message={'No item corresponds to your search'} />
         ) : isSmallTable === true ? (
-          <SmallTable
-            item={item}
-            headers={headers}
-            data={data}
-            sortBy={sortBy || undefined}
-            sortOrder={sortOrder || undefined}
-            setSort={setSort}
-          />
+          <SmallTable item={item} headers={headers} data={data} />
         ) : (
           <>
             <Table

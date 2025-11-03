@@ -16,22 +16,13 @@ const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const { sortBy, sortOrder, ordering, setFilters } = useSorting()
 
-  const {
-    count,
-    data: submittedAbstracts,
-    loading,
-    error,
-    hasMore,
-    fetchItems,
-    setParams,
-    loadMore,
-  } = useItemsStore()
+  const { data: submittedAbstracts, fetchItems, setParams } = useItemsStore()
 
   useEffect(() => {
     setParams({
       endpoint: 'abstracts',
       limit: 5,
-      ordering,
+      ordering: '-submitted_date',
       params: { status: 'SUBMITTED' },
     })
     fetchItems(true)
@@ -42,8 +33,9 @@ const Home = () => {
       <h1>{t('welcome')}</h1>
       <div className="home-grid">
         <Card
-          item="abstracts.submitted"
+          item="abstracts"
           headers={[
+            'pid',
             'title',
             'callpaper_title',
             'submitted_date',
@@ -51,9 +43,7 @@ const Home = () => {
             'contact_firstname',
           ]}
           data={submittedAbstracts}
-          sortBy={sortBy || undefined}
-          sortOrder={sortOrder || undefined}
-          setSort={({ sortOrder, sortBy }) => setFilters({ sortOrder, sortBy })}
+          isSmallTable={true}
         />
         <CustomPieChart />
         <CustomBarChart />

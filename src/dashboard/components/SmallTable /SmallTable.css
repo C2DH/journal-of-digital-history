@@ -8,9 +8,9 @@
 .table th,
 .table td {
   font-size: var(--text-size-2);
+  padding-right: var(--gap-size-3);
   text-align: left;
   vertical-align: top;
-  padding-right: var(--gap-size-3);
 }
 
 /* ROW STYLES */
@@ -37,19 +37,6 @@ table.articles th {
   top: var(--table-headers-top-position);
   background: var(--color-white);
   z-index: 5;
-}
-
-th.abstract__contact_firstname,
-th.abstract__contact_lastname {
-  width: 10%;
-}
-th.contact_affiliation {
-  @media screen and (min-width: 2000px) {
-    width: 300px;
-  }
-}
-th.header.url {
-  width: 25%;
 }
 
 /* CELL STYLES */
