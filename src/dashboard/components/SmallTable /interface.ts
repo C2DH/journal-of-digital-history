@@ -1,14 +1,8 @@
-export type CardProps = {
+export type SmallTableProps = {
   item: string
   headers: string[]
-  count?: number
   data: any[]
-  error?: any
-  loading?: boolean
-  hasMore?: boolean
-  loadMore?: () => void
   sortBy?: string
   sortOrder?: string
   setSort?: (filters: { sortBy: string; sortOrder: 'asc' | 'desc' }) => void
-  isSmallTable?: boolean
 }

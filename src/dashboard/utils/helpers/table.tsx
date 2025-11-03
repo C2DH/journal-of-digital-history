@@ -1,15 +1,21 @@
+import IconButton from '../../components/Buttons/IconButton/IconButton'
+import Status from '../../components/Status/Status'
+import Timeline from '../../components/Timeline/Timeline'
+import { articleSteps } from '../constants/article'
+import { isCallForPaperGithub, isDateCell, isLinkCell, isStatus } from '../helpers/checkItem'
 import { ModalInfo, RowAction } from '../types'
+import { convertDate } from './convertDate'
 
+type GetVisibleHeadersParams = {
+  data: (string | number)[][]
+  headers: string[]
+}
 /**
  * Returns the headers that are included in the provided headers array.
  * @param headers - The list of allowed headers.
  * @param data - The table data as an array of rows (each row is an object).
  * @returns An array of string which are the headers, we want to display.
  */
-type GetVisibleHeadersParams = {
-  data: (string | number)[][]
-  headers: string[]
-}
 function getVisibleHeaders({ data, headers }: GetVisibleHeadersParams): string[] {
   if (data.length === 0) return []
   return headers.filter((header) => getNestedValue(data[0], header) !== undefined)
@@ -33,16 +39,16 @@ function getNestedValue(obj: any, path: string): any {
     .reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj)
 }
 
+type GetCleanDataParams = {
+  data: (string | number)[][]
+  visibleHeaders: string[]
+}
 /**
  * Cleans the data by mapping only the data for selected headers.
  * @param data - The table data as an array of row objects.
  * @param visibleHeaders - The headers selected.
  * @returns A 2D array of cleaned values.
  */
-type GetCleanDataParams = {
-  data: (string | number)[][]
-  visibleHeaders: string[]
-}
 function getCleanData({ data, visibleHeaders }: GetCleanDataParams): (string | number)[][] {
   return data.map((row) =>
     visibleHeaders.map((header) => {
@@ -101,4 +107,49 @@ function getRowActions(
   return actions
 }
 
-export { getCleanData, getRowActions, getVisibleHeaders }
+type renderCellProps = {
+  isStep: boolean
+  cell: any
+  header: string
+  headers: string[]
+  cIdx: number
+  title: string
+  isArticle: boolean
+}
+/**
+ * Renders a table cell value as the appropriate React node for display.
+ *
+ * @param props - Properties describing the cell context:
+ *   - isStep: Whether the cell represents a workflow step.
+ *   - cell: The raw cell value to render.
+ *   - headers: Array of table header strings.
+ *   - cIdx: Index of the current column.
+ *   - isArticle: Whether the row represents an article.
+ * @returns A React node representing the formatted cell content, such as a Timeline, Status badge, IconButton, formatted date, or raw value.
+ */
+function renderCell({ isStep, cell, headers, cIdx, isArticle }: renderCellProps) {
+  let content: React.ReactNode = '-'
+  const headerKey = headers[cIdx].toLowerCase().split('.').join(' ')
+
+  if (isStep && isArticle) {
+    content = <Timeline steps={articleSteps} currentStatus={cell} />
+  } else if (isStatus(cell, headerKey)) {
+    content = <Status value={cell} />
+  } else if (isLinkCell(cell)) {
+    content = <IconButton value={cell} />
+  } else if (isCallForPaperGithub(cell, headerKey)) {
+    return (
+      <IconButton value={`${import.meta.env.VITE_DASHBOARD_CALLFORPAPERS_GITHUB_URL}${cell}`} />
+    )
+  } else if (isDateCell(cell)) {
+    content = convertDate(cell)
+  } else if (cell === '' || cell === null) {
+    content = '-'
+  } else {
+    content = cell
+  }
+
+  return content
+}
+
+export { getCleanData, getRowActions, getVisibleHeaders, renderCell }

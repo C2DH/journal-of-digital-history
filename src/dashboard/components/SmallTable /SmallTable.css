@@ -1,0 +1,70 @@
+/* TABLE STYLES */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.table th,
+.table td {
+  font-size: var(--text-size-2);
+  text-align: left;
+  vertical-align: top;
+  padding-right: var(--gap-size-3);
+}
+
+/* ROW STYLES */
+.table tr {
+  vertical-align: top;
+}
+
+.table tbody tr:hover {
+  background-color: var(--color-hover);
+}
+
+/* HEADER STYLES */
+.table th {
+  padding-bottom: var(--gap-size-3);
+  color: var(--color-gray);
+  font-weight: 600;
+  font-size: var(--text-size-3);
+}
+
+table.abstracts th,
+table.articles th {
+  padding-top: var(--gap-size-4);
+  position: sticky;
+  top: var(--table-headers-top-position);
+  background: var(--color-white);
+  z-index: 5;
+}
+
+th.abstract__contact_firstname,
+th.abstract__contact_lastname {
+  width: 10%;
+}
+th.contact_affiliation {
+  @media screen and (min-width: 2000px) {
+    width: 300px;
+  }
+}
+th.header.url {
+  width: 25%;
+}
+
+/* CELL STYLES */
+.table td {
+  color: var(--color-gray);
+  padding-top: var(--gap-size-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
+}
+
+/* abstract__title is the title of the article and title is the title of the abstract */
+td.name,
+& td.title,
+& td.abstract__title {
+  font-weight: 600;
+}

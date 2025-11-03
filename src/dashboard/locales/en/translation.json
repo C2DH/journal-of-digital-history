@@ -51,7 +51,15 @@
     "contact_lastname": "Lastname",
     "contact_firstname": "Firstname",
     "contact_affiliation": "Affiliation",
-    "status": "Status"
+    "status": "Status",
+    "submitted": {
+      "item": "Submitted Abstracts",
+      "title": "Title",
+      "callpaper_title": "Call for paper",
+      "submitted_date": "Submitted Date ",
+      "contact_lastname": "Lastname",
+      "contact_firstname": "Firstname"
+    }
   },
   "callforpapers": {
     "item": "Call for Papers",

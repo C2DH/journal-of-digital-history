@@ -3,59 +3,31 @@ import './Table.css'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
-import { renderCellProps, TableProps } from './interface'
+import { TableProps } from './interface'
 
 import { articleSteps } from '../../utils/constants/article'
 import {
   isAbstract,
   isAffiliationHeader,
   isArticle,
-  isCallForPaperGithub,
   isCallForPapers,
-  isDateCell,
   isFirstnameHeader,
   isIssues,
   isLastnameHeader,
-  isLinkCell,
   isRepositoryHeader,
-  isStatus,
   isStatusHeader,
   isStepCell,
   isTitleHeader,
 } from '../../utils/helpers/checkItem'
-import { convertDate } from '../../utils/helpers/convertDate'
-import { getCleanData, getRowActions, getVisibleHeaders } from '../../utils/helpers/table'
+import {
+  getCleanData,
+  getRowActions,
+  getVisibleHeaders,
+  renderCell,
+} from '../../utils/helpers/table'
 import ActionButton from '../Buttons/ActionButton/Short/ActionButton'
-import IconButton from '../Buttons/IconButton/IconButton'
 import SortButton from '../Buttons/SortButton/SortButton'
 import Checkbox from '../Checkbox/Checkbox'
-import Status from '../Status/Status'
-import Timeline from '../Timeline/Timeline'
-
-function renderCell({ isStep, cell, headers, cIdx, isArticle }: renderCellProps) {
-  let content: React.ReactNode = '-'
-  const headerKey = headers[cIdx].toLowerCase().split('.').join(' ')
-
-  if (isStep && isArticle) {
-    content = <Timeline steps={articleSteps} currentStatus={cell} />
-  } else if (isStatus(cell, headerKey)) {
-    content = <Status value={cell} />
-  } else if (isLinkCell(cell)) {
-    content = <IconButton value={cell} />
-  } else if (isCallForPaperGithub(cell, headerKey)) {
-    return (
-      <IconButton value={`${import.meta.env.VITE_DASHBOARD_CALLFORPAPERS_GITHUB_URL}${cell}`} />
-    )
-  } else if (isDateCell(cell)) {
-    content = convertDate(cell)
-  } else if (cell === '' || cell === null) {
-    content = '-'
-  } else {
-    content = cell
-  }
-
-  return content
-}
 
 const Table = ({
   item,

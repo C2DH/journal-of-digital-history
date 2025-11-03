@@ -6,18 +6,30 @@
 h1 {
   margin-bottom: var(--space-size-4);
 }
-
 h3 {
   margin-top: 0;
 }
-
 p {
   margin-top: 0;
 }
+
+.card {
+  grid-area: a;
+}
+.home-piechart {
+  grid-area: p;
+}
+.home-barchart {
+  grid-area: b;
+}
+
 .home-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--space-size-2);
+  grid-template-areas:
+    'a a a'
+    'p b .';
 }
 
 @media (min-width: 1600px) {

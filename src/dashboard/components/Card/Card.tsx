@@ -13,6 +13,7 @@ import { Notification, RowCheckboxMap } from '../../utils/types'
 import Feedback from '../Feedback/Feedback'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
+import SmallTable from '../SmallTable /SmallTable'
 import Table from '../Table/Table'
 
 const Card = ({
@@ -27,6 +28,7 @@ const Card = ({
   sortBy,
   sortOrder,
   setSort,
+  isSmallTable = false,
 }: CardProps) => {
   const { t } = useTranslation()
   const loaderRef = useRef<HTMLDivElement | null>(null)
@@ -77,7 +79,9 @@ const Card = ({
         }
       })
 
-  useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
+  if (loadMore && hasMore && !loading) {
+    useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
+  }
   useEffect(() => {
     if (modalState.open && modalState.id) {
       retrieveContactEmail(modalState.id, data, setEmail)
@@ -95,7 +99,6 @@ const Card = ({
           <div className="card-header-title">
             {!isArticleOrAbstracts && <h1>{t(`${item}.item`)}</h1>}
           </div>
-
           {/* {isAbstract(item) && (
             <ActionButtonLarge
               actions={[
@@ -110,6 +113,15 @@ const Card = ({
         </div>
         {count === 0 ? (
           <Feedback type="warning" message={'No item corresponds to your search'} />
+        ) : isSmallTable === true ? (
+          <SmallTable
+            item={item}
+            headers={headers}
+            data={data}
+            sortBy={sortBy || undefined}
+            sortOrder={sortOrder || undefined}
+            setSort={setSort}
+          />
         ) : (
           <>
             <Table
