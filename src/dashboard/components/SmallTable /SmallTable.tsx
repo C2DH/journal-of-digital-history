@@ -6,40 +6,17 @@ import { useNavigate } from 'react-router'
 import { SmallTableProps } from './interface'
 
 import { isPidHeader, isStepCell, isTitleHeader } from '../../utils/helpers/checkItem'
-import { getCleanData, getVisibleHeaders, renderCell } from '../../utils/helpers/table'
-import { Abstract } from '../../utils/types'
+import {
+  authorColumn,
+  getCleanData,
+  getVisibleHeaders,
+  renderCell,
+} from '../../utils/helpers/table'
 
 const SmallTable = ({ item, headers, data }: SmallTableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const search = location.search
-
-  // Merge 'firstname' and 'lastname' to 'author' column
-  const authorColumn = (headers: string[], data: Abstract[]) => {
-    const firstnameIndex = headers.indexOf('contact_firstname')
-    const lastnameIndex = headers.indexOf('contact_lastname')
-
-    if (firstnameIndex !== -1 && lastnameIndex !== -1) {
-      const newHeaders = headers.filter((_, idx) => idx !== firstnameIndex && idx !== lastnameIndex)
-      newHeaders.push('author')
-
-      const newData = data.map((row) => {
-        const firstname = (row as any).contact_firstname ?? ''
-        const lastname = (row as any).contact_lastname ?? ''
-        const author = `${firstname} ${lastname}`.trim()
-
-        const newRow = { ...row } as any
-        delete newRow.contact_firstname
-        delete newRow.contact_lastname
-        newRow.author = author
-
-        return newRow
-      })
-      return { headers: newHeaders, data: newData }
-    }
-
-    return { headers, data }
-  }
 
   const { headers: mergedHeaders, data: mergedData } = authorColumn(headers, data)
   const visibleHeaders = getVisibleHeaders({ data: mergedData, headers: mergedHeaders })
@@ -60,7 +37,12 @@ const SmallTable = ({ item, headers, data }: SmallTableProps) => {
 
               return (
                 !isPid && (
-                  <th key={header} className={`${header}`} colSpan={isTitle ? 2 : 0}>
+                  <th
+                    key={header}
+                    className={`${header}`}
+                    colSpan={isTitle ? 2 : 0}
+                    title={t(`${item}.${header}`)}
+                  >
                     {t(`${item}.${header}`)}
                   </th>
                 )
@@ -84,7 +66,7 @@ const SmallTable = ({ item, headers, data }: SmallTableProps) => {
                         key={cIdx}
                         className={headerName}
                         colSpan={isTitle ? 2 : 0}
-                        title={isTitle ? String(cell) : undefined}
+                        title={String(cell)}
                         style={isTitle ? { cursor: 'pointer' } : undefined}
                         onClick={isTitle ? () => handleRowClick(String(row[0])) : undefined}
                       >

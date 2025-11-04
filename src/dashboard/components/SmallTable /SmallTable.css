@@ -11,6 +11,10 @@
   font-size: var(--text-size-2);
   text-align: left;
   vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
 }
 
 /* ROW STYLES */
@@ -38,10 +42,6 @@ th.author {
 /* CELL STYLES */
 .table td {
   color: var(--color-gray);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  position: relative;
 }
 
 /* abstract__title is the title of the article and title is the title of the abstract */

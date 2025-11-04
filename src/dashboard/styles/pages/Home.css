@@ -25,19 +25,20 @@ p {
 
 .home-grid {
   display: grid;
-  grid: auto-flow dense / repeat(4, 1fr);
+  /* grid: auto-flow dense / repeat(4, 1fr); */
+  /* grid-template-columns: 3fr 2fr; */
   /* grid-template-columns: repeat(3, 1fr); */
   gap: var(--space-size-2);
   grid-template-areas:
-    'a a . .'
-    'p b . .';
+    'a a b p'
+    '. . . .';
 }
 
-@media (min-width: 1600px) {
+/* @media (min-width: 1600px) {
   .home-grid {
     grid-template-columns: repeat(4, 1fr);
   }
-}
+} */
 
 @media (max-width: 978px) {
   .home-grid {

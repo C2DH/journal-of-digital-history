@@ -86,8 +86,8 @@ const CustomBarChart = () => {
   }, [])
 
   const commonProps = {
-    width: 400,
-    height: 330,
+    width: 300,
+    height: 300,
     hideLegend: true,
     margin: { bottom: 10, right: 20 },
     xAxisBase: {

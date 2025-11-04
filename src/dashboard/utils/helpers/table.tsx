@@ -3,7 +3,7 @@ import Status from '../../components/Status/Status'
 import Timeline from '../../components/Timeline/Timeline'
 import { articleSteps } from '../constants/article'
 import { isCallForPaperGithub, isDateCell, isLinkCell, isStatus } from '../helpers/checkItem'
-import { ModalInfo, RowAction } from '../types'
+import { Abstract, ModalInfo, RowAction } from '../types'
 import { convertDate } from './convertDate'
 
 type GetVisibleHeadersParams = {
@@ -152,4 +152,39 @@ function renderCell({ isStep, cell, headers, cIdx, isArticle }: renderCellProps)
   return content
 }
 
-export { getCleanData, getRowActions, getVisibleHeaders, renderCell }
+/**
+ * Combines 'contact_firstname' and 'contact_lastname' fields into a single 'author' column.
+ *
+ * @param headers - Array of header strings for the table.
+ * @param data - Array of Abstract objects representing table rows.
+ * @returns An object containing updated headers and data, where 'author' replaces the separate firstname and lastname columns.
+ *
+ * If either 'contact_firstname' or 'contact_lastname' is missing from headers, returns the original headers and data.
+ */
+function authorColumn(headers: string[], data: Abstract[]) {
+  const firstnameIndex = headers.indexOf('contact_firstname')
+  const lastnameIndex = headers.indexOf('contact_lastname')
+
+  if (firstnameIndex !== -1 && lastnameIndex !== -1) {
+    const newHeaders = headers.filter((_, idx) => idx !== firstnameIndex && idx !== lastnameIndex)
+    newHeaders.push('author')
+
+    const newData = data.map((row) => {
+      const firstname = (row as any).contact_firstname ?? ''
+      const lastname = (row as any).contact_lastname ?? ''
+      const author = `${firstname} ${lastname}`.trim()
+
+      const newRow = { ...row } as any
+      delete newRow.contact_firstname
+      delete newRow.contact_lastname
+      newRow.author = author
+
+      return newRow
+    })
+    return { headers: newHeaders, data: newData }
+  }
+
+  return { headers, data }
+}
+
+export { authorColumn, getCleanData, getRowActions, getVisibleHeaders, renderCell }
