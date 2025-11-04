@@ -1,6 +1,6 @@
 .chart {
   background-color: var(--color-white);
-  height: fit-content;
+  height: 400px;
 }
 
 h1 {
@@ -25,22 +25,13 @@ p {
 
 .home-grid {
   display: grid;
-  /* grid: auto-flow dense / repeat(4, 1fr); */
-  /* grid-template-columns: 3fr 2fr; */
-  /* grid-template-columns: repeat(3, 1fr); */
   gap: var(--space-size-2);
   grid-template-areas:
     'a a b p'
     '. . . .';
 }
 
-/* @media (min-width: 1600px) {
-  .home-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-} */
-
-@media (max-width: 978px) {
+@media (max-width: 1200px) {
   .home-grid {
     grid-template-columns: repeat(1, 1fr);
     grid-template-areas:
