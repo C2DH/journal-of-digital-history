@@ -33,7 +33,7 @@ const Home = () => {
       <div className="home-grid">
         <>
           <SmallCard className="home-abstract-card chart">
-            <h2>{t(`abstracts.small`)}</h2>
+            <h2 className="home-abstract-card-title">{t(`abstracts.small`)}</h2>
             <SmallTable
               item="abstracts"
               headers={[

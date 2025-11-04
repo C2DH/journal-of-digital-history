@@ -6,9 +6,6 @@
 h1 {
   margin-bottom: var(--space-size-4);
 }
-h2 {
-  margin-left: var(--space-size-3);
-}
 h3 {
   margin-top: 0;
 }
@@ -55,4 +52,7 @@ p {
 .home-abstract-card {
   background-color: var(--color-warning-light);
   border: 2px solid var(--color-warning) !important;
+}
+.home-abstract-card-title {
+  margin-left: var(--space-size-3);
 }
