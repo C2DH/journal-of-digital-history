@@ -32,8 +32,8 @@ p {
   /* grid-template-columns: repeat(3, 1fr); */
   gap: var(--space-size-2);
   grid-template-areas:
-    'a a p b'
-    '. . . .';
+    'a a . .'
+    'p b . .';
 }
 
 @media (min-width: 1600px) {
@@ -45,6 +45,10 @@ p {
 @media (max-width: 978px) {
   .home-grid {
     grid-template-columns: repeat(1, 1fr);
+    grid-template-areas:
+      'a'
+      'p'
+      'b';
   }
 }
 
