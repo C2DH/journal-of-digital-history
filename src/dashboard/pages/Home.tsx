@@ -16,7 +16,7 @@ const Home = () => {
   const { t } = useTranslation()
   const { sortBy, sortOrder, ordering, setFilters } = useSorting()
 
-  const { data: submittedAbstracts, fetchItems, setParams, reset } = useItemsStore()
+  const { data: submittedAbstracts, fetchItems, setParams } = useItemsStore()
 
   useEffect(() => {
     setParams({
@@ -25,9 +25,8 @@ const Home = () => {
       ordering: '-submitted_date',
       params: { status: 'SUBMITTED' },
     })
-    reset()
     fetchItems(true)
-  }, [setParams, fetchItems, ordering, reset])
+  }, [setParams, fetchItems, ordering])
 
   return (
     <div className="home page">

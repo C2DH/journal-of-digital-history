@@ -1,8 +1,9 @@
 /* TABLE STYLES */
 .table {
   width: 100%;
-  border-collapse: collapse;
   table-layout: fixed;
+  border-spacing: var(--gap-size-3);
+  border-collapse: separate;
 }
 
 .table th,
@@ -17,15 +18,21 @@
   vertical-align: top;
 }
 
-.table tbody tr:hover {
+.table td.title:hover {
   background-color: var(--color-hover);
 }
 
 /* HEADER STYLES */
 .table th {
-  color: var(--color-gray);
-  font-weight: 600;
+  color: var(--color-gray-lighter);
+  font-weight: 200;
   font-size: var(--text-size-3);
+}
+
+th.callpaper_title,
+th.submitted_date,
+th.author {
+  width: 15%;
 }
 
 /* CELL STYLES */
@@ -42,4 +49,5 @@ td.name,
 & td.title,
 & td.abstract__title {
   font-weight: 600;
+  color: var(--color-deep-blue);
 }

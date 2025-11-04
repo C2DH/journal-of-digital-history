@@ -56,10 +56,11 @@ const SmallTable = ({ item, headers, data }: SmallTableProps) => {
           <tr>
             {visibleHeaders.map((header) => {
               const isPid = isPidHeader(header)
+              const isTitle = isTitleHeader(header)
 
               return (
                 !isPid && (
-                  <th key={header} className={`${header}`}>
+                  <th key={header} className={`${header}`} colSpan={isTitle ? 2 : 0}>
                     {t(`${item}.${header}`)}
                   </th>
                 )
@@ -82,7 +83,7 @@ const SmallTable = ({ item, headers, data }: SmallTableProps) => {
                       <td
                         key={cIdx}
                         className={headerName}
-                        colSpan={0}
+                        colSpan={isTitle ? 2 : 0}
                         title={isTitle ? String(cell) : undefined}
                         style={isTitle ? { cursor: 'pointer' } : undefined}
                         onClick={isTitle ? () => handleRowClick(String(row[0])) : undefined}

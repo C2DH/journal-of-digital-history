@@ -6,6 +6,9 @@
 h1 {
   margin-bottom: var(--space-size-4);
 }
+h2 {
+  margin-left: var(--space-size-3);
+}
 h3 {
   margin-top: 0;
 }
