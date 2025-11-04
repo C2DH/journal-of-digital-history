@@ -14,8 +14,7 @@ import { useItemsStore } from '../store'
 
 const Home = () => {
   const { t } = useTranslation()
-  const { sortBy, sortOrder, ordering, setFilters } = useSorting()
-
+  const { ordering } = useSorting()
   const { data: submittedAbstracts, fetchItems, setParams } = useItemsStore()
 
   useEffect(() => {

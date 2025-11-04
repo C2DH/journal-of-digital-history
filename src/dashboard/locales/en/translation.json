@@ -52,7 +52,7 @@
     "contact_firstname": "Firstname",
     "contact_affiliation": "Affiliation",
     "status": "Status",
-    "small": "New abstracts",
+    "small": "⚠️ New abstracts",
     "author": "Author"
   },
   "callforpapers": {

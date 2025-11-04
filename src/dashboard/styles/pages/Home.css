@@ -28,11 +28,12 @@ p {
 
 .home-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid: auto-flow dense / repeat(4, 1fr);
+  /* grid-template-columns: repeat(3, 1fr); */
   gap: var(--space-size-2);
   grid-template-areas:
-    'a a a'
-    'p b .';
+    'a a p b'
+    '. . . .';
 }
 
 @media (min-width: 1600px) {
@@ -45,4 +46,9 @@ p {
   .home-grid {
     grid-template-columns: repeat(1, 1fr);
   }
+}
+
+.home-abstract-card {
+  background-color: var(--color-warning-light);
+  border: 2px solid var(--color-warning) !important;
 }
