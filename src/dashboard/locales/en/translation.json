@@ -51,7 +51,9 @@
     "contact_lastname": "Lastname",
     "contact_firstname": "Firstname",
     "contact_affiliation": "Affiliation",
-    "status": "Status"
+    "status": "Status",
+    "small": "New abstracts",
+    "author": "Author"
   },
   "callforpapers": {
     "item": "Call for Papers",

@@ -3,20 +3,20 @@ import '../styles/pages/pages.css'
 
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Outlet, useSearchParams } from 'react-router'
+import { Outlet } from 'react-router'
 
-import Card from '../components/Card/Card'
 import CustomBarChart from '../components/CustomBarChart/CustomBarChart'
 import CustomPieChart from '../components/CustomPieChart/CustomPieChart'
+import SmallCard from '../components/SmallCard/SmallCard'
+import SmallTable from '../components/SmallTable /SmallTable'
 import { useSorting } from '../hooks/useSorting'
 import { useItemsStore } from '../store'
 
 const Home = () => {
   const { t } = useTranslation()
-  const [searchParams, setSearchParams] = useSearchParams()
   const { sortBy, sortOrder, ordering, setFilters } = useSorting()
 
-  const { data: submittedAbstracts, fetchItems, setParams } = useItemsStore()
+  const { data: submittedAbstracts, fetchItems, setParams, reset } = useItemsStore()
 
   useEffect(() => {
     setParams({
@@ -25,26 +25,31 @@ const Home = () => {
       ordering: '-submitted_date',
       params: { status: 'SUBMITTED' },
     })
+    reset()
     fetchItems(true)
-  }, [searchParams, setParams, fetchItems, ordering])
+  }, [setParams, fetchItems, ordering, reset])
 
   return (
     <div className="home page">
       <h1>{t('welcome')}</h1>
       <div className="home-grid">
-        <Card
-          item="abstracts"
-          headers={[
-            'pid',
-            'title',
-            'callpaper_title',
-            'submitted_date',
-            'contact_lastname',
-            'contact_firstname',
-          ]}
-          data={submittedAbstracts}
-          isSmallTable={true}
-        />
+        <>
+          <SmallCard className="home-abstract-card chart">
+            <h2>{t(`abstracts.small`)}</h2>
+            <SmallTable
+              item="abstracts"
+              headers={[
+                'pid',
+                'title',
+                'callpaper_title',
+                'submitted_date',
+                'contact_lastname',
+                'contact_firstname',
+              ]}
+              data={submittedAbstracts}
+            />
+          </SmallCard>
+        </>
         <CustomPieChart />
         <CustomBarChart />
       </div>

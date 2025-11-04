@@ -8,7 +8,6 @@
 .table th,
 .table td {
   font-size: var(--text-size-2);
-  padding-right: var(--gap-size-3);
   text-align: left;
   vertical-align: top;
 }
@@ -24,25 +23,14 @@
 
 /* HEADER STYLES */
 .table th {
-  padding-bottom: var(--gap-size-3);
   color: var(--color-gray);
   font-weight: 600;
   font-size: var(--text-size-3);
 }
 
-table.abstracts th,
-table.articles th {
-  padding-top: var(--gap-size-4);
-  position: sticky;
-  top: var(--table-headers-top-position);
-  background: var(--color-white);
-  z-index: 5;
-}
-
 /* CELL STYLES */
 .table td {
   color: var(--color-gray);
-  padding-top: var(--gap-size-2);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

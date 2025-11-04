@@ -10,5 +10,4 @@ export type CardProps = {
   sortBy?: string
   sortOrder?: string
   setSort?: (filters: { sortBy: string; sortOrder: 'asc' | 'desc' }) => void
-  isSmallTable?: boolean
 }
