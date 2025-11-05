@@ -7,6 +7,11 @@ $module: ".ArticleCellFigure";
   flex-direction: column;
   justify-content: flex-end;
   height: 100%;
+  gap: 0.5rem;
+
+  .anchor {
+    display: none;
+  }
 
   .picture {
     position: relative;

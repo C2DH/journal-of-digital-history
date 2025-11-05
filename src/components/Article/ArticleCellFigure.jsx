@@ -38,16 +38,6 @@ const ArticleCellFigure = ({
     }
     return ratio[2] / (ratio[1] || 1)
   }, undefined)
-  // get figure height if any has been specified with the tags. Otherwise default is windowHeight * .5
-  let figureHeight = figure.isCover
-    ? windowHeight * 0.8
-    : tags.reduce((acc, tag) => {
-        const m = tag.match(/^h-(\d+)px$/) // h-100px
-        if (!m) {
-          return acc
-        }
-        return m[1]
-      }, Math.max(200, windowHeight * 0.5))
 
   /**
    * useMemo hook that processes the outputs of an article figure to extract captions, pictures and other outputs.
@@ -86,6 +76,18 @@ const ArticleCellFigure = ({
       ),
     [figure.idx],
   )
+
+  // get figure height if any has been specified with the tags. Otherwise default is windowHeight * .5
+  // issue #707: use default height only for images
+  let figureHeight = figure.isCover
+    ? windowHeight * 0.8
+    : tags.reduce((acc, tag) => {
+        const m = tag.match(/^h-(\d+)px$/) // h-100px
+        if (!m) {
+          return acc
+        }
+        return m[1]
+      }, pictures.length !== 0 ? Math.max(200, windowHeight * 0.5) : 0)
 
   let columnLayout =
     figureColumnLayout ??
@@ -152,7 +154,7 @@ const ArticleCellFigure = ({
                   cellIdx={figure.idx}
                   outputs={otherOutputs}
                   windowHeight={windowHeight}
-                  height={parseInt(figureHeight)}
+                  height={figureHeight && pictures.length === 0 ? parseInt(figureHeight) : 'auto'}
                 />
               </figure>
             ) : null}

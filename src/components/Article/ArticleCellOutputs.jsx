@@ -34,6 +34,13 @@ const ArticleCellOutputs = ({
     // we can remove this filtering as soon as we know that all vnd mime types are supported
     .filter((mimeType) => SupportedVndMimeTypes.indexOf(mimeType) !== -1)
 
+  // issue #707, 782: For non-isolation mode, we need to use a fixed height for the suspense fallback
+  // if there are images in the outputs
+  const shouldUseFixedHeight = height && !isolationMode && outputs.some((output) =>
+    Object.keys(output?.data ?? {})
+      .some(mimetype => mimetype.indexOf('image/') === 0)
+  )
+
   if (isolationMode || vndMimeTypes.length) {
     return (
       <Suspense fallback={<div style={{ height }}>Loading...</div>}>
@@ -65,7 +72,7 @@ const ArticleCellOutputs = ({
     )
   } else {
     return (
-      <Suspense fallback={<div style={{ height }}>Loading...</div>}>
+      <Suspense fallback={<div style={{ height: shouldUseFixedHeight ? `${height}px` : 'auto' }}>Loading...</div>}>
         <ArticleCellJavascriptOutputs
           isJavascriptTrusted={isJavascriptTrusted}
           outputs={outputs}
