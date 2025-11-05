@@ -34,7 +34,7 @@ p {
 
 .home-grid.warning {
   grid-template-areas:
-    'a a b p'
+    'b p a a '
     '. . . .';
 }
 
