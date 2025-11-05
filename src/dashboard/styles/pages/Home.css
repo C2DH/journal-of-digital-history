@@ -26,6 +26,13 @@ p {
 .home-grid {
   display: grid;
   gap: var(--space-size-2);
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas:
+    'b p .'
+    '. . .';
+}
+
+.home-grid.warning {
   grid-template-areas:
     'a a b p'
     '. . . .';

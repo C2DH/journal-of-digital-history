@@ -28,7 +28,7 @@ const SmallTable = ({ item, headers, data }: SmallTableProps) => {
 
   return (
     <>
-      <table className={`table ${item}`}>
+      <table className={`smalltable ${item}`}>
         <thead>
           <tr>
             {visibleHeaders.map((header) => {

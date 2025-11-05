@@ -16,6 +16,7 @@ const Home = () => {
   const { t } = useTranslation()
   const { ordering } = useSorting()
   const { data: submittedAbstracts, fetchItems, setParams } = useItemsStore()
+  const warning = submittedAbstracts.length != 0
 
   useEffect(() => {
     setParams({
@@ -30,23 +31,25 @@ const Home = () => {
   return (
     <div className="home page">
       <h1>{t('welcome')}</h1>
-      <div className="home-grid">
+      <div className={`home-grid ${warning ? 'warning' : ''}`}>
         <>
-          <SmallCard className="home-abstract-card chart">
-            <h2 className="home-abstract-card-title">{t(`abstracts.small`)}</h2>
-            <SmallTable
-              item="abstracts"
-              headers={[
-                'pid',
-                'title',
-                'callpaper_title',
-                'submitted_date',
-                'contact_lastname',
-                'contact_firstname',
-              ]}
-              data={submittedAbstracts}
-            />
-          </SmallCard>
+          {warning && (
+            <SmallCard className="home-abstract-card chart">
+              <h2 className="home-abstract-card-title">{t(`abstracts.small`)}</h2>
+              <SmallTable
+                item="abstracts"
+                headers={[
+                  'pid',
+                  'title',
+                  'callpaper_title',
+                  'submitted_date',
+                  'contact_lastname',
+                  'contact_firstname',
+                ]}
+                data={submittedAbstracts}
+              />
+            </SmallCard>
+          )}
         </>
         <CustomPieChart />
         <CustomBarChart />

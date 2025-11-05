@@ -1,13 +1,12 @@
-/* TABLE STYLES */
-.table {
+.smalltable {
   width: 100%;
   table-layout: fixed;
   border-spacing: var(--gap-size-3);
   border-collapse: separate;
 }
 
-.table th,
-.table td {
+.smalltable th,
+.smalltable td {
   font-size: var(--text-size-2);
   text-align: left;
   vertical-align: top;
@@ -18,16 +17,16 @@
 }
 
 /* ROW STYLES */
-.table tr {
+.smalltable tr {
   vertical-align: top;
 }
 
-.table td.title:hover {
+.smalltable td.title:hover {
   background-color: var(--color-hover);
 }
 
 /* HEADER STYLES */
-.table th {
+.smalltable th {
   color: var(--color-gray-lighter);
   font-weight: 200;
   font-size: var(--text-size-3);
@@ -40,7 +39,7 @@ th.author {
 }
 
 /* CELL STYLES */
-.table td {
+.smalltable td {
   color: var(--color-gray);
 }
 
