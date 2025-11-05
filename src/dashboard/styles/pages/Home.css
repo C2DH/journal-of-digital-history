@@ -1,6 +1,6 @@
 .chart {
   background-color: var(--color-white);
-  height: 400px;
+  height: 450px;
 }
 
 h1 {
@@ -28,23 +28,36 @@ p {
   gap: var(--space-size-2);
   grid-template-columns: repeat(4, 1fr);
   grid-template-areas:
-    'b p .'
-    '. . .';
+    'b p . .'
+    '. . . .';
 }
 
 .home-grid.warning {
+  grid-template-columns: repeat(4, 1fr);
   grid-template-areas:
     'b p a a '
     '. . . .';
 }
 
 @media (max-width: 1200px) {
-  .home-grid {
+  .home-grid.warning {
     grid-template-columns: repeat(1, 1fr);
     grid-template-areas:
       'a'
       'p'
       'b';
+  }
+  .chart {
+    height: fit-content;
+  }
+}
+
+@media (min-width: 3000px) {
+  .home-grid.warning {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas:
+      'b p a a a'
+      '. . . . .';
   }
 }
 

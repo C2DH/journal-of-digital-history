@@ -40,7 +40,7 @@ const SmallTable = ({ item, headers, data }: SmallTableProps) => {
                   <th
                     key={header}
                     className={`${header}`}
-                    colSpan={isTitle ? 2 : 0}
+                    colSpan={isTitle ? 2 : 1}
                     title={t(`${item}.${header}`)}
                   >
                     {t(`${item}.${header}`)}
@@ -65,7 +65,7 @@ const SmallTable = ({ item, headers, data }: SmallTableProps) => {
                       <td
                         key={cIdx}
                         className={headerName}
-                        colSpan={isTitle ? 2 : 0}
+                        colSpan={isTitle ? 2 : 1}
                         title={String(cell)}
                         style={isTitle ? { cursor: 'pointer' } : undefined}
                         onClick={isTitle ? () => handleRowClick(String(row[0])) : undefined}
