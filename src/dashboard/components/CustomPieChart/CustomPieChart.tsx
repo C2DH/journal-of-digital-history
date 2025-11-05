@@ -53,7 +53,7 @@ const CustomPieChart = () => {
         <PieChart
           series={[
             {
-              innerRadius: 50,
+              innerRadius: 30,
               outerRadius: 100,
               data: articlesCounts,
               highlightScope: { fade: 'global', highlight: 'item' },

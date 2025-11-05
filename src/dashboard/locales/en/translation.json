@@ -46,12 +46,14 @@
     "pid": "Pid",
     "title": "Title",
     "callpaper_title": "Call for paper",
-    "submitted_date": "Submitted ",
+    "submitted_date": "Submitted Date",
     "validation_date": "Validation Date",
     "contact_lastname": "Lastname",
     "contact_firstname": "Firstname",
     "contact_affiliation": "Affiliation",
-    "status": "Status"
+    "status": "Status",
+    "small": "⚠️ New abstracts",
+    "author": "Author"
   },
   "callforpapers": {
     "item": "Call for Papers",

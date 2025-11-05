@@ -1,0 +1,52 @@
+.smalltable {
+  width: 100%;
+  table-layout: fixed;
+  border-spacing: var(--gap-size-3);
+  border-collapse: separate;
+}
+
+.smalltable th,
+.smalltable td {
+  font-size: var(--text-size-2);
+  text-align: left;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: relative;
+}
+
+/* ROW STYLES */
+.smalltable tr {
+  vertical-align: top;
+}
+
+.smalltable td.title:hover {
+  background-color: var(--color-hover);
+}
+
+/* HEADER STYLES */
+.smalltable th {
+  color: var(--color-gray-lighter);
+  font-weight: 200;
+  font-size: var(--text-size-3);
+}
+
+th.callpaper_title,
+th.submitted_date,
+th.author {
+  width: 15%;
+}
+
+/* CELL STYLES */
+.smalltable td {
+  color: var(--color-gray);
+}
+
+/* abstract__title is the title of the article and title is the title of the abstract */
+td.name,
+& td.title,
+& td.abstract__title {
+  font-weight: 600;
+  color: var(--color-deep-blue);
+}

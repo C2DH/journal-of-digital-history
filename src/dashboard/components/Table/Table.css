@@ -30,8 +30,8 @@
   font-size: var(--text-size-3);
 }
 
-table.abstracts th,
-table.articles th {
+.table.abstracts th,
+.table.articles th {
   padding-top: var(--gap-size-4);
   position: sticky;
   top: var(--table-headers-top-position);

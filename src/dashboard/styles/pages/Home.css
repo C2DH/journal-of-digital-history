@@ -1,33 +1,70 @@
 .chart {
   background-color: var(--color-white);
-  height: fit-content;
+  height: 450px;
 }
 
 h1 {
   margin-bottom: var(--space-size-4);
 }
-
 h3 {
   margin-top: 0;
 }
-
 p {
   margin-top: 0;
 }
+
+.home-abstract-card {
+  grid-area: a;
+}
+.home-piechart {
+  grid-area: p;
+}
+.home-barchart {
+  grid-area: b;
+}
+
 .home-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
   gap: var(--space-size-2);
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas:
+    'b p . .'
+    '. . . .';
 }
 
-@media (min-width: 1600px) {
-  .home-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
+.home-grid.warning {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas:
+    'b p a a '
+    '. . . .';
 }
 
-@media (max-width: 978px) {
-  .home-grid {
+@media (max-width: 1200px) {
+  .home-grid.warning {
     grid-template-columns: repeat(1, 1fr);
+    grid-template-areas:
+      'a'
+      'p'
+      'b';
   }
+  .chart {
+    height: fit-content;
+  }
+}
+
+@media (min-width: 3000px) {
+  .home-grid.warning {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas:
+      'b p a a a'
+      '. . . . .';
+  }
+}
+
+.home-abstract-card {
+  background-color: var(--color-warning-light);
+  border: 2px solid var(--color-warning) !important;
+}
+.home-abstract-card-title {
+  margin-left: var(--space-size-3);
 }

@@ -4,9 +4,9 @@ export type CardProps = {
   count?: number
   data: any[]
   error?: any
-  loading: boolean
-  hasMore: boolean
-  loadMore: () => void
+  loading?: boolean
+  hasMore?: boolean
+  loadMore?: () => void
   sortBy?: string
   sortOrder?: string
   setSort?: (filters: { sortBy: string; sortOrder: 'asc' | 'desc' }) => void
