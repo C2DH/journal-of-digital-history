@@ -1,0 +1,16 @@
+.badge.accent {
+  font-size: var(--text-size-2);
+  text-transform: uppercase;
+  padding: var(--space-size-0) var(--space-size-1);
+  letter-spacing: 1px;
+  border-radius: 5px;
+  font-weight: bold;
+  box-shadow:
+    rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.accent {
+  color: var(--color-white);
+  background-color: var(--color-accent);
+}

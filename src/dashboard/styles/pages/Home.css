@@ -28,19 +28,19 @@ p {
   gap: var(--space-size-2);
   grid-template-columns: repeat(4, 1fr);
   grid-template-areas:
-    'b p . .'
+    'p b . .'
     '. . . .';
 }
 
-.home-grid.warning {
+.home-grid.isAbstract {
   grid-template-columns: repeat(4, 1fr);
   grid-template-areas:
-    'b p a a '
+    'p b a a '
     '. . . .';
 }
 
 @media (max-width: 1200px) {
-  .home-grid.warning {
+  .home-grid.isAbstract {
     grid-template-columns: repeat(1, 1fr);
     grid-template-areas:
       'a'
@@ -53,17 +53,19 @@ p {
 }
 
 @media (min-width: 3000px) {
-  .home-grid.warning {
+  .home-grid.isAbstract {
     grid-template-columns: repeat(5, 1fr);
     grid-template-areas:
-      'b p a a a'
+      'p b a a a'
       '. . . . .';
   }
 }
 
-.home-abstract-card {
-  background-color: var(--color-warning-light);
-  border: 2px solid var(--color-warning) !important;
+/* ABSTRACT CARD */
+.home-abstract-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-size-2);
 }
 .home-abstract-card-title {
   margin-left: var(--space-size-3);
