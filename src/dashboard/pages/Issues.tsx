@@ -3,15 +3,20 @@ import '../styles/pages/pages.css'
 import { useEffect } from 'react'
 
 import Card from '../components/Card/Card'
+import Loading from '../components/Loading/Loading'
 import { useItemsStore } from '../store'
 
 const Issues = () => {
   const { data: issues, loading, error, hasMore, fetchItems, setParams, loadMore } = useItemsStore()
 
   useEffect(() => {
-    setParams({ endpoint: 'issues', limit: 20 })
+    setParams({ endpoint: 'issues', limit: 20, params: {} })
     fetchItems(true)
   }, [])
+
+  if (loading) {
+    return <Loading />
+  }
 
   return (
     <div className="issues page">
