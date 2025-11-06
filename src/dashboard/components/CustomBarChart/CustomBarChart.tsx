@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { ItemsByStatus } from './interface'
 
 import { useCallForPapersStore, useIssuesStore } from '../../store'
-import { colorsBarChartAbstract, colorsBarChartArticle } from '../../styles/theme'
+import { colorsBarChartArticle } from '../../styles/theme'
 import {
   getAbstractsByStatusAndCallForPapers,
   getArticlesByStatusAndIssues,
@@ -27,7 +27,7 @@ const CustomBarChart = () => {
   const { fetchIssues } = useIssuesStore()
   const { fetchCallForPapers } = useCallForPapersStore()
 
-  const [articleSeries, setArticleSeries] = useState<Array<ItemsByStatus>>([])
+  const [articleSeries, setArticleSeries] = useState<Record<string, any>[]>([])
   const [articleLabels, setArticleLabels] = useState<string[]>([])
 
   const [abstractSeries, setAbstractSeries] = useState<Array<ItemsByStatus>>([])
@@ -47,7 +47,7 @@ const CustomBarChart = () => {
       const abstractLabels = callforpapers.map((cfp) => cfp.title)
       setAbstractLabels(abstractLabels)
 
-      const articleSeries = await Promise.all(
+      const articleSeriesRaw = await Promise.all(
         articleBarChart.map(async (status) => {
           const data = await Promise.all(
             issues.map(async (issue: Issue) => {
@@ -59,7 +59,17 @@ const CustomBarChart = () => {
           return { data, stack: 'unique', label: status.label } as ItemsByStatus
         }),
       )
-      setArticleSeries(articleSeries)
+      const formattedArticleData = issues.map((issue, idx) => {
+        const obj: Record<string, any> = {
+          issueName: issue.name,
+          pid: issue.pid,
+        }
+        articleBarChart.forEach((status, sIdx) => {
+          obj[status.label] = articleSeriesRaw[sIdx].data[idx]
+        })
+        return obj
+      })
+      setArticleSeries(formattedArticleData)
 
       const abstractSeries = await Promise.all(
         abstractStatus.map(async (status) => {
@@ -86,8 +96,8 @@ const CustomBarChart = () => {
   }, [])
 
   const commonProps = {
-    width: 300,
-    height: 300,
+    width: 400,
+    height: 350,
     hideLegend: true,
     margin: { bottom: 10, right: 20 },
     xAxisBase: {
@@ -97,11 +107,6 @@ const CustomBarChart = () => {
       disableTicks: true,
       disableLine: true,
       height: 50,
-      tickLabelStyle: {
-        angle: -50,
-        fontSize: 10,
-        textAnchor: 'end' as const,
-      },
     },
     sx: (theme: any) => ({
       [`.${axisClasses.root}`]: {
@@ -109,13 +114,15 @@ const CustomBarChart = () => {
           fill: 'var(--color-gray)',
           fontFamily: "'DM Sans', sans-serif !important",
         },
+        [` .MuiChartsAxis-label`]: {
+          fill: 'var(--color-deep-blue)',
+        },
       },
       [`.${barLabelClasses.root}`]: {
         fill: 'var(--color-deep-blue)',
         fontSize: 12,
       },
     }),
-    // slotProps: { tooltip: { trigger: 'item' as const } },
   }
 
   const showNoData = isArticle
@@ -147,12 +154,33 @@ const CustomBarChart = () => {
             id="article-bar-chart"
             data-testid="bar-chart-article"
             skipAnimation
-            series={articleSeries}
+            series={[
+              { dataKey: 'Writing', label: 'writing', stack: 'unique' },
+              { dataKey: 'Technical review', label: 'technical review', stack: 'unique' },
+              { dataKey: 'Peer review', label: 'peer review', stack: 'unique' },
+              { dataKey: 'Design review', label: 'design review', stack: 'unique' },
+              { dataKey: 'Published', label: 'published', stack: 'unique' },
+            ]}
             colors={colorsBarChartArticle}
+            // xAxis={[
+            //   {
+            //     ...commonProps.xAxisBase,
+            //     data: articleLabels,
+            //   },
+            // ]}
+            dataset={articleSeries}
             xAxis={[
               {
-                ...commonProps.xAxisBase,
-                data: articleLabels,
+                scaleType: 'band',
+                dataKey: 'pid',
+                valueFormatter: (value, context) =>
+                  context.location === 'tick'
+                    ? value
+                    : articleSeries.find((item) => item.pid === value)!.issueName,
+                label: 'Issues',
+                height: 70,
+                tickSize: 5,
+                categoryGapRatio: 0.5,
               },
             ]}
             yAxis={[{ width: 30, tickNumber: 5, disableTicks: true, disableLine: true }]}
@@ -161,13 +189,12 @@ const CustomBarChart = () => {
             hideLegend={commonProps.hideLegend}
             margin={commonProps.margin}
             sx={commonProps.sx}
-            // slotProps={commonProps.slotProps}
           />
         </div>
       )}
 
       {/* Abstract chart */}
-      {abstractSeries.length > 0 && abstractLabels.length > 0 && (
+      {/* {abstractSeries.length > 0 && abstractLabels.length > 0 && (
         <div style={{ display: isArticle ? 'none' : 'block' }}>
           <BarChart
             id="abstract-bar-chart"
@@ -187,10 +214,9 @@ const CustomBarChart = () => {
             hideLegend={commonProps.hideLegend}
             margin={commonProps.margin}
             sx={commonProps.sx}
-            // slotProps={commonProps.slotProps}
           />
         </div>
-      )}
+      )} */}
 
       {showNoData && <Loading />}
     </SmallCard>
