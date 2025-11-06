@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import { ItemsByStatus } from './interface'
 
 import { useCallForPapersStore, useIssuesStore } from '../../store'
-import { colorsBarChartArticle } from '../../styles/theme'
+import { colorsBarChartAbstract, colorsBarChartArticle } from '../../styles/theme'
 import {
   getAbstractsByStatusAndCallForPapers,
   getArticlesByStatusAndIssues,
@@ -30,7 +30,7 @@ const CustomBarChart = () => {
   const [articleSeries, setArticleSeries] = useState<Record<string, any>[]>([])
   const [articleLabels, setArticleLabels] = useState<string[]>([])
 
-  const [abstractSeries, setAbstractSeries] = useState<Array<ItemsByStatus>>([])
+  const [abstractSeries, setAbstractSeries] = useState<Record<string, any>[]>([])
   const [abstractLabels, setAbstractLabels] = useState<string[]>([])
 
   const loadDatasets = async () => {
@@ -56,7 +56,7 @@ const CustomBarChart = () => {
               return res.count || 0
             }),
           )
-          return { data, stack: 'unique', label: status.label } as ItemsByStatus
+          return { data, label: status.label } as ItemsByStatus
         }),
       )
       const formattedArticleData = issues.map((issue, idx) => {
@@ -71,7 +71,7 @@ const CustomBarChart = () => {
       })
       setArticleSeries(formattedArticleData)
 
-      const abstractSeries = await Promise.all(
+      const abstractSeriesRaw = await Promise.all(
         abstractStatus.map(async (status) => {
           const data = await Promise.all(
             callforpapers.map(async (cfp: Callforpaper) => {
@@ -80,10 +80,21 @@ const CustomBarChart = () => {
               return res.count || 0
             }),
           )
-          return { data, stack: 'unique', label: status.label } as ItemsByStatus
+          return { data, label: status.label } as ItemsByStatus
         }),
       )
-      setAbstractSeries(abstractSeries)
+      const formattedAbstractData = callforpapers.map((cfp, idx) => {
+        const obj: Record<string, any> = {
+          cfpTitle: cfp.title,
+          id: cfp.id,
+        }
+        abstractStatus.forEach((status, sIdx) => {
+          obj[status.label] = abstractSeriesRaw[sIdx].data[idx]
+        })
+        return obj
+      })
+
+      setAbstractSeries(formattedAbstractData)
     } catch (error) {
       console.error('Error - Fetching bar chart datasets:', error)
     }
@@ -162,12 +173,6 @@ const CustomBarChart = () => {
               { dataKey: 'Published', label: 'published', stack: 'unique' },
             ]}
             colors={colorsBarChartArticle}
-            // xAxis={[
-            //   {
-            //     ...commonProps.xAxisBase,
-            //     data: articleLabels,
-            //   },
-            // ]}
             dataset={articleSeries}
             xAxis={[
               {
@@ -194,18 +199,35 @@ const CustomBarChart = () => {
       )}
 
       {/* Abstract chart */}
-      {/* {abstractSeries.length > 0 && abstractLabels.length > 0 && (
+      {abstractSeries.length > 0 && abstractLabels.length > 0 && (
         <div style={{ display: isArticle ? 'none' : 'block' }}>
           <BarChart
             id="abstract-bar-chart"
             data-testid="bar-chart-abstract"
             skipAnimation
-            series={abstractSeries}
+            series={[
+              { dataKey: 'Published', label: 'Published', stack: 'unique' },
+              { dataKey: 'Accepted', label: 'Accepted', stack: 'unique' },
+              { dataKey: 'Submitted', label: 'Submitted', stack: 'unique' },
+              { dataKey: 'Suspended', label: 'Suspended', stack: 'unique' },
+              { dataKey: 'Abandoned', label: 'Abandoned', stack: 'unique' },
+              { dataKey: 'Declined', label: 'Declined', stack: 'unique' },
+            ]}
             colors={colorsBarChartAbstract}
+            dataset={abstractSeries}
             xAxis={[
               {
-                ...commonProps.xAxisBase,
-                data: abstractLabels,
+                scaleType: 'band',
+                dataKey: 'cfpTitle',
+                label: 'Call for papers',
+                height: 70,
+                tickSize: 5,
+                categoryGapRatio: 0.5,
+                tickLabelStyle: {
+                  angle: -50,
+                  fontSize: 10,
+                  textAnchor: 'end' as const,
+                },
               },
             ]}
             yAxis={[{ width: 30, tickNumber: 5, disableTicks: true, disableLine: true }]}
@@ -216,7 +238,7 @@ const CustomBarChart = () => {
             sx={commonProps.sx}
           />
         </div>
-      )} */}
+      )}
 
       {showNoData && <Loading />}
     </SmallCard>
