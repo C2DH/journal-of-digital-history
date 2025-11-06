@@ -97,7 +97,6 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
         ]
           .filter(Boolean)
           .join('&')
-
       const response = await api.get(pagedUrl)
       const result = response.data
 
@@ -108,6 +107,7 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
         hasMore: result.results.length === limit,
         loading: false,
         error: null,
+        ordering: '',
       })
     } catch (err: any) {
       set({
