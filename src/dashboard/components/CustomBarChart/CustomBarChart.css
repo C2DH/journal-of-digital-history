@@ -1,0 +1,13 @@
+.barchart-title {
+  margin: 0;
+}
+
+.barchart-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.barchart-header-text {
+  flex-direction: 0;
+}

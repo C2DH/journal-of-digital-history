@@ -28,7 +28,7 @@ export default function AppRoutes() {
         <Route path="/authors" element={<Authors />} />
         <Route path="/datasets" element={<Datasets />} />
         <Route path="*" element={<Error />} />
-      </Routes>{' '}
+      </Routes>
     </Suspense>
   )
 }

@@ -1,12 +1,72 @@
-.home-piechart {
+.chart {
   background-color: var(--color-white);
+  height: 450px;
+}
+
+h1 {
+  margin-bottom: var(--space-size-4);
+}
+h3 {
+  margin-top: 0;
+}
+p {
+  margin-top: 0;
+}
+
+.home-abstract-card {
+  grid-area: a;
+}
+.home-piechart {
+  grid-area: p;
+}
+.home-barchart {
+  grid-area: b;
 }
 
 .home-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-size-2);
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas:
+    'p b . .'
+    '. . . .';
 }
 
-h3 {
-  margin-top: 0;
+.home-grid.isAbstract {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas:
+    'p b a a '
+    '. . . .';
+}
+
+@media (max-width: 1200px) {
+  .home-grid.isAbstract {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-areas:
+      'a'
+      'p'
+      'b';
+  }
+  .chart {
+    height: fit-content;
+  }
+}
+
+@media (min-width: 3000px) {
+  .home-grid.isAbstract {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas:
+      'p b a a a'
+      '. . . . .';
+  }
+}
+
+/* ABSTRACT CARD */
+.home-abstract-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-size-2);
+}
+.home-abstract-card-title {
+  margin-left: var(--space-size-3);
 }

@@ -22,7 +22,7 @@ import Loading from './pages/Loading'
 
 import { AcceptAnalyticsCookies, AcceptCookies } from './logic/tracking'
 
-import Me from './components/Me'
+import Me from './components/Me/Me'
 import WindowEvents from './components/WindowEvents'
 import { AppRoutes } from './routes'
 

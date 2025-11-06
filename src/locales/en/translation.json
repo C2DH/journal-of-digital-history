@@ -1,7 +1,13 @@
 {
   "login": {
     "title": "Admin login",
-    "button": "Login"
+    "button": "Login",
+    "profile": "My profile",
+    "signOut": "Sign out",
+    "githubArticleWorkflow": "Article workflow",
+    "goJDH": {
+      "en": "Go to Dashboard"
+    }
   },
   "navigation": {
     "about": "About",
@@ -341,6 +347,7 @@
     "addDataset": "＋ Dataset / Tools / Code",
     "downloadAsJSON": "Download as JSON ↓",
     "expand": "Expand",
+    "collapse": "Collapse",
     "switchToHermeneuticLayer": "See Hermeneutic Layer",
     "hidesourceCode": "hide source code",
     "showsourceCode": "show source code",
@@ -447,6 +454,6 @@
     "DRAFT": "Coming soon",
     "INTERNAL_REVIEW": "Internal Review"
   },
-  "welcomeBack": "Logged in as",
+  "loggedInAs": "Logged in as",
   "Hello": "Hello! Test internationalization by clicking on 🌐 in the Storybook menu."
 }

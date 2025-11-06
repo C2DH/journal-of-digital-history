@@ -85,7 +85,6 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
             .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v as string)}`)
             .join('&')
         : ''
-
       const pagedUrl =
         `/api/${endpoint}/` +
         '?' +
@@ -193,9 +192,9 @@ export const useItemStore = create<ItemState<any>>((set) => ({
 export const useCallForPapersStore = create<CallForPapersState>((set) => ({
   data: [],
   error: null,
-  fetchCallForPapers: async () => {
+  fetchCallForPapers: async (revert: boolean) => {
     try {
-      const response = await api.get('/api/callforpaper?ordering=-id')
+      const response = await api.get(`/api/callforpaper?ordering=${revert ? '-' : ''}id`)
       const result = response.data
       set({
         data: result.results || [],
@@ -222,9 +221,9 @@ export const useCallForPapersStore = create<CallForPapersState>((set) => ({
 export const useIssuesStore = create<IssuesState>((set) => ({
   data: [],
   error: null,
-  fetchIssues: async () => {
+  fetchIssues: async (revert: boolean) => {
     try {
-      const response = await api.get('/api/issues?ordering=-pid')
+      const response = await api.get(`/api/issues?ordering=${revert ? '-' : ''}pid`)
       const result = response.data
       set({
         data: result.results || [],
@@ -337,8 +336,8 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
   },
   updateFromStores: async (isAbstract: boolean) => {
     await Promise.all([
-      useCallForPapersStore.getState().fetchCallForPapers(),
-      useIssuesStore.getState().fetchIssues(),
+      useCallForPapersStore.getState().fetchCallForPapers(true),
+      useIssuesStore.getState().fetchIssues(true),
     ])
     const { data: callForPapers } = useCallForPapersStore.getState()
     const { data: issues } = useIssuesStore.getState()

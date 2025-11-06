@@ -47,10 +47,11 @@ const ArticleScrollTo = () => {
       } else if (selectedCellIdx !== -1) {
         moveTo(selectedCellIdx)
       }
-    }, 1000)
+    }, timerRef.current ? 100 : 3000)
 
     return () => clearTimeout(timerRef.current)
   }, [selectedCellIdx, sectionName])
+
 }
 
 export default ArticleScrollTo

@@ -1,4 +1,4 @@
-import { Article } from '../types'
+import { APIResponse } from '../types'
 import api from './headers'
 
 const modifyAbstractStatusWithEmail = async (pid: string, body: Record<string, any>) => {
@@ -31,9 +31,7 @@ const modifyStatus = async (body: { pids: string[]; status: string }, item: stri
     })
 }
 
-const getArticlesByStatus = async (
-  status: string,
-): Promise<{ count: number; next: null; previous: null; results: Article[] }> => {
+const getArticlesByStatus = async (status: string): APIResponse => {
   console.info(`GET [getArticlesByStatus] - ${status} `)
 
   return api
@@ -48,4 +46,43 @@ const getArticlesByStatus = async (
     })
 }
 
-export { getArticlesByStatus, modifyAbstractStatusWithEmail, modifyStatus }
+const getArticlesByStatusAndIssues = async (issue: number, status: string): APIResponse => {
+  console.info(`GET [getArticlesByStatusAndIssues] - ${status} ${issue} `)
+
+  return api
+    .get(`/api/articles?issue=${issue}&status=${status}`)
+    .then((res) => {
+      // console.info(`Articles for status: ${status} for issue id: ${issue}`, res.data)
+      return res.data
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
+const getAbstractsByStatusAndCallForPapers = async (
+  callforpaper: number,
+  status: string,
+): APIResponse => {
+  console.info(`GET [getAbstractsByStatusAndCallForPapers] - ${callforpaper} `)
+
+  return api
+    .get(`/api/abstracts/?callpaper=${callforpaper}&status=${status}`)
+    .then((res) => {
+      // console.info(`Abstracts for callforpaper id: ${callforpaper}`, res.data)
+      return res.data
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
+export {
+  getAbstractsByStatusAndCallForPapers,
+  getArticlesByStatus,
+  getArticlesByStatusAndIssues,
+  modifyAbstractStatusWithEmail,
+  modifyStatus,
+}

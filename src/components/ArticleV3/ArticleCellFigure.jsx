@@ -3,7 +3,6 @@ import React, { useRef } from 'react'
 import { useContainerWidth, useExtractOutputs, useFigureHeight } from '../../hooks/ipynbV3'
 import { getDataTablePageSize, getFigureRatio } from '../../logic/ipynbV3'
 import { CellTypeMarkdown, DataTableRefPrefix } from '../../constants/globalConstants'
-import { useWindowSize } from '../../hooks/windowSize'
 import ArticleCellOutputs from '../Article/ArticleCellOutputs'
 import ArticleCellDataTable from '../Article/ArticleCellDataTable'
 import ArticleFigureCaption from '../Article/ArticleFigureCaption'
@@ -48,14 +47,13 @@ const ArticleCellFigure = ({
   const pictureRef = useRef()
   const tags = Array.isArray(metadata.tags) ? metadata.tags : []
   const aspectRatio = getFigureRatio(tags)
-  const figureHeight = useFigureHeight(tags, !aspectRatio, figure.isCover)
+  // issue #707: use default height only for images
+  const figureHeight = useFigureHeight(tags, !aspectRatio && pictures.length !== 0, figure.isCover)
   const containerWidth = useContainerWidth(pictureRef)
   const shouldUseFixedHeight =
     figureHeight &&
     (!figure.isCover || !aspectRatio) &&
     (!aspectRatio || figureHeight / aspectRatio <= containerWidth)
-
-  const { height: windowHeight } = useWindowSize()
 
   //  Data table
   const isDataTable = tags.includes('data-table') || figure.refPrefix === DataTableRefPrefix
@@ -80,8 +78,7 @@ const ArticleCellFigure = ({
             isJavascriptTrusted={isJavascriptTrusted}
             cellIdx={figure.idx}
             outputs={otherOutputs}
-            windowHeight={windowHeight}
-            height={parseInt(figureHeight)}
+            height={figureHeight && pictures.length === 0 ? parseInt(figureHeight) : 'auto'}
           />
         </>
       )}

@@ -47,13 +47,13 @@ const CustomPieChart = () => {
   }, [])
 
   return (
-    <SmallCard className="home-piechart">
+    <SmallCard className="home-piechart chart">
       <h3>{t('KPI.pieChart.title')}</h3>
       {articlesCounts.length > 0 && (
         <PieChart
           series={[
             {
-              innerRadius: 50,
+              innerRadius: 30,
               outerRadius: 100,
               data: articlesCounts,
               highlightScope: { fade: 'global', highlight: 'item' },
@@ -66,11 +66,21 @@ const CustomPieChart = () => {
           height={200}
           slotProps={{
             legend: {
+              direction: 'horizontal',
+              position: {
+                vertical: 'bottom',
+                horizontal: 'center',
+              },
               sx: {
                 fontSize: 16,
                 fontFamily: 'DM Sans, sans-serif',
                 color: 'var(--color-deep-blue)',
               },
+            },
+          }}
+          sx={{
+            '.MuiChartsLegend-root': {
+              marginTop: '30px',
             },
           }}
         />

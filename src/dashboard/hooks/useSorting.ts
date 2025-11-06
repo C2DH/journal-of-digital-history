@@ -24,7 +24,7 @@ export function useSorting() {
   )
 
   const ordering =
-    sortBy == null ? `BLABLA` : sortOrder === 'asc' || !sortOrder ? sortBy : `-${sortBy}`
+    sortBy == null ? `desc` : sortOrder === 'asc' || !sortOrder ? sortBy : `-${sortBy}`
 
   return {
     sortBy,

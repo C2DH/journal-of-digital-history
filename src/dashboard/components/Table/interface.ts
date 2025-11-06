@@ -12,13 +12,3 @@ export type TableProps = {
   setRowModal?: (modal: { open: boolean; action?: string; row?: any; id?: string }) => void
   isAccordeon?: boolean
 }
-
-export interface renderCellProps {
-  isStep: boolean
-  cell: any
-  header: string
-  headers: string[]
-  cIdx: number
-  title: string
-  isArticle: boolean
-}

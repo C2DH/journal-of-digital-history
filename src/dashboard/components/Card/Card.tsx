@@ -77,7 +77,12 @@ const Card = ({
         }
       })
 
-  useInfiniteScroll(loaderRef, loadMore, hasMore && !loading, [hasMore, loading, loadMore])
+  useInfiniteScroll(loaderRef, loadMore ?? (() => {}), hasMore && !loading, [
+    hasMore,
+    loading,
+    loadMore,
+  ])
+
   useEffect(() => {
     if (modalState.open && modalState.id) {
       retrieveContactEmail(modalState.id, data, setEmail)
@@ -95,7 +100,6 @@ const Card = ({
           <div className="card-header-title">
             {!isArticleOrAbstracts && <h1>{t(`${item}.item`)}</h1>}
           </div>
-
           {/* {isAbstract(item) && (
             <ActionButtonLarge
               actions={[

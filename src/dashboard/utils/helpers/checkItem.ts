@@ -70,6 +70,9 @@ function isStatusHeader(headerName: string) {
 function isRepositoryHeader(headerName: string) {
   return headerName === 'repository_url'
 }
+function isPidHeader(headerName: string): boolean {
+  return headerName === 'pid'
+}
 
 function isAbstract(item: string): boolean {
   return item === 'abstracts'
@@ -115,6 +118,7 @@ export {
   isLastnameHeader,
   isLinkCell,
   isOrcid,
+  isPidHeader,
   isRepositoryHeader,
   isStatus,
   isStatusHeader,
