@@ -8,14 +8,14 @@ import { useTranslation } from 'react-i18next'
 import { ItemsByStatus } from './interface'
 
 import { useCallForPapersStore, useIssuesStore } from '../../store'
-import { colorsBarChartAbstract, colorsBarChartArticle } from '../../styles/theme'
+import { colorsAbstract, colorsArticle } from '../../styles/theme'
 import {
   getAbstractsByStatusAndCallForPapers,
   getAdvanceArticles,
   getArticlesByStatusAndIssues,
 } from '../../utils/api/api'
-import { abstractStatus } from '../../utils/constants/abstract'
-import { articleBarChart } from '../../utils/constants/article'
+import { abstractSeriesKey, abstractStatus } from '../../utils/constants/abstract'
+import { articleBarChart, articleSeriesKey } from '../../utils/constants/article'
 import { APIResponseObject, Callforpaper, Issue } from '../../utils/types'
 import Button from '../Buttons/Button/Button'
 import Loading from '../Loading/Loading'
@@ -70,9 +70,7 @@ const CustomBarChart = () => {
         })
         return obj
       })
-
       const advanceArticles = await getAdvanceArticles()
-
       const advanceArticlesFormat = {
         issueName: 'Advance Articles',
         pid: 'advance',
@@ -83,8 +81,8 @@ const CustomBarChart = () => {
         Published: advanceArticles.count,
       }
       formattedArticleData.push(advanceArticlesFormat)
-
       setArticleSeries(formattedArticleData)
+
       const abstractSeriesRaw = await Promise.all(
         abstractStatus.map(async (status) => {
           const data = await Promise.all(
@@ -107,7 +105,6 @@ const CustomBarChart = () => {
         })
         return obj
       })
-
       setAbstractSeries(formattedAbstractData)
     } catch (error) {
       console.error('Error - Fetching bar chart datasets:', error)
@@ -140,6 +137,7 @@ const CustomBarChart = () => {
         fontSize: 12,
       },
     }),
+    yAxis: [{ width: 30, tickNumber: 5, disableTicks: true, disableLine: true }],
   }
 
   const showNoData = isArticle
@@ -171,14 +169,8 @@ const CustomBarChart = () => {
             id="article-bar-chart"
             data-testid="bar-chart-article"
             skipAnimation
-            series={[
-              { dataKey: 'Writing', label: 'writing', stack: 'unique' },
-              { dataKey: 'Technical review', label: 'technical review', stack: 'unique' },
-              { dataKey: 'Peer review', label: 'peer review', stack: 'unique' },
-              { dataKey: 'Design review', label: 'design review', stack: 'unique' },
-              { dataKey: 'Published', label: 'published', stack: 'unique' },
-            ]}
-            colors={colorsBarChartArticle}
+            series={articleSeriesKey}
+            colors={colorsArticle}
             dataset={articleSeries}
             xAxis={[
               {
@@ -194,7 +186,7 @@ const CustomBarChart = () => {
                 categoryGapRatio: 0.5,
               },
             ]}
-            yAxis={[{ width: 30, tickNumber: 5, disableTicks: true, disableLine: true }]}
+            yAxis={commonProps.yAxis}
             width={commonProps.width}
             height={commonProps.height}
             hideLegend={commonProps.hideLegend}
@@ -211,15 +203,8 @@ const CustomBarChart = () => {
             id="abstract-bar-chart"
             data-testid="bar-chart-abstract"
             skipAnimation
-            series={[
-              { dataKey: 'Published', label: 'Published', stack: 'unique' },
-              { dataKey: 'Accepted', label: 'Accepted', stack: 'unique' },
-              { dataKey: 'Submitted', label: 'Submitted', stack: 'unique' },
-              { dataKey: 'Suspended', label: 'Suspended', stack: 'unique' },
-              { dataKey: 'Abandoned', label: 'Abandoned', stack: 'unique' },
-              { dataKey: 'Declined', label: 'Declined', stack: 'unique' },
-            ]}
-            colors={colorsBarChartAbstract}
+            series={abstractSeriesKey}
+            colors={colorsAbstract}
             dataset={abstractSeries}
             xAxis={[
               {
@@ -236,7 +221,7 @@ const CustomBarChart = () => {
                 },
               },
             ]}
-            yAxis={[{ width: 30, tickNumber: 5, disableTicks: true, disableLine: true }]}
+            yAxis={commonProps.yAxis}
             width={commonProps.width}
             height={commonProps.height}
             hideLegend={commonProps.hideLegend}
