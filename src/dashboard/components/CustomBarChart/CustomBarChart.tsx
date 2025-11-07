@@ -11,6 +11,7 @@ import { useCallForPapersStore, useIssuesStore } from '../../store'
 import { colorsBarChartAbstract, colorsBarChartArticle } from '../../styles/theme'
 import {
   getAbstractsByStatusAndCallForPapers,
+  getAdvanceArticles,
   getArticlesByStatusAndIssues,
 } from '../../utils/api/api'
 import { abstractStatus } from '../../utils/constants/abstract'
@@ -69,8 +70,21 @@ const CustomBarChart = () => {
         })
         return obj
       })
-      setArticleSeries(formattedArticleData)
 
+      const advanceArticles = await getAdvanceArticles()
+
+      const advanceArticlesFormat = {
+        issueName: 'Advance Articles',
+        pid: 'advance',
+        Writing: 0,
+        'Technical review': 0,
+        'Peer review': 0,
+        'Design review': 0,
+        Published: advanceArticles.count,
+      }
+      formattedArticleData.push(advanceArticlesFormat)
+
+      setArticleSeries(formattedArticleData)
       const abstractSeriesRaw = await Promise.all(
         abstractStatus.map(async (status) => {
           const data = await Promise.all(
@@ -107,18 +121,10 @@ const CustomBarChart = () => {
   }, [])
 
   const commonProps = {
-    width: 400,
+    width: 600,
     height: 350,
     hideLegend: true,
     margin: { bottom: 10, right: 20 },
-    xAxisBase: {
-      id: 'issues',
-      scaleType: 'band' as const,
-      categoryGapRatio: 0.6,
-      disableTicks: true,
-      disableLine: true,
-      height: 50,
-    },
     sx: (theme: any) => ({
       [`.${axisClasses.root}`]: {
         [`.${axisClasses.tickLabel}`]: {

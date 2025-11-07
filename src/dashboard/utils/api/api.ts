@@ -79,8 +79,23 @@ const getAbstractsByStatusAndCallForPapers = async (
     })
 }
 
+const getAdvanceArticles = async (): APIResponse => {
+  console.info(`GET [getAdvanceArticles]`)
+
+  return api
+    .get(`/api/articles/advance`)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
 export {
   getAbstractsByStatusAndCallForPapers,
+  getAdvanceArticles,
   getArticlesByStatus,
   getArticlesByStatusAndIssues,
   modifyAbstractStatusWithEmail,
