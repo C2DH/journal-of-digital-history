@@ -84,8 +84,14 @@ export function setDetails(item: Abstract | Article) {
       })),
     ]
     url = item.repository_url
-    title = item.data?.title[0] || ''
-    abstractText = item.data?.abstract[0] || ''
+    title =
+      Array.isArray(item.data?.title) && item.data?.title.length > 0
+        ? item.data.title[0]
+        : item.abstract.title
+    abstractText =
+      Array.isArray(item.data?.abstract) && item.data?.abstract.length > 0
+        ? item.data.abstract[0]
+        : item.abstract.abstract
   }
 
   return { infoFields, contactFields, datasetFields, urlFields, url, title, abstractText }
