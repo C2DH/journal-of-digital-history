@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react'
 import Vimeo from '@u-wave/react-vimeo'
-import { animated, useSpring, config } from 'react-spring'
-import { useStore } from '../../store'
+import { useRef, useState } from 'react'
+import { animated, config, useSpring } from 'react-spring'
 import { useBoundingClientRect } from '../../hooks/graphics'
-import VideoReleaseButton from './VideoReleaseButton'
+import { useStore } from '../../store'
 import '../../styles/components/VideoRelease.scss'
+import VideoReleaseButton from './VideoReleaseButton'
 
 const VideoRelease = ({
   // releaseNotified=false,
@@ -66,7 +66,7 @@ const VideoRelease = ({
 
   return (
     <animated.div style={modalStyle} className="VideoRelease">
-      <div className="VideoRelease__modal shadow-lg">
+      <div className="VideoRelease__modal shadow-lg" data-testid="video-release-modal">
         <VideoReleaseButton onClick={onClose} />
         <aside className="VideoRelease__modal__aside p-4">
           <p>{releaseName}</p>

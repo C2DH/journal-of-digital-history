@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -80,5 +80,16 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script type="module" src="/src/index.jsx"></script>
+    <!-- Script for allowing Cypress to recognize Bootstrap modal -->
+    <script>
+      // Add a `data-cy="modal"` attribute when the modal is finished transitioning open
+      document.getElementById('modal-id').addEventListener('shown.bs.modal', (evt) => {
+        evt.target.setAttribute('data-cy', 'modal')
+      })
+      // Remove the `data-cy` attribute when the modal is finished transitioning closed
+      document.getElementById('modal-id').addEventListener('hidden.bs.modal', (evt) => {
+        evt.target.removeAttribute('data-cy')
+      })
+    </script>
   </body>
 </html>

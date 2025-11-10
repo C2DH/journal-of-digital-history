@@ -1,8 +1,7 @@
 import { BrainWarning, ElectronicsChip, PauseSolid } from 'iconoir-react'
-import React from 'react'
-import './ArticleCellExplainCodeButton.css'
-import CircularLoading from '../CircularLoading'
 import ButtonInflatable from '../ButtonInflatable'
+import CircularLoading from '../CircularLoading'
+import './ArticleCellExplainCodeButton.css'
 
 export const StatusIdle = 'idle'
 export const StatusScheduled = 'scheduled'
@@ -45,6 +44,7 @@ const ArticleCellExplainCodeButton = ({
         className="btn btn-outline-white-secondary btn-sm btn-pill d-flex align-items-center"
         onClick={onClick}
         disabled={disabled}
+        data-testid="ArticleCellExplainCodeButton"
       >
         <div className="ArticleCellExplainCodeButton__iconWrapper me-2">
           <Component height={16} width={16} />
