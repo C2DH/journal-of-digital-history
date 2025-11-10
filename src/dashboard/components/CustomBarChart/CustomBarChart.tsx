@@ -118,7 +118,7 @@ const CustomBarChart = () => {
   }, [])
 
   const commonProps = {
-    width: 600,
+    width: 450,
     height: 350,
     hideLegend: true,
     margin: { bottom: 10, right: 20 },
@@ -137,6 +137,7 @@ const CustomBarChart = () => {
         fontSize: 12,
       },
     }),
+    xAxis: [{ height: 70, tickSize: 5, categoryGapRatio: 0.5 }],
     yAxis: [{ width: 30, tickNumber: 5, disableTicks: true, disableLine: true }],
   }
 
@@ -181,9 +182,7 @@ const CustomBarChart = () => {
                     ? value
                     : articleSeries.find((item) => item.pid === value)!.issueName,
                 label: 'Issues',
-                height: 70,
-                tickSize: 5,
-                categoryGapRatio: 0.5,
+                ...commonProps.xAxis[0],
               },
             ]}
             yAxis={commonProps.yAxis}
@@ -211,14 +210,12 @@ const CustomBarChart = () => {
                 scaleType: 'band',
                 dataKey: 'cfpTitle',
                 label: 'Call for papers',
-                height: 70,
-                tickSize: 5,
-                categoryGapRatio: 0.5,
                 tickLabelStyle: {
                   angle: -50,
                   fontSize: 10,
                   textAnchor: 'end' as const,
                 },
+                ...commonProps.xAxis[0],
               },
             ]}
             yAxis={commonProps.yAxis}
