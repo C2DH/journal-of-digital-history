@@ -3,9 +3,9 @@ import { Mock, vi } from 'vitest'
 
 import {
   getAbstractsByStatusAndCallForPapers,
+  getAdvanceArticles,
   getArticlesByStatusAndIssues,
 } from '../../utils/api/api'
-import { abstractStatus } from '../../utils/constants/abstract'
 import { articleBarChart } from '../../utils/constants/article'
 import CustomBarChart from './CustomBarChart'
 
@@ -16,19 +16,40 @@ vi.mock('react-i18next', () => ({
 vi.mock('../../utils/api/api', () => ({
   getArticlesByStatusAndIssues: vi.fn(),
   getAbstractsByStatusAndCallForPapers: vi.fn(),
+  getAdvanceArticles: vi.fn(),
 }))
 
 vi.mock('../../utils/constants/article', () => ({
   articleBarChart: [
-    { key: 0, label: 'Published', value: 'published' },
-    { key: 1, label: 'Draft', value: 'draft' },
+    { label: 'Writing', value: 'writing' },
+    { label: 'Technical review', value: 'technical_review' },
+    { label: 'Peer review', value: 'peer_review' },
+    { label: 'Design review', value: 'design_review' },
+    { label: 'Published', value: 'published' },
+  ],
+  articleSeriesKey: [
+    { dataKey: 'Writing', label: 'writing', stack: 'unique' },
+    { dataKey: 'Technical review', label: 'technical_review', stack: 'unique' },
+    { dataKey: 'Peer review', label: 'peer_review', stack: 'unique' },
+    { dataKey: 'Design review', label: 'design_review', stack: 'unique' },
+    { dataKey: 'Published', label: 'published', stack: 'unique' },
   ],
 }))
+
 vi.mock('../../utils/constants/abstract', () => ({
   abstractStatus: [
-    { key: 0, label: 'Accepted', value: 'accepted' },
-    { key: 1, label: 'Declined', value: 'declined' },
+    { label: 'Submitted', value: 'submitted', stack: 'unique' },
+    { label: 'Accepted', value: 'accepted', stack: 'unique' },
   ],
+  abstractSeriesKey: [
+    { dataKey: 'Submitted', label: 'submitted', stack: 'unique' },
+    { dataKey: 'Accepted', label: 'accepted', stack: 'unique' },
+  ],
+}))
+
+vi.mock('../../styles/theme', () => ({
+  colorsArticle: ['#123456'],
+  colorsAbstract: ['#654321'],
 }))
 
 // Zustand stores
@@ -39,6 +60,10 @@ const issuesData = [
 const cfpData = [
   { id: 'c1', title: 'Call 1' },
   { id: 'c2', title: 'Call 2' },
+]
+const abstractStatus = [
+  { label: 'Submitted', value: 'submitted', stack: 'unique' },
+  { label: 'Accepted', value: 'accepted', stack: 'unique' },
 ]
 
 const fetchIssuesMock = vi.fn().mockResolvedValue(undefined)
@@ -81,12 +106,13 @@ describe('CustomBarChart', () => {
   it('renders and fetches article counts for each status x issue', async () => {
     ;(getArticlesByStatusAndIssues as unknown as Mock).mockResolvedValue({ count: 5 })
     ;(getAbstractsByStatusAndCallForPapers as unknown as Mock).mockResolvedValue({ count: 0 })
+    ;(getAdvanceArticles as unknown as Mock).mockResolvedValue({ count: 0 })
 
     render(<CustomBarChart />)
 
+    await screen.findByTestId('bar-chart-article')
     await screen.findByTestId('bar-chart-abstract')
 
-    expect(screen.getByTestId('bar-chart-abstract')).toBeInTheDocument()
     expect(screen.getByTestId('flip-button')).toBeInTheDocument()
 
     // Call for each status x each issue
@@ -108,6 +134,7 @@ describe('CustomBarChart', () => {
     ;(getAbstractsByStatusAndCallForPapers as unknown as Mock).mockResolvedValue({
       count: 2,
     })
+    ;(getAdvanceArticles as unknown as Mock).mockResolvedValue({ count: 0 })
 
     render(<CustomBarChart />)
 

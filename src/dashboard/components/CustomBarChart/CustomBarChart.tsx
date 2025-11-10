@@ -8,13 +8,14 @@ import { useTranslation } from 'react-i18next'
 import { ItemsByStatus } from './interface'
 
 import { useCallForPapersStore, useIssuesStore } from '../../store'
-import { colorsBarChartAbstract, colorsBarChartArticle } from '../../styles/theme'
+import { colorsAbstract, colorsArticle } from '../../styles/theme'
 import {
   getAbstractsByStatusAndCallForPapers,
+  getAdvanceArticles,
   getArticlesByStatusAndIssues,
 } from '../../utils/api/api'
-import { abstractStatus } from '../../utils/constants/abstract'
-import { articleBarChart } from '../../utils/constants/article'
+import { abstractSeriesKey, abstractStatus } from '../../utils/constants/abstract'
+import { articleBarChart, articleSeriesKey } from '../../utils/constants/article'
 import { APIResponseObject, Callforpaper, Issue } from '../../utils/types'
 import Button from '../Buttons/Button/Button'
 import Loading from '../Loading/Loading'
@@ -27,10 +28,10 @@ const CustomBarChart = () => {
   const { fetchIssues } = useIssuesStore()
   const { fetchCallForPapers } = useCallForPapersStore()
 
-  const [articleSeries, setArticleSeries] = useState<Array<ItemsByStatus>>([])
+  const [articleSeries, setArticleSeries] = useState<Record<string, any>[]>([])
   const [articleLabels, setArticleLabels] = useState<string[]>([])
 
-  const [abstractSeries, setAbstractSeries] = useState<Array<ItemsByStatus>>([])
+  const [abstractSeries, setAbstractSeries] = useState<Record<string, any>[]>([])
   const [abstractLabels, setAbstractLabels] = useState<string[]>([])
 
   const loadDatasets = async () => {
@@ -47,7 +48,7 @@ const CustomBarChart = () => {
       const abstractLabels = callforpapers.map((cfp) => cfp.title)
       setAbstractLabels(abstractLabels)
 
-      const articleSeries = await Promise.all(
+      const articleSeriesRaw = await Promise.all(
         articleBarChart.map(async (status) => {
           const data = await Promise.all(
             issues.map(async (issue: Issue) => {
@@ -56,12 +57,33 @@ const CustomBarChart = () => {
               return res.count || 0
             }),
           )
-          return { data, stack: 'unique', label: status.label } as ItemsByStatus
+          return { data, label: status.label } as ItemsByStatus
         }),
       )
-      setArticleSeries(articleSeries)
+      const formattedArticleData = issues.map((issue, idx) => {
+        const obj: Record<string, any> = {
+          issueName: issue.name,
+          pid: issue.pid,
+        }
+        articleBarChart.forEach((status, sIdx) => {
+          obj[status.label] = articleSeriesRaw[sIdx].data[idx]
+        })
+        return obj
+      })
+      const advanceArticles = await getAdvanceArticles()
+      const advanceArticlesFormat = {
+        issueName: 'Advance Articles',
+        pid: 'advance',
+        Writing: 0,
+        'Technical review': 0,
+        'Peer review': 0,
+        'Design review': 0,
+        Published: advanceArticles.count,
+      }
+      formattedArticleData.push(advanceArticlesFormat)
+      setArticleSeries(formattedArticleData)
 
-      const abstractSeries = await Promise.all(
+      const abstractSeriesRaw = await Promise.all(
         abstractStatus.map(async (status) => {
           const data = await Promise.all(
             callforpapers.map(async (cfp: Callforpaper) => {
@@ -70,10 +92,20 @@ const CustomBarChart = () => {
               return res.count || 0
             }),
           )
-          return { data, stack: 'unique', label: status.label } as ItemsByStatus
+          return { data, label: status.label } as ItemsByStatus
         }),
       )
-      setAbstractSeries(abstractSeries)
+      const formattedAbstractData = callforpapers.map((cfp, idx) => {
+        const obj: Record<string, any> = {
+          cfpTitle: cfp.title,
+          id: cfp.id,
+        }
+        abstractStatus.forEach((status, sIdx) => {
+          obj[status.label] = abstractSeriesRaw[sIdx].data[idx]
+        })
+        return obj
+      })
+      setAbstractSeries(formattedAbstractData)
     } catch (error) {
       console.error('Error - Fetching bar chart datasets:', error)
     }
@@ -86,28 +118,18 @@ const CustomBarChart = () => {
   }, [])
 
   const commonProps = {
-    width: 300,
-    height: 300,
+    width: 450,
+    height: 350,
     hideLegend: true,
     margin: { bottom: 10, right: 20 },
-    xAxisBase: {
-      id: 'issues',
-      scaleType: 'band' as const,
-      categoryGapRatio: 0.6,
-      disableTicks: true,
-      disableLine: true,
-      height: 50,
-      tickLabelStyle: {
-        angle: -50,
-        fontSize: 10,
-        textAnchor: 'end' as const,
-      },
-    },
     sx: (theme: any) => ({
       [`.${axisClasses.root}`]: {
         [`.${axisClasses.tickLabel}`]: {
           fill: 'var(--color-gray)',
           fontFamily: "'DM Sans', sans-serif !important",
+        },
+        [` .MuiChartsAxis-label`]: {
+          fill: 'var(--color-deep-blue)',
         },
       },
       [`.${barLabelClasses.root}`]: {
@@ -115,7 +137,8 @@ const CustomBarChart = () => {
         fontSize: 12,
       },
     }),
-    // slotProps: { tooltip: { trigger: 'item' as const } },
+    xAxis: [{ height: 70, tickSize: 5, categoryGapRatio: 0.5 }],
+    yAxis: [{ width: 30, tickNumber: 5, disableTicks: true, disableLine: true }],
   }
 
   const showNoData = isArticle
@@ -147,21 +170,27 @@ const CustomBarChart = () => {
             id="article-bar-chart"
             data-testid="bar-chart-article"
             skipAnimation
-            series={articleSeries}
-            colors={colorsBarChartArticle}
+            series={articleSeriesKey}
+            colors={colorsArticle}
+            dataset={articleSeries}
             xAxis={[
               {
-                ...commonProps.xAxisBase,
-                data: articleLabels,
+                scaleType: 'band',
+                dataKey: 'pid',
+                valueFormatter: (value, context) =>
+                  context.location === 'tick'
+                    ? value
+                    : articleSeries.find((item) => item.pid === value)!.issueName,
+                label: 'Issues',
+                ...commonProps.xAxis[0],
               },
             ]}
-            yAxis={[{ width: 30, tickNumber: 5, disableTicks: true, disableLine: true }]}
+            yAxis={commonProps.yAxis}
             width={commonProps.width}
             height={commonProps.height}
             hideLegend={commonProps.hideLegend}
             margin={commonProps.margin}
             sx={commonProps.sx}
-            // slotProps={commonProps.slotProps}
           />
         </div>
       )}
@@ -173,21 +202,28 @@ const CustomBarChart = () => {
             id="abstract-bar-chart"
             data-testid="bar-chart-abstract"
             skipAnimation
-            series={abstractSeries}
-            colors={colorsBarChartAbstract}
+            series={abstractSeriesKey}
+            colors={colorsAbstract}
+            dataset={abstractSeries}
             xAxis={[
               {
-                ...commonProps.xAxisBase,
-                data: abstractLabels,
+                scaleType: 'band',
+                dataKey: 'cfpTitle',
+                label: 'Call for papers',
+                tickLabelStyle: {
+                  angle: -50,
+                  fontSize: 10,
+                  textAnchor: 'end' as const,
+                },
+                ...commonProps.xAxis[0],
               },
             ]}
-            yAxis={[{ width: 30, tickNumber: 5, disableTicks: true, disableLine: true }]}
+            yAxis={commonProps.yAxis}
             width={commonProps.width}
             height={commonProps.height}
             hideLegend={commonProps.hideLegend}
             margin={commonProps.margin}
             sx={commonProps.sx}
-            // slotProps={commonProps.slotProps}
           />
         </div>
       )}

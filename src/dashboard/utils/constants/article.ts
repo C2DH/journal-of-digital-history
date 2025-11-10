@@ -42,3 +42,7 @@ export const articleBarChart = [
   { key: 3, value: 'DESIGN_REVIEW', label: 'Design review' },
   { key: 4, value: 'PUBLISHED', label: 'Published' },
 ]
+
+export const articleSeriesKey = articleBarChart.map((item) => {
+  return { dataKey: item.label, label: item.label, stack: 'unique' }
+})
