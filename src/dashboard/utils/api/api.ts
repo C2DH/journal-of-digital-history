@@ -93,11 +93,26 @@ const getAdvanceArticles = async (): APIResponse => {
     })
 }
 
+const getCallforpaperOpen = async (): APIResponse => {
+  console.info(`GET [getCallforpaperOpen]`)
+
+  return api
+    .get(`/api/callforpaper/open`)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
 export {
   getAbstractsByStatusAndCallForPapers,
   getAdvanceArticles,
   getArticlesByStatus,
   getArticlesByStatusAndIssues,
+  getCallforpaperOpen,
   modifyAbstractStatusWithEmail,
   modifyStatus,
 }
