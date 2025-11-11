@@ -19,7 +19,6 @@ const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
   return (
     <>
       {' '}
-      <Deadline />
       <SmallCard className="home-abstract-card chart">
         <div className="home-abstract-card-header">
           <h2 className="home-abstract-card-title">Abstracts</h2>{' '}
@@ -62,6 +61,10 @@ const Home = () => {
     <div className="home page">
       <h1>{t('welcome')}</h1>
       <div className={`home-grid ${isAbstractSubmitted ? 'isAbstract' : ''}`}>
+        <div className="home-counter-row">
+          {' '}
+          <Deadline />
+        </div>
         <>{isAbstractSubmitted && AbstractSubmittedCard(submittedAbstracts)}</>
         <CustomPieChart />
         <CustomBarChart />
