@@ -22,7 +22,12 @@
 }
 
 .deadline-counter-cfp-title {
+  font-size: var(--text-size-3);
   color: var(--color-gray-lighter);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 170px;
 }
 
 .deadline-counter-days {

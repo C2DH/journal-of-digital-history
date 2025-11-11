@@ -1,7 +1,8 @@
 import '../styles/pages/Home.css'
 import '../styles/pages/pages.css'
 
-import { useEffect } from 'react'
+import { DateTime } from 'luxon'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router'
 
@@ -13,7 +14,8 @@ import SmallCard from '../components/SmallCard/SmallCard'
 import SmallTable from '../components/SmallTable /SmallTable'
 import { useSorting } from '../hooks/useSorting'
 import { useItemsStore } from '../store'
-import { Abstract } from '../utils/types'
+import { getCallforpaperOpen } from '../utils/api/api'
+import { Abstract, Callforpaper } from '../utils/types'
 
 const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
   return (
@@ -41,6 +43,38 @@ const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
   )
 }
 
+const DeadlineRow = () => {
+  const [cfpOpen, setCfpOpen] = useState<Callforpaper[]>([])
+
+  const getCallforpaper = async () => {
+    try {
+      const cfpOpen = (await getCallforpaperOpen()).results as Callforpaper[]
+      setCfpOpen(cfpOpen)
+    } catch (error) {
+      console.error('Error fetching Call for Papers:', error)
+      return []
+    }
+  }
+
+  useEffect(() => {
+    getCallforpaper()
+  }, [])
+
+  return (
+    <div className="home-counter-row">
+      {cfpOpen.map((cfp) => (
+        <Deadline
+          key={cfp.id}
+          cfpTitle={cfp.title}
+          days={DateTime.fromISO(cfp.deadline_abstract).diff(DateTime.now(), 'days').days}
+          deadlineAbstract={cfp.deadline_abstract}
+          deadlineArticle={cfp.deadline_article}
+        />
+      ))}
+    </div>
+  )
+}
+
 const Home = () => {
   const { t } = useTranslation()
   const { ordering } = useSorting()
@@ -61,10 +95,7 @@ const Home = () => {
     <div className="home page">
       <h1>{t('welcome')}</h1>
       <div className={`home-grid ${isAbstractSubmitted ? 'isAbstract' : ''}`}>
-        <div className="home-counter-row">
-          {' '}
-          <Deadline />
-        </div>
+        <DeadlineRow />
         <>{isAbstractSubmitted && AbstractSubmittedCard(submittedAbstracts)}</>
         <CustomPieChart />
         <CustomBarChart />
