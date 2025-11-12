@@ -1,7 +1,6 @@
 import '../styles/pages/Home.css'
 import '../styles/pages/pages.css'
 
-import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router'
@@ -14,7 +13,7 @@ import SmallCard from '../components/SmallCard/SmallCard'
 import SmallTable from '../components/SmallTable /SmallTable'
 import { useSorting } from '../hooks/useSorting'
 import { useItemsStore } from '../store'
-import { getCallforpaperOpen } from '../utils/api/api'
+import { getCallforpaperWithDeadlineOpen } from '../utils/api/api'
 import { Abstract, Callforpaper } from '../utils/types'
 
 const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
@@ -48,7 +47,7 @@ const DeadlineRow = () => {
 
   const getCallforpaper = async () => {
     try {
-      const cfpOpen = (await getCallforpaperOpen()).results as Callforpaper[]
+      const cfpOpen = await getCallforpaperWithDeadlineOpen()
       setCfpOpen(cfpOpen)
     } catch (error) {
       console.error('Error fetching Call for Papers:', error)
@@ -66,7 +65,6 @@ const DeadlineRow = () => {
         <Deadline
           key={cfp.id}
           cfpTitle={cfp.title}
-          days={DateTime.fromISO(cfp.deadline_abstract).diff(DateTime.now(), 'days').days}
           deadlineAbstract={cfp.deadline_abstract}
           deadlineArticle={cfp.deadline_article}
         />
