@@ -1,11 +1,37 @@
-import { DateTime } from 'luxon'
 import './Deadline.css'
+
+import { DateTime } from 'luxon'
 
 import { DeadlineProps } from './interface'
 
-const Deadline = ({ cfpTitle, days, deadlineAbstract, deadlineArticle }: DeadlineProps) => {
-  const deadlineAbstractDate = DateTime.fromISO(deadlineAbstract).toFormat('dd MMM yyyy')
-  const deadlineArticleDate = DateTime.fromISO(deadlineArticle).toFormat('dd MMM yyyy')
+const getDeadlineFormat = (deadline: string) => {
+  return DateTime.fromISO(deadline).toFormat('dd MMM yyyy')
+}
+
+const getNumberOfDays = (deadline: string) => {
+  return Math.ceil(DateTime.fromISO(deadline).diff(DateTime.now(), 'days').days)
+}
+
+const Deadline = ({ cfpTitle, deadlineAbstract, deadlineArticle }: DeadlineProps) => {
+  let days = 0
+  let message = 'days left'
+  const now = DateTime.now()
+
+  const abstractDays = getNumberOfDays(deadlineAbstract)
+  const articleDays = getNumberOfDays(deadlineArticle)
+  const abstractDate = getDeadlineFormat(deadlineAbstract)
+  const articleDate = getDeadlineFormat(deadlineArticle)
+
+  if (now < DateTime.fromISO(deadlineAbstract)) {
+    days = abstractDays
+  } else if (now < DateTime.fromISO(deadlineArticle)) {
+    days = articleDays
+  }
+
+  if (abstractDays > 365 * 2) {
+    days = 0
+    message = 'open ended'
+  }
 
   return (
     <div className="deadline-counter">
@@ -15,13 +41,13 @@ const Deadline = ({ cfpTitle, days, deadlineAbstract, deadlineArticle }: Deadlin
           {cfpTitle}{' '}
         </span>
         <span className="deadline-counter-days">
-          {days > 365 ? 'open ended' : `${days} days left`}
+          {days === 0 ? '' : days} {message}
         </span>
         <p className="deadline-counter-dates">
           {' '}
-          {DateTime.fromISO(deadlineAbstract) > DateTime.now()
-            ? `Articles for ${deadlineArticleDate}`
-            : `Abstracts for ${deadlineAbstractDate}`}
+          {DateTime.fromISO(deadlineAbstract).startOf('day') > DateTime.now().startOf('day')
+            ? `Abstracts for ${abstractDate}`
+            : `Articles for ${articleDate}`}
         </p>
       </div>
     </div>
