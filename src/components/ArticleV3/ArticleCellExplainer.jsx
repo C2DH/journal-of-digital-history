@@ -115,7 +115,7 @@ const ArticleCellExplainer = ({ source = '', cellIdx = '', className = '' }) => 
           className={`ArticleCellExplainer__messages ${
             displayStatus === StatusError ? 'error' : ''
           }`}
-          data-testid={`ArticleCellExplainer-messages ${displayStatus === StatusError ? 'error' : ''}`}
+          data-cy={`ArticleCellExplainer-messages ${displayStatus === StatusError ? 'error' : ''}`}
           ref={resultRef}
         ></div>
       </a.section>
