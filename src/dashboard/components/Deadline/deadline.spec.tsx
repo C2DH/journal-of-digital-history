@@ -5,25 +5,25 @@ import Deadline from './Deadline'
 
 const cfpDeadlineAbstract = {
   title: 'Call for Papers Abstracts',
-  deadline_abstract: '2026-05-31T10:00:48+02:00',
-  deadline_article: '2026-12-31T10:00:48+02:00',
+  deadline_abstract: '2026-05-31T10:00:48Z',
+  deadline_article: '2026-12-31T10:00:48Z',
 }
 
 const cfpDeadlineArticle = {
   title: 'Call for Papers Articles',
-  deadline_abstract: '2025-05-31T10:00:48+02:00',
-  deadline_article: '2026-12-31T10:00:48+02:00',
+  deadline_abstract: '2025-05-31T10:00:48Z',
+  deadline_article: '2026-12-31T10:00:48Z',
 }
 
 const cfpOpenEnded = {
   title: 'Call for Papers Open Forever',
-  deadline_abstract: '2099-05-31T10:00:48+02:00',
-  deadline_article: '2099-12-31T10:00:48+02:00',
+  deadline_abstract: '2099-05-31T10:00:48Z',
+  deadline_article: '2099-12-31T10:00:48Z',
 }
 
 //Rewriting the now timestamp
 let originalNow: (typeof Settings)['now']
-const now = DateTime.fromISO('2026-01-01T10:00:48+02:00').toMillis()
+const now = DateTime.fromISO('2026-01-01T10:00:48Z', { zone: 'utc' }).toMillis()
 
 describe('Deadline', () => {
   beforeEach(() => {
