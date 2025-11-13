@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react'
-import { Button } from 'react-bootstrap'
 import { Erase } from 'iconoir-react'
+import { useEffect } from 'react'
+import { Button } from 'react-bootstrap'
 
-import { useExecutionScope } from './ExecutionScope'
-import ConnectionStatusBox from './ConnectionStatusBox'
-import { useArticleThebe } from './ArticleThebeProvider'
 import ArticleCellRunCodeButton, {
   StatusBeforeExecuting,
   StatusError,
@@ -13,6 +10,9 @@ import ArticleCellRunCodeButton, {
   StatusScheduled,
   StatusSuccess,
 } from './ArticleCellRunCodeButton'
+import { useArticleThebe } from './ArticleThebeProvider'
+import ConnectionStatusBox from './ConnectionStatusBox'
+import { useExecutionScope } from './ExecutionScope'
 
 import '../../styles/components/ArticleV3/ArticleCellCodeTools.scss'
 import ArticleCellExplainer from './ArticleCellExplainer'
@@ -25,7 +25,9 @@ const ArticleCellCodeTools = ({ cellIdx = -1, source = '' }) => {
   const pending = useExecutionScope((state) => state.cells[cellIdx]?.pending)
   const success = useExecutionScope((state) => state.cells[cellIdx]?.success)
   const errors = useExecutionScope((state) => state.cells[cellIdx]?.errors)
-  const edited = useExecutionScope((state) => state.cells[cellIdx]?.source !== state.cells[cellIdx]?.thebe?.source);
+  const edited = useExecutionScope(
+    (state) => state.cells[cellIdx]?.source !== state.cells[cellIdx]?.thebe?.source,
+  )
   const executeCell = useExecutionScope((state) => state.executeCell)
   const scheduleCell = useExecutionScope((state) => state.scheduleCell)
   const resetCell = useExecutionScope((state) => state.resetCell)
@@ -35,14 +37,14 @@ const ArticleCellCodeTools = ({ cellIdx = -1, source = '' }) => {
     connectionErrors || errors
       ? StatusError
       : scheduled
-      ? StatusScheduled
-      : pending
-      ? StatusBeforeExecuting
-      : executing
-      ? StatusExecuting
-      : success
-      ? StatusSuccess
-      : StatusIdle
+        ? StatusScheduled
+        : pending
+          ? StatusBeforeExecuting
+          : executing
+            ? StatusExecuting
+            : success
+              ? StatusSuccess
+              : StatusIdle
 
   const onRunButtonClickHandler = () => {
     if (!ready || connectionErrors) {
@@ -61,7 +63,7 @@ const ArticleCellCodeTools = ({ cellIdx = -1, source = '' }) => {
   }, [ready, scheduled])
 
   return (
-    <div className="ArticleCellCodeTools">
+    <div className="ArticleCellCodeTools" data-testid="ArticleCellCodeTools">
       <div className="d-flex gap-2 align-items-start">
         <ArticleCellRunCodeButton
           status={status}
@@ -76,11 +78,11 @@ const ArticleCellCodeTools = ({ cellIdx = -1, source = '' }) => {
 
       {ready && (
         <Button
-          variant   = "outline-white"
-          className = "reset-btn"
-          size      = "sm"
-          onClick   = {() => resetCell(cellIdx)}
-          disabled  = {!edited}
+          variant="outline-white"
+          className="reset-btn"
+          size="sm"
+          onClick={() => resetCell(cellIdx)}
+          disabled={!edited}
         >
           <Erase />
           <span>Reset cell</span>

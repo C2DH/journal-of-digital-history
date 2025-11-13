@@ -1,18 +1,18 @@
-import React, { useRef } from 'react'
+import { a, useSpring } from '@react-spring/web'
 import axios from 'axios'
+import { useRef } from 'react'
+import { markdownParser } from '../../logic/markdown'
 import ArticleCellExplainCodeButton, {
+  StatusError,
+  StatusExecuting,
   StatusIdle,
   StatusSuccess,
-  StatusExecuting,
-  StatusError,
 } from './ArticleCellExplainCodeButton'
-import { markdownParser } from '../../logic/markdown';
-import { a, useSpring } from '@react-spring/web'
 import './ArticleCellExplainer.css'
 
-import { useArticleCellExplainerStore } from '../../store'
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { useArticleCellExplainerStore } from '../../store'
 
 console.info(
   '%cEnable Code Explainer',
@@ -115,6 +115,7 @@ const ArticleCellExplainer = ({ source = '', cellIdx = '', className = '' }) => 
           className={`ArticleCellExplainer__messages ${
             displayStatus === StatusError ? 'error' : ''
           }`}
+          data-cy={`ArticleCellExplainer-messages ${displayStatus === StatusError ? 'error' : ''}`}
           ref={resultRef}
         ></div>
       </a.section>
