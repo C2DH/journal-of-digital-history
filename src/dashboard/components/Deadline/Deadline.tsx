@@ -9,7 +9,7 @@ const getDeadlineFormat = (deadline: string) => {
 }
 
 const getNumberOfDays = (deadline: string) => {
-  return Math.ceil(DateTime.fromISO(deadline).diff(DateTime.now(), 'days').days)
+  return Math.ceil(DateTime.fromISO(deadline).startOf('day').diff(DateTime.now(), 'days').days)
 }
 
 const Deadline = ({ cfpTitle, deadlineAbstract, deadlineArticle }: DeadlineProps) => {
