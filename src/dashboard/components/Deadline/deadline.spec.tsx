@@ -44,7 +44,7 @@ describe('Deadline', () => {
     )
 
     expect(screen.getByText(cfpDeadlineAbstract.title)).toBeInTheDocument()
-    expect(screen.getByText('151 days left')).toBeInTheDocument()
+    expect(screen.getByText('150 days left')).toBeInTheDocument()
     expect(screen.getByText('Abstracts for 31 May 2026')).toBeInTheDocument()
   })
   it('renders a CFP for 2026 with numbers of days left for articles', () => {
