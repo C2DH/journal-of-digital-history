@@ -60,7 +60,6 @@ const Table = ({
     })
   }
 
-  // Compute visual state of master checkbox
   const isAbstractItem = isAbstract(item)
   const isArticleItem = isArticle(item)
   const isArticleOrAbstracts = isAbstractItem || isArticleItem
@@ -68,11 +67,13 @@ const Table = ({
     return (
       isFirstnameHeader(header) ||
       isLastnameHeader(header) ||
+      isRepositoryHeader(header) ||
       isCallForPapers(item) ||
       (isIssues(item) && !isRepositoryHeader(header) && !isStatusHeader(header))
     )
   }
 
+  // Compute visual state of master checkbox
   const isRowChecked = (pid: string): boolean => {
     if (checkedRows.selectAll) {
       checkedRows.selectAll = true
@@ -136,7 +137,7 @@ const Table = ({
                 </th>
               ),
             )}
-            {isAbstractItem && !isAccordeon && <th className="actions-cell"></th>}
+            {!isAccordeon && <th className="actions-cell"></th>}
           </tr>
         </thead>
         <tbody>
@@ -203,7 +204,7 @@ const Table = ({
                   )
                 })}
 
-                {isAbstractItem && !isAccordeon && (
+                {!isAccordeon && (
                   <td className="actions-cell">
                     {setRowModal && (
                       <ActionButton
