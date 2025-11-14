@@ -37,21 +37,74 @@
   top: var(--table-headers-top-position);
   background: var(--color-white);
   z-index: 5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-table.abstracts th:not(.title):not(.contact_affiliation),
-table.articles th:not(.status-header):not(.abstract__title) {
-  width: 100%;
+table.abstracts {
+  th {
+    width: 10%;
+  }
+  th.checkbox-header {
+    width: 5%;
+  }
+  th.pid {
+    width: 10%;
+  }
+  th.title {
+    width: 40%;
+  }
+  th.callpaper_title {
+    width: 10%;
+  }
 }
 
-th.pid,
-th.abstract__pid {
-  width: 5%;
+table.articles {
+  th.abstract__contact_firstname,
+  th.abstract__contact_lastname {
+    width: 20%;
+  }
+  th.checkbox-header,
+  th.repository_url {
+    width: 15%;
+  }
+
+  th.pid,
+  th.abstract__pid {
+    width: 15%;
+  }
+  th.abstract__title {
+    width: 70%;
+  }
+  th.status-header {
+    padding-right: 0;
+    width: 5%;
+  }
+  th.actions-cell {
+    width: 5%;
+  }
+
+  td.repository_url {
+    width: 15%;
+  }
+
+  @media screen and (min-width: 1400px) {
+    th.abstract__contact_firstname,
+    th.abstract__contact_lastname {
+      width: 100px;
+    }
+  }
+  @media screen and (max-width: 1200px) {
+    th.abstract__contact_firstname,
+    th.abstract__contact_lastname {
+      width: 5%;
+    }
+  }
 }
+
 th.title,
 th.abstract__title {
-  width: 100%;
-
   @media screen and (min-width: 2000px) {
     width: 700px;
   }
@@ -59,18 +112,13 @@ th.abstract__title {
     width: 1200px;
   }
 }
-th.abstract__contact_firstname,
-th.abstract__contact_lastname {
-  width: 10%;
-}
+
 th.contact_affiliation {
   @media screen and (min-width: 2000px) {
     width: 300px;
   }
 }
-th.status-header {
-  width: 15%;
-}
+
 th.header.url {
   width: 25%;
 }
