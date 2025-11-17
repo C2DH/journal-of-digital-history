@@ -151,6 +151,8 @@
     "Abandoned": "Abandoned the abstract",
     "Accepted": "Accepted the abstract",
     "Declined": "Declined the abstract",
-    "Suspended": "Suspended the abstract"
-  }
+    "Suspended": "Suspended the abstract",
+    "SocialMediaCampaign": "Launch social media campaign"
+  },
+  "SocialMediaCampaign": "Launch social media campaign"
 }

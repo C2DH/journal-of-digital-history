@@ -48,8 +48,8 @@ function getRowActions(
     actions.push(defaultAction('Suspended'))
   }
 
-  if (status === 'PUBLISHED') {
-    actions.push(defaultAction('Launch social media campaign'))
+  if (isArticle && status === 'PUBLISHED') {
+    actions.push(defaultAction('SocialMediaCampaign'))
   }
 
   return actions

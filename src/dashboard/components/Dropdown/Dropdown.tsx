@@ -1,8 +1,12 @@
 import './Dropdown.css'
 
+import { useTranslation } from 'react-i18next'
+
 import { DropdownProps } from './interface'
 
 const Dropdown = ({ actions, setOpen }: DropdownProps) => {
+  const { t } = useTranslation()
+
   return (
     <div className="action-dropdown">
       {actions.map((action, idx) => (
@@ -15,7 +19,7 @@ const Dropdown = ({ actions, setOpen }: DropdownProps) => {
           }}
           type="button"
         >
-          {action.label}
+          {t(action.label)}
         </button>
       ))}
     </div>
