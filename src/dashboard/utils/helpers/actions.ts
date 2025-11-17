@@ -49,7 +49,8 @@ function getRowActions(
   }
 
   if (isArticle && status === 'PUBLISHED') {
-    actions.push(defaultAction('SocialMediaCampaign'))
+    actions.push(defaultAction('Bluesky'))
+    actions.push(defaultAction('Facebook'))
   }
 
   return actions

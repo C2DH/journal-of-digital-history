@@ -1,0 +1,22 @@
+.fieldrow {
+  display: flex;
+  align-items: center;
+  padding: var(--space-size-2) 0;
+}
+
+.fieldrow > .label {
+  font-weight: 800;
+  text-align: left;
+  min-width: 150px;
+}
+
+.fieldrow > .value {
+  flex-grow: 1;
+}
+
+.post-replies-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
