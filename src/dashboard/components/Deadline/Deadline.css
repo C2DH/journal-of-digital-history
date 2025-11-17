@@ -38,6 +38,6 @@
 
 .deadline-counter-dates {
   color: var(--color-gray-lighter);
-  font-size: var(--text-size-2);
+  font-size: var(--text-size-1);
   font-weight: 200;
 }

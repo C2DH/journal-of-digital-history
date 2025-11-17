@@ -46,8 +46,8 @@ const Deadline = ({ cfpTitle, deadlineAbstract, deadlineArticle }: DeadlineProps
         <p className="deadline-counter-dates">
           {' '}
           {DateTime.fromISO(deadlineAbstract).startOf('day') > DateTime.now().startOf('day')
-            ? `Abstracts for ${abstractDate}`
-            : `Articles for ${articleDate}`}
+            ? `Abstract deadline : ${abstractDate}`
+            : `Article deadline : ${articleDate}`}
         </p>
       </div>
     </div>
