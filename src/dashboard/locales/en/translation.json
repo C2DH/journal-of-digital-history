@@ -152,7 +152,9 @@
     "Accepted": "Accepted the abstract",
     "Declined": "Declined the abstract",
     "Suspended": "Suspended the abstract",
-    "SocialMediaCampaign": "Launch social media campaign"
+    "Bluesky": "Bluesky",
+    "Facebook": "Facebook"
   },
-  "SocialMediaCampaign": "Launch social media campaign"
+  "Bluesky": "Launch Bluesky campaign",
+  "Facebook": "Launch Facebook campaign"
 }

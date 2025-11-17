@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
-import { FormFieldProps, InputChangeHandler } from '../../interfaces/abstractSubmission'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { FormFieldProps, InputChangeHandler } from '../../interfaces/abstractSubmission'
 import { submissionFormSchema as schema } from '../../schemas/abstractSubmission'
 
 const FormField = ({
