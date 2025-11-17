@@ -116,6 +116,44 @@ const getCallforpaperWithDeadlineOpen = async (): Promise<Callforpaper[]> => {
     })
 }
 
+const postBlueskyCampaign = async (body: {
+  repository_url: string
+  article_url: string
+  schedule_main: string[]
+}) => {
+  console.info('POST [postBlueskyCampaign]')
+
+  return api
+    .post('/api/articles/bluesky', body)
+    .then((res) => {
+      console.log(res)
+      return res
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
+const postFacebookCampaign = async (body: {
+  repository_url: string
+  article_url: string
+  schedule_main: string[]
+}) => {
+  console.info('POST [postFacebookCampaign]')
+
+  return api
+    .post('/api/articles/facebook', body)
+    .then((res) => {
+      console.log(res)
+      return res
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
 export {
   getAbstractsByStatusAndCallForPapers,
   getAdvanceArticles,
@@ -124,4 +162,6 @@ export {
   getCallforpaperWithDeadlineOpen,
   modifyAbstractStatusWithEmail,
   modifyStatus,
+  postBlueskyCampaign,
+  postFacebookCampaign,
 }
