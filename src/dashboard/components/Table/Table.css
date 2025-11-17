@@ -67,9 +67,8 @@ table.articles {
   }
   th.checkbox-header,
   th.repository_url {
-    width: 15%;
+    width: 5%;
   }
-
   th.pid,
   th.abstract__pid {
     width: 15%;
@@ -83,10 +82,6 @@ table.articles {
   }
   th.actions-cell {
     width: 5%;
-  }
-
-  td.repository_url {
-    width: 15%;
   }
 
   @media screen and (min-width: 1400px) {
