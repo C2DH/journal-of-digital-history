@@ -1,0 +1,43 @@
+.deadline-counter {
+  background-color: var(--color-white);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: row;
+  width: 300px;
+}
+
+.deadline-logo {
+  padding: var(--gap-size-2);
+  margin: var(--gap-size-3);
+  font-size: var(--text-size-8);
+  background-color: var(--color-accent-lighter);
+  border-radius: 50%;
+}
+
+.deadline-counter-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: var(--gap-size-2);
+}
+
+.deadline-counter-cfp-title {
+  font-size: var(--text-size-3);
+  color: var(--color-gray-lighter);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 170px;
+}
+
+.deadline-counter-days {
+  color: var(--color-deep-blue);
+  font-size: var(--text-size-7);
+  font-weight: 800;
+}
+
+.deadline-counter-dates {
+  color: var(--color-gray-lighter);
+  font-size: var(--text-size-1);
+  font-weight: 200;
+}

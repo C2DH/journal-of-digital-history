@@ -1,4 +1,6 @@
-import { APIResponse } from '../types'
+import { DateTime } from 'luxon'
+
+import { APIResponse, Callforpaper } from '../types'
 import api from './headers'
 
 const modifyAbstractStatusWithEmail = async (pid: string, body: Record<string, any>) => {
@@ -93,11 +95,33 @@ const getAdvanceArticles = async (): APIResponse => {
     })
 }
 
+const getCallforpaperWithDeadlineOpen = async (): Promise<Callforpaper[]> => {
+  console.info(`GET [getCallforpaperWithDeadlineOpen]`)
+
+  const now = DateTime.now()
+
+  return api
+    .get(`/api/callforpaper`)
+    .then((res) => {
+      const result = res.data.results
+      return result.filter((cfp: Callforpaper) => {
+        const dt = DateTime.fromISO(cfp.deadline_article)
+        const isFuture = dt > now
+        return isFuture
+      })
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
 export {
   getAbstractsByStatusAndCallForPapers,
   getAdvanceArticles,
   getArticlesByStatus,
   getArticlesByStatusAndIssues,
+  getCallforpaperWithDeadlineOpen,
   modifyAbstractStatusWithEmail,
   modifyStatus,
 }
