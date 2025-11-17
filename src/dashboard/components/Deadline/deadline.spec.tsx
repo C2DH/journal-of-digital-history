@@ -45,7 +45,7 @@ describe('Deadline', () => {
 
     expect(screen.getByText(cfpDeadlineAbstract.title)).toBeInTheDocument()
     expect(screen.getByText('150 days left')).toBeInTheDocument()
-    expect(screen.getByText('Abstracts for 31 May 2026')).toBeInTheDocument()
+    expect(screen.getByText('Abstract deadline : 31 May 2026')).toBeInTheDocument()
   })
   it('renders a CFP for 2026 with numbers of days left for articles', () => {
     render(
@@ -58,7 +58,7 @@ describe('Deadline', () => {
 
     expect(screen.getByText(cfpDeadlineArticle.title)).toBeInTheDocument()
     expect(screen.getByText('364 days left')).toBeInTheDocument()
-    expect(screen.getByText('Articles for 31 Dec 2026')).toBeInTheDocument()
+    expect(screen.getByText('Article deadline : 31 Dec 2026')).toBeInTheDocument()
   })
   it('renders a CFP open ended', () => {
     render(
@@ -71,6 +71,6 @@ describe('Deadline', () => {
 
     expect(screen.getByText(cfpOpenEnded.title)).toBeInTheDocument()
     expect(screen.getByText('open ended')).toBeInTheDocument()
-    expect(screen.getByText('Abstracts for 31 May 2099')).toBeInTheDocument()
+    expect(screen.getByText('Abstract deadline : 31 May 2099')).toBeInTheDocument()
   })
 })
