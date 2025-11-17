@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { ModalProps } from './interface'
 
 import ContactForm from '../ContactForm/ContactForm'
+import SocialSchedule from '../SocialSchedule/SocialSchedule'
 
 const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
   const { t } = useTranslation()
@@ -18,7 +19,10 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
         <button className="modal-close" onClick={onClose}>
           ×
         </button>
-        {action !== 'actions.change' && (
+        {(action === 'Abandoned' ||
+          action === 'Accepted' ||
+          action === 'Declined' ||
+          action === 'Suspended') && (
           <ContactForm
             rowData={data}
             action={action.toLowerCase()}
@@ -26,6 +30,7 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
             onNotify={onNotify}
           />
         )}
+        {action === 'SocialMediaCampaign' && <SocialSchedule />}
         {/* {action === 'actions.change' && (
           <ChangeStatus
             item={item}
