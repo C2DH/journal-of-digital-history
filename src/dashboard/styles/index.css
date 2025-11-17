@@ -73,6 +73,8 @@ body {
   --gap-size-3: 1.5rem;
   --gap-size-4: 2rem;
   --gap-size-5: 2.5rem;
+  --gap-size-6: 3rem;
+  --gap-size-7: 3.5rem;
   --spacer-1: var(--gap-size-1);
 }
 
