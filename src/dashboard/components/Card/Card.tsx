@@ -39,11 +39,12 @@ const Card = ({
     [key: string]: any
   }>({ open: false })
   const [checkedRows, setCheckedRows] = useState<RowCheckboxMap>({})
+  const { fetchItems } = useItemsStore()
+  const { setNotification } = useNotificationStore()
+
   const isAbstractItem = isAbstract(item)
   const isArticleItem = isArticle(item)
   const isArticleOrAbstracts = isAbstractItem || isArticleItem
-  const { fetchItems } = useItemsStore()
-  const { setNotification } = useNotificationStore()
 
   const handleClose = () => setModalState({ open: false })
   const handleNotify = (notification: Notification) => {

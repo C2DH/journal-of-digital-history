@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router'
 import { TableProps } from './interface'
 
 import { articleSteps } from '../../utils/constants/article'
+import { getRowActions } from '../../utils/helpers/actions'
 import {
   isAbstract,
   isAffiliationHeader,
@@ -19,12 +20,7 @@ import {
   isStepCell,
   isTitleHeader,
 } from '../../utils/helpers/checkItem'
-import {
-  getCleanData,
-  getRowActions,
-  getVisibleHeaders,
-  renderCell,
-} from '../../utils/helpers/table'
+import { getCleanData, getVisibleHeaders, renderCell } from '../../utils/helpers/table'
 import ActionButton from '../Buttons/ActionButton/Short/ActionButton'
 import SortButton from '../Buttons/SortButton/SortButton'
 import Checkbox from '../Checkbox/Checkbox'
@@ -36,10 +32,10 @@ const Table = ({
   sortBy,
   sortOrder,
   setSort,
-  setRowModal,
   isAccordeon = false,
   checkedRows,
   setCheckedRows,
+  setRowModal,
 }: TableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -165,7 +161,6 @@ const Table = ({
                               delete newState[pid]
                             }
                           }
-
                           return newState
                         })
                       }}
@@ -203,13 +198,12 @@ const Table = ({
                     </td>
                   )
                 })}
-
                 {!isAccordeon && (
                   <td className="actions-cell">
                     {setRowModal && (
                       <ActionButton
-                        actions={getRowActions(row, setRowModal, t)}
-                        active={getRowActions(row, setRowModal, t).length > 0}
+                        actions={getRowActions(isArticleItem, row, setRowModal, t)}
+                        active={getRowActions(isArticleItem, row, setRowModal, t).length > 0}
                       />
                     )}
                   </td>
