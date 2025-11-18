@@ -154,7 +154,7 @@ td.name,
 }
 
 td.actions-cell {
-  margin-left: 5px;
+  padding-left: var(--gap-size-2);
   text-align: center;
 }
 
