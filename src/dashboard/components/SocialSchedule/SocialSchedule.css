@@ -20,3 +20,7 @@
   align-items: center;
   justify-content: space-between;
 }
+
+textarea {
+  width: 27vw;
+}

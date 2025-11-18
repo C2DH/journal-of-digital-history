@@ -5,28 +5,15 @@ import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers'
+import { useTranslation } from 'react-i18next'
 
-import type {} from '@mui/x-data-grid/themeAugmentation'
+import StaticForm from '../../../components/AbstractSubmissionForm/StaticForm'
 import { theme as currentTheme } from '../../styles/theme'
 import LinkButton from '../Buttons/LinkButton/LinkButton'
 import Checkbox from '../Checkbox/Checkbox'
 import DropdownMenu from '../DropdownMenu/DropdownMenu'
 
-export const gray = {
-  50: 'hsl(220, 60%, 99%)',
-  100: 'hsl(220, 35%, 94%)',
-  200: 'hsl(220, 35%, 88%)',
-  300: 'hsl(220, 25%, 80%)',
-  400: 'hsl(220, 20%, 65%)',
-  500: 'hsl(220, 20%, 42%)',
-  600: 'hsl(220, 25%, 35%)',
-  700: 'hsl(220, 25%, 25%)',
-  800: 'hsl(220, 25%, 10%)',
-  900: 'hsl(220, 30%, 5%)',
-}
-
 type PaletteMode = 'light' | 'dark'
-
 const getDensePickerTheme = (mode: PaletteMode): ThemeOptions => ({
   palette: {
     mode,
@@ -46,13 +33,12 @@ const getDensePickerTheme = (mode: PaletteMode): ThemeOptions => ({
 })
 
 const Schedule = () => {
-  // const theme = createTheme(currentTheme.palette.gray)
   const theme = createTheme(getDensePickerTheme(currentTheme.palette.mode))
   return (
     <LocalizationProvider dateAdapter={AdapterLuxon}>
       <ThemeProvider theme={theme}>
         <DateTimePicker
-          label="Bluesky time"
+          label="Schedule for which time"
           name="startDateTime"
           viewRenderers={{
             hours: renderTimeViewClock,
@@ -72,10 +58,6 @@ const Schedule = () => {
   )
 }
 
-const OnClick = (value: string) => {
-  return console.log(value)
-}
-
 const PostReplies = () => {
   const numbers = [
     { key: 1, value: '1', label: '1' },
@@ -87,11 +69,22 @@ const PostReplies = () => {
     { key: 1, value: 'hours', label: 'hours' },
     { key: 2, value: 'minutes', label: 'minutes' },
   ]
+  const OnClick = (value: string) => {
+    return console.log(value)
+  }
+  const OnCheck = (checked: boolean) => {
+    return console.log(checked)
+  }
 
   return (
     <span className="post-replies-container">
-      <Checkbox /> every{' '}
-      <DropdownMenu name="number" options={numbers} value={numbers[0].value} onChange={OnClick} />{' '}
+      <Checkbox checked={false} onChange={OnCheck} /> every
+      <DropdownMenu
+        name="number"
+        options={numbers}
+        value={numbers[0].value}
+        onChange={OnClick}
+      />{' '}
       <DropdownMenu
         name="time-unit"
         options={timeUnit}
@@ -109,7 +102,11 @@ export const FieldRow = ({ label, value }: { label: string; value: React.ReactNo
   </div>
 )
 
+const handleInputChange = (event) => {}
+
 const SocialSchedule = () => {
+  const { t } = useTranslation()
+
   return (
     <>
       {' '}
@@ -122,7 +119,21 @@ const SocialSchedule = () => {
       />
       <FieldRow label="Time" value={<Schedule />} />
       <FieldRow label="Post replies" value={<PostReplies />} />
-      <FieldRow label="Tweets" value={<textarea />} />
+      <FieldRow
+        label="Tweets"
+        value={
+          <StaticForm
+            id="abstract"
+            label={''}
+            placeholder={t('pages.abstractSubmission.placeholder.abstract')}
+            required={false}
+            value={'This is a test'}
+            type="textarea"
+            onChange={handleInputChange}
+            isMissing={false}
+          />
+        }
+      />
     </>
   )
 }

@@ -89,12 +89,13 @@ export interface FormFieldProps {
   placeholder?: string
   required: boolean
   value: string | boolean
+  isMissing: boolean
+  schema?: Record<string, any>
   type?: StaticFieldType
   options?: DropdownOptions
   onChange: InputChangeHandler
   error?: string
   reset?: boolean
-  isMissing: boolean
 }
 
 export interface FieldConfig {
