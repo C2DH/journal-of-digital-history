@@ -4,4 +4,6 @@ export interface DropdownMenuProps {
   options: FilterOption[]
   value: string
   onChange: (value: string) => void
+  onReset: () => void
+  disable?: boolean
 }

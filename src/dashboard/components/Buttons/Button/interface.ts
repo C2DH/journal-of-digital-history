@@ -5,6 +5,6 @@ export type ButtonProps = {
   type?: 'button' | 'submit' | 'reset'
   variant?: 'primary' | 'secondary' | 'tertiary'
   onClick?: () => void
-  style: React.CSSProperties
+  style?: React.CSSProperties
   dataTestId?: string
 }

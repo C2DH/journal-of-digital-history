@@ -7,3 +7,5 @@ export interface SocialScheduleProps {
     submessage?: string
   }) => void
 }
+
+export type Frequency = { timeGap: string; timeUnit: string }
