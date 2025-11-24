@@ -32,6 +32,8 @@ const FormField = ({
     onChange(event)
   }
 
+  const isTextAreaForSubmissionForm = (type === 'textarea' && id === 'abstract') || id === 'title'
+
   return (
     <div className="form-group">
       <label htmlFor={id}>
@@ -90,7 +92,7 @@ const FormField = ({
             {t(`pages.abstractSubmission.errors.${id}.${error}`)}
           </div>
         )}
-        {type === 'textarea' && (
+        {isTextAreaForSubmissionForm && (
           <div className="text-muted ms-auto">
             {String(value) ? `${String(value).length} / ${schema.properties[id].maxLength}` : ''}
           </div>

@@ -30,7 +30,9 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
             onNotify={onNotify}
           />
         )}
-        {(action === 'Bluesky' || action === 'Facebook ') && <SocialSchedule />}
+        {(action === 'Bluesky' || action === 'Facebook ') && (
+          <SocialSchedule rowData={data} onClose={onClose} onNotify={onNotify} />
+        )}
         {/* {action === 'actions.change' && (
           <ChangeStatus
             item={item}

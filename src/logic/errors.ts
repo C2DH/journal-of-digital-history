@@ -139,6 +139,17 @@ export const getErrorByItemAndByField = (
   return getErrors(errors)?.[section]?.[item]?.[field]?.[0]?.keyword
 }
 
+export const getErrorByFieldAndByIndex = (
+  errors: ErrorObject[] = [],
+  field: string,
+  index: number,
+): boolean => {
+  if (getErrors(errors)?.[field]?.[index]?.[0].keyword) {
+    return true
+  }
+  return false
+}
+
 /**
  * Finds and returns the first error object in the provided array that matches the specified keyword.
  *

@@ -154,14 +154,30 @@ const postFacebookCampaign = async (body: {
     })
 }
 
+const getTweetContent = async (pid: string): Promise<{ content: string }> => {
+  console.info('GET [getTweetContent]')
+
+  return api
+    .get(`/api/articles/tweet?pid=${pid}`)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
 export {
   getAbstractsByStatusAndCallForPapers,
   getAdvanceArticles,
   getArticlesByStatus,
   getArticlesByStatusAndIssues,
   getCallforpaperWithDeadlineOpen,
+  getTweetContent,
   modifyAbstractStatusWithEmail,
   modifyStatus,
   postBlueskyCampaign,
-  postFacebookCampaign,
+  postFacebookCampaign
 }
+

@@ -1,7 +1,12 @@
+.social-schedule-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-size-3);
+}
+
 .fieldrow {
   display: flex;
-  align-items: center;
-  padding: var(--space-size-2) 0;
+  align-items: top;
 }
 
 .fieldrow > .label {
@@ -12,6 +17,7 @@
 
 .fieldrow > .value {
   flex-grow: 1;
+  max-width: 50vw;
 }
 
 .post-replies-container {
@@ -22,5 +28,22 @@
 }
 
 textarea {
-  width: 27vw;
+  width: 90%;
+  max-height: 100%;
+  field-sizing: content;
+  padding: var(--space-size-2);
+  font-size: var(--text-size-2);
+  font-family: inherit;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  resize: vertical;
+  color: var(--color-text);
+  background: var(--color-white);
+}
+
+.tweets-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-size-2);
+  height: 50vh;
 }
