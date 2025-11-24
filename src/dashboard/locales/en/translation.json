@@ -156,5 +156,14 @@
     "Facebook": "Facebook"
   },
   "Bluesky": "Launch Bluesky campaign",
-  "Facebook": "Launch Facebook campaign"
+  "Facebook": "Launch Facebook campaign",
+  "pages": {
+    "abstractSubmission":{
+      "errors": {
+        "tweets": {
+          "maxLength": "Tweet is too long."
+        }
+      }
+    }
+  }
 }

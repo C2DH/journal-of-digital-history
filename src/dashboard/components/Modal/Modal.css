@@ -20,7 +20,6 @@
   top: 0;
   right: 0;
   height: 100vh;
-  width: 50vw;
   max-width: var(--modal-max-width);
   min-width: var(--modal-min-width);
   padding: var(--space-size-4);
