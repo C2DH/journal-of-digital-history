@@ -78,3 +78,8 @@
   background: var(--color-accent-lighter);
   color: var(--color-deep-blue);
 }
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}

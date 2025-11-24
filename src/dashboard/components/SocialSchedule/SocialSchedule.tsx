@@ -10,7 +10,7 @@ import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
 import { ChangeEvent, useEffect, useState } from 'react'
 
-import { SocialScheduleProps } from './interface'
+import { Frequency, SocialScheduleProps } from './interface'
 
 import { getErrorByFieldAndByIndex } from '../../../logic/errors'
 import { socialMediaCampaign } from '../../schemas/socialMediaCampaign'
@@ -20,6 +20,7 @@ import LinkButton from '../Buttons/LinkButton/LinkButton'
 import Checkbox from '../Checkbox/Checkbox'
 import DropdownMenu from '../DropdownMenu/DropdownMenu'
 import { getDensePickerTheme } from './calendarTheme'
+import { timeGapHour, timeGapMinute, timeUnits } from './constant'
 
 const ajv = new Ajv({ allErrors: true })
 addFormats(ajv)
@@ -109,37 +110,46 @@ const Schedule = () => {
 }
 
 const PostReplies = () => {
-  const numbers = [
-    { key: 1, value: '1', label: '1' },
-    { key: 2, value: '2', label: '2' },
-    { key: 3, value: '3', label: '3' },
-  ]
+  const [isChecked, setIsChecked] = useState<boolean>(false)
+  const [frequency, setFrequency] = useState<Frequency>({
+    timeGap: timeGapHour[0].value,
+    timeUnit: timeUnits[0].value,
+  })
+  const [timeUnit, setTimeUnit] = useState<string>('')
+  const [timeGap, setTimeGap] = useState<string>('-')
 
-  const timeUnit = [
-    { key: 1, value: 'hours', label: 'hours' },
-    { key: 2, value: 'minutes', label: 'minutes' },
-  ]
-  const OnClick = (value: string) => {
-    return console.log(value)
+  const ActivatePostReplies = () => {
+    setIsChecked(!isChecked)
   }
-  const OnCheck = (checked: boolean) => {
-    return console.log(checked)
+  const HandleFrequencySelection = (type: string, value: string) => {
+    if (type === 'timeGap') {
+      setFrequency({ ...frequency, timeGap: value.toString() })
+      setTimeGap(value.toString())
+    }
+    if (type === 'timeUnit') {
+      setFrequency({ ...frequency, timeUnit: value.toString() })
+      setTimeUnit(value.toString())
+    }
   }
 
   return (
     <span className="post-replies-container">
-      <Checkbox checked={false} onChange={OnCheck} /> every
+      <Checkbox checked={isChecked} onChange={ActivatePostReplies} isHeader={false} /> every{' '}
       <DropdownMenu
-        name="number"
-        options={numbers}
-        value={numbers[0].value}
-        onChange={OnClick}
+        name="time-gap"
+        options={frequency.timeUnit === 'hours' ? timeGapHour : timeGapMinute}
+        value={timeGap}
+        onChange={(e) => HandleFrequencySelection('timeGap', e.toString().valueOf())}
+        onReset={() => HandleFrequencySelection('timeGap', '-')}
+        disable={!isChecked}
       />{' '}
       <DropdownMenu
         name="time-unit"
-        options={timeUnit}
-        value={timeUnit[0].value}
-        onChange={OnClick}
+        options={timeUnits}
+        value={timeUnit}
+        onChange={(e) => HandleFrequencySelection('timeUnit', e.toString().valueOf())}
+        onReset={() => HandleFrequencySelection('timeUnit', '-')}
+        disable={!isChecked}
       />
     </span>
   )
@@ -152,9 +162,9 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
   const validate = ajv.compile(socialMediaCampaign)
   const valid = validate({ tweets: tweets })
   if (!valid) {
-    console.log('Validation errors:', validate.errors)
+    console.info('[SocialMediaCampaign] Validation errors:', validate.errors)
   } else {
-    console.log('Valid!')
+    console.info('[SocialMediaCampaign] Valid!')
   }
 
   const getTweetFileContent = async (pid: string) => {

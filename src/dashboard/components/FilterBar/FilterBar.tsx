@@ -14,7 +14,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
   const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const { setQuery: setSearch } = useSearchStore()
-  const { resetFilters } = useFilterBarStore()
+  const { resetFilters, resetSpecificFilter } = useFilterBarStore()
 
   return (
     <div className="filter-bar">
@@ -28,11 +28,13 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
             options={filter.options}
             value={filter.value}
             onChange={(value) => onFilterChange(filter.name, value, searchParams, setSearchParams)}
+            onReset={() => resetSpecificFilter(searchParams, setSearchParams, filter.name)}
           />
         </div>
       ))}
       <Button
         text="Clear All"
+        type="reset"
         variant="secondary"
         onClick={() => {
           setSearch('')
