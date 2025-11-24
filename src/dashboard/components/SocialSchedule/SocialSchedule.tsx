@@ -1,7 +1,7 @@
 import './SocialSchedule.css'
 
 import { Textarea, Typography } from '@mui/joy'
-import { ThemeProvider, createTheme } from '@mui/material/styles'
+import { ThemeProvider, createTheme, styled } from '@mui/material/styles'
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -83,12 +83,46 @@ export const FieldRow = ({ label, value }: { label: string; value: React.ReactNo
   </div>
 )
 
+const StyledDateTimePicker = styled(DateTimePicker)(({ theme }) => ({
+  '& .MuiPickersInputBase-root': {
+    backgroundColor: 'var(--color-accent-lighter)',
+    borderRadius: '16px',
+    color: 'var(--color-deep-blue)',
+  },
+  '& .MuiFormLabel-root ': {
+    fontFamily: "'DM Sans', sans-serif",
+    color: 'var(--color-deep-blue)',
+  },
+  '& .MuiPickersSectionList-root ': {
+    fontFamily: "'DM Sans', sans-serif",
+  },
+  '& .MuiButtonBase-root': {
+    color: 'var(--color-deep-blue)',
+    opacity: 0.8,
+  },
+  '& .MuiPickersOutlinedInput-notchedOutline': {
+    border: 'none',
+  },
+}))
+
 const Schedule = () => {
-  const theme = createTheme(getDensePickerTheme(currentTheme.palette.mode))
+  const theme = createTheme({
+    ...getDensePickerTheme(currentTheme.palette.mode),
+    components: {
+      MuiDateCalendar: {
+        styleOverrides: {
+          root: {
+            color: 'var(--color-accent)',
+          },
+        },
+      },
+    },
+  })
+
   return (
     <LocalizationProvider dateAdapter={AdapterLuxon}>
       <ThemeProvider theme={theme}>
-        <DateTimePicker
+        <StyledDateTimePicker
           label="Schedule for which time"
           name="startDateTime"
           viewRenderers={{
@@ -195,31 +229,40 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
         label="Tweets"
         value={
           <div className="tweets-container">
-            {tweets.map((tweet: string, index: number) => (
-              <Textarea
-                maxRows={5}
-                defaultValue={tweet}
-                key={index}
-                error={getErrorByFieldAndByIndex(validate.errors || [], 'tweets', index)}
-                endDecorator={
-                  <Typography level="body-xs" sx={{ ml: 'auto', color: 'text.secondary' }}>
-                    {tweet.length} / {socialMediaCampaign.properties['tweets'].items.maxLength}
-                  </Typography>
-                }
-                sx={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: '14px',
-                  '& textarea::-webkit-scrollbar': {
-                    display: 'none',
-                  },
-                  '& textarea': {
-                    direction: 'rtl',
-                    '-ms-overflow-style': 'none',
-                    'scrollbar-width': 'none',
-                  },
-                }}
-              />
-            ))}
+            {tweets.map((tweet: string, index: number) => {
+              const error = getErrorByFieldAndByIndex(validate.errors || [], 'tweets', index)
+              return (
+                <Textarea
+                  maxRows={5}
+                  defaultValue={tweet}
+                  key={index}
+                  error={error}
+                  endDecorator={
+                    <Typography
+                      level="body-xs"
+                      sx={{
+                        ml: 'auto',
+                        color: error ? 'var(--color-error)' : 'var(--color-deep-blue)',
+                      }}
+                    >
+                      {tweet.length} / {socialMediaCampaign.properties['tweets'].items.maxLength}
+                    </Typography>
+                  }
+                  sx={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: '14px',
+                    '& textarea::-webkit-scrollbar': {
+                      display: 'none',
+                    },
+                    '& textarea': {
+                      direction: 'rtl',
+                      '-ms-overflow-style': 'none',
+                      'scrollbar-width': 'none',
+                    },
+                  }}
+                />
+              )
+            })}
           </div>
         }
       />
