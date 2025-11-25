@@ -9,3 +9,8 @@ export interface SocialScheduleProps {
 }
 
 export type Frequency = { timeGap: string; timeUnit: string }
+export type SocialMediaCampaign = {
+  repository_url: string
+  article_url: string
+  schedule_main: string
+}
