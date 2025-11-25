@@ -1,26 +1,20 @@
 import './SocialSchedule.css'
 
 import { Textarea, Typography } from '@mui/joy'
-import { ThemeProvider, createTheme, styled } from '@mui/material/styles'
-import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import { Frequency, SocialScheduleProps } from './interface'
+import { Frequency, SocialMediaCampaign, SocialScheduleProps } from './interface'
 
 import { getErrorByFieldAndByIndex } from '../../../logic/errors'
 import { socialMediaCampaign } from '../../schemas/socialMediaCampaign'
-import { theme as currentTheme } from '../../styles/theme'
 import { getTweetContent } from '../../utils/api/api'
 import LinkButton from '../Buttons/LinkButton/LinkButton'
 import Checkbox from '../Checkbox/Checkbox'
 import DropdownMenu from '../DropdownMenu/DropdownMenu'
-import { getDensePickerTheme } from './calendarTheme'
 import { timeGapHour, timeGapMinute, timeUnits } from './constant'
+import Schedule from './DatePicker/DatePicker'
 
 const ajv = new Ajv({ allErrors: true })
 addFormats(ajv)
@@ -76,72 +70,12 @@ const cleanThreadContent = (raw: string): string[] => {
   return [...threadTexts, ...independent]
 }
 
-export const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
+const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
   <div className="fieldrow">
     <span className="label">{label}</span>
     <span className="value">{value}</span>
   </div>
 )
-
-const StyledDateTimePicker = styled(DateTimePicker)(({ theme }) => ({
-  '& .MuiPickersInputBase-root': {
-    backgroundColor: 'var(--color-accent-lighter)',
-    borderRadius: '16px',
-    color: 'var(--color-deep-blue)',
-  },
-  '& .MuiFormLabel-root ': {
-    fontFamily: "'DM Sans', sans-serif",
-    color: 'var(--color-deep-blue)',
-  },
-  '& .MuiPickersSectionList-root ': {
-    fontFamily: "'DM Sans', sans-serif",
-  },
-  '& .MuiButtonBase-root': {
-    color: 'var(--color-deep-blue)',
-    opacity: 0.8,
-  },
-  '& .MuiPickersOutlinedInput-notchedOutline': {
-    border: 'none',
-  },
-}))
-
-const Schedule = () => {
-  const theme = createTheme({
-    ...getDensePickerTheme(currentTheme.palette.mode),
-    components: {
-      MuiDateCalendar: {
-        styleOverrides: {
-          root: {
-            color: 'var(--color-accent)',
-          },
-        },
-      },
-    },
-  })
-
-  return (
-    <LocalizationProvider dateAdapter={AdapterLuxon}>
-      <ThemeProvider theme={theme}>
-        <StyledDateTimePicker
-          label="Schedule for which time"
-          name="startDateTime"
-          viewRenderers={{
-            hours: renderTimeViewClock,
-            minutes: renderTimeViewClock,
-            seconds: renderTimeViewClock,
-          }}
-          slotProps={{
-            popper: {
-              sx: {
-                zIndex: 9999,
-              },
-            },
-          }}
-        />
-      </ThemeProvider>
-    </LocalizationProvider>
-  )
-}
 
 const PostReplies = () => {
   const [isChecked, setIsChecked] = useState<boolean>(false)
@@ -191,8 +125,16 @@ const PostReplies = () => {
 
 const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => {
   const pid = rowData?.id || 'default-id'
+  const repositoryUrl = rowData?.row[6] || ''
   const [tweets, setTweets] = useState<string[]>([])
+  const [schedule, setSchedule] = useState<string>('')
+  const [form, setForm] = useState<SocialMediaCampaign>({
+    repository_url: repositoryUrl,
+    article_url: `https://journalofdigitalhistory.org/en/article/${pid}`,
+    schedule_main: '',
+  })
 
+  // Validation for tweets from Github
   const validate = ajv.compile(socialMediaCampaign)
   const valid = validate({ tweets: tweets })
   if (!valid) {
@@ -207,13 +149,17 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
     setTweets(clean)
   }
 
-  const onTweetChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
-  ) => setTweets([e.target.value])
+  const handleFormSubmit = () => {}
 
   useEffect(() => {
     getTweetFileContent(pid)
-  }, [])
+    if (schedule) {
+      setForm((prev) => ({
+        ...prev,
+        schedule_main: schedule,
+      }))
+    }
+  }, [schedule])
 
   return (
     <div className="social-schedule-container">
@@ -223,7 +169,7 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
         label="Tweet link"
         value={<LinkButton url={`http://github.com/jdh-observer/${pid}/blob/main/tweets.md`} />}
       />
-      <FieldRow label="Time" value={<Schedule />} />
+      <FieldRow label="Time" value={<Schedule onChange={setSchedule} />} />
       <FieldRow label="Post replies" value={<PostReplies />} />
       <FieldRow
         label="Tweets"
