@@ -3,7 +3,6 @@ import './SocialSchedule.css'
 import { Textarea, Typography } from '@mui/joy'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
-import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -71,36 +70,6 @@ const cleanThreadContent = (raw: string): string[] => {
   return [...threadTexts, ...independent]
 }
 
-const newDate = (time: string, frequency: Frequency): string => {
-  return (
-    DateTime.fromISO(time)
-      .plus({ [frequency['timeUnit']]: parseInt(frequency['timeGap']) })
-      .toISO() || ''
-  )
-}
-
-const createTimeSchedule = (
-  initialTime: string,
-  frequency: Frequency,
-  numberTweets: number,
-): string[] => {
-  if (!initialTime || !frequency) return ['']
-  if (frequency['timeGap'] === '-' && frequency['timeUnit'] === '-') return [initialTime]
-
-  const array: string[] = []
-
-  for (let i = 0; i < numberTweets; i++) {
-    console.log('Creating time schedule...')
-    if (i === 0) {
-      array.push(initialTime)
-    } else {
-      array.push(newDate(array[i - 1], frequency))
-    }
-  }
-
-  return array
-}
-
 const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
   <div className="fieldrow">
     <span className="label">{label}</span>
@@ -114,12 +83,14 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
   const repositoryUrl = rowData?.row[6] || ''
   const [tweets, setTweets] = useState<string[]>([])
   const [frequency, setFrequency] = useState<Frequency>({ timeGap: '-', timeUnit: '-' })
-  const [schedule, setSchedule] = useState<string>('')
+  // const [schedule, setSchedule] = useState<string>('')
   const [form, setForm] = useState<SocialMediaCampaign>({
     repository_url: repositoryUrl,
     article_url: `https://journalofdigitalhistory.org/en/article/${pid}`,
     schedule_main: [''],
   })
+
+  console.log('🚀 ~ file: SocialSchedule.tsx:88 ~ form:', form)
 
   // Validation for tweets from Github
   const validate = ajv.compile(socialMediaCampaign)
@@ -136,88 +107,83 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
     setTweets(clean)
   }
 
-  const handleFormSubmit = () => {}
+  const handleFormSubmit = () => {
+    console.log('Form submitted:', form)
+  }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
+  const handleChange = (value: string[]) => {
     setForm({
       ...(form || {}),
-      [name]: value,
+      schedule_main: value,
     })
   }
 
   useEffect(() => {
     getTweetFileContent(pid)
-    if (schedule) {
-      const updatedSchedule = createTimeSchedule(schedule, frequency, tweets.length)
-      console.log('🚀 ~ file: SocialSchedule.tsx:144 ~ updatedSchedule:', updatedSchedule)
-      setForm((prev) => ({
-        ...prev,
-        schedule_main: updatedSchedule,
-      }))
-    }
-  }, [schedule])
+  }, [])
 
   return (
-    <div className="social-schedule-container">
-      {' '}
-      <FieldRow label="Bluesky" value="@jdighist.bsky.social" />
-      <FieldRow
-        label="Tweet link"
-        value={<LinkButton url={`http://github.com/jdh-observer/${pid}/blob/main/tweets.md`} />}
-      />
-      <FieldRow label="Time" value={<Schedule onChange={setSchedule} />} />
-      <FieldRow
-        label="Post replies"
-        value={<PostReplies frequency={frequency} onChange={setFrequency} />}
-      />
-      <FieldRow
-        label="Tweets"
-        value={
-          <div className="tweets-container">
-            {tweets.map((tweet: string, index: number) => {
-              const error = getErrorByFieldAndByIndex(validate.errors || [], 'tweets', index)
-              return (
-                <Textarea
-                  maxRows={5}
-                  defaultValue={tweet}
-                  key={index}
-                  error={error}
-                  endDecorator={
-                    <Typography
-                      level="body-xs"
-                      sx={{
-                        ml: 'auto',
-                        color: error ? 'var(--color-error)' : 'var(--color-deep-blue)',
-                      }}
-                    >
-                      {tweet.length} / {socialMediaCampaign.properties['tweets'].items.maxLength}
-                    </Typography>
-                  }
-                  sx={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: '14px',
-                    '& textarea::-webkit-scrollbar': {
-                      display: 'none',
-                    },
-                    '& textarea': {
-                      direction: 'rtl',
-                      '-ms-overflow-style': 'none',
-                      'scrollbar-width': 'none',
-                    },
-                  }}
-                />
-              )
-            })}
-          </div>
-        }
-      />
-      <Button
-        type="submit"
-        text={t('socialCampaign.send', 'Send')}
-        dataTestId="social-campaign-send-button"
-      />
-    </div>
+    <form className="bluesky-campaign-form" onSubmit={handleFormSubmit}>
+      <div className="social-schedule-container">
+        {' '}
+        <FieldRow label="Bluesky" value="@jdighist.bsky.social" />
+        <FieldRow
+          label="Tweet link"
+          value={<LinkButton url={`http://github.com/jdh-observer/${pid}/blob/main/tweets.md`} />}
+        />
+        <FieldRow
+          label="Time"
+          value={
+            <Schedule frequency={frequency} numberTweets={tweets.length} onChange={handleChange} />
+          }
+        />
+        <FieldRow
+          label="Post replies"
+          value={<PostReplies frequency={frequency} onChange={setFrequency} />}
+        />
+        <FieldRow
+          label="Tweets"
+          value={
+            <div className="tweets-container">
+              {tweets.map((tweet: string, index: number) => {
+                const error = getErrorByFieldAndByIndex(validate.errors || [], 'tweets', index)
+                return (
+                  <Textarea
+                    maxRows={5}
+                    defaultValue={tweet}
+                    key={index}
+                    error={error}
+                    endDecorator={
+                      <Typography
+                        level="body-xs"
+                        sx={{
+                          ml: 'auto',
+                          color: error ? 'var(--color-error)' : 'var(--color-deep-blue)',
+                        }}
+                      >
+                        {tweet.length} / {socialMediaCampaign.properties['tweets'].items.maxLength}
+                      </Typography>
+                    }
+                    sx={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: '14px',
+                      '& textarea::-webkit-scrollbar': {
+                        display: 'none',
+                      },
+                      '& textarea': {
+                        '-ms-overflow-style': 'none',
+                        'scrollbar-width': 'none',
+                      },
+                    }}
+                  />
+                )
+              })}
+            </div>
+          }
+        />
+        <Button type="submit" text={t('socialCampaign.send', 'Send')} />{' '}
+      </div>
+    </form>
   )
 }
 

@@ -3,8 +3,10 @@ import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers'
+import { DateTime } from 'luxon'
 
 import { theme as currentTheme } from '../../../styles/theme'
+import { Frequency } from '../interface'
 import { getDensePickerTheme } from './calendarTheme'
 
 const StyledDateTimePicker = styled(DateTimePicker)(({ theme }) => ({
@@ -29,7 +31,37 @@ const StyledDateTimePicker = styled(DateTimePicker)(({ theme }) => ({
   },
 }))
 
-const Schedule = ({ onChange }) => {
+const newDate = (time: string, frequency: Frequency): string => {
+  return (
+    DateTime.fromISO(time)
+      .plus({ [frequency['timeUnit']]: parseInt(frequency['timeGap']) })
+      .toISO() || ''
+  )
+}
+
+const createTimeSchedule = (
+  initialTime: string,
+  frequency: Frequency,
+  numberTweets: number,
+): string[] => {
+  if (!initialTime || !frequency) return ['']
+  if (frequency['timeGap'] === '-' && frequency['timeUnit'] === '-') return [initialTime]
+
+  const array: string[] = []
+
+  for (let i = 0; i < numberTweets; i++) {
+    console.log('Creating time schedule...')
+    if (i === 0) {
+      array.push(initialTime)
+    } else {
+      array.push(newDate(array[i - 1], frequency))
+    }
+  }
+
+  return array
+}
+
+const Schedule = ({ frequency, numberTweets, onChange }) => {
   const theme = createTheme({
     ...getDensePickerTheme(currentTheme.palette.mode),
     components: {
@@ -48,7 +80,7 @@ const Schedule = ({ onChange }) => {
       <ThemeProvider theme={theme}>
         <StyledDateTimePicker
           label="Schedule for which time"
-          name="startDateTime"
+          name="schedule_main"
           viewRenderers={{
             hours: renderTimeViewClock,
             minutes: renderTimeViewClock,
@@ -63,7 +95,8 @@ const Schedule = ({ onChange }) => {
             },
           }}
           onChange={(value) => {
-            onChange(value?.toISO())
+            const newDate = createTimeSchedule(value?.toISO() ?? '', frequency, numberTweets)
+            return onChange(newDate)
           }}
         />
       </ThemeProvider>
