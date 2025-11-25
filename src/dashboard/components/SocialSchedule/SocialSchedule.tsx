@@ -3,18 +3,19 @@ import './SocialSchedule.css'
 import { Textarea, Typography } from '@mui/joy'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
+import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { Frequency, SocialMediaCampaign, SocialScheduleProps } from './interface'
 
 import { getErrorByFieldAndByIndex } from '../../../logic/errors'
 import { socialMediaCampaign } from '../../schemas/socialMediaCampaign'
 import { getTweetContent } from '../../utils/api/api'
+import Button from '../Buttons/Button/Button'
 import LinkButton from '../Buttons/LinkButton/LinkButton'
-import Checkbox from '../Checkbox/Checkbox'
-import DropdownMenu from '../DropdownMenu/DropdownMenu'
-import { timeGapHour, timeGapMinute, timeUnits } from './constant'
 import Schedule from './DatePicker/DatePicker'
+import PostReplies from './PostReplies'
 
 const ajv = new Ajv({ allErrors: true })
 addFormats(ajv)
@@ -70,6 +71,36 @@ const cleanThreadContent = (raw: string): string[] => {
   return [...threadTexts, ...independent]
 }
 
+const newDate = (time: string, frequency: Frequency): string => {
+  return (
+    DateTime.fromISO(time)
+      .plus({ [frequency['timeUnit']]: parseInt(frequency['timeGap']) })
+      .toISO() || ''
+  )
+}
+
+const createTimeSchedule = (
+  initialTime: string,
+  frequency: Frequency,
+  numberTweets: number,
+): string[] => {
+  if (!initialTime || !frequency) return ['']
+  if (frequency['timeGap'] === '-' && frequency['timeUnit'] === '-') return [initialTime]
+
+  const array: string[] = []
+
+  for (let i = 0; i < numberTweets; i++) {
+    console.log('Creating time schedule...')
+    if (i === 0) {
+      array.push(initialTime)
+    } else {
+      array.push(newDate(array[i - 1], frequency))
+    }
+  }
+
+  return array
+}
+
 const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
   <div className="fieldrow">
     <span className="label">{label}</span>
@@ -77,61 +108,17 @@ const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) =
   </div>
 )
 
-const PostReplies = () => {
-  const [isChecked, setIsChecked] = useState<boolean>(false)
-  const [frequency, setFrequency] = useState<Frequency>({
-    timeGap: timeGapHour[0].value,
-    timeUnit: timeUnits[0].value,
-  })
-  const [timeUnit, setTimeUnit] = useState<string>('')
-  const [timeGap, setTimeGap] = useState<string>('-')
-
-  const ActivatePostReplies = () => {
-    setIsChecked(!isChecked)
-  }
-  const HandleFrequencySelection = (type: string, value: string) => {
-    if (type === 'timeGap') {
-      setFrequency({ ...frequency, timeGap: value.toString() })
-      setTimeGap(value.toString())
-    }
-    if (type === 'timeUnit') {
-      setFrequency({ ...frequency, timeUnit: value.toString() })
-      setTimeUnit(value.toString())
-    }
-  }
-
-  return (
-    <span className="post-replies-container">
-      <Checkbox checked={isChecked} onChange={ActivatePostReplies} isHeader={false} /> every{' '}
-      <DropdownMenu
-        name="time-gap"
-        options={frequency.timeUnit === 'hours' ? timeGapHour : timeGapMinute}
-        value={timeGap}
-        onChange={(e) => HandleFrequencySelection('timeGap', e.toString().valueOf())}
-        onReset={() => HandleFrequencySelection('timeGap', '-')}
-        disable={!isChecked}
-      />{' '}
-      <DropdownMenu
-        name="time-unit"
-        options={timeUnits}
-        value={timeUnit}
-        onChange={(e) => HandleFrequencySelection('timeUnit', e.toString().valueOf())}
-        onReset={() => HandleFrequencySelection('timeUnit', '-')}
-        disable={!isChecked}
-      />
-    </span>
-  )
-}
-
 const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => {
+  const { t } = useTranslation()
   const pid = rowData?.id || 'default-id'
   const repositoryUrl = rowData?.row[6] || ''
   const [tweets, setTweets] = useState<string[]>([])
+  const [frequency, setFrequency] = useState<Frequency>({ timeGap: '-', timeUnit: '-' })
   const [schedule, setSchedule] = useState<string>('')
   const [form, setForm] = useState<SocialMediaCampaign>({
     repository_url: repositoryUrl,
     article_url: `https://journalofdigitalhistory.org/en/article/${pid}`,
-    schedule_main: '',
+    schedule_main: [''],
   })
 
   // Validation for tweets from Github
@@ -151,12 +138,22 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
 
   const handleFormSubmit = () => {}
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setForm({
+      ...(form || {}),
+      [name]: value,
+    })
+  }
+
   useEffect(() => {
     getTweetFileContent(pid)
     if (schedule) {
+      const updatedSchedule = createTimeSchedule(schedule, frequency, tweets.length)
+      console.log('🚀 ~ file: SocialSchedule.tsx:144 ~ updatedSchedule:', updatedSchedule)
       setForm((prev) => ({
         ...prev,
-        schedule_main: schedule,
+        schedule_main: updatedSchedule,
       }))
     }
   }, [schedule])
@@ -170,7 +167,10 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
         value={<LinkButton url={`http://github.com/jdh-observer/${pid}/blob/main/tweets.md`} />}
       />
       <FieldRow label="Time" value={<Schedule onChange={setSchedule} />} />
-      <FieldRow label="Post replies" value={<PostReplies />} />
+      <FieldRow
+        label="Post replies"
+        value={<PostReplies frequency={frequency} onChange={setFrequency} />}
+      />
       <FieldRow
         label="Tweets"
         value={
@@ -211,6 +211,11 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
             })}
           </div>
         }
+      />
+      <Button
+        type="submit"
+        text={t('socialCampaign.send', 'Send')}
+        dataTestId="social-campaign-send-button"
       />
     </div>
   )
