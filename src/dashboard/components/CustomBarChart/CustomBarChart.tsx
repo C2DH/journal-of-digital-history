@@ -30,6 +30,7 @@ const CustomBarChart = () => {
 
   const [articleSeries, setArticleSeries] = useState<Record<string, any>[]>([])
   const [articleLabels, setArticleLabels] = useState<string[]>([])
+  const [advanceSeries, setAdvanceSeries] = useState<Record<string, any>[]>([])
 
   const [abstractSeries, setAbstractSeries] = useState<Record<string, any>[]>([])
   const [abstractLabels, setAbstractLabels] = useState<string[]>([])
@@ -80,7 +81,9 @@ const CustomBarChart = () => {
         'Design review': 0,
         Published: advanceArticles.count,
       }
-      formattedArticleData.push(advanceArticlesFormat)
+
+      setAdvanceSeries([advanceArticlesFormat])
+      // formattedArticleData.push(advanceArticlesFormat)
       setArticleSeries(formattedArticleData)
 
       const abstractSeriesRaw = await Promise.all(
@@ -145,6 +148,16 @@ const CustomBarChart = () => {
     ? articleSeries.length === 0 || articleLabels.length === 0
     : abstractSeries.length === 0 || abstractLabels.length === 0
 
+  const getMaxYValue = () => {
+    const articleMax = Math.max(
+      ...articleSeries.flatMap((item) => articleBarChart.map((status) => item[status.label] || 0)),
+    )
+    const advanceMax = Math.max(
+      ...advanceSeries.flatMap((item) => articleBarChart.map((status) => item[status.label] || 0)),
+    )
+    return Math.max(articleMax, advanceMax, 5)
+  }
+
   return (
     <SmallCard className="home-barchart chart">
       <div className="barchart-header">
@@ -163,37 +176,71 @@ const CustomBarChart = () => {
         />
       </div>
 
-      {/* Article chart */}
-      {articleSeries.length > 0 && articleLabels.length > 0 && (
-        <div style={{ display: isArticle ? 'block' : 'none' }}>
-          <BarChart
-            id="article-bar-chart"
-            data-testid="bar-chart-article"
-            skipAnimation
-            series={articleSeriesKey}
-            colors={colorsArticle}
-            dataset={articleSeries}
-            xAxis={[
-              {
-                scaleType: 'band',
-                dataKey: 'pid',
-                valueFormatter: (value, context) =>
-                  context.location === 'tick'
-                    ? value
-                    : articleSeries.find((item) => item.pid === value)!.issueName,
-                label: 'Issues',
-                ...commonProps.xAxis[0],
-              },
-            ]}
-            yAxis={commonProps.yAxis}
-            width={commonProps.width}
-            height={commonProps.height}
-            hideLegend={commonProps.hideLegend}
-            margin={commonProps.margin}
-            sx={commonProps.sx}
-          />
-        </div>
-      )}
+      <div className="article-and-advance-container">
+        {/* Article chart */}
+        {articleSeries.length > 0 && articleLabels.length > 0 && (
+          <div style={{ display: isArticle ? 'block' : 'none' }}>
+            <BarChart
+              id="article-bar-chart"
+              data-testid="bar-chart-article"
+              skipAnimation
+              series={articleSeriesKey}
+              colors={colorsArticle}
+              dataset={articleSeries}
+              xAxis={[
+                {
+                  scaleType: 'band',
+                  dataKey: 'pid',
+                  valueFormatter: (value, context) =>
+                    context.location === 'tick'
+                      ? value
+                      : articleSeries.find((item) => item.pid === value)!.issueName,
+                  label: 'Issues',
+                  ...commonProps.xAxis[0],
+                },
+              ]}
+              yAxis={commonProps.yAxis}
+              width={commonProps.width}
+              height={commonProps.height}
+              hideLegend={commonProps.hideLegend}
+              margin={commonProps.margin}
+              sx={commonProps.sx}
+            />
+          </div>
+        )}
+        {/* Advance article chart */}
+        {advanceSeries.length > 0 && articleLabels.length > 0 && (
+          <div style={{ display: isArticle ? 'block' : 'none' }}>
+            <BarChart
+              id="article-advanced-bar-chart"
+              data-testid="bar-chart-article-advanced"
+              skipAnimation
+              series={articleSeriesKey}
+              colors={colorsArticle}
+              dataset={advanceSeries}
+              xAxis={[
+                {
+                  scaleType: 'band',
+                  dataKey: 'pid',
+                  valueFormatter: (value, context) =>
+                    context.location === 'tick'
+                      ? value
+                      : advanceSeries.find((item) => item.pid === value)!.issueName,
+                  disableTicks: true,
+                  disableLine: true,
+                  ...commonProps.xAxis[0],
+                },
+              ]}
+              yAxis={[{ position: 'none', min: 0, max: getMaxYValue() }]}
+              width={100}
+              height={commonProps.height}
+              hideLegend={commonProps.hideLegend}
+              margin={commonProps.margin}
+              sx={commonProps.sx}
+            />
+          </div>
+        )}
+      </div>
 
       {/* Abstract chart */}
       {abstractSeries.length > 0 && abstractLabels.length > 0 && (
