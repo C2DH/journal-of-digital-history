@@ -4,6 +4,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers'
 import { DateTime } from 'luxon'
+import { useEffect, useState } from 'react'
 
 import { theme as currentTheme } from '../../../styles/theme'
 import { Frequency } from '../interface'
@@ -45,12 +46,10 @@ const createTimeSchedule = (
   numberTweets: number,
 ): string[] => {
   if (!initialTime || !frequency) return ['']
-  if (frequency['timeGap'] === '-' && frequency['timeUnit'] === '-') return [initialTime]
-
+  if (frequency['timeGap'] === '-' || frequency['timeUnit'] === '-') return [initialTime]
   const array: string[] = []
 
   for (let i = 0; i < numberTweets; i++) {
-    console.log('Creating time schedule...')
     if (i === 0) {
       array.push(initialTime)
     } else {
@@ -62,6 +61,9 @@ const createTimeSchedule = (
 }
 
 const Schedule = ({ frequency, numberTweets, onChange }) => {
+  const [value, setValue] = useState<DateTime | null>(null)
+  const [newDate, setNewDate] = useState<string[]>()
+
   const theme = createTheme({
     ...getDensePickerTheme(currentTheme.palette.mode),
     components: {
@@ -74,6 +76,12 @@ const Schedule = ({ frequency, numberTweets, onChange }) => {
       },
     },
   })
+
+  useEffect(() => {
+    const date = createTimeSchedule(value?.toISO() ?? '', frequency, numberTweets)
+    setNewDate(date)
+    onChange(date)
+  }, [createTimeSchedule, setNewDate, value, frequency, numberTweets])
 
   return (
     <LocalizationProvider dateAdapter={AdapterLuxon}>
@@ -95,8 +103,7 @@ const Schedule = ({ frequency, numberTweets, onChange }) => {
             },
           }}
           onChange={(value) => {
-            const newDate = createTimeSchedule(value?.toISO() ?? '', frequency, numberTweets)
-            return onChange(newDate)
+            setValue(value)
           }}
         />
       </ThemeProvider>

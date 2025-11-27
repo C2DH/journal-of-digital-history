@@ -83,14 +83,11 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
   const repositoryUrl = rowData?.row[6] || ''
   const [tweets, setTweets] = useState<string[]>([])
   const [frequency, setFrequency] = useState<Frequency>({ timeGap: '-', timeUnit: '-' })
-  // const [schedule, setSchedule] = useState<string>('')
   const [form, setForm] = useState<SocialMediaCampaign>({
     repository_url: repositoryUrl,
     article_url: `https://journalofdigitalhistory.org/en/article/${pid}`,
     schedule_main: [''],
   })
-
-  console.log('🚀 ~ file: SocialSchedule.tsx:88 ~ form:', form)
 
   // Validation for tweets from Github
   const validate = ajv.compile(socialMediaCampaign)
@@ -107,7 +104,8 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
     setTweets(clean)
   }
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     console.log('Form submitted:', form)
   }
 
