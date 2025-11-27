@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Checkbox from '../Checkbox/Checkbox'
 import DropdownMenu from '../DropdownMenu/DropdownMenu'
@@ -6,12 +6,14 @@ import { timeGapHour, timeGapMinute, timeUnits } from './constant'
 
 const PostReplies = ({ frequency, onChange }) => {
   const [isChecked, setIsChecked] = useState<boolean>(false)
+  const [gapDropdownActive, setGapDropdownActive] = useState<boolean>(true)
   const [timeUnit, setTimeUnit] = useState<string>('-')
   const [timeGap, setTimeGap] = useState<string>('-')
 
   const ActivatePostReplies = () => {
     setIsChecked(!isChecked)
   }
+
   const HandleFrequencySelection = (type: string, value: string) => {
     if (type === 'timeGap') {
       onChange({ ...frequency, timeGap: value.toString() })
@@ -23,6 +25,15 @@ const PostReplies = ({ frequency, onChange }) => {
     }
   }
 
+  useEffect(() => {
+    if (frequency.timeUnit != '-') {
+      setGapDropdownActive(false)
+    } else {
+      setTimeGap('-')
+      setGapDropdownActive(true)
+    }
+  }, [frequency])
+
   return (
     <span className="post-replies-container">
       <Checkbox checked={isChecked} onChange={ActivatePostReplies} isHeader={false} /> every{' '}
@@ -32,7 +43,7 @@ const PostReplies = ({ frequency, onChange }) => {
         value={timeGap}
         onChange={(e) => HandleFrequencySelection('timeGap', e.toString().valueOf())}
         onReset={() => HandleFrequencySelection('timeGap', '-')}
-        disable={!isChecked}
+        disable={gapDropdownActive || !isChecked}
       />{' '}
       <DropdownMenu
         name="time-unit"
