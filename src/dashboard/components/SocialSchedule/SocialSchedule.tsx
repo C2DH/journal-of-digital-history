@@ -10,7 +10,7 @@ import { Frequency, SocialMediaCampaign, SocialScheduleProps } from './interface
 
 import { getErrorByFieldAndByIndex } from '../../../logic/errors'
 import { socialMediaCampaign } from '../../schemas/socialMediaCampaign'
-import { getTweetContent } from '../../utils/api/api'
+import { getSocialMediaCover, getTweetContent } from '../../utils/api/api'
 import Button from '../Buttons/Button/Button'
 import LinkButton from '../Buttons/LinkButton/LinkButton'
 import Schedule from './DatePicker/DatePicker'
@@ -82,6 +82,7 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
   const pid = rowData?.id || 'default-id'
   const repositoryUrl = rowData?.row[6] || ''
   const [tweets, setTweets] = useState<string[]>([])
+  const [cover, setCover] = useState<string>('')
   const [frequency, setFrequency] = useState<Frequency>({ timeGap: '-', timeUnit: '-' })
   const [form, setForm] = useState<SocialMediaCampaign>({
     repository_url: repositoryUrl,
@@ -104,6 +105,11 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
     setTweets(clean)
   }
 
+  const getSocialMediaImage = async (pid: string) => {
+    const res = await getSocialMediaCover(pid)
+    setCover(res.download_url)
+  }
+
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     console.log('Form submitted:', form)
@@ -118,6 +124,7 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
 
   useEffect(() => {
     getTweetFileContent(pid)
+    getSocialMediaImage(pid)
   }, [])
 
   return (
@@ -151,6 +158,18 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
                     defaultValue={tweet}
                     key={index}
                     error={error}
+                    sx={{
+                      fontFamily: "'DM Sans', sans-serif",
+                      fontSize: '12.5px',
+                      '& textarea::-webkit-scrollbar': {
+                        display: 'none',
+                      },
+                      '& textarea': {
+                        color: error ? 'var(--color-error)' : 'var(--color-deep-blue)',
+                        '-ms-overflow-style': 'none',
+                        'scrollbar-width': 'none',
+                      },
+                    }}
                     endDecorator={
                       <Typography
                         level="body-xs"
@@ -162,23 +181,20 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
                         {tweet.length} / {socialMediaCampaign.properties['tweets'].items.maxLength}
                       </Typography>
                     }
-                    sx={{
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: '14px',
-                      '& textarea::-webkit-scrollbar': {
-                        display: 'none',
-                      },
-                      '& textarea': {
-                        '-ms-overflow-style': 'none',
-                        'scrollbar-width': 'none',
-                      },
-                    }}
                   />
                 )
               })}
             </div>
           }
         />
+        {cover ? (
+          <div className="social-media-cover-container">
+            {' '}
+            <img src={cover} alt="Social Media Cover" className="social-media-cover-image"></img>
+          </div>
+        ) : (
+          'No social cover image found.'
+        )}
         <Button type="submit" text={t('socialCampaign.send', 'Send')} />{' '}
       </div>
     </form>

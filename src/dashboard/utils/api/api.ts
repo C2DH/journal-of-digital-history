@@ -168,16 +168,30 @@ const getTweetContent = async (pid: string): Promise<{ content: string }> => {
     })
 }
 
+const getSocialMediaCover = async (pid: string): Promise<{ download_url: string }> => {
+  console.info('GET [getSocialMediaCover]')
+
+  return api
+    .get(`/api/articles/cover?pid=${pid}`)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
 export {
   getAbstractsByStatusAndCallForPapers,
   getAdvanceArticles,
   getArticlesByStatus,
   getArticlesByStatusAndIssues,
   getCallforpaperWithDeadlineOpen,
+  getSocialMediaCover,
   getTweetContent,
   modifyAbstractStatusWithEmail,
   modifyStatus,
   postBlueskyCampaign,
-  postFacebookCampaign
+  postFacebookCampaign,
 }
-
