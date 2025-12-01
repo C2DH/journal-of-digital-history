@@ -11,7 +11,6 @@
 .modal-backdrop.open {
   background: rgba(0, 0, 0, 0.35);
   z-index: 2000;
-  overflow: hidden;
 }
 
 /* right sliding panel */
@@ -28,9 +27,16 @@
   background: var(--color-white);
   box-shadow: -12px 0 30px rgba(0, 0, 0, 0.18);
   pointer-events: auto;
+
+  overflow-y: auto;
 }
 
-/* close button */
+/*To remove the body scrollbar when modal is open */
+
+body.modal-open {
+  overflow: hidden;
+}
+
 .modal-close {
   position: absolute;
   top: var(--space-size-5);

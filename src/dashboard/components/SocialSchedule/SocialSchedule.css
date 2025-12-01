@@ -47,3 +47,13 @@ textarea {
   gap: var(--gap-size-2);
   height: 50vh;
 }
+
+.social-media-cover-container {
+  display: flex;
+  justify-content: center;
+}
+
+.social-media-cover-image {
+  max-width: 50%;
+  height: auto;
+}

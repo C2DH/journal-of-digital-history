@@ -1,5 +1,6 @@
 import './Modal.css'
 
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ModalProps } from './interface'
@@ -9,6 +10,18 @@ import SocialSchedule from '../SocialSchedule/SocialSchedule'
 
 const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
   const { t } = useTranslation()
+
+  useEffect(() => {
+    if (open) {
+      document.body.classList.add('modal-open')
+    } else {
+      document.body.classList.remove('modal-open')
+    }
+
+    return () => {
+      document.body.classList.remove('modal-open')
+    }
+  }, [open])
 
   if (!open) return null
 
