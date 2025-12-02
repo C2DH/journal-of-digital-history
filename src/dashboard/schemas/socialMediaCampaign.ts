@@ -8,12 +8,13 @@ export const socialMediaCampaign = {
       items: { type: 'string', format: 'date-time' },
       minItems: 1,
     },
+    cover_url: { type: 'string', format: 'uri' },
     tweets: {
       type: 'array',
       items: { type: 'string', minLength: 1, maxLength: 300 },
       minItems: 1,
     },
   },
-  required: ['repository_url', 'article_url', 'schedule_main'],
+  required: ['repository_url', 'article_url', 'schedule_main', 'cover_url'],
   additionalProperties: false,
 }

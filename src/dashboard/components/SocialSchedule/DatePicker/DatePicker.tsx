@@ -3,12 +3,14 @@ import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers'
-import { DateTime } from 'luxon'
+import { DateTime, Settings } from 'luxon'
 import { useEffect, useState } from 'react'
 
 import { theme as currentTheme } from '../../../styles/theme'
 import { Frequency } from '../interface'
 import { getDensePickerTheme } from './calendarTheme'
+
+Settings.defaultZone = 'UTC'
 
 const StyledDateTimePicker = styled(DateTimePicker)(({ theme }) => ({
   '& .MuiPickersInputBase-root': {
@@ -102,7 +104,9 @@ const Schedule = ({ frequency, numberTweets, onChange }) => {
               },
             },
           }}
+          timezone="Europe/Luxembourg"
           onChange={(value) => {
+            console.log('🚀 ~ file: DatePicker.tsx:107 ~ value:', value)
             setValue(value)
           }}
         />

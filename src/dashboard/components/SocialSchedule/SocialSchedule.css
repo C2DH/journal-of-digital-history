@@ -45,7 +45,6 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: var(--gap-size-2);
-  height: 50vh;
 }
 
 .social-media-cover-container {

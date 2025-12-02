@@ -1,7 +1,5 @@
 import './ContactForm.css'
 
-import Ajv from 'ajv'
-import addFormats from 'ajv-formats'
 import parse from 'html-react-parser'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -9,17 +7,9 @@ import { useTranslation } from 'react-i18next'
 import { contactFormSchema } from '../../schemas/contactForm'
 import { useFormStore } from '../../store'
 import { modifyAbstractStatusWithEmail } from '../../utils/api/api'
+import { validateForm } from '../../utils/helpers/checkSchema'
 import Button from '../Buttons/Button/Button'
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal'
-
-function validateForm(data: any) {
-  const ajv = new Ajv({ allErrors: true })
-  addFormats(ajv)
-  const validate = ajv.compile(contactFormSchema)
-  const valid = validate(data)
-
-  return { valid, errors: validate.errors }
-}
 
 function formatMessage(template, data) {
   return template
@@ -59,7 +49,7 @@ const ContactForm = ({ rowData, action, onClose, onNotify }) => {
   }
 
   const handleConfirmSubmit = async () => {
-    const { valid, errors } = validateForm(formData)
+    const { valid, errors } = validateForm(formData, contactFormSchema)
 
     if (valid) {
       try {

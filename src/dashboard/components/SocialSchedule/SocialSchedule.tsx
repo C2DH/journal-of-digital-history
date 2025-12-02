@@ -10,7 +10,9 @@ import { Frequency, SocialMediaCampaign, SocialScheduleProps } from './interface
 
 import { getErrorByFieldAndByIndex } from '../../../logic/errors'
 import { socialMediaCampaign } from '../../schemas/socialMediaCampaign'
-import { getSocialMediaCover, getTweetContent } from '../../utils/api/api'
+import { useFormStore } from '../../store'
+import { getSocialMediaCover, getTweetContent, postBlueskyCampaign } from '../../utils/api/api'
+import { validateForm } from '../../utils/helpers/checkSchema'
 import Button from '../Buttons/Button/Button'
 import LinkButton from '../Buttons/LinkButton/LinkButton'
 import Schedule from './DatePicker/DatePicker'
@@ -89,12 +91,16 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
     article_url: `https://journalofdigitalhistory.org/en/article/${pid}`,
     schedule_main: [''],
   })
+  const { isModalOpen, formData, openModal, closeModal, setFormData } = useFormStore()
 
-  // Validation for tweets from Github
-  const validate = ajv.compile(socialMediaCampaign)
-  const valid = validate({ tweets: tweets })
+  // Validation for tweets, covers and form from Github
+  const { valid, errors } = validateForm(
+    { tweets: tweets, cover_url: cover, ...form },
+    socialMediaCampaign,
+  )
+
   if (!valid) {
-    console.info('[SocialMediaCampaign] Validation errors:', validate.errors)
+    console.info('[SocialMediaCampaign] Validation errors:', errors)
   } else {
     console.info('[SocialMediaCampaign] Valid!')
   }
@@ -110,9 +116,39 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
     setCover(res.download_url)
   }
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('Form submitted:', form)
+    if (valid) {
+      try {
+        const res = await postBlueskyCampaign(form)
+        if (onClose) onClose()
+        if (onNotify)
+          onNotify({
+            type: 'success',
+            message: t('socialCampaign.api.success'),
+            submessage: res?.data?.message || '',
+          })
+      } catch (err: any) {
+        if (onClose) onClose()
+        if (onNotify)
+          onNotify({
+            type: 'error',
+            message: t('socialCampaign.api.error'),
+            submessage: err?.response?.data?.message,
+          })
+      } finally {
+        closeModal()
+      }
+    }
+    if (!valid) {
+      onNotify({
+        type: 'error',
+        message: t('validation.error.message'),
+        submessage: t('validation.error.submessage'),
+      })
+      console.error(errors)
+      return
+    }
   }
 
   const handleChange = (value: string[]) => {
@@ -151,7 +187,7 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
           value={
             <div className="tweets-container">
               {tweets.map((tweet: string, index: number) => {
-                const error = getErrorByFieldAndByIndex(validate.errors || [], 'tweets', index)
+                const error = getErrorByFieldAndByIndex(errors || [], 'tweets', index)
                 return (
                   <Textarea
                     maxRows={5}
