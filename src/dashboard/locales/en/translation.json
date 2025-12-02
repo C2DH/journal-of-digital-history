@@ -9,6 +9,12 @@
       "dashboard": "Go to JDH"
     }
   },
+  "pages": {
+    "login": {
+      "invalidUser": "Username or password incorrect",
+      "cannotAuthenticate": "User cannot be authenticated"
+    }
+  },
   "loggedInAs": "",
   "welcome": "Welcome to the Dashboard",
   "KPI": {
@@ -158,6 +164,13 @@
   "Bluesky": "Launch Bluesky campaign",
   "Facebook": "Launch Facebook campaign",
   "socialCampaign": {
-    "send": "Publish"
+    "send": "Publish",
+    "api": {
+      "success": "Campaign scheduled successfully!",
+      "error": "Failed to schedule campaign."
+    }
+  },
+  "validation": {
+    "error": { "message": "Validation failed", "submessage": "Please check your input" }
   }
 }
