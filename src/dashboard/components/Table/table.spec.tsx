@@ -16,16 +16,22 @@ vi.mock('react-router', () => ({
   useNavigate: () => mockNavigate,
 }))
 
+vi.mock('../../utils/helpers/actions', async () => {
+  return {
+    ...(await vi.importActual<any>('../../utils/helpers/actions')),
+    getRowActions: vi.fn(() => [
+      { label: 'Approve', onClick: vi.fn() },
+      { label: 'Delete', onClick: vi.fn() },
+    ]),
+  }
+})
+
 vi.mock('../../utils/helpers/table', async () => {
   const actual = await vi.importActual<any>('../../utils/helpers/table')
   return {
     ...actual,
     getVisibleHeaders: vi.fn(({ headers }) => headers),
     getCleanData: vi.fn(({ data }) => data),
-    getRowActions: vi.fn(() => [
-      { label: 'Approve', onClick: vi.fn() },
-      { label: 'Delete', onClick: vi.fn() },
-    ]),
     isAbstract: vi.fn(() => true),
     isArticle: vi.fn(() => false),
     isCallForPapers: vi.fn(() => false),
@@ -69,7 +75,7 @@ vi.mock('../Timeline/Timeline', () => ({
 
 describe('Table', () => {
   const defaultProps = {
-    item: 'abstracts',
+    item: 'articles',
     headers: ['title', 'author'],
     data: [
       ['Test Title', 'Test Author'],
@@ -86,8 +92,8 @@ describe('Table', () => {
 
   it('renders headers and rows', () => {
     render(<Table {...defaultProps} />)
-    expect(screen.getByText('abstracts.title')).toBeInTheDocument()
-    expect(screen.getByText('abstracts.author')).toBeInTheDocument()
+    expect(screen.getByText('articles.title')).toBeInTheDocument()
+    expect(screen.getByText('articles.author')).toBeInTheDocument()
     expect(screen.getByText('Test Title')).toBeInTheDocument()
     expect(screen.getByText('Test Author')).toBeInTheDocument()
     expect(screen.getByText('Another Title')).toBeInTheDocument()
@@ -100,7 +106,7 @@ describe('Table', () => {
   it('renders sort button and triggers sort', () => {
     const setSort = vi.fn()
     render(<Table {...defaultProps} setSort={setSort} />)
-    const sortBtn = screen.getByTestId('sort-btn-abstracts.title')
+    const sortBtn = screen.getByTestId('sort-btn-articles.title')
     fireEvent.click(sortBtn)
     expect(setSort).toHaveBeenCalled()
   })

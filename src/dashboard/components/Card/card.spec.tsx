@@ -32,6 +32,9 @@ vi.mock('../Feedback/Feedback', () => ({
     )
   },
 }))
+vi.mock('../Modal/Modal', () => ({
+  default: () => <div data-testid="modal-mock" />,
+}))
 
 describe('Card', () => {
   const defaultProps = {
