@@ -1,76 +1,31 @@
 import './SocialSchedule.css'
 
-import { Textarea, Typography } from '@mui/joy'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
+import { AxiosResponse } from 'axios'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { Frequency, SocialMediaCampaign, SocialScheduleProps } from './interface'
 
-import { getErrorByFieldAndByIndex } from '../../../logic/errors'
 import { socialMediaCampaign } from '../../schemas/socialMediaCampaign'
 import { useFormStore } from '../../store'
-import { getSocialMediaCover, getTweetContent, postBlueskyCampaign } from '../../utils/api/api'
+import {
+  getSocialMediaCover,
+  getTweetContent,
+  postBlueskyCampaign,
+  postFacebookCampaign,
+} from '../../utils/api/api'
 import { validateForm } from '../../utils/helpers/checkSchema'
+import { cleanThreadContent } from '../../utils/helpers/cleanTweet'
 import Button from '../Buttons/Button/Button'
 import LinkButton from '../Buttons/LinkButton/LinkButton'
 import Schedule from './DatePicker/DatePicker'
 import PostReplies from './PostReplies'
+import Tweets from './Tweets'
 
 const ajv = new Ajv({ allErrors: true })
 addFormats(ajv)
-
-const cleanThreadContent = (raw: string): string[] => {
-  if (!raw) return []
-
-  const lines = raw.replace(/\r/g, '').split('\n')
-  const threadTexts: string[] = []
-  const independent: string[] = []
-  let mode: 'thread' | 'independent' | null = null
-
-  for (const rawLine of lines) {
-    const line = rawLine.trim()
-    if (!line) continue
-
-    // "Post thread:" header
-    if (/^Post thread:/i.test(line)) {
-      mode = 'thread'
-      continue
-    }
-
-    // Line number 1., 2., 3. etc...
-    if (mode === 'thread') {
-      const m = line.match(/^\d+\.\s*(.*)$/)
-      if (m) {
-        threadTexts.push(m[1].trim())
-        continue
-      }
-      threadTexts.push(line.replace(/^\d+\.\s*/, '').trim())
-      continue
-    }
-
-    // Independent bullet items
-    if (line.startsWith('-')) {
-      mode = 'independent'
-      independent.push(line.replace(/^-+\s*/, '').trim())
-      continue
-    }
-
-    // If no header but line is numbered, treat it as thread
-    if (/^\d+\.\s*/.test(line)) {
-      mode = 'thread'
-      threadTexts.push(line.replace(/^\d+\.\s*/, '').trim())
-      continue
-    }
-
-    // Fallback: treat plain lines as independent items
-    independent.push(line)
-  }
-
-  // Return combined list: thread first, then independent
-  return [...threadTexts, ...independent]
-}
 
 const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
   <div className="fieldrow">
@@ -79,7 +34,7 @@ const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) =
   </div>
 )
 
-const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => {
+const SocialSchedule = ({ rowData, action, onClose, onNotify }: SocialScheduleProps) => {
   const { t } = useTranslation()
   const pid = rowData?.id || 'default-id'
   const repositoryUrl = rowData?.row[6] || ''
@@ -91,7 +46,7 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
     article_url: `https://journalofdigitalhistory.org/en/article/${pid}`,
     schedule_main: [''],
   })
-  const { isModalOpen, formData, openModal, closeModal, setFormData } = useFormStore()
+  const { closeModal } = useFormStore()
 
   // Validation for tweets, covers and form from Github
   const { valid, errors } = validateForm(
@@ -120,8 +75,16 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
     e.preventDefault()
     if (valid) {
       try {
-        const res = await postBlueskyCampaign(form)
-        if (onClose) onClose()
+        let res = {} as AxiosResponse<any, any>
+
+        if (action === 'Bluesky') {
+          res = await postBlueskyCampaign(form)
+        }
+        if (action === 'Facebook') {
+          res = await postFacebookCampaign(form)
+        }
+        onClose()
+
         if (onNotify)
           onNotify({
             type: 'success',
@@ -129,7 +92,8 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
             submessage: res?.data?.message || '',
           })
       } catch (err: any) {
-        if (onClose) onClose()
+        onClose()
+
         if (onNotify)
           onNotify({
             type: 'error',
@@ -164,7 +128,7 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
   }, [])
 
   return (
-    <form className="bluesky-campaign-form" onSubmit={handleFormSubmit}>
+    <form className="social-campaign-form" onSubmit={handleFormSubmit}>
       <div className="social-schedule-container">
         {' '}
         <FieldRow label="Bluesky" value="@jdighist.bsky.social" />
@@ -178,59 +142,26 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
             <Schedule frequency={frequency} numberTweets={tweets.length} onChange={handleChange} />
           }
         />
-        <FieldRow
-          label="Post replies"
-          value={<PostReplies frequency={frequency} onChange={setFrequency} />}
-        />
+        {action === 'Bluesky' && (
+          <FieldRow
+            label="Post replies"
+            value={<PostReplies frequency={frequency} onChange={setFrequency} />}
+          />
+        )}
         <FieldRow
           label="Tweets"
-          value={
-            <div className="tweets-container">
-              {tweets.map((tweet: string, index: number) => {
-                const error = getErrorByFieldAndByIndex(errors || [], 'tweets', index)
-                return (
-                  <Textarea
-                    maxRows={5}
-                    defaultValue={tweet}
-                    key={index}
-                    error={error}
-                    sx={{
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: '12.5px',
-                      '& textarea::-webkit-scrollbar': {
-                        display: 'none',
-                      },
-                      '& textarea': {
-                        color: error ? 'var(--color-error)' : 'var(--color-deep-blue)',
-                        '-ms-overflow-style': 'none',
-                        'scrollbar-width': 'none',
-                      },
-                    }}
-                    endDecorator={
-                      <Typography
-                        level="body-xs"
-                        sx={{
-                          ml: 'auto',
-                          color: error ? 'var(--color-error)' : 'var(--color-deep-blue)',
-                        }}
-                      >
-                        {tweet.length} / {socialMediaCampaign.properties['tweets'].items.maxLength}
-                      </Typography>
-                    }
-                  />
-                )
-              })}
-            </div>
-          }
+          value={<Tweets action={action} tweets={tweets} errors={errors} />}
         />
-        {cover ? (
+        {
           <div className="social-media-cover-container">
             {' '}
-            <img src={cover} alt="Social Media Cover" className="social-media-cover-image"></img>
+            {cover ? (
+              <img src={cover} alt="Social Media Cover" className="social-media-cover-image"></img>
+            ) : (
+              'No social cover image found.'
+            )}
           </div>
-        ) : (
-          'No social cover image found.'
-        )}
+        }
         <Button type="submit" text={t('socialCampaign.send', 'Send')} />{' '}
       </div>
     </form>

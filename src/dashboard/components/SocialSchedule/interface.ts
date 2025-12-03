@@ -1,5 +1,6 @@
 export interface SocialScheduleProps {
   rowData: any
+  action: string
   onClose: () => void
   onNotify: (notification: {
     type: 'success' | 'error'
