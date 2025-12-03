@@ -1,7 +1,6 @@
 import './styles/index.css'
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
 import { Spinner } from 'react-bootstrap'
 import { I18nextProvider } from 'react-i18next'
 
@@ -23,50 +22,38 @@ const queryClient = new QueryClient({
   },
 })
 
-function DashboardApp() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+function AuthGate() {
+  const {
+    data: user,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['auth:me'],
+    queryFn: fetchUsername,
+  })
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const name = await fetchUsername()
-        if (name) {
-          console.info('[Dashboard] Success checking authentication')
-          setIsAuthenticated(true)
-        } else {
-          setIsAuthenticated(false)
-        }
-      } catch (error) {
-        console.info('[Dashboard] Error checking authentication:', error)
-        setIsAuthenticated(false)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    checkAuth()
-  }, [])
-
-  if (isLoading) {
-    return <Spinner />
-  }
-
-  if (!isAuthenticated) {
-    return <Login />
-  }
+  if (isLoading) return <Spinner />
+  if (!user) return <Login />
 
   return (
-    <I18nextProvider i18n={i18n}>
-      <QueryClientProvider client={queryClient}>
+    <>
+      <Toast />
+      <Navbar items={navbarItems} />
+      <Header />
+      <AppRoutes />
+    </>
+  )
+}
+
+function DashboardApp() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <I18nextProvider i18n={i18n}>
         <div className="dashboard-app">
-          <Toast />
-          <Navbar items={navbarItems} />
-          <Header />
-          <AppRoutes />
+          <AuthGate />
         </div>
-      </QueryClientProvider>
-    </I18nextProvider>
+      </I18nextProvider>
+    </QueryClientProvider>
   )
 }
 

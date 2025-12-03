@@ -2,18 +2,14 @@ import './DropdownMenu.css'
 
 import { XmarkCircle } from 'iconoir-react'
 import { useEffect, useRef, useState } from 'react'
-import { useSearchParams } from 'react-router'
 
 import { DropdownMenuProps } from './interface'
 
 import ArrowDownInCircle from '../../../assets/icons/ArrowDownInCircle'
-import { useFilterBarStore } from '../../store'
 
-const DropdownMenu = ({ name, options, value, onChange }: DropdownMenuProps) => {
+const DropdownMenu = ({ name, options, value, onChange, onReset, disable }: DropdownMenuProps) => {
   const [open, setOpen] = useState(false)
-  const [searchParams, setSearchParams] = useSearchParams()
   const ref = useRef<HTMLDivElement>(null)
-  const { resetSpecificFilter } = useFilterBarStore()
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -30,7 +26,7 @@ const DropdownMenu = ({ name, options, value, onChange }: DropdownMenuProps) => 
   const selected = options.find((opt) => opt.value === value)
 
   return (
-    <div className="dropdown-menu custom-dropdown" ref={ref}>
+    <div className={`dropdown-menu custom-dropdown ${disable ? 'disabled' : ''} ${name}`} ref={ref}>
       <div
         className="dropdown-selected"
         onClick={() => setOpen((prev) => !prev)}
@@ -42,7 +38,7 @@ const DropdownMenu = ({ name, options, value, onChange }: DropdownMenuProps) => 
           <XmarkCircle
             onClick={(e: React.MouseEvent) => {
               e.stopPropagation()
-              resetSpecificFilter(searchParams, setSearchParams, name)
+              onReset()
             }}
           />
         ) : (

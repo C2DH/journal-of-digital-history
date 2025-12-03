@@ -3,8 +3,7 @@
   align-items: center;
   cursor: pointer;
   user-select: none;
-
-  margin-left: var(--space-size-2);
+  margin: 0 var(--space-size-1);
 }
 
 .checkbox-root.disabled {

@@ -6,19 +6,24 @@ import UniversalCookie from 'universal-cookie'
  * @returns A promise that resolves to the username as a string.
  * @throws If the username is not found in the response or the request fails.
  */
-export async function fetchUsername(): Promise<string> {
+export async function fetchUsername(): Promise<string | null> {
   const csrfToken = new UniversalCookie().get('csrftoken')
   try {
     const response = await axios.get('/api/me', {
       headers: {
         'X-CSRFToken': csrfToken,
+        'Content-Type': 'application/json',
       },
+      withCredentials: true,
+      validateStatus: (s) => s < 500,
     })
     const username = response.data?.username
-    if (!username) {
-      throw new Error('Username not found in response')
+
+    if (response.status == 200) {
+      return username
+    } else {
+      return null
     }
-    return username
   } catch (error) {
     throw new Error('Failed to fetch username')
   }
@@ -58,8 +63,8 @@ export async function userLoginRequest(username: string, password: string) {
       },
     )
     return res
-  } catch (error) {
-    console.error('Login failed:', error)
+  } catch (error: any) {
+    return error
   }
 }
 

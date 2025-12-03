@@ -1,0 +1,70 @@
+.social-schedule-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-size-3);
+}
+
+.fieldrow {
+  display: flex;
+  align-items: top;
+}
+
+.fieldrow > .label {
+  font-weight: 800;
+  text-align: left;
+  min-width: 150px;
+}
+
+.fieldrow > .value {
+  flex-grow: 1;
+  max-width: 50vw;
+}
+
+.post-replies-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.dropdown-menu.time-gap {
+  padding-left: var(--space-size-1);
+  width: 100px;
+}
+.dropdown-menu.time-unit {
+  width: 100px;
+}
+
+textarea {
+  width: 90%;
+  max-height: 100%;
+  field-sizing: content;
+  padding: var(--space-size-2);
+  font-size: var(--text-size-2);
+  font-family: inherit;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  resize: vertical;
+  color: var(--color-text);
+  background: var(--color-white);
+}
+
+.tweets-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-size-2);
+}
+
+.social-media-cover-container {
+  display: flex;
+  justify-content: center;
+}
+
+.social-media-cover-image {
+  max-width: 50%;
+  height: auto;
+}
+
+.submit-button {
+  display: flex;
+  justify-content: flex-end;
+}

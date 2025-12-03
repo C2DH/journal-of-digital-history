@@ -15,6 +15,21 @@ vi.mock('react-i18next', () => ({
   }),
 }))
 
+const mockNavigate = vi.fn()
+vi.mock('react-router', () => ({
+  useNavigate: () => mockNavigate,
+}))
+
+vi.mock('@tanstack/react-query', () => {
+  const actual = vi.importActual<any>('@tanstack/react-query')
+  return {
+    ...actual,
+    useQueryClient: () => ({
+      setQueryData: vi.fn(),
+    }),
+  }
+})
+
 describe('Login', () => {
   it('renders login form', () => {
     render(<Login />)
@@ -25,7 +40,7 @@ describe('Login', () => {
 
   it('shows error message on login failure', async () => {
     const { userLoginRequest } = await import('../../logic/api/login')
-    ;(userLoginRequest as vi.Mock).mockImplementationOnce(() => Promise.reject(new Error('fail')))
+    ;(userLoginRequest as vi.Mock).mockImplementationOnce(() => Promise.resolve({ status: 401 }))
     render(<Login />)
 
     fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: 'user' } })
@@ -33,7 +48,7 @@ describe('Login', () => {
     fireEvent.click(screen.getByRole('button', { name: /login.button/i }))
 
     await waitFor(() => {
-      expect(screen.getByText('error.invalidUser')).toBeInTheDocument()
+      expect(screen.getByText('pages.login.invalidUser')).toBeInTheDocument()
     })
   })
 

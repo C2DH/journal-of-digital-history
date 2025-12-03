@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
-import { FormFieldProps, InputChangeHandler } from '../../interfaces/abstractSubmission'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { FormFieldProps, InputChangeHandler } from '../../interfaces/abstractSubmission'
 import { submissionFormSchema as schema } from '../../schemas/abstractSubmission'
 
 const FormField = ({
@@ -31,6 +31,8 @@ const FormField = ({
     }
     onChange(event)
   }
+
+  const isTextAreaForSubmissionForm = (type === 'textarea' && id === 'abstract') || id === 'title'
 
   return (
     <div className="form-group">
@@ -90,7 +92,7 @@ const FormField = ({
             {t(`pages.abstractSubmission.errors.${id}.${error}`)}
           </div>
         )}
-        {type === 'textarea' && (
+        {isTextAreaForSubmissionForm && (
           <div className="text-muted ms-auto">
             {String(value) ? `${String(value).length} / ${schema.properties[id].maxLength}` : ''}
           </div>

@@ -116,12 +116,82 @@ const getCallforpaperWithDeadlineOpen = async (): Promise<Callforpaper[]> => {
     })
 }
 
+const postBlueskyCampaign = async (body: {
+  repository_url: string
+  article_url: string
+  schedule_main: string[]
+}) => {
+  console.info('POST [postBlueskyCampaign]')
+
+  return api
+    .post('/api/articles/bluesky', body)
+    .then((res) => {
+      console.log(res)
+      return res
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
+const postFacebookCampaign = async (body: {
+  repository_url: string
+  article_url: string
+  schedule_main: string[]
+}) => {
+  console.info('POST [postFacebookCampaign]')
+
+  return api
+    .post('/api/articles/facebook', body)
+    .then((res) => {
+      console.log(res)
+      return res
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
+const getTweetContent = async (pid: string): Promise<{ content: string }> => {
+  console.info('GET [getTweetContent]')
+
+  return api
+    .get(`/api/articles/tweet?pid=${pid}`)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
+const getSocialMediaCover = async (pid: string): Promise<{ download_url: string }> => {
+  console.info('GET [getSocialMediaCover]')
+
+  return api
+    .get(`/api/articles/cover?pid=${pid}`)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
 export {
   getAbstractsByStatusAndCallForPapers,
   getAdvanceArticles,
   getArticlesByStatus,
   getArticlesByStatusAndIssues,
   getCallforpaperWithDeadlineOpen,
+  getSocialMediaCover,
+  getTweetContent,
   modifyAbstractStatusWithEmail,
   modifyStatus,
+  postBlueskyCampaign,
+  postFacebookCampaign,
 }
