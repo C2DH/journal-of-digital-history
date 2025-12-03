@@ -31,6 +31,26 @@
   overflow-y: auto;
 }
 
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-size-2);
+}
+
+.modal-header h2 {
+  margin: 0;
+  flex: 1 1 auto;
+  line-height: 1.2;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-size-2);
+  align-items: center;
+}
+
 /*To remove the body scrollbar when modal is open */
 
 body.modal-open {
@@ -38,9 +58,9 @@ body.modal-open {
 }
 
 .modal-close {
-  position: absolute;
+  /* position: absolute;
   top: var(--space-size-5);
-  right: var(--space-size-4);
+  right: var(--space-size-4); */
   font-size: var(--text-size-8);
   background: 0;
   border: 0;

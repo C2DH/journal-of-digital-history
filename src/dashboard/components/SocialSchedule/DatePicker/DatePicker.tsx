@@ -62,9 +62,11 @@ const createTimeSchedule = (
   return array
 }
 
-const Schedule = ({ frequency, numberTweets, onChange }) => {
+const Schedule = ({ action, frequency, numberTweets, onChange }) => {
   const [value, setValue] = useState<DateTime | null>(null)
   const [newDate, setNewDate] = useState<string[]>()
+
+  const facebookLimit = DateTime.now().plus({ minutes: 11 })
 
   const theme = createTheme({
     ...getDensePickerTheme(currentTheme.palette.mode),
@@ -86,7 +88,7 @@ const Schedule = ({ frequency, numberTweets, onChange }) => {
   }, [createTimeSchedule, setNewDate, value, frequency, numberTweets])
 
   return (
-    <LocalizationProvider dateAdapter={AdapterLuxon}>
+    <LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale={'en-gb'}>
       <ThemeProvider theme={theme}>
         <StyledDateTimePicker
           label="Schedule for which time"
@@ -97,6 +99,7 @@ const Schedule = ({ frequency, numberTweets, onChange }) => {
             seconds: renderTimeViewClock,
           }}
           disablePast
+          minDateTime={action === 'Facebook' ? facebookLimit : DateTime.now()}
           slotProps={{
             popper: {
               sx: {
@@ -106,7 +109,6 @@ const Schedule = ({ frequency, numberTweets, onChange }) => {
           }}
           timezone="Europe/Luxembourg"
           onChange={(value) => {
-            console.log('🚀 ~ file: DatePicker.tsx:107 ~ value:', value)
             setValue(value)
           }}
         />

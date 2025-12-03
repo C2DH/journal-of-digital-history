@@ -63,3 +63,8 @@ textarea {
   max-width: 50%;
   height: auto;
 }
+
+.submit-button {
+  display: flex;
+  justify-content: flex-end;
+}
