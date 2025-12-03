@@ -18,7 +18,6 @@ import {
 } from '../../utils/api/api'
 import { validateForm } from '../../utils/helpers/checkSchema'
 import { cleanThreadContent } from '../../utils/helpers/cleanTweet'
-import Button from '../Buttons/Button/Button'
 import LinkButton from '../Buttons/LinkButton/LinkButton'
 import Schedule from './DatePicker/DatePicker'
 import PostReplies from './PostReplies'
@@ -128,10 +127,13 @@ const SocialSchedule = ({ rowData, action, onClose, onNotify }: SocialSchedulePr
   }, [])
 
   return (
-    <form className="social-campaign-form" onSubmit={handleFormSubmit}>
+    <form id="social-campaign-form" className="social-campaign-form" onSubmit={handleFormSubmit}>
       <div className="social-schedule-container">
         {' '}
-        <FieldRow label="Bluesky" value="@jdighist.bsky.social" />
+        <FieldRow
+          label={`${action}`}
+          value={action === 'Bluesky' ? '@jdighist.bsky.social' : 'journalofdigitalhistory'}
+        />
         <FieldRow
           label="Tweet link"
           value={<LinkButton url={`http://github.com/jdh-observer/${pid}/blob/main/tweets.md`} />}
@@ -139,7 +141,12 @@ const SocialSchedule = ({ rowData, action, onClose, onNotify }: SocialSchedulePr
         <FieldRow
           label="Time"
           value={
-            <Schedule frequency={frequency} numberTweets={tweets.length} onChange={handleChange} />
+            <Schedule
+              action={action}
+              frequency={frequency}
+              numberTweets={tweets.length}
+              onChange={handleChange}
+            />
           }
         />
         {action === 'Bluesky' && (
@@ -162,7 +169,6 @@ const SocialSchedule = ({ rowData, action, onClose, onNotify }: SocialSchedulePr
             )}
           </div>
         }
-        <Button type="submit" text={t('socialCampaign.send', 'Send')} />{' '}
       </div>
     </form>
   )

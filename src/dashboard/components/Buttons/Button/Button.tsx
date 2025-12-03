@@ -2,10 +2,11 @@ import './Button.css'
 
 import { ButtonProps } from './interface'
 
-const Button = ({ text, type, variant, onClick, style, dataTestId = '' }: ButtonProps) => {
+const Button = ({ text, form, type, variant, onClick, style, dataTestId = '' }: ButtonProps) => {
   return (
     <button
       type={type}
+      form={form}
       className={`default-button ${variant}`}
       onClick={onClick}
       data-testid={dataTestId}
