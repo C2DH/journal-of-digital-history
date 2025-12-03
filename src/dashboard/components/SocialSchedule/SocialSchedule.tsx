@@ -143,8 +143,8 @@ const SocialSchedule = ({ rowData, onClose, onNotify }: SocialScheduleProps) => 
     if (!valid) {
       onNotify({
         type: 'error',
-        message: t('validation.error.message'),
-        submessage: t('validation.error.submessage'),
+        message: t('socialCampaign.validation.error.message'),
+        submessage: t('socialCampaign.validation.error.submessage'),
       })
       console.error(errors)
       return

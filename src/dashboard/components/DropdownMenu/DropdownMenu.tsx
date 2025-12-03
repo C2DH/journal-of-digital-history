@@ -26,7 +26,7 @@ const DropdownMenu = ({ name, options, value, onChange, onReset, disable }: Drop
   const selected = options.find((opt) => opt.value === value)
 
   return (
-    <div className={`dropdown-menu custom-dropdown ${disable ? 'disabled' : ''}`} ref={ref}>
+    <div className={`dropdown-menu custom-dropdown ${disable ? 'disabled' : ''} ${name}`} ref={ref}>
       <div
         className="dropdown-selected"
         onClick={() => setOpen((prev) => !prev)}

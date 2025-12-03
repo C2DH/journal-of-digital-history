@@ -168,9 +168,12 @@
     "api": {
       "success": "Campaign scheduled successfully!",
       "error": "Failed to schedule campaign."
+    },
+    "validation": {
+      "error": {
+        "message": "Form validation failed",
+        "submessage": "Give <u>at least</u> a schedule and check tweets"
+      }
     }
-  },
-  "validation": {
-    "error": { "message": "Validation failed", "submessage": "Please check your input" }
   }
 }
