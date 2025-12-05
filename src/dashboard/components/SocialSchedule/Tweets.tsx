@@ -2,12 +2,9 @@ import { Textarea, Typography } from '@mui/joy'
 
 import { getErrorByField, getErrorByFieldAndByIndex } from '../../../logic/errors'
 import { socialMediaCampaign } from '../../schemas/socialMediaCampaign'
+import Loading from '../Loading/Loading'
 
 const Tweets = ({ action, tweets, errors }) => {
-  const totalLength = Array.isArray(tweets)
-    ? tweets.reduce((acc, tweet) => acc + tweet.length, 0)
-    : tweets.length
-
   const commonStyles = {
     sx: {
       fontFamily: "'DM Sans', sans-serif",
@@ -16,6 +13,14 @@ const Tweets = ({ action, tweets, errors }) => {
         display: 'none',
       },
     },
+  }
+
+  if (tweets.length === 0) {
+    return (
+      <div className="tweets-loading">
+        <Loading />
+      </div>
+    )
   }
 
   return (
@@ -54,7 +59,7 @@ const Tweets = ({ action, tweets, errors }) => {
       {action === 'Facebook' && (
         <Textarea
           maxRows={5}
-          defaultValue={tweets}
+          defaultValue={tweets[0]}
           key={'facebook-content'}
           error={Boolean(getErrorByField(errors || [], 'tweets'))}
           sx={{
@@ -77,7 +82,7 @@ const Tweets = ({ action, tweets, errors }) => {
                   : 'var(--color-deep-blue)',
               }}
             >
-              {totalLength}
+              {tweets[0].length}
             </Typography>
           }
         />

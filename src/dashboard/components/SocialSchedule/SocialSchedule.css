@@ -54,6 +54,13 @@ textarea {
   gap: var(--gap-size-2);
 }
 
+.tweets-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+
 .social-media-cover-container {
   display: flex;
   justify-content: center;
