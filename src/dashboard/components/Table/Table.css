@@ -62,7 +62,8 @@ table.abstracts {
 
 table.articles {
   th.abstract__contact_firstname,
-  th.abstract__contact_lastname {
+  th.abstract__contact_lastname,
+  th.publication_date {
     width: 20%;
   }
   th.checkbox-header,
