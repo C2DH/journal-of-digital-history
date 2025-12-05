@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router'
 
 import { TableProps } from './interface'
 
+import { useIsMobile } from '../../hooks/useIsMobile'
 import { articleSteps } from '../../utils/constants/article'
 import { getRowActions } from '../../utils/helpers/actions'
 import {
@@ -112,7 +113,11 @@ const Table = ({
               </th>
             )}
             {visibleHeaders.map((header) =>
-              header === 'status' && isArticleItem ? (
+              header === 'status' && isArticleItem && useIsMobile(1200) ? (
+                <th key={header} className="status-header">
+                  Status
+                </th>
+              ) : header === 'status' && isArticleItem ? (
                 articleSteps.map((step) => (
                   <th key={step.key} className="status-header" title={step.label}>
                     <span className="material-symbols-outlined">{step.icon}</span>
@@ -178,7 +183,7 @@ const Table = ({
                       key={cIdx}
                       className={headerName}
                       title={isTitle || isAffiliation ? String(cell) : undefined}
-                      colSpan={isStep && isArticleItem ? 8 : 0}
+                      colSpan={isStep && isArticleItem && !useIsMobile(1200) ? 8 : 0}
                       style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
                       onClick={
                         isTitle && isArticleOrAbstracts

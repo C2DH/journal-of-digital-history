@@ -81,12 +81,18 @@ type renderCellProps = {
  *   - isArticle: Whether the row represents an article.
  * @returns A React node representing the formatted cell content, such as a Timeline, Status badge, IconButton, formatted date, or raw value.
  */
+import { useIsMobile } from '../../hooks/useIsMobile'
+
 function renderCell({ isStep, cell, headers, cIdx, isArticle }: renderCellProps) {
   let content: React.ReactNode = '-'
   const headerKey = headers[cIdx].toLowerCase().split('.').join(' ')
 
   if (isStep && isArticle) {
-    content = <Timeline steps={articleSteps} currentStatus={cell} />
+    content = useIsMobile(1200) ? (
+      <Status value={cell} isArticle={true} />
+    ) : (
+      <Timeline steps={articleSteps} currentStatus={cell} />
+    )
   } else if (isStatus(cell, headerKey)) {
     content = <Status value={cell} />
   } else if (isLinkCell(cell)) {

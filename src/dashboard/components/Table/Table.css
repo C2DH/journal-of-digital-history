@@ -122,6 +122,11 @@ table.articles {
     tr td.publication_date {
       display: none;
     }
+
+    th.status-header {
+      padding-right: 0;
+      width: 10%;
+    }
   }
 }
 
