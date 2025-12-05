@@ -9,7 +9,6 @@
   width: 100%;
 
   margin-left: -10px;
-  /* margin-bottom: var(--space-size-2); */
   padding: var(--gap-size-2) 0;
   padding-left: 20px;
   padding-bottom: var(--space-size-4);
@@ -23,4 +22,14 @@
 .filter-label {
   color: var(--color-deep-blue);
   font-size: var(--font-size-2);
+}
+
+@media screen and (max-width: 1200px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--gap-size-1);
+    width: 20%;
+    padding-bottom: 0;
+  }
 }

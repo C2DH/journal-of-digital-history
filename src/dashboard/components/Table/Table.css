@@ -40,6 +40,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  @media screen and (max-width: 1200px) {
+    position: static;
+  }
 }
 
 table.abstracts {
@@ -57,6 +61,22 @@ table.abstracts {
   }
   th.callpaper_title {
     width: 10%;
+  }
+  @media screen and (max-width: 1200px) {
+    tr th.pid,
+    tr td.pid,
+    tr th.callpaper_title,
+    tr td.callpaper_title,
+    tr th.submitted_date,
+    tr td.submitted_date,
+    tr th.contact_affiliation,
+    tr td.contact_affiliation,
+    tr th.contact_lastname,
+    tr td.contact_lastname,
+    tr th.contact_firstname,
+    tr td.contact_firstname {
+      display: none;
+    }
   }
 }
 
@@ -92,9 +112,15 @@ table.articles {
     }
   }
   @media screen and (max-width: 1200px) {
-    th.abstract__contact_firstname,
-    th.abstract__contact_lastname {
-      width: 5%;
+    tr th.abstract__pid,
+    tr td.abstract__pid,
+    tr th.abstract__contact_lastname,
+    tr td.abstract__contact_lastname,
+    tr th.abstract__contact_firstname,
+    tr td.abstract__contact_firstname,
+    tr th.publication_date,
+    tr td.publication_date {
+      display: none;
     }
   }
 }

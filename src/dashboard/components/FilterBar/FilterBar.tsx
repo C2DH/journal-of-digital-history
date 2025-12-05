@@ -34,6 +34,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
       ))}
       <Button
         text="Clear All"
+        className="clear-all"
         type="reset"
         variant="secondary"
         onClick={() => {

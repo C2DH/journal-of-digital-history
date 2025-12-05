@@ -2,7 +2,8 @@ import React from 'react'
 
 export type ButtonProps = {
   text: string
-  form: string
+  className?: string
+  form?: string
   type?: 'button' | 'submit' | 'reset'
   variant?: 'primary' | 'secondary' | 'tertiary'
   onClick?: () => void
