@@ -27,7 +27,7 @@ function dashboardPlugin() {
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, __dirname)
 
-  console.log('ENV Proxy', env.VITE_PROXY)
+  console.info('ENV Proxy', env.VITE_PROXY)
 
   return {
     server: {
