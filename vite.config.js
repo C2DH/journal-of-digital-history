@@ -32,7 +32,6 @@ export default defineConfig(({ mode }) => {
   return {
     server: {
       middlewareMode: false,
-      historyApiFallback: true,
       proxy: {
         '/api/explain': {
           target: env.VITE_ENABLE_CODE_EXPLAINER_PROXY,
