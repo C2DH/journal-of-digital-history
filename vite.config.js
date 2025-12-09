@@ -30,15 +30,6 @@ export default defineConfig(({ mode }) => {
   console.log('ENV Proxy', env.VITE_PROXY)
 
   return {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          logger: {
-            warn: () => {}, // Suppress all sass warnings
-          },
-        },
-      },
-    },
     server: {
       middlewareMode: false,
       proxy: {
