@@ -29,6 +29,7 @@
     "@lumino/messaging": "^2.0.3",
     "@mui/joy": "5.0.0-beta.52",
     "@mui/material": "^7.3.2",
+    "@mui/system": "^7.3.6",
     "@mui/x-charts": "^8.11.3",
     "@mui/x-date-pickers": "^8.18.0",
     "@react-spring/web": "^9.7.3",
