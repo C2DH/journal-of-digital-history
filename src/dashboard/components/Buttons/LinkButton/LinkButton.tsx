@@ -10,6 +10,31 @@ import BinderIcon from '../../../../assets/images/mybinder_logo_icon_blue.svg?ur
 const LinkButton = ({ url }: ButtonLinkProps) => {
   const { hostname, pathname } = new URL(url)
 
+  if (pathname.includes('/admin/')) {
+    return (
+      <a
+        href={url}
+        className="link"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-testid="link-button"
+      >
+        <div className={`link-container`}>
+          <div className="link-content">
+            <img
+              className="mydjango-icon"
+              alt="Django Icon"
+              src={DjangoIcon}
+              data-testid="django-icon"
+            />
+            <span>Django admin page</span>
+          </div>
+          <NavArrowRight className="arrow-right" />
+        </div>
+      </a>
+    )
+  }
+
   const linkConfigs = {
     'github.com': {
       icon: <Github className="github-icon" data-testid="github-icon" />,
@@ -26,40 +51,20 @@ const LinkButton = ({ url }: ButtonLinkProps) => {
       ),
       label: 'Binder url',
     },
-    'journalofdigitalhistory.org': (path: string) => {
-      if (path.includes('notebook-viewer')) {
-        return {
-          icon: (
-            <span className="preview-icon material-symbols-outlined" data-testid="preview-icon">
-              preview
-            </span>
-          ),
-          label: 'Notebook preview',
-        }
-      }
-      if (path.includes('admin')) {
-        return {
-          icon: (
-            <img
-              className="mydjango-icon"
-              alt="Django Icon"
-              src={DjangoIcon}
-              data-testid="django-icon"
-            />
-          ),
-          label: 'Django admin page',
-        }
-      }
+    'journalofdigitalhistory.org': {
+      icon: (
+        <span className="preview-icon material-symbols-outlined" data-testid="preview-icon">
+          preview
+        </span>
+      ),
+      label: 'Notebook preview',
     },
   }
 
-  const config =
-    hostname === 'journalofdigitalhistory.org'
-      ? linkConfigs[hostname](pathname)
-      : linkConfigs[hostname] || {
-          icon: <Link className="link-icon" data-testid="link-icon" />,
-          label: pathname,
-        }
+  const config = linkConfigs[hostname] || {
+    icon: <Link className="link-icon" data-testid="link-icon" />,
+    label: pathname,
+  }
 
   return (
     <a

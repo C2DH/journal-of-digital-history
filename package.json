@@ -3,7 +3,7 @@
   "version": "6.0.8",
   "private": true,
   "type": "module",
-  "packageManager": "yarn@4.10.3",
+  "packageManager": "yarn@4.12.0",
   "scripts": {
     "start": "vite",
     "build": "vite build --config vite.config.js",
