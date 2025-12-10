@@ -57,7 +57,7 @@ table.abstracts {
     width: 10%;
   }
   th.title {
-    width: 40%;
+    width: 20%;
   }
   th.callpaper_title {
     width: 10%;
@@ -81,13 +81,10 @@ table.abstracts {
 }
 
 table.articles {
-  th.abstract__contact_firstname,
-  th.abstract__contact_lastname,
   th.publication_date {
     width: 20%;
   }
-  th.checkbox-header,
-  th.repository_url {
+  th.checkbox-header {
     width: 5%;
   }
   th.pid,
@@ -95,7 +92,7 @@ table.articles {
     width: 15%;
   }
   th.abstract__title {
-    width: 70%;
+    width: 20%;
   }
   th.status-header {
     padding-right: 0;
@@ -103,6 +100,9 @@ table.articles {
   }
   th.actions-cell {
     width: 5%;
+  }
+  th.author {
+    width: 20%;
   }
 
   @media screen and (min-width: 1400px) {

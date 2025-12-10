@@ -4,20 +4,14 @@ import { useTranslation } from 'react-i18next'
 
 import { StatusProps } from './interface'
 
-import { articleSteps } from '../../utils/constants/article'
 import { statusIcons } from './constant'
 
-const Status = ({ value, isArticle }: StatusProps) => {
+const Status = ({ value }: StatusProps) => {
   const { t } = useTranslation()
   const status = value.toLowerCase()
 
   const iconInfo = statusIcons[status] || { icon: 'help', color: 'gray' }
-
-  if (isArticle) {
-    const icon = articleSteps.find((step) => step.key === status.toLowerCase())
-
-    return <span className="material-symbols-outlined icon-status">{icon?.icon}</span>
-  }
+  console.log('🚀 ~ file: Status.tsx:14 ~ iconInfo:', iconInfo)
 
   return (
     <span className="status-cell">

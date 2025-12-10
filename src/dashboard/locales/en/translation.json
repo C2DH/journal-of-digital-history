@@ -76,7 +76,8 @@
     "abstract__contact_firstname": "Firstname",
     "publication_date": "Publication",
     "status": "Status",
-    "repository_url": ""
+    "repository_url": "",
+    "author": "Author"
   },
   "authors": {
     "item": "Authors",
