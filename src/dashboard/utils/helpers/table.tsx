@@ -135,8 +135,6 @@ function authorColumn(headers: string[], data: Abstract[]) {
     (h) => h !== matchedPair.firstname && h !== matchedPair.lastname,
   )
 
-  const authorIndex = headers.indexOf(matchedPair.firstname)
-
   newHeaders.splice(2, 0, 'author')
 
   // Transform data: combine firstname + lastname into author
@@ -152,7 +150,7 @@ function authorColumn(headers: string[], data: Abstract[]) {
         ? rowAny[matchedPair.lastname]
         : (rowAny['abstract']?.['contact_lastname'] ?? '')
 
-    const author = `${firstname} ${lastname}`.trim()
+    const author = `${firstname} ${lastname.toUpperCase() || ''}`.trim()
 
     const newRow = { ...rowAny }
     delete newRow[matchedPair.firstname]

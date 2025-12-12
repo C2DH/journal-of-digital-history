@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: row;
   align-items: end;
-  gap: var(--gap-size-2);
+  gap: var(--space-size-2);
 
   position: sticky;
   height: var(--filter-bar-height);
@@ -24,12 +24,28 @@
   font-size: var(--font-size-2);
 }
 
-@media screen and (max-width: 1200px) {
+.clear-icon-button {
+  display: none;
+}
+
+@media screen and (max-width: 1100px) {
   .filter-bar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--gap-size-1);
-    width: 20%;
-    padding-bottom: 0;
+    gap: var(--gap-size-4);
+  }
+
+  .clear-all-button {
+    display: none;
+  }
+
+  .clear-icon-button {
+    display: flex;
+    width: var(--space-size-0);
+    padding: var(--gap-size-1) var(--gap-size-2);
+    justify-content: center;
+    border-radius: 32px;
+  }
+
+  .dropdown-menu {
+    width: 100px;
   }
 }

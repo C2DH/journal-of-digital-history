@@ -52,7 +52,7 @@
     "pid": "Pid",
     "title": "Title",
     "callpaper_title": "Call for paper",
-    "submitted_date": "Submitted Date",
+    "submitted_date": "Sub Date",
     "validation_date": "Validation Date",
     "contact_lastname": "Lastname",
     "contact_firstname": "Firstname",
@@ -74,7 +74,7 @@
     "abstract__title": "Title",
     "abstract__contact_lastname": "Lastname",
     "abstract__contact_firstname": "Firstname",
-    "publication_date": "Publication",
+    "publication_date": "Pub Date",
     "status": "Status",
     "repository_url": "",
     "author": "Author"
@@ -165,7 +165,7 @@
   "Bluesky": "Launch Bluesky campaign",
   "Facebook": "Launch Facebook campaign",
   "socialCampaign": {
-    "send": "Publish",
+    "send": "Post",
     "api": {
       "success": "Campaign scheduled successfully!",
       "error": "Failed to schedule campaign."

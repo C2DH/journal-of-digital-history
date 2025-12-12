@@ -33,8 +33,18 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
         </div>
       ))}
       <Button
+        text="close"
+        className="clear-icon-button material-symbols-outlined"
+        type="reset"
+        variant="secondary"
+        onClick={() => {
+          setSearch('')
+          resetFilters(searchParams, setSearchParams, filters)
+        }}
+      ></Button>
+      <Button
         text="Clear All"
-        className="clear-all"
+        className="clear-all-button"
         type="reset"
         variant="secondary"
         onClick={() => {

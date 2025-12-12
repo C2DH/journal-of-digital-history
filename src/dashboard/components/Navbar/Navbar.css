@@ -118,7 +118,7 @@
 
   .navbar li {
     justify-content: center;
-    margin: 20% 0;
+    margin: 10% 0;
   }
   .navbar li.active {
     width: var(--navbar-width-mobile-active);

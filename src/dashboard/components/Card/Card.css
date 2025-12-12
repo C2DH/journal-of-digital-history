@@ -57,10 +57,9 @@
     width: 2500px;
   }
 }
-@media screen and (max-width: 1200px) {
-  .card.articles,
-  .card.abstracts {
-    margin-left: 210px;
-    margin-top: calc(-1 * var(--space-size-10));
+
+@media screen and (max-width: 600px) {
+  .card {
+    padding: 0 var(--gap-size-2) var(--gap-size-2);
   }
 }

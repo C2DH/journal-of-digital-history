@@ -11,7 +11,6 @@ const Status = ({ value }: StatusProps) => {
   const status = value.toLowerCase()
 
   const iconInfo = statusIcons[status] || { icon: 'help', color: 'gray' }
-  console.log('🚀 ~ file: Status.tsx:14 ~ iconInfo:', iconInfo)
 
   return (
     <span className="status-cell">
