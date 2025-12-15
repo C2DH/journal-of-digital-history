@@ -11,7 +11,6 @@
 .modal-backdrop.open {
   background: rgba(0, 0, 0, 0.35);
   z-index: 2000;
-  overflow: hidden;
 }
 
 /* right sliding panel */
@@ -20,7 +19,6 @@
   top: 0;
   right: 0;
   height: 100vh;
-  width: 50vw;
   max-width: var(--modal-max-width);
   min-width: var(--modal-min-width);
   padding: var(--space-size-4);
@@ -29,13 +27,40 @@
   background: var(--color-white);
   box-shadow: -12px 0 30px rgba(0, 0, 0, 0.18);
   pointer-events: auto;
+
+  overflow-y: auto;
 }
 
-/* close button */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-size-2);
+}
+
+.modal-header h2 {
+  margin: 0;
+  flex: 1 1 auto;
+  line-height: 1.2;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-size-2);
+  align-items: center;
+}
+
+/*To remove the body scrollbar when modal is open */
+
+body.modal-open {
+  overflow: hidden;
+}
+
 .modal-close {
-  position: absolute;
+  /* position: absolute;
   top: var(--space-size-5);
-  right: var(--space-size-4);
+  right: var(--space-size-4); */
   font-size: var(--text-size-8);
   background: 0;
   border: 0;

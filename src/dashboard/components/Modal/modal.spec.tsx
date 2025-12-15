@@ -14,6 +14,12 @@ vi.mock('../ContactForm/ContactForm', () => ({
   },
 }))
 
+vi.mock('../SocialSchedule/SocialSchedule', () => ({
+  default: ({ rowData = {}, action }: { rowData?: any; action: string }) => {
+    return <div data-testid="social-schedule">Social Schedule Component - Action: {action}</div>
+  },
+}))
+
 describe('Modal', () => {
   const onClose = vi.fn()
 
@@ -32,14 +38,14 @@ describe('Modal', () => {
         item={'abstracts'}
         open={true}
         onClose={onClose}
-        action="Contact"
+        action="Abandoned"
         data={{ contactEmail: 'test@example.com' }}
       />,
     )
 
-    expect(screen.getByTestId('contact-form')).toHaveTextContent('test@example.com - contact')
+    expect(screen.getByTestId('contact-form')).toHaveTextContent('test@example.com - abandoned')
     expect(screen.getByRole('button', { name: /×/ })).toBeInTheDocument()
-    expect(screen.getByText('actions.Contact')).toBeInTheDocument()
+    expect(screen.getByText('actions.Abandoned')).toBeInTheDocument()
   })
 
   it('calls onClose when clicking the close button', () => {

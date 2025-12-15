@@ -73,6 +73,8 @@ body {
   --gap-size-3: 1.5rem;
   --gap-size-4: 2rem;
   --gap-size-5: 2.5rem;
+  --gap-size-6: 3rem;
+  --gap-size-7: 3.5rem;
   --spacer-1: var(--gap-size-1);
 }
 
@@ -84,8 +86,8 @@ body {
   --navbar-header-width: 220px;
   --landing-page-header: 200px;
   --navbar-height: 200px;
-  --modal-max-width: 40vw;
-  --modal-min-width: 30vw;
+  --modal-max-width: 70vw;
+  --modal-min-width: 50vw;
   --filter-bar-height: 60px;
   --table-headers-top-position: 105px;
   --KPI-standard-width: 400px;

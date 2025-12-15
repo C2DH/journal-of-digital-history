@@ -1,8 +1,10 @@
 .breadcrumb {
   margin-left: var(--navbar-width);
+  margin-top: var(--gap-size-3);
+  margin-bottom: var(--gap-size-3);
   display: flex;
   align-items: center;
-  padding: var(--gap-size-4);
+  padding: 0% 2%;
 }
 
 .breadcrumb {

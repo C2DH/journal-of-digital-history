@@ -14,6 +14,11 @@ export function setDetails(item: Abstract | Article) {
   let title = ''
   let abstractText = ''
 
+  const adminHost =
+    window.location.hostname === 'localhost' ? 'localhost:8000' : window.location.host
+  const adminUrl = (id: string) =>
+    `${window.location.protocol}//${adminHost}/admin/jdhapi/article/${id}/change/`
+
   if (isTypeAbstract(item)) {
     infoFields = [
       { label: 'PID', value: item.pid },
@@ -73,7 +78,7 @@ export function setDetails(item: Abstract | Article) {
         value: `https://journalofdigitalhistory.org/en/notebook-viewer/${item.notebook_url}/?v=3`,
       },
       {
-        value: `https://journalofdigitalhistory.org/admin/jdhapi/article/${item.abstract.id}/change/`,
+        value: adminUrl(item.abstract.id.toString()),
       },
     ]
     datasetFields = [
@@ -84,8 +89,14 @@ export function setDetails(item: Abstract | Article) {
       })),
     ]
     url = item.repository_url
-    title = item.data?.title[0] || ''
-    abstractText = item.data?.abstract[0] || ''
+    title =
+      Array.isArray(item.data?.title) && item.data?.title.length > 0
+        ? item.data.title[0]
+        : item.abstract.title
+    abstractText =
+      Array.isArray(item.data?.abstract) && item.data?.abstract.length > 0
+        ? item.data.abstract[0]
+        : item.abstract.abstract
   }
 
   return { infoFields, contactFields, datasetFields, urlFields, url, title, abstractText }

@@ -1,39 +1,75 @@
 import '../styles/pages/Home.css'
 import '../styles/pages/pages.css'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router'
 
 import Badge from '../components/Badge/Badge'
 import CustomBarChart from '../components/CustomBarChart/CustomBarChart'
 import CustomPieChart from '../components/CustomPieChart/CustomPieChart'
+import Deadline from '../components/Deadline/Deadline'
 import SmallCard from '../components/SmallCard/SmallCard'
 import SmallTable from '../components/SmallTable /SmallTable'
 import { useSorting } from '../hooks/useSorting'
 import { useItemsStore } from '../store'
-import { Abstract } from '../utils/types'
+import { getCallforpaperWithDeadlineOpen } from '../utils/api/api'
+import { Abstract, Callforpaper } from '../utils/types'
 
 const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
   return (
-    <SmallCard className="home-abstract-card chart">
-      <div className="home-abstract-card-header">
-        <h2 className="home-abstract-card-title">Abstracts</h2>{' '}
-        <Badge text="New" variant="accent" />
-      </div>
-      <SmallTable
-        item="abstracts"
-        headers={[
-          'pid',
-          'title',
-          'callpaper_title',
-          'submitted_date',
-          'contact_lastname',
-          'contact_firstname',
-        ]}
-        data={submittedAbstracts}
-      />
-    </SmallCard>
+    <>
+      {' '}
+      <SmallCard className="home-abstract-card chart">
+        <div className="home-abstract-card-header">
+          <h2 className="home-abstract-card-title">Abstracts</h2>{' '}
+          <Badge text="New" variant="accent" />
+        </div>
+        <SmallTable
+          item="abstracts"
+          headers={[
+            'pid',
+            'title',
+            'callpaper_title',
+            'submitted_date',
+            'contact_lastname',
+            'contact_firstname',
+          ]}
+          data={submittedAbstracts}
+        />
+      </SmallCard>
+    </>
+  )
+}
+
+const DeadlineRow = () => {
+  const [cfpOpen, setCfpOpen] = useState<Callforpaper[]>([])
+
+  const getCallforpaper = async () => {
+    try {
+      const cfpOpen = await getCallforpaperWithDeadlineOpen()
+      setCfpOpen(cfpOpen)
+    } catch (error) {
+      console.error('Error fetching Call for Papers:', error)
+      return []
+    }
+  }
+
+  useEffect(() => {
+    getCallforpaper()
+  }, [])
+
+  return (
+    <div className="home-counter-row">
+      {cfpOpen.map((cfp) => (
+        <Deadline
+          key={cfp.id}
+          cfpTitle={cfp.title}
+          deadlineAbstract={cfp.deadline_abstract}
+          deadlineArticle={cfp.deadline_article}
+        />
+      ))}
+    </div>
   )
 }
 
@@ -57,6 +93,7 @@ const Home = () => {
     <div className="home page">
       <h1>{t('welcome')}</h1>
       <div className={`home-grid ${isAbstractSubmitted ? 'isAbstract' : ''}`}>
+        <DeadlineRow />
         <>{isAbstractSubmitted && AbstractSubmittedCard(submittedAbstracts)}</>
         <CustomPieChart />
         <CustomBarChart />

@@ -25,7 +25,12 @@ const Collapse = ({
       {collapsable && (
         <button onClick={onIconClickHandler} className={`${styles.icon} ${className}-icon`}>
           {isCollapsed ? (
-            <IconClosed width={iconSize} height={iconSize} strokeWidth={iconStrokeWidth} />
+            <IconClosed
+              width={iconSize}
+              height={iconSize}
+              strokeWidth={iconStrokeWidth}
+              data-testid="collapse-icon-closed"
+            />
           ) : (
             <IconOpen width={iconSize} height={iconSize} strokeWidth={iconStrokeWidth} />
           )}

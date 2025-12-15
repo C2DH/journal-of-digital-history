@@ -11,3 +11,9 @@
 .barchart-header-text {
   flex-direction: 0;
 }
+
+.article-and-advance-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

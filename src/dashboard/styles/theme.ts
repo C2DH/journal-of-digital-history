@@ -27,7 +27,7 @@ export const colorsPieChart = [
   theme.palette.green.main,
 ]
 
-export const colorsBarChartArticle = [
+export const colorsArticle = [
   theme.palette.blue.main,
   theme.palette.blue.dark,
   theme.palette.blue.light,
@@ -35,7 +35,7 @@ export const colorsBarChartArticle = [
   theme.palette.gray.light,
 ]
 
-export const colorsBarChartAbstract = [
+export const colorsAbstract = [
   theme.palette.blue.main,
   theme.palette.blue.dark,
   theme.palette.blue.light,

@@ -3,7 +3,7 @@ import Status from '../../components/Status/Status'
 import Timeline from '../../components/Timeline/Timeline'
 import { articleSteps } from '../constants/article'
 import { isCallForPaperGithub, isDateCell, isLinkCell, isStatus } from '../helpers/checkItem'
-import { Abstract, ModalInfo, RowAction } from '../types'
+import { Abstract } from '../types'
 import { convertDate } from './convertDate'
 
 type GetVisibleHeadersParams = {
@@ -59,52 +59,6 @@ function getCleanData({ data, visibleHeaders }: GetCleanDataParams): (string | n
       return value
     }),
   )
-}
-
-/**
- * Generates a list of row actions based on the current status of the row.
- *
- * @param row - The data row from which to determine available actions.
- * @param setModal - Function to open a modal dialog with action details.
- * @param t - Translation function for localizing action labels.
- * @returns An array of RowAction objects representing available actions for the row.
- */
-function getRowActions(
-  row: any,
-  setModal: (modal: ModalInfo) => void,
-  t: (key: string) => string,
-): RowAction[] {
-  const status = row[7]
-  const id = row[0]
-  const title = row[1]
-
-  const defaultAction = (action: string, label?: string) => ({
-    label: label || action,
-    onClick: () =>
-      setModal &&
-      setModal({
-        open: true,
-        action,
-        row,
-        id,
-        title,
-      }),
-  })
-
-  const actions: RowAction[] = []
-
-  if (status === 'SUBMITTED') {
-    actions.push(defaultAction('Accepted'))
-    actions.push(defaultAction('Declined'))
-    actions.push(defaultAction('Abandoned'))
-  }
-
-  if (status === 'ACCEPTED') {
-    actions.push(defaultAction('Abandoned'))
-    actions.push(defaultAction('Suspended'))
-  }
-
-  return actions
 }
 
 type renderCellProps = {
@@ -187,4 +141,4 @@ function authorColumn(headers: string[], data: Abstract[]) {
   return { headers, data }
 }
 
-export { authorColumn, getCleanData, getRowActions, getVisibleHeaders, renderCell }
+export { authorColumn, getCleanData, getVisibleHeaders, renderCell }

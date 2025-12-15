@@ -9,6 +9,12 @@
       "dashboard": "Go to JDH"
     }
   },
+  "pages": {
+    "login": {
+      "invalidUser": "Username or password incorrect",
+      "cannotAuthenticate": "User cannot be authenticated"
+    }
+  },
   "loggedInAs": "",
   "welcome": "Welcome to the Dashboard",
   "KPI": {
@@ -70,7 +76,7 @@
     "abstract__contact_firstname": "Firstname",
     "publication_date": "Publication",
     "status": "Status",
-    "repository_url": "Repository"
+    "repository_url": ""
   },
   "authors": {
     "item": "Authors",
@@ -151,6 +157,23 @@
     "Abandoned": "Abandoned the abstract",
     "Accepted": "Accepted the abstract",
     "Declined": "Declined the abstract",
-    "Suspended": "Suspended the abstract"
+    "Suspended": "Suspended the abstract",
+    "Bluesky": "Bluesky",
+    "Facebook": "Facebook"
+  },
+  "Bluesky": "Launch Bluesky campaign",
+  "Facebook": "Launch Facebook campaign",
+  "socialCampaign": {
+    "send": "Publish",
+    "api": {
+      "success": "Campaign scheduled successfully!",
+      "error": "Failed to schedule campaign."
+    },
+    "validation": {
+      "error": {
+        "message": "Form validation failed",
+        "submessage": "Give <u>at least</u> a schedule and check tweets"
+      }
+    }
   }
 }

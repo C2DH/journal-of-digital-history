@@ -1,9 +1,9 @@
 {
   "name": "jdh",
-  "version": "6.0.9",
+  "version": "6.1.0",
   "private": true,
   "type": "module",
-  "packageManager": "yarn@4.10.3",
+  "packageManager": "yarn@4.12.0",
   "scripts": {
     "start": "vite",
     "build": "vite build --config vite.config.js",
@@ -27,8 +27,11 @@
     "@gerhobbelt/markdown-it-attrs": "^3.0.3-20",
     "@jonkoops/matomo-tracker-react": "^0.7.0",
     "@lumino/messaging": "^2.0.3",
+    "@mui/joy": "5.0.0-beta.52",
     "@mui/material": "^7.3.2",
+    "@mui/system": "^7.3.6",
     "@mui/x-charts": "^8.11.3",
+    "@mui/x-date-pickers": "^8.18.0",
     "@react-spring/web": "^9.7.3",
     "@tanstack/react-query": "^5.25.0",
     "@tanstack/react-table": "^8.10.7",
