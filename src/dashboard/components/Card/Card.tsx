@@ -117,17 +117,19 @@ const Card = ({
           <Feedback type="warning" message={'No item corresponds to your search'} />
         ) : (
           <>
-            <Table
-              item={item}
-              headers={headers}
-              data={data}
-              sortBy={sortBy}
-              sortOrder={sortOrder}
-              setSort={setSort}
-              setRowModal={openRowModal}
-              checkedRows={checkedRows}
-              setCheckedRows={setCheckedRows}
-            />
+            {!loading && (
+              <Table
+                item={item}
+                headers={headers}
+                data={data}
+                sortBy={sortBy}
+                sortOrder={sortOrder}
+                setSort={setSort}
+                setRowModal={openRowModal}
+                checkedRows={checkedRows}
+                setCheckedRows={setCheckedRows}
+              />
+            )}
             {loading && data.length > 0 && <Loading />}
             <div ref={loaderRef} />
           </>

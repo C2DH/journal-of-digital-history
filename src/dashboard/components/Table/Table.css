@@ -135,7 +135,7 @@ table.articles {
 
     th.status-header {
       padding-right: 0;
-      width: 3%;
+      width: 4%;
     }
 
     td.abstract__title {
@@ -159,7 +159,7 @@ table.articles {
       word-wrap: break-word;
     }
     th.publication_date {
-      width: 10%;
+      width: 15%;
     }
   }
 }

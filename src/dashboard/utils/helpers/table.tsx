@@ -141,16 +141,10 @@ function authorColumn(headers: string[], data: Abstract[]) {
   const newData = data.map((row) => {
     const rowAny = row as any
 
-    const firstname =
-      matchedPair.firstname === 'contact_firstname'
-        ? rowAny[matchedPair.firstname]
-        : (rowAny['abstract']?.['contact_firstname'] ?? '')
-    const lastname =
-      matchedPair.lastname === 'contact_lastname'
-        ? rowAny[matchedPair.lastname]
-        : (rowAny['abstract']?.['contact_lastname'] ?? '')
+    const firstname = getNestedValue(rowAny, matchedPair.firstname) ?? ''
+    const lastname = getNestedValue(rowAny, matchedPair.lastname) ?? ''
 
-    const author = `${firstname} ${lastname.toUpperCase() || ''}`.trim()
+    const author = `${firstname} ${lastname.toUpperCase()}`.trim()
 
     const newRow = { ...rowAny }
     delete newRow[matchedPair.firstname]
