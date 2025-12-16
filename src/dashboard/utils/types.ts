@@ -216,6 +216,7 @@ export type Filter = { name: string; label: string; value: string; options: Filt
 export type SetSearchParams = SetURLSearchParams
 export interface FilterBarState {
   filters: Filter[]
+  isFilterOpen: boolean
   initFilters: () => Filter[]
   syncFiltersWithURL: (searchParam: URLSearchParams) => void
   changeQueryParams: (isAbstract: boolean) => object
@@ -236,6 +237,7 @@ export interface FilterBarState {
     setSearchParams: SetSearchParams,
     name: string,
   ) => void
+  setFilterOpen: (isOpen: boolean) => void
 }
 
 export interface FormState {

@@ -109,6 +109,10 @@ table.abstracts {
     tr td.author {
       display: none;
     }
+
+    .table.abstracts th {
+      position: static;
+    }
   }
 }
 
