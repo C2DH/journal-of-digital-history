@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
-import { useItemsStore, useNotificationStore } from '../../store'
+import { useFilterBarStore, useItemsStore, useNotificationStore } from '../../store'
 import { isAbstract, isArticle } from '../../utils/helpers/checkItem'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
 import { Notification, RowCheckboxMap } from '../../utils/types'
@@ -41,6 +41,7 @@ const Card = ({
   const [checkedRows, setCheckedRows] = useState<RowCheckboxMap>({})
   const { fetchItems } = useItemsStore()
   const { setNotification } = useNotificationStore()
+  const isFilterOpen = useFilterBarStore((state) => state.isFilterOpen)
 
   const isAbstractItem = isAbstract(item)
   const isArticleItem = isArticle(item)
@@ -96,7 +97,7 @@ const Card = ({
 
   return (
     <>
-      <div className={`${item} card`}>
+      <div className={`${item} card ${isFilterOpen ? 'with-filter' : ''}`}>
         <div className="card-header">
           <div className="card-header-title">
             {!isArticleOrAbstracts && <h1>{t(`${item}.item`)}</h1>}
@@ -117,7 +118,7 @@ const Card = ({
           <Feedback type="warning" message={'No item corresponds to your search'} />
         ) : (
           <>
-            {!loading && (
+            {
               <Table
                 item={item}
                 headers={headers}
@@ -129,7 +130,7 @@ const Card = ({
                 checkedRows={checkedRows}
                 setCheckedRows={setCheckedRows}
               />
-            )}
+            }
             {loading && data.length > 0 && <Loading />}
             <div ref={loaderRef} />
           </>
