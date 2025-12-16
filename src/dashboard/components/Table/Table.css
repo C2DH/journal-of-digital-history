@@ -176,6 +176,15 @@ table.articles {
       width: 15%;
     }
   }
+  /* Mobile view */
+  @media screen and (max-width: 767px) {
+    tr th.publication_date,
+    tr td.publication_date,
+    tr th.author,
+    tr td.author {
+      display: none;
+    }
+  }
 }
 
 th.title,
