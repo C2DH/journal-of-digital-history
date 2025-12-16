@@ -25,10 +25,10 @@ const Navbar = ({ items }: NavbarProps) => {
 
   return (
     <div className="navbar">
-      <div className="navbar-header">
-        <button className="material-symbols-outlined burger-menu" onClick={toggleMenu}>
-          menu
-        </button>
+      <button className="material-symbols-outlined burger-menu" onClick={toggleMenu}>
+        menu
+      </button>
+      <div className={`navbar-header `}>
         <a className="navbar-logo " href="/">
           <Logo />
           <p>Journal of Digital History</p>

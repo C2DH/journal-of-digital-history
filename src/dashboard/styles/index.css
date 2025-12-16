@@ -20,7 +20,7 @@ body {
 
 /* Color variables */
 :root {
-  --color-background: #e9eafc 40%;
+  --color-background: #e9eafc;
   --color-background-input: #f8fafc;
   --color-border: #e0e0e0;
   --color-hover: #e5edff;

@@ -40,6 +40,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+
+  @media screen and (max-width: 767px) {
+    position: static;
+  }
 }
 
 table.abstracts {
@@ -108,10 +112,6 @@ table.abstracts {
     tr th.author,
     tr td.author {
       display: none;
-    }
-
-    .table.abstracts th {
-      position: static;
     }
   }
 }
