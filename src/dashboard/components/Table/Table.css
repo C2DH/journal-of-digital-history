@@ -58,6 +58,7 @@ table.abstracts {
   th.callpaper_title {
     width: 10%;
   }
+  /* Tablet or small screen  view */
   @media screen and (max-width: 1200px) {
     tr th.pid,
     tr td.pid,
@@ -98,6 +99,15 @@ table.abstracts {
       width: 15%;
       text-wrap: initial;
       word-wrap: break-word;
+    }
+  }
+  /* Mobile view */
+  @media screen and (max-width: 767px) {
+    tr th.submitted_date,
+    tr td.submitted_date,
+    tr th.author,
+    tr td.author {
+      display: none;
     }
   }
 }

@@ -21,7 +21,6 @@ function formatMessage(template, data) {
 }
 
 const ContactForm = ({ rowData, action, onClose, onNotify }) => {
-  console.log('🚀 ~ file: ContactForm.tsx:24 ~ rowData:', rowData)
   const { t } = useTranslation()
   const { isModalOpen, openModal, closeModal, setFormData, formData } = useFormStore()
 
