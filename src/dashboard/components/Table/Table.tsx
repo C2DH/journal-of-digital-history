@@ -1,5 +1,6 @@
 import './Table.css'
 
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
@@ -12,9 +13,7 @@ import {
   isAffiliationHeader,
   isArticle,
   isCallForPapers,
-  isFirstnameHeader,
   isIssues,
-  isLastnameHeader,
   isRepositoryHeader,
   isStatusHeader,
   isStepCell,
@@ -28,6 +27,20 @@ import {
 } from '../../utils/helpers/table'
 import ActionButton from '../Buttons/ActionButton/Short/ActionButton'
 import SortButton from '../Buttons/SortButton/SortButton'
+
+const ArticleHeader = ({ isMobile }: { isMobile: boolean }) => {
+  return (
+    <>
+      {!isMobile &&
+        articleSteps.map((step) => (
+          <th key={step.key} className="status-header" title={step.label}>
+            <span className="material-symbols-outlined">{step.icon}</span>
+          </th>
+        ))}
+      {isMobile && <th className="article-header-mobile">Status</th>}
+    </>
+  )
+}
 
 const Table = ({
   item,
@@ -44,6 +57,8 @@ const Table = ({
   const { t } = useTranslation()
   const navigate = useNavigate()
   const search = location.search
+
+  const [isMobile, setIsMobile] = useState(false)
 
   const { headers: mergedHeaders, data: mergedData } = authorColumn(headers, data)
   const visibleHeaders = getVisibleHeaders({ data: mergedData, headers: mergedHeaders })
@@ -66,8 +81,6 @@ const Table = ({
   const isArticleOrAbstracts = isAbstractItem || isArticleItem
   const isUnsortableHeader = (header: any, item: any) => {
     return (
-      isFirstnameHeader(header) ||
-      isLastnameHeader(header) ||
       isRepositoryHeader(header) ||
       isCallForPapers(item) ||
       (isIssues(item) && !isRepositoryHeader(header) && !isStatusHeader(header))
@@ -91,6 +104,15 @@ const Table = ({
     const checkedLoadedCount = cleanData.filter((row) => isRowChecked(String(row[0]))).length
     allLoadedChecked = totalLoaded > 0 && checkedLoadedCount === totalLoaded
   }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 767)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   return (
     <>
@@ -121,11 +143,7 @@ const Table = ({
             }
             {visibleHeaders.map((header) =>
               header === 'status' && isArticleItem ? (
-                articleSteps.map((step) => (
-                  <th key={step.key} className="status-header" title={step.label}>
-                    <span className="material-symbols-outlined">{step.icon}</span>
-                  </th>
-                ))
+                <ArticleHeader isMobile={isMobile} />
               ) : (
                 <th key={header} className={`${header}`}>
                   {isUnsortableHeader(header, item) ? (
@@ -190,7 +208,7 @@ const Table = ({
                       key={cIdx}
                       className={headerName}
                       title={isTitle || isAffiliation ? String(cell) : undefined}
-                      colSpan={isStep && isArticleItem ? 8 : 0}
+                      colSpan={isStep && isArticleItem && !isMobile ? 8 : 1}
                       style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
                       onClick={
                         isTitle && isArticleOrAbstracts

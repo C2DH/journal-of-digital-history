@@ -141,6 +141,10 @@ table.articles {
     width: 20%;
   }
 
+  .article-header-mobile {
+    display: none;
+  }
+
   @media screen and (max-width: 1200px) {
     tr th.abstract__pid,
     tr td.abstract__pid {
@@ -183,6 +187,18 @@ table.articles {
     tr th.author,
     tr td.author {
       display: none;
+    }
+
+    th.article-header-mobile,
+    td.status {
+      width: 20%;
+    }
+
+    .status-header {
+      display: none;
+    }
+    .article-header-mobile {
+      display: table-cell;
     }
   }
 }
