@@ -13,7 +13,7 @@ import ConfirmationModal from '../ConfirmationModal/ConfirmationModal'
 
 function formatMessage(template, data) {
   return template
-    .replace(/\{recipientName\}/g, data?.row[4] + ' ' + data?.row[5] || 'author')
+    .replace(/\{recipientName\}/g, data?.row[2] || 'author')
     .replace(/\{submissionTitle\}/g, data?.title)
     .replace(/\{submissionId\}/g, data?.id)
     .replace(/\{contactEmail\}/g, 'jdh.admin@uni.lu')

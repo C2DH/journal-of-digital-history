@@ -1,5 +1,6 @@
 import './Table.css'
 
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
@@ -12,18 +13,34 @@ import {
   isAffiliationHeader,
   isArticle,
   isCallForPapers,
-  isFirstnameHeader,
   isIssues,
-  isLastnameHeader,
   isRepositoryHeader,
   isStatusHeader,
   isStepCell,
   isTitleHeader,
 } from '../../utils/helpers/checkItem'
-import { getCleanData, getVisibleHeaders, renderCell } from '../../utils/helpers/table'
+import {
+  authorColumn,
+  getCleanData,
+  getVisibleHeaders,
+  renderCell,
+} from '../../utils/helpers/table'
 import ActionButton from '../Buttons/ActionButton/Short/ActionButton'
 import SortButton from '../Buttons/SortButton/SortButton'
-import Checkbox from '../Checkbox/Checkbox'
+
+const ArticleHeader = ({ isMobile }: { isMobile: boolean }) => {
+  return (
+    <>
+      {!isMobile &&
+        articleSteps.map((step) => (
+          <th key={step.key} className="status-header" title={step.label}>
+            <span className="material-symbols-outlined">{step.icon}</span>
+          </th>
+        ))}
+      {isMobile && <th className="article-header-mobile">Status</th>}
+    </>
+  )
+}
 
 const Table = ({
   item,
@@ -34,15 +51,18 @@ const Table = ({
   setSort,
   isAccordeon = false,
   checkedRows,
-  setCheckedRows,
+  // setCheckedRows,
   setRowModal,
 }: TableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const search = location.search
 
-  const visibleHeaders = getVisibleHeaders({ data, headers })
-  const cleanData = getCleanData({ data, visibleHeaders })
+  const [isMobile, setIsMobile] = useState(false)
+
+  const { headers: mergedHeaders, data: mergedData } = authorColumn(headers, data)
+  const visibleHeaders = getVisibleHeaders({ data: mergedData, headers: mergedHeaders })
+  const cleanData = getCleanData({ data: mergedData, visibleHeaders })
 
   const handleRowClick = (pid: string) => {
     navigate(`/${item}/${pid}${search}`)
@@ -61,8 +81,6 @@ const Table = ({
   const isArticleOrAbstracts = isAbstractItem || isArticleItem
   const isUnsortableHeader = (header: any, item: any) => {
     return (
-      isFirstnameHeader(header) ||
-      isLastnameHeader(header) ||
       isRepositoryHeader(header) ||
       isCallForPapers(item) ||
       (isIssues(item) && !isRepositoryHeader(header) && !isStatusHeader(header))
@@ -87,37 +105,45 @@ const Table = ({
     allLoadedChecked = totalLoaded > 0 && checkedLoadedCount === totalLoaded
   }
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 767)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   return (
     <>
       <table className={`table ${item}`}>
         <thead>
           <tr>
-            {isArticleOrAbstracts && !isAccordeon && (
-              <th className="checkbox-header">
-                <Checkbox
-                  isHeader={true}
-                  checked={allLoadedChecked}
-                  onChange={(checked) => {
-                    if (checked) {
-                      const newMap: Record<string, boolean> = {}
-                      cleanData.forEach((row) => {
-                        newMap[String(row[0])] = true
-                      })
-                      setCheckedRows({ selectAll: true })
-                    } else {
-                      setCheckedRows({ selectAll: false })
-                    }
-                  }}
-                />
-              </th>
-            )}
+            {
+              isArticleOrAbstracts && !isAccordeon
+              // && (
+              //   <th className="checkbox-header">
+              //     <Checkbox
+              //       isHeader={true}
+              //       checked={allLoadedChecked}
+              //       onChange={(checked) => {
+              //         if (checked) {
+              //           const newMap: Record<string, boolean> = {}
+              //           cleanData.forEach((row) => {
+              //             newMap[String(row[0])] = true
+              //           })
+              //           setCheckedRows({ selectAll: true })
+              //         } else {
+              //           setCheckedRows({ selectAll: false })
+              //         }
+              //       }}
+              //     />
+              //   </th>
+              // )
+            }
             {visibleHeaders.map((header) =>
               header === 'status' && isArticleItem ? (
-                articleSteps.map((step) => (
-                  <th key={step.key} className="status-header" title={step.label}>
-                    <span className="material-symbols-outlined">{step.icon}</span>
-                  </th>
-                ))
+                <ArticleHeader isMobile={isMobile} />
               ) : (
                 <th key={header} className={`${header}`}>
                   {isUnsortableHeader(header, item) ? (
@@ -140,35 +166,39 @@ const Table = ({
           {cleanData.map((row, rIdx) => {
             return (
               <tr key={rIdx}>
-                {isArticleOrAbstracts && !isAccordeon && (
-                  <td>
-                    <Checkbox
-                      checked={isRowChecked(String(row[0]))}
-                      onChange={(checked) => {
-                        setCheckedRows((prev) => {
-                          const newState = { ...prev }
-                          const pid = String(row[0])
-                          if (checkedRows.selectAll) {
-                            if (checked) {
-                              delete newState[pid]
-                            } else {
-                              newState[pid] = false
-                            }
-                          } else {
-                            if (checked) {
-                              newState[pid] = true
-                            } else {
-                              delete newState[pid]
-                            }
-                          }
-                          return newState
-                        })
-                      }}
-                    />{' '}
-                  </td>
-                )}
+                {
+                  isArticleOrAbstracts && !isAccordeon
+                  // &&
+                  // (
+                  //   <td>
+                  //     <Checkbox
+                  //       checked={isRowChecked(String(row[0]))}
+                  //       onChange={(checked) => {
+                  //         setCheckedRows((prev) => {
+                  //           const newState = { ...prev }
+                  //           const pid = String(row[0])
+                  //           if (checkedRows.selectAll) {
+                  //             if (checked) {
+                  //               delete newState[pid]
+                  //             } else {
+                  //               newState[pid] = false
+                  //             }
+                  //           } else {
+                  //             if (checked) {
+                  //               newState[pid] = true
+                  //             } else {
+                  //               delete newState[pid]
+                  //             }
+                  //           }
+                  //           return newState
+                  //         })
+                  //       }}
+                  //     />{' '}
+                  //   </td>
+                  // )
+                }
                 {row.map((cell: string | number, cIdx: number) => {
-                  const headerName = headers[cIdx]
+                  const headerName = visibleHeaders[cIdx]
                   const isTitle = isTitleHeader(headerName)
                   const isAffiliation = isAffiliationHeader(headerName)
                   const isStep = isStepCell(cell)
@@ -178,7 +208,7 @@ const Table = ({
                       key={cIdx}
                       className={headerName}
                       title={isTitle || isAffiliation ? String(cell) : undefined}
-                      colSpan={isStep && isArticleItem ? 8 : 0}
+                      colSpan={isStep && isArticleItem && !isMobile ? 8 : 1}
                       style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
                       onClick={
                         isTitle && isArticleOrAbstracts
@@ -190,7 +220,7 @@ const Table = ({
                         isStep,
                         cell,
                         header: headerName,
-                        headers,
+                        headers: visibleHeaders,
                         cIdx,
                         title: item,
                         isArticle: isArticleItem,

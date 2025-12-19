@@ -11,3 +11,11 @@
     margin-left: var(--navbar-width-mobile);
   }
 }
+
+/* Mobile view */
+@media screen and (max-width: 767px) {
+  .page {
+    margin-top: var(--space-size-8);
+    margin-left: 0;
+  }
+}

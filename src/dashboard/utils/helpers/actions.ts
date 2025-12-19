@@ -18,7 +18,7 @@ function getRowActions(
   if (isArticle === true) {
     status = row[5]
   } else {
-    status = row[7]
+    status = row[6]
   }
   const id = row[0]
   const title = row[1]

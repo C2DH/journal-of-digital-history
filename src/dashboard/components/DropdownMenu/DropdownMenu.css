@@ -1,7 +1,6 @@
 .dropdown-menu {
   display: flex;
   align-items: center;
-  margin-right: var(--space-size-3);
   height: var(--space-size-5);
   background: var(--color-white);
   border-radius: 16px;

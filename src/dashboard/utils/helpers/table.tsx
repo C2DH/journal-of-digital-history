@@ -81,6 +81,7 @@ type renderCellProps = {
  *   - isArticle: Whether the row represents an article.
  * @returns A React node representing the formatted cell content, such as a Timeline, Status badge, IconButton, formatted date, or raw value.
  */
+
 function renderCell({ isStep, cell, headers, cIdx, isArticle }: renderCellProps) {
   let content: React.ReactNode = '-'
   const headerKey = headers[cIdx].toLowerCase().split('.').join(' ')
@@ -116,29 +117,44 @@ function renderCell({ isStep, cell, headers, cIdx, isArticle }: renderCellProps)
  * If either 'contact_firstname' or 'contact_lastname' is missing from headers, returns the original headers and data.
  */
 function authorColumn(headers: string[], data: Abstract[]) {
-  const firstnameIndex = headers.indexOf('contact_firstname')
-  const lastnameIndex = headers.indexOf('contact_lastname')
+  const fieldPairs = [
+    { firstname: 'abstract__contact_firstname', lastname: 'abstract__contact_lastname' },
+    { firstname: 'contact_firstname', lastname: 'contact_lastname' },
+  ]
 
-  if (firstnameIndex !== -1 && lastnameIndex !== -1) {
-    const newHeaders = headers.filter((_, idx) => idx !== firstnameIndex && idx !== lastnameIndex)
-    newHeaders.push('author')
+  const matchedPair = fieldPairs.find(
+    (pair) => headers.includes(pair.firstname) && headers.includes(pair.lastname),
+  )
 
-    const newData = data.map((row) => {
-      const firstname = (row as any).contact_firstname ?? ''
-      const lastname = (row as any).contact_lastname ?? ''
-      const author = `${firstname} ${lastname}`.trim()
-
-      const newRow = { ...row } as any
-      delete newRow.contact_firstname
-      delete newRow.contact_lastname
-      newRow.author = author
-
-      return newRow
-    })
-    return { headers: newHeaders, data: newData }
+  if (!matchedPair) {
+    return { headers, data }
   }
 
-  return { headers, data }
+  // Remove firstname and lastname headers, add 'author'
+  const newHeaders = headers.filter(
+    (h) => h !== matchedPair.firstname && h !== matchedPair.lastname,
+  )
+
+  newHeaders.splice(2, 0, 'author')
+
+  // Transform data: combine firstname + lastname into author
+  const newData = data.map((row) => {
+    const rowAny = row as any
+
+    const firstname = getNestedValue(rowAny, matchedPair.firstname) ?? ''
+    const lastname = getNestedValue(rowAny, matchedPair.lastname) ?? ''
+
+    const author = `${firstname} ${lastname.toUpperCase()}`.trim()
+
+    const newRow = { ...rowAny }
+    delete newRow[matchedPair.firstname]
+    delete newRow[matchedPair.lastname]
+    newRow.author = author
+
+    return newRow
+  })
+
+  return { headers: newHeaders, data: newData }
 }
 
 export { authorColumn, getCleanData, getVisibleHeaders, renderCell }

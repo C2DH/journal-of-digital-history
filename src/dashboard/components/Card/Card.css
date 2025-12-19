@@ -39,21 +39,18 @@
   width: 90%;
 }
 
-.loading-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
-
 @media screen and (min-width: 3000px) {
   .card {
     width: 2500px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .card {
+    padding: 0 var(--gap-size-2) var(--gap-size-2);
+  }
+
+  .with-filter {
+    margin-top: var(--navbar-height-mobile);
   }
 }
