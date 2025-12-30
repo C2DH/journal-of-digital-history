@@ -23,14 +23,6 @@
   width: 100%;
 }
 
-.accordeon-card .table th.pid {
-  width: 30% !important;
-}
-
-.accordeon-card .table th.status {
-  width: 30% !important;
-}
-
 /* Exception:  Override sticky header in accordion tables */
 .accordeon-card .table th {
   position: static;

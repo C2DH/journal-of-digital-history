@@ -27,7 +27,7 @@ const Authors = () => {
     <div className="authors page">
       <Card
         item="authors"
-        headers={['id', 'lastname', 'firstname', 'email', 'orcid', 'affiliation']}
+        headers={['lastname', 'firstname', 'email', 'orcid', 'affiliation']}
         data={authors}
         error={error}
         loading={loading}

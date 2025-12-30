@@ -6,13 +6,14 @@ import { useNavigate } from 'react-router'
 
 import { TableProps } from './interface'
 
+import CustomTooltip from '../../../components/Tooltip'
 import { articleSteps } from '../../utils/constants/article'
 import { getRowActions } from '../../utils/helpers/actions'
 import {
   isAbstract,
   isAffiliationHeader,
   isArticle,
-  isCallForPapers,
+  isCallForPaper,
   isIssues,
   isRepositoryHeader,
   isStatusHeader,
@@ -26,6 +27,7 @@ import {
   renderCell,
 } from '../../utils/helpers/table'
 import ActionButton from '../Buttons/ActionButton/Short/ActionButton'
+import LinkButton from '../Buttons/LinkButton/LinkButton'
 import SortButton from '../Buttons/SortButton/SortButton'
 
 const ArticleHeader = ({ isMobile }: { isMobile: boolean }) => {
@@ -82,7 +84,7 @@ const Table = ({
   const isUnsortableHeader = (header: any, item: any) => {
     return (
       isRepositoryHeader(header) ||
-      isCallForPapers(item) ||
+      isCallForPaper(item) ||
       (isIssues(item) && !isRepositoryHeader(header) && !isStatusHeader(header))
     )
   }
@@ -114,9 +116,23 @@ const Table = ({
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  // No table for datasets
+  if (item === 'datasets') {
+    return (
+      <>
+        {cleanData.map((row, index) => (
+          <div key={index} className="dataset">
+            <LinkButton key={index} url={String(row[0])} />
+            <CustomTooltip fieldname="description" index={0} text={String(row[1])} icon="info" />
+          </div>
+        ))}
+      </>
+    )
+  }
+
   return (
     <>
-      <table className={`table ${item}`}>
+      <table className={`${isAccordeon ? 'accordeon' : ''} table ${item}`}>
         <thead>
           <tr>
             {
@@ -145,7 +161,7 @@ const Table = ({
               header === 'status' && isArticleItem ? (
                 <ArticleHeader isMobile={isMobile} />
               ) : (
-                <th key={header} className={`${header}`}>
+                <th key={header} className={`${isAccordeon ? 'accordeon' : ''} ${header}`}>
                   {isUnsortableHeader(header, item) ? (
                     t(`${item}.${header}`)
                   ) : (
@@ -159,7 +175,7 @@ const Table = ({
                 </th>
               ),
             )}
-            {!isAccordeon && <th className="actions-cell"></th>}
+            {isArticleOrAbstracts && <th className="actions-cell"></th>}
           </tr>
         </thead>
         <tbody>
@@ -206,7 +222,7 @@ const Table = ({
                   return (
                     <td
                       key={cIdx}
-                      className={headerName}
+                      className={`${isAccordeon ? 'accordeon' : ''} ${headerName}`}
                       title={isTitle || isAffiliation ? String(cell) : undefined}
                       colSpan={isStep && isArticleItem && !isMobile ? 8 : 1}
                       style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
@@ -228,7 +244,7 @@ const Table = ({
                     </td>
                   )
                 })}
-                {!isAccordeon && (
+                {isArticleOrAbstracts && (
                   <td className="actions-cell">
                     {setRowModal && (
                       <ActionButton

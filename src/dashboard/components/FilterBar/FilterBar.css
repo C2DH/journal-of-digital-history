@@ -38,9 +38,14 @@
   display: none;
 }
 
+/* Mobile view */
 @media screen and (max-width: 1100px) {
   .filter-bar {
     gap: var(--gap-size-2);
+  }
+
+  .search-input-frame {
+    width: 180px;
   }
 
   .clear-all-button {

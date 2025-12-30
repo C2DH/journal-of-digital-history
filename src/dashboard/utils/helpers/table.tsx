@@ -2,7 +2,13 @@ import IconButton from '../../components/Buttons/IconButton/IconButton'
 import Status from '../../components/Status/Status'
 import Timeline from '../../components/Timeline/Timeline'
 import { articleSteps } from '../constants/article'
-import { isCallForPaperGithub, isDateCell, isLinkCell, isStatus } from '../helpers/checkItem'
+import {
+  isCallForPaperGithub,
+  isDateCell,
+  isEmailCell,
+  isLinkCell,
+  isStatus,
+} from '../helpers/checkItem'
 import { Abstract } from '../types'
 import { convertDate } from './convertDate'
 
@@ -98,6 +104,8 @@ function renderCell({ isStep, cell, headers, cIdx, isArticle }: renderCellProps)
     )
   } else if (isDateCell(cell)) {
     content = convertDate(cell)
+  } else if (isEmailCell(cell)) {
+    content = <a href={`mailto:${cell}`}>{cell}</a>
   } else if (cell === '' || cell === null) {
     content = '-'
   } else {

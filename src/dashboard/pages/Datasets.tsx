@@ -25,7 +25,7 @@ const Datasets = () => {
     <div className="datasets page">
       <Card
         item="datasets"
-        headers={['id', 'url', 'description']}
+        headers={['url', 'description']}
         data={datasets}
         error={error}
         loading={loading}
