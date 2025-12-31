@@ -26,7 +26,7 @@ const Datasets = () => {
   }, [])
 
   // FIX for removing previous data from other pages
-  if (loading || endpoint !== 'datasets') {
+  if (endpoint !== 'datasets') {
     return <Loading />
   }
 
