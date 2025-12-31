@@ -82,6 +82,7 @@ h2 {
   }
 }
 
+/* Tablet or small screen view */
 @media (max-width: 1200px) {
   .detail-grid {
     display: grid;
@@ -100,6 +101,7 @@ h2 {
   }
 }
 
+/* Mobile view */
 @media screen and (max-width: 767px) {
   .detail-grid {
     display: flex;
@@ -131,37 +133,4 @@ a {
 }
 .orcid-icon img {
   opacity: 0.6;
-}
-
-/*LINK */
-.dataset {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-
-  position: relative;
-  overflow: visible !important;
-  transform: none !important;
-}
-
-.tooltip-inner {
-  position: absolute;
-  z-index: 3000;
-  right: 0;
-  top: 50%;
-  transform: translateX(-24px) translateY(-50%);
-  will-change: transform, opacity;
-  background: var(--color-deep-blue);
-  color: var(--color-white);
-  width: var(--navbar-width);
-  max-width: min(var(--navbar-width), calc(100vw - 48px));
-  box-sizing: border-box;
-  padding: var(--space-size-1) var(--space-size-3);
-  border-radius: 6px;
-  font-size: var(--font-size-0);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-  word-break: break-word;
-  white-space: normal;
-  pointer-events: auto;
 }

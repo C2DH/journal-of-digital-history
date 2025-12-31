@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router'
 
 import { TableProps } from './interface'
 
-import CustomTooltip from '../../../components/Tooltip'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import { articleSteps } from '../../utils/constants/article'
 import { getRowActions } from '../../utils/helpers/actions'
@@ -28,7 +27,7 @@ import {
   renderCell,
 } from '../../utils/helpers/table'
 import ActionButton from '../Buttons/ActionButton/Short/ActionButton'
-import LinkButton from '../Buttons/LinkButton/LinkButton'
+import DatasetButton from '../Buttons/DatasetButton/DatasetButton'
 import SortButton from '../Buttons/SortButton/SortButton'
 
 const ArticleHeader = ({ isMobile }: { isMobile: boolean }) => {
@@ -95,10 +94,7 @@ const Table = ({
     return (
       <>
         {cleanData.map((row, index) => (
-          <div key={index} className="dataset">
-            <LinkButton key={index} url={String(row[0])} />
-            <CustomTooltip fieldname="description" index={0} text={String(row[1])} icon="info" />
-          </div>
+          <DatasetButton key={index} url={String(row[0])} description={String(row[1])} />
         ))}
       </>
     )
