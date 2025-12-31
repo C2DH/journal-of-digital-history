@@ -3,6 +3,7 @@ import '../styles/pages/pages.css'
 import { useEffect } from 'react'
 
 import Card from '../components/Card/Card'
+import Loading from '../components/Loading/Loading'
 import { useItemsStore } from '../store'
 
 const Datasets = () => {
@@ -14,12 +15,20 @@ const Datasets = () => {
     fetchItems,
     setParams,
     loadMore,
+    reset,
+    endpoint,
   } = useItemsStore()
 
   useEffect(() => {
-    setParams({ endpoint: 'datasets', limit: 20 })
+    reset()
+    setParams({ endpoint: 'datasets', limit: 20, params: {} })
     fetchItems(true)
   }, [])
+
+  // FIX for removing previous data from other pages
+  if (loading || endpoint !== 'datasets') {
+    return <Loading />
+  }
 
   return (
     <div className="datasets page">

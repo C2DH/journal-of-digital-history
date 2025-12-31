@@ -19,12 +19,3 @@
     margin-left: 0;
   }
 }
-
-a {
-  color: var(--deep-blue-color);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}

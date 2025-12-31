@@ -301,6 +301,15 @@ table.authors {
       display: none;
     }
   }
+
+  a {
+    color: var(--deep-blue-color);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
 }
 
 th.title,
