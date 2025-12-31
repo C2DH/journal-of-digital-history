@@ -9,7 +9,7 @@ import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 import { useFilterBarStore, useItemsStore, useNotificationStore } from '../../store'
 import { isAbstract, isArticle } from '../../utils/helpers/checkItem'
 import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
-import { Notification, RowCheckboxMap } from '../../utils/types'
+import { Notification } from '../../utils/types'
 import Feedback from '../Feedback/Feedback'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
@@ -38,7 +38,6 @@ const Card = ({
     id?: string
     [key: string]: any
   }>({ open: false })
-  const [checkedRows, setCheckedRows] = useState<RowCheckboxMap>({})
   const { fetchItems } = useItemsStore()
   const { setNotification } = useNotificationStore()
   const isFilterOpen = useFilterBarStore((state) => state.isFilterOpen)
@@ -59,25 +58,6 @@ const Card = ({
   const openRowModal = (modal: { open: boolean; action?: string; row?: any; id?: string }) => {
     setModalState(modal)
   }
-
-  const openGeneralModal = (action: string, selectedRows: { pid: string; title: string }[]) => {
-    setModalState({ open: true, action, selectedRows })
-  }
-
-  const selectedRows = (item: string) =>
-    Object.keys(checkedRows)
-      .filter((pid) => checkedRows[pid])
-      .map((pid) => {
-        if (item === 'abstracts') {
-          const row = data.find((row) => String(row.pid) === pid)
-          return { pid, title: row.title }
-        } else if (item === 'articles') {
-          const row = data.find((row) => String(row.abstract.pid) === pid)
-          return { pid, title: row.data.title[0] }
-        } else {
-          return { pid, title: '' }
-        }
-      })
 
   useInfiniteScroll(loaderRef, loadMore ?? (() => {}), hasMore && !loading, [
     hasMore,
@@ -102,17 +82,6 @@ const Card = ({
           <div className="card-header-title">
             {!isArticleOrAbstracts && <h1>{t(`${item}.item`)}</h1>}
           </div>
-          {/* {isAbstract(item) && (
-            <ActionButtonLarge
-              actions={[
-                {
-                  label: t('actions.actions.change'),
-                  onClick: () => openGeneralModal('actions.change', selectedRows(item)),
-                },
-              ]}
-              active={checkedRows && Object.values(checkedRows).some((v) => v)}
-            />
-          )} */}
         </div>
         {count === 0 ? (
           <Feedback type="warning" message={'No item corresponds to your search'} />
@@ -127,8 +96,6 @@ const Card = ({
                 sortOrder={sortOrder}
                 setSort={setSort}
                 setRowModal={openRowModal}
-                checkedRows={checkedRows}
-                setCheckedRows={setCheckedRows}
               />
             }
             {loading && data.length > 0 && <Loading />}

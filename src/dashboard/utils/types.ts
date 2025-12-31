@@ -206,10 +206,6 @@ export type IssuesState = {
   fetchIssues: (revert: boolean) => Promise<void>
   reset: () => void
 }
-export type RowCheckbox = { [pid: string]: boolean }
-export type RowCheckboxMap = {
-  selectAll?: boolean
-}
 
 export type FilterOption = { key: number; value: string; label: string }
 export type Filter = { name: string; label: string; value: string; options: FilterOption[] }

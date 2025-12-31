@@ -53,8 +53,6 @@ const Table = ({
   sortOrder,
   setSort,
   isAccordeon = false,
-  checkedRows,
-  // setCheckedRows,
   setRowModal,
 }: TableProps) => {
   const { t } = useTranslation()
@@ -90,24 +88,6 @@ const Table = ({
     )
   }
 
-  // Compute visual state of master checkbox
-  const isRowChecked = (pid: string): boolean => {
-    if (checkedRows.selectAll) {
-      checkedRows.selectAll = true
-      return checkedRows[pid] !== false
-    } else {
-      return checkedRows[pid] === true
-    }
-  }
-
-  // Compute master checkbox state
-  let allLoadedChecked = false
-  if (isArticleOrAbstracts && !isAccordeon) {
-    const totalLoaded = cleanData.length
-    const checkedLoadedCount = cleanData.filter((row) => isRowChecked(String(row[0]))).length
-    allLoadedChecked = totalLoaded > 0 && checkedLoadedCount === totalLoaded
-  }
-
   useIsMobile(setIsMobile)
 
   // No table for datasets
@@ -129,28 +109,6 @@ const Table = ({
       <table className={`${isAccordeon ? 'accordeon' : ''} table ${item}`}>
         <thead>
           <tr>
-            {
-              isArticleOrAbstracts && !isAccordeon
-              // && (
-              //   <th className="checkbox-header">
-              //     <Checkbox
-              //       isHeader={true}
-              //       checked={allLoadedChecked}
-              //       onChange={(checked) => {
-              //         if (checked) {
-              //           const newMap: Record<string, boolean> = {}
-              //           cleanData.forEach((row) => {
-              //             newMap[String(row[0])] = true
-              //           })
-              //           setCheckedRows({ selectAll: true })
-              //         } else {
-              //           setCheckedRows({ selectAll: false })
-              //         }
-              //       }}
-              //     />
-              //   </th>
-              // )
-            }
             {visibleHeaders.map((header) =>
               header === 'status' && isArticleItem ? (
                 <ArticleHeader isMobile={isMobile} />
@@ -176,37 +134,6 @@ const Table = ({
           {cleanData.map((row, rIdx) => {
             return (
               <tr key={rIdx}>
-                {
-                  isArticleOrAbstracts && !isAccordeon
-                  // &&
-                  // (
-                  //   <td>
-                  //     <Checkbox
-                  //       checked={isRowChecked(String(row[0]))}
-                  //       onChange={(checked) => {
-                  //         setCheckedRows((prev) => {
-                  //           const newState = { ...prev }
-                  //           const pid = String(row[0])
-                  //           if (checkedRows.selectAll) {
-                  //             if (checked) {
-                  //               delete newState[pid]
-                  //             } else {
-                  //               newState[pid] = false
-                  //             }
-                  //           } else {
-                  //             if (checked) {
-                  //               newState[pid] = true
-                  //             } else {
-                  //               delete newState[pid]
-                  //             }
-                  //           }
-                  //           return newState
-                  //         })
-                  //       }}
-                  //     />{' '}
-                  //   </td>
-                  // )
-                }
                 {row.map((cell: string | number, cIdx: number) => {
                   const headerName = visibleHeaders[cIdx]
                   const isTitle = isTitleHeader(headerName)
