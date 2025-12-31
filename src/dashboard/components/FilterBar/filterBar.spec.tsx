@@ -59,16 +59,6 @@ vi.mock('../Search/Search', () => ({
   },
 }))
 
-vi.mock('../Buttons/Button/Button', () => ({
-  default: (props: any) => {
-    return (
-      <button data-testid="clear-button" onClick={props.onClick}>
-        {props.text}
-      </button>
-    )
-  },
-}))
-
 afterEach(() => {
   vi.clearAllMocks()
 })
@@ -118,24 +108,44 @@ describe('FilterBar', () => {
     )
   })
 
-  it('clears search and resets filters when Clear All clicked', async () => {
-    const user = userEvent
-    const filters = [
-      {
-        name: 'status',
-        label: 'Status',
-        options: [{ key: 0, value: 'open', label: 'Open' }],
-        value: 'open',
-      },
-    ]
-    renderWithRouter(<FilterBar filters={filters} onFilterChange={vi.fn()} />)
+  describe('Clear button functionality', () => {
+    let user: ReturnType<typeof userEvent>
+    let filters: any[]
 
-    await user.click(screen.getByTestId('clear-button'))
-    expect(mockSetQuery).toHaveBeenCalledWith('')
-    expect(mockResetFilters).toHaveBeenCalledWith(
-      expect.any(URLSearchParams),
-      mockSetSearchParams,
-      filters,
-    )
+    beforeEach(() => {
+      user = userEvent
+      filters = [
+        {
+          name: 'status',
+          label: 'Status',
+          options: [{ key: 0, value: 'open', label: 'Open' }],
+          value: 'open',
+        },
+      ]
+    })
+
+    it('clears search and resets filters when Clear All clicked [Desktop]', async () => {
+      renderWithRouter(<FilterBar filters={filters} onFilterChange={vi.fn()} />)
+
+      await user.click(screen.getByTestId('clear-button'))
+      expect(mockSetQuery).toHaveBeenCalledWith('')
+      expect(mockResetFilters).toHaveBeenCalledWith(
+        expect.any(URLSearchParams),
+        mockSetSearchParams,
+        filters,
+      )
+    })
+
+    it('clears search and resets filters when X clicked [Tablet]', async () => {
+      renderWithRouter(<FilterBar filters={filters} onFilterChange={vi.fn()} />)
+
+      await user.click(screen.getByTestId('clear-mobile-button'))
+      expect(mockSetQuery).toHaveBeenCalledWith('')
+      expect(mockResetFilters).toHaveBeenCalledWith(
+        expect.any(URLSearchParams),
+        mockSetSearchParams,
+        filters,
+      )
+    })
   })
 })

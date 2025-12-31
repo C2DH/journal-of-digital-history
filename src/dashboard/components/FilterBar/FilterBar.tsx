@@ -61,6 +61,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
           setSearch('')
           resetFilters(searchParams, setSearchParams, filters)
         }}
+        dataTestId="clear-mobile-button"
       ></Button>
       <Button
         text="Clear All"
@@ -71,6 +72,7 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
           setSearch('')
           resetFilters(searchParams, setSearchParams, filters)
         }}
+        dataTestId="clear-button"
       ></Button>
     </div>
   )
