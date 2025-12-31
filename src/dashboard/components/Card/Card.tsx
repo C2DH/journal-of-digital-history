@@ -97,7 +97,7 @@ const Card = ({
 
   return (
     <>
-      <div className={`${item} card ${isFilterOpen ? 'with-filter' : ''}`}>
+      <div className={`${item} card ${isFilterOpen && isArticleOrAbstracts ? 'with-filter' : ''}`}>
         <div className="card-header">
           <div className="card-header-title">
             {!isArticleOrAbstracts && <h1>{t(`${item}.item`)}</h1>}

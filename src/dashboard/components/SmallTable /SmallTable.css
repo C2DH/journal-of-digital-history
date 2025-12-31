@@ -50,3 +50,13 @@ td.smalltable-name,
   font-weight: 600;
   color: var(--color-deep-blue);
 }
+
+/* Mobile view */
+@media screen and (max-width: 767px) {
+  th.smalltable-callpaper_title,
+  th.smalltable-submitted_date,
+  td.smalltable-callpaper_title,
+  td.smalltable-submitted_date {
+    display: none;
+  }
+}

@@ -1,12 +1,13 @@
 import './Table.css'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 
 import { TableProps } from './interface'
 
 import CustomTooltip from '../../../components/Tooltip'
+import { useIsMobile } from '../../hooks/useIsMobile'
 import { articleSteps } from '../../utils/constants/article'
 import { getRowActions } from '../../utils/helpers/actions'
 import {
@@ -107,14 +108,7 @@ const Table = ({
     allLoadedChecked = totalLoaded > 0 && checkedLoadedCount === totalLoaded
   }
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 767)
-    }
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  useIsMobile(setIsMobile)
 
   // No table for datasets
   if (item === 'datasets') {
@@ -175,7 +169,7 @@ const Table = ({
                 </th>
               ),
             )}
-            {isArticleOrAbstracts && <th className="actions-cell"></th>}
+            {isArticleOrAbstracts && !isAccordeon && <th className="actions-cell"></th>}
           </tr>
         </thead>
         <tbody>
@@ -244,7 +238,7 @@ const Table = ({
                     </td>
                   )
                 })}
-                {isArticleOrAbstracts && (
+                {isArticleOrAbstracts && !isAccordeon && (
                   <td className="actions-cell">
                     {setRowModal && (
                       <ActionButton

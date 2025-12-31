@@ -217,50 +217,19 @@ table.callforpapers {
 
   /* Tablet or small screen view */
   @media screen and (max-width: 1200px) {
-    th.repository_url,
-    td.repository_url {
-      display: none;
-    }
     th.title,
     td.title {
       width: 20%;
     }
   }
-}
 
-.table.accordeon th {
-  padding-top: var(--gap-size-4);
-  position: static;
-  background: var(--color-white);
-  z-index: 5;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.table.accordeon {
-  th.accordeon.pid,
-  td.accordeon.pid {
-    width: 10%;
-  }
-  th.accordeon.title,
-  td.accordeon.title {
-    width: 90%;
-  }
-  th.accordeon.status,
-  td.accordeon.status {
-    width: 10%;
-  }
-
-  /* Tablet or small screen  view */
-  @media screen and (max-width: 1200px) {
-    th.accordeon.pid,
-    td.accordeon.pid {
+  /* Mobile view */
+  @media screen and (max-width: 767px) {
+    th.id,
+    td.id,
+    th.folder_name,
+    td.folder_name {
       display: none;
-    }
-    th.accordeon.status,
-    td.accordeon.status {
-      width: 20%;
     }
   }
 }
@@ -279,6 +248,22 @@ table.issues {
     th.pid,
     td.pid {
       width: 10%;
+    }
+  }
+
+  /* Mobile view */
+  @media screen and (max-width: 767px) {
+    th.creation_date,
+    td.creation_date,
+    th.status,
+    td.status {
+      display: none;
+    }
+    th.pid,
+    td.pid,
+    td.name,
+    th.name {
+      width: 20%;
     }
   }
 }
@@ -309,6 +294,21 @@ table.authors {
 
   a:hover {
     text-decoration: underline;
+  }
+
+  /* Mobile view */
+  @media screen and (max-width: 767px) {
+    th.lastname,
+    td.lastname,
+    th.firstname,
+    td.firstname {
+      display: none;
+    }
+
+    th.email,
+    td.email {
+      width: 60%;
+    }
   }
 }
 
@@ -392,11 +392,12 @@ td.orcid {
   transform: none !important;
 }
 
-.link-label {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
-  word-wrap: break-word;
+/* Mobile view */
+@media screen and (max-width: 767px) {
+  .link-label {
+    text-overflow: ellipsis;
+    width: 200px;
+  }
 }
 
 .tooltip-inner {
