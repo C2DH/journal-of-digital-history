@@ -13260,7 +13260,7 @@ __metadata:
     prosemirror-schema-basic: "npm:^1.1.2"
     prosemirror-state: "npm:^1.3.3"
     prosemirror-view: "npm:^1.15.3"
-    qs: "npm:^6.14.0"
+    qs: "npm:^6.14.1"
     query-string: "npm:^7.0.1"
     react: "npm:^19.1.0"
     react-bootstrap: "npm:2.10.9"
@@ -16198,12 +16198,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qs@npm:^6.12.3, qs@npm:^6.14.0":
+"qs@npm:^6.12.3":
   version: 6.14.0
   resolution: "qs@npm:6.14.0"
   dependencies:
     side-channel: "npm:^1.1.0"
   checksum: 10c0/8ea5d91bf34f440598ee389d4a7d95820e3b837d3fd9f433871f7924801becaa0cd3b3b4628d49a7784d06a8aea9bc4554d2b6d8d584e2d221dc06238a42909c
+  languageName: node
+  linkType: hard
+
+"qs@npm:^6.14.1":
+  version: 6.14.1
+  resolution: "qs@npm:6.14.1"
+  dependencies:
+    side-channel: "npm:^1.1.0"
+  checksum: 10c0/0e3b22dc451f48ce5940cbbc7c7d9068d895074f8c969c0801ac15c1313d1859c4d738e46dc4da2f498f41a9ffd8c201bd9fb12df67799b827db94cc373d2613
   languageName: node
   linkType: hard
 
