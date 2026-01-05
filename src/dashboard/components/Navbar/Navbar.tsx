@@ -1,10 +1,12 @@
+import './Navbar.css'
+
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import './Navbar.css'
 
 import { NavbarProps } from './interface'
 
 import Logo from '../../../../src/components/Logo'
+import BurgerMenu from '../../../assets/icons/BurgerMenu'
 
 const Navbar = ({ items }: NavbarProps) => {
   const location = useLocation()
@@ -25,8 +27,8 @@ const Navbar = ({ items }: NavbarProps) => {
 
   return (
     <div className="navbar">
-      <button className="material-symbols-outlined burger-menu" onClick={toggleMenu}>
-        menu
+      <button className="burger-menu" onClick={toggleMenu}>
+        <BurgerMenu />
       </button>
       <div className={`navbar-header `}>
         <a className="navbar-logo " href="/">
