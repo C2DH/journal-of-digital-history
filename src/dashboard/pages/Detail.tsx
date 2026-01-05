@@ -5,7 +5,7 @@ import parse from 'html-react-parser'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router'
 
-import CustomTooltip from '../../components/Tooltip'
+import DatasetButton from '../components/Buttons/DatasetButton/DatasetButton'
 import IconButton from '../components/Buttons/IconButton/IconButton'
 import LinkButton from '../components/Buttons/LinkButton/LinkButton'
 import Loading from '../components/Loading/Loading'
@@ -87,17 +87,9 @@ const Detail = ({ endpoint }) => {
           {datasetFields.length > 0 ? (
             <>
               <h4>Datasets</h4>
-              {datasetFields.map(({ label, value, description }, index) =>
-                value ? (
-                  <div key={index} className="dataset">
-                    <LinkButton key={index} url={String(value)} />
-                    <CustomTooltip
-                      fieldname="description"
-                      index={0}
-                      text={description}
-                      icon="info"
-                    />
-                  </div>
+              {datasetFields.map(({ label, value: url, description }, index) =>
+                url ? (
+                  <DatasetButton key={index} url={String(url)} description={String(description)} />
                 ) : (
                   <span>-</span>
                 ),

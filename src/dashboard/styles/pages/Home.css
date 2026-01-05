@@ -48,6 +48,17 @@ p {
     '. . . .';
 }
 
+@media (min-width: 3000px) {
+  .home-grid.isAbstract {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-areas:
+      'c c c c c'
+      'p b a a a'
+      '. . . . .';
+  }
+}
+
+/* Tablet or small screen view */
 @media (max-width: 1200px) {
   .home-grid.isAbstract {
     grid-template-columns: repeat(1, 1fr);
@@ -62,13 +73,12 @@ p {
   }
 }
 
-@media (min-width: 3000px) {
-  .home-grid.isAbstract {
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-areas:
-      'c c c c c'
-      'p b a a a'
-      '. . . . .';
+/* Mobile view */
+@media screen and (max-width: 767px) {
+  .home-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-size-2);
   }
 }
 

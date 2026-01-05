@@ -32,9 +32,9 @@
   font-size: var(--text-size-3);
 }
 
-th.callpaper_title,
-th.submitted_date,
-th.author {
+th.smalltable-callpaper_title,
+th.smalltable-submitted_date,
+th.smalltable-author {
   width: 15%;
 }
 
@@ -44,9 +44,19 @@ th.author {
 }
 
 /* abstract__title is the title of the article and title is the title of the abstract */
-td.name,
-& td.title,
-& td.abstract__title {
+td.smalltable-name,
+& td.smalltable-title,
+& td.smalltable-abstract__title {
   font-weight: 600;
   color: var(--color-deep-blue);
+}
+
+/* Mobile view */
+@media screen and (max-width: 767px) {
+  th.smalltable-callpaper_title,
+  th.smalltable-submitted_date,
+  td.smalltable-callpaper_title,
+  td.smalltable-submitted_date {
+    display: none;
+  }
 }

@@ -13,7 +13,7 @@ const Status = ({ value }: StatusProps) => {
   const iconInfo = statusIcons[status] || { icon: 'help', color: 'gray' }
 
   return (
-    <span className="status-cell">
+    <span className="status-cell value">
       <span className={`material-symbols-outlined icon-status ${status}`}>{iconInfo.icon}</span>
       <span>{t(`status.${status}`)}</span>
     </span>

@@ -23,18 +23,71 @@
   width: 100%;
 }
 
-.accordeon-card .table th.pid {
-  width: 30% !important;
-}
-
-.accordeon-card .table th.status {
-  width: 30% !important;
-}
-
 /* Exception:  Override sticky header in accordion tables */
 .accordeon-card .table th {
   position: static;
   top: auto;
   background: none;
   z-index: auto;
+}
+
+.table.accordeon th {
+  padding-top: var(--gap-size-4);
+  position: static;
+  background: var(--color-white);
+  z-index: 5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.table.accordeon {
+  th.accordeon.pid,
+  td.accordeon.pid {
+    width: 10%;
+  }
+  th.accordeon.title,
+  td.accordeon.title {
+    width: 90%;
+  }
+  th.accordeon.status,
+  td.accordeon.status {
+    width: 10%;
+  }
+
+  /* Tablet or small screen  view */
+  @media screen and (max-width: 1200px) {
+    th.accordeon.pid,
+    td.accordeon.pid {
+      display: none;
+    }
+    th.accordeon.status,
+    td.accordeon.status {
+      width: 20%;
+    }
+  }
+
+  /* Mobile view */
+  @media screen and (max-width: 767px) {
+    th.accordeon.title,
+    td.accordeon.title {
+      width: 60%;
+    }
+    th.accordeon.status,
+    td.accordeon.status {
+      width: 40%;
+    }
+  }
+}
+
+/* Mobile view */
+@media screen and (max-width: 767px) {
+  h2.accordeon-title {
+    font-size: var(--text-size-3);
+  }
+
+  .accordeon-icon {
+    margin-top: var(--space-size-1);
+    margin-right: var(--space-size-3);
+  }
 }

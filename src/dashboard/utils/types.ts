@@ -206,16 +206,13 @@ export type IssuesState = {
   fetchIssues: (revert: boolean) => Promise<void>
   reset: () => void
 }
-export type RowCheckbox = { [pid: string]: boolean }
-export type RowCheckboxMap = {
-  selectAll?: boolean
-}
 
 export type FilterOption = { key: number; value: string; label: string }
 export type Filter = { name: string; label: string; value: string; options: FilterOption[] }
 export type SetSearchParams = SetURLSearchParams
 export interface FilterBarState {
   filters: Filter[]
+  isFilterOpen: boolean
   initFilters: () => Filter[]
   syncFiltersWithURL: (searchParam: URLSearchParams) => void
   changeQueryParams: (isAbstract: boolean) => object
@@ -236,6 +233,7 @@ export interface FilterBarState {
     setSearchParams: SetSearchParams,
     name: string,
   ) => void
+  setFilterOpen: (isOpen: boolean) => void
 }
 
 export interface FormState {
