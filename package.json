@@ -148,7 +148,7 @@
     "eslint-plugin-storybook": "^0.6.8",
     "eslint-plugin-unused-imports": "^4.1.4",
     "playwright": "^1.57.0",
-    "storybook": "^8.6.3",
+    "storybook": "^8.6.15",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1",
     "vite": "^6.1.0",
