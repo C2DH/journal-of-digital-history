@@ -42,6 +42,11 @@ td.smalltable-submitted_date {
   width: 22%;
 }
 
+th.smalltable-days_left,
+td.smalltable-days_left {
+  width: 20%;
+}
+
 /* CELL STYLES */
 .smalltable td {
   color: var(--color-gray);

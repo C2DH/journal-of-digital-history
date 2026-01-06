@@ -55,6 +55,10 @@ function isAffiliationHeader(headerName: string) {
   return headerName === 'contact_affiliation'
 }
 
+function isProgressionHeader(headerName: string) {
+  return headerName === 'days_left'
+}
+
 function isFirstnameHeader(headerName: string) {
   return headerName === 'abstract__contact_firstname'
 }
@@ -122,6 +126,7 @@ export {
   isAuthor,
   isCallForPaper,
   isCallForPaperGithub,
+  isDataset,
   isDateCell,
   isEmailCell,
   isEmptyCell,
@@ -131,6 +136,7 @@ export {
   isLinkCell,
   isOrcid,
   isPidHeader,
+  isProgressionHeader,
   isRepositoryHeader,
   isStatus,
   isStatusHeader,

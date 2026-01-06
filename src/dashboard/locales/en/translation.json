@@ -58,7 +58,8 @@
     "contact_firstname": "Firstname",
     "contact_affiliation": "Affiliation",
     "status": "Status",
-    "author": "Author"
+    "author": "Author",
+    "days_left": "Progress"
   },
   "callforpapers": {
     "item": "Call for Papers",
