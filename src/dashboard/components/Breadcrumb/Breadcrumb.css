@@ -25,3 +25,9 @@
     margin-left: var(--navbar-width-mobile);
   }
 }
+/*Mobile view */
+@media screen and (max-width: 767px) {
+  .breadcrumb {
+    display: none;
+  }
+}

@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 
 import { ItemsByStatus } from './interface'
 
+import { useIsMobile } from '../../hooks/useIsMobile'
 import { useCallForPapersStore, useIssuesStore } from '../../store'
 import { colorsAbstract, colorsArticle } from '../../styles/theme'
 import {
@@ -24,6 +25,7 @@ import SmallCard from '../SmallCard/SmallCard'
 const CustomBarChart = () => {
   const { t } = useTranslation()
   const [isArticle, setIsArticle] = useState(true)
+  const [isMobile, setIsMobile] = useState(false)
 
   const { fetchIssues } = useIssuesStore()
   const { fetchCallForPapers } = useCallForPapersStore()
@@ -158,6 +160,8 @@ const CustomBarChart = () => {
     return Math.max(articleMax, advanceMax, 5)
   }
 
+  useIsMobile(setIsMobile)
+
   return (
     <SmallCard className="home-barchart chart">
       <div className="barchart-header">
@@ -200,7 +204,7 @@ const CustomBarChart = () => {
                 },
               ]}
               yAxis={commonProps.yAxis}
-              width={commonProps.width}
+              width={isMobile ? 250 : commonProps.width}
               height={commonProps.height}
               hideLegend={commonProps.hideLegend}
               margin={commonProps.margin}
@@ -232,7 +236,7 @@ const CustomBarChart = () => {
                 },
               ]}
               yAxis={[{ position: 'none', min: 0, max: getMaxYValue() }]}
-              width={100}
+              width={isMobile ? 70 : 100}
               height={commonProps.height}
               hideLegend={commonProps.hideLegend}
               margin={commonProps.margin}
@@ -266,7 +270,7 @@ const CustomBarChart = () => {
               },
             ]}
             yAxis={commonProps.yAxis}
-            width={commonProps.width}
+            width={isMobile ? 300 : commonProps.width}
             height={commonProps.height}
             hideLegend={commonProps.hideLegend}
             margin={commonProps.margin}

@@ -1,31 +1,45 @@
+import './Navbar.css'
+
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import './Navbar.css'
 
 import { NavbarProps } from './interface'
 
 import Logo from '../../../../src/components/Logo'
+import BurgerMenu from '../../../assets/icons/BurgerMenu'
 
 const Navbar = ({ items }: NavbarProps) => {
   const location = useLocation()
   const [activeHref, setActiveHref] = useState(location.pathname.split('/')[1])
+  const [isBurgerMenuOpen, setBurgerMenuOpen] = useState(false)
 
   useEffect(() => {
     setActiveHref(location.pathname.split('/')[1])
   }, [location])
 
+  const toggleMenu = () => {
+    setBurgerMenuOpen(!isBurgerMenuOpen)
+  }
+
+  const closeMenu = () => {
+    setBurgerMenuOpen(false)
+  }
+
   return (
     <div className="navbar">
-      <div className="navbar-header">
+      <button className="burger-menu" onClick={toggleMenu}>
+        <BurgerMenu />
+      </button>
+      <div className={`navbar-header `}>
         <a className="navbar-logo " href="/">
           <Logo />
           <p>Journal of Digital History</p>
         </a>
       </div>
-      <ul>
+      <ul className={isBurgerMenuOpen ? 'menu-open' : ''}>
         {items.map((item) => (
           <li key={item.href} className={activeHref === item.href ? 'active' : ''}>
-            <Link to={`${item.href}`} className="navbar-link">
+            <Link to={`${item.href}`} className="navbar-link" onClick={closeMenu}>
               <span className="material-symbols-outlined navbar-icons">{item.icon}</span>
               <span className="navbar-labels">{item.label}</span>
             </Link>

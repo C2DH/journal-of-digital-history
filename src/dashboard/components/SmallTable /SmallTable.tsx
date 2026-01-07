@@ -39,7 +39,7 @@ const SmallTable = ({ item, headers, data }: SmallTableProps) => {
                 !isPid && (
                   <th
                     key={header}
-                    className={`${header}`}
+                    className={`smalltable-${header}`}
                     colSpan={isTitle ? 2 : 1}
                     title={t(`${item}.${header}`)}
                   >
@@ -64,7 +64,7 @@ const SmallTable = ({ item, headers, data }: SmallTableProps) => {
                     !isPid && (
                       <td
                         key={cIdx}
-                        className={headerName}
+                        className={`smalltable-${headerName}`}
                         colSpan={isTitle ? 2 : 1}
                         title={String(cell)}
                         style={isTitle ? { cursor: 'pointer' } : undefined}

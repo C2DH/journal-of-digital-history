@@ -43,6 +43,10 @@ function isEmptyCell(cell: any): boolean {
   return cell === '' || cell === null
 }
 
+function isEmailCell(cell: string): boolean {
+  return typeof cell === 'string' && cell.includes('@')
+}
+
 function isTitleHeader(headerName: string) {
   return headerName === 'title' || headerName === 'abstract__title'
 }
@@ -80,8 +84,14 @@ function isAbstract(item: string): boolean {
 function isArticle(item: string): boolean {
   return item === 'articles'
 }
-function isCallForPapers(item: string): boolean {
+function isAuthor(item: string): boolean {
+  return item === 'authors'
+}
+function isCallForPaper(item: string): boolean {
   return item === 'callforpapers'
+}
+function isDataset(item: string): boolean {
+  return item === 'datasets'
 }
 function isIssues(item: string): boolean {
   return item === 'issues'
@@ -109,9 +119,11 @@ export {
   isAbstract,
   isAffiliationHeader,
   isArticle,
+  isAuthor,
+  isCallForPaper,
   isCallForPaperGithub,
-  isCallForPapers,
   isDateCell,
+  isEmailCell,
   isEmptyCell,
   isFirstnameHeader,
   isIssues,

@@ -96,7 +96,11 @@
   font-variation-settings: 'FILL' 1;
 }
 
-/* Responsive navbar for smaller viewport */
+.burger-menu {
+  display: none;
+}
+
+/* Tablet or small screen view */
 @media (max-width: 1400px) {
   .navbar {
     width: var(--navbar-width-mobile);
@@ -118,7 +122,7 @@
 
   .navbar li {
     justify-content: center;
-    margin: 20% 0;
+    margin: 10% 0;
   }
   .navbar li.active {
     width: var(--navbar-width-mobile-active);
@@ -130,5 +134,108 @@
 
   .navbar-labels {
     display: none;
+  }
+}
+
+/* Mobile view */
+@media screen and (max-width: 767px) {
+  .navbar {
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    z-index: 200;
+  }
+
+  .navbar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--filter-bar-height);
+    background-color: var(--color-background);
+    z-index: 1999;
+  }
+
+  .navbar-header p {
+    display: none;
+  }
+
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .burger-menu {
+    display: block;
+    position: fixed;
+    left: var(--space-size-0);
+    top: calc(var(--filter-bar-height) / 2);
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: var(--text-size-8);
+    color: var(--color-dark);
+    padding: var(--gap-size-1);
+    z-index: 2001;
+  }
+
+  .burger-menu:hover {
+    color: var(--color-accent);
+  }
+
+  /* Hide menu by default on mobile */
+  .navbar ul {
+    position: fixed;
+    left: -110%;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--color-white);
+    padding-top: calc(var(--filter-bar-height) + var(--space-size-1)); /* Space for header */
+    padding-left: var(--space-size-1);
+    padding-right: var(--space-size-1);
+    margin: 0;
+    transition: left 0.3s ease-in-out;
+    overflow: clip;
+    z-index: 2000;
+  }
+  /* Show menu when open */
+  .navbar ul.menu-open {
+    left: 0;
+  }
+
+  .navbar li {
+    width: 100%;
+    justify-content: flex-start;
+    margin: var(--space-size-1) 0;
+    padding: var(--space-size-1);
+  }
+
+  .navbar li.active {
+    width: 100%;
+    padding-left: var(--space-size-7);
+  }
+
+  .navbar li.active .navbar-link {
+    margin-left: 0;
+  }
+
+  .navbar-link {
+    width: 100%;
+  }
+
+  .navbar-labels {
+    display: inline;
+    font-size: 16px;
+  }
+
+  .navbar-icons {
+    margin-right: 12px;
+    font-size: 24px;
   }
 }

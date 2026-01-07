@@ -251,6 +251,7 @@ export const useIssuesStore = create<IssuesState>((set) => ({
  */
 export const useFilterBarStore = create<FilterBarState>((set, get) => ({
   filters: [],
+  isFilterOpen: false,
   initFilters: () => {
     const newFilters = [
       {
@@ -395,6 +396,9 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
     const newParams = new URLSearchParams(searchParams)
     newParams.delete(name)
     setSearchParams(newParams, { replace: true })
+  },
+  setFilterOpen: (isOpen: boolean) => {
+    set({ isFilterOpen: isOpen })
   },
 }))
 

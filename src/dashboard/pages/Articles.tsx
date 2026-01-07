@@ -60,7 +60,6 @@ const Articles = () => {
           'abstract__contact_lastname',
           'abstract__contact_firstname',
           'status',
-          'repository_url',
         ]}
         count={count}
         data={articles}

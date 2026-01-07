@@ -77,7 +77,7 @@ const LinkButton = ({ url }: ButtonLinkProps) => {
       <div className={`link-container`}>
         <div className="link-content">
           {config.icon}
-          <span>{config.label}</span>
+          <span className="link-label">{config.label}</span>
         </div>
         <NavArrowRight className="arrow-right" />
       </div>

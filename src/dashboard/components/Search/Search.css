@@ -5,12 +5,15 @@
 
   height: var(--space-size-5);
   padding: 0 8px;
-  margin-right: var(--gap-size-3);
 
   border: none;
+  border-radius: 32px;
   color: var(--color-deep-blue);
   background: var(--color-white);
-  border-radius: 32px;
+
+  @media screen and (max-width: 1200px) {
+    margin: 0;
+  }
 }
 
 .search-input {
