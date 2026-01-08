@@ -153,9 +153,6 @@ const Table = ({
                         isStep,
                         cell,
                         header: headerName,
-                        headers: visibleHeaders,
-                        cIdx,
-                        title: item,
                         isArticle: isArticleItem,
                       })}
                     </td>

@@ -54,6 +54,19 @@ td.smalltable-name,
   font-weight: 600;
   color: var(--color-deep-blue);
 }
+/* 
+th.smalltable-author,
+th.smalltable-callpaper_title {
+  display: none;
+} */
+
+/*Tablet or small screen view */
+@media screen and (max-width: 1500px) {
+  th.smalltable-callpaper_title,
+  td.smalltable-callpaper_title {
+    display: none;
+  }
+}
 
 /* Mobile view */
 @media screen and (max-width: 767px) {
