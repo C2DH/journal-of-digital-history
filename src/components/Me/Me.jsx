@@ -7,6 +7,9 @@ import { StringParam, useQueryParams, withDefault } from 'use-query-params'
 
 import { DisplayLayerQueryParam, LayerNarrative } from '../../constants/globalConstants'
 
+import DjangoIconBlack from '../../assets/images/django_logo_black.svg?url'
+import DjangoIconBlue from '../../assets/images/django_logo_blue.svg?url'
+
 import { useGetJSON } from '../../logic/api/fetchData'
 import { userLogoutRequest } from '../../logic/api/login'
 import { generateColorList } from './helper'
@@ -61,7 +64,18 @@ const Me = () => {
             <a href={`/admin/auth/user/${data.id}/change/`} title="User settings">
               <ProfileCircle /> {t('login.profile')}
             </a>
-            <a href="https://github.com/orgs/C2DH/projects/10" title="Github article workflow">
+            <a href={`/admin/`} title="Django admin page">
+              <img
+                className="me-mydjango-icon"
+                alt="Django icon"
+                src={path === 'dashboard' ? DjangoIconBlue : DjangoIconBlack}
+              />
+              <span>Django admin page</span>
+            </a>
+            <a
+              href={`${import.meta.env.VITE_GITHUB_ARTICLE_WORKFLOW}`}
+              title="Github article workflow"
+            >
               <GithubCircle /> {t('login.githubArticleWorkflow')}
             </a>
             <a href={path === 'dashboard' ? `/` : `/dashboard/`} title="Switch to dashboard">
