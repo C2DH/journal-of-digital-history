@@ -71,6 +71,11 @@
   border: none;
 }
 
+.me-mydjango-icon {
+  margin-right: 4px;
+  width: 1.5em;
+}
+
 .me-dropdown-menu {
   display: flex;
   flex-direction: column;
