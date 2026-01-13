@@ -186,7 +186,7 @@ const getAcceptedAbstracts = async (): Promise<Abstract[]> => {
   console.info(`GET [getAcceptedAbstracts]`)
 
   return api
-    .get(`/api/abstracts/accepted?limit=5&offset=0`)
+    .get(`/api/abstracts/accepted?limit=20&offset=0`)
     .then((res) => {
       return res.data.results
     })

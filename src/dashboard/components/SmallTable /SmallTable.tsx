@@ -20,9 +20,7 @@ const SmallTable = ({ item, headers, data }: SmallTableProps) => {
 
   const { headers: mergedHeaders, data: mergedData } = authorColumn(headers, data)
   const visibleHeaders = getVisibleHeaders({ data: mergedData, headers: mergedHeaders })
-  console.log('🚀 ~ file: SmallTable.tsx:24 ~ visibleHeaders:', visibleHeaders)
   const cleanData = getCleanData({ data: mergedData, visibleHeaders })
-  console.log('🚀 ~ file: SmallTable.tsx:25 ~ cleanData:', cleanData)
 
   const handleRowClick = (pid: string) => {
     navigate(`/${item}/${pid}${search}`)

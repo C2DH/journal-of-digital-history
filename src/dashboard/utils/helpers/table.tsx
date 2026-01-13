@@ -1,5 +1,5 @@
 import IconButton from '../../components/Buttons/IconButton/IconButton'
-import ProgressBar from '../../components/ProgressBar/progressBar'
+import ProgressBar from '../../components/ProgressBar/ProgressBar'
 import Status from '../../components/Status/Status'
 import Timeline from '../../components/Timeline/Timeline'
 import { articleSteps } from '../constants/article'

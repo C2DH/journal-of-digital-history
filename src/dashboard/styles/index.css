@@ -94,4 +94,5 @@ body {
   --table-headers-top-position: 105px;
   --KPI-standard-width: 400px;
   --KPI-standard-height: 445px;
+  --progress-bar-width: 10rem;
 }
