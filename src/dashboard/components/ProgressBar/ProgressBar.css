@@ -1,7 +1,7 @@
 .progress-bar-container {
   display: flex;
   align-items: center;
-  gap: 8px; /* tiny margin between progress bar and label */
+  gap: var(--space-size-2);
   width: var(--progress-bar-width);
 }
 
@@ -15,7 +15,7 @@
 .trailing-line {
   background-color: var(--color-deep-blue);
   height: 1px;
-  width: 20px;
+  width: 30px;
   position: relative;
   top: 0;
 }
@@ -23,10 +23,9 @@
 .trailing-triangle {
   font-size: 0.5em;
   line-height: 0;
-  margin-left: -2px; /* makes triangle touch the line */
+  margin-left: -2px;
   color: var(--color-deep-blue);
   position: relative;
-  top: 0.5px;
 }
 
 .progress-bar-fill {
