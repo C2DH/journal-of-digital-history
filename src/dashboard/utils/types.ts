@@ -19,6 +19,7 @@ export interface Abstract {
   authors: Author[]
   datasets: Dataset[]
   repository_url: string
+  days_left: number
 }
 
 export interface Issue {

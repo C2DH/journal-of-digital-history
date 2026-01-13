@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 
-import { APIResponse, Callforpaper } from '../types'
+import { Abstract, APIResponse, Callforpaper } from '../types'
 import api from './headers'
 
 const modifyAbstractStatusWithEmail = async (pid: string, body: Record<string, any>) => {
@@ -182,8 +182,23 @@ const getSocialMediaCover = async (pid: string): Promise<{ download_url: string 
     })
 }
 
+const getAcceptedAbstracts = async (): Promise<Abstract[]> => {
+  console.info(`GET [getAcceptedAbstracts]`)
+
+  return api
+    .get(`/api/abstracts/accepted?limit=20&offset=0`)
+    .then((res) => {
+      return res.data.results
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
 export {
   getAbstractsByStatusAndCallForPapers,
+  getAcceptedAbstracts,
   getAdvanceArticles,
   getArticlesByStatus,
   getArticlesByStatusAndIssues,

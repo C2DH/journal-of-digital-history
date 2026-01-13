@@ -13,34 +13,8 @@ import SmallCard from '../components/SmallCard/SmallCard'
 import SmallTable from '../components/SmallTable /SmallTable'
 import { useSorting } from '../hooks/useSorting'
 import { useItemsStore } from '../store'
-import { getCallforpaperWithDeadlineOpen } from '../utils/api/api'
+import { getAcceptedAbstracts, getCallforpaperWithDeadlineOpen } from '../utils/api/api'
 import { Abstract, Callforpaper } from '../utils/types'
-
-const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
-  return (
-    <>
-      {' '}
-      <SmallCard className="home-abstract-card chart">
-        <div className="home-abstract-card-header">
-          <h2 className="home-abstract-card-title">Abstracts</h2>{' '}
-          <Badge text="New" variant="accent" />
-        </div>
-        <SmallTable
-          item="abstracts"
-          headers={[
-            'pid',
-            'title',
-            'callpaper_title',
-            'submitted_date',
-            'contact_lastname',
-            'contact_firstname',
-          ]}
-          data={submittedAbstracts}
-        />
-      </SmallCard>
-    </>
-  )
-}
 
 const DeadlineRow = () => {
   const [cfpOpen, setCfpOpen] = useState<Callforpaper[]>([])
@@ -73,11 +47,10 @@ const DeadlineRow = () => {
   )
 }
 
-const Home = () => {
-  const { t } = useTranslation()
+const NewAbstractsCard = () => {
+  const [isAbstractSubmitted, setIsAbstractSubmitted] = useState(false)
   const { ordering } = useSorting()
   const { data: submittedAbstracts, fetchItems, setParams } = useItemsStore()
-  const isAbstractSubmitted = submittedAbstracts.length != 0
 
   useEffect(() => {
     setParams({
@@ -87,16 +60,81 @@ const Home = () => {
       params: { status: 'SUBMITTED' },
     })
     fetchItems(true)
-  }, [setParams, fetchItems, ordering])
+    setIsAbstractSubmitted(submittedAbstracts.length != 0)
+  }, [setParams, fetchItems, ordering, submittedAbstracts.length])
+
+  return (
+    isAbstractSubmitted && (
+      <>
+        {' '}
+        <SmallCard className="home-abstract-card chart">
+          <div className="home-abstract-card-header">
+            <h2 className="home-abstract-card-title">Abstracts</h2>{' '}
+            <Badge text="New" variant="accent" />
+          </div>
+          <SmallTable
+            item="abstracts"
+            headers={[
+              'pid',
+              'title',
+              'callpaper_title',
+              'submitted_date',
+              'contact_lastname',
+              'contact_firstname',
+            ]}
+            data={submittedAbstracts}
+          />
+        </SmallCard>
+      </>
+    )
+  )
+}
+
+const AuthorWritingCard = () => {
+  const [acceptedAbstracts, setAcceptedAbstracts] = useState<Abstract[]>([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await getAcceptedAbstracts()
+      setAcceptedAbstracts(res)
+    }
+    fetchData()
+  }, [])
+
+  return (
+    <SmallCard className="home-author-writing-card chart">
+      <div className="home-author-writing-card-header">
+        <h2>Author writing article</h2>
+      </div>
+      <SmallTable
+        item="abstracts"
+        headers={[
+          'pid',
+          'title',
+          'callpaper_title',
+          'submitted_date',
+          'contact_lastname',
+          'contact_firstname',
+          'days_left',
+        ]}
+        data={acceptedAbstracts}
+      />
+    </SmallCard>
+  )
+}
+
+const Home = () => {
+  const { t } = useTranslation()
 
   return (
     <div className="home page">
       <h1>{t('welcome')}</h1>
-      <div className={`home-grid ${isAbstractSubmitted ? 'isAbstract' : ''}`}>
+      <div className={`home-grid`}>
         <DeadlineRow />
-        <>{isAbstractSubmitted && AbstractSubmittedCard(submittedAbstracts)}</>
         <CustomPieChart />
         <CustomBarChart />
+        <NewAbstractsCard />
+        <AuthorWritingCard />
       </div>
       <Outlet />
     </div>

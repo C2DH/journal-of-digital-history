@@ -19,15 +19,17 @@ p {
   flex-direction: row;
   gap: var(--gap-size-2);
 }
-
-.home-abstract-card {
-  grid-area: a;
-}
 .home-piechart {
   grid-area: p;
 }
 .home-barchart {
   grid-area: b;
+}
+.home-abstract-card {
+  grid-area: a;
+}
+.home-author-writing-card {
+  grid-area: w;
 }
 
 .home-grid {
@@ -36,20 +38,12 @@ p {
   grid-template-columns: repeat(4, 1fr);
   grid-template-areas:
     'c c c c'
-    'p b . .'
-    '. . . .';
-}
-
-.home-grid.isAbstract {
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-areas:
-    'c c c c'
     'p b a a '
-    '. . . .';
+    'w w w .';
 }
 
 @media (min-width: 3000px) {
-  .home-grid.isAbstract {
+  .home-grid {
     grid-template-columns: repeat(5, 1fr);
     grid-template-areas:
       'c c c c c'
@@ -60,7 +54,7 @@ p {
 
 /* Tablet or small screen view */
 @media (max-width: 1200px) {
-  .home-grid.isAbstract {
+  .home-grid {
     grid-template-columns: repeat(1, 1fr);
     grid-template-areas:
       'c'

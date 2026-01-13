@@ -33,9 +33,18 @@
 }
 
 th.smalltable-callpaper_title,
-th.smalltable-submitted_date,
 th.smalltable-author {
+  width: 20%;
+}
+
+th.smalltable-submitted_date,
+td.smalltable-submitted_date {
   width: 15%;
+}
+
+th.smalltable-days_left,
+td.smalltable-days_left {
+  width: 30%;
 }
 
 /* CELL STYLES */

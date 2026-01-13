@@ -51,8 +51,16 @@ function isTitleHeader(headerName: string) {
   return headerName === 'title' || headerName === 'abstract__title'
 }
 
+function isDaysLeft(headerName: string) {
+  return headerName === 'days_left'
+}
+
 function isAffiliationHeader(headerName: string) {
   return headerName === 'contact_affiliation'
+}
+
+function isProgressionHeader(headerName: string) {
+  return headerName === 'days_left'
 }
 
 function isFirstnameHeader(headerName: string) {
@@ -122,7 +130,9 @@ export {
   isAuthor,
   isCallForPaper,
   isCallForPaperGithub,
+  isDataset,
   isDateCell,
+  isDaysLeft,
   isEmailCell,
   isEmptyCell,
   isFirstnameHeader,
@@ -131,6 +141,7 @@ export {
   isLinkCell,
   isOrcid,
   isPidHeader,
+  isProgressionHeader,
   isRepositoryHeader,
   isStatus,
   isStatusHeader,

@@ -123,7 +123,7 @@ const CustomBarChart = () => {
   }, [])
 
   const commonProps = {
-    width: 450,
+    width: 300,
     height: 350,
     hideLegend: true,
     margin: { bottom: 10, right: 20 },
@@ -236,7 +236,7 @@ const CustomBarChart = () => {
                 },
               ]}
               yAxis={[{ position: 'none', min: 0, max: getMaxYValue() }]}
-              width={isMobile ? 70 : 100}
+              width={isMobile ? 70 : 70}
               height={commonProps.height}
               hideLegend={commonProps.hideLegend}
               margin={commonProps.margin}
