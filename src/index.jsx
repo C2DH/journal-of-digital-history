@@ -1,11 +1,12 @@
-import React from 'react'
-import { createRoot } from 'react-dom/client'
+import './styles/index.scss'
+
 import { MatomoProvider, createInstance } from '@jonkoops/matomo-tracker-react'
+import { createRoot } from 'react-dom/client'
 
 import App from './App'
-import { AcceptAnalyticsCookies } from './logic/tracking'
 import * as serviceWorker from './serviceWorker'
-import './styles/index.scss'
+
+const AcceptAnalyticsCookies = useStore.getState().acceptAnalyticsCookies
 
 const matomo = createInstance({
   urlBase: import.meta.env.VITE_MATOMO_URLBASE,
