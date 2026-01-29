@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client'
 
 import App from './App'
 import * as serviceWorker from './serviceWorker'
+import { useStore } from './store'
 
 const AcceptAnalyticsCookies = useStore.getState().acceptAnalyticsCookies
 

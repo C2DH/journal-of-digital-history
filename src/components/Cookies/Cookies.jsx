@@ -53,7 +53,7 @@ const Cookies = ({ defaultAcceptCookies }) => {
           <Form.Switch
             id="agree-analytics-data"
             label="I also agree sending analytics data"
-            checked={acceptAnalyticsCookies === false}
+            checked={acceptAnalyticsCookies === true}
             onChange={handleChange}
           />
         </Form>

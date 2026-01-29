@@ -22,6 +22,7 @@ import i18n from './i18next'
 import { getStartLang, LANGUAGES } from './logic/language'
 import Loading from './pages/Loading'
 import { AppRoutes } from './routes'
+import { useStore } from './store'
 
 const AcceptAnalyticsCookies = useStore.getState().acceptAnalyticsCookies
 const AcceptCookies = useStore.getState().acceptCookies
