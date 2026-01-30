@@ -1,6 +1,5 @@
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
-import { produce } from 'immer'
 import { DisplayLayerNarrative } from './constants/globalConstants'
 
 export const useArticleCellExplainerStore = create((set) => ({
@@ -106,52 +105,41 @@ export const useArticleStore = create((set) => ({
 
 export const useStore = create(
   persist(
-    produce(
-      (set, get) => ({
-        backgroundColor: '#ffffff',
-        acceptAnalyticsCookies: true,
-        acceptCookies: false, // cookies should be accepted, session is stored locally
-        releaseNotified: false,
-        mode: 'dark', // or light
-        displayLayer: 'narrative',
-        changeBackgroundColor: (backgroundColor) => {
-          const header = document.getElementById('Header_background')
-          document.body.style.backgroundColor = backgroundColor
-          // change header backgroundColor too...
-          if (header) {
-            header.style.backgroundColor = backgroundColor
-          }
-          return set({ backgroundColor })
-        },
-        setAcceptCookies: () => {
-          const state = get()
-          set({ ...state, acceptCookies: true })
-        },
-        setAcceptAnalyticsCookies: (value) => {
-          const state = get()
-          set({ ...state, acceptAnalyticsCookies: Boolean(value) })
-        },
-        getPersistentState: () => {
-          const state = get()
-          return { ...state }
-        },
-        setDisplayLayer: (value) => {
-          const state = get()
-          console.info('setDisplayLayer', value)
-          set({ ...state, displayLayer: value })
-        },
-        setReleaseNotified: (releaseNotifiedDate = new Date()) => {
-          const state = get()
-          set({
-            ...state,
-            releaseNotified: releaseNotifiedDate.toISOString(),
-          })
-        },
-      }),
-      {
-        name: 'JournalOfDigitalHistory',
+    (set) => ({
+      backgroundColor: '#ffffff',
+      acceptAnalyticsCookies: true,
+      acceptCookies: false, // cookies should be accepted, session is stored locally
+      releaseNotified: false,
+      mode: 'dark', // or light
+      displayLayer: 'narrative',
+      changeBackgroundColor: (backgroundColor) => {
+        const header = document.getElementById('Header_background')
+        document.body.style.backgroundColor = backgroundColor
+        // change header backgroundColor too...
+        if (header) {
+          header.style.backgroundColor = backgroundColor
+        }
+        return set({ backgroundColor })
       },
-    ),
+      setAcceptCookies: () => {
+        set({ acceptCookies: true })
+      },
+      setAcceptAnalyticsCookies: (value) => {
+        set({ acceptAnalyticsCookies: Boolean(value) })
+      },
+      setDisplayLayer: (value) => {
+        console.info('setDisplayLayer', value)
+        set({ displayLayer: value })
+      },
+      setReleaseNotified: (releaseNotifiedDate = new Date()) => {
+        set({
+          releaseNotified: releaseNotifiedDate.toISOString(),
+        })
+      },
+    }),
+    {
+      name: 'JournalOfDigitalHistory',
+    },
   ),
 )
 

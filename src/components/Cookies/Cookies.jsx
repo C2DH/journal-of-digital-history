@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { Button, Container, Form } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { Button, Form, Container } from 'react-bootstrap'
-import { useStore } from '../../store'
 import { TermsOfUseRoute } from '../../constants/globalConstants'
+import { useTimeout } from '../../hooks/timeout'
+import { useStore } from '../../store'
 import LangLink from '../LangLink'
 import styles from './Cookies.module.scss'
-import { useTimeout } from '../../hooks/timeout'
 
 const Cookies = ({ defaultAcceptCookies }) => {
   const [isStoreReady, setStoreReady] = useState(false)
