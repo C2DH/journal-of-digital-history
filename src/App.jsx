@@ -11,20 +11,21 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 import Cookies from './components/Cookies'
 import Footer from './components/Footer'
 import Header from './components/Header'
+import Me from './components/Me/Me'
 import PercentLoader from './components/PercentLoader'
 import ScrollToTop from './components/ScrollToTop'
 import VideoReleaseLazy from './components/VideoRelease/VideoReleaseLazy'
+import WindowEvents from './components/WindowEvents'
 import { GaTrackingId, IsMobile, NotebookPoweredPaths } from './constants/globalConstants'
 import CanonicalUpdater from './dashboard/utils/hypothes.is/CanonicalUpdater'
 import i18n from './i18next'
 import { getStartLang, LANGUAGES } from './logic/language'
 import Loading from './pages/Loading'
-
-import { AcceptAnalyticsCookies, AcceptCookies } from './logic/tracking'
-
-import Me from './components/Me/Me'
-import WindowEvents from './components/WindowEvents'
 import { AppRoutes } from './routes'
+import { useStore } from './store'
+
+const AcceptAnalyticsCookies = useStore.getState().acceptAnalyticsCookies
+const AcceptCookies = useStore.getState().acceptCookies
 
 console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___|       \n\n')
 console.info('%cacceptAnalyticsCookies', 'font-weight: bold', AcceptAnalyticsCookies)

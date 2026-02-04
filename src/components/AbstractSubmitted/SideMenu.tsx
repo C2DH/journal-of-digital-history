@@ -30,6 +30,7 @@ const SideMenu = ({ activeSection, onMenuClick, menuItems }: SideMenuProps) => {
           <li key={item.id}>
             <a
               href={`/en/abstract-submitted#${item.id}`}
+              onClick={() => onMenuClick(item.id)}
               className={`navbar-brand ${activeSection === item.id ? 'active' : ''}`}
             >
               {t(item.label)}
