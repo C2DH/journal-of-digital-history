@@ -48,9 +48,6 @@
 
 /* ABSTRACTS */
 table.abstracts {
-  th {
-    width: 10%;
-  }
   th.checkbox-header {
     width: 5%;
   }
@@ -103,6 +100,10 @@ table.abstracts {
   }
   /* Mobile view */
   @media screen and (max-width: 767px) {
+    th {
+      width: 10%;
+    }
+
     tr th.submitted_date,
     tr td.submitted_date,
     tr th.author,
