@@ -1,7 +1,11 @@
 .link-button-orcid {
   background-color: transparent;
+  padding: 0;
 }
 
 .link-button-github {
   background-color: transparent;
+  border: none;
+  color: var(--color-deep-blue);
+  cursor: pointer;
 }

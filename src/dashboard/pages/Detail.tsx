@@ -64,7 +64,7 @@ const Detail = ({ endpoint }) => {
     )
   }
 
-  const { infoFields, contactFields, datasetFields, urlFields, title, abstractText } =
+  const { infoFields, contactFields, datasetFields, authors, urlFields, title, abstractText } =
     setDetails(item)
 
   return (
@@ -118,6 +118,36 @@ const Detail = ({ endpoint }) => {
             <FieldRow key={label} label={label} value={value} />
           ))}
         </SmallCard>
+        <div className="authors">
+          {authors.length > 0 ? (
+            <>
+              {authors.map((author, index) => (
+                <SmallCard key={index} className={`card-author`}>
+                  <h2>Author</h2>
+                  <div className="author-info">
+                    <FieldRow label="Firstname" value={`${author.firstname}`} />
+                    <FieldRow label="Lastname" value={`${author.lastname}`} />
+                    <FieldRow label="Email" value={`${author.email}`} />
+                    <FieldRow label="Affiliation" value={`${author.affiliation}`} />
+                    <FieldRow
+                      label="Links"
+                      value={
+                        <>
+                          {author.orcid && (
+                            <IconButton className="orcid-icon" value={author.orcid} />
+                          )}
+                          {author.github_id && author.github_id !== 'default_github_id' && (
+                            <IconButton value={`https://github.com/${author.github_id}`} />
+                          )}
+                        </>
+                      }
+                    />
+                  </div>
+                </SmallCard>
+              ))}
+            </>
+          ) : null}
+        </div>
       </div>
     </div>
   )

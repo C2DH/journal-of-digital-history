@@ -1,5 +1,5 @@
 import { convertDate } from '../helpers/convertDate'
-import { Abstract, Article } from '../types'
+import { Abstract, Article, Author } from '../types'
 import { isTypeAbstract, isTypeArticle } from './checkItem'
 
 /**
@@ -10,6 +10,7 @@ export function setDetails(item: Abstract | Article) {
   let contactFields: { label: string; value: React.ReactNode }[] = []
   let datasetFields: { label: string; value: React.ReactNode; description: string }[] = []
   let urlFields: { value: React.ReactNode }[] = []
+  let authors: Author[] = []
   let url = ''
   let title = ''
   let abstractText = ''
@@ -88,6 +89,7 @@ export function setDetails(item: Abstract | Article) {
         description: dataset.description || '',
       })),
     ]
+    authors = item.abstract.authors
     url = item.repository_url
     title =
       Array.isArray(item.data?.title) && item.data?.title.length > 0
@@ -99,5 +101,14 @@ export function setDetails(item: Abstract | Article) {
         : item.abstract.abstract
   }
 
-  return { infoFields, contactFields, datasetFields, urlFields, url, title, abstractText }
+  return {
+    infoFields,
+    contactFields,
+    datasetFields,
+    authors,
+    urlFields,
+    url,
+    title,
+    abstractText,
+  }
 }

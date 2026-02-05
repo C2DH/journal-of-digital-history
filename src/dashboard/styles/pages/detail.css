@@ -11,15 +11,21 @@
 .card-contact {
   grid-area: c;
 }
+.authors {
+  grid-area: u;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-size-2);
+}
 
 .detail-grid {
   color: var(--color-deep-blue);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-areas:
-    'i i c'
-    'a a l'
-    'a a .'
+    'i i l'
+    'a a c'
+    'a a u'
     'a a .';
   gap: var(--gap-size-4);
   padding: var(--space-size-1);
@@ -63,8 +69,8 @@ h2 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-areas:
-      'i c .'
-      'a a l'
+      'i l c'
+      'a a u'
       'a a .'
       'a a .';
   }
@@ -78,7 +84,8 @@ h2 {
       'i i'
       'l c'
       'a a'
-      'a a';
+      'a a'
+      'u u';
   }
 }
 
@@ -90,6 +97,7 @@ h2 {
     grid-template-areas:
       ' i '
       ' c '
+      ' u '
       ' l '
       ' a '
       ' a ';
@@ -133,4 +141,12 @@ a {
 }
 .orcid-icon img {
   opacity: 0.6;
+}
+
+/* AUTHOR  */
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-size-1);
 }
