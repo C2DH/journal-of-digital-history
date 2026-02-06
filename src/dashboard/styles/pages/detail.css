@@ -11,24 +11,10 @@
 .card-contact {
   grid-area: c;
 }
-.authors {
+.card-authors {
   grid-area: u;
-  display: flex;
-  flex-direction: row;
-  gap: var(--gap-size-2);
-}
-
-.detail-grid {
-  color: var(--color-deep-blue);
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-areas:
-    'i i l'
-    'a a c'
-    'a a u'
-    'a a .';
-  gap: var(--gap-size-4);
-  padding: var(--space-size-1);
+  gap: var(--gap-size-3);
 }
 
 .card-info {
@@ -62,6 +48,26 @@ h2 {
   margin: 0 0 var(--space-size-3) 0;
 }
 
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+    'i i c'
+    'a a l'
+    'a a u'
+    'a a .';
+  gap: var(--gap-size-4);
+  padding: var(--space-size-1);
+}
+
+.author-info > .item > .label {
+  min-width: 50px;
+}
+
+.author-info > .item > .value {
+  margin-left: var(--gap-size-0);
+}
+
 /* RESPONSIVE */
 
 @media (min-width: 2000px) {
@@ -69,10 +75,10 @@ h2 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-areas:
-      'i l c'
-      'a a u'
-      'a a .'
-      'a a .';
+      'i i .'
+      'a a l'
+      'a a c'
+      'a a u';
   }
 }
 
@@ -85,7 +91,14 @@ h2 {
       'l c'
       'a a'
       'a a'
+      'u u'
       'u u';
+  }
+  .card-authors {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--gap-size-1);
   }
 }
 
@@ -93,19 +106,24 @@ h2 {
 @media (max-width: 1200px) {
   .detail-grid {
     display: grid;
-    grid-template-columns: 1fr;
     grid-template-areas:
-      ' i '
-      ' c '
-      ' u '
-      ' l '
-      ' a '
-      ' a ';
+      'i i'
+      'l l'
+      'c c'
+      'a a'
+      'a a'
+      'u u';
   }
   .card-info {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+  }
+  .card-authors {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--gap-size-1);
   }
 }
 
@@ -115,6 +133,13 @@ h2 {
     display: flex;
     flex-direction: column;
     gap: var(--gap-size-2);
+    grid-template-areas:
+      'i'
+      'l'
+      'c'
+      'a'
+      'a'
+      'u';
   }
 
   a {

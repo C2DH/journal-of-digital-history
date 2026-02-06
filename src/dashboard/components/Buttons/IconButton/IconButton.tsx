@@ -1,7 +1,8 @@
 import './IconButton.css'
 
-import { Github } from 'iconoir-react'
+import { Facebook, Github } from 'iconoir-react'
 
+import BlueskyIcon from '../../../../assets/images/bluesky_blue.svg?url'
 import OrcidIconUrl from '../../../../assets/images/orcid_logo_blue_inverted.svg?url'
 import { convertOrcid } from '../../../utils/helpers/checkItem'
 
@@ -19,6 +20,17 @@ const IconButton = ({ value }: any) => {
 
     if (mainDomain === 'github') {
       icon = <Github className="github-icon" data-testid="github-icon" />
+    } else if (mainDomain === 'bsky') {
+      icon = (
+        <img
+          className="bluesky-icon"
+          src={BlueskyIcon}
+          alt="Bluesky Icon"
+          style={{ width: '15px' }}
+        />
+      )
+    } else if (mainDomain === 'facebook') {
+      icon = <Facebook className="facebook-icon" data-testid="facebook-icon" />
     } else if (mainDomain === 'orcid') {
       icon = (
         <img
