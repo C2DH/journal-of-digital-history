@@ -18,33 +18,38 @@ const IconButton = ({ value }: any) => {
     const url = new URL(content)
     const mainDomain = url.hostname.split('.').slice(-2, -1)[0]
 
-    if (mainDomain === 'github') {
-      icon = <Github className="github-icon" data-testid="github-icon" />
-    } else if (mainDomain === 'bsky') {
-      icon = (
-        <img
-          className="bluesky-icon"
-          src={BlueskyIcon}
-          alt="Bluesky Icon"
-          style={{ width: '15px' }}
-        />
-      )
-    } else if (mainDomain === 'facebook') {
-      icon = <Facebook className="facebook-icon" data-testid="facebook-icon" />
-    } else if (mainDomain === 'orcid') {
-      icon = (
-        <img
-          src={OrcidIconUrl}
-          alt="ORCID"
-          className="icon-svg"
-          width="18"
-          height="18"
-          style={{ display: 'block' }}
-          data-testid="orcid-icon"
-        />
-      )
-    } else {
-      icon = mainDomain
+    switch (mainDomain) {
+      case 'orcid':
+        icon = (
+          <img
+            src={OrcidIconUrl}
+            alt="ORCID"
+            className="icon-svg"
+            width="18"
+            height="18"
+            style={{ display: 'block' }}
+            data-testid="orcid-icon"
+          />
+        )
+        break
+      case 'github':
+        icon = <Github className="github-icon" data-testid="github-icon" />
+        break
+      case 'bsky':
+        icon = (
+          <img
+            className="bluesky-icon"
+            src={BlueskyIcon}
+            alt="Bluesky Icon"
+            style={{ width: '15px' }}
+          />
+        )
+        break
+      case 'facebook':
+        icon = <Facebook className="facebook-icon" data-testid="facebook-icon" />
+        break
+      default:
+        icon = mainDomain
     }
 
     return (
