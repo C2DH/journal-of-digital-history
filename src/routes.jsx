@@ -1,6 +1,5 @@
-import React, { lazy, useEffect } from 'react'
+import { lazy, useEffect } from 'react'
 import { useMatomo } from '@jonkoops/matomo-tracker-react'
-import ReactGA from 'react-ga'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 
 import Page from './pages/Page'
@@ -40,7 +39,6 @@ function usePageViews() {
     const url = [pathname, search].join('')
     console.info('pageview', url)
     changeBackgroundColor('var(--gray-100)')
-    ReactGA.pageview(url)
     trackPageView({
       href: url,
     })

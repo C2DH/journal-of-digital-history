@@ -1,5 +1,4 @@
 import { Suspense, useEffect } from 'react'
-import ReactGA from 'react-ga'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 
@@ -53,23 +52,6 @@ console.info('start language:', short, lng)
 console.info('IsMobile:', IsMobile)
 
 export default function App() {
-  useEffect(() => {
-    // integrate history \w Google Analytics
-    if (GaTrackingId && AcceptAnalyticsCookies) {
-      ReactGA.initialize(GaTrackingId)
-      console.info('%cGA enabled by user choice', 'font-weight: bold', GaTrackingId)
-    } else if (GaTrackingId) {
-      console.info(
-        '%cGA disabled by user choice:',
-        'font-weight: bold',
-        'AcceptAnalyticsCookies:',
-        AcceptAnalyticsCookies,
-      )
-    } else {
-      console.info('%cGA GaTrackingId not set', 'font-weight: bold', 'disabled by config.')
-    }
-  }, [])
-
   return (
     <BrowserRouter>
       <I18nextProvider i18n={i18n}>
