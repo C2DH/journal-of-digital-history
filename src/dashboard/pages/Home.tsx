@@ -42,6 +42,38 @@ const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
   )
 }
 
+const PeerReviewCounter = () => {
+  const [count, setCount] = useState(0)
+
+  const getCount = async () => {
+    try {
+      const res = await getAbstractsSubmittedToOJS()
+      setCount(res.count)
+    } catch {
+      console.error('Error fetching count of abstract submitted to OJS for peer review.')
+    }
+  }
+
+  useEffect(() => {
+    getCount()
+  }, [])
+
+  return (
+    count && (
+      <div className="counter">
+        <span className="logo counter-value">{count}</span>
+        <div className="counter-info">
+          <span className="counter-title" title={'Ready for'}>
+            Ready for
+          </span>
+          <span className="counter-days">Peer Review</span>
+          <p className="counter-dates">Waiting in Action</p>
+        </div>
+      </div>
+    )
+  )
+}
+
 const DeadlineRow = () => {
   const [cfpOpen, setCfpOpen] = useState<Callforpaper[]>([])
 
@@ -69,32 +101,7 @@ const DeadlineRow = () => {
           deadlineArticle={cfp.deadline_article}
         />
       ))}
-    </div>
-  )
-}
-
-const PeerReviewCounter = () => {
-  const [count, setCount] = useState(0)
-
-  const getCount = async () => {
-    try {
-      const res = await getAbstractsSubmittedToOJS()
-      setCount(res.count)
-    } catch {
-      console.error('Error fetching count of abstract submitted to OJS for peer review.')
-    }
-  }
-
-  useEffect(() => {
-    getCount()
-  }, [])
-
-  return (
-    <div>
-      {count}
-      <div>
-        Ready for <b>PeerReview</b> Waiting for action
-      </div>
+      <PeerReviewCounter />
     </div>
   )
 }
@@ -120,7 +127,6 @@ const Home = () => {
       <h1>{t('welcome')}</h1>
       <div className={`home-grid ${isAbstractSubmitted ? 'isAbstract' : ''}`}>
         <DeadlineRow />
-        <PeerReviewCounter />
         <>{isAbstractSubmitted && AbstractSubmittedCard(submittedAbstracts)}</>
         <CustomPieChart />
         <CustomBarChart />

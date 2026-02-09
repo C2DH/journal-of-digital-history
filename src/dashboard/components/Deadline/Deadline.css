@@ -1,17 +1,31 @@
 .counter {
-  background-color: var(--color-white);
-  border-radius: 16px;
   display: flex;
   flex-direction: row;
-  width: 300px;
+  min-width: 310px;
+  background-color: var(--color-white);
+  border-radius: 16px;
 }
 
 .logo {
+  display: flex;
+  width: 14%;
   padding: var(--gap-size-2);
   margin: var(--gap-size-3);
+  text-align: center;
+  align-items: center;
+  justify-content: center;
   font-size: var(--text-size-8);
   background-color: var(--color-accent-lighter);
-  border-radius: 50%;
+  border-radius: 100%;
+}
+
+.campaign {
+  padding: 0 0.7em;
+}
+
+.counter-value {
+  color: var(--color-accent);
+  font-weight: 600;
 }
 
 .counter-info {
