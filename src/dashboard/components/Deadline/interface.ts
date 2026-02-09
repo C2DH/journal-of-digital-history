@@ -1,5 +1,10 @@
+export interface CounterProps {
+  title: string
+  deadlineAbstract: string
+  deadlineArticle: string
+}
+
 export interface DeadlineProps {
-  cfpTitle: string
   deadlineAbstract: string
   deadlineArticle: string
 }

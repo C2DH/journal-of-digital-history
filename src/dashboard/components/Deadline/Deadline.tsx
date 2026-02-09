@@ -2,7 +2,7 @@ import './Deadline.css'
 
 import { DateTime } from 'luxon'
 
-import { DeadlineProps } from './interface'
+import { CounterProps, DeadlineProps } from './interface'
 
 const getDeadlineFormat = (deadline: string) => {
   return DateTime.fromISO(deadline).toFormat('dd MMM yyyy')
@@ -12,15 +12,21 @@ const getNumberOfDays = (deadline: string) => {
   return Math.ceil(DateTime.fromISO(deadline).startOf('day').diff(DateTime.now(), 'days').days)
 }
 
-const Deadline = ({ cfpTitle, deadlineAbstract, deadlineArticle }: DeadlineProps) => {
+const getDealineMessages = ({ deadlineAbstract, deadlineArticle }: DeadlineProps) => {
   let days = 0
   let message = 'days left'
+
   const now = DateTime.now()
 
   const abstractDays = getNumberOfDays(deadlineAbstract)
   const articleDays = getNumberOfDays(deadlineArticle)
   const abstractDate = getDeadlineFormat(deadlineAbstract)
   const articleDate = getDeadlineFormat(deadlineArticle)
+  let messageDate = `Article deadline : ${articleDate}`
+
+  if (DateTime.fromISO(deadlineAbstract).startOf('day') > DateTime.now().startOf('day')) {
+    messageDate = `Abstract deadline : ${abstractDate}`
+  }
 
   if (now < DateTime.fromISO(deadlineAbstract)) {
     days = abstractDays
@@ -33,22 +39,23 @@ const Deadline = ({ cfpTitle, deadlineAbstract, deadlineArticle }: DeadlineProps
     message = 'open ended'
   }
 
+  return { days, message, messageDate }
+}
+
+const Deadline = ({ title, deadlineAbstract, deadlineArticle }: CounterProps) => {
+  const { days, message, messageDate } = getDealineMessages({ deadlineAbstract, deadlineArticle })
+
   return (
-    <div className="deadline-counter">
-      <span className="material-symbols-outlined deadline-logo">campaign</span>
-      <div className="deadline-counter-info">
-        <span className="deadline-counter-cfp-title" title={cfpTitle}>
-          {cfpTitle}{' '}
+    <div className="counter">
+      <span className="material-symbols-outlined logo">campaign</span>
+      <div className="counter-info">
+        <span className="counter-title" title={title}>
+          {title}
         </span>
-        <span className="deadline-counter-days">
+        <span className="counter-days">
           {days === 0 ? '' : days} {message}
         </span>
-        <p className="deadline-counter-dates">
-          {' '}
-          {DateTime.fromISO(deadlineAbstract).startOf('day') > DateTime.now().startOf('day')
-            ? `Abstract deadline : ${abstractDate}`
-            : `Article deadline : ${articleDate}`}
-        </p>
+        <p className="counter-dates">{messageDate}</p>
       </div>
     </div>
   )

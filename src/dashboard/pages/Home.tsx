@@ -64,7 +64,7 @@ const DeadlineRow = () => {
       {cfpOpen.map((cfp) => (
         <Deadline
           key={cfp.id}
-          cfpTitle={cfp.title}
+          title={cfp.title}
           deadlineAbstract={cfp.deadline_abstract}
           deadlineArticle={cfp.deadline_article}
         />
@@ -89,7 +89,14 @@ const PeerReviewCounter = () => {
     getCount()
   }, [])
 
-  return <div>{count}</div>
+  return (
+    <div>
+      {count}
+      <div>
+        Ready for <b>PeerReview</b> Waiting for action
+      </div>
+    </div>
+  )
 }
 
 const Home = () => {
