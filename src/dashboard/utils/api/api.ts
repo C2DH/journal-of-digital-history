@@ -54,7 +54,6 @@ const getArticlesByStatusAndIssues = async (issue: number, status: string): APIR
   return api
     .get(`/api/articles?issue=${issue}&status=${status}`)
     .then((res) => {
-      // console.info(`Articles for status: ${status} for issue id: ${issue}`, res.data)
       return res.data
     })
     .catch((err) => {
@@ -72,13 +71,23 @@ const getAbstractsByStatusAndCallForPapers = async (
   return api
     .get(`/api/abstracts/?callpaper=${callforpaper}&status=${status}`)
     .then((res) => {
-      // console.info(`Abstracts for callforpaper id: ${callforpaper}`, res.data)
       return res.data
     })
     .catch((err) => {
       console.error(err)
       throw err
     })
+}
+
+const getAbstractsSubmittedToOJS = async (): Promise<{ count: number }> => {
+  console.info(`GET [getAbstractsSubmittedToOJS ]`)
+
+  return api
+    .get(`/api/articles/ojs`)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => console.error(err))
 }
 
 const getAdvanceArticles = async (): APIResponse => {
@@ -184,6 +193,7 @@ const getSocialMediaCover = async (pid: string): Promise<{ download_url: string 
 
 export {
   getAbstractsByStatusAndCallForPapers,
+  getAbstractsSubmittedToOJS,
   getAdvanceArticles,
   getArticlesByStatus,
   getArticlesByStatusAndIssues,

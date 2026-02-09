@@ -13,7 +13,7 @@ import SmallCard from '../components/SmallCard/SmallCard'
 import SmallTable from '../components/SmallTable /SmallTable'
 import { useSorting } from '../hooks/useSorting'
 import { useItemsStore } from '../store'
-import { getCallforpaperWithDeadlineOpen } from '../utils/api/api'
+import { getAbstractsSubmittedToOJS, getCallforpaperWithDeadlineOpen } from '../utils/api/api'
 import { Abstract, Callforpaper } from '../utils/types'
 
 const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
@@ -73,6 +73,25 @@ const DeadlineRow = () => {
   )
 }
 
+const PeerReviewCounter = () => {
+  const [count, setCount] = useState(0)
+
+  const getCount = async () => {
+    try {
+      const res = await getAbstractsSubmittedToOJS()
+      setCount(res.count)
+    } catch {
+      console.error('Error fetching count of abstract submitted to OJS for peer review.')
+    }
+  }
+
+  useEffect(() => {
+    getCount()
+  }, [])
+
+  return <div>{count}</div>
+}
+
 const Home = () => {
   const { t } = useTranslation()
   const { ordering } = useSorting()
@@ -94,6 +113,7 @@ const Home = () => {
       <h1>{t('welcome')}</h1>
       <div className={`home-grid ${isAbstractSubmitted ? 'isAbstract' : ''}`}>
         <DeadlineRow />
+        <PeerReviewCounter />
         <>{isAbstractSubmitted && AbstractSubmittedCard(submittedAbstracts)}</>
         <CustomPieChart />
         <CustomBarChart />
