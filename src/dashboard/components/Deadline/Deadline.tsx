@@ -12,7 +12,7 @@ const getNumberOfDays = (deadline: string) => {
   return Math.ceil(DateTime.fromISO(deadline).startOf('day').diff(DateTime.now(), 'days').days)
 }
 
-const getDealineMessages = ({ deadlineAbstract, deadlineArticle }: DeadlineProps) => {
+const getDeadlineMessages = ({ deadlineAbstract, deadlineArticle }: DeadlineProps) => {
   let days = 0
   let message = 'days left'
 
@@ -42,18 +42,20 @@ const getDealineMessages = ({ deadlineAbstract, deadlineArticle }: DeadlineProps
   return { days, message, messageDate }
 }
 
-const Deadline = ({ title, deadlineAbstract, deadlineArticle }: CounterProps) => {
+const Deadline = ({ title, deadlineAbstract, deadlineArticle, value }: CounterProps) => {
   let days = 0
-  let message = ''
-  let messageDate = ''
+  let message = 'Peer Review'
+  let messageDate = 'Waiting in Action'
 
   if (deadlineAbstract && deadlineArticle) {
-    ;({ days, message, messageDate } = getDealineMessages({ deadlineAbstract, deadlineArticle }))
+    ;({ days, message, messageDate } = getDeadlineMessages({ deadlineAbstract, deadlineArticle }))
   }
 
   return (
     <div className="counter">
-      <span className="material-symbols-outlined campaign logo">campaign</span>
+      <span className={`${value ? 'counter-value' : 'material-symbols-outlined campaign'} logo`}>
+        {value || 'campaign'}
+      </span>
       <div className="counter-info">
         <span className="counter-title" title={title}>
           {title}

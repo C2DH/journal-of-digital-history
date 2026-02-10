@@ -80,6 +80,9 @@ p {
     flex-direction: column;
     gap: var(--space-size-2);
   }
+  .home-counter-row {
+    flex-direction: column;
+  }
 }
 
 /* ABSTRACT CARD  */

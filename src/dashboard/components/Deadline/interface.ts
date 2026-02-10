@@ -1,7 +1,8 @@
 export interface CounterProps {
   title: string
-  deadlineAbstract: string
-  deadlineArticle: string
+  deadlineAbstract?: string
+  deadlineArticle?: string
+  value?: number
 }
 
 export interface DeadlineProps {
