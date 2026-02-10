@@ -11,18 +11,10 @@
 .card-contact {
   grid-area: c;
 }
-
-.detail-grid {
-  color: var(--color-deep-blue);
+.card-authors {
+  grid-area: u;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-areas:
-    'i i c'
-    'a a l'
-    'a a .'
-    'a a .';
-  gap: var(--gap-size-4);
-  padding: var(--space-size-1);
+  gap: var(--gap-size-3);
 }
 
 .card-info {
@@ -56,6 +48,26 @@ h2 {
   margin: 0 0 var(--space-size-3) 0;
 }
 
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+    'i i c'
+    'a a l'
+    'a a u'
+    'a a .';
+  gap: var(--gap-size-4);
+  padding: var(--space-size-1);
+}
+
+.author-info > .item > .label {
+  min-width: 50px;
+}
+
+.author-info > .item > .value {
+  margin-left: var(--gap-size-0);
+}
+
 /* RESPONSIVE */
 
 @media (min-width: 2000px) {
@@ -63,10 +75,10 @@ h2 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-areas:
-      'i c .'
+      'i i .'
       'a a l'
-      'a a .'
-      'a a .';
+      'a a c'
+      'a a u';
   }
 }
 
@@ -78,7 +90,15 @@ h2 {
       'i i'
       'l c'
       'a a'
-      'a a';
+      'a a'
+      'u u'
+      'u u';
+  }
+  .card-authors {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--gap-size-1);
   }
 }
 
@@ -86,18 +106,24 @@ h2 {
 @media (max-width: 1200px) {
   .detail-grid {
     display: grid;
-    grid-template-columns: 1fr;
     grid-template-areas:
-      ' i '
-      ' c '
-      ' l '
-      ' a '
-      ' a ';
+      'i i'
+      'l l'
+      'c c'
+      'a a'
+      'a a'
+      'u u';
   }
   .card-info {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+  }
+  .card-authors {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--gap-size-1);
   }
 }
 
@@ -107,6 +133,13 @@ h2 {
     display: flex;
     flex-direction: column;
     gap: var(--gap-size-2);
+    grid-template-areas:
+      'i'
+      'l'
+      'c'
+      'a'
+      'a'
+      'u';
   }
 
   a {
@@ -133,4 +166,12 @@ a {
 }
 .orcid-icon img {
   opacity: 0.6;
+}
+
+/* AUTHOR  */
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-size-1);
 }
