@@ -83,11 +83,25 @@ const getAbstractsSubmittedToOJS = async (): Promise<{ count: number }> => {
   console.info(`GET [getAbstractsSubmittedToOJS ]`)
 
   return api
-    .get(`/api/articles/ojs`)
+    .get(`/api/articles/ojs/submissions`)
     .then((res) => {
       return res.data
     })
     .catch((err) => console.error(err))
+}
+
+const postArticletoSubmissionOJS = async (body: { pid: string }) => {
+  console.info(`POST [postArticletoSubmissionOJS]`)
+
+  return api
+    .post('/api/articles/ojs/submission', body)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
 }
 
 const getAdvanceArticles = async (): APIResponse => {
@@ -202,6 +216,7 @@ export {
   getTweetContent,
   modifyAbstractStatusWithEmail,
   modifyStatus,
+  postArticletoSubmissionOJS,
   postBlueskyCampaign,
   postFacebookCampaign,
 }

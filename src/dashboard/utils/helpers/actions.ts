@@ -1,4 +1,5 @@
-import { ModalInfo, RowAction } from '../types'
+import { postArticletoSubmissionOJS } from '../api/api'
+import { ModalInfo, RowAction, SetNotification } from '../types'
 
 /**
  * Generates a list of row actions based on the current status of the row.
@@ -9,22 +10,47 @@ import { ModalInfo, RowAction } from '../types'
  * @returns An array of RowAction objects representing available actions for the row.
  */
 function getRowActions(
-  isArticle: boolean,
   row: any,
+  isArticle: boolean,
   setModal: (modal: ModalInfo) => void,
-  t: (key: string) => string,
+  setNotification: SetNotification,
 ): RowAction[] {
-  let status: string
-  if (isArticle === true) {
-    status = row[5]
-  } else {
-    status = row[6]
-  }
-  const id = row[0]
+  const pid = row[0]
   const title = row[1]
+  const status = isArticle ? row[4] : row[6]
   const actions: RowAction[] = []
 
+  const callAPI = async (action: string) => {
+    switch (action) {
+      case 'Ojs':
+        try {
+          const res = await postArticletoSubmissionOJS({ pid: pid })
+          if (res.status == 200) {
+            setNotification({
+              type: 'success',
+              message: 'Article send to OJS sucessfully for peer review',
+            })
+          }
+        } catch (error) {
+          console.error('Failed to send Article to OJS :', error)
+          setNotification({
+            type: 'error',
+            message: 'Failed to send Article to OJS for peer review',
+          })
+        }
+        break
+    }
+  }
+
   const defaultAction = (action: string, label?: string) => ({
+    label: label || action,
+    onClick: () => {
+      console.info(`Excuting action: ${action}, for PID: ${pid}`)
+      callAPI(action)
+    },
+  })
+
+  const modalAction = (action: string, label?: string) => ({
     label: label || action,
     onClick: () =>
       setModal &&
@@ -32,25 +58,34 @@ function getRowActions(
         open: true,
         action,
         row,
-        id,
+        id: pid,
         title,
       }),
   })
 
-  if (status === 'SUBMITTED') {
-    actions.push(defaultAction('Accepted'))
-    actions.push(defaultAction('Declined'))
-    actions.push(defaultAction('Abandoned'))
-  }
-
-  if (status === 'ACCEPTED') {
-    actions.push(defaultAction('Abandoned'))
-    actions.push(defaultAction('Suspended'))
-  }
-
-  if (isArticle && status === 'PUBLISHED') {
-    actions.push(defaultAction('Bluesky'))
-    actions.push(defaultAction('Facebook'))
+  switch (status) {
+    case 'SUBMITTED':
+      actions.push(modalAction('Accepted'))
+      actions.push(modalAction('Declined'))
+      actions.push(modalAction('Abandoned'))
+      break
+    case 'ACCEPTED':
+      actions.push(modalAction('Declined'))
+      actions.push(modalAction('Abandoned'))
+      break
+    case 'TECHNICAL_REVIEW':
+      if (isArticle) {
+        actions.push(defaultAction('Ojs', 'Send to OJS'))
+      }
+      break
+    case 'PUBLISHED':
+      if (isArticle) {
+        actions.push(modalAction('Bluesky'))
+        actions.push(modalAction('Facebook'))
+      }
+      break
+    default:
+      break
   }
 
   return actions

@@ -53,6 +53,7 @@ const Table = ({
   setSort,
   isAccordeon = false,
   setRowModal,
+  onNotify,
 }: TableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -162,8 +163,8 @@ const Table = ({
                   <td className="actions-cell">
                     {setRowModal && (
                       <ActionButton
-                        actions={getRowActions(isArticleItem, row, setRowModal, t)}
-                        active={getRowActions(isArticleItem, row, setRowModal, t).length > 0}
+                        actions={getRowActions(row, isArticleItem, setRowModal, onNotify)}
+                        active={getRowActions(row, isArticleItem, setRowModal, onNotify).length > 0}
                       />
                     )}
                   </td>
