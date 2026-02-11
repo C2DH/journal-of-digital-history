@@ -1,4 +1,3 @@
-import { postArticletoSubmissionOJS } from '../api/api'
 import { ModalInfo, RowAction, SetNotification } from '../types'
 
 /**
@@ -14,30 +13,43 @@ function getRowActions(
   isArticle: boolean,
   setModal: (modal: ModalInfo) => void,
   setNotification: SetNotification,
+  setLoading: (loading: boolean) => void,
 ): RowAction[] {
   const pid = row[0]
   const title = row[1]
   const status = isArticle ? row[4] : row[6]
   const actions: RowAction[] = []
 
+  const fakeCall = async () => {
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        console.log('SEND TO THE API')
+        resolve(undefined)
+      }, 10000)
+    })
+    return { status: 200 }
+  }
+
   const callAPI = async (action: string) => {
     switch (action) {
       case 'Ojs':
-        try {
-          const res = await postArticletoSubmissionOJS({ pid: pid })
-          if (res.status == 200) {
+        setLoading(true)
+        // const res = await postArticletoSubmissionOJS({ pid: pid })
+        await fakeCall()
+          .then((res) => {
             setNotification({
               type: 'success',
               message: 'Article send to OJS sucessfully for peer review',
             })
-          }
-        } catch (error) {
-          console.error('Failed to send Article to OJS :', error)
-          setNotification({
-            type: 'error',
-            message: 'Failed to send Article to OJS for peer review',
           })
-        }
+          .catch((error) => {
+            console.error('Failed to send Article to OJS :', error)
+            setNotification({
+              type: 'error',
+              message: 'Failed to send Article to OJS for peer review',
+            })
+          })
+          .finally(() => setLoading(false))
         break
     }
   }

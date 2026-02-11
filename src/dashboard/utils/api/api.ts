@@ -96,7 +96,7 @@ const postArticletoSubmissionOJS = async (body: { pid: string }) => {
   return api
     .post('/api/articles/ojs/submission', body)
     .then((res) => {
-      return res.data
+      return res
     })
     .catch((err) => {
       console.error(err)
