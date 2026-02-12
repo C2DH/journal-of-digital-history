@@ -61,7 +61,7 @@ const Table = ({
   const search = location.search
 
   const [isMobile, setIsMobile] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [loadingRow, setLoadingRow] = useState<string>('')
 
   const { headers: mergedHeaders, data: mergedData } = authorColumn(headers, data)
   const visibleHeaders = getVisibleHeaders({ data: mergedData, headers: mergedHeaders })
@@ -131,6 +131,8 @@ const Table = ({
         </thead>
         <tbody>
           {cleanData.map((row, rIdx) => {
+            const pid = row[0]
+
             return (
               <tr key={rIdx}>
                 {row.map((cell: string | number, cIdx: number) => {
@@ -163,22 +165,22 @@ const Table = ({
                 })}
                 {isArticleOrAbstracts && !isAccordeon && (
                   <td className="actions-cell">
-                    {setRowModal && !loading && (
+                    {setRowModal && loadingRow !== pid && (
                       <ActionButton
                         actions={getRowActions(
                           row,
                           isArticleItem,
                           setRowModal,
                           onNotify,
-                          setLoading,
+                          setLoadingRow,
                         )}
                         active={
-                          getRowActions(row, isArticleItem, setRowModal, onNotify, setLoading)
+                          getRowActions(row, isArticleItem, setRowModal, onNotify, setLoadingRow)
                             .length > 0
                         }
                       />
                     )}
-                    {loading && <CircularProgress color="inherit" size={20} />}
+                    {loadingRow === pid && <CircularProgress color="inherit" size={20} />}
                   </td>
                 )}
               </tr>
