@@ -138,6 +138,7 @@
     "@types/react-dom": "^19.1.6",
     "@vitest/browser": "^3.0.7",
     "@vitest/coverage-v8": "^3.0.7",
+    "altcha": "^2.3.0",
     "eslint": "^9.27.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-typescript": "^4.3.5",

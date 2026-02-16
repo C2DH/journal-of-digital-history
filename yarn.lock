@@ -12,6 +12,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@altcha/crypto@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "@altcha/crypto@npm:0.0.1"
+  checksum: 10c0/686cfb4a2ab536bcc041cff0acaff97862f4bd27570f63306ad9c948ba8d579c76770088542b1056784b43e5daa9417ba2346ebece00f234cd6aade839e06fa9
+  languageName: node
+  linkType: hard
+
 "@ampproject/remapping@npm:^2.2.0, @ampproject/remapping@npm:^2.3.0":
   version: 2.3.0
   resolution: "@ampproject/remapping@npm:2.3.0"
@@ -5663,6 +5670,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/rollup-linux-x64-gnu@npm:4.18.0":
+  version: 4.18.0
+  resolution: "@rollup/rollup-linux-x64-gnu@npm:4.18.0"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
 "@rollup/rollup-linux-x64-gnu@npm:4.46.3":
   version: 4.46.3
   resolution: "@rollup/rollup-linux-x64-gnu@npm:4.46.3"
@@ -8112,6 +8126,19 @@ __metadata:
     json-schema-traverse: "npm:^1.0.0"
     require-from-string: "npm:^2.0.2"
   checksum: 10c0/ec3ba10a573c6b60f94639ffc53526275917a2df6810e4ab5a6b959d87459f9ef3f00d5e7865b82677cb7d21590355b34da14d1d0b9c32d75f95a187e76fff35
+  languageName: node
+  linkType: hard
+
+"altcha@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "altcha@npm:2.3.0"
+  dependencies:
+    "@altcha/crypto": "npm:^0.0.1"
+    "@rollup/rollup-linux-x64-gnu": "npm:4.18.0"
+  dependenciesMeta:
+    "@rollup/rollup-linux-x64-gnu":
+      optional: true
+  checksum: 10c0/5ce8cc2671c827d57ee62797ad9bd209c5c1d5736a113af10a74e81aa1be907626d8aea9c6c0eceff84d97511eeeeb88fa7082dc07e991e4f08416555999333b
   languageName: node
   linkType: hard
 
@@ -13209,6 +13236,7 @@ __metadata:
     ajv: "npm:^8.17.1"
     ajv-errors: "npm:^3.0.0"
     ajv-formats: "npm:^3.0.1"
+    altcha: "npm:^2.3.0"
     array-move: "npm:^3.0.1"
     axios: "npm:^1.7.7"
     bootstrap: "npm:5.3.3"
