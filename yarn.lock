@@ -7085,15 +7085,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-google-recaptcha@npm:^2.1.9":
-  version: 2.1.9
-  resolution: "@types/react-google-recaptcha@npm:2.1.9"
-  dependencies:
-    "@types/react": "npm:*"
-  checksum: 10c0/12b1806ef4083524cf108fb7c83f7438feb5746e672af2589a2645de26d2ac1ed0f4b687a1e7d482f51a92a75850c074a8696396c1024a3f80e8902a780d4f95
-  languageName: node
-  linkType: hard
-
 "@types/react-router-dom@npm:^5.3.3":
   version: 5.3.3
   resolution: "@types/react-router-dom@npm:5.3.3"
@@ -13220,7 +13211,6 @@ __metadata:
     "@types/qs": "npm:^6"
     "@types/react": "npm:^19.1.7"
     "@types/react-dom": "npm:^19.1.6"
-    "@types/react-google-recaptcha": "npm:^2.1.9"
     "@types/react-router-dom": "npm:^5.3.3"
     "@typescript-eslint/eslint-plugin": "npm:^8.29.0"
     "@typescript-eslint/parser": "npm:^8.29.0"
@@ -13283,7 +13273,6 @@ __metadata:
     react-dom: "npm:^19.1.0"
     react-feather: "npm:^2.0.9"
     react-ga: "npm:^3.3.1"
-    react-google-recaptcha: "npm:^2.1.0"
     react-helmet: "npm:^6.1.0"
     react-i18next: "npm:^15.4.1"
     react-rocketjump: "npm:^2.6.2"
@@ -16040,7 +16029,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.5.0, prop-types@npm:^15.5.10, prop-types@npm:^15.5.8, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.5.10, prop-types@npm:^15.5.8, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -16247,18 +16236,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-async-script@npm:^1.1.1":
-  version: 1.2.0
-  resolution: "react-async-script@npm:1.2.0"
-  dependencies:
-    hoist-non-react-statics: "npm:^3.3.0"
-    prop-types: "npm:^15.5.0"
-  peerDependencies:
-    react: ">=16.4.1"
-  checksum: 10c0/89450912110c380abc08258ce17d2fb18d31d6b7179a74f6bc504c0761a4ca271edb671e402fa8e5ea4250b5c17fa953af80a9f1c4ebb26c9e81caee8476c903
-  languageName: node
-  linkType: hard
-
 "react-base16-styling@npm:^0.9.1":
   version: 0.9.1
   resolution: "react-base16-styling@npm:0.9.1"
@@ -16422,18 +16399,6 @@ __metadata:
     prop-types: ^15.6.0
     react: ^15.6.2 || ^16.0 || ^17 || ^18
   checksum: 10c0/a2a61c138887c651a59b49669141246e9a01803bd67c5d7581016949d2c8acdbef14db1a0039b855dcd3c979c711b4c45d910fcaa49e27165c13cdc685b4c2e0
-  languageName: node
-  linkType: hard
-
-"react-google-recaptcha@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "react-google-recaptcha@npm:2.1.0"
-  dependencies:
-    prop-types: "npm:^15.5.0"
-    react-async-script: "npm:^1.1.1"
-  peerDependencies:
-    react: ">=16.4.1"
-  checksum: 10c0/c2f38cedd50ee90711e510cbc5c57e2810a9c5aa3c8508415fae635f9f66ad0ef571da30770b87bb6ab21dd9b5ccd69622624691ec2f26cdfc5f480d0e11d24b
   languageName: node
   linkType: hard
 
