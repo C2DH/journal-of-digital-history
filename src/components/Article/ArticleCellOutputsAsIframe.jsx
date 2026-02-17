@@ -30,7 +30,7 @@ const ArticleCellOutputsAsIframe = ({
   const addIframeHeader = useArticleStore((state) => state.addIframeHeader)
 
   // issue #707: Adapt the iframe height to the content
-  const [iframeHeight, setHeight] = useState(isNaN(height) ? 200 : height);
+  const [iframeHeight, setHeight] = useState(isNaN(height) ? 0 : height);
   const onLoad = () => {
     if(height === 0 || height === 'auto') 
       setHeight(ref.current.contentWindow.document.body.scrollHeight);
@@ -82,12 +82,14 @@ const ArticleCellOutputsAsIframe = ({
   if (isIframeOrMedia) {
     const isIframe = /<iframe[\s\S]*<\/iframe>/g.test(iframeSrcDoc)
     if (isIframe) {
-      // replace the height iframe with our iframeHeight variable; the width will be 100%
-      iframeSrcDoc = iframeSrcDoc.replace(
-        /height=".*?"/,
-        `height="${iframeHeight}px"
-      style="width: 100%;"`,
-      )
+      if (iframeHeight) {
+        // replace the height iframe with our iframeHeight variable; the width will be 100%
+        iframeSrcDoc = iframeSrcDoc.replace(
+          /height=".*?"/,
+          `height="${iframeHeight}px"
+          style="width: 100%;"`,
+        )
+      }
       // replace the width iframe with our iframeHeight variable; the width will be 100%
       iframeSrcDoc = iframeSrcDoc.replace(/width=".*?"/, `width="100%"`)
     }
@@ -121,10 +123,12 @@ const ArticleCellOutputsAsIframe = ({
       sandbox="allow-scripts allow-modal allow-same-origin"
       loading="eager"
       srcDoc={iframeSrcDoc}
-      height={`${iframeHeight}px`}
+      height={`${iframeHeight || DEFAULT_HEIGHT}px`}
       width="100%"
     ></iframe>
   )
 }
+
+const DEFAULT_HEIGHT = 200;
 
 export default ArticleCellOutputsAsIframe
