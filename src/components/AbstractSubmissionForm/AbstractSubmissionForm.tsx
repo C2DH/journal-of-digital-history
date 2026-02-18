@@ -53,7 +53,6 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
   const [missingFields, setMissingFields] = useState<ErrorField>({})
   const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
   const altchaRef = useRef<HTMLInputElement>(null)
-  console.log('🚀 ~ file: AbstractSubmissionForm.tsx:57 ~ altchaRef:', altchaRef)
 
   //Initialization of the JSON validation
   const ajv = new Ajv({ allErrors: true })
@@ -380,11 +379,14 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
                 <p className="text-error">{t('pages.abstractSubmission.errors.submitError')}</p>
               )}
             </div>
-            {isValid && !githubError && !callForPapersError && (
-              <div className="captcha-container d-flex align-items-center justify-content-center mb-3">
-                <Altcha ref={altchaRef} />
-              </div>
-            )}
+            {isValid &&
+              !githubError &&
+              !callForPapersError &&
+              process.env.NODE_ENV === 'production' && (
+                <div className="captcha-container d-flex align-items-center justify-content-center mb-3">
+                  <Altcha ref={altchaRef} />
+                </div>
+              )}
             <div className="submit-button-group">
               <button
                 className="download-json-btn btn btn-outline-dark"
