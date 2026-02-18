@@ -108,6 +108,7 @@ export const useStore = create(
     (set) => ({
       backgroundColor: '#ffffff',
       acceptAnalyticsCookies: true,
+      acceptThirdPartyCookies: false, // cookies should be accepted, session is stored locally
       acceptCookies: false, // cookies should be accepted, session is stored locally
       releaseNotified: false,
       mode: 'dark', // or light
@@ -126,6 +127,9 @@ export const useStore = create(
       },
       setAcceptAnalyticsCookies: (value) => {
         set({ acceptAnalyticsCookies: Boolean(value) })
+      },
+      setAcceptThirdPartyCookies: (value) => {
+        set({ acceptThirdPartyCookies: Boolean(value) })
       },
       setDisplayLayer: (value) => {
         console.info('setDisplayLayer', value)

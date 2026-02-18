@@ -2,6 +2,12 @@
   width: 100%;
   font-weight: bold;
   border-radius: 50px;
+  margin-right: 1rem;
+
+  &:hover {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
 }
 
 .disclaimer{
@@ -20,5 +26,28 @@
 
   .disclaimer, .agreement{
     font-size: inherit;
+  }
+}
+
+.CookiesPlaceholder {
+  width: 100%;
+  height: 200px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    margin: 10px 3rem;;
+    color: #666;
+    text-align: center;
+  }
+
+  a {
+    cursor: pointer;
+    color: var(--color-primary);
+    text-decoration: underline;
   }
 }
