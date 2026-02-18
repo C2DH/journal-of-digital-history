@@ -7,7 +7,7 @@ import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { useStore } from './store'
 
-const AcceptAnalyticsCookies = useStore.getState().acceptAnalyticsCookies
+const AcceptAnalyticsCookies = true;  //useStore.getState().acceptAnalyticsCookies
 
 const matomo = createInstance({
   urlBase: import.meta.env.VITE_MATOMO_URLBASE,
