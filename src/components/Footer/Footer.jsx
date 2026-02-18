@@ -18,6 +18,7 @@ import { Facebook, GitHub } from 'react-feather'
 import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_Oldenbourg.svg?url'
 import UniluLogo from '../../assets/images/unilu-c2dh-logo.svg?url'
 import BlueskyIcon from '../../assets/images/bluesky.svg?url'
+import { useStore } from '../../store'
 import '../../styles/components/Footer.scss'
 
 const now = new Date()
@@ -25,6 +26,7 @@ const now = new Date()
 const Footer = ({ hideOnRoutes = [] }) => {
   const { t } = useTranslation()
   const { pathname } = useLocation()
+  const setShowCookieBanner = useStore((state) => state.setShowCookieBanner);
   if (hideOnRoutes.some((d) => pathname.indexOf(d) !== -1)) {
     console.debug(
       '[Footer] hidden following hideOnRoutes:',
@@ -78,6 +80,9 @@ const Footer = ({ hideOnRoutes = [] }) => {
                       </LangNavLink>
                     </Nav.Item>
                   ))}
+                  <Nav.Link className="cursor-pointer" onClick={() => setShowCookieBanner(true)}>
+                    <span>{t('cookieSettings')}</span>
+                  </Nav.Link>
                 </Nav>
               </div>
             </div>

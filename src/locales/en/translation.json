@@ -455,5 +455,6 @@
     "INTERNAL_REVIEW": "Internal Review"
   },
   "loggedInAs": "Logged in as",
+  "cookieSettings": "Cookie settings",
   "Hello": "Hello! Test internationalization by clicking on 🌐 in the Storybook menu."
 }
