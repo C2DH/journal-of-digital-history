@@ -9,16 +9,14 @@ import styles from './Cookies.module.scss'
 
 const Cookies = ({ defaultAcceptCookies }) => {
   const [isStoreReady, setStoreReady] = useState(false)
-  const acceptCookies = useStore((state) => state.acceptCookies)
-  const acceptAnalyticsCookies = useStore((state) => state.acceptAnalyticsCookies)
-  const setAcceptCookies = useStore((state) => state.setAcceptCookies)
-  const setAcceptAnalyticsCookies = useStore((state) => state.setAcceptAnalyticsCookies)
+  const showCookieBanner = useStore((state) => state.showCookieBanner)
+  const setAcceptThirdPartyCookies = useStore((state) => state.setAcceptThirdPartyCookies)
   const { t } = useTranslation()
-  const handleChange = (e) => {
-    setAcceptAnalyticsCookies(e.target.checked)
+  const handleClickAccept = () => {
+    setAcceptThirdPartyCookies(true)
   }
-  const handleClickAgree = () => {
-    setAcceptCookies()
+  const handleClickRefuse = () => {
+    setAcceptThirdPartyCookies(false)
   }
   console.debug('[Cookies] \n - isStoreReady:', isStoreReady)
 
@@ -29,8 +27,8 @@ const Cookies = ({ defaultAcceptCookies }) => {
   if (defaultAcceptCookies || !isStoreReady) {
     return null
   }
-  console.debug('[Cookies] \n - acceptCookies:', acceptCookies)
-  if (acceptCookies) {
+  console.debug('[Cookies] \n - showCookieBanner:', showCookieBanner)
+  if (!showCookieBanner) {
     return null
   }
   return (
@@ -46,31 +44,30 @@ const Cookies = ({ defaultAcceptCookies }) => {
     >
       <Container className="py-4">
         <p className={styles.disclaimer}>
-          We uses cookies and other data to deliver, maintain and improve the platform (
-          <b>"functional" cookies</b>).
+          This website uses essential cookies necessary for its proper functioning.
         </p>
-        <Form>
-          <Form.Switch
-            id="agree-analytics-data"
-            label="I also agree sending analytics data"
-            checked={acceptAnalyticsCookies === true}
-            onChange={handleChange}
-          />
-        </Form>
-        <p className={styles.agreement}>
-          By browsing this website you agree to our cookie policy. Visit{' '}
-          <LangLink to={TermsOfUseRoute.to}>{t(TermsOfUseRoute.label)}</LangLink> to review your
-          options later.
+        <p className={styles.disclaimer}>
+          With your consent, we may also use third-party cookies (Vimeo, Sketchfab, etc.) to display embedded content from external sources. Without your consent, these contents will remain blocked.
         </p>
-        <div className="mx-3 my-0 my-md-3">
+        <div className="my-0 my-md-3">
           <Button
             className={styles.AgreeButton}
-            onClick={handleClickAgree}
-            data-test="cookie-agree-button"
+            onClick={handleClickAccept}
+            data-test="cookie-accept-button"
           >
-            Agree
+            Accept
+          </Button>
+          <Button
+            className={styles.AgreeButton}
+            onClick={handleClickRefuse}
+            data-test="cookie-refuse-button"
+          >
+            Refuse
           </Button>
         </div>
+        <p className={styles.disclaimer}>
+          For more information, please refer to our <LangLink to={TermsOfUseRoute.to}>{t(TermsOfUseRoute.label)}</LangLink> (section "Data protection").
+        </p>
       </Container>
     </div>
   )

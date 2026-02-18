@@ -110,6 +110,7 @@ export const useStore = create(
       acceptAnalyticsCookies: true,
       acceptThirdPartyCookies: false, // cookies should be accepted, session is stored locally
       acceptCookies: false, // cookies should be accepted, session is stored locally
+      showCookieBanner: true,
       releaseNotified: false,
       mode: 'dark', // or light
       displayLayer: 'narrative',
@@ -125,11 +126,14 @@ export const useStore = create(
       setAcceptCookies: () => {
         set({ acceptCookies: true })
       },
+      setShowCookieBanner: (value) => {
+        set({ showCookieBanner: Boolean(value) })
+      },
       setAcceptAnalyticsCookies: (value) => {
         set({ acceptAnalyticsCookies: Boolean(value) })
       },
       setAcceptThirdPartyCookies: (value) => {
-        set({ acceptThirdPartyCookies: Boolean(value) })
+        set({ acceptThirdPartyCookies: Boolean(value), showCookieBanner: false })
       },
       setDisplayLayer: (value) => {
         console.info('setDisplayLayer', value)
