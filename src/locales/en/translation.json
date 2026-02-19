@@ -456,5 +456,18 @@
   },
   "loggedInAs": "Logged in as",
   "cookieSettings": "Cookie settings",
+  "cookies": {
+    "banner": {
+      "text": "This website uses essential cookies necessary for its proper functioning.",
+      "consent": "With your consent, we may also use third-party cookies (Vimeo, Sketchfab, etc.) to display embedded content from external sources. Without your consent, these contents will remain blocked.",
+      "accept": "Accept",
+      "refuse": "Refuse",
+      "termsOfUseLink": "For more information, please refer to our <1>{{termsOfUseRouteLabel}}</1> (section \"Data protection\")."
+    },
+    "placeholder": {
+      "text": "This embedded content (Vimeo, Sketchfab, etc.) is blocked to protect your privacy.",
+      "consent": "By clicking <1>here</1>, you consent to the use of third-party cookies on the entire website and this content will be displayed."
+    }
+  },
   "Hello": "Hello! Test internationalization by clicking on 🌐 in the Storybook menu."
 }

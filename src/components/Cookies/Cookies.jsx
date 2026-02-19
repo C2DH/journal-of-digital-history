@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button, Container, Form } from 'react-bootstrap'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { TermsOfUseRoute } from '../../constants/globalConstants'
 import { useTimeout } from '../../hooks/timeout'
 import { useStore } from '../../store'
@@ -44,10 +44,10 @@ const Cookies = ({ defaultAcceptCookies }) => {
     >
       <Container className="py-4">
         <p className={styles.disclaimer}>
-          This website uses essential cookies necessary for its proper functioning.
+          {t('cookies.banner.text')}
         </p>
         <p className={styles.disclaimer}>
-          With your consent, we may also use third-party cookies (Vimeo, Sketchfab, etc.) to display embedded content from external sources. Without your consent, these contents will remain blocked.
+          {t('cookies.banner.consent')}
         </p>
         <div className="my-0 my-md-3">
           <Button
@@ -55,18 +55,20 @@ const Cookies = ({ defaultAcceptCookies }) => {
             onClick={handleClickAccept}
             data-test="cookie-accept-button"
           >
-            Accept
+            {t('cookies.banner.accept')}
           </Button>
           <Button
             className={styles.AgreeButton}
             onClick={handleClickRefuse}
             data-test="cookie-refuse-button"
           >
-            Refuse
+            {t('cookies.banner.refuse')}
           </Button>
         </div>
         <p className={styles.disclaimer}>
-          For more information, please refer to our <LangLink to={TermsOfUseRoute.to}>{t(TermsOfUseRoute.label)}</LangLink> (section "Data protection").
+          <Trans i18nKey="cookies.banner.termsOfUseLink" values={{ termsOfUseRouteLabel: t(TermsOfUseRoute.label) }}>
+            For more information, please refer to our <LangLink to={TermsOfUseRoute.to}>{TermsOfUseRoute.label}</LangLink> (section "Data protection").
+          </Trans>
         </p>
       </Container>
     </div>
