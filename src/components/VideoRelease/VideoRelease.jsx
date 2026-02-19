@@ -90,26 +90,23 @@ const VideoRelease = ({
             })}
           </ul>
         </aside>
-          <animated.div
-            className="VideoRelease__modal__video"
-            ref={ref}
+        <animated.div
+          className="VideoRelease__modal__video"
+          ref={ref}
+        >
+          <Vimeo
+            video={vimeoPlayerUrl}
+            responsive
+            muted
+            className="position-absolute"
             style={{
-              opcity: modalStyle.opacity,
+              width,
+              height,
             }}
-          >
-            <Vimeo
-              video={vimeoPlayerUrl}
-              responsive
-              muted
-              className="position-absolute"
-              style={{
-                width,
-                height,
-              }}
-              onReady={onReady}
-              autoplay
-            />
-          </animated.div>
+            onReady={onReady}
+            autoplay
+          />
+        </animated.div>
 
         <div className="d-flex align-items-center px-3 VideoRelease__modal__description">
           {currentChapter ? (
