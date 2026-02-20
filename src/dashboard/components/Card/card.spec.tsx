@@ -12,7 +12,7 @@ vi.mock('react-i18next', () => ({
 
 // Mock useLocation
 const mockLocation = vi.fn()
-vi.mock('react-router', () => ({
+vi.mock('react-router-dom', () => ({
   useLocation: () => mockLocation,
 }))
 

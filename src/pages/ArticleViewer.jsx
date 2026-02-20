@@ -1,22 +1,22 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
+import { Col, Container, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { Container, Row, Col } from 'react-bootstrap'
-import { useParams } from 'react-router'
+import { useParams } from 'react-router-dom'
 
-import { useGetJSON } from '../logic/api/fetchData'
+import Loading from '../components/Loading'
 import {
   BootstrapColumLayout,
-  StatusSuccess,
+  StatusError,
   StatusFetching,
   StatusIdle,
-  StatusError,
+  StatusSuccess,
 } from '../constants/globalConstants'
-import Loading from '../components/Loading'
+import { useGetJSON } from '../logic/api/fetchData'
+import { extractMetadataFromArticle } from '../logic/api/metadata'
+import { setBodyNoScroll } from '../logic/viewport'
+import { useIssueStore } from '../store'
 import ErrorViewer from './ErrorViewer'
 import NotebookViewer from './NotebookViewer'
-import { extractMetadataFromArticle } from '../logic/api/metadata'
-import { useIssueStore } from '../store'
-import { setBodyNoScroll } from '../logic/viewport'
 
 const ArticleViewer = () => {
   const { pid } = useParams()

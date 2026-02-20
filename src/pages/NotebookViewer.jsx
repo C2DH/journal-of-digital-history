@@ -1,23 +1,23 @@
-import React, { useMemo, useEffect } from 'react'
-import { useQueryParams, NumberParam, withDefault } from 'use-query-params'
+import { useEffect, useMemo } from 'react'
+import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
-import { useGetJSON } from '../logic/api/fetchData'
-import { decodeNotebookURL } from '../logic/ipynb'
-import {
-  StatusSuccess,
-  StatusError,
-  StatusFetching,
-  ArticleVersionQueryParam,
-  URLPathsAlwaysTrustJS,
-} from '../constants/globalConstants'
+import { useParams } from 'react-router-dom'
 import Article from '../components/Article'
+import ArticleHeader from '../components/Article/ArticleHeader'
 import ArticleV2 from '../components/ArticleV2'
 import ArticleV3 from '../components/ArticleV3'
-import ArticleHeader from '../components/Article/ArticleHeader'
-import ErrorViewer from './ErrorViewer'
-import { useArticleStore, usePropsStore } from '../store'
+import {
+  ArticleVersionQueryParam,
+  StatusError,
+  StatusFetching,
+  StatusSuccess,
+  URLPathsAlwaysTrustJS,
+} from '../constants/globalConstants'
+import { useGetJSON } from '../logic/api/fetchData'
+import { decodeNotebookURL } from '../logic/ipynb'
 import { setBodyNoScroll } from '../logic/viewport'
-import { useParams } from 'react-router'
+import { useArticleStore, usePropsStore } from '../store'
+import ErrorViewer from './ErrorViewer'
 
 /**
  * Loading bar inspired by
