@@ -11,7 +11,7 @@ const options = [
 
 const onChange = vi.fn()
 
-vi.mock('react-router-dom', () => ({
+vi.mock('react-router', () => ({
   useSearchParams: () => [new URLSearchParams('?status=PUBLISHED'), vi.fn()],
   useLocation: () => ({
     pathname: '/',
