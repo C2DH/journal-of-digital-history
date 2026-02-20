@@ -3,7 +3,7 @@ import '../styles/pages/pages.css'
 
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Outlet } from 'react-router'
+import { Outlet } from 'react-router-dom'
 
 import Badge from '../components/Badge/Badge'
 import CustomBarChart from '../components/CustomBarChart/CustomBarChart'

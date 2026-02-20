@@ -1,10 +1,9 @@
-import React from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { useNavigate, generatePath } from 'react-router'
-import { encodeNotebookURL } from '../logic/ipynb'
-import { BootstrapColumLayout } from '../constants/globalConstants'
+import { generatePath, useNavigate } from 'react-router-dom'
 import FormNotebookUrl from '../components/Forms/FormNotebookUrl'
+import { BootstrapColumLayout } from '../constants/globalConstants'
+import { encodeNotebookURL } from '../logic/ipynb'
 
 /**
  * THis component displays the form where we can add the notebook
