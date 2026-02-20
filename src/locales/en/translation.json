@@ -175,7 +175,6 @@
         "openSubmission": "Open submission"
       },
       "socialMediaExplanation": "When your article is published, we promote it on Bluesky and Facebook. If you would like to be tagged, you can provide your username(s).",
-      "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply.",
       "termsAcceptance": "I have read and I accept the terms and conditions available at <a href=\"{{termsUrl}}\" target=\"_blank\">Terms of use</a>",
       "errors": {
         "callForPapersRequired": "Please select a call for papers",
