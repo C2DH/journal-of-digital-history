@@ -12,7 +12,7 @@ vi.mock('react-i18next', () => ({
 
 // Mock useNavigate
 const mockNavigate = vi.fn()
-vi.mock('react-router', () => ({
+vi.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }))
 
