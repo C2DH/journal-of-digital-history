@@ -1,36 +1,36 @@
-import React, { useMemo, useLayoutEffect, useState, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
+import { a, config, useSpring } from '@react-spring/web'
 import { sort } from 'd3-array'
+import groupBy from 'lodash/groupBy'
+import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { Col, Container, Row } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { useQueryParams, withDefault } from 'use-query-params'
-import { asEnumParam, asRegexArrayParam } from '../../logic/params'
 import {
+  ArticleStatusDraft,
+  ArticleStatusPublished,
   AvailablesOrderByComparators,
+  BootstrapColumLayout,
+  DisplayLayerCellIdxQueryParam,
+  DisplayLayerQueryParam,
   FilterByQueryparam,
+  LayerHermeneutics,
+  LayerNarrative,
   OrderByIssue,
   OrderByPublicationDateAsc,
   OrderByPublicationDateDesc,
   OrderByQueryParam,
-  BootstrapColumLayout,
-  DisplayLayerCellIdxQueryParam,
-  DisplayLayerQueryParam,
-  LayerNarrative,
-  LayerHermeneutics,
   StatusSuccess,
-  ArticleStatusDraft,
-  ArticleStatusPublished,
 } from '../../constants/globalConstants'
+import { useBoundingClientRect } from '../../hooks/graphics'
+import { asEnumParam, asRegexArrayParam } from '../../logic/params'
+import Article from '../../models/Article'
+import { useWindowStore } from '../../store'
+import ArticlesFacets from '../Articles/ArticlesFacets'
+import ArticleFingerprintTooltip from '../ArticleV2/ArticleFingerprintTooltip'
+import Issue from '../Issue'
 import IssueArticles from '../Issue/IssueArticles'
 import OrderByDropdown from '../OrderByDropdown'
-import Article from '../../models/Article'
-import ArticlesFacets from '../Articles/ArticlesFacets'
-import Issue from '../Issue'
-import ArticleFingerprintTooltip from '../ArticleV2/ArticleFingerprintTooltip'
-import groupBy from 'lodash/groupBy'
-import { Container, Row, Col } from 'react-bootstrap'
-import { useSpring, config, a } from '@react-spring/web'
-import { useNavigate } from 'react-router'
-import { useBoundingClientRect } from '../../hooks/graphics'
-import { useWindowStore } from '../../store'
 
 const ArticlesGrid = ({
   items = [],
@@ -75,7 +75,7 @@ const ArticlesGrid = ({
   const data = (items || []).map((d, idx) => new Article({ ...d, idx }))
   const articles = sort(data, AvailablesOrderByComparators[orderBy])
 
- const { articlesByIssue, advanceArticles, showFilters } = useMemo(() => {
+  const { articlesByIssue, advanceArticles, showFilters } = useMemo(() => {
     if (status !== StatusSuccess) {
       return {
         articlesByIssue: {},
@@ -120,14 +120,14 @@ const ArticlesGrid = ({
         datum.type === 'code'
           ? 'var(--white)'
           : datum.isHermeneutic
-          ? 'var(--secondary)'
-          : 'var(--white)',
+            ? 'var(--secondary)'
+            : 'var(--white)',
       backgroundColor:
         datum.type === 'code'
           ? 'var(--accent)'
           : datum.isHermeneutic
-          ? 'var(--primary)'
-          : 'var(--secondary)',
+            ? 'var(--primary)'
+            : 'var(--secondary)',
       opacity: 1,
     })
   }
