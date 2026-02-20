@@ -3,7 +3,7 @@ import '../styles/pages/pages.css'
 
 import parse from 'html-react-parser'
 import { useEffect } from 'react'
-import { useLocation } from 'react-router'
+import { useLocation } from 'react-router-dom'
 
 import DatasetButton from '../components/Buttons/DatasetButton/DatasetButton'
 import IconButton from '../components/Buttons/IconButton/IconButton'
