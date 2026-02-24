@@ -64,3 +64,6 @@ console.info(
     import.meta.env.VITE_GIT_COMMIT_SHA
   }`,
 )
+
+//Captcha enabled only in production
+console.info('%ccaptcha enabled:', 'font-weight: bold', import.meta.env.VITE_CAPTCHA_ENABLED)
