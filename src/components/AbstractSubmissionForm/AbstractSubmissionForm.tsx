@@ -14,6 +14,7 @@ import {
   initialAbstract,
   languagePreferenceOptions,
 } from '../../constants/abstractSubmissionForm'
+import { IsCaptchaEnabled } from '../../constants/globalConstants'
 import {
   AbstractSubmissionFormProps,
   AbstractSubmittedBackEnd,
@@ -379,14 +380,11 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
                 <p className="text-error">{t('pages.abstractSubmission.errors.submitError')}</p>
               )}
             </div>
-            {isValid &&
-              !githubError &&
-              !callForPapersError &&
-              import.meta.env.VITE_CAPTCHA_ENABLED && (
-                <div className="captcha-container d-flex align-items-center justify-content-center mb-3">
-                  <Altcha ref={altchaRef} />
-                </div>
-              )}
+            {isValid && !githubError && !callForPapersError && IsCaptchaEnabled && (
+              <div className="captcha-container d-flex align-items-center justify-content-center mb-3">
+                <Altcha ref={altchaRef} />
+              </div>
+            )}
             <div className="submit-button-group">
               <button
                 className="download-json-btn btn btn-outline-dark"

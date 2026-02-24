@@ -3,6 +3,7 @@ import { isMobile, isTablet } from 'react-device-detect'
 export const IsPortrait = window.innerWidth < window.innerHeight
 export const IsMobile = Boolean(isMobile)
 export const IsTablet = Boolean(isTablet)
+export const IsCaptchaEnabled = import.meta.env.VITE_CAPTCHA_ENABLED === 'true'
 
 export const HomeRoute = { to: '/', label: 'navigation.home' }
 export const ReferencesRoute = {
