@@ -33,5 +33,5 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           buildargs: |
-            GIT_COMMIT_SHA, GIT_REMOTE_URL, GIT_BRANCH, GIT_TAG, BUILD_DATE
+            GIT_COMMIT_SHA, GIT_REMOTE_URL, GIT_BRANCH, GIT_TAG, BUILD_DATE, CAPTCHA_ENABLED
           tags: 'latest'
