@@ -29,6 +29,7 @@ jobs:
           GIT_BRANCH: ${{ env.GIT_BRANCH }}
           GIT_TAG: ${{ env.GIT_TAG }}
           BUILD_DATE: ${{ env.BUILD_DATE }}
+          CAPTCHA_ENABLED: true
         with:
           name: c2dhunilu/journal-of-digital-history
           username: ${{ secrets.DOCKERHUB_USERNAME }}

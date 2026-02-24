@@ -382,7 +382,7 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
             {isValid &&
               !githubError &&
               !callForPapersError &&
-              import.meta.env.VITE_GIT_BRANCH != 'develop' && (
+              import.meta.env.VITE_CAPTCHA_ENABLED && (
                 <div className="captcha-container d-flex align-items-center justify-content-center mb-3">
                   <Altcha ref={altchaRef} />
                 </div>
