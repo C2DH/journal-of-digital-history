@@ -12,8 +12,8 @@ vi.mock('react-i18next', () => ({
 
 const mockSetSearchParams = vi.fn()
 const mockSearchParams = new URLSearchParams()
-vi.mock('react-router', async () => {
-  const actual = await vi.importActual<any>('react-router')
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual<any>('react-router-dom')
   return {
     ...actual,
     useSearchParams: () => [mockSearchParams, mockSetSearchParams],

@@ -2,7 +2,6 @@ import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
 import parse from 'html-react-parser'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import ReCAPTCHA from 'react-google-recaptcha'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useQueryParam, withDefault } from 'use-query-params'
@@ -15,7 +14,6 @@ import {
   initialAbstract,
   languagePreferenceOptions,
 } from '../../constants/abstractSubmissionForm'
-import { ReCaptchaSiteKey } from '../../constants/globalConstants'
 import {
   AbstractSubmissionFormProps,
   AbstractSubmittedBackEnd,
@@ -36,6 +34,7 @@ import { getErrorByField } from '../../logic/errors'
 import { getLocalizedPath } from '../../logic/language'
 import { CfpParam } from '../../logic/params'
 import { submissionFormSchema } from '../../schemas/abstractSubmission'
+import Altcha from '../Altcha/Altcha'
 import AbstractSubmissionCallForPapers from './CallForPapers'
 import DynamicForm from './DynamicForm/DynamicForm'
 import StaticForm from './StaticForm'
@@ -53,8 +52,7 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
   const [callForPapersError, setCallForPapersError] = useState('')
   const [missingFields, setMissingFields] = useState<ErrorField>({})
   const [isSubmitAttempted, setIsSubmitAttempted] = useState(false)
-
-  const recaptchaRef = useRef<ReCAPTCHA>(null)
+  const altchaRef = useRef<HTMLInputElement>(null)
 
   //Initialization of the JSON validation
   const ajv = new Ajv({ allErrors: true })
@@ -139,15 +137,7 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
       console.error('[AbstractSubmissionForm - AJV errors] validate.errors', validate.errors)
       return
     } else {
-      const recaptchaToken = await recaptchaRef.current?.executeAsync()
-      if (!recaptchaToken) {
-        console.error('ReCAPTCHA failed to generate a token.')
-        return
-      }
-      console.log('ReCAPTCHA token:', recaptchaToken)
-      recaptchaRef.current?.reset()
-
-      createAbstractSubmission({ item: formData, token: recaptchaToken })
+      createAbstractSubmission({ item: formData, altcha: altchaRef.current?.value })
         .then((res: { status: number; data: AbstractSubmittedBackEnd }) => {
           if (res?.status === 200 || res?.status === 201) {
             console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
@@ -363,7 +353,7 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
                 <br />
               </div>
             </div>
-            <div className="form-check d-flex align-items-center">
+            <div className="form-check d-flex align-items-center ">
               <StaticForm
                 id="termsAccepted"
                 label={
@@ -384,12 +374,19 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
               />
             </div>
             <br />
-            <p>{parse(t('pages.abstractSubmission.recaptchaDisclaimer'))}</p>
             <div className="final-error-container">
               {isSubmitAttempted && (!isValid || !!githubError || !!callForPapersError) && (
                 <p className="text-error">{t('pages.abstractSubmission.errors.submitError')}</p>
               )}
             </div>
+            {isValid &&
+              !githubError &&
+              !callForPapersError &&
+              process.env.NODE_ENV === 'production' && (
+                <div className="captcha-container d-flex align-items-center justify-content-center mb-3">
+                  <Altcha ref={altchaRef} />
+                </div>
+              )}
             <div className="submit-button-group">
               <button
                 className="download-json-btn btn btn-outline-dark"
@@ -401,9 +398,7 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
               >
                 {t('actions.downloadAsJSON')}
               </button>
-              {isValid && !githubError && !callForPapersError && (
-                <ReCAPTCHA ref={recaptchaRef} size="invisible" sitekey={ReCaptchaSiteKey} />
-              )}
+
               <button
                 type="submit"
                 className="submit-btn btn btn-primary"

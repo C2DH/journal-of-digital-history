@@ -20,7 +20,7 @@ vi.mock('react-i18next', () => ({
 
 // Capture navigate calls
 const navigateMock = vi.fn()
-vi.mock('react-router', () => ({
+vi.mock('react-router-dom', () => ({
   useNavigate: () => navigateMock,
 }))
 

@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import { MemoryRouter } from 'react-router'
+import { MemoryRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 
 import DropdownMenu from './DropdownMenu'
@@ -11,7 +11,7 @@ const options = [
 
 const onChange = vi.fn()
 
-vi.mock('react-router-dom', () => ({
+vi.mock('react-router', () => ({
   useSearchParams: () => [new URLSearchParams('?status=PUBLISHED'), vi.fn()],
   useLocation: () => ({
     pathname: '/',

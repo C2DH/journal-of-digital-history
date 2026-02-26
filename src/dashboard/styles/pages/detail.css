@@ -11,18 +11,10 @@
 .card-contact {
   grid-area: c;
 }
-
-.detail-grid {
-  color: var(--color-deep-blue);
+.card-authors {
+  grid-area: u;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-areas:
-    'i i c'
-    'a a l'
-    'a a .'
-    'a a .';
-  gap: var(--gap-size-4);
-  padding: var(--space-size-1);
+  gap: var(--gap-size-3);
 }
 
 .card-info {
@@ -56,63 +48,16 @@ h2 {
   margin: 0 0 var(--space-size-3) 0;
 }
 
-/* RESPONSIVE */
-
-@media (min-width: 2000px) {
-  .detail-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-areas:
-      'i c .'
-      'a a l'
-      'a a .'
-      'a a .';
-  }
-}
-
-@media (max-width: 1800px) {
-  .detail-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-areas:
-      'i i'
-      'l c'
-      'a a'
-      'a a';
-  }
-}
-
-/* Tablet or small screen view */
-@media (max-width: 1200px) {
-  .detail-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      ' i '
-      ' c '
-      ' l '
-      ' a '
-      ' a ';
-  }
-  .card-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-/* Mobile view */
-@media screen and (max-width: 767px) {
-  .detail-grid {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-size-2);
-  }
-
-  a {
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+    'i i c'
+    'a a l'
+    'a a u'
+    'a a .';
+  gap: var(--gap-size-4);
+  padding: var(--space-size-1);
 }
 
 /* CONTACT */
@@ -133,4 +78,116 @@ a {
 }
 .orcid-icon img {
   opacity: 0.6;
+}
+
+/* AUTHOR  */
+.author-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-size-1);
+}
+
+.author-info > .item > .label {
+  min-width: 50px;
+}
+
+.author-info > .item > .value {
+  margin-left: var(--gap-size-0);
+  max-width: 150px;
+}
+
+/* RESPONSIVE */
+
+@media (min-width: 2000px) {
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      'i i .'
+      'a a l'
+      'a a c'
+      'a a u';
+  }
+}
+
+@media (max-width: 1800px) {
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+      'i i'
+      'l c'
+      'a a'
+      'a a'
+      'u u'
+      'u u';
+  }
+  .card-authors {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--gap-size-3);
+  }
+}
+
+/* Tablet or small screen view */
+@media (max-width: 1200px) {
+  .detail-grid {
+    display: grid;
+    grid-template-areas:
+      'i i'
+      'l l'
+      'c c'
+      'a a'
+      'a a'
+      'u u';
+  }
+  .card-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .card-authors {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--gap-size-3);
+  }
+  .author-info > .item > .label {
+    min-width: 100px;
+  }
+
+  .author-info > .item > .value {
+    margin-left: var(--gap-size-0);
+    max-width: 100%;
+  }
+}
+
+/* Mobile view */
+@media screen and (max-width: 767px) {
+  .detail-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-size-2);
+    grid-template-areas:
+      'i'
+      'l'
+      'c'
+      'a'
+      'a'
+      'u';
+  }
+  a {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .author-info > .item > .label {
+    min-width: 100px;
+  }
+
+  .author-info > .item > .value {
+    margin-left: var(--gap-size-0);
+    max-width: 100%;
+  }
 }

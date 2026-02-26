@@ -1,7 +1,25 @@
 .link-button-orcid {
   background-color: transparent;
+  padding: 0;
 }
 
 .link-button-github {
   background-color: transparent;
+  border: none;
+  color: var(--color-deep-blue);
+  cursor: pointer;
+  padding: 0 var(--gap-size-1);
+}
+
+.link-button-bsky {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.link-button-facebook {
+  background-color: transparent;
+  border: none;
+  color: var(--color-deep-blue);
+  cursor: pointer;
 }

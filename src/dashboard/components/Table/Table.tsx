@@ -3,7 +3,7 @@ import './Table.css'
 import CircularProgress from '@mui/material/CircularProgress'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 
 import { TableProps } from './interface'
 
