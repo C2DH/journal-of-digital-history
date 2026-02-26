@@ -180,7 +180,7 @@ const Table = ({
                         }
                       />
                     )}
-                    {loadingRow === pid && <CircularProgress color="inherit" size={20} />}
+                    {loadingRow === pid && <CircularProgress color="inherit" size={28} />}
                   </td>
                 )}
               </tr>

@@ -205,6 +205,18 @@ const getSocialMediaCover = async (pid: string): Promise<{ download_url: string 
     })
 }
 
+const patchArticleStatus = async (body: { status: string }, pid: string) => {
+  console.info('PATCH [patchArticleStatus]')
+
+  return api
+    .patch(`/api/articles/${pid}/status`, body)
+    .then((res) => res.data)
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
 export {
   getAbstractsByStatusAndCallForPapers,
   getAbstractsSubmittedToOJS,
@@ -216,6 +228,7 @@ export {
   getTweetContent,
   modifyAbstractStatusWithEmail,
   modifyStatus,
+  patchArticleStatus,
   postArticletoSubmissionOJS,
   postBlueskyCampaign,
   postFacebookCampaign,

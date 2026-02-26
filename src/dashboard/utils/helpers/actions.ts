@@ -1,4 +1,4 @@
-import { postArticletoSubmissionOJS } from '../api/api'
+import { patchArticleStatus, postArticletoSubmissionOJS } from '../api/api'
 import { ModalInfo, RowAction, SetNotification } from '../types'
 
 /**
@@ -42,6 +42,26 @@ function getRowActions(
               message: 'Failed to send Article to OJS for peer review',
               submessage: error.message,
             })
+          })
+        // .finally(() => setLoadingRow(''))
+        await patchArticleStatus({ status: 'PEER_REVIEW' }, pid)
+          .then((res) => {
+            setTimeout(() => {
+              setNotification({
+                type: 'success',
+                message: 'Article status updated',
+              })
+            }, 5000) // 5 second delay
+          })
+          .catch((error) => {
+            console.error('Failed to send Article to OJS :', error)
+            setTimeout(() => {
+              setNotification({
+                type: 'error',
+                message: 'Failed to update Article status',
+                submessage: error.message,
+              })
+            }, 5000) // 5 second delay
           })
           .finally(() => setLoadingRow(''))
         break
