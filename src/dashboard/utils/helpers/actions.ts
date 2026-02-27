@@ -28,40 +28,39 @@ function getRowActions(
       case 'Ojs':
         setLoadingRow(pid)
         await postArticletoSubmissionOJS({ pid: pid })
-          .then((res) => {
+          .then(async (res) => {
             setNotification({
               type: 'success',
               message: 'Article send to OJS sucessfully for peer review',
               submessage: res.data.message,
             })
+            await patchArticleStatus({ status: 'PEER_REVIEW' }, pid)
+              .then((res) => {
+                setTimeout(() => {
+                  setNotification({
+                    type: 'success',
+                    message: 'Article status updated',
+                  })
+                }, 5000)
+              })
+              .catch((error) => {
+                console.error('Failed to send Article to OJS :', error)
+                setTimeout(() => {
+                  setNotification({
+                    type: 'error',
+                    message: 'Failed to update Article status',
+                    submessage: error.message,
+                  })
+                }, 5000)
+              })
           })
           .catch((error) => {
             console.error('Failed to send Article to OJS :', error)
             setNotification({
               type: 'error',
               message: 'Failed to send Article to OJS for peer review',
-              submessage: error.message,
+              submessage: error.details,
             })
-          })
-        // .finally(() => setLoadingRow(''))
-        await patchArticleStatus({ status: 'PEER_REVIEW' }, pid)
-          .then((res) => {
-            setTimeout(() => {
-              setNotification({
-                type: 'success',
-                message: 'Article status updated',
-              })
-            }, 5000) // 5 second delay
-          })
-          .catch((error) => {
-            console.error('Failed to send Article to OJS :', error)
-            setTimeout(() => {
-              setNotification({
-                type: 'error',
-                message: 'Failed to update Article status',
-                submessage: error.message,
-              })
-            }, 5000) // 5 second delay
           })
           .finally(() => setLoadingRow(''))
         break

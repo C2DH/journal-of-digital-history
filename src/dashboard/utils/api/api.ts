@@ -100,7 +100,7 @@ const postArticletoSubmissionOJS = async (body: { pid: string }) => {
     })
     .catch((err) => {
       console.error(err)
-      throw err
+      throw err.response.data
     })
 }
 
