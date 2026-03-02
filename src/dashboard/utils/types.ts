@@ -247,6 +247,7 @@ export interface FormState {
 
 export type NotificationType = 'success' | 'warning' | 'error' | 'info'
 export type Notification = { type: NotificationType; message: string; submessage?: string }
+export type SetNotification = (notification: Notification) => void | undefined
 export interface NotificationState {
   isVisible: boolean
   notification: Notification

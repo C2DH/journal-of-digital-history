@@ -54,7 +54,6 @@ const getArticlesByStatusAndIssues = async (issue: number, status: string): APIR
   return api
     .get(`/api/articles?issue=${issue}&status=${status}`)
     .then((res) => {
-      // console.info(`Articles for status: ${status} for issue id: ${issue}`, res.data)
       return res.data
     })
     .catch((err) => {
@@ -72,12 +71,36 @@ const getAbstractsByStatusAndCallForPapers = async (
   return api
     .get(`/api/abstracts/?callpaper=${callforpaper}&status=${status}`)
     .then((res) => {
-      // console.info(`Abstracts for callforpaper id: ${callforpaper}`, res.data)
       return res.data
     })
     .catch((err) => {
       console.error(err)
       throw err
+    })
+}
+
+const getAbstractsSubmittedToOJS = async (): Promise<{ count: number }> => {
+  console.info(`GET [getAbstractsSubmittedToOJS ]`)
+
+  return api
+    .get(`/api/articles/ojs/submissions`)
+    .then((res) => {
+      return res.data
+    })
+    .catch((err) => console.error(err))
+}
+
+const postArticletoSubmissionOJS = async (body: { pid: string }) => {
+  console.info(`POST [postArticletoSubmissionOJS]`)
+
+  return api
+    .post('/api/articles/ojs/submission', body)
+    .then((res) => {
+      return res
+    })
+    .catch((err) => {
+      console.error(err)
+      throw err.response.data
     })
 }
 
@@ -182,8 +205,21 @@ const getSocialMediaCover = async (pid: string): Promise<{ download_url: string 
     })
 }
 
+const patchArticleStatus = async (body: { status: string }, pid: string) => {
+  console.info('PATCH [patchArticleStatus]')
+
+  return api
+    .patch(`/api/articles/${pid}/status`, body)
+    .then((res) => res.data)
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
 export {
   getAbstractsByStatusAndCallForPapers,
+  getAbstractsSubmittedToOJS,
   getAdvanceArticles,
   getArticlesByStatus,
   getArticlesByStatusAndIssues,
@@ -192,6 +228,8 @@ export {
   getTweetContent,
   modifyAbstractStatusWithEmail,
   modifyStatus,
+  patchArticleStatus,
+  postArticletoSubmissionOJS,
   postBlueskyCampaign,
   postFacebookCampaign,
 }

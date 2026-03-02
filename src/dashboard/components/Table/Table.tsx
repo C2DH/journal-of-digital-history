@@ -1,5 +1,6 @@
 import './Table.css'
 
+import CircularProgress from '@mui/material/CircularProgress'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -53,12 +54,14 @@ const Table = ({
   setSort,
   isAccordeon = false,
   setRowModal,
+  onNotify,
 }: TableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const search = location.search
 
   const [isMobile, setIsMobile] = useState(false)
+  const [loadingRow, setLoadingRow] = useState<string>('')
 
   const { headers: mergedHeaders, data: mergedData } = authorColumn(headers, data)
   const visibleHeaders = getVisibleHeaders({ data: mergedData, headers: mergedHeaders })
@@ -128,6 +131,8 @@ const Table = ({
         </thead>
         <tbody>
           {cleanData.map((row, rIdx) => {
+            const pid = row[0]
+
             return (
               <tr key={rIdx}>
                 {row.map((cell: string | number, cIdx: number) => {
@@ -160,12 +165,22 @@ const Table = ({
                 })}
                 {isArticleOrAbstracts && !isAccordeon && (
                   <td className="actions-cell">
-                    {setRowModal && (
+                    {setRowModal && loadingRow !== pid && (
                       <ActionButton
-                        actions={getRowActions(isArticleItem, row, setRowModal, t)}
-                        active={getRowActions(isArticleItem, row, setRowModal, t).length > 0}
+                        actions={getRowActions(
+                          row,
+                          isArticleItem,
+                          setRowModal,
+                          onNotify,
+                          setLoadingRow,
+                        )}
+                        active={
+                          getRowActions(row, isArticleItem, setRowModal, onNotify, setLoadingRow)
+                            .length > 0
+                        }
                       />
                     )}
+                    {loadingRow === pid && <CircularProgress color="inherit" size={28} />}
                   </td>
                 )}
               </tr>

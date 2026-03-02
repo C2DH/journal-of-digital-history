@@ -1,9 +1,5 @@
-// src/dashboard/components/Counter/Counter.tsx
 import './Counter.css'
-
-type CounterProps = {
-  value: number
-}
+import { CounterProps } from './interface'
 
 const Counter = ({ value }: CounterProps) => <div className="counter-box">{value}</div>
 

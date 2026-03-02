@@ -22,7 +22,7 @@ export const articleStatusSchema = {
         'technical_review',
         'peer_review',
         'design_review',
-        'copyediting',
+        'copy_editing',
         'social',
         'published',
         'archived',
