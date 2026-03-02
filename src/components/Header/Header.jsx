@@ -11,7 +11,7 @@ import SwitchLanguageLink from '../SwitchLanguage/SwitchLanguageLink'
 import UserProfile from './UserProfile'
 
 import deGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_white.svg?url'
-import uniluLogo from '../../assets/images/unilu-c2dh-logo-white.svg?url'
+import uniluLogo from '../../assets/images/unilu-c2dh-logo-white-v2.svg?url'
 import {
   NotebookPoweredPaths,
   PrimaryRoutes,
