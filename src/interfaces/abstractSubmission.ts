@@ -34,6 +34,7 @@ export interface Author {
   githubId: string
   blueskyId?: string
   facebookId?: string
+  linkedinId?: string
   primaryContact: boolean
 }
 
@@ -68,6 +69,7 @@ export interface AuthorBackEnd {
   github_id: string
   bluesky_id: string
   facebook_id: string
+  linkedin_id: string
 }
 export interface DatasetBackEnd {
   id: number

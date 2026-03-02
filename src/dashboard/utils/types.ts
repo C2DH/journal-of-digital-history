@@ -96,6 +96,7 @@ export interface Author {
   github_id: string
   bluesky_id: string | null
   facebook_id: string | null
+  linkedin_id: string | null
 }
 
 /* Callforpaper */
