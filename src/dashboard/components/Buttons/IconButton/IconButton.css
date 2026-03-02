@@ -3,21 +3,10 @@
   padding: 0;
 }
 
-.link-button-github {
-  background-color: transparent;
-  border: none;
-  color: var(--color-deep-blue);
-  cursor: pointer;
-  padding: 0 var(--gap-size-1);
-}
-
-.link-button-bsky {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-.link-button-facebook {
+.link-button-github,
+.link-button-bsky,
+.link-button-facebook,
+.link-button-linkedin {
   background-color: transparent;
   border: none;
   color: var(--color-deep-blue);
