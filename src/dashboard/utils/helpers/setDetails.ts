@@ -48,6 +48,7 @@ export function setDetails(item: Abstract | Article) {
         description: dataset.description || '',
       })),
     ]
+    authors = item.authors
     url = item.repository_url === undefined ? '-' : item.repository_url
     title = item.title
     abstractText = item.abstract
