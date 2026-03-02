@@ -10,7 +10,7 @@ import SwitchLanguage from '../SwitchLanguage'
 import SwitchLanguageLink from '../SwitchLanguage/SwitchLanguageLink'
 import UserProfile from './UserProfile'
 
-import deGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_white.svg?url'
+import deGruyterLogo from '../../assets/images/de_gruyter_brill_logo_white.svg?url'
 import uniluLogo from '../../assets/images/unilu-c2dh-logo-white-v2.svg?url'
 import {
   NotebookPoweredPaths,
@@ -97,7 +97,7 @@ const MobileHeader = ({ langs, displayLangs }) => {
               <img
                 alt="C2DH - University of Luxembourg"
                 src={uniluLogo}
-                style={{ width: 170, marginLeft: -10 }}
+                style={{ width: 250, marginLeft: -10 }}
               />
             </a>
             <a
