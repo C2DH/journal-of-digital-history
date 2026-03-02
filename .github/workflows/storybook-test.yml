@@ -23,12 +23,18 @@ jobs:
         run: yarn install
 
       - name: Install Playwright
-        run: npx playwright install --with-deps
+        run: yarn playwright install
 
       - name: Build Storybook
         env:
           NODE_OPTIONS: '--openssl-legacy-provider'
         run: yarn build-storybook --quiet
+
+      - name: Run Storybook tests
+        env:
+          NODE_OPTIONS: '--openssl-legacy-provider'
+        run: yarn test-storybook
+
       # - name: Serve Storybook and run tests
       #   run: |
       #     npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
