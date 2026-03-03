@@ -1,11 +1,10 @@
-import React from 'react'
-import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 
 import ArticleToC from '../components/ArticleV3/ArticleToC'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
-import { image3, image4 } from './fixtures/images'
+import { image3, image4 } from './fixtures/images.ts'
 
 export default {
   title: 'ArticleV3/Table of Contents',
