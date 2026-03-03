@@ -29,8 +29,9 @@ jobs:
         env:
           NODE_OPTIONS: '--openssl-legacy-provider'
         run: yarn build-storybook --quiet
-      # - name: Serve Storybook and run tests
-      #   run: |
-      #     npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-      #       "npx http-server storybook-static --port 6006" \
-      #       "npx wait-on tcp:6006 && yarn test-storybook"
+
+      - name: Serve Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static --port 6006" \
+            "npx wait-on tcp:6006 && yarn test-storybook"
