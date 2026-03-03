@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_Oldenbourg.svg?url'
 import BlueskyIcon from '../../assets/images/bluesky.svg?url'
+import { useStore } from '../../store'
 import UniluLogo from '../../assets/images/unilu-c2dh-logo.svg?url'
 import {
   AboutRoute,
