@@ -43,6 +43,10 @@
     margin: 10px 3rem;;
     color: #666;
     text-align: center;
+
+    &:first-of-type {
+      font-weight: bold;
+    }
   }
 
   a {

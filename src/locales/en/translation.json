@@ -464,8 +464,8 @@
       "termsOfUseLink": "For more information, please refer to our <1>{{termsOfUseRouteLabel}}</1> (section \"Data protection\")."
     },
     "placeholder": {
-      "text": "This embedded content (Vimeo, Sketchfab, etc.) is blocked to protect your privacy.",
-      "consent": "By clicking <1>here</1>, you consent to the use of third-party cookies on the entire website and this content will be displayed."
+      "text": "External content blocked for privacy.",
+      "consent": "Enable <1>cookies</1> to view this media."
     }
   },
   "Hello": "Hello! Test internationalization by clicking on 🌐 in the Storybook menu."
