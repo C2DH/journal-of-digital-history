@@ -19,13 +19,15 @@ jobs:
         run: corepack enable
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: |
+          rm -rf node_modules
+          yarn install --immutable
 
       - name: Install Playwright
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps chromium --force
 
       - name: Build Storybook
-        run: yarn build-storybook --quiet
+        run: yarn build-storybook --quiet --test
 
       - name: Serve Storybook and run tests
         run: |
