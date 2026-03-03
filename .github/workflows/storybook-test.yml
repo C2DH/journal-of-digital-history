@@ -30,10 +30,10 @@ jobs:
           NODE_OPTIONS: '--openssl-legacy-provider'
         run: yarn build-storybook --quiet
 
-      - name: Run Storybook tests
-        env:
-          NODE_OPTIONS: '--openssl-legacy-provider'
-        run: yarn test-storybook
+      - name: Run test runner
+        run: |
+          yarn build
+          yarn test-storybook:ci-coverage
 
       # - name: Serve Storybook and run tests
       #   run: |
