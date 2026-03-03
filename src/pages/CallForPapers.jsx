@@ -1,14 +1,13 @@
-import React from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import { Zap } from 'react-feather'
 import { useTranslation } from 'react-i18next'
-import StaticPageLoader from './StaticPageLoader'
 import Article from '../components/ArticleV2'
 import LangLink from '../components/LangLink'
 import NotebookHelmet from '../components/NotebookHelmet'
+import StaticPageLoader from './StaticPageLoader'
 
-import { LayerNarrative, BootstrapColumLayout, StatusSuccess } from '../constants/globalConstants'
-import { useParams } from 'react-router'
+import { useParams } from 'react-router-dom'
+import { BootstrapColumLayout, LayerNarrative, StatusSuccess } from '../constants/globalConstants'
 
 const CallForPapers = () => {
   const { permalink } = useParams()

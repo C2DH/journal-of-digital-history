@@ -1,7 +1,6 @@
 .github-icon {
   width: 20px;
   height: 20px;
-  margin: var(--gap-size-1);
 }
 .mybinder-icon,
 .preview-icon,
@@ -24,6 +23,10 @@
 .link-container:hover {
   background-color: var(--color-accent-lighter);
   border-radius: 16px;
+}
+
+.link-content > svg {
+  margin: var(--gap-size-1);
 }
 
 .link-content {

@@ -1,7 +1,7 @@
 import { PieChart } from '@mui/x-charts/PieChart'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 
 import { colorsPieChart } from '../../styles/theme'
 import { getArticlesByStatus } from '../../utils/api/api'

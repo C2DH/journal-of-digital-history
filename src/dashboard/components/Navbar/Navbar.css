@@ -101,7 +101,7 @@
 }
 
 /* Tablet or small screen view */
-@media (max-width: 1400px) {
+@media (max-width: 1500px) {
   .navbar {
     width: var(--navbar-width-mobile);
   }

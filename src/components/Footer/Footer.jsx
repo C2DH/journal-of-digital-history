@@ -1,25 +1,23 @@
-import React from 'react'
-import LangNavLink from '../LangNavLink'
-import { useLocation } from 'react-router'
-import { useTranslation } from 'react-i18next'
-import { Container, Row, Col, Nav } from 'react-bootstrap'
-import VideoReleaseTrigger from '../VideoRelease/VideoReleaseTrigger'
-import {
-  BootstrapFullColumLayout,
-  HomeRoute,
-  AbstractSubmissionRoute,
-  AboutRoute,
-  ReleaseNotesRoute,
-  TermsOfUseRoute,
-  ReviewPolicy,
-  FaqRoute,
-} from '../../constants/globalConstants'
+import { Col, Container, Nav, Row } from 'react-bootstrap'
 import { Facebook, GitHub } from 'react-feather'
+import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
 import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_Oldenbourg.svg?url'
-import UniluLogo from '../../assets/images/unilu-c2dh-logo.svg?url'
 import BlueskyIcon from '../../assets/images/bluesky.svg?url'
-import { useStore } from '../../store'
+import UniluLogo from '../../assets/images/unilu-c2dh-logo.svg?url'
+import {
+  AboutRoute,
+  AbstractSubmissionRoute,
+  BootstrapFullColumLayout,
+  FaqRoute,
+  HomeRoute,
+  ReleaseNotesRoute,
+  ReviewPolicy,
+  TermsOfUseRoute,
+} from '../../constants/globalConstants'
 import '../../styles/components/Footer.scss'
+import LangNavLink from '../LangNavLink'
+import VideoReleaseTrigger from '../VideoRelease/VideoReleaseTrigger'
 
 const now = new Date()
 
@@ -98,7 +96,8 @@ const Footer = ({ hideOnRoutes = [] }) => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                <img src={BlueskyIcon} alt="Bluesky Icon" style={{ width: '15px' }} /> @{import.meta.env.VITE_BLUESKY}
+                  <img src={BlueskyIcon} alt="Bluesky Icon" style={{ width: '15px' }} /> @
+                  {import.meta.env.VITE_BLUESKY}
                 </a>
               </div>
               <div className="d-none d-md-block"> &middot;</div>

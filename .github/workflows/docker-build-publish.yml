@@ -27,10 +27,11 @@ jobs:
           GIT_REMOTE_URL: ${{ env.GIT_REMOTE_URL }}
           GIT_BRANCH: ${{ env.GIT_BRANCH }}
           BUILD_DATE: ${{ env.BUILD_DATE }}
+          CAPTCHA_ENABLED: false
         with:
           name: c2dhunilu/journal-of-digital-history
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           buildargs: |
-            GIT_COMMIT_SHA, GIT_REMOTE_URL, GIT_BRANCH, GIT_TAG, BUILD_DATE
+            GIT_COMMIT_SHA, GIT_REMOTE_URL, GIT_BRANCH, GIT_TAG, BUILD_DATE, CAPTCHA_ENABLED
           tags: 'latest'

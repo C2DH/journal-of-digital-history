@@ -3,6 +3,7 @@ import { isMobile, isTablet } from 'react-device-detect'
 export const IsPortrait = window.innerWidth < window.innerHeight
 export const IsMobile = Boolean(isMobile)
 export const IsTablet = Boolean(isTablet)
+export const IsCaptchaEnabled = import.meta.env.VITE_CAPTCHA_ENABLED === 'true'
 
 export const HomeRoute = { to: '/', label: 'navigation.home' }
 export const ReferencesRoute = {
@@ -75,9 +76,6 @@ export const NotebookPoweredPaths = [
   '/guidelines/',
   '/guidelines',
 ]
-export const ReCaptchaSiteKey = window.Cypress
-  ? import.meta.env.VITE_RECAPTCHA_SITE_KEY_CYPRESS
-  : import.meta.env.VITE_RECAPTCHA_SITE_KEY_APP
 export const GaTrackingId = import.meta.env.VITE_GA_TRACKING_ID
 
 export const BootstrapColumLayout = Object.freeze({

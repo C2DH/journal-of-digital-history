@@ -1,6 +1,5 @@
-import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { matchPath } from 'react-router'
+import { matchPath, useParams } from 'react-router-dom'
 
 const LANGUAGES = (import.meta.env.VITE_LANGUAGES ?? 'en-GB,fr-FR').split(',')
 const LANGUAGES_SHORTS = LANGUAGES.map((l) => l.split('-')[0])
@@ -104,4 +103,4 @@ const getLocalizedPath = (path) => {
   return `/${basePath}${path}`
 }
 
-export { getStartLang, useToWithLang, getLocalizedPath, LANGUAGE_PATH, LANGUAGES }
+export { getLocalizedPath, getStartLang, LANGUAGE_PATH, LANGUAGES, useToWithLang }
