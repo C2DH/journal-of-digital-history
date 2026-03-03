@@ -15,6 +15,7 @@ const VideoRelease = ({
 }) => {
   const setReleaseNotified = useStore((state) => state.setReleaseNotified)
   const [{ width, height }, ref] = useBoundingClientRect()
+  const acceptThirdPartyCookies = useStore((state) => state.acceptThirdPartyCookies);
   const playerRef = useRef()
   const [chapters, setChapters] = useState([])
   const [currentChapter, setCurrentChapter] = useState(null)
@@ -64,6 +65,9 @@ const VideoRelease = ({
     apiModalStyle.start({ opacity: 0, y: 50 })
   }
 
+  if (!acceptThirdPartyCookies)
+    return null;
+
   return (
     <animated.div style={modalStyle} className="VideoRelease">
       <div className="VideoRelease__modal shadow-lg" data-testid="video-release-modal">
@@ -89,9 +93,6 @@ const VideoRelease = ({
         <animated.div
           className="VideoRelease__modal__video"
           ref={ref}
-          style={{
-            opcity: modalStyle.opacity,
-          }}
         >
           <Vimeo
             video={vimeoPlayerUrl}
@@ -106,6 +107,7 @@ const VideoRelease = ({
             autoplay
           />
         </animated.div>
+
         <div className="d-flex align-items-center px-3 VideoRelease__modal__description">
           {currentChapter ? (
             <span
