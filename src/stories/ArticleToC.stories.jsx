@@ -4,7 +4,7 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 
 import ArticleToC from '../components/ArticleV3/ArticleToC'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
-import { image3, image4 } from './fixtures/images.ts'
+import { image3, image4 } from './fixtures/images.js'
 
 export default {
   title: 'ArticleV3/Table of Contents',
