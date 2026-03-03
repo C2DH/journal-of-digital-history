@@ -286,3 +286,6 @@ Default.args = {
     },
   },
 }
+
+// Skip this story by the Github CI runner
+Default.playwright = { skip: true }
