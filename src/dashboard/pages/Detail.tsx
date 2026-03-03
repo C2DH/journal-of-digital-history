@@ -147,6 +147,9 @@ const Detail = ({ endpoint }) => {
                           {author.facebook_id && (
                             <IconButton value={`https://www.facebook.com/${author.facebook_id}`} />
                           )}
+                          {author.linkedin_id && (
+                            <IconButton value={`https://linkedin.com/in/${author.linkedin_id}`} />
+                          )}
                         </>
                       }
                     />

@@ -1,6 +1,6 @@
 import './IconButton.css'
 
-import { Facebook, Github } from 'iconoir-react'
+import { Facebook, Github, Linkedin } from 'iconoir-react'
 
 import BlueskyIcon from '../../../../assets/images/bluesky_blue.svg?url'
 import OrcidIconUrl from '../../../../assets/images/orcid_logo_blue_inverted.svg?url'
@@ -47,6 +47,9 @@ const IconButton = ({ value }: any) => {
         break
       case 'facebook':
         icon = <Facebook className="facebook-icon" data-testid="facebook-icon" />
+        break
+      case 'linkedin':
+        icon = <Linkedin className="linkedin-icon" data-testid="linkedin-icon" />
         break
       default:
         icon = mainDomain
