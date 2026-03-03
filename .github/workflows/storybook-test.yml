@@ -1,42 +1,32 @@
 name: 'Storybook Tests'
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, reopened, synchronize]
   workflow_dispatch:
 
 jobs:
   test:
-    timeout-minutes: 15
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '>=20.0.0'
+      - uses: actions/checkout@v4
 
-      - name: Install Yarn 4 (Berry)
-        run: corepack enable && corepack prepare yarn@4.9.1 --activate
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'yarn'
 
       - name: Install dependencies
-        env:
-          NODE_OPTIONS: '--openssl-legacy-provider'
-        run: yarn install
+        run: yarn install --immutable
 
       - name: Install Playwright
-        run: yarn playwright install
+        run: npx playwright install --with-deps chromium
 
       - name: Build Storybook
-        env:
-          NODE_OPTIONS: '--openssl-legacy-provider'
         run: yarn build-storybook --quiet
 
-      - name: Run test runner
+      - name: Serve Storybook and run tests
         run: |
-          yarn build
-          yarn test-storybook:ci-coverage
-
-      # - name: Serve Storybook and run tests
-      #   run: |
-      #     npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-      #       "npx http-server storybook-static --port 6006" \
-      #       "npx wait-on tcp:6006 && yarn test-storybook"
+          npx serve storybook-static -l 6006 &
+          npx wait-on tcp:6006
+          yarn test-storybook --coverage
