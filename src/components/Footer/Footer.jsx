@@ -2,8 +2,8 @@ import { Col, Container, Nav, Row } from 'react-bootstrap'
 import { Facebook, GitHub } from 'react-feather'
 import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
+import DeGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_Oldenbourg.svg?url'
 import BlueskyIcon from '../../assets/images/bluesky.svg?url'
-import DeGruyterLogo from '../../assets/images/de_gruyter_brill_logo_black.svg?url'
 import UniluLogo from '../../assets/images/unilu-c2dh-logo-v2.svg?url'
 import {
   AboutRoute,
@@ -139,28 +139,31 @@ const Footer = ({ hideOnRoutes = [] }) => {
         <Row>
           <Col {...BootstrapFullColumLayout}>
             <div
-              className="position-relative border-top border-dark pt-3 mt-3 d-flex align-items-center flex-column flex-md-row "
+              className="position-relative border-top border-dark pt-3 mt-3 "
               style={{ minHeight: 200 }}
             >
               <a
-                className="Footer_logoLink mb-3 mb-md-0"
+                className="Footer_logoLink"
                 href="https://c2dh.uni.lu"
                 target="_blank"
                 rel="noopener noreferrer"
+                style={{
+                  left: 0,
+                  marginLeft: -20,
+                }}
               >
-                <img
-                  alt="C²DH - University of Luxembourg"
-                  src={UniluLogo}
-                  style={{ height: 100 }}
-                />
+                <img alt="C²DH - University of Luxembourg" src={UniluLogo} style={{ width: 300 }} />
               </a>
               <a
                 className="Footer_logoLinkDeGruyter"
                 href="https://www.degruyter.com"
                 target="_blank"
                 rel="noopener noreferrer"
+                style={{
+                  left: '50%',
+                }}
               >
-                <img alt="De Gruyter Publisher" src={DeGruyterLogo} style={{ height: 25 }} />
+                <img className="ml-2" alt="De Gruyter Publisher" src={DeGruyterLogo} />
               </a>
             </div>
           </Col>
