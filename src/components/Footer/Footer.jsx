@@ -15,6 +15,7 @@ import {
   ReviewPolicy,
   TermsOfUseRoute,
 } from '../../constants/globalConstants'
+import { useStore } from '../../store'
 import '../../styles/components/Footer.scss'
 import LangNavLink from '../LangNavLink'
 import VideoReleaseTrigger from '../VideoRelease/VideoReleaseTrigger'
@@ -24,6 +25,7 @@ const now = new Date()
 const Footer = ({ hideOnRoutes = [] }) => {
   const { t } = useTranslation()
   const { pathname } = useLocation()
+  const setShowCookieBanner = useStore((state) => state.setShowCookieBanner)
   if (hideOnRoutes.some((d) => pathname.indexOf(d) !== -1)) {
     console.debug(
       '[Footer] hidden following hideOnRoutes:',
@@ -77,6 +79,9 @@ const Footer = ({ hideOnRoutes = [] }) => {
                       </LangNavLink>
                     </Nav.Item>
                   ))}
+                  <Nav.Link className="cursor-pointer" onClick={() => setShowCookieBanner(true)}>
+                    <span>{t('cookieSettings')}</span>
+                  </Nav.Link>
                 </Nav>
               </div>
             </div>

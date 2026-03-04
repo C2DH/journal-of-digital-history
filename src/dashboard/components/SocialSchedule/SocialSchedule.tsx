@@ -36,12 +36,12 @@ const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) =
 const SocialSchedule = ({ rowData, action, onClose, onNotify }: SocialScheduleProps) => {
   const { t } = useTranslation()
   const pid = rowData?.id || 'default-id'
-  const repositoryUrl = rowData?.row[6] || ''
+
   const [tweets, setTweets] = useState<string[]>([])
   const [cover, setCover] = useState<string>('')
   const [frequency, setFrequency] = useState<Frequency>({ timeGap: '-', timeUnit: '-' })
   const [form, setForm] = useState<SocialMediaCampaign>({
-    repository_url: repositoryUrl,
+    repository_url: `https://github.com/jdh-observer/${pid}`,
     article_url: `https://journalofdigitalhistory.org/en/article/${pid}`,
     schedule_main: [''],
   })

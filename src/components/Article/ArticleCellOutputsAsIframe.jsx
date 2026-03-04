@@ -1,5 +1,7 @@
 import { useRef, useState } from 'react';
-import { useArticleStore } from '../../store'
+import { useStore, useArticleStore } from '../../store'
+import CookiesPlaceholder from '../Cookies/CookiesPlaceholder';
+
 /**
  * Renders a Jupyter Notebook cell's outputs as an iframe.
  *
@@ -28,9 +30,10 @@ const ArticleCellOutputsAsIframe = ({
   const iframeHeader = useArticleStore((state) => state.iframeHeader)
   const articleVersion = useArticleStore((state) => state.articleVersion)
   const addIframeHeader = useArticleStore((state) => state.addIframeHeader)
+  const acceptThirdPartyCookies = useStore((state) => state.acceptThirdPartyCookies);
 
   // issue #707: Adapt the iframe height to the content
-  const [iframeHeight, setHeight] = useState(isNaN(height) ? 200 : height);
+  const [iframeHeight, setHeight] = useState(isNaN(height) ? 0 : height);
   const onLoad = () => {
     if(height === 0 || height === 'auto') 
       setHeight(ref.current.contentWindow.document.body.scrollHeight);
@@ -82,14 +85,20 @@ const ArticleCellOutputsAsIframe = ({
   if (isIframeOrMedia) {
     const isIframe = /<iframe[\s\S]*<\/iframe>/g.test(iframeSrcDoc)
     if (isIframe) {
+
+      // Get the height of the iframe in the srcDoc using regex
+      const heightMatch = iframeSrcDoc.match(/height="(\d+)"/);
+      const iframeSrcHeight = heightMatch ? parseInt(heightMatch[1]) : DEFAULT_HEIGHT;
+
+      if (!acceptThirdPartyCookies)
+        return <CookiesPlaceholder height={iframeHeight || iframeSrcHeight} />
+
       // replace the height iframe with our iframeHeight variable; the width will be 100%
       iframeSrcDoc = iframeSrcDoc.replace(
         /height=".*?"/,
-        `height="${iframeHeight}px"
-      style="width: 100%;"`,
+        `height="${iframeHeight || iframeSrcHeight}"
+        style="width: 100%;"`,
       )
-      // replace the width iframe with our iframeHeight variable; the width will be 100%
-      iframeSrcDoc = iframeSrcDoc.replace(/width=".*?"/, `width="100%"`)
     }
     return <div dangerouslySetInnerHTML={{ __html: iframeSrcDoc }}></div>
   }
@@ -121,10 +130,12 @@ const ArticleCellOutputsAsIframe = ({
       sandbox="allow-scripts allow-modal allow-same-origin"
       loading="eager"
       srcDoc={iframeSrcDoc}
-      height={`${iframeHeight}px`}
+      height={`${iframeHeight || DEFAULT_HEIGHT}px`}
       width="100%"
     ></iframe>
   )
 }
+
+const DEFAULT_HEIGHT = 200;
 
 export default ArticleCellOutputsAsIframe

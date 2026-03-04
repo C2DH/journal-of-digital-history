@@ -13308,7 +13308,6 @@ __metadata:
     react-device-detect: "npm:^1.14.0"
     react-dom: "npm:^19.1.0"
     react-feather: "npm:^2.0.9"
-    react-ga: "npm:^3.3.1"
     react-helmet: "npm:^6.1.0"
     react-i18next: "npm:^15.4.1"
     react-rocketjump: "npm:^2.6.2"
@@ -16425,16 +16424,6 @@ __metadata:
   peerDependencies:
     react: ">=16.8.6"
   checksum: 10c0/bcc312ab39a710d8fa6fb611fde2affb38cf183fa5215d46c78577d88950ecb9181b59e4b57d7683f543d25725a39deb0c2ad9a9f29cab1a44bf4cbca46e6b8e
-  languageName: node
-  linkType: hard
-
-"react-ga@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "react-ga@npm:3.3.1"
-  peerDependencies:
-    prop-types: ^15.6.0
-    react: ^15.6.2 || ^16.0 || ^17 || ^18
-  checksum: 10c0/a2a61c138887c651a59b49669141246e9a01803bd67c5d7581016949d2c8acdbef14db1a0039b855dcd3c979c711b4c45d910fcaa49e27165c13cdc685b4c2e0
   languageName: node
   linkType: hard
 
