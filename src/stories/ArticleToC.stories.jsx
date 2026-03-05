@@ -6,12 +6,14 @@ import ArticleToC from '../components/ArticleV3/ArticleToC'
 import { useIpynbNotebookParagraphs } from '../hooks/ipynb'
 import { image3, image4 } from './fixtures/images'
 
+// Tag !test is here to avoid this test to run on Github action
 export default {
   title: 'ArticleV3/TableOfContents',
   component: ArticleToC,
   argTypes: {
     metadata: { control: { type: 'object' }, defaultValue: {} },
   },
+  tags: ['!test'],
 }
 
 const Template = ({ cells, metadata }) => {
