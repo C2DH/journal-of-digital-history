@@ -13,7 +13,7 @@
     "lint": "eslint --fix src/**/*.js",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test-storybook": "test-storybook"
+    "test-storybook": "test-storybook --coverage"
   },
   "dependencies": {
     "@auth0/auth0-react": "^1.1.0",
@@ -116,6 +116,7 @@
     "@chromatic-com/storybook": "^3.2.5",
     "@eslint/compat": "^1.2.9",
     "@react-router/dev": "^7.11.0",
+    "@storybook/addon-coverage": "^3.0.0",
     "@storybook/addon-essentials": "^8.6.3",
     "@storybook/addon-onboarding": "^8.6.3",
     "@storybook/blocks": "^8.6.3",
