@@ -217,6 +217,18 @@ const patchArticleStatus = async (body: { status: string }, pid: string) => {
     })
 }
 
+const sendArticleToCopyeditor = async (body: { pid: string; body: string }) => {
+  console.info('POST [sendArticleToCopyeditor]')
+
+  return api
+    .post(`/api/articles/docx/email`, body)
+    .then((res) => res.data)
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
 export {
   getAbstractsByStatusAndCallForPapers,
   getAbstractsSubmittedToOJS,
@@ -232,4 +244,5 @@ export {
   postArticletoSubmissionOJS,
   postBlueskyCampaign,
   postFacebookCampaign,
+  sendArticleToCopyeditor,
 }
