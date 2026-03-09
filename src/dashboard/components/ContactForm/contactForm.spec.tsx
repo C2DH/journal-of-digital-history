@@ -22,14 +22,7 @@ const mockOnNotify = vi.fn()
 
 describe('ContactForm', () => {
   it('calls onNotify with success message on valid submit', async () => {
-    render(
-      <ContactForm
-        rowData={mockData}
-        action={mockAction}
-        onClose={mockOnClose}
-        onNotify={mockOnNotify}
-      />,
-    )
+    render(<ContactForm rowData={mockData} action={mockAction} onClose={mockOnClose} />)
     // Fill all required fields (if needed)
     fireEvent.change(screen.getByLabelText(/To/i), { target: { value: 'test@example.com' } })
     fireEvent.change(screen.getByLabelText(/Body/i), { target: { value: 'this is a body' } })
@@ -47,14 +40,7 @@ describe('ContactForm', () => {
     })
   })
   it('calls onNotify with error on invalid submit', async () => {
-    render(
-      <ContactForm
-        rowData={mockData}
-        action={mockAction}
-        onClose={mockOnClose}
-        onNotify={mockOnNotify}
-      />,
-    )
+    render(<ContactForm rowData={mockData} action={mockAction} onClose={mockOnClose} />)
     // Clear required field
     fireEvent.change(screen.getByLabelText(/To/i), {
       target: { value: 'this is not an email address' },

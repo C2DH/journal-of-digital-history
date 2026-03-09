@@ -1,5 +1,5 @@
 import { patchArticleStatus, postArticletoSubmissionOJS } from '../api/api'
-import { ModalInfo, RowAction, SetNotification } from '../types'
+import { RowAction, SetNotification } from '../types'
 
 /**
  * Generates a list of row actions based on the current status of the row.
@@ -8,15 +8,13 @@ import { ModalInfo, RowAction, SetNotification } from '../types'
  * @param isArticle - A boolean value to precise is the row correspond to an article or an abstract.
  * @param setModal - Function to open a modal dialog with action details.
  * @param setNotification - Function to display notifciation for the user.
- * @param setLoadingRow - Function to set the spinner when an action is processed on a specifc row.
  * @returns An array of RowAction objects representing available actions for the row.
  */
 function getRowActions(
   row: any,
   isArticle: boolean,
-  setModal: (modal: ModalInfo) => void,
+  setModal: any,
   setNotification: SetNotification,
-  setLoadingRow: (id: string) => void,
 ): RowAction[] {
   const pid = row[0]
   const title = row[1]
@@ -26,7 +24,6 @@ function getRowActions(
   const callAPI = async (action: string) => {
     switch (action) {
       case 'Ojs':
-        setLoadingRow(pid)
         await postArticletoSubmissionOJS({ pid: pid })
           .then(async (res) => {
             setNotification({
@@ -62,7 +59,6 @@ function getRowActions(
               submessage: error.details,
             })
           })
-          .finally(() => setLoadingRow(''))
         break
       default:
         console.warn(`No API call defined for action: ${action}`)

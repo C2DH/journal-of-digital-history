@@ -6,12 +6,8 @@ import { useTranslation } from 'react-i18next'
 
 import { contactFormSchema } from '../../schemas/contactForm'
 import { contactFormCopyEditingSchema } from '../../schemas/copyediting'
-import { useFormStore } from '../../store'
-import {
-  modifyAbstractStatusWithEmail,
-  patchArticleStatus,
-  sendArticleToCopyeditor,
-} from '../../utils/api/api'
+import { useFormStore, useNotificationStore } from '../../store'
+import { modifyAbstractStatusWithEmail, patchArticleStatus } from '../../utils/api/api'
 import { validateForm } from '../../utils/helpers/checkSchema'
 import Button from '../Buttons/Button/Button'
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal'
@@ -25,11 +21,12 @@ function formatMessage(template, data) {
     .replace(/\{signature\}/g, 'JDH Team')
 }
 
-const ContactForm = ({ rowData, rowAction, onClose, onNotify }) => {
+const ContactForm = ({ rowData, rowAction, onClose }) => {
   const action = rowAction.toLowerCase()
   const pid = rowData.id || ''
   const { t } = useTranslation()
   const { isModalOpen, openModal, closeModal, setFormData, formData } = useFormStore()
+  const { setNotification } = useNotificationStore()
 
   useEffect(() => {
     switch (action) {
@@ -67,6 +64,17 @@ const ContactForm = ({ rowData, rowAction, onClose, onNotify }) => {
     openModal()
   }
 
+  const sendEmail = async () => {
+    setTimeout(() => {
+      console.log('send email')
+    }, 5000)
+  }
+
+  const closeBothModal = () => {
+    closeModal()
+    onClose()
+  }
+
   const handleConfirmSubmit = async () => {
     let schema: Record<string, any>
     switch (action) {
@@ -80,60 +88,65 @@ const ContactForm = ({ rowData, rowAction, onClose, onNotify }) => {
     const { valid, errors } = validateForm(formData, schema)
 
     if (valid) {
-      try {
-        let res: any
-        switch (action) {
-          case 'copyediting':
-            await sendArticleToCopyeditor(formData).then(
-              async (res) =>
-                // onClose() &&
-                // setLoadingRow(pid) &&
-                await patchArticleStatus({ status: 'COPY_EDITING' }, rowData.id)
-                  .then((res) => {
-                    setTimeout(() => {
-                      onNotify({
-                        type: 'success',
-                        message: 'Article status updated',
-                      })
-                    }, 1000)
-                  })
-                  .catch((error) => {
-                    console.error('Failed to send Article to OJS :', error)
-                    setTimeout(() => {
-                      onNotify({
-                        type: 'error',
-                        message: 'Failed to update Article status',
-                        submessage: error.message,
-                      })
-                    }, 1000)
-                  }),
-            )
-            break
-          default:
-            res = await modifyAbstractStatusWithEmail(formData?.pid, formData)
-        }
-
-        if (onClose) onClose()
-        if (onNotify)
-          onNotify({
-            type: 'success',
-            message: t('email.success.api.contactForm'),
-            submessage: res?.data?.message || '',
+      switch (action) {
+        case 'copyediting':
+          setNotification({
+            type: 'warning',
+            message: t('notification.copyediting.warning'),
           })
-      } catch (err: any) {
-        if (onClose) onClose()
-        if (onNotify)
-          onNotify({
-            type: 'error',
-            message: t('email.error.api.message'),
-            submessage: err?.error,
-          })
-      } finally {
-        closeModal()
+          closeBothModal()
+          await sendEmail()
+            // await sendArticleToCopyeditor(formData)
+            .then(async (res) => {
+              await patchArticleStatus({ status: 'COPY_EDITING' }, rowData.id)
+                .then((res) => {
+                  setTimeout(() => {
+                    setNotification({
+                      type: 'success',
+                      message: t('notification.status.error.abstract'),
+                    })
+                  }, 2000)
+                })
+                .catch((error) => {
+                  setTimeout(() => {
+                    setNotification({
+                      type: 'error',
+                      message: t('notification.status.error.article'),
+                      submessage: error.message,
+                    })
+                  }, 2000)
+                })
+            })
+            .catch((error) => {
+              setNotification({
+                type: 'error',
+                message: t('notification.copyediting.error'),
+                submessage: error.message,
+              })
+            })
+          break
+        default:
+          await modifyAbstractStatusWithEmail(formData?.pid, formData)
+            .then((res) => {
+              closeBothModal()
+              setNotification({
+                type: 'success',
+                message: t('email.success.api.contactForm'),
+                submessage: res?.data?.message || '',
+              })
+            })
+            .catch((error) => {
+              closeBothModal()
+              setNotification({
+                type: 'error',
+                message: t('email.error.api.message'),
+                submessage: error?.error,
+              })
+            })
       }
     }
     if (!valid) {
-      onNotify({
+      setNotification({
         type: 'error',
         message: t('email.error.validation.message'),
         submessage: t('email.error.validation.submessage'),

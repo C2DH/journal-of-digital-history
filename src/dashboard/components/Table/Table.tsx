@@ -1,6 +1,5 @@
 import './Table.css'
 
-import CircularProgress from '@mui/material/CircularProgress'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -61,7 +60,6 @@ const Table = ({
   const search = location.search
 
   const [isMobile, setIsMobile] = useState(false)
-  const [loadingRow, setLoadingRow] = useState<string>('')
 
   const { headers: mergedHeaders, data: mergedData } = authorColumn(headers, data)
   const visibleHeaders = getVisibleHeaders({ data: mergedData, headers: mergedHeaders })
@@ -132,6 +130,7 @@ const Table = ({
         <tbody>
           {cleanData.map((row, rIdx) => {
             const pid = row[0]
+            const actions = getRowActions(row, isArticleItem, setRowModal, onNotify)
 
             return (
               <tr key={rIdx}>
@@ -165,22 +164,7 @@ const Table = ({
                 })}
                 {isArticleOrAbstracts && !isAccordeon && (
                   <td className="actions-cell">
-                    {setRowModal && loadingRow !== pid && (
-                      <ActionButton
-                        actions={getRowActions(
-                          row,
-                          isArticleItem,
-                          setRowModal,
-                          onNotify,
-                          setLoadingRow,
-                        )}
-                        active={
-                          getRowActions(row, isArticleItem, setRowModal, onNotify, setLoadingRow)
-                            .length > 0
-                        }
-                      />
-                    )}
-                    {loadingRow === pid && <CircularProgress color="inherit" size={28} />}
+                    {<ActionButton actions={actions} active={actions.length > 0} />}
                   </td>
                 )}
               </tr>

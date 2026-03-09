@@ -56,7 +56,7 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
         </div>
         {isChangingAbstractStatus ||
           (isSendingToCopyEditor && (
-            <ContactForm rowData={data} rowAction={action} onClose={onClose} onNotify={onNotify} />
+            <ContactForm rowData={data} rowAction={action} onClose={onClose} />
           ))}
         {isLaunchingSocialCampaign && (
           <SocialSchedule

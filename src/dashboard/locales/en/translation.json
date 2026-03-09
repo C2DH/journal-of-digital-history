@@ -158,6 +158,22 @@
       "body": "Dear Andy, \nPlease find enclosed the .docx file for the copy editing of the article : {submissionTitle}. \n\nBest,\n{signature}"
     }
   },
+  "notification": {
+    "copyediting": {
+      "warning": "Email sent to copy editor",
+      "error": "Failed to send email to copy editor"
+    },
+    "status": {
+      "success": {
+        "abstract": "Abstract status updated",
+        "article": "Article status updated"
+      },
+      "error": {
+        "abstract": "Failed to update abstract status",
+        "article": "Failes to update article status"
+      }
+    }
+  },
   "actions": {
     "actions.change": "Change status",
     "Abandoned": "Abandoned the abstract",
