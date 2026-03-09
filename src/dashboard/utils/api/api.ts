@@ -306,10 +306,10 @@ const patchArticleStatus = async (body: { status: string }, pid: string) => {
 /**
  * Sends an article in DOCX file to the copy editor via email.
  *
- * @param body - Object containing the article PID and email body content.
+ * @param body - Object containing the article pid(string) and body(string) content.
  * @returns A promise that resolves with the email sending response.
  */
-const sendArticleToCopyeditor = async (body: { pid: string; body: string }) => {
+const sendArticleToCopyeditor = async (body: Record<string, any>) => {
   console.info('POST [sendArticleToCopyeditor]')
 
   return api
@@ -317,7 +317,7 @@ const sendArticleToCopyeditor = async (body: { pid: string; body: string }) => {
     .then((res) => res.data)
     .catch((err) => {
       console.error(err)
-      throw err
+      throw err.response.data
     })
 }
 

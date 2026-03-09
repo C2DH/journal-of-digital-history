@@ -142,7 +142,7 @@
     },
     "error": {
       "api": {
-        "message": "Something really bad happened..."
+        "message": "An error happened..."
       },
       "validation": { "message": "Validation failed", "submessage": "Please check your input" }
     },
@@ -150,11 +150,12 @@
       "abandoned": "Send an email and switch status to abandoned ?",
       "declined": "Send an email and switch status to declined ?",
       "suspended": "Send an email and switch status to suspended ?",
-      "accepted": "Send an email and switch status to accepted ?"
+      "accepted": "Send an email and switch status to accepted ?",
+      "copyediting": "Send an email and switch status to copyediting ?"
     },
     "copyediting": {
-      "title": "Article to review for copy editing",
-      "body": "Dear Andy, \nPlease find enclosed the DOCX file for the copy editing of the article : {submissionTitle}. \n\nBest,\n{signature}"
+      "subject": "Article to review for copy editing",
+      "body": "Dear Andy, \nPlease find enclosed the .docx file for the copy editing of the article : {submissionTitle}. \n\nBest,\n{signature}"
     }
   },
   "actions": {
@@ -164,7 +165,8 @@
     "Declined": "Declined the abstract",
     "Suspended": "Suspended the abstract",
     "Bluesky": "Bluesky",
-    "Facebook": "Facebook"
+    "Facebook": "Facebook",
+    "Copyediting": "Send to copy editor"
   },
   "Bluesky": "Launch Bluesky campaign",
   "Facebook": "Launch Facebook campaign",
