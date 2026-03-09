@@ -64,6 +64,8 @@ function getRowActions(
           })
           .finally(() => setLoadingRow(''))
         break
+      default:
+        console.warn(`No API call defined for action: ${action}`)
     }
   }
 
@@ -99,15 +101,12 @@ function getRowActions(
       actions.push(modalAction('Abandoned'))
       break
     case 'TECHNICAL_REVIEW':
-      if (isArticle) {
-        actions.push(defaultAction('Ojs', 'Send to OJS'))
-      }
+      actions.push(defaultAction('Ojs', 'Send to OJS'))
+      actions.push(modalAction('Copyediting', 'Send docx to copyeditor'))
       break
     case 'PUBLISHED':
-      if (isArticle) {
-        actions.push(modalAction('Bluesky'))
-        actions.push(modalAction('Facebook'))
-      }
+      actions.push(modalAction('Bluesky'))
+      actions.push(modalAction('Facebook'))
       break
     default:
       break

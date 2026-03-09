@@ -151,6 +151,10 @@
       "declined": "Send an email and switch status to declined ?",
       "suspended": "Send an email and switch status to suspended ?",
       "accepted": "Send an email and switch status to accepted ?"
+    },
+    "copyediting": {
+      "title": "Article to review for copy editing",
+      "body": "Dear Andy, \nPlease find enclosed the DOCX file for the copy editing of the article : {submissionTitle}. \n\nBest,\n{signature}"
     }
   },
   "actions": {

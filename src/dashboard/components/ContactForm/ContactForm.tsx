@@ -20,7 +20,8 @@ function formatMessage(template, data) {
     .replace(/\{signature\}/g, 'JDH Team')
 }
 
-const ContactForm = ({ rowData, action, onClose, onNotify }) => {
+const ContactForm = ({ rowData, rowAction, onClose, onNotify }) => {
+  const action = rowAction.toLowerCase()
   const { t } = useTranslation()
   const { isModalOpen, openModal, closeModal, setFormData, formData } = useFormStore()
 
@@ -28,8 +29,8 @@ const ContactForm = ({ rowData, action, onClose, onNotify }) => {
     setFormData({
       pid: rowData.id || '',
       from: 'jdh.admin@uni.lu',
-      to: rowData.contactEmail || '',
-      subject: rowData.title || '',
+      to: action === 'copyediting' ? 'andy.odwyer@uni.lu' : rowData.contactEmail,
+      subject: action === 'copyediting' ? t(`email.${action}.title`) : rowData.title,
       body: formatMessage(parse(t(`email.${action}.body`)), rowData),
       status: action || '',
     })

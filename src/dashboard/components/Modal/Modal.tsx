@@ -32,6 +32,8 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
     action === 'Declined' ||
     action === 'Suspended'
 
+  const isSendingToCopyEditor = action === 'Copyediting'
+
   const isLaunchingSocialCampaign = action === 'Bluesky' || action === 'Facebook'
 
   return (
@@ -52,14 +54,10 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
             </button>
           </div>
         </div>
-        {isChangingAbstractStatus && (
-          <ContactForm
-            rowData={data}
-            action={action.toLowerCase()}
-            onClose={onClose}
-            onNotify={onNotify}
-          />
-        )}
+        {isChangingAbstractStatus ||
+          (isSendingToCopyEditor && (
+            <ContactForm rowData={data} rowAction={action} onClose={onClose} onNotify={onNotify} />
+          ))}
         {isLaunchingSocialCampaign && (
           <SocialSchedule
             rowData={data}

@@ -13,6 +13,7 @@
 
 .contact-form input,
 .contact-form textarea {
+  color: var(--color-deep-blue);
   height: auto;
   margin-top: var(--gap-size-1);
   margin-bottom: var(--gap-size-3);
