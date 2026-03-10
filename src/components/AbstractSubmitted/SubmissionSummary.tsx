@@ -1,10 +1,10 @@
+import parse from 'html-react-parser'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import parse from 'html-react-parser'
 
+import { menuItems, menuItemsWithNoDatasets } from '../../constants/abstractSubmissionSummary'
 import { AbstractSubmittedProps } from '../../interfaces/abstractSubmission'
 import SideMenu from './SideMenu'
-import { menuItems, menuItemsWithNoDatasets } from '../../constants/abstractSubmissionSummary'
 
 import '../../styles/components/AbstractSubmissionForm/SubmissionSummary.scss'
 
@@ -27,7 +27,7 @@ const SubmissionSummary = ({
           <SideMenu
             activeSection={activeSection}
             onMenuClick={handleMenuClick}
-            menuItems={formData.datasets?.length === 0 ?  menuItemsWithNoDatasets : menuItems}
+            menuItems={formData.datasets?.length === 0 ? menuItemsWithNoDatasets : menuItems}
           />
         </div>
         <div className="container-summary">
@@ -98,12 +98,16 @@ const SubmissionSummary = ({
                       {author.bluesky_id || t('pages.abstractSubmission.author.notProvided')}
                     </p>
                     <p>
+                      <strong>{t('pages.abstractSubmission.author.linkedinId')}:</strong>{' '}
+                      {author.linkedin_id || t('pages.abstractSubmission.author.notProvided')}
+                    </p>
+                    <p>
                       <strong>{t('pages.abstractSubmission.summary.primaryContact')}:</strong>{' '}
                       {author.firstname === formData.contact_firstname
                         ? t('pages.abstractSubmission.summary.primaryContactYes')
                         : t('pages.abstractSubmission.summary.primaryContactNo')}
                     </p>
-                    <br/>
+                    <br />
                   </div>
                 </div>
               </div>

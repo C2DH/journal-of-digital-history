@@ -71,9 +71,6 @@ type renderCellProps = {
   isStep: boolean
   cell: any
   header: string
-  headers: string[]
-  cIdx: number
-  title: string
   isArticle: boolean
 }
 /**
@@ -82,23 +79,21 @@ type renderCellProps = {
  * @param props - Properties describing the cell context:
  *   - isStep: Whether the cell represents a workflow step.
  *   - cell: The raw cell value to render.
- *   - headers: Array of table header strings.
- *   - cIdx: Index of the current column.
+ *   - header: Header of the corresponding cell.
  *   - isArticle: Whether the row represents an article.
  * @returns A React node representing the formatted cell content, such as a Timeline, Status badge, IconButton, formatted date, or raw value.
  */
 
-function renderCell({ isStep, cell, headers, cIdx, isArticle }: renderCellProps) {
+function renderCell({ isStep, cell, header, isArticle }: renderCellProps) {
   let content: React.ReactNode = '-'
-  const headerKey = headers[cIdx].toLowerCase().split('.').join(' ')
 
   if (isStep && isArticle) {
     content = <Timeline steps={articleSteps} currentStatus={cell} />
-  } else if (isStatus(cell, headerKey)) {
+  } else if (isStatus(cell, header)) {
     content = <Status value={cell} />
   } else if (isLinkCell(cell)) {
     content = <IconButton value={cell} />
-  } else if (isCallForPaperGithub(cell, headerKey)) {
+  } else if (isCallForPaperGithub(cell, header)) {
     return (
       <IconButton value={`${import.meta.env.VITE_DASHBOARD_CALLFORPAPERS_GITHUB_URL}${cell}`} />
     )

@@ -105,6 +105,14 @@ export const authorFields = [
     tooltip: 'facebookId',
     backend: 'facebook_id',
   },
+  {
+    label: 'author.linkedinId',
+    fieldname: 'linkedinId',
+    placeholder: 'linkedinId',
+    required: false,
+    tooltip: 'linkedinId',
+    backend: 'linkedin_id',
+  },
 ]
 
 export const authorEmpty = {

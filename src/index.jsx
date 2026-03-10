@@ -1,11 +1,13 @@
-import React from 'react'
-import { createRoot } from 'react-dom/client'
+import './styles/index.scss'
+
 import { MatomoProvider, createInstance } from '@jonkoops/matomo-tracker-react'
+import { createRoot } from 'react-dom/client'
 
 import App from './App'
-import { AcceptAnalyticsCookies } from './logic/tracking'
 import * as serviceWorker from './serviceWorker'
-import './styles/index.scss'
+import { useStore } from './store'
+
+const AcceptAnalyticsCookies = true;  //useStore.getState().acceptAnalyticsCookies
 
 const matomo = createInstance({
   urlBase: import.meta.env.VITE_MATOMO_URLBASE,
@@ -62,3 +64,6 @@ console.info(
     import.meta.env.VITE_GIT_COMMIT_SHA
   }`,
 )
+
+//Captcha enabled only in production
+console.info('%ccaptcha enabled:', 'font-weight: bold', import.meta.env.VITE_CAPTCHA_ENABLED)

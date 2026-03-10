@@ -64,7 +64,14 @@ export const submissionFormSchema = {
           },
           facebookId: {
             anyOf: [
-              { type: 'string', minLength: 5, maxLength: 50, pattern: '^[a-zA-Z0-9._]{5,50}' },
+              { type: 'string', minLength: 5, maxLength: 50, pattern: '^[a-zA-Z0-9._]{5,50}$' },
+              { type: 'null' },
+              { type: 'string', maxLength: 0 },
+            ],
+          },
+          linkedinId: {
+            anyOf: [
+              { type: 'string', minLength: 3, maxLength: 100, pattern: '^[a-zA-Z0-9-]{3,100}$' },
               { type: 'null' },
               { type: 'string', maxLength: 0 },
             ],

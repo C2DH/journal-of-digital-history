@@ -6,7 +6,7 @@
   padding: 0% 2%;
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1500px) {
   .page {
     margin-left: var(--navbar-width-mobile);
   }

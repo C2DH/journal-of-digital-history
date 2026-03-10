@@ -1,3 +1,5 @@
+import { SetNotification } from '../../utils/types'
+
 export interface ModalProps {
   item: string
   open: boolean
@@ -6,9 +8,5 @@ export interface ModalProps {
   ids?: string[]
   data?: any
   onAction?: (action: string, ids: string[]) => void
-  onNotify?: (notification: {
-    type: 'success' | 'error'
-    message: string
-    submessage?: string
-  }) => void
+  onNotify?: SetNotification
 }

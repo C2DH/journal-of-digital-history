@@ -95,6 +95,8 @@ export interface Author {
   country: string
   github_id: string
   bluesky_id: string | null
+  facebook_id: string | null
+  linkedin_id: string | null
 }
 
 /* Callforpaper */
@@ -246,6 +248,7 @@ export interface FormState {
 
 export type NotificationType = 'success' | 'warning' | 'error' | 'info'
 export type Notification = { type: NotificationType; message: string; submessage?: string }
+export type SetNotification = (notification: Notification) => void | undefined
 export interface NotificationState {
   isVisible: boolean
   notification: Notification

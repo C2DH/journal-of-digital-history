@@ -96,6 +96,7 @@ const Card = ({
                 sortOrder={sortOrder}
                 setSort={setSort}
                 setRowModal={openRowModal}
+                onNotify={handleNotify}
               />
             }
             {loading && data.length > 0 && <Loading />}

@@ -1,26 +1,26 @@
-import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Nav, Navbar, Container, Row, Col } from 'react-bootstrap'
+import { useState } from 'react'
+import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap'
 import { Menu } from 'react-feather'
-import { useLocation } from 'react-router'
+import { useTranslation } from 'react-i18next'
+import { useLocation } from 'react-router-dom'
 
-import SwitchLanguage from '../SwitchLanguage'
 import IssueBreadcrumb from '../Issue/IssueBreadcrumb'
-import SwitchLanguageLink from '../SwitchLanguage/SwitchLanguageLink'
 import LangNavLink from '../LangNavLink'
+import SwitchLanguage from '../SwitchLanguage'
+import SwitchLanguageLink from '../SwitchLanguage/SwitchLanguageLink'
 import UserProfile from './UserProfile'
 
 import deGruyterLogo from '../../assets/images/Verlag_Walter_de_Gruyter_Logo_white.svg?url'
-import uniluLogo from '../../assets/images/unilu-c2dh-logo-white.svg?url'
+import uniluLogo from '../../assets/images/unilu-c2dh-logo-white-v2.svg?url'
 import {
+  NotebookPoweredPaths,
   PrimaryRoutes,
   TermsOfUseRoute,
-  NotebookPoweredPaths,
 } from '../../constants/globalConstants'
-import SwitchNightMode from '../SwitchNightMode'
-import '../../styles/components/Header.scss'
 import { useOnScreen } from '../../hooks/graphics'
+import '../../styles/components/Header.scss'
 import Logo from '../Logo'
+import SwitchNightMode from '../SwitchNightMode'
 
 const MobileHeader = ({ langs, displayLangs }) => {
   const { t, i18n } = useTranslation()
@@ -211,28 +211,5 @@ const RowHeader = ({ availableLanguages, isAuthDisabled, displayLangs, displayLo
     </header>
   )
 }
-
-// const Header = ({ availableLanguages, isAuthDisabled }) => {
-//   const { t } = useTranslation()
-//
-//   // console.info('header render with lang:', lang);
-//   return (
-//     <Navbar className=Navbar} fixed="top" variant="light" expand="md">
-//     <Container>
-//       <Navbar.Brand href="#home" className="d-flex align-items-center">
-//         <div className={`${styles.BrandImage} brand-image flex-grow-1 mr-1`} style={{
-//           backgroundImage: `url(${logo})`,
-//         }}></div>
-//         <span className="d-md-block d-none">Journal of <br/>Digital History</span>
-//       </Navbar.Brand>
-//       <NavPrimaryRoutes className="ml-auto d-md-flex d-none" routes={PrimaryRoutes}>
-//         <SwitchLanguage className='nav-item' title={t('language')} langs={availableLanguages}></SwitchLanguage>
-//         {!isAuthDisabled && <UserProfile/>}
-//
-//       </NavPrimaryRoutes>
-//       <MobileHeader langs={availableLanguages}/>
-//     </Container>
-//   </Navbar>)
-// }
 
 export default RowHeader

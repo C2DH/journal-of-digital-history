@@ -37,7 +37,7 @@ describe('Deadline', () => {
   it('renders a CFP for 2026 with numbers of days left for abstract', () => {
     render(
       <Deadline
-        cfpTitle={cfpDeadlineAbstract.title}
+        title={cfpDeadlineAbstract.title}
         deadlineAbstract={cfpDeadlineAbstract.deadline_abstract}
         deadlineArticle={cfpDeadlineAbstract.deadline_article}
       />,
@@ -50,7 +50,7 @@ describe('Deadline', () => {
   it('renders a CFP for 2026 with numbers of days left for articles', () => {
     render(
       <Deadline
-        cfpTitle={cfpDeadlineArticle.title}
+        title={cfpDeadlineArticle.title}
         deadlineAbstract={cfpDeadlineArticle.deadline_abstract}
         deadlineArticle={cfpDeadlineArticle.deadline_article}
       />,
@@ -63,7 +63,7 @@ describe('Deadline', () => {
   it('renders a CFP open ended', () => {
     render(
       <Deadline
-        cfpTitle={cfpOpenEnded.title}
+        title={cfpOpenEnded.title}
         deadlineAbstract={cfpOpenEnded.deadline_abstract}
         deadlineArticle={cfpOpenEnded.deadline_article}
       />,

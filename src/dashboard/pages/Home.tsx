@@ -3,17 +3,17 @@ import '../styles/pages/pages.css'
 
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Outlet } from 'react-router'
+import { Outlet } from 'react-router-dom'
 
 import Badge from '../components/Badge/Badge'
 import CustomBarChart from '../components/CustomBarChart/CustomBarChart'
 import CustomPieChart from '../components/CustomPieChart/CustomPieChart'
 import Deadline from '../components/Deadline/Deadline'
 import SmallCard from '../components/SmallCard/SmallCard'
-import SmallTable from '../components/SmallTable /SmallTable'
+import SmallTable from '../components/SmallTable/SmallTable'
 import { useSorting } from '../hooks/useSorting'
 import { useItemsStore } from '../store'
-import { getCallforpaperWithDeadlineOpen } from '../utils/api/api'
+import { getAbstractsSubmittedToOJS, getCallforpaperWithDeadlineOpen } from '../utils/api/api'
 import { Abstract, Callforpaper } from '../utils/types'
 
 const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
@@ -42,7 +42,28 @@ const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
   )
 }
 
-const DeadlineRow = () => {
+const PeerReviewCounter = () => {
+  const [count, setCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
+
+  const getCount = async () => {
+    try {
+      const res = await getAbstractsSubmittedToOJS()
+      setCount(res.count)
+      setIsLoading(false)
+    } catch {
+      console.error('Error fetching count of abstracts submitted to OJS for peer review.')
+    }
+  }
+
+  useEffect(() => {
+    getCount()
+  }, [])
+
+  return !isLoading && count != 0 && <Deadline title="Ready for" value={count} />
+}
+
+const KPIRow = () => {
   const [cfpOpen, setCfpOpen] = useState<Callforpaper[]>([])
 
   const getCallforpaper = async () => {
@@ -64,11 +85,12 @@ const DeadlineRow = () => {
       {cfpOpen.map((cfp) => (
         <Deadline
           key={cfp.id}
-          cfpTitle={cfp.title}
+          title={cfp.title}
           deadlineAbstract={cfp.deadline_abstract}
           deadlineArticle={cfp.deadline_article}
         />
       ))}
+      <PeerReviewCounter />
     </div>
   )
 }
@@ -93,7 +115,7 @@ const Home = () => {
     <div className="home page">
       <h1>{t('welcome')}</h1>
       <div className={`home-grid ${isAbstractSubmitted ? 'isAbstract' : ''}`}>
-        <DeadlineRow />
+        <KPIRow />
         <>{isAbstractSubmitted && AbstractSubmittedCard(submittedAbstracts)}</>
         <CustomPieChart />
         <CustomBarChart />

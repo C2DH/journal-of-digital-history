@@ -106,6 +106,7 @@
         },
         "blueskyId": "Bluesky",
         "facebookId": "Facebook",
+        "linkedinId": "LinkedIn",
         "githubId": "GitHub Username",
         "github": {
           "helptext": "Don't have a GitHub account yet? Create one at <a href=\"https://github.com/\" target=\"_blank\" rel=\"noopener noreferrer\">github.com</a> for free!"
@@ -158,13 +159,15 @@
         "orcidUrl": "https://orcid.org/0000-0000-0000-0000",
         "blueskyId": "username.bsky.social",
         "facebookId": "username",
-        "githubId": "your-username or username"
+        "githubId": "your-username or username",
+        "linkedinId": "username"
       },
       "tooltips": {
         "orcidUrl": "Providing an ORCID (Open Researcher and Contributor ID) helps uniquely identify each author and ensures proper attribution of their work.",
         "githubId": "The Github username will be used to create a repository for your article.",
         "blueskyId": "When your article is published, we promote it on Bluesky. If you would like to be tagged in our posts, you can provide your username here.",
-        "facebookId": "When your article is published, we promote it on Facebook. If you would like to be tagged in our posts, you can provide your username here."
+        "facebookId": "When your article is published, we promote it on Facebook. If you would like to be tagged in our posts, you can provide your username here.",
+        "linkedinId": "When the issue will be published, we promote it on LinkedIn. If you would like to be tagged in the post, you can provide your username here."
       },
       "summary": {
         "callForPapers": "Call for papers",
@@ -175,7 +178,6 @@
         "openSubmission": "Open submission"
       },
       "socialMediaExplanation": "When your article is published, we promote it on Bluesky and Facebook. If you would like to be tagged, you can provide your username(s).",
-      "recaptchaDisclaimer": "This site is protected by reCAPTCHA and the Google <a href=\"https://policies.google.com/privacy\" target=\"_blank\">Privacy Policy</a> and <a href=\"https://policies.google.com/terms\" target=\"_blank\">Terms of Service</a> apply.",
       "termsAcceptance": "I have read and I accept the terms and conditions available at <a href=\"{{termsUrl}}\" target=\"_blank\">Terms of use</a>",
       "errors": {
         "callForPapersRequired": "Please select a call for papers",
@@ -248,9 +250,14 @@
             "pattern": "Must be a valid Bluesky ID as username.bsky.social"
           },
           "facebookId": {
-            "minLength": "Must be at least 5 character",
+            "minLength": "Must be at least 5 characters",
             "maxLength": "Must be at most 50 characters",
             "pattern": "Must be a valid Facebook ID as username"
+          },
+          "linkedinId": {
+            "minLength": "Must be at least 3 characters",
+            "maxLength": "Must be at most 100 characters",
+            "pattern": "Must be a valid Linkedin ID as username. Might be found in the URL of your profile page, as in https://linkedin.com/in/username. "
           },
           "primaryContact": {
             "onlyOnePrimaryContact": "Only one author must be selected as the primary contact"
@@ -455,5 +462,19 @@
     "INTERNAL_REVIEW": "Internal Review"
   },
   "loggedInAs": "Logged in as",
+  "cookieSettings": "Cookie settings",
+  "cookies": {
+    "banner": {
+      "text": "This website uses essential cookies necessary for its proper functioning.",
+      "consent": "With your consent, we may also use third-party cookies (Vimeo, Sketchfab, etc.) to display embedded content from external sources. Without your consent, these contents will remain blocked.",
+      "accept": "Accept",
+      "refuse": "Refuse",
+      "termsOfUseLink": "For more information, please refer to our <1>{{termsOfUseRouteLabel}}</1> (section \"Data protection\")."
+    },
+    "placeholder": {
+      "text": "External content blocked for privacy.",
+      "consent": "Enable <1>cookies</1> to view this media."
+    }
+  },
   "Hello": "Hello! Test internationalization by clicking on 🌐 in the Storybook menu."
 }

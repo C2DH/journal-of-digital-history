@@ -1,7 +1,7 @@
 import './SmallTable.css'
 
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 
 import { SmallTableProps } from './interface'
 
@@ -55,7 +55,7 @@ const SmallTable = ({ item, headers, data }: SmallTableProps) => {
             return (
               <tr key={rIdx}>
                 {row.map((cell: string | number, cIdx: number) => {
-                  const headerName = headers[cIdx]
+                  const headerName = visibleHeaders[cIdx]
                   const isPid = isPidHeader(headerName)
                   const isTitle = isTitleHeader(headerName)
                   const isStep = isStepCell(cell)
@@ -74,9 +74,6 @@ const SmallTable = ({ item, headers, data }: SmallTableProps) => {
                           isStep,
                           cell,
                           header: headerName,
-                          headers,
-                          cIdx,
-                          title: item,
                           isArticle: false,
                         })}
                       </td>

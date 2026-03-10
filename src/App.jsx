@@ -1,5 +1,4 @@
 import { Suspense, useEffect } from 'react'
-import ReactGA from 'react-ga'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 
@@ -11,24 +10,27 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 import Cookies from './components/Cookies'
 import Footer from './components/Footer'
 import Header from './components/Header'
+import Me from './components/Me/Me'
 import PercentLoader from './components/PercentLoader'
 import ScrollToTop from './components/ScrollToTop'
 import VideoReleaseLazy from './components/VideoRelease/VideoReleaseLazy'
+import WindowEvents from './components/WindowEvents'
 import { GaTrackingId, IsMobile, NotebookPoweredPaths } from './constants/globalConstants'
 import CanonicalUpdater from './dashboard/utils/hypothes.is/CanonicalUpdater'
 import i18n from './i18next'
 import { getStartLang, LANGUAGES } from './logic/language'
 import Loading from './pages/Loading'
-
-import { AcceptAnalyticsCookies, AcceptCookies } from './logic/tracking'
-
-import Me from './components/Me/Me'
-import WindowEvents from './components/WindowEvents'
 import { AppRoutes } from './routes'
+import { useStore } from './store'
+
+const AcceptAnalyticsCookies = useStore.getState().acceptAnalyticsCookies
+const AcceptThirdPartyCookies = useStore.getState().acceptThirdPartyCookies
+const AcceptCookies = useStore.getState().acceptCookies
 
 console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___|       \n\n')
-console.info('%cacceptAnalyticsCookies', 'font-weight: bold', AcceptAnalyticsCookies)
-console.info('%cacceptCookies', 'font-weight: bold', AcceptCookies)
+// console.info('%cacceptAnalyticsCookies', 'font-weight: bold', AcceptAnalyticsCookies)
+console.info('%cacceptThirdPartyCookies', 'font-weight: bold', AcceptThirdPartyCookies)
+// console.info('%cacceptCookies', 'font-weight: bold', AcceptCookies)
 
 // check if there CRFS cookie
 const csrfToken = new UniversalCookie().get('csrftoken')
@@ -52,23 +54,6 @@ console.info('start language:', short, lng)
 console.info('IsMobile:', IsMobile)
 
 export default function App() {
-  useEffect(() => {
-    // integrate history \w Google Analytics
-    if (GaTrackingId && AcceptAnalyticsCookies) {
-      ReactGA.initialize(GaTrackingId)
-      console.info('%cGA enabled by user choice', 'font-weight: bold', GaTrackingId)
-    } else if (GaTrackingId) {
-      console.info(
-        '%cGA disabled by user choice:',
-        'font-weight: bold',
-        'AcceptAnalyticsCookies:',
-        AcceptAnalyticsCookies,
-      )
-    } else {
-      console.info('%cGA GaTrackingId not set', 'font-weight: bold', 'disabled by config.')
-    }
-  }, [])
-
   return (
     <BrowserRouter>
       <I18nextProvider i18n={i18n}>
