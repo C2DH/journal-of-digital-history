@@ -7,7 +7,11 @@ import { useTranslation } from 'react-i18next'
 import { contactFormSchema } from '../../schemas/contactForm'
 import { contactFormCopyEditingSchema } from '../../schemas/copyediting'
 import { useFormStore } from '../../store'
-import { modifyAbstractStatusWithEmail, patchArticleStatus } from '../../utils/api/api'
+import {
+  modifyAbstractStatusWithEmail,
+  patchArticleStatus,
+  sendArticleToCopyeditor,
+} from '../../utils/api/api'
 import { notify } from '../../utils/helpers/notification'
 import { validateForm } from '../../utils/helpers/schema'
 import Button from '../Buttons/Button/Button'
@@ -64,12 +68,6 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
     openModal()
   }
 
-  const sendEmail = async () => {
-    setTimeout(() => {
-      console.log('send email')
-    }, 5000)
-  }
-
   const closeBothModal = () => {
     closeModal()
     onClose()
@@ -79,9 +77,9 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
     notify('warning', t('notification.copyediting.warning'))
     closeBothModal()
 
-    await sendEmail()
-      // await sendArticleToCopyeditor(formData)
+    await sendArticleToCopyeditor(formData)
       .then(async (res) => {
+        notify('success', t('notification.copyediting.success'), res.message)
         await patchArticleStatus({ status: 'COPY_EDITING' }, rowData.id)
           .then((res) => {
             notify('success', t('notification.status.success.abstract'), '', 7000)

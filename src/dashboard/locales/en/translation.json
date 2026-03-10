@@ -169,6 +169,7 @@
     },
     "copyediting": {
       "warning": "Email sent to copy editor",
+      "success": "Article send to copy editor",
       "error": "Failed to send email to copy editor"
     },
     "status": {

@@ -63,26 +63,33 @@ function getRowActions(t: any, row: any, isArticle: boolean, setModal: any): Row
       }),
   })
 
-  switch (status) {
-    case 'SUBMITTED':
-      actions.push(modalAction('Accepted'))
-      actions.push(modalAction('Declined'))
-      actions.push(modalAction('Abandoned'))
-      break
-    case 'ACCEPTED':
-      actions.push(modalAction('Declined'))
-      actions.push(modalAction('Abandoned'))
-      break
-    case 'TECHNICAL_REVIEW':
-      actions.push(defaultAction('Ojs', 'Send to OJS'))
-      actions.push(modalAction('Copyediting', 'Send docx to copyeditor'))
-      break
-    case 'PUBLISHED':
-      actions.push(modalAction('Bluesky'))
-      actions.push(modalAction('Facebook'))
-      break
-    default:
-      break
+  if (isArticle) {
+    switch (status) {
+      case 'TECHNICAL_REVIEW':
+        actions.push(defaultAction('Ojs', 'Send to OJS'))
+        actions.push(modalAction('Copyediting', 'Send docx to copyeditor'))
+        break
+      case 'PUBLISHED':
+        actions.push(modalAction('Bluesky'))
+        actions.push(modalAction('Facebook'))
+        break
+      default:
+        break
+    }
+  } else {
+    switch (status) {
+      case 'SUBMITTED':
+        actions.push(modalAction('Accepted'))
+        actions.push(modalAction('Declined'))
+        actions.push(modalAction('Abandoned'))
+        break
+      case 'ACCEPTED':
+        actions.push(modalAction('Suspended'))
+        actions.push(modalAction('Abandoned'))
+        break
+      default:
+        break
+    }
   }
 
   return actions

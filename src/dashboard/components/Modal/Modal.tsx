@@ -12,6 +12,12 @@ import SocialSchedule from '../SocialSchedule/SocialSchedule'
 const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
   const { t } = useTranslation()
 
+  const contactFormActions = ['Abandoned', 'Accepted', 'Declined', 'Suspended', 'Copyediting']
+  const isContactFormAction = contactFormActions.includes(action)
+
+  const socialScheduleActions = ['Bluesky', 'Facebook']
+  const isSocialScheduleAction = socialScheduleActions.includes(action)
+
   useEffect(() => {
     if (open) {
       document.body.classList.add('modal-open')
@@ -26,23 +32,13 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
 
   if (!open) return null
 
-  const isChangingAbstractStatus =
-    action === 'Abandoned' ||
-    action === 'Accepted' ||
-    action === 'Declined' ||
-    action === 'Suspended'
-
-  const isSendingToCopyEditor = action === 'Copyediting'
-
-  const isLaunchingSocialCampaign = action === 'Bluesky' || action === 'Facebook'
-
   return (
     <div className="modal-backdrop" onClick={onClose} data-testid="modal-backdrop">
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           {action && <h2>{t(`actions.${action}`)}</h2>}
           <div className="modal-actions">
-            {isLaunchingSocialCampaign && (
+            {isSocialScheduleAction && (
               <Button
                 type="submit"
                 form="social-campaign-form"
@@ -54,11 +50,8 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
             </button>
           </div>
         </div>
-        {isChangingAbstractStatus ||
-          (isSendingToCopyEditor && (
-            <ContactForm rowData={data} rowAction={action} onClose={onClose} />
-          ))}
-        {isLaunchingSocialCampaign && (
+        {isContactFormAction && <ContactForm rowData={data} rowAction={action} onClose={onClose} />}
+        {isSocialScheduleAction && (
           <SocialSchedule
             rowData={data}
             action={action}
@@ -66,14 +59,6 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
             onNotify={onNotify ?? (() => {})}
           />
         )}
-        {/* {action === 'actions.change' && (
-          <ChangeStatus
-            item={item}
-            selectedRows={data.selectedRows}
-            onClose={onClose}
-            onNotify={onNotify}
-          />
-        )} */}
       </div>
     </div>
   )
