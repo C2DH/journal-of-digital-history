@@ -53,7 +53,6 @@ const Table = ({
   setSort,
   isAccordeon = false,
   setRowModal,
-  onNotify,
 }: TableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -130,7 +129,7 @@ const Table = ({
         <tbody>
           {cleanData.map((row, rIdx) => {
             const pid = row[0]
-            const actions = getRowActions(row, isArticleItem, setRowModal, onNotify)
+            const actions = getRowActions(t, row, isArticleItem, setRowModal)
 
             return (
               <tr key={rIdx}>
