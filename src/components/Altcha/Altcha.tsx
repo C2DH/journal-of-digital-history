@@ -45,7 +45,7 @@ const Altcha = forwardRef<{ value: string | null }, AltchaProps>(({ onStateChang
         '--altcha-max-width': '100%',
       }}
       // debug
-      challengeurl={`${import.meta.env.VITE_PROXY}/api/captcha`}
+      challengeurl={`/api/captcha`}
     ></altcha-widget>
   )
 })
