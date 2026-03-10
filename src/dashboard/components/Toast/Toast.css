@@ -85,7 +85,7 @@
 }
 
 .toast-progress-animate::before {
-  animation: toast-progress-bar 5s linear forwards;
+  animation: toast-progress-bar 7s linear forwards;
 }
 
 @keyframes toast-progress-bar {
