@@ -8,7 +8,7 @@ import { contactFormSchema } from '../../schemas/contactForm'
 import { contactFormCopyEditingSchema } from '../../schemas/copyediting'
 import { useFormStore, useNotificationStore } from '../../store'
 import { modifyAbstractStatusWithEmail, patchArticleStatus } from '../../utils/api/api'
-import { validateForm } from '../../utils/helpers/checkSchema'
+import { validateForm } from '../../utils/helpers/schema'
 import Button from '../Buttons/Button/Button'
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal'
 
@@ -103,9 +103,9 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
                   setTimeout(() => {
                     setNotification({
                       type: 'success',
-                      message: t('notification.status.error.abstract'),
+                      message: t('notification.status.success.abstract'),
                     })
-                  }, 2000)
+                  }, 5000)
                 })
                 .catch((error) => {
                   setTimeout(() => {
@@ -114,7 +114,7 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
                       message: t('notification.status.error.article'),
                       submessage: error.message,
                     })
-                  }, 2000)
+                  }, 5000)
                 })
             })
             .catch((error) => {

@@ -16,8 +16,8 @@ import {
   postBlueskyCampaign,
   postFacebookCampaign,
 } from '../../utils/api/api'
-import { validateForm } from '../../utils/helpers/checkSchema'
-import { cleanThreadContent } from '../../utils/helpers/cleanTweet'
+import { validateForm } from '../../utils/helpers/schema'
+import { cleanThreadContent } from '../../utils/helpers/tweet'
 import LinkButton from '../Buttons/LinkButton/LinkButton'
 import Schedule from './DatePicker/DatePicker'
 import PostReplies from './PostReplies'

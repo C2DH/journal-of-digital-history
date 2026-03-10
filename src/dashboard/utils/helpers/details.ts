@@ -1,6 +1,6 @@
-import { convertDate } from '../helpers/convertDate'
 import { Abstract, Article, Author } from '../types'
 import { isTypeAbstract, isTypeArticle } from './checkItem'
+import { convertDate } from './date'
 
 /**
  * Extracts and formats data from an Abstract or Article item to display in the Detail view.

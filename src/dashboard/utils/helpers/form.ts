@@ -1,4 +1,4 @@
-import { Abstract } from '../../utils/types'
+import { Abstract } from '../types'
 /**
  * Finds the contact email for a given abstract ID and sets it using the provided setter.
  *
