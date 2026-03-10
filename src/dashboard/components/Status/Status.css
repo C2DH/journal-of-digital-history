@@ -1,7 +1,11 @@
 .icon-status {
   margin-right: var(--gap-size-1);
   vertical-align: middle;
-  font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 700,
+    'GRAD' 0,
+    'opsz' 48;
 
   &.error,
   &.abandoned,
@@ -14,11 +18,14 @@
   &.draft,
   &.peer_review,
   &.technical_review,
-  &.design_review {
+  &.design_review,
+  &.copy_editing,
+  &.social {
     color: var(--color-warning);
   }
   &.accepted,
-  &.published {
+  &.published,
+  &.archived {
     color: var(--color-success);
   }
 }

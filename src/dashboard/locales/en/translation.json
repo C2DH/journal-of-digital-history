@@ -102,9 +102,6 @@
     "general": "Oups..."
   },
   "status": {
-    "peer_review": "Peer Review",
-    "published": "Published",
-    "draft": "Draft",
     "rejected": "Rejected",
     "in_progress": "In Progress",
     "submitted": "Submitted",
@@ -112,8 +109,14 @@
     "abandoned": "Abandoned",
     "declined": "Declined",
     "suspended": "Suspended",
+    "draft": "Writing",
     "technical_review": "Technical Review",
-    "design_review": "Design Review"
+    "peer_review": "Peer Review",
+    "design_review": "Design Review",
+    "copy_editing": "Copy Editing",
+    "published": "Published",
+    "social": "Social Media",
+    "archived": "Archived"
   },
   "search": {
     "placeholder": "Search"
