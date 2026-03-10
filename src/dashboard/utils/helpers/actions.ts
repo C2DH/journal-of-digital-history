@@ -1,5 +1,6 @@
 import { patchArticleStatus, postArticletoSubmissionOJS } from '../api/api'
-import { RowAction, SetNotification } from '../types'
+import { RowAction } from '../types'
+import { notify } from './notification'
 
 /**
  * Generates a list of row actions based on the current status of the row.
@@ -7,15 +8,9 @@ import { RowAction, SetNotification } from '../types'
  * @param row - The data row from which to determine available actions.
  * @param isArticle - A boolean value to precise is the row correspond to an article or an abstract.
  * @param setModal - Function to open a modal dialog with action details.
- * @param setNotification - Function to display notifciation for the user.
  * @returns An array of RowAction objects representing available actions for the row.
  */
-function getRowActions(
-  row: any,
-  isArticle: boolean,
-  setModal: any,
-  setNotification: SetNotification,
-): RowAction[] {
+function getRowActions(t: any, row: any, isArticle: boolean, setModal: any): RowAction[] {
   const pid = row[0]
   const title = row[1]
   const status = isArticle ? row[4] : row[6]
@@ -24,40 +19,22 @@ function getRowActions(
   const callAPI = async (action: string) => {
     switch (action) {
       case 'Ojs':
+        notify('warning', t('notification.ojs.warning'))
         await postArticletoSubmissionOJS({ pid: pid })
           .then(async (res) => {
-            setNotification({
-              type: 'success',
-              message: 'Article send to OJS sucessfully for peer review',
-              submessage: res.data.message,
-            })
+            notify('success', t('notification.ojs.success'), res.data.message, 7000)
             await patchArticleStatus({ status: 'PEER_REVIEW' }, pid)
               .then((res) => {
-                setTimeout(() => {
-                  setNotification({
-                    type: 'success',
-                    message: 'Article status updated',
-                  })
-                }, 5000)
+                notify('success', t('notification.status.success.article'), '', 7000)
               })
               .catch((error) => {
                 console.error('Failed to send Article to OJS :', error)
-                setTimeout(() => {
-                  setNotification({
-                    type: 'error',
-                    message: 'Failed to update Article status',
-                    submessage: error.message,
-                  })
-                }, 5000)
+                notify('error', t('notification.status.error.article'), error.message, 7000)
               })
           })
           .catch((error) => {
             console.error('Failed to send Article to OJS :', error)
-            setNotification({
-              type: 'error',
-              message: 'Failed to send Article to OJS for peer review',
-              submessage: error.details,
-            })
+            notify('error', t('notification.status.error.article'), error.details, 7000)
           })
         break
       default:

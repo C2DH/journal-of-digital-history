@@ -162,6 +162,11 @@
     }
   },
   "notification": {
+    "ojs": {
+      "warning": "OJS submission created",
+      "success": "Article send to OJS sucessfully for peer review",
+      "error": "Failed to send Article to OJS for peer review"
+    },
     "copyediting": {
       "warning": "Email sent to copy editor",
       "error": "Failed to send email to copy editor"
