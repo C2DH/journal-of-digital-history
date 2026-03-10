@@ -6,8 +6,9 @@ import { useTranslation } from 'react-i18next'
 
 import { contactFormSchema } from '../../schemas/contactForm'
 import { contactFormCopyEditingSchema } from '../../schemas/copyediting'
-import { useFormStore, useNotificationStore } from '../../store'
+import { useFormStore } from '../../store'
 import { modifyAbstractStatusWithEmail, patchArticleStatus } from '../../utils/api/api'
+import { notify } from '../../utils/helpers/notification'
 import { validateForm } from '../../utils/helpers/schema'
 import Button from '../Buttons/Button/Button'
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal'
@@ -26,7 +27,6 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
   const pid = rowData.id || ''
   const { t } = useTranslation()
   const { isModalOpen, openModal, closeModal, setFormData, formData } = useFormStore()
-  const { setNotification } = useNotificationStore()
 
   useEffect(() => {
     switch (action) {
@@ -75,6 +75,38 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
     onClose()
   }
 
+  const handleCopyEditing = async () => {
+    notify('warning', t('notification.copyediting.warning'))
+    closeBothModal()
+
+    await sendEmail()
+      // await sendArticleToCopyeditor(formData)
+      .then(async (res) => {
+        await patchArticleStatus({ status: 'COPY_EDITING' }, rowData.id)
+          .then((res) => {
+            notify('success', t('notification.status.success.abstract'), '', 7000)
+          })
+          .catch((error) => {
+            notify('error', t('notification.status.error.article'), error.message, 7000)
+          })
+      })
+      .catch((error) => {
+        notify('error', t('notification.copyediting.error'), error.message, 7000)
+      })
+  }
+
+  const handleDefaultAction = async () => {
+    closeBothModal()
+
+    await modifyAbstractStatusWithEmail(formData?.pid, formData)
+      .then((res) => {
+        notify('success', t('email.success.api.contactForm'), res?.data?.message)
+      })
+      .catch((error) => {
+        notify('error', t('email.error.api.message'), error?.error)
+      })
+  }
+
   const handleConfirmSubmit = async () => {
     let schema: Record<string, any>
     switch (action) {
@@ -90,67 +122,16 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
     if (valid) {
       switch (action) {
         case 'copyediting':
-          setNotification({
-            type: 'warning',
-            message: t('notification.copyediting.warning'),
-          })
-          closeBothModal()
-          await sendEmail()
-            // await sendArticleToCopyeditor(formData)
-            .then(async (res) => {
-              await patchArticleStatus({ status: 'COPY_EDITING' }, rowData.id)
-                .then((res) => {
-                  setTimeout(() => {
-                    setNotification({
-                      type: 'success',
-                      message: t('notification.status.success.abstract'),
-                    })
-                  }, 5000)
-                })
-                .catch((error) => {
-                  setTimeout(() => {
-                    setNotification({
-                      type: 'error',
-                      message: t('notification.status.error.article'),
-                      submessage: error.message,
-                    })
-                  }, 5000)
-                })
-            })
-            .catch((error) => {
-              setNotification({
-                type: 'error',
-                message: t('notification.copyediting.error'),
-                submessage: error.message,
-              })
-            })
+          await handleCopyEditing()
           break
         default:
-          await modifyAbstractStatusWithEmail(formData?.pid, formData)
-            .then((res) => {
-              closeBothModal()
-              setNotification({
-                type: 'success',
-                message: t('email.success.api.contactForm'),
-                submessage: res?.data?.message || '',
-              })
-            })
-            .catch((error) => {
-              closeBothModal()
-              setNotification({
-                type: 'error',
-                message: t('email.error.api.message'),
-                submessage: error?.error,
-              })
-            })
+          await handleDefaultAction()
+          break
       }
     }
+
     if (!valid) {
-      setNotification({
-        type: 'error',
-        message: t('email.error.validation.message'),
-        submessage: t('email.error.validation.submessage'),
-      })
+      notify('error', t('email.error.validation.message'), t('email.error.validation.submessage'))
       console.error(errors)
       return
     }
