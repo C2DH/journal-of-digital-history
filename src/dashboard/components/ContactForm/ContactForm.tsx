@@ -4,8 +4,8 @@ import parse from 'html-react-parser'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { contactFormSchema } from '../../schemas/contactForm'
 import { contactFormCopyEditingSchema } from '../../schemas/copyediting'
+import { contactFormSchema } from '../../schemas/form'
 import { useFormStore } from '../../store'
 import {
   modifyAbstractStatusWithEmail,

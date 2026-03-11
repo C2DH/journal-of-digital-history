@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 
 import { Frequency, SocialMediaCampaign, SocialScheduleProps } from './interface'
 
-import { socialMediaCampaign } from '../../schemas/socialMediaCampaign'
+import { socialMediaCampaign } from '../../schemas/socialmedia'
 import { useFormStore } from '../../store'
 import {
   getSocialMediaCover,
