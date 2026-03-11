@@ -109,7 +109,6 @@ export const useStore = create(
       backgroundColor: '#ffffff',
       acceptAnalyticsCookies: false,
       acceptThirdPartyCookies: false, // cookies should be accepted, session is stored locally
-      acceptCookies: false, // cookies should be accepted, session is stored locally
       showCookieBanner: true,
       releaseNotified: false,
       mode: 'dark', // or light
@@ -122,9 +121,6 @@ export const useStore = create(
           header.style.backgroundColor = backgroundColor
         }
         return set({ backgroundColor })
-      },
-      setAcceptCookies: () => {
-        set({ acceptCookies: true })
       },
       setShowCookieBanner: (value) => {
         set({ showCookieBanner: Boolean(value) })

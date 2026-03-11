@@ -23,14 +23,12 @@ import Loading from './pages/Loading'
 import { AppRoutes } from './routes'
 import { useStore } from './store'
 
-const AcceptAnalyticsCookies = useStore.getState().acceptAnalyticsCookies
+// const AcceptAnalyticsCookies = useStore.getState().acceptAnalyticsCookies
 const AcceptThirdPartyCookies = useStore.getState().acceptThirdPartyCookies
-const AcceptCookies = useStore.getState().acceptCookies
 
 console.info('\n   _   _ _   \n  | |_| | |_ \n  | | . |   |\n _| |___|_|_|\n|___|       \n\n')
 // console.info('%cacceptAnalyticsCookies', 'font-weight: bold', AcceptAnalyticsCookies)
 console.info('%cacceptThirdPartyCookies', 'font-weight: bold', AcceptThirdPartyCookies)
-// console.info('%cacceptCookies', 'font-weight: bold', AcceptCookies)
 
 // check if there CRFS cookie
 const csrfToken = new UniversalCookie().get('csrftoken')
@@ -62,7 +60,7 @@ export default function App() {
             <PercentLoader />
             <Header availableLanguages={LANGUAGES} isAuthDisabled />
             {typeof csrfToken === 'string' && <Me />}
-            <Cookies defaultAcceptCookies={AcceptCookies} />
+            <Cookies />
             {/* Hypothes.is integration */}
             <CanonicalUpdater />
             <main>
