@@ -128,7 +128,6 @@ const Table = ({
         </thead>
         <tbody>
           {cleanData.map((row, rIdx) => {
-            const pid = row[0]
             const actions = getRowActions(t, row, isArticleItem, setRowModal)
 
             return (
