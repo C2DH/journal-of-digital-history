@@ -4,7 +4,7 @@ import parse from 'html-react-parser'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { contactFormCopyEditingSchema } from '../../schemas/copyediting'
+import { contactFormCopyEditingSchema } from '../../schemas/copyEditing'
 import { contactFormSchema } from '../../schemas/form'
 import { useFormStore } from '../../store'
 import {
