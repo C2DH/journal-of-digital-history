@@ -9,7 +9,7 @@
     "build": "vite build --config vite.config.js",
     "preview": "vite preview --port 5175",
     "test": "vitest --config vitest.config.js",
-    "coverage": "vitest run --coverage",
+    "coverage": "vitest run --coverage --config vitest.config.js",
     "lint": "eslint --fix src/**/*.js",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
