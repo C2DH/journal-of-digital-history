@@ -79,17 +79,17 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
 
     await sendArticleToCopyeditor(formData)
       .then(async (res) => {
-        notify('success', t('notification.copyediting.success'), res.message)
+        // notify('success', t('notification.copyediting.success'), res.message)
         await patchArticleStatus({ status: 'COPY_EDITING' }, rowData.id)
           .then((res) => {
-            notify('success', t('notification.status.success.abstract'), '', 7000)
+            notify('success', t('notification.status.success.abstract'), '')
           })
           .catch((error) => {
-            notify('error', t('notification.status.error.article'), error.message, 7000)
+            notify('error', t('notification.status.error.article'), error.message)
           })
       })
       .catch((error) => {
-        notify('error', t('notification.copyediting.error'), error.message, 7000)
+        notify('error', t('notification.copyediting.error'), error.error, 7000)
       })
   }
 
