@@ -31,7 +31,8 @@
 }
 
 .label {
-  text-align: left;
+  text-align: right;
+  margin-right: var(--gap-size-5);
   min-width: 150px;
   font-weight: bold;
 }
@@ -83,17 +84,13 @@ a {
 /* AUTHOR  */
 .author-info {
   display: flex;
+  align-items: start;
   flex-direction: column;
   gap: var(--gap-size-1);
 }
 
-.author-info > .item > .label {
-  min-width: 50px;
-}
-
 .author-info > .item > .value {
-  margin-left: var(--gap-size-0);
-  max-width: 150px;
+  flex-grow: 1;
 }
 
 /* RESPONSIVE */
@@ -160,6 +157,7 @@ a {
   .author-info > .item > .value {
     margin-left: var(--gap-size-0);
     max-width: 100%;
+    padding: 0;
   }
 }
 
@@ -169,14 +167,8 @@ a {
     display: flex;
     flex-direction: column;
     gap: var(--gap-size-2);
-    grid-template-areas:
-      'i'
-      'l'
-      'c'
-      'a'
-      'a'
-      'u';
   }
+
   a {
     text-overflow: ellipsis;
     overflow: hidden;
