@@ -27,7 +27,7 @@ function formatMessage(template, data) {
 }
 
 const ContactForm = ({ rowData, rowAction, onClose }) => {
-  const action = rowAction.toLowerCase()
+  const action = rowAction.toLowerCase() || ''
   const pid = rowData.id || ''
   const { t } = useTranslation()
   const { isModalOpen, openModal, closeModal, setFormData, formData } = useFormStore()
@@ -49,7 +49,7 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
           to: rowData.contactEmail,
           subject: rowData.title,
           body: formatMessage(parse(t(`email.${action}.body`)), rowData),
-          status: action || '',
+          status: action,
         })
         break
     }
@@ -139,12 +139,12 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
     <form className="contact-form" onSubmit={handleFormSubmit}>
       <label>
         From
-        <input name="from" value={formData?.from || ''} onChange={handleChange} required />
+        <input name="from" value={formData?.from || ''} required disabled />
       </label>
       {action != 'copyediting' && (
         <label>
           To
-          <input name="to" value={formData?.to} onChange={handleChange} required />
+          <input name="to" value={formData?.to || ''} onChange={handleChange} required />
         </label>
       )}
       <label>
