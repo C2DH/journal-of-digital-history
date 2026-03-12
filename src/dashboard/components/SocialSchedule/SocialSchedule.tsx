@@ -2,7 +2,6 @@ import './SocialSchedule.css'
 
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
-import { AxiosResponse } from 'axios'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -16,6 +15,7 @@ import {
   postBlueskyCampaign,
   postFacebookCampaign,
 } from '../../utils/api/api'
+import { notify } from '../../utils/helpers/notification'
 import { validateForm } from '../../utils/helpers/schema'
 import { cleanThreadContent } from '../../utils/helpers/tweet'
 import LinkButton from '../Buttons/LinkButton/LinkButton'
@@ -33,7 +33,7 @@ const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) =
   </div>
 )
 
-const SocialSchedule = ({ rowData, action, onClose, onNotify }: SocialScheduleProps) => {
+const SocialSchedule = ({ rowData, action, onClose }: SocialScheduleProps) => {
   const { t } = useTranslation()
   const pid = rowData?.id || 'default-id'
 
@@ -73,43 +73,35 @@ const SocialSchedule = ({ rowData, action, onClose, onNotify }: SocialSchedulePr
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (valid) {
-      try {
-        let res = {} as AxiosResponse<any, any>
-
-        if (action === 'Bluesky') {
-          res = await postBlueskyCampaign(form)
-        }
-        if (action === 'Facebook') {
-          res = await postFacebookCampaign(form)
-        }
+      if (action === 'Bluesky') {
         onClose()
-
-        if (onNotify)
-          onNotify({
-            type: 'success',
-            message: t('socialCampaign.api.success'),
-            submessage: res?.data?.message || '',
+        await postBlueskyCampaign(form)
+          .then((res) => {
+            notify('success', t('socialCampaign.api.success'), res?.data?.message || '')
           })
-      } catch (err: any) {
-        onClose()
-
-        if (onNotify)
-          onNotify({
-            type: 'error',
-            message: t('socialCampaign.api.error'),
-            submessage: err?.response?.data?.message,
+          .catch((err: any) => {
+            notify('error', t('socialCampaign.api.error'), err?.response?.data?.details || '')
           })
-      } finally {
-        closeModal()
+          .finally(() => closeModal())
+      }
+      if (action === 'Facebook') {
+        await postFacebookCampaign(form)
+          .then((res) => {
+            notify('success', t('socialCampaign.api.success'), res?.data?.message || '')
+          })
+          .catch((err: any) => {
+            notify('error', t('socialCampaign.api.error'), err?.response?.data?.details || '')
+          })
+          .finally(() => closeModal())
       }
     }
     if (!valid) {
-      onNotify({
-        type: 'error',
-        message: t('socialCampaign.validation.error.message'),
-        submessage: t('socialCampaign.validation.error.submessage'),
-      })
       console.error(errors)
+      notify(
+        'error',
+        t('socialCampaign.validation.error.message'),
+        t('socialCampaign.validation.error.submessage'),
+      )
       return
     }
   }

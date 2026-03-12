@@ -9,7 +9,7 @@ import Button from '../Buttons/Button/Button'
 import ContactForm from '../ContactForm/ContactForm'
 import SocialSchedule from '../SocialSchedule/SocialSchedule'
 
-const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
+const Modal = ({ item, open, onClose, action, data }: ModalProps) => {
   const { t } = useTranslation()
 
   const contactFormActions = ['Abandoned', 'Accepted', 'Declined', 'Suspended', 'Copyediting']
@@ -52,12 +52,7 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
         </div>
         {isContactFormAction && <ContactForm rowData={data} rowAction={action} onClose={onClose} />}
         {isSocialScheduleAction && (
-          <SocialSchedule
-            rowData={data}
-            action={action}
-            onClose={onClose}
-            onNotify={onNotify ?? (() => {})}
-          />
+          <SocialSchedule rowData={data} action={action} onClose={onClose} />
         )}
       </div>
     </div>
