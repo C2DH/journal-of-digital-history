@@ -7,7 +7,7 @@ import { useStore } from '../../store'
 import LangLink from '../LangLink'
 import styles from './Cookies.module.scss'
 
-const Cookies = ({ defaultAcceptCookies }) => {
+const Cookies = () => {
   const [isStoreReady, setStoreReady] = useState(false)
   const showCookieBanner = useStore((state) => state.showCookieBanner)
   const setAcceptThirdPartyCookies = useStore((state) => state.setAcceptThirdPartyCookies)
@@ -24,7 +24,7 @@ const Cookies = ({ defaultAcceptCookies }) => {
     setStoreReady(true)
   }, 2000)
 
-  if (defaultAcceptCookies || !isStoreReady) {
+  if (!isStoreReady) {
     return null
   }
   console.debug('[Cookies] \n - showCookieBanner:', showCookieBanner)
