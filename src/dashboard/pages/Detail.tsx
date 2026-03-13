@@ -114,9 +114,11 @@ const Detail = ({ endpoint }) => {
               ''
             )}
           </div>
-          {contactFields.map(({ label, value }) => (
-            <FieldRow key={label} label={label} value={value} />
-          ))}
+          <div className="contact-info">
+            {contactFields.map(({ label, value }) => (
+              <FieldRow key={label} label={label} value={value} />
+            ))}
+          </div>
         </SmallCard>
         <div className="card-authors">
           {authors.length > 0 ? (
