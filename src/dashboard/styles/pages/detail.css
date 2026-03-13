@@ -22,6 +22,7 @@
   grid-template-columns: max-content max-content;
   align-items: center;
   justify-content: space-between;
+  gap: var(--gap-size-1);
 }
 
 /* FieldRow css */
@@ -81,6 +82,12 @@ a {
   opacity: 0.6;
 }
 
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-size-1);
+}
+
 /* AUTHOR  */
 .author-info {
   display: flex;
@@ -94,7 +101,6 @@ a {
 }
 
 /* RESPONSIVE */
-
 @media (min-width: 2000px) {
   .detail-grid {
     display: grid;
@@ -128,7 +134,7 @@ a {
 }
 
 /* Tablet or small screen view */
-@media (max-width: 1200px) {
+@media (max-width: 1300px) {
   .detail-grid {
     display: grid;
     grid-template-areas:
