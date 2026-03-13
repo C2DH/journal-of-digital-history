@@ -1,5 +1,6 @@
 import './Deadline.css'
 
+import Icon from '@mui/material/Icon'
 import { DateTime } from 'luxon'
 
 import { CounterProps, DeadlineProps } from './interface'
@@ -53,8 +54,18 @@ const Deadline = ({ title, deadlineAbstract, deadlineArticle, value }: CounterPr
 
   return (
     <div className="counter">
-      <span className={`${value ? 'counter-value' : 'material-symbols-outlined campaign'} logo`}>
-        {value || 'campaign'}
+      <span className={`${value ? 'counter-value' : 'campaign'} logo`}>
+        {value || (
+          <Icon
+            baseClassName="material-symbols-outlined"
+            sx={{
+              fontVariationSettings: "'FILL' 0",
+              fontSize: '2rem',
+            }}
+          >
+            campaign
+          </Icon>
+        )}
       </span>
       <div className="counter-info">
         <span className="counter-title" title={title}>

@@ -1,5 +1,6 @@
 import './Navbar.css'
 
+import Icon from '@mui/material/Icon'
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
@@ -40,7 +41,19 @@ const Navbar = ({ items }: NavbarProps) => {
         {items.map((item) => (
           <li key={item.href} className={activeHref === item.href ? 'active' : ''}>
             <Link to={`${item.href}`} className="navbar-link" onClick={closeMenu}>
-              <span className="material-symbols-outlined navbar-icons">{item.icon}</span>
+              <Icon
+                baseClassName="material-symbols-outlined"
+                className="navbar-icons"
+                sx={{
+                  fontVariationSettings: "'FILL' 0",
+                  transition: 'font-variation-settings 0.2s',
+                  '.navbar-link:hover &': {
+                    fontVariationSettings: "'FILL' 1",
+                  },
+                }}
+              >
+                {item.icon}
+              </Icon>
               <span className="navbar-labels">{item.label}</span>
             </Link>
           </li>

@@ -1,6 +1,7 @@
 import './Table.css'
 
 import CircularProgress from '@mui/material/CircularProgress'
+import Icon from '@mui/material/Icon'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -37,7 +38,14 @@ const ArticleHeader = ({ isMobile }: { isMobile: boolean }) => {
       {!isMobile &&
         articleSteps.map((step) => (
           <th key={step.key} className="status-header" title={step.label}>
-            <span className="material-symbols-outlined">{step.icon}</span>
+            <Icon
+              baseClassName="material-symbols-outlined"
+              sx={{
+                fontVariationSettings: "'FILL' 0",
+              }}
+            >
+              {step.icon}
+            </Icon>
           </th>
         ))}
       {isMobile && <th className="article-header-mobile">Status</th>}

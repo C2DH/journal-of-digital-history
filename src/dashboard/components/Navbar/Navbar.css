@@ -76,10 +76,7 @@
   margin-right: 12px;
   font-size: 24px;
   color: var(--color-dark);
-  font-variation-settings: 'FILL' 0;
-  transition:
-    color 0.2s,
-    font-variation-settings 0.2s;
+  transition: color 0.2s;
 }
 
 /* Active, hover, and focus states for both icon and link */
@@ -88,12 +85,10 @@
 .navbar li:hover a,
 .navbar li:focus-within a {
   color: var(--color-accent);
-  font-variation-settings: 'FILL' 1;
 }
 .navbar li.active .navbar-icons,
 .navbar li.active a {
   color: var(--color-white);
-  font-variation-settings: 'FILL' 1;
 }
 
 .burger-menu {
