@@ -1,5 +1,6 @@
 import './Status.css'
 
+import Icon from '@mui/material/Icon'
 import { useTranslation } from 'react-i18next'
 
 import { StatusProps } from './interface'
@@ -11,10 +12,9 @@ const Status = ({ value }: StatusProps) => {
   const status = value.toLowerCase()
 
   const iconInfo = statusIcons[status] || { icon: 'help', color: 'gray' }
-
   return (
     <span className="status-cell value">
-      <span className={`material-symbols-outlined icon-status ${status}`}>{iconInfo.icon}</span>
+      <Icon className={`icon-status ${status}`}>{iconInfo.icon} </Icon>
       <span>{t(`status.${status}`)}</span>
     </span>
   )

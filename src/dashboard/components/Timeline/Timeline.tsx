@@ -1,5 +1,7 @@
 import './Timeline.css'
 
+import Icon from '@mui/material/Icon'
+
 import { TimelineProps } from './interface'
 
 import { articleStatus } from '../../utils/constants/article'
@@ -16,9 +18,9 @@ const Timeline = ({ steps, currentStatus }: TimelineProps) => {
         <ul className="timeline-list">
           {visuals.map((visual, idx) => (
             <li key={idx} className="timeline-item">
-              <span className={`material-symbols-outlined ${visual.colorClass}`}>
+              <Icon baseClassName="material-symbols-outlined" className={`${visual.colorClass}`}>
                 {visual.icon}
-              </span>
+              </Icon>
             </li>
           ))}
         </ul>
