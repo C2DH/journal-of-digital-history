@@ -4,10 +4,16 @@ import parse from 'html-react-parser'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { contactFormSchema } from '../../schemas/contactForm'
+import { contactFormCopyEditingSchema } from '../../schemas/copyEditing'
+import { contactFormSchema } from '../../schemas/form'
 import { useFormStore } from '../../store'
-import { modifyAbstractStatusWithEmail } from '../../utils/api/api'
-import { validateForm } from '../../utils/helpers/checkSchema'
+import {
+  modifyAbstractStatusWithEmail,
+  patchArticleStatus,
+  sendArticleToCopyeditor,
+} from '../../utils/api/api'
+import { notify } from '../../utils/helpers/notification'
+import { validateForm } from '../../utils/helpers/schema'
 import Button from '../Buttons/Button/Button'
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal'
 
@@ -20,20 +26,34 @@ function formatMessage(template, data) {
     .replace(/\{signature\}/g, 'JDH Team')
 }
 
-const ContactForm = ({ rowData, action, onClose, onNotify }) => {
+const ContactForm = ({ rowData, rowAction, onClose }) => {
+  const action = rowAction.toLowerCase() || ''
+  const pid = rowData.id || ''
   const { t } = useTranslation()
   const { isModalOpen, openModal, closeModal, setFormData, formData } = useFormStore()
 
   useEffect(() => {
-    setFormData({
-      pid: rowData.id || '',
-      from: 'jdh.admin@uni.lu',
-      to: rowData.contactEmail || '',
-      subject: rowData.title || '',
-      body: formatMessage(parse(t(`email.${action}.body`)), rowData),
-      status: action || '',
-    })
-  }, [rowData])
+    switch (action) {
+      case 'copyediting':
+        setFormData({
+          pid: pid,
+          from: 'jdh.admin@uni.lu',
+          subject: t('email.copyediting.subject'),
+          body: formatMessage(parse(t(`email.${action}.body`)), rowData),
+        })
+        break
+      default:
+        setFormData({
+          pid: pid,
+          from: 'jdh.admin@uni.lu',
+          to: rowData.contactEmail,
+          subject: rowData.title,
+          body: formatMessage(parse(t(`email.${action}.body`)), rowData),
+          status: action,
+        })
+        break
+    }
+  }, [rowData, action])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -48,37 +68,68 @@ const ContactForm = ({ rowData, action, onClose, onNotify }) => {
     openModal()
   }
 
+  const closeBothModal = () => {
+    closeModal()
+    onClose()
+  }
+
+  const handleCopyEditing = async () => {
+    notify('warning', t('notification.copyediting.warning'))
+    closeBothModal()
+
+    await sendArticleToCopyeditor(formData)
+      .then(async (res) => {
+        // notify('success', t('notification.copyediting.success'), res.message)
+        await patchArticleStatus({ status: 'COPY_EDITING' }, rowData.id)
+          .then((res) => {
+            notify('success', t('notification.status.success.abstract'), '')
+          })
+          .catch((error) => {
+            notify('error', t('notification.status.error.article'), error.message)
+          })
+      })
+      .catch((error) => {
+        notify('error', t('notification.copyediting.error'), error.error, 7000)
+      })
+  }
+
+  const handleDefaultAction = async () => {
+    closeBothModal()
+
+    await modifyAbstractStatusWithEmail(formData?.pid, formData)
+      .then((res) => {
+        notify('success', t('email.success.api.contactForm'), res?.data?.message)
+      })
+      .catch((error) => {
+        notify('error', t('email.error.api.message'), error?.error)
+      })
+  }
+
   const handleConfirmSubmit = async () => {
-    const { valid, errors } = validateForm(formData, contactFormSchema)
+    let schema: Record<string, any>
+    switch (action) {
+      case 'copyediting':
+        schema = contactFormCopyEditingSchema
+        break
+      default:
+        schema = contactFormSchema
+    }
+
+    const { valid, errors } = validateForm(formData, schema)
 
     if (valid) {
-      try {
-        const res = await modifyAbstractStatusWithEmail(formData?.pid, formData)
-        if (onClose) onClose()
-        if (onNotify)
-          onNotify({
-            type: 'success',
-            message: t('email.success.api.contactForm'),
-            submessage: res?.data?.message || '',
-          })
-      } catch (err: any) {
-        if (onClose) onClose()
-        if (onNotify)
-          onNotify({
-            type: 'error',
-            message: t('email.error.api.message'),
-            submessage: err?.response?.data?.message,
-          })
-      } finally {
-        closeModal()
+      switch (action) {
+        case 'copyediting':
+          await handleCopyEditing()
+          break
+        default:
+          await handleDefaultAction()
+          break
       }
     }
+
     if (!valid) {
-      onNotify({
-        type: 'error',
-        message: t('email.error.validation.message'),
-        submessage: t('email.error.validation.submessage'),
-      })
+      notify('error', t('email.error.validation.message'), t('email.error.validation.submessage'))
       console.error(errors)
       return
     }
@@ -88,12 +139,14 @@ const ContactForm = ({ rowData, action, onClose, onNotify }) => {
     <form className="contact-form" onSubmit={handleFormSubmit}>
       <label>
         From
-        <input name="from" value={formData?.from || ''} onChange={handleChange} required />
+        <input name="from" value={formData?.from || ''} required disabled />
       </label>
-      <label>
-        To
-        <input name="to" value={formData?.to || ''} onChange={handleChange} required />
-      </label>
+      {action != 'copyediting' && (
+        <label>
+          To
+          <input name="to" value={formData?.to || ''} onChange={handleChange} required />
+        </label>
+      )}
       <label>
         Subject
         <input name="subject" value={formData?.subject || ''} onChange={handleChange} required />

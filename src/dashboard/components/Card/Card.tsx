@@ -6,10 +6,9 @@ import { useTranslation } from 'react-i18next'
 import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
-import { useFilterBarStore, useItemsStore, useNotificationStore } from '../../store'
+import { useFilterBarStore } from '../../store'
 import { isAbstract, isArticle } from '../../utils/helpers/checkItem'
-import { retrieveContactEmail } from '../../utils/helpers/retrieveContactEmail'
-import { Notification } from '../../utils/types'
+import { retrieveContactEmail } from '../../utils/helpers/form'
 import Feedback from '../Feedback/Feedback'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
@@ -38,8 +37,6 @@ const Card = ({
     id?: string
     [key: string]: any
   }>({ open: false })
-  const { fetchItems } = useItemsStore()
-  const { setNotification } = useNotificationStore()
   const isFilterOpen = useFilterBarStore((state) => state.isFilterOpen)
 
   const isAbstractItem = isAbstract(item)
@@ -47,10 +44,7 @@ const Card = ({
   const isArticleOrAbstracts = isAbstractItem || isArticleItem
 
   const handleClose = () => setModalState({ open: false })
-  const handleNotify = (notification: Notification) => {
-    fetchItems(true)
-    setNotification(notification)
-  }
+
   const setEmail = (email: string) => {
     setModalState((prev) => ({ ...prev, contactEmail: email }))
   }
@@ -96,7 +90,6 @@ const Card = ({
                 sortOrder={sortOrder}
                 setSort={setSort}
                 setRowModal={openRowModal}
-                onNotify={handleNotify}
               />
             }
             {loading && data.length > 0 && <Loading />}
@@ -109,9 +102,7 @@ const Card = ({
         open={modalState.open}
         onClose={handleClose}
         action={modalState.action || ''}
-        ids={modalState.ids}
         data={modalState}
-        onNotify={handleNotify}
       />
     </>
   )

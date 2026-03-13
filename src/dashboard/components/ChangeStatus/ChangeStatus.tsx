@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import { ChangeStatusProps } from './interface'
 
-import { abstractStatusSchema, articleStatusSchema } from '../../schemas/changeStatus'
+import { abstractStatusSchema, articleStatusSchema } from '../../schemas/status'
 import { modifyStatus } from '../../utils/api/api'
 import { abstractStatus } from '../../utils/constants/abstract'
 import { articleStatus } from '../../utils/constants/article'

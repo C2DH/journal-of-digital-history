@@ -434,7 +434,7 @@ export const useNotificationStore = create<NotificationState>((set) => ({
   notification: { type: 'info', message: '', submessage: '' },
   setNotification: (notification) => {
     set({ notification, isVisible: true })
-    setTimeout(() => set({ isVisible: false }), 5000)
+    setTimeout(() => set({ isVisible: false }), 7000)
   },
   clearNotification: () => set({ notification: { type: 'info', message: '', submessage: '' } }),
 }))

@@ -1,5 +1,4 @@
 export const statusIcons: Record<string, { icon: string }> = {
-  published: { icon: 'check_circle' },
   accepted: { icon: 'error' },
   submitted: { icon: 'error' },
   suspended: { icon: 'error' },
@@ -7,6 +6,11 @@ export const statusIcons: Record<string, { icon: string }> = {
   abandoned: { icon: 'cancel' },
   declined: { icon: 'cancel' },
   draft: { icon: 'error' },
-  peer_review: { icon: 'error' },
   technical_review: { icon: 'error' },
+  peer_review: { icon: 'error' },
+  design_review: { icon: 'error' },
+  copy_editing: { icon: 'error' },
+  published: { icon: 'check_circle' },
+  social: { icon: 'error' },
+  archived: { icon: 'check_circle' },
 }

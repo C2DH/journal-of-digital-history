@@ -102,9 +102,6 @@
     "general": "Oups..."
   },
   "status": {
-    "peer_review": "Peer Review",
-    "published": "Published",
-    "draft": "Draft",
     "rejected": "Rejected",
     "in_progress": "In Progress",
     "submitted": "Submitted",
@@ -112,8 +109,14 @@
     "abandoned": "Abandoned",
     "declined": "Declined",
     "suspended": "Suspended",
+    "draft": "Writing",
     "technical_review": "Technical Review",
-    "design_review": "Design Review"
+    "peer_review": "Peer Review",
+    "design_review": "Design Review",
+    "copy_editing": "Copy Editing",
+    "published": "Published",
+    "social": "Social Media",
+    "archived": "Archived"
   },
   "search": {
     "placeholder": "Search"
@@ -142,7 +145,7 @@
     },
     "error": {
       "api": {
-        "message": "Something really bad happened..."
+        "message": "An error happened..."
       },
       "validation": { "message": "Validation failed", "submessage": "Please check your input" }
     },
@@ -150,7 +153,34 @@
       "abandoned": "Send an email and switch status to abandoned ?",
       "declined": "Send an email and switch status to declined ?",
       "suspended": "Send an email and switch status to suspended ?",
-      "accepted": "Send an email and switch status to accepted ?"
+      "accepted": "Send an email and switch status to accepted ?",
+      "copyediting": "Send an email and switch status to copyediting ?"
+    },
+    "copyediting": {
+      "subject": "Article to review for copy editing",
+      "body": "Dear Andy, \nPlease find enclosed the .docx file for the copy editing of the article : {submissionTitle}. \n\nBest,\n{signature}"
+    }
+  },
+  "notification": {
+    "ojs": {
+      "warning": "OJS submission created",
+      "success": "Article send to OJS sucessfully for peer review",
+      "error": "Failed to send Article to OJS for peer review"
+    },
+    "copyediting": {
+      "warning": "Email sent to copy editor",
+      "success": "Article send to copy editor",
+      "error": "Failed to send email to copy editor"
+    },
+    "status": {
+      "success": {
+        "abstract": "Abstract status updated",
+        "article": "Article status updated"
+      },
+      "error": {
+        "abstract": "Failed to update abstract status",
+        "article": "Failes to update article status"
+      }
     }
   },
   "actions": {
@@ -160,7 +190,8 @@
     "Declined": "Declined the abstract",
     "Suspended": "Suspended the abstract",
     "Bluesky": "Bluesky",
-    "Facebook": "Facebook"
+    "Facebook": "Facebook",
+    "Copyediting": "Send to copy editor"
   },
   "Bluesky": "Launch Bluesky campaign",
   "Facebook": "Launch Facebook campaign",
