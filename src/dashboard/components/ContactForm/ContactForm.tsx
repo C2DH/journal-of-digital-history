@@ -138,21 +138,21 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
   return (
     <form className="contact-form" onSubmit={handleFormSubmit}>
       <label>
-        From
+        From *
         <input name="from" value={formData?.from || ''} required disabled />
       </label>
       {action != 'copyediting' && (
         <label>
-          To
+          To *
           <input name="to" value={formData?.to || ''} onChange={handleChange} required />
         </label>
       )}
       <label>
-        Subject
+        Subject *
         <input name="subject" value={formData?.subject || ''} onChange={handleChange} required />
       </label>
       <label>
-        Body
+        Body *
         <textarea
           name="body"
           value={String(formData?.body) || ''}

@@ -67,6 +67,11 @@ function getRowActions(t: any, row: any, isArticle: boolean, setModal: any): Row
     switch (status) {
       case 'TECHNICAL_REVIEW':
         actions.push(defaultAction('Ojs', 'Send to OJS'))
+        break
+      case 'PEER_REVIEW':
+        actions.push(modalAction('Copyediting', 'Send docx to copyeditor'))
+        break
+      case 'DESIGN_REVIEW':
         actions.push(modalAction('Copyediting', 'Send docx to copyeditor'))
         break
       case 'PUBLISHED':
