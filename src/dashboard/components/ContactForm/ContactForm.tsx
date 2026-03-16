@@ -13,6 +13,11 @@ import {
   sendArticleToCopyeditor,
 } from '../../utils/api/api'
 import { notify } from '../../utils/helpers/notification'
+import {
+  removeEscapeCharacters,
+  sanitizeFormData,
+  sanitizeInput,
+} from '../../utils/helpers/sanitize'
 import { validateForm } from '../../utils/helpers/schema'
 import Button from '../Buttons/Button/Button'
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal'
@@ -59,8 +64,15 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
     const { name, value } = e.target
     setFormData({
       ...(formData || {}),
-      [name]: value,
+      [name]: sanitizeInput(value),
     })
+
+    if (name === 'subject') {
+      setFormData((prev) => ({
+        ...prev,
+        subject: removeEscapeCharacters(value).trim(),
+      }))
+    }
   }
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -79,7 +91,6 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
 
     await sendArticleToCopyeditor(formData)
       .then(async (res) => {
-        // notify('success', t('notification.copyediting.success'), res.message)
         await patchArticleStatus({ status: 'COPY_EDITING' }, rowData.id)
           .then((res) => {
             notify('success', t('notification.status.success.abstract'), '')
@@ -115,7 +126,8 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
         schema = contactFormSchema
     }
 
-    const { valid, errors } = validateForm(formData, schema)
+    const sanitizedForm = sanitizeFormData(formData as Record<string, unknown>)
+    const { valid, errors } = validateForm(sanitizedForm, schema)
 
     if (valid) {
       switch (action) {
