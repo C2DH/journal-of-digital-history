@@ -58,7 +58,7 @@ const ArticleCellOutputsAsIframe = ({
           // text/html
           if (output.data['text/html']) {
             if (Array.isArray(output.data['text/html'])) {
-              acc.push(...output.data['text/html'])
+              acc = acc.concat(output.data['text/html']);
             } else {
               acc.push(output.data['text/html'])
             }
