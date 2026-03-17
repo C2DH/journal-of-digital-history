@@ -63,6 +63,10 @@ function isLastnameHeader(headerName: string) {
   return headerName === 'abstract__contact_lastname'
 }
 
+function isAuthorHeader(headerName: string) {
+  return headerName === 'author'
+}
+
 function isCallForPaperGithub(cell: any, header: string): boolean {
   return typeof cell === 'string' && header.toLowerCase() === 'folder_name'
 }
@@ -120,6 +124,7 @@ export {
   isAffiliationHeader,
   isArticle,
   isAuthor,
+  isAuthorHeader,
   isCallForPaper,
   isCallForPaperGithub,
   isDateCell,

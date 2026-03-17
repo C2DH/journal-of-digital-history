@@ -14,6 +14,7 @@ import {
   isAbstract,
   isAffiliationHeader,
   isArticle,
+  isAuthorHeader,
   isCallForPaper,
   isIssues,
   isRepositoryHeader,
@@ -86,7 +87,8 @@ const Table = ({
     return (
       isRepositoryHeader(header) ||
       isCallForPaper(item) ||
-      (isIssues(item) && !isRepositoryHeader(header) && !isStatusHeader(header))
+      (isIssues(item) && !isRepositoryHeader(header) && !isStatusHeader(header)) ||
+      (isArticleOrAbstracts && isAuthorHeader(header))
     )
   }
 
