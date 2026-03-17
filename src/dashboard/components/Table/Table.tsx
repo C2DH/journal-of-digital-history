@@ -14,6 +14,7 @@ import {
   isAbstract,
   isAffiliationHeader,
   isArticle,
+  isAuthorHeader,
   isCallForPaper,
   isIssues,
   isRepositoryHeader,
@@ -37,7 +38,7 @@ const ArticleHeader = ({ isMobile }: { isMobile: boolean }) => {
       {!isMobile &&
         articleSteps.map((step) => (
           <th key={step.key} className="status-header" title={step.label}>
-            <span className="material-symbols-outlined">{step.icon}</span>
+            {step.icon}
           </th>
         ))}
       {isMobile && <th className="article-header-mobile">Status</th>}
@@ -86,7 +87,8 @@ const Table = ({
     return (
       isRepositoryHeader(header) ||
       isCallForPaper(item) ||
-      (isIssues(item) && !isRepositoryHeader(header) && !isStatusHeader(header))
+      (isIssues(item) && !isRepositoryHeader(header) && !isStatusHeader(header)) ||
+      (isArticleOrAbstracts && isAuthorHeader(header))
     )
   }
 

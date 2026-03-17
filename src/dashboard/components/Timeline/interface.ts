@@ -9,6 +9,6 @@ export type Step = {
 }
 
 export type StepVisual = {
-  icon: string
+  icon: React.ReactNode
   colorClass: string
 }
