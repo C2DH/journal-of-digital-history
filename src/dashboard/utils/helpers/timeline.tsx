@@ -1,3 +1,5 @@
+import { CheckCircle, Error, RadioButtonUncheckedRounded } from '@mui/icons-material'
+
 import { Step, StepVisual } from '../../components/Timeline/interface'
 
 /**
@@ -12,12 +14,12 @@ function getTimelineSteps(currentStatus: string, steps: Step[]): StepVisual[] {
 
   return steps.map((step, idx) => {
     if (idx < currentIdx) {
-      return { icon: 'check_circle', colorClass: 'timeline-done' }
+      return { icon: <CheckCircle />, colorClass: 'timeline-done' }
     }
     if (idx === currentIdx) {
-      return { icon: 'error', colorClass: 'timeline-pending' }
+      return { icon: <Error />, colorClass: 'timeline-pending' }
     }
-    return { icon: 'radio_button_unchecked', colorClass: 'timeline-todo' }
+    return { icon: <RadioButtonUncheckedRounded />, colorClass: 'timeline-todo' }
   })
 }
 

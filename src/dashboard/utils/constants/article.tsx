@@ -1,12 +1,23 @@
+import {
+  CheckCircleOutlined,
+  EditOutlined,
+  Inventory2Outlined,
+  PaletteOutlined,
+  RocketLaunchOutlined,
+  SettingsOutlined,
+  ShareOutlined,
+  UploadFileOutlined,
+} from '@mui/icons-material'
+
 export const articleSteps = [
-  { key: 'draft', label: 'Writing', icon: 'upload_file' },
-  { key: 'technical_review', label: 'Technical Review', icon: 'settings' },
-  { key: 'peer_review', label: 'Peer Review', icon: 'check_circle' },
-  { key: 'design_review', label: 'Design Review', icon: 'palette' },
-  { key: 'copy_editing', label: 'Copy editing', icon: 'edit' },
-  { key: 'published', label: 'Published', icon: 'rocket_launch' },
-  { key: 'social', label: 'Social', icon: 'share' },
-  { key: 'archived', label: 'Archived', icon: 'inventory_2' },
+  { key: 'draft', label: 'Writing', icon: <UploadFileOutlined /> },
+  { key: 'technical_review', label: 'Technical Review', icon: <SettingsOutlined /> },
+  { key: 'peer_review', label: 'Peer Review', icon: <CheckCircleOutlined /> },
+  { key: 'design_review', label: 'Design Review', icon: <PaletteOutlined /> },
+  { key: 'copy_editing', label: 'Copy editing', icon: <EditOutlined /> },
+  { key: 'published', label: 'Published', icon: <RocketLaunchOutlined /> },
+  { key: 'social', label: 'Social', icon: <ShareOutlined /> },
+  { key: 'archived', label: 'Archived', icon: <Inventory2Outlined /> },
 ]
 
 export const articleStatus = [

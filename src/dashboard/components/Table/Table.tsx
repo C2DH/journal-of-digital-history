@@ -37,7 +37,7 @@ const ArticleHeader = ({ isMobile }: { isMobile: boolean }) => {
       {!isMobile &&
         articleSteps.map((step) => (
           <th key={step.key} className="status-header" title={step.label}>
-            <span className="material-symbols-outlined">{step.icon}</span>
+            {step.icon}
           </th>
         ))}
       {isMobile && <th className="article-header-mobile">Status</th>}
