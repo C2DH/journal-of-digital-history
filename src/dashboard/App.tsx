@@ -11,7 +11,6 @@ import Navbar from './components/Navbar/Navbar'
 import Toast from './components/Toast/Toast'
 import i18n from './i18next'
 import AppRoutes from './routes'
-import { navbarItems } from './utils/constants/navbar'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,7 +37,7 @@ function AuthGate() {
   return (
     <>
       <Toast />
-      <Navbar items={navbarItems} />
+      <Navbar />
       <Header />
       <AppRoutes />
     </>

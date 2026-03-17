@@ -1,14 +1,13 @@
 import './Navbar.css'
 
 import { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-
-import { NavbarProps } from './interface'
+import { Link as RouterLink, useLocation } from 'react-router-dom'
 
 import Logo from '../../../../src/components/Logo'
 import BurgerMenu from '../../../assets/icons/BurgerMenu'
+import { navbarItems } from '../../utils/constants/navbar'
 
-const Navbar = ({ items }: NavbarProps) => {
+const Navbar = () => {
   const location = useLocation()
   const [activeHref, setActiveHref] = useState(location.pathname.split('/')[1])
   const [isBurgerMenuOpen, setBurgerMenuOpen] = useState(false)
@@ -37,12 +36,15 @@ const Navbar = ({ items }: NavbarProps) => {
         </a>
       </div>
       <ul className={isBurgerMenuOpen ? 'menu-open' : ''}>
-        {items.map((item) => (
+        {navbarItems.map((item) => (
           <li key={item.href} className={activeHref === item.href ? 'active' : ''}>
-            <Link to={`${item.href}`} className="navbar-link" onClick={closeMenu}>
-              <span className="material-symbols-outlined navbar-icons">{item.icon}</span>
+            <RouterLink to={`${item.href}`} className="navbar-link" onClick={closeMenu}>
+              <span className="navbar-icons">
+                {item.iconOutlined}
+                {item.iconFilled}
+              </span>
               <span className="navbar-labels">{item.label}</span>
-            </Link>
+            </RouterLink>
           </li>
         ))}
       </ul>
