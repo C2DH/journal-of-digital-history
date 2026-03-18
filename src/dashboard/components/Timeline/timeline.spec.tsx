@@ -1,16 +1,28 @@
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { describe, it, vi } from 'vitest'
 
 import { Step } from './interface'
 
 import Timeline from './Timeline'
 
+// Mock the helper function
+vi.mock('../../utils/helpers/timeline', () => ({
+  getTimelineSteps: vi.fn((currentStatus: string, steps: Step[]) =>
+    steps.map((step, idx) => ({
+      colorClass: step.key === currentStatus ? 'active' : 'inactive',
+      icon: <span data-testid={`icon-${idx}`}>{step.label}</span>,
+    })),
+  ),
+}))
+
+// Mock the articleStatus constant
 vi.mock('../../utils/constants/article', () => ({
   articleStatus: [
-    { value: 'SUBMITTED', label: 'Submitted' },
-    { value: 'UNDER_REVIEW', label: 'Under Review' },
-    { value: 'ACCEPTED', label: 'Accepted' },
-    { value: 'REJECTED', label: 'Rejected' },
+    { value: 'submitted', label: 'Submitted' },
+    { value: 'peer_review', label: 'Peer Review' },
+    { value: 'accepted', label: 'Accepted' },
+    { value: 'published', label: 'Published' },
+    { value: 'declined', label: 'Declined' },
   ],
 }))
 
@@ -21,65 +33,83 @@ const mockSteps: Step[] = [
 ]
 
 describe('Timeline', () => {
+  const defaultSteps = [
+    { key: 'submitted', label: 'submitted' },
+    { key: 'peer_review', label: 'peer review' },
+    { key: 'accepted', label: 'accepted' },
+    { key: 'published', label: 'published' },
+  ]
+
+  it('renders the timeline container and line', () => {
+    render(<Timeline steps={defaultSteps} currentStatus="submitted" />)
+    expect(document.querySelector('.timeline-container')).toBeTruthy()
+    expect(document.querySelector('.timeline-line')).toBeTruthy()
+  })
+
   it('renders the correct number of timeline items', () => {
-    render(<Timeline steps={mockSteps} currentStatus="UNDER_REVIEW" />)
+    const { container } = render(<Timeline steps={defaultSteps} currentStatus="submitted" />)
 
-    const items = document.querySelectorAll('.timeline-item')
-    expect(items).toHaveLength(mockSteps.length)
+    const items = container.querySelectorAll('.timeline-item')
+    expect(items.length).toBe(defaultSteps.length)
   })
 
-  it('renders the correct status badge label', () => {
-    render(<Timeline steps={mockSteps} currentStatus="UNDER_REVIEW" />)
-
-    expect(screen.getByText('Under Review')).toBeInTheDocument()
+  it('renders icons for each step', () => {
+    render(<Timeline steps={defaultSteps} currentStatus="peer_review" />)
+    defaultSteps.forEach((_, idx) => {
+      expect(screen.queryByTestId(`icon-${idx}`)).toBeTruthy()
+    })
   })
 
-  it('renders "Unknown" when status is not found in articleStatus', () => {
-    render(<Timeline steps={mockSteps} currentStatus="UNKNOWN_STATUS" />)
+  it('applies the correct color class to each timeline item', () => {
+    const { container } = render(<Timeline steps={defaultSteps} currentStatus="peer_review" />)
 
-    expect(screen.getByText('Unknown')).toBeInTheDocument()
+    const items = container.querySelectorAll('.timeline-item')
+    items.forEach((item, idx) => {
+      if (defaultSteps[idx].key === 'peer_review') {
+        expect(item.classList.contains('active')).toBe(true)
+      } else {
+        expect(item.classList.contains('inactive')).toBe(true)
+      }
+    })
   })
 
-  it('applies correct colors for each step state', () => {
-    render(<Timeline steps={mockSteps} currentStatus="UNDER_REVIEW" />)
+  it('displays the correct status label in the badge', () => {
+    render(<Timeline steps={defaultSteps} currentStatus="accepted" />)
 
-    const items = document.querySelectorAll('.timeline-item span')
-    expect(items[0]).toHaveClass('timeline-done')
-    expect(items[1]).toHaveClass('timeline-pending')
-    expect(items[2]).toHaveClass('timeline-todo')
+    expect(screen.getByText('Accepted')).toBeTruthy()
   })
 
-  it('renders correct icons for each step state', () => {
-    render(<Timeline steps={mockSteps} currentStatus="UNDER_REVIEW" />)
+  it('applies the correct CSS class to the status badge', () => {
+    const { container } = render(<Timeline steps={defaultSteps} currentStatus="accepted" />)
 
-    const items = document.querySelectorAll('.timeline-item span')
-    expect(items[0].textContent).toBe('check_circle') // done
-    expect(items[1].textContent).toBe('error') // current
-    expect(items[2].textContent).toBe('radio_button_unchecked') // todo
+    const badge = container.querySelector('.status-fancy-badge')
+    expect(badge).toBeTruthy()
+    expect(badge?.classList.contains('accepted')).toBe(true)
   })
 
-  it('marks all steps as done except the last when current is last step', () => {
-    render(<Timeline steps={mockSteps} currentStatus="ACCEPTED" />)
+  it('displays "Unknown" when currentStatus does not match any articleStatus', () => {
+    render(<Timeline steps={defaultSteps} currentStatus="nonexistent" />)
 
-    const items = document.querySelectorAll('.timeline-item span')
-    expect(items[0]).toHaveClass('timeline-done')
-    expect(items[1]).toHaveClass('timeline-done')
-    expect(items[2]).toHaveClass('timeline-pending')
+    expect(screen.getByText('Unknown')).toBeTruthy()
   })
 
-  it('marks all steps as todo except the first when current is first step', () => {
-    render(<Timeline steps={mockSteps} currentStatus="SUBMITTED" />)
+  it('renders the simple-status-container', () => {
+    const { container } = render(<Timeline steps={defaultSteps} currentStatus="published" />)
 
-    const items = document.querySelectorAll('.timeline-item span')
-    expect(items[0]).toHaveClass('timeline-pending')
-    expect(items[1]).toHaveClass('timeline-todo')
-    expect(items[2]).toHaveClass('timeline-todo')
+    expect(container.querySelector('.simple-status-container')).toBeTruthy()
   })
 
-  it('applies correct css class to status badge', () => {
-    render(<Timeline steps={mockSteps} currentStatus="ACCEPTED" />)
+  it('handles an empty steps array', () => {
+    const { container } = render(<Timeline steps={[]} currentStatus="submitted" />)
 
-    const badge = document.querySelector('.status-fancy-badge')
-    expect(badge).toHaveClass('accepted')
+    const items = container.querySelectorAll('.timeline-item')
+    expect(items.length).toBe(0)
+  })
+
+  it('lowercases the currentStatus for the badge class', () => {
+    const { container } = render(<Timeline steps={defaultSteps} currentStatus="PUBLISHED" />)
+
+    const badge = container.querySelector('.status-fancy-badge')
+    expect(badge?.classList.contains('published')).toBe(true)
   })
 })

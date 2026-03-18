@@ -15,10 +15,8 @@ const Timeline = ({ steps, currentStatus }: TimelineProps) => {
         <div className="timeline-line" />
         <ul className="timeline-list">
           {visuals.map((visual, idx) => (
-            <li key={idx} className="timeline-item">
-              <span className={`material-symbols-outlined ${visual.colorClass}`}>
-                {visual.icon}
-              </span>
+            <li key={idx} className={`timeline-item ${visual.colorClass}`}>
+              {visual.icon}
             </li>
           ))}
         </ul>

@@ -1,5 +1,6 @@
 import './Search.css'
 
+import { Search as SearchIcon } from '@mui/icons-material'
 import React, { useEffect } from 'react'
 
 import { SearchProps } from './interface'
@@ -23,7 +24,7 @@ const Search = ({ placeholder = 'Search' }: SearchProps) => {
   return (
     <div className={`search-bar`}>
       <div className="search-input-frame">
-        <span className="material-symbols-outlined">search</span>
+        <SearchIcon />
         <input
           type="text"
           value={input}
