@@ -10,7 +10,7 @@ import {
   isStatus,
 } from '../helpers/checkItem'
 import { Abstract } from '../types'
-import { convertDate } from './convertDate'
+import { convertDate } from './date'
 
 type GetVisibleHeadersParams = {
   data: (string | number)[][]

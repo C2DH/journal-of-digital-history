@@ -15,6 +15,7 @@ import {
   languagePreferenceOptions,
 } from '../../constants/abstractSubmissionForm'
 import { IsCaptchaEnabled } from '../../constants/globalConstants'
+import { sanitizeFormData } from '../../dashboard/utils/helpers/sanitize'
 import {
   AbstractSubmissionFormProps,
   AbstractSubmittedBackEnd,
@@ -93,7 +94,10 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
   })
 
   const validate = ajv.compile(submissionFormSchema)
-  const isValid = validate(formData)
+
+  //Sanitize the formData
+  const sanitizedForm = sanitizeFormData(formData as unknown as Record<string, unknown>)
+  const isValid = validate(sanitizedForm)
 
   //Update callForPapers in formData
   useEffect(() => {
@@ -138,10 +142,13 @@ const AbstractSubmissionForm = ({ onErrorAPI }: AbstractSubmissionFormProps) => 
       console.error('[AbstractSubmissionForm - AJV errors] validate.errors', validate.errors)
       return
     } else {
-      createAbstractSubmission({ item: formData, altcha: altchaRef.current?.value })
+      createAbstractSubmission({
+        item: sanitizedForm,
+        altcha: altchaRef.current?.value,
+      })
         .then((res: { status: number; data: AbstractSubmittedBackEnd }) => {
           if (res?.status === 200 || res?.status === 201) {
-            console.info('[AbstractSubmissionForm] Form submitted successfully:', formData)
+            console.info('[AbstractSubmissionForm] Form submitted successfully:', sanitizedForm)
             console.info('[AbstractSubmissionForm] Response from back-end:', res)
             localStorage.setItem('formData', JSON.stringify(res.data))
             navigate('/en/abstract-submitted', { state: { data: res.data } })

@@ -12,7 +12,7 @@ import Loading from '../components/Loading/Loading'
 import SmallCard from '../components/SmallCard/SmallCard'
 import Status from '../components/Status/Status'
 import { useItemStore } from '../store'
-import { setDetails } from '../utils/helpers/setDetails'
+import { setDetails } from '../utils/helpers/details'
 
 function formatAbstract(abstract?: string): string {
   if (!abstract) return ''

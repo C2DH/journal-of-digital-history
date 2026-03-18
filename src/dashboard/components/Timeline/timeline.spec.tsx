@@ -26,6 +26,12 @@ vi.mock('../../utils/constants/article', () => ({
   ],
 }))
 
+const mockSteps: Step[] = [
+  { key: 'submitted', label: 'Submitted' },
+  { key: 'under_review', label: 'Under Review' },
+  { key: 'accepted', label: 'Accepted' },
+]
+
 describe('Timeline', () => {
   const defaultSteps = [
     { key: 'submitted', label: 'submitted' },

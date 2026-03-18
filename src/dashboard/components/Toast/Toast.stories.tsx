@@ -65,6 +65,7 @@ export const Error: Story = {
   args: {
     type: 'error',
     message: 'An error occurred while processing your request.',
+    submessage: 'This is a super loooooooooooooooooooooooooooooooooooooong error submessage.',
   },
 }
 

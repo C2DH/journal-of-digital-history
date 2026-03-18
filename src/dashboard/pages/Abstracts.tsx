@@ -36,7 +36,7 @@ const Abstracts = () => {
     setParams({
       endpoint: 'abstracts',
       limit: 20,
-      ordering,
+      ordering: '-submitted_date',
       search: query,
       params: queryParams,
     })
