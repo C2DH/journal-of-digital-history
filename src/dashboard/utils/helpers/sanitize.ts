@@ -17,8 +17,7 @@ export const removeEscapeCharacters = (value: string): string => {
 
 /**
  * Sanitize a string by:
- * 1. Stripping all HTML tags, scripts, and dangerous content
- * 2. Removing escape characters
+ * Stripping all HTML tags, scripts, and dangerous content
  */
 export const sanitizeInput = (value: string): string => {
   const stripped = DOMPurify.sanitize(value, {
@@ -37,6 +36,17 @@ export const sanitizeFormData = <T extends Record<string, unknown>>(data: T): T 
     if (typeof sanitized[key] === 'string') {
       sanitized[key] = sanitizeInput(sanitized[key] as string) as T[Extract<keyof T, string>]
     }
+    if (typeof sanitized[key] === 'object' && Array.isArray(sanitized[key])) {
+      sanitized[key].map((item) => {
+        for (const subKey in item) {
+          if (typeof item[subKey] === 'string') {
+            item[subKey] = sanitizeInput(item[subKey])
+          }
+        }
+        return item
+      }) as T[Extract<keyof T, string>]
+    }
   }
+
   return sanitized
 }
