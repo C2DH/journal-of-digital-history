@@ -8,9 +8,9 @@ import { useLocation } from 'react-router-dom'
 import DatasetButton from '../components/Buttons/DatasetButton/DatasetButton'
 import IconButton from '../components/Buttons/IconButton/IconButton'
 import LinkButton from '../components/Buttons/LinkButton/LinkButton'
+import StatusButton from '../components/Buttons/StatusButton/StatusButton'
 import Loading from '../components/Loading/Loading'
 import SmallCard from '../components/SmallCard/SmallCard'
-import Status from '../components/Status/Status'
 import { useItemStore } from '../store'
 import { setDetails } from '../utils/helpers/details'
 
@@ -33,7 +33,7 @@ const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) =
         {value}
       </a>
     ) : label === 'Status' ? (
-      <Status value={String(value)} />
+      <StatusButton value={String(value)} />
     ) : (
       <span className="value">{value}</span>
     )}

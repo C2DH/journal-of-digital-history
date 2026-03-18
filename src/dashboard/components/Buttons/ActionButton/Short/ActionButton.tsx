@@ -1,8 +1,9 @@
 import './ActionButton.css'
 
 import { MoreHoriz } from 'iconoir-react'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
+import { useClick } from '../../../../hooks/useClick'
 import Dropdown from '../../../Dropdown/Dropdown'
 import { ActionButtonProps } from '../interface'
 
@@ -10,19 +11,7 @@ const ActionButton = ({ actions, active }: ActionButtonProps) => {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setOpen(false)
-      }
-    }
-    if (open) {
-      document.addEventListener('mousedown', handleClickOutside)
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [open])
+  useClick(ref, setOpen, open)
 
   return (
     <div className="action-btn-wrapper" ref={ref}>
