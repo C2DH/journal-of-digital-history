@@ -12,6 +12,7 @@ import {
   patchArticleStatus,
   sendArticleToCopyeditor,
 } from '../../utils/api/api'
+import { formatMessage } from '../../utils/helpers/form'
 import { notify } from '../../utils/helpers/notification'
 import {
   removeEscapeCharacters,
@@ -21,15 +22,6 @@ import {
 import { validateForm } from '../../utils/helpers/schema'
 import Button from '../Buttons/Button/Button'
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal'
-
-function formatMessage(template, data) {
-  return template
-    .replace(/\{recipientName\}/g, data?.row[2] || 'author')
-    .replace(/\{submissionTitle\}/g, data?.title)
-    .replace(/\{submissionId\}/g, data?.id)
-    .replace(/\{contactEmail\}/g, 'jdh.admin@uni.lu')
-    .replace(/\{signature\}/g, 'JDH Team')
-}
 
 const ContactForm = ({ rowData, rowAction, onClose }) => {
   const action = rowAction.toLowerCase() || ''
@@ -52,7 +44,7 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
           pid: pid,
           from: 'jdh.admin@uni.lu',
           to: rowData.contactEmail,
-          subject: rowData.title,
+          subject: removeEscapeCharacters(rowData.title).trim(),
           body: formatMessage(parse(t(`email.${action}.body`)), rowData),
           status: action,
         })
@@ -66,7 +58,6 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
       ...(formData || {}),
       [name]: sanitizeInput(value),
     })
-
     if (name === 'subject') {
       setFormData((prev) => ({
         ...prev,
@@ -141,7 +132,11 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
     }
 
     if (!valid) {
-      notify('error', t('email.error.validation.message'), t('email.error.validation.submessage'))
+      notify(
+        'error',
+        t('email.error.validation.message'),
+        errors ? errors[0].message : t('email.error.validation.submessage'),
+      )
       console.error(errors)
       return
     }

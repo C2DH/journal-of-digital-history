@@ -17,3 +17,19 @@ export function retrieveContactEmail(
     }
   })
 }
+
+/**
+ * Set up the body of the email in the the contact form properly by replacing placeholders in the template with actual data from the abstract.
+ *
+ * @param template - The template for the body from the translation.json file.
+ * @param data - The abstract data to replace the placeholders with recipient name, submission title, submission ID, contact email, and signature.
+ * @return The formatted body email with all placeholders replaced with actual data.
+ */
+export function formatMessage(template, data) {
+  return template
+    .replace(/\{recipientName\}/g, data?.row[2] || 'author')
+    .replace(/\{submissionTitle\}/g, data?.title)
+    .replace(/\{submissionId\}/g, data?.id)
+    .replace(/\{contactEmail\}/g, 'jdh.admin@uni.lu')
+    .replace(/\{signature\}/g, 'JDH Team')
+}
