@@ -17,14 +17,6 @@
   gap: var(--gap-size-3);
 }
 
-.card-info {
-  display: grid;
-  grid-template-columns: max-content max-content;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--gap-size-1);
-}
-
 /* FieldRow css */
 .item {
   display: flex;
@@ -62,11 +54,24 @@ h2 {
   padding: var(--space-size-1);
 }
 
+/* INFO */
+.card-info {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-size-1);
+
+  z-index: 2;
+}
+
 /* CONTACT */
 .contact-header {
   display: flex;
   align-items: start;
   gap: var(--gap-size-0);
+
+  z-index: 2;
 }
 .link-button-orcid {
   border: 0;

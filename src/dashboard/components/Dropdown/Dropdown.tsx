@@ -8,7 +8,7 @@ const Dropdown = ({ actions, setOpen }: DropdownProps) => {
   const { t } = useTranslation()
 
   return (
-    <div className="action-dropdown">
+    <div className={`action-dropdown`}>
       {actions.map((action, idx) => (
         <button
           key={action.label}
