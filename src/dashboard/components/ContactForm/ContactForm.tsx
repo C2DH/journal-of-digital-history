@@ -59,10 +59,10 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
       [name]: sanitizeInput(value),
     })
     if (name === 'subject') {
-      setFormData((prev) => ({
-        ...prev,
+      setFormData({
+        ...(formData || {}),
         subject: removeEscapeCharacters(value).trim(),
-      }))
+      })
     }
   }
 
@@ -84,7 +84,7 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
       .then(async (res) => {
         await patchArticleStatus({ status: 'COPY_EDITING' }, rowData.id)
           .then((res) => {
-            notify('success', t('notification.status.success.abstract'), '')
+            notify('success', t('notification.status.success.article'), '')
           })
           .catch((error) => {
             notify('error', t('notification.status.error.article'), error.message)
