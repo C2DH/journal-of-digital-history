@@ -156,7 +156,6 @@ export const useItemStore = create<ItemState<any>>((set) => ({
   data: null,
   loading: false,
   error: null,
-
   fetchItem: async (id: string, endpoint: string) => {
     if (!id || !endpoint) throw new Error('ID and endpoint are required to fetch an item')
     set({ loading: true, error: null })

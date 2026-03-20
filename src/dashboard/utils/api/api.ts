@@ -32,7 +32,7 @@ const modifyAbstractStatusWithEmail = async (pid: string, body: Record<string, a
  * @param item - The item type ('articles' or 'abstracts').
  * @returns A promise that resolves with the API response.
  */
-const modifyStatus = async (body: { pids: string[]; status: string }, item: string) => {
+const patchStatus = async (body: { pids: string[]; status: string }, item: string) => {
   console.info(`PATCH [modifyStatus] - ${item} `)
 
   return api
@@ -331,8 +331,8 @@ export {
   getSocialMediaCover,
   getTweetContent,
   modifyAbstractStatusWithEmail,
-  modifyStatus,
   patchArticleStatus,
+  patchStatus,
   postArticletoSubmissionOJS,
   postBlueskyCampaign,
   postFacebookCampaign,

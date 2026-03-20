@@ -3,6 +3,7 @@ import '../styles/pages/pages.css'
 
 import parse from 'html-react-parser'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 
 import DatasetButton from '../components/Buttons/DatasetButton/DatasetButton'
@@ -12,35 +13,47 @@ import StatusButton from '../components/Buttons/StatusButton/StatusButton'
 import Loading from '../components/Loading/Loading'
 import SmallCard from '../components/SmallCard/SmallCard'
 import { useItemStore } from '../store'
+import { getDetailActions } from '../utils/helpers/actions'
+import { isTypeArticle } from '../utils/helpers/checkItem'
 import { setDetails } from '../utils/helpers/details'
+import { formatAbstract } from '../utils/helpers/sanitize'
 
-function formatAbstract(abstract?: string): string {
-  if (!abstract) return ''
-  return String(abstract)
-    .replace(/\r?\n/g, '<br />')
-    .replace(/(?:^|<br\s*\/?>)\s*([\wÀ-ÿ'’\-., ]{1,40})\s*(?=<br\s*\/?>|$)/g, (match, p1) => {
-      const wordCount = p1.trim().split(/\s+/).length
-      return wordCount <= 4 ? match.replace(p1, `<b>${p1}</b>`) : match
-    })
-    .replace(/<br\s*<b>/g, '<br /><b>')
+const FieldRow = ({
+  label,
+  value,
+  t,
+  pid,
+  isArticle,
+}: {
+  label: string
+  value: React.ReactNode
+  t?: any
+  pid?: any
+  isArticle?: boolean
+}) => {
+  let actions: any = []
+  if (t && pid && isArticle !== undefined) {
+    actions = getDetailActions(t, pid, isArticle)
+  }
+
+  return (
+    <div className="item">
+      <span className="label">{label}</span>
+      {label === 'Email' ? (
+        <a className="value" href={`mailto:${value}`}>
+          {value}
+        </a>
+      ) : label === 'Status' ? (
+        <StatusButton actions={actions} value={String(value)} />
+      ) : (
+        <span className="value">{value}</span>
+      )}
+    </div>
+  )
 }
 
-const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
-  <div className="item">
-    <span className="label">{label}</span>
-    {label === 'Email' ? (
-      <a className="value" href={`mailto:${value}`}>
-        {value}
-      </a>
-    ) : label === 'Status' ? (
-      <StatusButton value={String(value)} />
-    ) : (
-      <span className="value">{value}</span>
-    )}
-  </div>
-)
-
 const Detail = ({ endpoint }) => {
+  const { t } = useTranslation()
   const location = useLocation()
   const id = location.pathname.split('/')[2]
   const { data: item, loading, error, fetchItem, reset } = useItemStore()
@@ -72,7 +85,14 @@ const Detail = ({ endpoint }) => {
       <div className="detail-grid">
         <SmallCard className="card-info">
           {infoFields.map(({ label, value }) => (
-            <FieldRow key={label} label={label} value={value} />
+            <FieldRow
+              key={label}
+              label={label}
+              value={value}
+              t={t}
+              pid={id}
+              isArticle={isTypeArticle(item)}
+            />
           ))}
         </SmallCard>
         <SmallCard className="card-link">

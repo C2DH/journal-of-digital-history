@@ -7,15 +7,7 @@ import { useClick } from '../../../hooks/useClick'
 import Dropdown from '../../Dropdown/Dropdown'
 import Status from '../../Status/Status'
 
-const actions = [
-  { label: 'published', onClick: () => console.log('published') },
-  { label: 'design review', onClick: () => console.log('design review') },
-  { label: 'copy editing', onClick: () => console.log('copy editing') },
-  { label: 'peer review', onClick: () => console.log('peer review') },
-  { label: 'tech review', onClick: () => console.log('tech review') },
-]
-
-const StatusButton = ({ value }: { value: string }) => {
+const StatusButton = ({ actions, value }: { actions: any; value: string }) => {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 

@@ -9,7 +9,7 @@
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
   border-radius: 30px;
   margin: 0;
-  padding: var(--gap-size-1) var(--gap-size-2);
+  padding: var(--gap-size-0);
   align-items: center;
 }
 
