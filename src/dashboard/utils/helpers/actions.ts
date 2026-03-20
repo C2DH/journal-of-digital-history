@@ -30,11 +30,12 @@ const callAPI = async (action: string, pid: string, t: any) => {
           notify('error', t('notification.status.error.article'), error.details, 7000)
         })
       break
+    case 'Submitted':
     case 'Accepted':
     case 'Declined':
     case 'Abandoned':
     case 'Suspended':
-      await patchStatus({ pids: [pid], status: action.toUpperCase() }, 'abstracts')
+      await patchStatus({ pids: [pid], status: action.toLowerCase() }, 'abstracts')
         .then((res) => {
           notify('success', t('notification.status.success.abstract'), '', 0, pid)
         })
@@ -187,6 +188,7 @@ function getDetailActions(t: any, pid: string, isArticle: boolean): RowAction[] 
     // actions.push(defaultAction('Social_media', pid, t, 'Social Media'))
     // actions.push(defaultAction('Archived', pid, t, 'Archived'))
   } else {
+    actions.push(defaultAction('Submitted', pid, t))
     actions.push(defaultAction('Accepted', pid, t))
     actions.push(defaultAction('Declined', pid, t))
     actions.push(defaultAction('Abandoned', pid, t))
