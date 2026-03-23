@@ -21,12 +21,10 @@ const callAPI = async ({ action, pid, t }: ActionCallAPI) => {
               notify('success', t('notification.status.success.article'), '', 7000)
             })
             .catch((error) => {
-              console.error('Failed to send Article to OJS :', error)
               notify('error', t('notification.status.error.article'), error.message, 7000)
             })
         })
         .catch((error) => {
-          console.error('Failed to send Article to OJS :', error)
           notify('error', t('notification.status.error.article'), error.details, 7000)
         })
       break
@@ -37,10 +35,9 @@ const callAPI = async ({ action, pid, t }: ActionCallAPI) => {
     case 'Suspended':
       await patchStatus({ pids: [pid], status: action.toLowerCase() }, 'abstracts')
         .then((res) => {
-          notify('success', t('notification.status.success.abstract'), '', 0, pid)
+          notify('success', t('notification.status.success.abstract'), res.data.message, 0, pid)
         })
         .catch((error) => {
-          console.error('Failed to send Article to OJS :', error)
           notify('error', t('notification.status.error.abstract'), error.message)
         })
       break
@@ -52,11 +49,10 @@ const callAPI = async ({ action, pid, t }: ActionCallAPI) => {
     case 'Published':
       await patchArticleStatus({ status: action.toUpperCase() }, pid)
         .then((res) => {
-          notify('success', t('notification.status.success.article'), '', 0, pid)
+          notify('success', t('notification.status.success.article'), res.status, 0, pid)
         })
         .catch((error) => {
-          console.error('Failed to send Article to OJS :', error)
-          notify('error', t('notification.status.error.article'), error.message)
+          notify('error', t('notification.status.error.article'), error.response.data.error)
         })
       break
     default:
