@@ -179,7 +179,7 @@
       },
       "error": {
         "abstract": "Failed to update abstract status",
-        "article": "Failes to update article status"
+        "article": "Failed to update article status"
       }
     }
   },

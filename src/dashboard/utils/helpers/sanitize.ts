@@ -1,10 +1,26 @@
 import DOMPurify from 'dompurify'
 
 /**
+ * Format the abstract to make it readable and visually appealing.
+ * @param abstract - The raw abstract string to be formatted.
+ * @returns A formatted abstract string with line breaks and bolded phrases.
+ */
+const formatAbstract = (abstract?: string): string => {
+  if (!abstract) return ''
+  return String(abstract)
+    .replace(/\r?\n/g, '<br />')
+    .replace(/(?:^|<br\s*\/?>)\s*([\wÀ-ÿ'’\-., ]{1,40})\s*(?=<br\s*\/?>|$)/g, (match, p1) => {
+      const wordCount = p1.trim().split(/\s+/).length
+      return wordCount <= 4 ? match.replace(p1, `<b>${p1}</b>`) : match
+    })
+    .replace(/<br\s*<b>/g, '<br /><b>')
+}
+
+/**
  * Remove escape characters from a string.
  * Handles: \", \', \\, \n, \r, \t, \0
  */
-export const removeEscapeCharacters = (value: string): string => {
+const removeEscapeCharacters = (value: string): string => {
   return value
     .replace(/\\"/g, '"')
     .replace(/\\'/g, "'")
@@ -19,7 +35,7 @@ export const removeEscapeCharacters = (value: string): string => {
  * Sanitize a string by:
  * Stripping all HTML tags, scripts, and dangerous content
  */
-export const sanitizeInput = (value: string): string => {
+const sanitizeInput = (value: string): string => {
   const stripped = DOMPurify.sanitize(value, {
     ALLOWED_TAGS: ['b', 'i', 'u', 'em', 'strong', 'br'],
     ALLOWED_ATTR: [],
@@ -30,7 +46,7 @@ export const sanitizeInput = (value: string): string => {
 /**
  * Sanitize all string values in a form data object.
  */
-export const sanitizeFormData = <T extends Record<string, unknown>>(data: T): T => {
+const sanitizeFormData = <T extends Record<string, unknown>>(data: T): T => {
   const sanitized = { ...data }
   for (const key in sanitized) {
     if (typeof sanitized[key] === 'string') {
@@ -50,3 +66,5 @@ export const sanitizeFormData = <T extends Record<string, unknown>>(data: T): T 
 
   return sanitized
 }
+
+export { formatAbstract, removeEscapeCharacters, sanitizeFormData, sanitizeInput }
