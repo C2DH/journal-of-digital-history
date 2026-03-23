@@ -1,5 +1,5 @@
 import { patchArticleStatus, patchStatus, postArticletoSubmissionOJS } from '../api/api'
-import { RowAction } from '../types'
+import { ActionCallAPI, DefaultAction, DefaultActionArgs, ModalConfig, RowAction } from '../types'
 import { notify } from './notification'
 
 /**
@@ -9,7 +9,7 @@ import { notify } from './notification'
  * @param pid - The PID of the article or abstract related to the action.
  * @param t - Hook from useTranslate to get the translation of the notification.
  */
-const callAPI = async (action: string, pid: string, t: any) => {
+const callAPI = async ({ action, pid, t }: ActionCallAPI) => {
   switch (action) {
     case 'Ojs':
       notify('warning', t('notification.ojs.warning'))
@@ -73,11 +73,12 @@ const callAPI = async (action: string, pid: string, t: any) => {
  * @param t - Hook from useTranslate to get the translation of the notification.
  * @param label - Optional custom label for the action button in the modal.
  */
-const defaultAction = (action: string, pid: string, t: any, label?: string) => ({
+const defaultAction = ({ action, pid, t, label }: DefaultActionArgs): DefaultAction => ({
   label: label || action,
+  action: action,
   onClick: () => {
     console.info(`Excuting action: ${action}, for PID: ${pid}`)
-    callAPI(action, pid, t)
+    callAPI({ action, pid, t })
   },
 })
 
@@ -96,7 +97,7 @@ const modalAction = (
   row: any,
   pid: string,
   title: string,
-  setModal: (config: { open: boolean; action: any; row: any; pid: string; title: string }) => void,
+  setModal: (config: ModalConfig) => void,
   label?: string,
 ) => ({
   label: label || action,
@@ -129,7 +130,7 @@ function getRowActions(t: any, row: any, isArticle: boolean, setModal: any): Row
   if (isArticle) {
     switch (status) {
       case 'TECHNICAL_REVIEW':
-        actions.push(defaultAction('Ojs', pid, t, 'Send to OJS'))
+        actions.push(defaultAction({ action: 'Ojs', pid, t, label: 'Send to OJS' }))
         break
       case 'PEER_REVIEW':
         actions.push(
@@ -180,19 +181,19 @@ function getDetailActions(t: any, pid: string, isArticle: boolean): RowAction[] 
 
   if (isArticle) {
     // actions.push(defaultAction('Draft', pid, t, 'Writing'))
-    actions.push(defaultAction('Technical_review', pid, t, 'Technical review'))
-    actions.push(defaultAction('Peer_review', pid, t, 'Peer review'))
-    actions.push(defaultAction('Copy_editing', pid, t, 'Copy editing'))
+    actions.push(defaultAction({ action: 'Technical_review', pid, t, label: 'Technical review' }))
+    actions.push(defaultAction({ action: 'Peer_review', pid, t, label: 'Peer review' }))
+    actions.push(defaultAction({ action: 'Copy_editing', pid, t, label: 'Copy editing' }))
     // actions.push(defaultAction('Design_review', pid, t, 'Design Review'))
-    actions.push(defaultAction('Published', pid, t, 'Published'))
+    actions.push(defaultAction({ action: 'Published', pid, t, label: 'Published' }))
     // actions.push(defaultAction('Social_media', pid, t, 'Social Media'))
     // actions.push(defaultAction('Archived', pid, t, 'Archived'))
   } else {
-    actions.push(defaultAction('Submitted', pid, t))
-    actions.push(defaultAction('Accepted', pid, t))
-    actions.push(defaultAction('Declined', pid, t))
-    actions.push(defaultAction('Abandoned', pid, t))
-    actions.push(defaultAction('Suspended', pid, t))
+    actions.push(defaultAction({ action: 'Submitted', pid, t }))
+    actions.push(defaultAction({ action: 'Accepted', pid, t }))
+    actions.push(defaultAction({ action: 'Declined', pid, t }))
+    actions.push(defaultAction({ action: 'Abandoned', pid, t }))
+    actions.push(defaultAction({ action: 'Suspended', pid, t }))
   }
   return actions
 }

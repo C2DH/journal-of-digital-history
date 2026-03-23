@@ -146,10 +146,27 @@ export interface ModalInfo {
   title?: string
 }
 
+export type ModalConfig = { open: boolean; action: any; row: any; pid: string; title: string }
+
+/* Actions */
 export type RowAction = {
   label: string
   onClick: () => void
 }
+
+export type DefaultActionArgs = {
+  action: string
+  pid: string
+  t: any
+  label?: string
+}
+export type DefaultAction = {
+  label: string
+  action: string
+  onClick: () => void
+}
+
+export type ActionCallAPI = { action: string; pid: string; t: any }
 
 /* Zustand store types */
 export type SearchState = {
@@ -259,3 +276,16 @@ export interface NotificationState {
 /* API types */
 export type APIResponse = Promise<APIResponseObject>
 export type APIResponseObject = { count: number; next: null; previous: null; results: any[] }
+
+/* Detail page */
+export type FieldRowType = {
+  label: string
+  value: React.ReactNode
+  t?: any
+  pid?: any
+  isArticle?: boolean
+}
+
+export interface DetailPage {
+  endpoint: string
+}

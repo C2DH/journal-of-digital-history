@@ -17,42 +17,39 @@ import { getDetailActions } from '../utils/helpers/actions'
 import { isTypeArticle } from '../utils/helpers/checkItem'
 import { setDetails } from '../utils/helpers/details'
 import { formatAbstract } from '../utils/helpers/sanitize'
+import { DefaultAction, DetailPage, FieldRowType } from '../utils/types'
 
-const FieldRow = ({
-  label,
-  value,
-  t,
-  pid,
-  isArticle,
-}: {
-  label: string
-  value: React.ReactNode
-  t?: any
-  pid?: any
-  isArticle?: boolean
-}) => {
-  let actions: any = []
-  if (t && pid && isArticle !== undefined) {
+const FieldRow = ({ label, value, t, pid, isArticle }: FieldRowType) => {
+  if (label === 'Email') {
+    value = (
+      <a className="value" href={`mailto:${value}`}>
+        {value}
+      </a>
+    )
+  } else if (label === 'Status' && isArticle !== undefined && pid && t) {
+    let actions: any = []
     actions = getDetailActions(t, pid, isArticle)
+
+    //Remove current status from list of status actions
+    const index = actions
+      .map((actions: DefaultAction) => actions.action.toUpperCase())
+      .indexOf(String(value))
+    actions.splice(index, 1)
+
+    value = <StatusButton actions={actions} value={String(value)} />
+  } else {
+    value = <span className="value">{value}</span>
   }
 
   return (
     <div className="item">
       <span className="label">{label}</span>
-      {label === 'Email' ? (
-        <a className="value" href={`mailto:${value}`}>
-          {value}
-        </a>
-      ) : label === 'Status' ? (
-        <StatusButton actions={actions} value={String(value)} />
-      ) : (
-        <span className="value">{value}</span>
-      )}
+      {value}
     </div>
   )
 }
 
-const Detail = ({ endpoint }) => {
+const Detail = ({ endpoint }: DetailPage) => {
   const { t } = useTranslation()
   const location = useLocation()
   const id = location.pathname.split('/')[2]
