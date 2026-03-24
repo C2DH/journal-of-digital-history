@@ -1,11 +1,12 @@
 import './styles/index.css'
 
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
-import { Spinner } from 'react-bootstrap'
+import { Suspense, useEffect, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
 
 import Login from '../components/Login/Login'
 import { fetchUsername } from '../logic/api/login'
+import Blob from './components/Blob/Blob'
 import Header from './components/Header/Header'
 import Navbar from './components/Navbar/Navbar'
 import Toast from './components/Toast/Toast'
@@ -21,26 +22,47 @@ const queryClient = new QueryClient({
   },
 })
 
+function DelayedRender({
+  children,
+  minDelay = 1500,
+}: {
+  children: React.ReactNode
+  minDelay?: number
+}) {
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setReady(true), minDelay)
+    return () => clearTimeout(timer)
+  }, [minDelay])
+
+  if (!ready) return <Blob />
+
+  return <>{children}</>
+}
+
 function AuthGate() {
   const {
     data: user,
     isLoading,
+
     isError,
   } = useQuery({
     queryKey: ['auth:me'],
     queryFn: fetchUsername,
   })
 
-  if (isLoading) return <Spinner />
   if (!user) return <Login />
 
   return (
-    <>
+    <DelayedRender minDelay={2000}>
       <Toast />
       <Navbar />
       <Header />
-      <AppRoutes />
-    </>
+      <Suspense fallback={<Blob />}>
+        <AppRoutes />
+      </Suspense>
+    </DelayedRender>
   )
 }
 
