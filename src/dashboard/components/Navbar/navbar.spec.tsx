@@ -4,7 +4,7 @@ import { vi } from 'vitest'
 
 import Navbar from './Navbar'
 
-vi.mock('../../../../src/components/Logo', () => ({
+vi.mock('../../../assets/icons/LogoBlue', () => ({
   default: () => <div data-testid="logo">Logo</div>,
 }))
 
