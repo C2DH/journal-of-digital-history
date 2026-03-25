@@ -98,10 +98,11 @@ const KPIRow = () => {
 const Home = () => {
   const { t } = useTranslation()
   const { ordering } = useSorting()
-  const { data: submittedAbstracts, fetchItems, setParams } = useItemsStore()
+  const { data: submittedAbstracts, fetchItems, setParams, reset } = useItemsStore()
   const isAbstractSubmitted = submittedAbstracts.length != 0
 
   useEffect(() => {
+    reset()
     setParams({
       endpoint: 'abstracts',
       limit: 5,
