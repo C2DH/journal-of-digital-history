@@ -1,13 +1,12 @@
 import './CustomBarChart.css'
 
-import { BarChart, barLabelClasses } from '@mui/x-charts/BarChart'
+import { BarChart } from '@mui/x-charts/BarChart'
 import { axisClasses } from '@mui/x-charts/ChartsAxis'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { ItemsByStatus } from './interface'
 
-import { useIsMobile } from '../../hooks/useIsMobile'
 import { useCallForPapersStore, useIssuesStore } from '../../store'
 import { colorsAbstract, colorsArticle } from '../../styles/theme'
 import {
@@ -25,7 +24,6 @@ import SmallCard from '../SmallCard/SmallCard'
 const CustomBarChart = () => {
   const { t } = useTranslation()
   const [isArticle, setIsArticle] = useState(true)
-  const [isMobile, setIsMobile] = useState(false)
 
   const { fetchIssues } = useIssuesStore()
   const { fetchCallForPapers } = useCallForPapersStore()
@@ -137,10 +135,6 @@ const CustomBarChart = () => {
           fill: 'var(--color-deep-blue)',
         },
       },
-      [`.${barLabelClasses.root}`]: {
-        fill: 'var(--color-deep-blue)',
-        fontSize: 12,
-      },
     }),
     xAxis: [{ height: 70, tickSize: 5, categoryGapRatio: 0.5 }],
     yAxis: [{ width: 30, tickNumber: 5, disableTicks: true, disableLine: true }],
@@ -159,8 +153,6 @@ const CustomBarChart = () => {
     )
     return Math.max(articleMax, advanceMax, 5)
   }
-
-  useIsMobile(setIsMobile)
 
   return (
     <SmallCard className="home-barchart chart">
@@ -204,7 +196,7 @@ const CustomBarChart = () => {
                 },
               ]}
               yAxis={commonProps.yAxis}
-              width={isMobile ? 250 : commonProps.width}
+              width={commonProps.width}
               height={commonProps.height}
               hideLegend={commonProps.hideLegend}
               margin={commonProps.margin}
@@ -236,7 +228,7 @@ const CustomBarChart = () => {
                 },
               ]}
               yAxis={[{ position: 'none', min: 0, max: getMaxYValue() }]}
-              width={isMobile ? 70 : 70}
+              width={70}
               height={commonProps.height}
               hideLegend={commonProps.hideLegend}
               margin={commonProps.margin}
@@ -270,7 +262,7 @@ const CustomBarChart = () => {
               },
             ]}
             yAxis={commonProps.yAxis}
-            width={isMobile ? 300 : commonProps.width}
+            width={commonProps.width}
             height={commonProps.height}
             hideLegend={commonProps.hideLegend}
             margin={commonProps.margin}

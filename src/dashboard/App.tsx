@@ -1,7 +1,7 @@
 import './styles/index.css'
 
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
-import { Suspense, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
 
 import Login from '../components/Login/Login'
@@ -55,14 +55,15 @@ function AuthGate() {
   if (!user) return <Login />
 
   return (
-    <DelayedRender minDelay={2000}>
+    <>
+      {' '}
+      {/* <DelayedRender minDelay={2000}> */}
       <Toast />
       <Navbar />
       <Header />
-      <Suspense fallback={<Blob />}>
-        <AppRoutes />
-      </Suspense>
-    </DelayedRender>
+      <AppRoutes />
+      {/* </DelayedRender> */}
+    </>
   )
 }
 
@@ -71,7 +72,9 @@ function DashboardApp() {
     <QueryClientProvider client={queryClient}>
       <I18nextProvider i18n={i18n}>
         <div className="dashboard-app">
+          {/* <Suspense fallback={<Blob />}> */}
           <AuthGate />
+          {/* </Suspense> */}
         </div>
       </I18nextProvider>
     </QueryClientProvider>
