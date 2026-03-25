@@ -32,9 +32,9 @@ const Card = ({
   const [modalState, setModalState] = useState<{
     open: boolean
     action?: string
-    ids?: string[]
+    pids?: string[]
     contactEmail?: string
-    id?: string
+    pid?: string
     [key: string]: any
   }>({ open: false })
   const isFilterOpen = useFilterBarStore((state) => state.isFilterOpen)
@@ -60,10 +60,10 @@ const Card = ({
   ])
 
   useEffect(() => {
-    if (modalState.open && modalState.id) {
-      retrieveContactEmail(modalState.id, data, setEmail)
+    if (modalState.open && modalState.pid) {
+      retrieveContactEmail(modalState.pid, data, setEmail)
     }
-  }, [modalState.open, modalState.id])
+  }, [modalState.open, modalState.pid])
 
   if (error) {
     return <Feedback type="error" message={error} />

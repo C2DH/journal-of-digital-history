@@ -7,12 +7,12 @@ import { Abstract } from '../types'
  * @param setEmail - Callback to set the found contact email.
  */
 export function retrieveContactEmail(
-  id: string = '',
+  pid: string = '',
   data: Abstract[],
   setEmail: (email: string) => void,
 ) {
   data.forEach((row) => {
-    if (row.pid === id) {
+    if (row.pid === pid) {
       setEmail(row.contact_email)
     }
   })
