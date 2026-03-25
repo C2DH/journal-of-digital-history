@@ -24,19 +24,21 @@ const Abstracts = () => {
     fetchItems,
     setParams,
     loadMore,
+    reset,
   } = useItemsStore()
   const { updateFromStores, changeFilters, changeQueryParams, syncFiltersWithURL } =
     useFilterBarStore()
   const filters = useFilterBarStore((state) => state.filters)
 
   useEffect(() => {
+    reset()
     updateFromStores(true)
     syncFiltersWithURL(searchParams)
     const queryParams = changeQueryParams(true)
     setParams({
       endpoint: 'abstracts',
       limit: 20,
-      ordering: '-submitted_date',
+      ordering: ordering === 'desc' ? '-submitted_date' : `${ordering}`,
       search: query,
       params: queryParams,
     })

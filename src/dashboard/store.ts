@@ -73,9 +73,11 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
 
     set({ loading: true, error: null })
 
-    let finalOrdering = ordering
+    let cfpOrdering: string = ''
     if (ordering === 'callpaper_title') {
-      finalOrdering = 'callpaper__title'
+      cfpOrdering = 'callpaper__title'
+    } else if (ordering === '-callpaper_title') {
+      cfpOrdering = '-callpaper__title'
     }
 
     try {
@@ -90,14 +92,17 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
         '?' +
         [
           search ? `search=${search}` : '',
-          ordering ? `ordering=${finalOrdering}` : null,
-          `limit=${limit}`,
           `offset=${reset ? 0 : offset}`,
           dynamicParams,
+          ordering === 'callpaper_title' || ordering === '-callpaper_title'
+            ? `ordering=${cfpOrdering}`
+            : `ordering=${ordering}`,
+          `limit=${limit}`,
         ]
           .filter(Boolean)
           .join('&')
       const response = await api.get(pagedUrl)
+      console.log('🚀 ~ file: store.ts:105 ~ pagedUrl:', pagedUrl)
       const result = response.data
 
       set({
@@ -107,7 +112,6 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
         hasMore: result.results.length === limit,
         loading: false,
         error: null,
-        ordering: '',
       })
     } catch (err: any) {
       set({
@@ -134,6 +138,7 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
       loading: true,
       offset: 0,
       hasMore: true,
+      ordering: '',
     }),
   loadMore: async () => {
     const { fetchItems, loading, hasMore } = get()

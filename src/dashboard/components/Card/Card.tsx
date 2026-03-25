@@ -77,7 +77,7 @@ const Card = ({
             {!isArticleOrAbstracts && <h1>{t(`${item}.item`)}</h1>}
           </div>
         </div>
-        {count === 0 ? (
+        {count === 0 && !loading ? (
           <Feedback type="warning" message={'No item corresponds to your search'} />
         ) : (
           <>
