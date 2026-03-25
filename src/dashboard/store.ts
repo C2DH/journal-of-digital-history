@@ -102,7 +102,6 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
           .filter(Boolean)
           .join('&')
       const response = await api.get(pagedUrl)
-      console.log('🚀 ~ file: store.ts:105 ~ pagedUrl:', pagedUrl)
       const result = response.data
 
       set({

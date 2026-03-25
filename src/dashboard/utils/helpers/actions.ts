@@ -172,7 +172,12 @@ function getRowActions(t: any, row: any, isArticle: boolean, setModal: any): Row
  * @param setModal - Function to open a modal dialog with action details.
  * @returns An array of RowAction objects representing available actions for the row.
  */
-function getDetailActions(t: any, pid: string, isArticle: boolean): RowAction[] {
+function getDetailActions(
+  t: any,
+  pid: string,
+  isArticle: boolean,
+  isAbstract: boolean,
+): RowAction[] {
   const actions: RowAction[] = []
 
   if (isArticle) {
@@ -184,7 +189,8 @@ function getDetailActions(t: any, pid: string, isArticle: boolean): RowAction[] 
     actions.push(defaultAction({ action: 'Published', pid, t, label: 'Published' }))
     // actions.push(defaultAction('Social_media', pid, t, 'Social Media'))
     // actions.push(defaultAction('Archived', pid, t, 'Archived'))
-  } else {
+  }
+  if (isAbstract) {
     actions.push(defaultAction({ action: 'Submitted', pid, t }))
     actions.push(defaultAction({ action: 'Accepted', pid, t }))
     actions.push(defaultAction({ action: 'Declined', pid, t }))
