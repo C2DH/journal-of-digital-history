@@ -1,6 +1,7 @@
 import '../styles/pages/Home.css'
 import '../styles/pages/pages.css'
 
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
@@ -43,24 +44,25 @@ const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
 }
 
 const PeerReviewCounter = () => {
-  const [count, setCount] = useState(0)
-  const [isLoading, setIsLoading] = useState(true)
-
   const getCount = async () => {
     try {
       const res = await getAbstractsSubmittedToOJS()
-      setCount(res.count)
-      setIsLoading(false)
+      return res.count
     } catch {
       console.error('Error fetching count of abstracts submitted to OJS for peer review.')
     }
   }
 
+  const { data: count } = useSuspenseQuery({
+    queryKey: ['deadlineOJSCounter'],
+    queryFn: getCount,
+  })
+
   useEffect(() => {
     getCount()
   }, [])
 
-  return !isLoading && count != 0 && <Deadline title="Ready for" value={count} />
+  return count != 0 && <Deadline title="Ready for" value={count} />
 }
 
 const KPIRow = () => {
