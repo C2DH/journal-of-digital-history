@@ -1,7 +1,7 @@
 import './styles/index.css'
 
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense } from 'react'
 import { I18nextProvider } from 'react-i18next'
 
 import Login from '../components/Login/Login'
@@ -22,47 +22,28 @@ const queryClient = new QueryClient({
   },
 })
 
-function DelayedRender({
-  children,
-  minDelay = 1500,
-}: {
-  children: React.ReactNode
-  minDelay?: number
-}) {
-  const [ready, setReady] = useState(false)
-
-  useEffect(() => {
-    const timer = setTimeout(() => setReady(true), minDelay)
-    return () => clearTimeout(timer)
-  }, [minDelay])
-
-  if (!ready) return <Blob />
-
-  return <>{children}</>
-}
-
 function AuthGate() {
   const {
     data: user,
     isLoading,
-
     isError,
   } = useQuery({
     queryKey: ['auth:me'],
     queryFn: fetchUsername,
   })
 
-  if (!user) return <Login />
+  if (isLoading) return <Blob />
+  if (!user || isError) return <Login />
 
   return (
-    <DelayedRender minDelay={2000}>
-      <Toast />
-      <Navbar />
-      <Header />
+    <main>
       <Suspense fallback={<Blob />}>
+        <Toast />
+        <Navbar />
+        <Header />
         <AppRoutes />
       </Suspense>
-    </DelayedRender>
+    </main>
   )
 }
 

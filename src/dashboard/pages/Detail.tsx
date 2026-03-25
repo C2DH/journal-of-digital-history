@@ -14,21 +14,21 @@ import Loading from '../components/Loading/Loading'
 import SmallCard from '../components/SmallCard/SmallCard'
 import { useItemStore } from '../store'
 import { getDetailActions } from '../utils/helpers/actions'
-import { isTypeArticle } from '../utils/helpers/checkItem'
+import { isTypeAbstract, isTypeArticle } from '../utils/helpers/checkItem'
 import { setDetails } from '../utils/helpers/details'
 import { formatAbstract } from '../utils/helpers/sanitize'
 import { DefaultAction, DetailPage, FieldRowType } from '../utils/types'
 
-const FieldRow = ({ label, value, t, pid, isArticle }: FieldRowType) => {
+const FieldRow = ({ label, value, t, pid, isArticle, isAbstract }: FieldRowType) => {
   if (label === 'Email') {
     value = (
       <a className="value" href={`mailto:${value}`}>
         {value}
       </a>
     )
-  } else if (label === 'Status' && isArticle !== undefined && pid && t) {
+  } else if (label === 'Status' && isArticle !== undefined && isAbstract !== undefined) {
     let actions: any = []
-    actions = getDetailActions(t, pid, isArticle)
+    actions = getDetailActions(t, pid, isArticle, isAbstract)
 
     //Remove current status from list of status actions
     const index = actions
@@ -89,6 +89,7 @@ const Detail = ({ endpoint }: DetailPage) => {
               t={t}
               pid={id}
               isArticle={isTypeArticle(item)}
+              isAbstract={isTypeAbstract(item)}
             />
           ))}
         </SmallCard>

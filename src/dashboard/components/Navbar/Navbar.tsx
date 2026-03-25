@@ -3,8 +3,8 @@ import './Navbar.css'
 import { useEffect, useState } from 'react'
 import { Link as RouterLink, useLocation } from 'react-router-dom'
 
-import Logo from '../../../../src/components/Logo'
 import BurgerMenu from '../../../assets/icons/BurgerMenu'
+import LogoBlue from '../../../assets/icons/LogoBlue'
 import { navbarItems } from '../../utils/constants/navbar'
 
 const Navbar = () => {
@@ -29,9 +29,9 @@ const Navbar = () => {
       <button className="burger-menu" onClick={toggleMenu}>
         <BurgerMenu />
       </button>
-      <div className={`navbar-header `}>
-        <a className="navbar-logo " href="/">
-          <Logo />
+      <div className="navbar-header">
+        <a className="navbar-logo" href="/">
+          <LogoBlue />
           <p>Journal of Digital History</p>
         </a>
       </div>

@@ -5,14 +5,14 @@
   position: fixed;
   top: 0;
   left: 0;
-  font-size: 16 px;
-  font-family: 'Fira Sans', monospace;
+  font-size: 16px;
 }
 
 .navbar-logo {
   display: flex;
   align-items: center;
   gap: 0.5rem; /* Optional: space between logo and text */
+  margin-bottom: var(--space-size-0);
 }
 
 /* Header */
@@ -27,7 +27,6 @@
   margin: 0;
   font-weight: bold;
   font-size: 1.1em;
-  color: var(--color-dark);
 }
 
 /* List styles */
@@ -53,7 +52,13 @@
 
 .navbar li.active {
   background-color: var(--color-accent);
-  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 4px 24px 0 rgba(31, 38, 135, 0.12),
+    0 1.5px 6px 0 rgba(31, 38, 135, 0.1),
+    0 0.5px 1.5px 0 rgba(255, 255, 255, 0.25) inset;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
   width: var(--navbar-header-width);
@@ -66,7 +71,8 @@
 
 /* Link styles */
 .navbar a {
-  color: var(--color-dark);
+  color: var(--color-deep-blue);
+  font-weight: 400;
   text-decoration: none;
   transition: color 0.2s;
 }
@@ -75,7 +81,7 @@
 .navbar-icons {
   margin-right: 12px;
   font-size: 24px;
-  color: var(--color-dark);
+  /* color: var(--color-dark); */
   font-variation-settings: 'FILL' 0;
   transition:
     color 0.2s,

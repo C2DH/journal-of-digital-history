@@ -24,15 +24,16 @@ const Articles = () => {
     fetchItems,
     setParams,
     loadMore,
+    reset,
   } = useItemsStore()
   const { updateFromStores, changeFilters, changeQueryParams, syncFiltersWithURL } =
     useFilterBarStore()
   const filters = useFilterBarStore((state) => state.filters)
 
   useEffect(() => {
+    reset()
     updateFromStores(false)
     syncFiltersWithURL(searchParams)
-
     const queryParams = changeQueryParams(false)
     setParams({
       endpoint: 'articles',

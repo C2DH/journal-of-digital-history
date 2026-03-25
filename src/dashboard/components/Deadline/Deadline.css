@@ -56,3 +56,15 @@
   font-size: var(--text-size-1);
   font-weight: 200;
 }
+
+/* Mobile view */
+@media screen and (max-width: 767px) {
+  .counter {
+    max-width: var(--navbar-width);
+  }
+
+  .logo {
+    padding: 0;
+    width: var(--space-size-9);
+  }
+}

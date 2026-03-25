@@ -284,6 +284,7 @@ export type FieldRowType = {
   t?: any
   pid?: any
   isArticle?: boolean
+  isAbstract?: boolean
 }
 
 export interface DetailPage {

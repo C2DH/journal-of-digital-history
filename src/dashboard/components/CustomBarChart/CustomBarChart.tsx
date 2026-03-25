@@ -1,126 +1,30 @@
 import './CustomBarChart.css'
 
-import { BarChart, barLabelClasses } from '@mui/x-charts/BarChart'
+import { BarChart } from '@mui/x-charts/BarChart'
 import { axisClasses } from '@mui/x-charts/ChartsAxis'
-import { useEffect, useState } from 'react'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { ItemsByStatus } from './interface'
-
-import { useIsMobile } from '../../hooks/useIsMobile'
-import { useCallForPapersStore, useIssuesStore } from '../../store'
 import { colorsAbstract, colorsArticle } from '../../styles/theme'
-import {
-  getAbstractsByStatusAndCallForPapers,
-  getAdvanceArticles,
-  getArticlesByStatusAndIssues,
-} from '../../utils/api/api'
-import { abstractSeriesKey, abstractStatus } from '../../utils/constants/abstract'
+import { abstractSeriesKey } from '../../utils/constants/abstract'
 import { articleBarChart, articleSeriesKey } from '../../utils/constants/article'
-import { APIResponseObject, Callforpaper, Issue } from '../../utils/types'
 import Button from '../Buttons/Button/Button'
-import Loading from '../Loading/Loading'
 import SmallCard from '../SmallCard/SmallCard'
+import { fetchBarChartData } from './fetch'
 
 const CustomBarChart = () => {
   const { t } = useTranslation()
   const [isArticle, setIsArticle] = useState(true)
-  const [isMobile, setIsMobile] = useState(false)
 
-  const { fetchIssues } = useIssuesStore()
-  const { fetchCallForPapers } = useCallForPapersStore()
+  const { data } = useSuspenseQuery({
+    queryKey: ['barChartData'],
+    queryFn: fetchBarChartData,
+  })
 
-  const [articleSeries, setArticleSeries] = useState<Record<string, any>[]>([])
-  const [articleLabels, setArticleLabels] = useState<string[]>([])
-  const [advanceSeries, setAdvanceSeries] = useState<Record<string, any>[]>([])
-
-  const [abstractSeries, setAbstractSeries] = useState<Record<string, any>[]>([])
-  const [abstractLabels, setAbstractLabels] = useState<string[]>([])
-
-  const loadDatasets = async () => {
-    try {
-      await fetchCallForPapers(false)
-      await fetchIssues(false)
-
-      const issues = useIssuesStore.getState().data as Issue[]
-      const callforpapers = useCallForPapersStore.getState().data as Callforpaper[]
-
-      const articleLabels = issues.map((issue) => issue.pid)
-      setArticleLabels(articleLabels)
-
-      const abstractLabels = callforpapers.map((cfp) => cfp.title)
-      setAbstractLabels(abstractLabels)
-
-      const articleSeriesRaw = await Promise.all(
-        articleBarChart.map(async (status) => {
-          const data = await Promise.all(
-            issues.map(async (issue: Issue) => {
-              let res: APIResponseObject = { count: 0, next: null, previous: null, results: [] }
-              res = await getArticlesByStatusAndIssues(issue.id, status.value)
-              return res.count || 0
-            }),
-          )
-          return { data, label: status.label } as ItemsByStatus
-        }),
-      )
-      const formattedArticleData = issues.map((issue, idx) => {
-        const obj: Record<string, any> = {
-          issueName: issue.name,
-          pid: issue.pid,
-        }
-        articleBarChart.forEach((status, sIdx) => {
-          obj[status.label] = articleSeriesRaw[sIdx].data[idx]
-        })
-        return obj
-      })
-      const advanceArticles = await getAdvanceArticles()
-      const advanceArticlesFormat = {
-        issueName: 'Advance Articles',
-        pid: 'advance',
-        Writing: 0,
-        'Technical review': 0,
-        'Peer review': 0,
-        'Design review': 0,
-        Published: advanceArticles.count,
-      }
-
-      setAdvanceSeries([advanceArticlesFormat])
-      // formattedArticleData.push(advanceArticlesFormat)
-      setArticleSeries(formattedArticleData)
-
-      const abstractSeriesRaw = await Promise.all(
-        abstractStatus.map(async (status) => {
-          const data = await Promise.all(
-            callforpapers.map(async (cfp: Callforpaper) => {
-              let res: APIResponseObject = { count: 0, next: null, previous: null, results: [] }
-              res = await getAbstractsByStatusAndCallForPapers(cfp.id, status.value)
-              return res.count || 0
-            }),
-          )
-          return { data, label: status.label } as ItemsByStatus
-        }),
-      )
-      const formattedAbstractData = callforpapers.map((cfp, idx) => {
-        const obj: Record<string, any> = {
-          cfpTitle: cfp.title,
-          id: cfp.id,
-        }
-        abstractStatus.forEach((status, sIdx) => {
-          obj[status.label] = abstractSeriesRaw[sIdx].data[idx]
-        })
-        return obj
-      })
-      setAbstractSeries(formattedAbstractData)
-    } catch (error) {
-      console.error('Error - Fetching bar chart datasets:', error)
-    }
-  }
+  const { articleSeries, articleLabels, advanceSeries, abstractSeries, abstractLabels } = data
 
   const handleClick = () => setIsArticle((v) => !v)
-
-  useEffect(() => {
-    loadDatasets()
-  }, [])
 
   const commonProps = {
     width: 300,
@@ -137,18 +41,10 @@ const CustomBarChart = () => {
           fill: 'var(--color-deep-blue)',
         },
       },
-      [`.${barLabelClasses.root}`]: {
-        fill: 'var(--color-deep-blue)',
-        fontSize: 12,
-      },
     }),
     xAxis: [{ height: 70, tickSize: 5, categoryGapRatio: 0.5 }],
     yAxis: [{ width: 30, tickNumber: 5, disableTicks: true, disableLine: true }],
   }
-
-  const showNoData = isArticle
-    ? articleSeries.length === 0 || articleLabels.length === 0
-    : abstractSeries.length === 0 || abstractLabels.length === 0
 
   const getMaxYValue = () => {
     const articleMax = Math.max(
@@ -159,8 +55,6 @@ const CustomBarChart = () => {
     )
     return Math.max(articleMax, advanceMax, 5)
   }
-
-  useIsMobile(setIsMobile)
 
   return (
     <SmallCard className="home-barchart chart">
@@ -204,7 +98,7 @@ const CustomBarChart = () => {
                 },
               ]}
               yAxis={commonProps.yAxis}
-              width={isMobile ? 250 : commonProps.width}
+              width={commonProps.width}
               height={commonProps.height}
               hideLegend={commonProps.hideLegend}
               margin={commonProps.margin}
@@ -212,6 +106,7 @@ const CustomBarChart = () => {
             />
           </div>
         )}
+
         {/* Advance article chart */}
         {advanceSeries.length > 0 && articleLabels.length > 0 && (
           <div style={{ display: isArticle ? 'block' : 'none' }}>
@@ -236,7 +131,7 @@ const CustomBarChart = () => {
                 },
               ]}
               yAxis={[{ position: 'none', min: 0, max: getMaxYValue() }]}
-              width={isMobile ? 70 : 70}
+              width={70}
               height={commonProps.height}
               hideLegend={commonProps.hideLegend}
               margin={commonProps.margin}
@@ -270,7 +165,7 @@ const CustomBarChart = () => {
               },
             ]}
             yAxis={commonProps.yAxis}
-            width={isMobile ? 300 : commonProps.width}
+            width={commonProps.width}
             height={commonProps.height}
             hideLegend={commonProps.hideLegend}
             margin={commonProps.margin}
@@ -278,8 +173,6 @@ const CustomBarChart = () => {
           />
         </div>
       )}
-
-      {showNoData && <Loading />}
     </SmallCard>
   )
 }
