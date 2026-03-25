@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { Link as RouterLink, useLocation } from 'react-router-dom'
 
 import BurgerMenu from '../../../assets/icons/BurgerMenu'
-import JDHLogo from '../../../assets/images/jdh-logo_blue.svg'
+import LogoBlue from '../../../assets/icons/LogoBlue'
 import { navbarItems } from '../../utils/constants/navbar'
 
 const Navbar = () => {
@@ -31,7 +31,7 @@ const Navbar = () => {
       </button>
       <div className="navbar-header">
         <a className="navbar-logo" href="/">
-          <JDHLogo />
+          <LogoBlue />
           <p>Journal of Digital History</p>
         </a>
       </div>

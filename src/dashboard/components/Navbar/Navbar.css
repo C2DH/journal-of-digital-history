@@ -12,6 +12,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem; /* Optional: space between logo and text */
+  margin-bottom: var(--space-size-0);
 }
 
 /* Header */
