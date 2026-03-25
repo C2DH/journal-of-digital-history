@@ -1,154 +1,187 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { Mock, vi } from 'vitest'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { fireEvent, render, screen } from '@testing-library/react'
+import { Suspense } from 'react'
+import { describe, expect, it, vi } from 'vitest'
 
-import {
-  getAbstractsByStatusAndCallForPapers,
-  getAdvanceArticles,
-  getArticlesByStatusAndIssues,
-} from '../../utils/api/api'
-import { articleBarChart } from '../../utils/constants/article'
 import CustomBarChart from './CustomBarChart'
+import { fetchBarChartData } from './fetch'
+
+// Mock dependencies
+vi.mock('./fetch', () => ({
+  fetchBarChartData: vi.fn(),
+}))
 
 vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ t: (k: string) => k }),
+  useTranslation: () => ({
+    t: (key: string) => key,
+  }),
 }))
 
-vi.mock('../../utils/api/api', () => ({
-  getArticlesByStatusAndIssues: vi.fn(),
-  getAbstractsByStatusAndCallForPapers: vi.fn(),
-  getAdvanceArticles: vi.fn(),
+vi.mock('@mui/x-charts/BarChart', () => ({
+  BarChart: ({ id }: { id: string }) => <div data-testid={id} />,
 }))
 
-vi.mock('../../utils/constants/article', () => ({
-  articleBarChart: [
-    { label: 'Writing', value: 'writing' },
-    { label: 'Technical review', value: 'technical_review' },
-    { label: 'Peer review', value: 'peer_review' },
-    { label: 'Design review', value: 'design_review' },
-    { label: 'Published', value: 'published' },
-  ],
-  articleSeriesKey: [
-    { dataKey: 'Writing', label: 'writing', stack: 'unique' },
-    { dataKey: 'Technical review', label: 'technical_review', stack: 'unique' },
-    { dataKey: 'Peer review', label: 'peer_review', stack: 'unique' },
-    { dataKey: 'Design review', label: 'design_review', stack: 'unique' },
-    { dataKey: 'Published', label: 'published', stack: 'unique' },
-  ],
+vi.mock('@mui/x-charts/ChartsAxis', () => ({
+  axisClasses: { root: 'root', tickLabel: 'tickLabel' },
 }))
 
-vi.mock('../../utils/constants/abstract', () => ({
-  abstractStatus: [
-    { label: 'Submitted', value: 'submitted', stack: 'unique' },
-    { label: 'Accepted', value: 'accepted', stack: 'unique' },
-  ],
-  abstractSeriesKey: [
-    { dataKey: 'Submitted', label: 'submitted', stack: 'unique' },
-    { dataKey: 'Accepted', label: 'accepted', stack: 'unique' },
-  ],
+vi.mock('../SmallCard/SmallCard', () => ({
+  default: ({ children, className }: { children: React.ReactNode; className: string }) => (
+    <div data-testid="small-card" className={className}>
+      {children}
+    </div>
+  ),
+}))
+
+vi.mock('../Buttons/Button/Button', () => ({
+  default: ({
+    text,
+    onClick,
+    dataTestId,
+  }: {
+    text: string
+    onClick: () => void
+    dataTestId: string
+  }) => (
+    <button data-testid={dataTestId} onClick={onClick}>
+      {text}
+    </button>
+  ),
 }))
 
 vi.mock('../../styles/theme', () => ({
-  colorsArticle: ['#123456'],
-  colorsAbstract: ['#654321'],
+  colorsAbstract: ['#000'],
+  colorsArticle: ['#111'],
 }))
 
-// Zustand stores
-const issuesData = [
-  { id: 'i1', name: 'Issue 1' },
-  { id: 'i2', name: 'Issue 2' },
-]
-const cfpData = [
-  { id: 'c1', title: 'Call 1' },
-  { id: 'c2', title: 'Call 2' },
-]
-const abstractStatus = [
-  { label: 'Submitted', value: 'submitted', stack: 'unique' },
-  { label: 'Accepted', value: 'accepted', stack: 'unique' },
-]
-
-const fetchIssuesMock = vi.fn().mockResolvedValue(undefined)
-const fetchCFPMock = vi.fn().mockResolvedValue(undefined)
-
-vi.mock('../../store', () => {
-  const useIssuesStore = vi.fn(() => ({
-    fetchIssues: fetchIssuesMock,
-    data: issuesData,
-  }))
-  ;(useIssuesStore as any).getState = () => ({ data: issuesData })
-
-  const useCallForPapersStore = vi.fn(() => ({
-    fetchCallForPapers: fetchCFPMock,
-    data: cfpData,
-  }))
-  ;(useCallForPapersStore as any).getState = () => ({ data: cfpData })
-
-  return { useIssuesStore, useCallForPapersStore }
-})
-
-// MUI BarChart test double
-vi.mock('@mui/x-charts/BarChart', () => ({
-  BarChart: (props: any) => (
-    <div data-testid={`${props['data-testid']}`}>
-      <div>bar-mock</div>
-    </div>
-  ),
-  barLabelClasses: { root: 'barLabelClasses-root' },
+vi.mock('../../utils/constants/abstract', () => ({
+  abstractSeriesKey: [{ dataKey: 'submitted', label: 'Submitted' }],
 }))
-vi.mock('@mui/x-charts/ChartsAxis', () => ({
-  axisClasses: { root: 'axisClasses-root', tickLabel: 'axisClasses-tickLabel' },
+
+vi.mock('../../utils/constants/article', () => ({
+  articleBarChart: [{ value: 'published', label: 'Published' }],
+  articleSeriesKey: [{ dataKey: 'published', label: 'Published' }],
 }))
+
+// Mock data
+const mockData = {
+  articleSeries: [{ pid: 'ISS-01', issueName: 'Issue 1', Published: 3 }],
+  articleLabels: ['ISS-01'],
+  advanceSeries: [{ pid: 'advance', issueName: 'Advance Articles', Published: 5 }],
+  abstractSeries: [{ cfpTitle: 'CFP 1', id: 1, Submitted: 2 }],
+  abstractLabels: ['CFP 1'],
+}
+
+const renderComponent = () => {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  })
+
+  vi.mocked(fetchBarChartData).mockResolvedValue(mockData)
+
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <Suspense fallback={<div data-testid="loading">Loading...</div>}>
+        <CustomBarChart />
+      </Suspense>
+    </QueryClientProvider>,
+  )
+}
 
 describe('CustomBarChart', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
+  it('shows the suspense fallback while loading', () => {
+    vi.mocked(fetchBarChartData).mockImplementation(() => new Promise(() => {}))
 
-  it('renders and fetches article counts for each status x issue', async () => {
-    ;(getArticlesByStatusAndIssues as unknown as Mock).mockResolvedValue({ count: 5 })
-    ;(getAbstractsByStatusAndCallForPapers as unknown as Mock).mockResolvedValue({ count: 0 })
-    ;(getAdvanceArticles as unknown as Mock).mockResolvedValue({ count: 0 })
-
-    render(<CustomBarChart />)
-
-    await screen.findByTestId('bar-chart-article')
-    await screen.findByTestId('bar-chart-abstract')
-
-    expect(screen.getByTestId('flip-button')).toBeInTheDocument()
-
-    // Call for each status x each issue
-    const expectedCalls = articleBarChart.length * issuesData.length
-    expect(getArticlesByStatusAndIssues).toHaveBeenCalledTimes(expectedCalls)
-  })
-
-  it('shows "no data" when fetching fails', async () => {
-    fetchIssuesMock.mockRejectedValueOnce(new Error('fail'))
-    fetchCFPMock.mockResolvedValueOnce(undefined)
-
-    render(<CustomBarChart />)
-
-    await waitFor(() => expect(screen.getByTestId('loading-dots')).toBeInTheDocument())
-  })
-
-  it('switches to abstract dataset when clicking the flip button', async () => {
-    ;(getArticlesByStatusAndIssues as unknown as Mock).mockResolvedValue({ count: 1 })
-    ;(getAbstractsByStatusAndCallForPapers as unknown as Mock).mockResolvedValue({
-      count: 2,
+    const queryClient = new QueryClient({
+      defaultOptions: { queries: { retry: false } },
     })
-    ;(getAdvanceArticles as unknown as Mock).mockResolvedValue({ count: 0 })
 
-    render(<CustomBarChart />)
+    render(
+      <QueryClientProvider client={queryClient}>
+        <Suspense fallback={<div data-testid="loading">Loading...</div>}>
+          <CustomBarChart />
+        </Suspense>
+      </QueryClientProvider>,
+    )
 
-    await screen.findByTestId('bar-chart-article')
+    expect(screen.getByTestId('loading')).toBeInTheDocument()
+  })
 
-    const flipBtn = screen.getByTestId('flip-button')
-    expect(flipBtn).toHaveTextContent('KPI.barChart.button.article')
+  it('renders the SmallCard container', async () => {
+    renderComponent()
 
-    fireEvent.click(flipBtn)
+    expect(await screen.findByTestId('small-card')).toBeInTheDocument()
+  })
 
-    // after flip -> isArticle=false -> button shows 'description'
-    await waitFor(() => expect(flipBtn).toHaveTextContent('KPI.barChart.button.abstract'))
+  it('renders article chart by default', async () => {
+    renderComponent()
 
-    const expectedAbstractCalls = abstractStatus.length * cfpData.length
-    expect(getAbstractsByStatusAndCallForPapers).toHaveBeenCalledTimes(expectedAbstractCalls)
+    expect(await screen.findByTestId('article-bar-chart')).toBeInTheDocument()
+    expect(await screen.findByTestId('article-advanced-bar-chart')).toBeInTheDocument()
+  })
+
+  it('renders article title and description by default', async () => {
+    renderComponent()
+
+    expect(await screen.findByText('KPI.barChart.article.title')).toBeInTheDocument()
+    expect(screen.getByText('KPI.barChart.article.description')).toBeInTheDocument()
+  })
+
+  it('renders the flip button', async () => {
+    renderComponent()
+
+    expect(await screen.findByTestId('flip-button')).toBeInTheDocument()
+  })
+
+  it('toggles to abstract chart when flip button is clicked', async () => {
+    renderComponent()
+
+    const flipButton = await screen.findByTestId('flip-button')
+    fireEvent.click(flipButton)
+
+    expect(screen.getByText('KPI.barChart.abstract.title')).toBeInTheDocument()
+    expect(screen.getByText('KPI.barChart.abstract.description')).toBeInTheDocument()
+    expect(screen.getByTestId('abstract-bar-chart')).toBeInTheDocument()
+  })
+
+  it('toggles back to article chart when flip button is clicked again', async () => {
+    renderComponent()
+
+    const flipButton = await screen.findByTestId('flip-button')
+
+    // Switch to abstract
+    fireEvent.click(flipButton)
+    expect(screen.getByText('KPI.barChart.abstract.title')).toBeInTheDocument()
+
+    // Switch back to article
+    fireEvent.click(flipButton)
+    expect(screen.getByText('KPI.barChart.article.title')).toBeInTheDocument()
+  })
+
+  it('does not render charts when data arrays are empty', async () => {
+    vi.mocked(fetchBarChartData).mockResolvedValue({
+      articleSeries: [],
+      articleLabels: [],
+      advanceSeries: [],
+      abstractSeries: [],
+      abstractLabels: [],
+    })
+
+    const queryClient = new QueryClient({
+      defaultOptions: { queries: { retry: false } },
+    })
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <Suspense fallback={<div data-testid="loading">Loading...</div>}>
+          <CustomBarChart />
+        </Suspense>
+      </QueryClientProvider>,
+    )
+
+    await screen.findByTestId('small-card')
+
+    expect(screen.queryByTestId('article-bar-chart')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('abstract-bar-chart')).not.toBeInTheDocument()
   })
 })
