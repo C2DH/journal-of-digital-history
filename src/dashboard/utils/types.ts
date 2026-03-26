@@ -178,6 +178,7 @@ export type SearchState = {
   setResults: (results: any[]) => void
   setLoading: (loading: boolean) => void
   setError: (error: any) => void
+  resetSearch: () => void
 }
 
 export type ItemsState<T> = {

@@ -25,6 +25,7 @@ import {
  * - loading: search loading state
  * - error: search error state
  * - setQuery, setResults, setLoading, setError: actions to update state
+ * - resetSearch: action to reset search state to initial values
  */
 
 export const useSearchStore = create<SearchState>((set) => ({
@@ -36,6 +37,7 @@ export const useSearchStore = create<SearchState>((set) => ({
   setResults: (results: any[]) => set({ results }),
   setLoading: (loading: boolean) => set({ loading }),
   setError: (error: any) => set({ error }),
+  resetSearch: () => set({ query: '', results: [], loading: false, error: null }),
 }))
 
 // ITEMS FETCHING STORE
