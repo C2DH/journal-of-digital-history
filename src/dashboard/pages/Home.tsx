@@ -110,6 +110,7 @@ const Home = () => {
       limit: 5,
       ordering: '-submitted_date',
       params: { status: 'SUBMITTED' },
+      search: '',
     })
     fetchItems(true)
   }, [setParams, fetchItems, ordering])

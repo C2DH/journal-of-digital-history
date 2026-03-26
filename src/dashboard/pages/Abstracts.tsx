@@ -14,7 +14,7 @@ const Abstracts = () => {
   const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const { sortBy, sortOrder, ordering, setFilters } = useSorting()
-  const query = useSearchStore((state) => state.query)
+  const { query, resetSearch } = useSearchStore()
   const {
     count,
     data: abstracts,
@@ -31,7 +31,10 @@ const Abstracts = () => {
   const filters = useFilterBarStore((state) => state.filters)
 
   useEffect(() => {
-    reset()
+    resetSearch()
+  }, [])
+
+  useEffect(() => {
     updateFromStores(true)
     syncFiltersWithURL(searchParams)
     const queryParams = changeQueryParams(true)
