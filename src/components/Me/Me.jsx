@@ -57,7 +57,10 @@ const Me = () => {
           className={`me-dropdown-button ${path}`}
           onClick={() => setDropdownOpen(!isDropdownOpen)}
         >
-          {data.first_name.length ? data.first_name : data.username} {isDropdownOpen ? '▲' : '▼'}
+          <span className="me-dropdown-username">
+            {data.first_name.length ? data.first_name : data.username}
+          </span>
+          <span>{isDropdownOpen ? '▲' : '▼'}</span>
         </button>
         {isDropdownOpen && (
           <div className={`me-dropdown-menu ${path} ${layer}`}>
