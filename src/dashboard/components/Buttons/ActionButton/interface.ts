@@ -5,5 +5,4 @@ type Action = {
 
 export interface ActionButtonProps {
   actions: Action[]
-  active: boolean
 }
