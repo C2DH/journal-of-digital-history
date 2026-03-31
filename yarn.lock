@@ -13606,6 +13606,7 @@ __metadata:
     lodash: "npm:^4.17.23"
     luxon: "npm:^3.6.1"
     markdown-it: "npm:14.1.1"
+    markdown-it-anchor: "npm:^9.2.0"
     markdown-it-mathjax3: "npm:^3.0.0-0"
     markdown-it-replace-link: "npm:^1.1.0"
     mathjax: "npm:^3.2.0"
@@ -15000,6 +15001,16 @@ __metadata:
   version: 1.5.0
   resolution: "map-or-similar@npm:1.5.0"
   checksum: 10c0/33c6ccfdc272992e33e4e99a69541a3e7faed9de3ac5bc732feb2500a9ee71d3f9d098980a70b7746e7eeb7f859ff7dfb8aa9b5ecc4e34170a32ab78cfb18def
+  languageName: node
+  linkType: hard
+
+"markdown-it-anchor@npm:^9.2.0":
+  version: 9.2.0
+  resolution: "markdown-it-anchor@npm:9.2.0"
+  peerDependencies:
+    "@types/markdown-it": "*"
+    markdown-it: "*"
+  checksum: 10c0/1873f4223f6df227a4bf93688f14def2a69bbdf144c6257d1739eab4ac3818d3ac89c5c324fbb2d92e3980641c508a8893df36496e2f84c73630f51a94ad8d9b
   languageName: node
   linkType: hard
 
