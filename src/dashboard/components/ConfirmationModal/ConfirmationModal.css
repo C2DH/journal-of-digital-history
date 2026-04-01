@@ -26,10 +26,12 @@
 }
 
 .confirmation-modal-close {
+  color: var(--color-deep-blue);
   position: absolute;
-  top: var(--space-size-2);
-  right: var(--space-size-1);
+  top: var(--space-size-3);
+  right: var(--space-size-3);
   background: 0;
+  border: 0;
   font-size: var(--text-size-8);
 }
 

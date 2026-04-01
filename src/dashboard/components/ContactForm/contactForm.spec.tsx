@@ -50,12 +50,31 @@ vi.mock('react-i18next', () => ({
     t: (key: string, fallback?: string) => fallback ?? key,
   }),
 }))
+const mockAbstractRow = {
+  open: false,
+  action: 'accepted',
+  row: {
+    pid: 'K7b2L9mP4zQ1',
+    title: 'Test Submission',
+    author: 'John Doe',
+    callpaper_title: null,
+    submitted_date: '2024-01-15',
+    contact_affiliation: 'University of Nothing',
+    contact_email: 'john.doe@mail.com',
+    status: 'submitted',
+  },
+}
 
-const mockData = {
-  id: 'K7b2L9mP4zQ1',
-  contactEmail: 'test@example.com',
-  title: 'Test Submission',
-  row: ['K7b2L9mP4zQ1', '', '', '', 'John', 'Doe'],
+const mockArticleRow = {
+  open: false,
+  action: 'copyediting',
+  row: {
+    abstract__pid: 'A1b2C3d4E5f6',
+    abstract__title: 'Article Tech Review',
+    author: 'Jane Doe',
+    publication_date: null,
+    status: 'technical_review',
+  },
 }
 const mockOnClose = vi.fn()
 
@@ -66,7 +85,7 @@ describe('ContactForm', () => {
   })
 
   it('renders the form with all fields', () => {
-    render(<ContactForm rowData={mockData} rowAction="accepted" onClose={mockOnClose} />)
+    render(<ContactForm row={mockAbstractRow} onClose={mockOnClose} />)
 
     expect(screen.getByLabelText(/From/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/To/i)).toBeInTheDocument()
@@ -76,13 +95,13 @@ describe('ContactForm', () => {
   })
 
   it('does not render the To field for copyediting action', () => {
-    render(<ContactForm rowData={mockData} rowAction="copyediting" onClose={mockOnClose} />)
+    render(<ContactForm row={mockArticleRow} onClose={mockOnClose} />)
 
     expect(screen.queryByLabelText(/To/i)).not.toBeInTheDocument()
   })
 
   it('updates formData when user types in a field', () => {
-    render(<ContactForm rowData={mockData} rowAction="accepted" onClose={mockOnClose} />)
+    render(<ContactForm row={mockAbstractRow} onClose={mockOnClose} />)
 
     fireEvent.change(screen.getByLabelText(/To/i), { target: { value: 'new@example.com' } })
 
@@ -90,7 +109,7 @@ describe('ContactForm', () => {
   })
 
   it('calls openModal when form is submitted', () => {
-    render(<ContactForm rowData={mockData} rowAction="accepted" onClose={mockOnClose} />)
+    render(<ContactForm row={mockAbstractRow} onClose={mockOnClose} />)
 
     fireEvent.click(screen.getByTestId('contact-form-send-button'))
 
@@ -99,7 +118,7 @@ describe('ContactForm', () => {
 
   it('calls closeModal and onClose when cancel is clicked on confirmation modal', async () => {
     mockIsModalOpen = true
-    render(<ContactForm rowData={mockData} rowAction="accepted" onClose={mockOnClose} />)
+    render(<ContactForm row={mockAbstractRow} onClose={mockOnClose} />)
 
     const cancelButton = await screen.findByTestId('confirmation-modal-cancel-button')
     fireEvent.click(cancelButton)
@@ -112,7 +131,7 @@ describe('ContactForm', () => {
     const { notify } = await import('../../utils/helpers/notification')
 
     mockIsModalOpen = true
-    render(<ContactForm rowData={mockData} rowAction="accepted" onClose={mockOnClose} />)
+    render(<ContactForm row={mockAbstractRow} onClose={mockOnClose} />)
 
     const confirmButton = await screen.findByTestId('confirmation-modal-send-button')
     fireEvent.click(confirmButton)
@@ -123,8 +142,10 @@ describe('ContactForm', () => {
       expect(mockOnClose).toHaveBeenCalled()
       expect(notify).toHaveBeenCalledWith(
         'success',
-        expect.any(String),
+        'email.success.api.contactForm',
         'Message sent successfully!',
+        0,
+        mockAbstractRow.row.pid,
       )
     })
   })
@@ -135,7 +156,7 @@ describe('ContactForm', () => {
     vi.mocked(modifyAbstractStatusWithEmail).mockRejectedValueOnce({ error: 'API Error' })
 
     mockIsModalOpen = true
-    render(<ContactForm rowData={mockData} rowAction="accepted" onClose={mockOnClose} />)
+    render(<ContactForm row={mockAbstractRow} onClose={mockOnClose} />)
 
     const confirmButton = await screen.findByTestId('confirmation-modal-send-button')
     fireEvent.click(confirmButton)
@@ -150,7 +171,7 @@ describe('ContactForm', () => {
     mockFormData = { ...mockFormData, to: 'not-an-email' }
     mockIsModalOpen = true
 
-    render(<ContactForm rowData={mockData} rowAction="accepted" onClose={mockOnClose} />)
+    render(<ContactForm row={mockAbstractRow} onClose={mockOnClose} />)
 
     const confirmButton = await screen.findByTestId('confirmation-modal-send-button')
     fireEvent.click(confirmButton)

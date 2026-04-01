@@ -27,9 +27,9 @@ export function retrieveContactEmail(
  */
 export function formatMessage(template, data) {
   return template
-    .replace(/\{recipientName\}/g, data?.row[2] || 'author')
-    .replace(/\{submissionTitle\}/g, data?.title)
-    .replace(/\{submissionId\}/g, data?.id)
+    .replace(/\{recipientName\}/g, data?.row.author || 'author')
+    .replace(/\{submissionTitle\}/g, data?.row.title || data?.row.abstract__title)
+    .replace(/\{submissionId\}/g, data?.row.pid)
     .replace(/\{contactEmail\}/g, 'jdh.admin@uni.lu')
     .replace(/\{signature\}/g, 'JDH Team')
 }

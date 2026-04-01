@@ -1,14 +1,13 @@
 import './Card.css'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { CardProps } from './interface'
 
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
-import { useFilterBarStore } from '../../store'
+import { useActionStore, useFilterBarStore } from '../../store'
 import { isAbstract, isArticle } from '../../utils/helpers/checkItem'
-import { retrieveContactEmail } from '../../utils/helpers/form'
 import Feedback from '../Feedback/Feedback'
 import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
@@ -29,41 +28,17 @@ const Card = ({
 }: CardProps) => {
   const { t } = useTranslation()
   const loaderRef = useRef<HTMLDivElement | null>(null)
-  const [modalState, setModalState] = useState<{
-    open: boolean
-    action?: string
-    pids?: string[]
-    contactEmail?: string
-    pid?: string
-    [key: string]: any
-  }>({ open: false })
   const isFilterOpen = useFilterBarStore((state) => state.isFilterOpen)
-
+  const { modal, setModal, closeModal } = useActionStore()
   const isAbstractItem = isAbstract(item)
   const isArticleItem = isArticle(item)
   const isArticleOrAbstracts = isAbstractItem || isArticleItem
-
-  const handleClose = () => setModalState({ open: false })
-
-  const setEmail = (email: string) => {
-    setModalState((prev) => ({ ...prev, contactEmail: email }))
-  }
-
-  const openRowModal = (modal: { open: boolean; action?: string; row?: any; id?: string }) => {
-    setModalState(modal)
-  }
 
   useInfiniteScroll(loaderRef, loadMore ?? (() => {}), hasMore && !loading, [
     hasMore,
     loading,
     loadMore,
   ])
-
-  useEffect(() => {
-    if (modalState.open && modalState.pid) {
-      retrieveContactEmail(modalState.pid, data, setEmail)
-    }
-  }, [modalState.open, modalState.pid])
 
   if (error) {
     return <Feedback type="error" message={error} />
@@ -89,7 +64,7 @@ const Card = ({
                 sortBy={sortBy}
                 sortOrder={sortOrder}
                 setSort={setSort}
-                setRowModal={openRowModal}
+                setRowModal={setModal}
               />
             }
             {loading && data.length > 0 && <Loading />}
@@ -99,10 +74,10 @@ const Card = ({
       </div>
       <Modal
         item={item}
-        open={modalState.open}
-        onClose={handleClose}
-        action={modalState.action || ''}
-        data={modalState}
+        open={modal.open}
+        onClose={closeModal}
+        action={modal.action}
+        data={modal}
       />
     </>
   )

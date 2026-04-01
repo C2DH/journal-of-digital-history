@@ -4,6 +4,7 @@
 
 .status-button-btn {
   display: flex;
+  color: var(--color-deep-blue);
   background-color: transparent;
   border: 1px solid rgba(244, 244, 247, 0.3);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);

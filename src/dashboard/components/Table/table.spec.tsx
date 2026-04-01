@@ -16,22 +16,21 @@ vi.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }))
 
-vi.mock('../../utils/helpers/actions', async () => {
-  return {
-    ...(await vi.importActual<any>('../../utils/helpers/actions')),
+vi.mock('../../store', () => ({
+  useActionStore: () => ({
     getRowActions: vi.fn(() => [
       { label: 'Approve', onClick: vi.fn() },
       { label: 'Delete', onClick: vi.fn() },
     ]),
-  }
-})
+  }),
+}))
 
 vi.mock('../../utils/helpers/table', async () => {
   const actual = await vi.importActual<any>('../../utils/helpers/table')
   return {
     ...actual,
-    getVisibleHeaders: vi.fn(({ headers }) => headers),
-    getCleanData: vi.fn(({ data }) => data),
+    getVisibleHeaders: vi.fn(({ headers }) => headers ?? []),
+    getCleanData: vi.fn(({ data }) => data ?? []),
     isAbstract: vi.fn(() => true),
     isArticle: vi.fn(() => false),
     isCallForPapers: vi.fn(() => false),
@@ -43,6 +42,10 @@ vi.mock('../../utils/helpers/table', async () => {
     isStatus: vi.fn(() => false),
     isLinkCell: vi.fn(() => false),
     isDateCell: vi.fn(() => false),
+    renderCell: vi.fn((props) => String(props.cell)),
+    getValueInSpecificOrder: vi.fn((headers, row) =>
+      headers.map((header) => (row as any)[header] ?? row[header as keyof typeof row]),
+    ),
   }
 })
 vi.mock('../Buttons/ActionButton/Short/ActionButton', () => ({
@@ -78,16 +81,13 @@ describe('Table', () => {
     item: 'articles',
     headers: ['title', 'author'],
     data: [
-      ['Test Title', 'Test Author'],
-      ['Another Title', 'Another Author'],
+      { title: 'Test Title', author: 'Test Author' },
+      { title: 'Another Title', author: 'Another Author' },
     ],
     sortBy: 'title',
     sortOrder: 'asc',
     setSort: vi.fn(),
-    setRowModal: vi.fn(),
     isAccordeon: false,
-    checkedRows: { selectAll: false },
-    setCheckedRows: vi.fn(),
   }
 
   it('renders headers and rows', () => {

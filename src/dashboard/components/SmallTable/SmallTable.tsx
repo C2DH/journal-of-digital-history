@@ -9,6 +9,7 @@ import { isPidHeader, isStepCell, isTitleHeader } from '../../utils/helpers/chec
 import {
   authorColumn,
   getCleanData,
+  getValueInSpecificOrder,
   getVisibleHeaders,
   renderCell,
 } from '../../utils/helpers/table'
@@ -52,9 +53,11 @@ const SmallTable = ({ item, headers, data }: SmallTableProps) => {
         </thead>
         <tbody>
           {cleanData.map((row, rIdx) => {
+            const cells = getValueInSpecificOrder(visibleHeaders, row)
+
             return (
               <tr key={rIdx}>
-                {row.map((cell: string | number, cIdx: number) => {
+                {cells.map((cell: string | number, cIdx: number) => {
                   const headerName = visibleHeaders[cIdx]
                   const isPid = isPidHeader(headerName)
                   const isTitle = isTitleHeader(headerName)
@@ -68,7 +71,7 @@ const SmallTable = ({ item, headers, data }: SmallTableProps) => {
                         colSpan={isTitle ? 2 : 1}
                         title={String(cell)}
                         style={isTitle ? { cursor: 'pointer' } : undefined}
-                        onClick={isTitle ? () => handleRowClick(String(row[0])) : undefined}
+                        onClick={isTitle ? () => handleRowClick(String(cells[0])) : undefined}
                       >
                         {renderCell({
                           isStep,

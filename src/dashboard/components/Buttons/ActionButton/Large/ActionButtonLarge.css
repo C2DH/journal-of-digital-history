@@ -1,16 +1,25 @@
 .large-action-btn-wrapper {
-  color: var(--color-deep-blue);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 4px;
 
   border: 0;
   border-radius: 10px;
   background: var(--color-accent-lighter);
-  padding: var(--space-size-0);
+  padding: var(--space-size-1) var(--space-size-2);
   position: relative;
 
-  margin-right: var(--space-size-2);
+  margin-right: var(--gap-size-4);
+}
+
+.active {
+  color: var(--color-deep-blue);
+}
+
+.inactive {
+  color: var(--color-gray);
+  pointer-events: none;
 }
 
 .large-action-btn {

@@ -53,6 +53,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  margin-right: var(--space-size-1);
 }
 
 .me-dropdown-button.dashboard {

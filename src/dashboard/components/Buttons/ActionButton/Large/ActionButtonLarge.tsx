@@ -1,12 +1,11 @@
 import './ActionButtonLarge.css'
 
-import { NavArrowDown, NavArrowUp } from 'iconoir-react'
 import { useEffect, useRef, useState } from 'react'
 
 import Dropdown from '../../../Dropdown/Dropdown'
 import { ActionButtonProps } from '../interface'
 
-const ActionButtonLarge = ({ actions }: ActionButtonProps) => {
+const ActionButtonLarge = ({ actions, active }: ActionButtonProps) => {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -25,16 +24,13 @@ const ActionButtonLarge = ({ actions }: ActionButtonProps) => {
   }, [open])
 
   return (
-    <div className={`large-action-btn-wrapper`} ref={ref}>
+    <div className={`large-action-btn-wrapper ${active ? 'active' : 'inactive'}`} ref={ref}>
       <button
-        className={`large-action-btn`}
-        onClick={() => setOpen((prev) => !prev)}
+        className={`large-action-icon ${active ? 'active' : 'inactive'}`}
+        onClick={active ? () => setOpen((prev) => !prev) : undefined}
         type="button"
         data-testid="large-action-button"
-      >
-        Actions
-        {open ? <NavArrowUp /> : <NavArrowDown />}
-      </button>
+      />
       {open && <Dropdown actions={actions} setOpen={setOpen} />}
     </div>
   )

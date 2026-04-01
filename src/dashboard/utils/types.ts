@@ -146,7 +146,11 @@ export interface ModalInfo {
   title?: string
 }
 
-export type ModalConfig = { open: boolean; action: any; row: any; pid: string; title: string }
+export type ModalConfig = {
+  open: boolean
+  action: any
+  row: Row | null
+}
 
 /* Actions */
 export type RowAction = {
@@ -272,6 +276,36 @@ export interface NotificationState {
   notification: Notification
   setNotification: (notification: Notification) => void
   clearNotification: () => void
+}
+
+export interface AbstractRow {
+  pid: string
+  title: string
+  author: string
+  callpaper_title: string | null
+  submitted_date: string
+  contact_affiliation: string
+  contact_email: string
+  status: string
+}
+
+export interface ArticleRow {
+  abstract__pid: string
+  abstract__title: string
+  author: string
+  publication_date: string | null
+  status: string
+}
+
+export type Row = ArticleRow | AbstractRow
+
+export interface ActionStore {
+  modal: ModalConfig
+  setModal: (config: ModalConfig) => void
+  closeModal: () => void
+  callAPI: ({ action, pid }: { action: string; pid: string }) => Promise<void>
+  getRowActions: (row: Row, isArticle: boolean) => RowAction[]
+  getDetailActions: (pid: string, isArticle: boolean, isAbstract: boolean) => RowAction[]
 }
 
 /* API types */

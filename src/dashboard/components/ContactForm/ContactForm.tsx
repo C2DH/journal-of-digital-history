@@ -4,6 +4,8 @@ import parse from 'html-react-parser'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { ContactFormProps } from './interface'
+
 import { contactFormCopyEditingSchema } from '../../schemas/copyEditing'
 import { contactFormSchema } from '../../schemas/form'
 import { useFormStore } from '../../store'
@@ -20,14 +22,18 @@ import {
   sanitizeInput,
 } from '../../utils/helpers/sanitize'
 import { validateForm } from '../../utils/helpers/schema'
+import { AbstractRow, ArticleRow } from '../../utils/types'
 import Button from '../Buttons/Button/Button'
 import ConfirmationModal from '../ConfirmationModal/ConfirmationModal'
 
-const ContactForm = ({ rowData, rowAction, onClose }) => {
-  const action = rowAction.toLowerCase() || ''
-  const pid = rowData.id || ''
+const ContactForm = ({ row, onClose }: ContactFormProps) => {
   const { t } = useTranslation()
   const { isModalOpen, openModal, closeModal, setFormData, formData } = useFormStore()
+
+  const action = row.action.toLowerCase() || ''
+  const pid = (row.row as ArticleRow).abstract__pid || (row.row as AbstractRow).pid || ''
+  const contactEmail = (row.row as AbstractRow).contact_email || ''
+  const title = (row.row as AbstractRow).title || ''
 
   useEffect(() => {
     switch (action) {
@@ -36,21 +42,21 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
           pid: pid,
           from: 'jdh.admin@uni.lu',
           subject: t('email.copyediting.subject'),
-          body: formatMessage(parse(t(`email.${action}.body`)), rowData),
+          body: formatMessage(parse(t(`email.${action}.body`)), row),
         })
         break
       default:
         setFormData({
           pid: pid,
           from: 'jdh.admin@uni.lu',
-          to: rowData.contactEmail,
-          subject: removeEscapeCharacters(rowData.title).trim(),
-          body: formatMessage(parse(t(`email.${action}.body`)), rowData),
+          to: contactEmail,
+          subject: removeEscapeCharacters(title).trim(),
+          body: formatMessage(parse(t(`email.${action}.body`)), row),
           status: action,
         })
         break
     }
-  }, [rowData, action])
+  }, [row, action, pid, contactEmail, title])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -82,7 +88,7 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
 
     await sendArticleToCopyeditor(formData)
       .then(async (res) => {
-        await patchArticleStatus({ status: 'COPY_EDITING' }, rowData.id)
+        await patchArticleStatus({ status: 'COPY_EDITING' }, pid)
           .then((res) => {
             notify('success', t('notification.status.success.article'), '')
           })
@@ -100,7 +106,7 @@ const ContactForm = ({ rowData, rowAction, onClose }) => {
 
     await modifyAbstractStatusWithEmail(formData?.pid, formData)
       .then((res) => {
-        notify('success', t('email.success.api.contactForm'), res?.data?.message)
+        notify('success', t('email.success.api.contactForm'), res?.data?.message, 0, pid)
       })
       .catch((error) => {
         notify('error', t('email.error.api.message'), error?.error)

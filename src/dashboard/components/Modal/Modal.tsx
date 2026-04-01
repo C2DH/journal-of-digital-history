@@ -50,7 +50,7 @@ const Modal = ({ item, open, onClose, action, data }: ModalProps) => {
             </button>
           </div>
         </div>
-        {isContactFormAction && <ContactForm rowData={data} rowAction={action} onClose={onClose} />}
+        {isContactFormAction && <ContactForm row={data} onClose={onClose} />}
         {isSocialScheduleAction && (
           <SocialSchedule rowData={data} action={action} onClose={onClose} />
         )}
