@@ -11,6 +11,7 @@ function resolveExecuteErrors(result) {
 
 export const useExecutionScope = create((set, get) => ({
   cells: {},
+  ready: false,
   attached: false,
   executing: false,
   restarting: false,
@@ -185,7 +186,7 @@ export const useExecutionScope = create((set, get) => ({
       }),
     }))
   },
-  initialise: (executables) =>
+  initialise: (executables, ready) =>
     set({
       cells: executables
         ? mapObject(executables, (v) => ({
@@ -202,6 +203,7 @@ export const useExecutionScope = create((set, get) => ({
             errors: undefined,
           }))
         : {},
+      ready,
       attached: false,
       executing: false,
       restarting: false,

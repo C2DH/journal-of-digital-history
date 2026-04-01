@@ -1,28 +1,27 @@
 import React, { useEffect } from 'react'
 
-import { ArticleThebeProvider } from './ArticleThebeProvider'
 import ArticleCell from './ArticleCell'
-import ArticleLayers from './ArticleLayers'
-import { useNotebook } from '../../hooks/ipynbV3'
-import { useExecutionScope } from './ExecutionScope'
-import ArticleToC from './ArticleToC'
 import ArticleCellObserver from './ArticleCellObserver'
-
-import ArticleHeader from '../Article/ArticleHeader'
-import Footer from '../Footer'
-import ArticleBibliography from '../Article/ArticleBibliography'
+import ArticleLayers from './ArticleLayers'
+import ArticleNoteManager from './ArticleNoteManager'
+import ArticleScrollTo from './ArticleScrollTo'
+import { ArticleThebeProvider } from './ArticleThebeProvider'
+import ArticleToC from './ArticleToC'
+import { useExecutionScope } from './ExecutionScope'
 import {
   CellTypeCode,
   DisplayLayerSectionBibliography,
   LayerData,
 } from '../../constants/globalConstants'
+import { useNotebook } from '../../hooks/ipynbV3'
 import { WithWindowSize } from '../../hooks/windowSize'
+import { useArticleStore } from '../../store'
+import ArticleBibliography from '../Article/ArticleBibliography'
+import ArticleHeader from '../Article/ArticleHeader'
+import Footer from '../Footer'
 
 import '../../styles/components/ArticleV3/Article.scss'
 import './Article.css'
-import ArticleScrollTo from './ArticleScrollTo'
-import { useArticleStore } from '../../store'
-import ArticleNoteManager from './ArticleNoteManager'
 
 const Article = ({
   url = '',
@@ -157,12 +156,12 @@ const Article = ({
 }
 
 function ArticleWithContent({ url, ipynb, kernelName, ...props }) {
-  const { paragraphs, headingsPositions, executables, bibliography, citations, sections } =
+  const { paragraphs, headingsPositions, executables, ready, bibliography, citations, sections } =
     useNotebook(url, ipynb)
   const initExecutionScope = useExecutionScope((state) => state.initialise)
 
   useEffect(() => {
-    initExecutionScope(executables)
+    initExecutionScope(executables, ready)
   }, [executables, initExecutionScope])
   console.debug('[ArticleWithContent]', url, 'is rendering', headingsPositions, citations)
   return (
