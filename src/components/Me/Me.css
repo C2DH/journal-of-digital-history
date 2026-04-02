@@ -85,9 +85,10 @@
 .me-dropdown-menu {
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 
   position: absolute;
-  left: -40%;
+  left: -60%;
   margin-top: var(--spacer-3);
   padding: var(--spacer-2);
 

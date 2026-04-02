@@ -1,7 +1,7 @@
 import './Me.css'
 
 import { GithubCircle, LogOut, OpenInBrowser, ProfileCircle } from 'iconoir-react'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StringParam, useQueryParams, withDefault } from 'use-query-params'
 
@@ -22,6 +22,7 @@ import { generateColorList } from './helper'
 const Me = () => {
   const { t } = useTranslation()
   const [isDropdownOpen, setDropdownOpen] = useState(false)
+  const ref = useRef(null)
 
   const { data, error } = useGetJSON({
     url: '/api/me',
@@ -43,11 +44,23 @@ const Me = () => {
     layer = selectedLayer.layer
   }
 
-  if (error || !data) return null
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setDropdownOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const handleLogout = async () => {
     await userLogoutRequest()
   }
+
+  if (error || !data) return null
 
   return (
     <div className={`me ${path}`}>
@@ -63,7 +76,7 @@ const Me = () => {
           <span>{isDropdownOpen ? '▲' : '▼'}</span>
         </button>
         {isDropdownOpen && (
-          <div className={`me-dropdown-menu ${path} ${layer}`}>
+          <div className={`me-dropdown-menu ${path} ${layer}`} ref={ref}>
             <a href={`/admin/auth/user/${data.id}/change/`} title="User settings">
               <ProfileCircle /> {t('login.profile')}
             </a>
