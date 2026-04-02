@@ -316,7 +316,6 @@ export type APIResponseObject = { count: number; next: null; previous: null; res
 export type FieldRowType = {
   label: string
   value: React.ReactNode
-  t?: any
   pid?: any
   isArticle?: boolean
   isAbstract?: boolean

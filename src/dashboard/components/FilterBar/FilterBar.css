@@ -76,17 +76,11 @@
   }
 
   .filter-bar {
+    top: 0;
     position: relative;
     flex-direction: column;
     align-items: flex-start;
     padding: 0 var(--space-size-2);
-  }
-
-  .filter-button {
-    display: flex;
-    background-color: var(--color-white);
-    width: var(--space-size-2);
-    justify-content: center;
   }
 
   .search-bar-container {

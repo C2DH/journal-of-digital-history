@@ -3,10 +3,8 @@ import '../styles/pages/pages.css'
 
 import parse from 'html-react-parser'
 import { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useLocation } from 'react-router-dom'
 
-import ActionButtonLarge from '../components/Buttons/ActionButton/Large/ActionButtonLarge'
 import DatasetButton from '../components/Buttons/DatasetButton/DatasetButton'
 import IconButton from '../components/Buttons/IconButton/IconButton'
 import LinkButton from '../components/Buttons/LinkButton/LinkButton'
@@ -16,11 +14,11 @@ import Modal from '../components/Modal/Modal'
 import SmallCard from '../components/SmallCard/SmallCard'
 import { useActionStore, useItemStore } from '../store'
 import { isTypeAbstract, isTypeArticle } from '../utils/helpers/checkItem'
-import { setDetails, toRow } from '../utils/helpers/details'
+import { setDetails } from '../utils/helpers/details'
 import { formatAbstract } from '../utils/helpers/sanitize'
 import { DefaultAction, DetailPage, FieldRowType } from '../utils/types'
 
-const FieldRow = ({ label, value, t, pid, isArticle, isAbstract }: FieldRowType) => {
+const FieldRow = ({ label, value, pid, isArticle, isAbstract }: FieldRowType) => {
   const { getDetailActions } = useActionStore()
   if (label === 'Email') {
     value = (
@@ -52,16 +50,21 @@ const FieldRow = ({ label, value, t, pid, isArticle, isAbstract }: FieldRowType)
 }
 
 const Detail = ({ endpoint }: DetailPage) => {
-  const { t } = useTranslation()
   const location = useLocation()
   const id = location.pathname.split('/')[2]
   const { data: item, loading, error, fetchItem, reset } = useItemStore()
-  const { getRowActions, modal, closeModal } = useActionStore()
+  const { modal, closeModal } = useActionStore()
 
   useEffect(() => {
     reset()
     fetchItem(id, endpoint)
   }, [fetchItem, id, endpoint, reset])
+
+  const isArticle = isTypeArticle(item)
+  const isAbstract = isTypeAbstract(item)
+
+  const { infoFields, contactFields, datasetFields, authors, urlFields, title, abstractText } =
+    setDetails(item)
 
   if (loading) {
     return <Loading />
@@ -77,24 +80,10 @@ const Detail = ({ endpoint }: DetailPage) => {
     )
   }
 
-  const isArticle = isTypeArticle(item)
-  const isAbstract = isTypeAbstract(item)
-
-  const { infoFields, contactFields, datasetFields, authors, urlFields, title, abstractText } =
-    setDetails(item)
-
-  const row = toRow(item, isArticle, isAbstract)
-  const actions = row ? getRowActions(row, isArticle) : []
-
   return (
     <>
       {' '}
       <div className="detail page ">
-        <div className="detail-page-action-btn">
-          <div>
-            <ActionButtonLarge actions={actions} active={actions.length > 0} />
-          </div>
-        </div>
         <div className="detail-grid">
           <SmallCard className="card-info">
             {infoFields.map(({ label, value }) => (
@@ -102,7 +91,6 @@ const Detail = ({ endpoint }: DetailPage) => {
                 key={label}
                 label={label}
                 value={value}
-                t={t}
                 pid={id}
                 isArticle={isArticle}
                 isAbstract={isAbstract}

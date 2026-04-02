@@ -188,15 +188,6 @@ li.active .icon-filled {
     z-index: 1999;
   }
 
-  .navbar-header p {
-    display: none;
-  }
-
-  .navbar-logo {
-    display: flex;
-    align-items: center;
-  }
-
   .burger-menu {
     display: block;
     position: fixed;
@@ -223,7 +214,6 @@ li.active .icon-filled {
     width: 100vw;
     height: 100vh;
     background-color: var(--color-white);
-    padding-top: calc(var(--filter-bar-height) + var(--space-size-1)); /* Space for header */
     padding-left: var(--space-size-1);
     padding-right: var(--space-size-1);
     margin: 0;

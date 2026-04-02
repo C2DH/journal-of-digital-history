@@ -7,7 +7,6 @@
   z-index: 100;
   transition:
     background 0.3s ease,
-    box-shadow 0.3s ease,
     backdrop-filter 0.3s ease;
 }
 
@@ -25,6 +24,7 @@
   gap: 0.5rem; /* Optional: space between logo and text */
   margin: var(--space-size-0);
   text-decoration: none;
+  color: var(--color-deep-blue);
   margin-left: var(--space-size-2);
   width: var(--navbar-width);
 }
@@ -43,4 +43,28 @@ p {
   border-radius: 32px;
   box-sizing: border-box;
   height: var(--space-size-7);
+}
+
+@media (max-width: 1500px) {
+  p {
+    display: none;
+  }
+
+  .navbar-logo {
+    width: auto;
+    margin-right: var(--space-size-3);
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+    z-index: 2000;
+  }
+  .top-bar {
+    z-index: 200;
+    margin-left: 40vw;
+    width: fit-content;
+  }
 }
