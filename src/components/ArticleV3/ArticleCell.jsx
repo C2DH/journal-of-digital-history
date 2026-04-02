@@ -1,9 +1,12 @@
-import React, { useEffect, useRef, useState, Suspense } from 'react'
+import React, { useEffect, useMemo, useRef, useState, Suspense } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 
-import ArticleCellOutputs from '../Article/ArticleCellOutputs'
-import ArticleCellContent from '../Article/ArticleCellContent'
+import ArticleCellCodeTools from './ArticleCellCodeTools'
+import ArticleCellError from './ArticleCellError'
 import ArticleCellFigure from './ArticleCellFigure'
+import ArticleCellSourceCodeWrapper from './ArticleCellSourceCodeWrapper'
+import { useArticleThebe } from './ArticleThebeProvider'
+import { useExecutionScope } from './ExecutionScope'
 import {
   BootstrapColumLayoutV3,
   BootstrapNarrativeStepColumnLayout,
@@ -12,11 +15,9 @@ import {
   CellTypeCode,
   CellTypeMarkdown,
 } from '../../constants/globalConstants'
-import { useExecutionScope } from './ExecutionScope'
-import ArticleCellCodeTools from './ArticleCellCodeTools'
-import { useArticleThebe } from './ArticleThebeProvider'
-import ArticleCellSourceCodeWrapper from './ArticleCellSourceCodeWrapper'
-import ArticleCellError from './ArticleCellError'
+import { isSimpleImageDisplay } from '../../logic/ipynbV3'
+import ArticleCellContent from '../Article/ArticleCellContent'
+import ArticleCellOutputs from '../Article/ArticleCellOutputs'
 
 import '../../styles/components/ArticleV3/ArticleCell.scss'
 
@@ -56,7 +57,8 @@ const ArticleCell = ({
   // const isolationMode = outputs.some(
   //   (d) => typeof d.metadata === 'object' && d.metadata['text/html']?.isolated,
   // )
-  const renderUsingThebe = type === CellTypeCode && !figure?.isSound //tags.includes('data');
+  const renderUsingThebe = type === CellTypeCode && !figure?.isSound &&
+    useMemo(() => !isSimpleImageDisplay(source), [source]);
   const isCover = isFigure && figure?.isCover
 
   // const ref = useCallback(

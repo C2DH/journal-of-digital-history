@@ -126,3 +126,37 @@ export const getDataTablePageSize = tags =>
     const m = d.match(/^page-size-(\d+)$/);
     return m ? m[1] : false;
   }) || -1
+
+
+/**
+ * Returns true when the source code is a simple image display pattern:
+ *   1. from IPython.display import Image
+ *   2. metadata= { ... }
+ *   3. display(Image(...), metadata=metadata)
+ * with no other top-level statements.
+ */
+export const isSimpleImageDisplay = (source) => {
+  if (!source) return false;
+
+  const lines = Array.isArray(source) ? source : source.split('\n');
+  const statements = [];
+
+  for (const line of lines) {
+    const trimmed = line.trimEnd();
+    if (trimmed === '' || trimmed.startsWith('#')) continue;
+    // Closing delimiters at column 0 are continuations of the previous statement
+    if (/^[}\])]/.test(trimmed)) continue;
+    if (/^\S/.test(line)) {
+      statements.push(trimmed);
+    }
+    // indented lines are part of the current statement – skip
+  }
+
+  if (statements.length !== 3) return false;
+
+  const importOk = /^from\s+IPython\.display\s+import\s+Image\b/.test(statements[0]);
+  const metadataOk = /^metadata\s*=/.test(statements[1]);
+  const displayOk = /^display\s*\(\s*Image\s*\(/.test(statements[2]);
+
+  return importOk && metadataOk && displayOk;
+}
