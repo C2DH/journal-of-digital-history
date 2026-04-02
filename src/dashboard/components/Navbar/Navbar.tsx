@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { Link as RouterLink, useLocation } from 'react-router-dom'
 
 import BurgerMenu from '../../../assets/icons/BurgerMenu'
-import LogoBlue from '../../../assets/icons/LogoBlue'
 import { navbarItems } from '../../utils/constants/navbar'
 
 const Navbar = () => {
@@ -29,12 +28,7 @@ const Navbar = () => {
       <button className="burger-menu" onClick={toggleMenu}>
         <BurgerMenu />
       </button>
-      <div className="navbar-header">
-        <a className="navbar-logo" href="/">
-          <LogoBlue />
-          <p>Journal of Digital History</p>
-        </a>
-      </div>
+      <div className="navbar-header"></div>
       <ul className={isBurgerMenuOpen ? 'menu-open' : ''}>
         {navbarItems.map((item) => (
           <li key={item.href} className={activeHref === item.href ? 'active' : ''}>

@@ -9,6 +9,7 @@
 
 /* Fonts */
 body {
+  margin: 0;
   font-family: 'DM Sans', sans-serif;
   background: var(--color-background);
   color: var(--color-deep-blue);

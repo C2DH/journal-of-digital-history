@@ -3,16 +3,9 @@
   width: var(--navbar-width);
   min-height: 600px;
   position: fixed;
-  top: 0;
+  top: 70px;
   left: 0;
   font-size: 16px;
-}
-
-.navbar-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem; /* Optional: space between logo and text */
-  margin-bottom: var(--space-size-0);
 }
 
 /* Header */
