@@ -18,13 +18,17 @@ const Header = () => {
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
   return (
     <div className="top-bar" ref={ref}>
       <div className="top-bar-left">
         <a className="navbar-logo" href="/">
           <LogoBlue />
-          <p>Journal of Digital History</p>
-        </a>
+          <p>
+            Journal of <br />
+            Digital History
+          </p>
+        </a>{' '}
       </div>
       <Breadcrumb />
       <Me />
