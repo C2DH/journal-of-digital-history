@@ -101,6 +101,18 @@ export const getFigureHeight = (tags, defaultHeight = 0) =>
 
 
 /**
+ * Check if any of the tags specify a height or aspect ratio for the figure output
+ * 
+ * @param {string[]} tags 
+ *    The list of tags from which to get the height       
+ * 
+ * @returns 
+ *    true if any of the tags specify a height or aspect ratio, false otherwise
+ */
+export const isTaggedFigure = (tags) => tags.some(tag => /^h-(\d+)px$/.test(tag) || /^aspect-ratio-(\d+)-(\d+)$/.test(tag));
+
+
+/**
  * Get the page size for data table
  * 
  * @param {string[]} tags 
