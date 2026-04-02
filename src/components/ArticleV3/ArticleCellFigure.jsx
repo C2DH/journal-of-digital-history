@@ -68,7 +68,7 @@ const ArticleCellFigure = ({
       : children?.props?.content
 
   return (
-    <figure className={`ArticleCellFigure ${active ? 'active' : ''} ${figure.getPrefix()}`}>
+    <figure className={`ArticleCellFigure ${active ? 'active' : ''} ${figure.getPrefix()}`} data-tags={tags.join(' ')}>
       {/* Other outputs */}
       {!isDataTable && otherOutputs.length > 0 && (
         <>
