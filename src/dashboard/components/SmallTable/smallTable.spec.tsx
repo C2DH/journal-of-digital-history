@@ -24,6 +24,9 @@ vi.mock('../../utils/helpers/table', async () => {
     getVisibleHeaders: vi.fn(({ headers }) => headers ?? []),
     getCleanData: vi.fn(({ data }) => data ?? []),
     renderCell: vi.fn((props) => String(props.cell)),
+    getValueInSpecificOrder: vi.fn((headers, row) =>
+      headers.map((header) => (row as any)[header] ?? row[header as keyof typeof row]),
+    ),
   }
 })
 
@@ -38,8 +41,8 @@ describe('SmallTable', () => {
     item: 'abstracts',
     headers: ['pid', 'title', 'author'],
     data: [
-      ['123', 'An interesting study on history', 'John Doe'],
-      ['456', 'Digital archives and their impact', 'Jane Smith'],
+      { pid: '123', title: 'An interesting study on history', author: 'John Doe' },
+      { pid: '456', title: 'Digital archives and their impact', author: 'Jane Smith' },
     ],
   }
 

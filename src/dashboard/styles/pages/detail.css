@@ -1,3 +1,14 @@
+/*PAGE HEADER */
+.detail-page-action-btn {
+  display: flex;
+  position: absolute;
+  top: 23px;
+  right: var(--logout-pill-width);
+  align-items: center;
+  justify-content: start;
+}
+
+/* GRID AREA */
 .card-info {
   grid-area: i;
 }
@@ -103,6 +114,8 @@ a {
 
 .author-info > .item > .value {
   flex-grow: 1;
+  display: flex;
+  align-items: center;
 }
 
 /* RESPONSIVE */
@@ -174,6 +187,10 @@ a {
 
 /* Mobile view */
 @media screen and (max-width: 767px) {
+  .detail-page-action-btn {
+    display: none;
+  }
+
   .detail-grid {
     display: flex;
     flex-direction: column;

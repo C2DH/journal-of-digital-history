@@ -1,10 +1,13 @@
 import './FilterBar.css'
 
+import { FilterAlt } from '@mui/icons-material'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 
 import { FilterBarProps } from './interface'
 
+import { useIsMobile } from '../../hooks/useIsMobile'
 import { useFilterBarStore, useSearchStore } from '../../store'
 import Button from '../Buttons/Button/Button'
 import DropdownMenu from '../DropdownMenu/DropdownMenu'
@@ -12,6 +15,8 @@ import Search from '../Search/Search'
 
 const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
   const { t } = useTranslation()
+  const [isMobile, setIsMobile] = useState(false)
+
   const [searchParams, setSearchParams] = useSearchParams()
   const { setQuery: setSearch } = useSearchStore()
   const { isFilterOpen, resetFilters, resetSpecificFilter, setFilterOpen } = useFilterBarStore()
@@ -20,14 +25,16 @@ const FilterBar = ({ filters, onFilterChange }: FilterBarProps) => {
     setFilterOpen(!isFilterOpen)
   }
 
+  useIsMobile(setIsMobile)
+
   return (
     <div className={isFilterOpen ? 'filter-bar filters-bar-open' : 'filter-bar'}>
       <div className="search-bar-container">
         {' '}
         <Search placeholder={t('search.placeholder')} />
-        <button className="filter-button material-symbols-outlined" onClick={toggleMenu}>
-          filter_alt
-        </button>
+        {isMobile && (
+          <FilterAlt sx={{ fontSize: 40 }} className="filter-button" onClick={toggleMenu} />
+        )}
       </div>
       <div
         className={

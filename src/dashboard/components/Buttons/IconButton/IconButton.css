@@ -1,5 +1,6 @@
 .link-button-orcid {
   background-color: transparent;
+  border: none;
   padding: 0;
 }
 
@@ -7,6 +8,7 @@
 .link-button-bsky,
 .link-button-facebook,
 .link-button-linkedin {
+  padding: 0 0 0 var(--gap-size-1);
   background-color: transparent;
   border: none;
   color: var(--color-deep-blue);

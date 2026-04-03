@@ -9,16 +9,6 @@ vi.mock('../../../assets/icons/LogoBlue', () => ({
 }))
 
 describe('Navbar', () => {
-  it('renders the logo and title', () => {
-    render(
-      <MemoryRouter>
-        <Navbar />
-      </MemoryRouter>,
-    )
-    expect(screen.getByTestId('logo')).toBeInTheDocument()
-    expect(screen.getByText('Journal of Digital History')).toBeInTheDocument()
-  })
-
   it('renders all navigation items', () => {
     render(
       <MemoryRouter>

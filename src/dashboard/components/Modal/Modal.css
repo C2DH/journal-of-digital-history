@@ -58,9 +58,7 @@ body.modal-open {
 }
 
 .modal-close {
-  /* position: absolute;
-  top: var(--space-size-5);
-  right: var(--space-size-4); */
+  color: var(--color-deep-blue);
   font-size: var(--text-size-8);
   background: 0;
   border: 0;

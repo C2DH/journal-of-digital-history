@@ -24,7 +24,6 @@ const Abstracts = () => {
     fetchItems,
     setParams,
     loadMore,
-    reset,
   } = useItemsStore()
   const { updateFromStores, changeFilters, changeQueryParams, syncFiltersWithURL } =
     useFilterBarStore()

@@ -1,4 +1,4 @@
-import { Abstract, Article, Author } from '../types'
+import { Abstract, AbstractRow, Article, ArticleRow, Author, Row } from '../types'
 import { isTypeAbstract, isTypeArticle } from './checkItem'
 import { convertDate } from './date'
 
@@ -112,4 +112,37 @@ export function setDetails(item: Abstract | Article) {
     title,
     abstractText,
   }
+}
+
+/**
+ * Converts a single Article or Abstract object into a typed Row.
+ * Use this for detail pages where you have a single item, not an array.
+ */
+export function toRow(item: any, isArticle: boolean, isAbstract: boolean): Row | null {
+  if (isArticle) {
+    return {
+      abstract__pid: item.abstract?.pid ?? item.pid ?? '',
+      abstract__title: item.abstract?.title ?? item.abstract?.data?.title ?? '',
+      author:
+        `${item.abstract?.contact_firstname ?? ''} ${(item.abstract?.contact_lastname ?? '').toUpperCase()}`.trim(),
+      publication_date: item.publication_date ?? null,
+      status: item.status ?? '',
+    } as ArticleRow
+  }
+
+  if (isAbstract) {
+    return {
+      pid: item.pid ?? '',
+      title: item.title ?? '',
+      author:
+        `${item.contact_firstname ?? ''} ${(item.contact_lastname ?? '').toUpperCase()}`.trim(),
+      callpaper_title: item.callpaper_title ?? null,
+      submitted_date: item.submitted_date ?? '',
+      contact_affiliation: item.contact_affiliation ?? '',
+      contact_email: item.contact_email ?? '',
+      status: item.status ?? '',
+    } as AbstractRow
+  }
+
+  return null
 }

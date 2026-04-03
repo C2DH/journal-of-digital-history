@@ -35,7 +35,7 @@ const FieldRow = ({ label, value }: { label: string; value: React.ReactNode }) =
 
 const SocialSchedule = ({ rowData, action, onClose }: SocialScheduleProps) => {
   const { t } = useTranslation()
-  const pid = rowData?.id || 'default-id'
+  const pid = rowData?.row.abstract__pid || 'default-id'
 
   const [tweets, setTweets] = useState<string[]>([])
   const [cover, setCover] = useState<string>('')

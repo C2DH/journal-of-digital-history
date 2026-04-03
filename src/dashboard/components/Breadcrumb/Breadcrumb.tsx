@@ -14,7 +14,7 @@ const Breadcrumb = () => {
           const to = '/' + pathnames.slice(0, idx + 1).join('/')
           const isLast = idx === pathnames.length - 1
           return (
-            <span key={to}>
+            <span className="breadcrumb-link" key={to}>
               {'/'}
               {isLast ? value : <Link to={`${to}${search}`}>{value}</Link>}
             </span>

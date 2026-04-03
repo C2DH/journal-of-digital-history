@@ -13,7 +13,7 @@ export function useFetchAbstractsByCallForPaper(callforpapers: any[]) {
     callforpapers.forEach((callforpaper) => {
       if (!abstractsByCallForPaper[callforpaper.id]) {
         api
-          .get(`/api/abstracts/?callpaper=${callforpaper.id}&status=!PUBLISHED`)
+          .get(`/api/abstracts/?callpaper=${callforpaper.id}&status=!PUBLISHED&offset=0&limit=50`)
           .then((res) => {
             const data = res.data
             setAbstractsByCallForPaper((prev) => ({
