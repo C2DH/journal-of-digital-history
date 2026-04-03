@@ -152,11 +152,11 @@ export const isSimpleImageDisplay = (source) => {
     // indented lines are part of the current statement – skip
   }
 
-  if (statements.length !== 3) return false;
+  if (statements.length <= 3) {
+    const importOk = /^from\s+IPython\.display\s+import\s+Image\b/.test(statements[0]);
+    const displayOk = /^display\s*\(\s*Image\s*\(/.test(statements[statements.length - 1]);
+    return importOk && displayOk;
+  }
 
-  const importOk = /^from\s+IPython\.display\s+import\s+Image\b/.test(statements[0]);
-  const metadataOk = /^metadata\s*=/.test(statements[1]);
-  const displayOk = /^display\s*\(\s*Image\s*\(/.test(statements[2]);
-
-  return importOk && metadataOk && displayOk;
+  return false;
 }
