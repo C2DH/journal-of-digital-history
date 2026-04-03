@@ -69,8 +69,8 @@ const ArticleCellFigure = ({
 
   return (
     <figure className={`ArticleCellFigure ${active ? 'active' : ''} ${figure.getPrefix()}`} data-tags={tags.join(' ')}>
-      {/* Other outputs */}
-      {!isDataTable && otherOutputs.length > 0 && (
+      {/* Other outputs and html outputs for videos */}
+      {!isDataTable && (figure.isVideo ? htmlOutputs.length > 0 : otherOutputs.length > 0) && (
         <>
           <div className="anchor" id={figure.ref} />
           <ArticleCellOutputs
@@ -79,23 +79,26 @@ const ArticleCellFigure = ({
             hideLabel
             isJavascriptTrusted={isJavascriptTrusted}
             cellIdx={figure.idx}
-            outputs={otherOutputs}
+            outputs={figure.isVideo ? htmlOutputs : otherOutputs}
             height={figureHeight && pictures.length === 0 ? parseInt(figureHeight) : 'auto'}
           />
         </>
       )}
 
       {/* Pictures */}
-      {pictures.map(({ base64 }, i) => (
-        <div
-          key={i}
-          className={`picture ${!shouldUseFixedHeight && aspectRatio ? 'with-aspect-ratio' : ''}`}
-          style={getPictureStyle(aspectRatio, figureHeight, shouldUseFixedHeight)}
-          ref={pictureRef}
-        >
-          <img src={base64} alt="display_data output" />
-        </div>
-      ))}
+      {/* For video, we only display the picture if there is no html output (e.g. video tag) to avoid displaying twice the video */}
+      {(!figure.isVideo || htmlOutputs.length === 0) &&
+        pictures.map(({ base64 }, i) => (
+          <div
+            key={i}
+            className={`picture ${!shouldUseFixedHeight && aspectRatio ? 'with-aspect-ratio' : ''}`}
+            style={getPictureStyle(aspectRatio, figureHeight, shouldUseFixedHeight)}
+            ref={pictureRef}
+          >
+            <img src={base64} alt="display_data output" />
+          </div>
+        )
+      )}
 
       {/* Data table */}
       {isDataTable ? (
