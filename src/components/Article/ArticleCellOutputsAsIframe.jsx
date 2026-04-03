@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+
 import { useStore, useArticleStore } from '../../store'
 import CookiesPlaceholder from '../Cookies/CookiesPlaceholder';
 
@@ -127,7 +128,7 @@ const ArticleCellOutputsAsIframe = ({
     <iframe
       ref={ref}
       onLoad={onLoad}
-      sandbox="allow-scripts allow-modal allow-same-origin"
+      sandbox="allow-scripts allow-modals allow-same-origin"
       loading="eager"
       srcDoc={iframeSrcDoc}
       height={`${iframeHeight || DEFAULT_HEIGHT}px`}
