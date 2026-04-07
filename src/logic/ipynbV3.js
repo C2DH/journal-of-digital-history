@@ -154,8 +154,8 @@ export const isSimpleImageDisplay = (source) => {
 
   if (statements.length < 1) return false;
 
-  // Last statement must always be display(Image(...))
-  const displayOk = /^display\s*\(\s*Image\s*\(/.test(statements[statements.length - 1]);
+  // Last statement must always start with display(
+  const displayOk = /^display\s*\(/.test(statements[statements.length - 1]);
   if (!displayOk) return false;
 
   // All preceding statements must be either the import or the metadata assignment
