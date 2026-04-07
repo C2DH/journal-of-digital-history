@@ -101,6 +101,18 @@ export const getFigureHeight = (tags, defaultHeight = 0) =>
 
 
 /**
+ * Check if any of the tags specify a height or aspect ratio for the figure output
+ * 
+ * @param {string[]} tags 
+ *    The list of tags from which to get the height       
+ * 
+ * @returns 
+ *    true if any of the tags specify a height or aspect ratio, false otherwise
+ */
+export const isTaggedFigure = (tags) => tags.some(tag => /^h-(\d+)px$/.test(tag) || /^aspect-ratio-(\d+)-(\d+)$/.test(tag));
+
+
+/**
  * Get the page size for data table
  * 
  * @param {string[]} tags 
@@ -114,3 +126,41 @@ export const getDataTablePageSize = tags =>
     const m = d.match(/^page-size-(\d+)$/);
     return m ? m[1] : false;
   }) || -1
+
+
+/**
+ * Returns true when the source code is a simple image display pattern:
+ *   1. from IPython.display import Image
+ *   2. metadata= { ... }
+ *   3. display(Image(...), metadata=metadata)
+ * with no other top-level statements.
+ */
+export const isSimpleImageDisplay = (source) => {
+  if (!source) return false;
+
+  const lines = Array.isArray(source) ? source : source.split('\n');
+  const statements = [];
+
+  for (const line of lines) {
+    const trimmed = line.trimEnd();
+    if (trimmed === '' || trimmed.startsWith('#')) continue;
+    // Closing delimiters at column 0 are continuations of the previous statement
+    if (/^[}\])]/.test(trimmed)) continue;
+    if (/^\S/.test(line)) {
+      statements.push(trimmed);
+    }
+    // indented lines are part of the current statement – skip
+  }
+
+  if (statements.length < 1) return false;
+
+  // Last statement must always start with display(
+  const displayOk = /^display\s*\(/.test(statements[statements.length - 1]);
+  if (!displayOk) return false;
+
+  // All preceding statements must be either the import or the metadata assignment
+  const preamble = statements.slice(0, -1);
+  return preamble.every(
+    (s) => /^from\s+IPython\.display\s+import\s+(Image|display|Markdown)\b/.test(s) || /^metadata\s*=/.test(s)
+  );
+}

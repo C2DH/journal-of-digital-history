@@ -1,4 +1,5 @@
-import React, { useEffect, useState, Suspense } from 'react';
+import { ExpandLines, CompressLines } from 'iconoir-react';
+import { useEffect, useState, Suspense } from 'react';
 import { Button } from 'react-bootstrap';
 import { Eye, EyeOff } from 'react-feather';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +8,6 @@ import ArticleCellEditor from './ArticleCellEditor';
 import { useExecutionScope } from './ExecutionScope';
 
 import '../../styles/components/ArticleV3/ArticleCellSourceCodeWrapper.scss';
-import { ExpandLines, CompressLines } from 'iconoir-react';
 
 
 const ArticleCellSourceCodeWrapper = ({
@@ -31,7 +31,7 @@ const ArticleCellSourceCodeWrapper = ({
   }, [executing, pending]);
 
   return (
-    <div className={`ArticleCellSourceCodeWrapper ${isCollapsed && lineCount > 10 ? 'collapsed' : ''} ${lineCount > 10 ? 'mb-5' : ''} ${toggleVisibility ? 'toggle-visibility' : ''}`}>
+    <div className={`ArticleCellSourceCodeWrapper ${isCollapsed && lineCount > 10 ? 'collapsed' : ''} ${!toggleVisibility && lineCount > 10 ? 'mb-5' : ''} ${toggleVisibility ? 'toggle-visibility' : ''}`}>
       {toggleVisibility &&
         <div>
           <Button
@@ -63,7 +63,7 @@ const ArticleCellSourceCodeWrapper = ({
         </Suspense>
       }
 
-      {lineCount > 10 && (
+      {!toggleVisibility && lineCount > 10 && (
         <div className="expandButton">
           <button
             className = "btn btn-sm btn-outline-white-secondary btn-pill d-flex align-items-center"

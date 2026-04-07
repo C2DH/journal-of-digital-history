@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react'
+import { useParams } from 'react-router-dom'
 import { NumberParam, useQueryParams, withDefault } from 'use-query-params'
 
-import { useParams } from 'react-router-dom'
 import Article from '../components/Article'
 import ArticleHeader from '../components/Article/ArticleHeader'
 import ArticleV2 from '../components/ArticleV2'
@@ -145,6 +145,7 @@ const NotebookViewer = ({
           doi={doi}
           bibjson={bibjson}
           pid={pid}
+          ignoreHelmet={!plainTitle}
           plainTitle={plainTitle}
           excerpt={excerpt}
           plainKeywords={keywords}

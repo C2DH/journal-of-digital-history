@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { useRenderMimeRegistry, useThebeConfig, useThebeLoader } from 'thebe-react'
+
 import { useIpynbNotebookParagraphs } from './ipynb'
 import { useWindowSize } from './windowSize'
 import { LayerHidden } from '../constants/globalConstants'
@@ -14,7 +15,7 @@ function useParagraphs(url, tree) {
   const paragraphsGroups = React.useMemo(() => {
     const buffers = []
     let previousLayer = null
-    let buffer = new Array()
+    let buffer = []
     paragraphs.forEach((cell, i) => {
       // skip hidden paragraphs
       // if (cell.layer === LayerHidden) {
@@ -85,6 +86,7 @@ export function useNotebook(url, ipynb) {
     paragraphsGroups,
     headingsPositions: articleTree.headingsPositions,
     executables,
+    ready: core && config && rendermime,
     bibliography: articleTree.bibliography,
     sections: articleTree.sections,
   }
