@@ -161,6 +161,6 @@ export const isSimpleImageDisplay = (source) => {
   // All preceding statements must be either the import or the metadata assignment
   const preamble = statements.slice(0, -1);
   return preamble.every(
-    (s) => /^from\s+IPython\.display\s+import\s+(Image|display|Markdown)\b/.test(s) || /^metadata\s*=/.test(s)
+    (s) => /^from\s+IPython\.display\s+import\s+(Image|display|Markdown|VimeoVideo)\b/.test(s) || /^metadata\s*=/.test(s)
   );
 }
