@@ -152,7 +152,7 @@ export const isSimpleImageDisplay = (source) => {
     // indented lines are part of the current statement – skip
   }
 
-  if (statements.length < 1 || statements.length > 3) return false;
+  if (statements.length < 1) return false;
 
   // Last statement must always be display(Image(...))
   const displayOk = /^display\s*\(\s*Image\s*\(/.test(statements[statements.length - 1]);
@@ -161,6 +161,6 @@ export const isSimpleImageDisplay = (source) => {
   // All preceding statements must be either the import or the metadata assignment
   const preamble = statements.slice(0, -1);
   return preamble.every(
-    (s) => /^from\s+IPython\.display\s+import\s+Image\b/.test(s) || /^metadata\s*=/.test(s)
+    (s) => /^from\s+IPython\.display\s+import\s+(Image|display|Markdown)\b/.test(s) || /^metadata\s*=/.test(s)
   );
 }
