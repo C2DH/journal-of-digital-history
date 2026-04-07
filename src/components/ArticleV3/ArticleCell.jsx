@@ -57,7 +57,7 @@ const ArticleCell = ({
   // const isolationMode = outputs.some(
   //   (d) => typeof d.metadata === 'object' && d.metadata['text/html']?.isolated,
   // )
-  const renderUsingThebe = type === CellTypeCode && !figure?.isSound &&
+  const renderUsingThebe = type === CellTypeCode && !figure?.isSound && !figure?.isVideo &&
     useMemo(() => !isSimpleImageDisplay(source), [source]);
   const isCover = isFigure && figure?.isCover
 
