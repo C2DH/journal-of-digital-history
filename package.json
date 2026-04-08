@@ -1,6 +1,6 @@
 {
   "name": "jdh",
-  "version": "6.2.3",
+  "version": "6.2.4",
   "private": true,
   "type": "module",
   "packageManager": "yarn@4.12.0",
