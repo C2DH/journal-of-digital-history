@@ -1,6 +1,5 @@
 import './Table.css'
 
-import CircularProgress from '@mui/material/CircularProgress'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -8,14 +7,16 @@ import { useNavigate } from 'react-router-dom'
 import { TableProps } from './interface'
 
 import { useIsMobile } from '../../hooks/useIsMobile'
+import { useActionStore } from '../../store'
 import { articleSteps } from '../../utils/constants/article'
-import { getRowActions } from '../../utils/helpers/actions'
 import {
   isAbstract,
   isAffiliationHeader,
   isArticle,
+  isAuthorHeader,
   isCallForPaper,
   isIssues,
+  isPidHeader,
   isRepositoryHeader,
   isStatusHeader,
   isStepCell,
@@ -24,9 +25,11 @@ import {
 import {
   authorColumn,
   getCleanData,
+  getValueInSpecificOrder,
   getVisibleHeaders,
   renderCell,
 } from '../../utils/helpers/table'
+import { AbstractRow, ArticleRow } from '../../utils/types'
 import ActionButton from '../Buttons/ActionButton/Short/ActionButton'
 import DatasetButton from '../Buttons/DatasetButton/DatasetButton'
 import SortButton from '../Buttons/SortButton/SortButton'
@@ -37,7 +40,7 @@ const ArticleHeader = ({ isMobile }: { isMobile: boolean }) => {
       {!isMobile &&
         articleSteps.map((step) => (
           <th key={step.key} className="status-header" title={step.label}>
-            <span className="material-symbols-outlined">{step.icon}</span>
+            {step.icon}
           </th>
         ))}
       {isMobile && <th className="article-header-mobile">Status</th>}
@@ -53,19 +56,44 @@ const Table = ({
   sortOrder,
   setSort,
   isAccordeon = false,
-  setRowModal,
-  onNotify,
 }: TableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const search = location.search
-
   const [isMobile, setIsMobile] = useState(false)
-  const [loadingRow, setLoadingRow] = useState<string>('')
 
+  const { getRowActions } = useActionStore()
+
+  const isAbstractItem = isAbstract(item)
+  const isArticleItem = isArticle(item)
+  const isArticleOrAbstracts = isAbstractItem || isArticleItem
+
+  // Create author column
   const { headers: mergedHeaders, data: mergedData } = authorColumn(headers, data)
   const visibleHeaders = getVisibleHeaders({ data: mergedData, headers: mergedHeaders })
-  const cleanData = getCleanData({ data: mergedData, visibleHeaders })
+  const cleanData = getCleanData({
+    data: mergedData,
+    visibleHeaders,
+    isArticle: isArticleItem,
+    isAbstract: isAbstractItem,
+  })
+
+  //Remove sorting on some headers
+  const isUnsortableHeader = (header: any, item: any) => {
+    const isAccordeonHeader =
+      isAccordeon && (isStatusHeader(header) || isTitleHeader(header) || isPidHeader(header))
+    const isIssuesHeader = isIssues(item) && !isRepositoryHeader(header) && !isStatusHeader(header)
+    const isAuthor = isArticleOrAbstracts && isAuthorHeader(header)
+
+    return (
+      isRepositoryHeader(header) ||
+      isCallForPaper(item) ||
+      isAccordeonHeader ||
+      isIssuesHeader ||
+      isAuthor ||
+      isPidHeader(header)
+    )
+  }
 
   const handleRowClick = (pid: string) => {
     navigate(`/${item}/${pid}${search}`)
@@ -79,25 +107,14 @@ const Table = ({
     })
   }
 
-  const isAbstractItem = isAbstract(item)
-  const isArticleItem = isArticle(item)
-  const isArticleOrAbstracts = isAbstractItem || isArticleItem
-  const isUnsortableHeader = (header: any, item: any) => {
-    return (
-      isRepositoryHeader(header) ||
-      isCallForPaper(item) ||
-      (isIssues(item) && !isRepositoryHeader(header) && !isStatusHeader(header))
-    )
-  }
-
   useIsMobile(setIsMobile)
 
-  // No table for datasets
+  // No table for datasets but a list
   if (item === 'datasets') {
     return (
       <>
-        {cleanData.map((row, index) => (
-          <DatasetButton key={index} url={String(row[0])} description={String(row[1])} />
+        {data.map((row, index) => (
+          <DatasetButton key={index} url={String(row.url)} description={String(row.description)} />
         ))}
       </>
     )
@@ -131,11 +148,13 @@ const Table = ({
         </thead>
         <tbody>
           {cleanData.map((row, rIdx) => {
-            const pid = row[0]
+            const actions = getRowActions(row, isArticleItem)
+
+            const cells = getValueInSpecificOrder(visibleHeaders, row)
 
             return (
               <tr key={rIdx}>
-                {row.map((cell: string | number, cIdx: number) => {
+                {cells.map((cell: string | number, cIdx: number) => {
                   const headerName = visibleHeaders[cIdx]
                   const isTitle = isTitleHeader(headerName)
                   const isAffiliation = isAffiliationHeader(headerName)
@@ -150,7 +169,10 @@ const Table = ({
                       style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
                       onClick={
                         isTitle && isArticleOrAbstracts
-                          ? () => handleRowClick(String(row[0]))
+                          ? () =>
+                              handleRowClick(
+                                (row as AbstractRow).pid ?? (row as ArticleRow).abstract__pid,
+                              )
                           : undefined
                       }
                     >
@@ -165,22 +187,7 @@ const Table = ({
                 })}
                 {isArticleOrAbstracts && !isAccordeon && (
                   <td className="actions-cell">
-                    {setRowModal && loadingRow !== pid && (
-                      <ActionButton
-                        actions={getRowActions(
-                          row,
-                          isArticleItem,
-                          setRowModal,
-                          onNotify,
-                          setLoadingRow,
-                        )}
-                        active={
-                          getRowActions(row, isArticleItem, setRowModal, onNotify, setLoadingRow)
-                            .length > 0
-                        }
-                      />
-                    )}
-                    {loadingRow === pid && <CircularProgress color="inherit" size={28} />}
+                    {<ActionButton actions={actions} active={actions.length > 0} />}
                   </td>
                 )}
               </tr>

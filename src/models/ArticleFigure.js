@@ -1,4 +1,4 @@
-import { CoverRefPrefix, FigureRefPrefix, SoundRefPrefix } from '../constants/globalConstants'
+import { CoverRefPrefix, FigureRefPrefix, SoundRefPrefix, VideoRefPrefix } from '../constants/globalConstants'
 
 export default class ArticleFigure {
   constructor({
@@ -18,6 +18,7 @@ export default class ArticleFigure {
     this.isTable = isTable
     this.isCover = refPrefix === CoverRefPrefix
     this.isSound = refPrefix === SoundRefPrefix
+    this.isVideo = refPrefix === VideoRefPrefix
     this.tNLabel = this.isCover
       ? 'cover'
       : `numbers.${refPrefix.substring(0, refPrefix.length - 1)}`

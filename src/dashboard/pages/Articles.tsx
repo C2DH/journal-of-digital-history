@@ -14,7 +14,7 @@ const Articles = () => {
   const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const { sortBy, sortOrder, ordering, setFilters } = useSorting()
-  const query = useSearchStore((state) => state.query)
+  const { query, resetSearch } = useSearchStore()
   const {
     count,
     data: articles,
@@ -24,15 +24,20 @@ const Articles = () => {
     fetchItems,
     setParams,
     loadMore,
+    reset,
   } = useItemsStore()
   const { updateFromStores, changeFilters, changeQueryParams, syncFiltersWithURL } =
     useFilterBarStore()
   const filters = useFilterBarStore((state) => state.filters)
 
   useEffect(() => {
+    resetSearch()
+  }, [])
+
+  useEffect(() => {
+    reset()
     updateFromStores(false)
     syncFiltersWithURL(searchParams)
-
     const queryParams = changeQueryParams(false)
     setParams({
       endpoint: 'articles',

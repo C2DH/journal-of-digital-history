@@ -5,10 +5,10 @@ import Modal from './Modal'
 
 // Mock ContactForm
 vi.mock('../ContactForm/ContactForm', () => ({
-  default: ({ rowData = {}, action }: { rowData?: { contactEmail?: string }; action: string }) => {
+  default: ({ row }: { row: { action: string; open: boolean; row: { contactEmail: string } } }) => {
     return (
       <div data-testid="contact-form">
-        {rowData.contactEmail ?? ''} - {action}
+        {row.row.contactEmail ?? ''} - {row.action}
       </div>
     )
   },
@@ -39,11 +39,11 @@ describe('Modal', () => {
         open={true}
         onClose={onClose}
         action="Abandoned"
-        data={{ contactEmail: 'test@example.com' }}
+        data={{ action: 'Abandoned', open: true, row: { contactEmail: 'test@example.com' } }}
       />,
     )
 
-    expect(screen.getByTestId('contact-form')).toHaveTextContent('test@example.com - abandoned')
+    expect(screen.getByTestId('contact-form')).toHaveTextContent('test@example.com - Abandoned')
     expect(screen.getByRole('button', { name: /×/ })).toBeInTheDocument()
     expect(screen.getByText('actions.Abandoned')).toBeInTheDocument()
   })

@@ -46,6 +46,11 @@
   }
 }
 
+/* Remove space for filter bar above accordeon table */
+.table.accordeon th {
+  top: 0;
+}
+
 /* ABSTRACTS */
 table.abstracts {
   th.checkbox-header {

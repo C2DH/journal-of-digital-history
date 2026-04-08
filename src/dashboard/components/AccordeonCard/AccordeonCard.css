@@ -31,16 +31,6 @@
   z-index: auto;
 }
 
-.table.accordeon th {
-  padding-top: var(--gap-size-4);
-  position: static;
-  background: var(--color-white);
-  z-index: 5;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .table.accordeon {
   th.accordeon.pid,
   td.accordeon.pid {

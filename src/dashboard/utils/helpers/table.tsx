@@ -9,8 +9,8 @@ import {
   isLinkCell,
   isStatus,
 } from '../helpers/checkItem'
-import { Abstract } from '../types'
-import { convertDate } from './convertDate'
+import { Abstract, AbstractRow, ArticleRow, Row } from '../types'
+import { convertDate } from './date'
 
 type GetVisibleHeadersParams = {
   data: (string | number)[][]
@@ -45,26 +45,60 @@ function getNestedValue(obj: any, path: string): any {
     .reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), obj)
 }
 
+/**
+ * Retrieves the value at a given nested path within an object.
+ */
+function getValueInSpecificOrder(visibleHeaders: string[], row: any): (string | number)[] {
+  return visibleHeaders.map((header) => (row as any)[header] ?? row[header as keyof typeof row])
+}
+
 type GetCleanDataParams = {
-  data: (string | number)[][]
+  data: any[]
   visibleHeaders: string[]
+  isArticle?: boolean
+  isAbstract?: boolean
 }
 /**
  * Cleans the data by mapping only the data for selected headers.
  * @param data - The table data as an array of row objects.
  * @param visibleHeaders - The headers selected.
- * @returns A 2D array of cleaned values.
+ * @returns A 2D array of cleaned values typed as Row (ArticleRow or AbstractRow)
  */
-function getCleanData({ data, visibleHeaders }: GetCleanDataParams): (string | number)[][] {
-  return data.map((row) =>
-    visibleHeaders.map((header) => {
+function getCleanData({ data, visibleHeaders, isArticle, isAbstract }: GetCleanDataParams): Row[] {
+  return data.map((row) => {
+    const obj: Record<string, any> = {}
+
+    visibleHeaders.forEach((header) => {
       const value = getNestedValue(row, header)
-      if (typeof value === 'object' && value !== null) {
-        return JSON.stringify(value)
-      }
-      return value
-    }),
-  )
+      obj[header] = typeof value === 'object' && value !== null ? JSON.stringify(value) : value
+    })
+
+    if (isArticle) {
+      return {
+        abstract__pid: obj['abstract__pid'] ?? obj['pid'] ?? '',
+        abstract__title: obj['abstract__data__title'] ?? obj['abstract__title'] ?? '',
+        author: obj['author'] ?? '',
+        publication_date: obj['publication_date'] ?? null,
+        status: obj['status'] ?? '',
+      } as ArticleRow
+    }
+
+    if (isAbstract) {
+      return {
+        pid: obj['pid'] ?? '',
+        title: obj['title'] ?? '',
+        author: obj['author'] ?? '',
+        callpaper_title: obj['callpaper_title'] ?? null,
+        submitted_date: obj['submitted_date'] ?? '',
+        contact_affiliation: obj['contact_affiliation'] ?? '',
+        contact_email: getNestedValue(row, 'contact_email') ?? '',
+        status: obj['status'] ?? '',
+      } as AbstractRow
+    }
+
+    // Fallback for other item types (issues, callforpapers, etc.)
+    return obj as any
+  })
 }
 
 type renderCellProps = {
@@ -160,4 +194,4 @@ function authorColumn(headers: string[], data: Abstract[]) {
   return { headers: newHeaders, data: newData }
 }
 
-export { authorColumn, getCleanData, getVisibleHeaders, renderCell }
+export { authorColumn, getCleanData, getValueInSpecificOrder, getVisibleHeaders, renderCell }

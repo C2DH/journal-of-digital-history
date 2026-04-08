@@ -24,7 +24,8 @@ const ArticleHelmet = ({
 
   return (
     <Helmet>
-      <meta property="og:site_name" content="Journal of Digital history" />
+      <title>{plainTitle} — Journal of Digital History</title>
+      <meta property="og:site_name" content="Journal of Digital History" />
       <meta property="og:title" content={plainTitle} />
       <meta property="og:description" content={excerpt} />
       <meta property="og:type" content="article" />
@@ -65,7 +66,7 @@ const ArticleHelmet = ({
         <meta key={i} property="dc.subject" content={k} />
       ))}
 
-      <meta name="citation_journal_title" content="Journal of Digital history" />
+      <meta name="citation_journal_title" content="Journal of Digital History" />
       <meta name="citation_journal_abbrev" content="JDH" />
       <meta name="citation_publisher" content="DeGruyter" />
       <meta name="citation_title" content={plainTitle} />

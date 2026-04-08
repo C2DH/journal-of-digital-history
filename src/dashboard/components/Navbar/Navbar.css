@@ -3,16 +3,9 @@
   width: var(--navbar-width);
   min-height: 600px;
   position: fixed;
-  top: 0;
+  top: 70px;
   left: 0;
-  font-size: 16 px;
-  font-family: 'Fira Sans', monospace;
-}
-
-.navbar-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem; /* Optional: space between logo and text */
+  font-size: 16px;
 }
 
 /* Header */
@@ -27,7 +20,6 @@
   margin: 0;
   font-weight: bold;
   font-size: 1.1em;
-  color: var(--color-dark);
 }
 
 /* List styles */
@@ -53,7 +45,13 @@
 
 .navbar li.active {
   background-color: var(--color-accent);
-  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 4px 24px 0 rgba(31, 38, 135, 0.12),
+    0 1.5px 6px 0 rgba(31, 38, 135, 0.1),
+    0 0.5px 1.5px 0 rgba(255, 255, 255, 0.25) inset;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
   width: var(--navbar-header-width);
@@ -66,7 +64,8 @@
 
 /* Link styles */
 .navbar a {
-  color: var(--color-dark);
+  color: var(--color-deep-blue);
+  font-weight: 400;
   text-decoration: none;
   transition: color 0.2s;
 }
@@ -75,7 +74,7 @@
 .navbar-icons {
   margin-right: 12px;
   font-size: 24px;
-  color: var(--color-dark);
+  /* color: var(--color-dark); */
   font-variation-settings: 'FILL' 0;
   transition:
     color 0.2s,
@@ -94,6 +93,34 @@
 .navbar li.active a {
   color: var(--color-white);
   font-variation-settings: 'FILL' 1;
+}
+
+.navbar-icons {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-outlined,
+.icon-filled {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.icon-filled {
+  position: absolute;
+  opacity: 0;
+}
+
+/* Show filled on hover */
+.navbar-link:hover .icon-outlined,
+li.active .icon-outlined {
+  opacity: 0;
+}
+
+.navbar-link:hover .icon-filled,
+li.active .icon-filled {
+  opacity: 1;
 }
 
 .burger-menu {
@@ -161,15 +188,6 @@
     z-index: 1999;
   }
 
-  .navbar-header p {
-    display: none;
-  }
-
-  .navbar-logo {
-    display: flex;
-    align-items: center;
-  }
-
   .burger-menu {
     display: block;
     position: fixed;
@@ -196,7 +214,6 @@
     width: 100vw;
     height: 100vh;
     background-color: var(--color-white);
-    padding-top: calc(var(--filter-bar-height) + var(--space-size-1)); /* Space for header */
     padding-left: var(--space-size-1);
     padding-right: var(--space-size-1);
     margin: 0;

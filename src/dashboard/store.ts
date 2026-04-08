@@ -1,22 +1,30 @@
 import create from 'zustand'
 
+import { patchArticleStatus, patchStatus, postArticletoSubmissionOJS } from './utils/api/api'
 import api from './utils/api/headers'
 import { abstractStatus } from './utils/constants/abstract'
 import { articleStatus } from './utils/constants/article'
+import { notify } from './utils/helpers/notification'
 import {
+  AbstractRow,
+  ActionStore,
+  ArticleRow,
   CallForPapersState,
+  DefaultAction,
   Filter,
   FilterBarState,
   FormState,
   IssuesState,
   ItemsState,
   ItemState,
+  ModalConfig,
   NotificationState,
+  Row,
+  RowAction,
   SearchState,
   SetSearchParams,
 } from './utils/types'
 
-// SEARCH STORE
 /**
  * useSearchStore
  * Zustand store for managing search state and actions.
@@ -25,9 +33,10 @@ import {
  * - loading: search loading state
  * - error: search error state
  * - setQuery, setResults, setLoading, setError: actions to update state
+ * - resetSearch: action to reset search state to initial values
  */
 
-export const useSearchStore = create<SearchState>((set) => ({
+const useSearchStore = create<SearchState>((set) => ({
   query: '',
   results: [],
   loading: false,
@@ -36,6 +45,7 @@ export const useSearchStore = create<SearchState>((set) => ({
   setResults: (results: any[]) => set({ results }),
   setLoading: (loading: boolean) => set({ loading }),
   setError: (error: any) => set({ error }),
+  resetSearch: () => set({ query: '', results: [], loading: false, error: null }),
 }))
 
 // ITEMS FETCHING STORE
@@ -54,7 +64,7 @@ export const useSearchStore = create<SearchState>((set) => ({
  * - reset: resets store state
  * - loadMore: fetches next page
  */
-export const useItemsStore = create<ItemsState<any>>((set, get) => ({
+const useItemsStore = create<ItemsState<any>>((set, get) => ({
   count: 0,
   data: [],
   error: null,
@@ -73,9 +83,11 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
 
     set({ loading: true, error: null })
 
-    let finalOrdering = ordering
+    let cfpOrdering: string = ''
     if (ordering === 'callpaper_title') {
-      finalOrdering = 'callpaper__title'
+      cfpOrdering = 'callpaper__title'
+    } else if (ordering === '-callpaper_title') {
+      cfpOrdering = '-callpaper__title'
     }
 
     try {
@@ -90,10 +102,12 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
         '?' +
         [
           search ? `search=${search}` : '',
-          ordering ? `ordering=${finalOrdering}` : null,
-          `limit=${limit}`,
           `offset=${reset ? 0 : offset}`,
           dynamicParams,
+          ordering === 'callpaper_title' || ordering === '-callpaper_title'
+            ? `ordering=${cfpOrdering}`
+            : `ordering=${ordering}`,
+          `limit=${limit}`,
         ]
           .filter(Boolean)
           .join('&')
@@ -107,7 +121,6 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
         hasMore: result.results.length === limit,
         loading: false,
         error: null,
-        ordering: '',
       })
     } catch (err: any) {
       set({
@@ -134,6 +147,7 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
       loading: true,
       offset: 0,
       hasMore: true,
+      ordering: '',
     }),
   loadMore: async () => {
     const { fetchItems, loading, hasMore } = get()
@@ -152,11 +166,10 @@ export const useItemsStore = create<ItemsState<any>>((set, get) => ({
  * - fetchItem: fetches an item by id and endpoint
  * - reset: resets store state
  */
-export const useItemStore = create<ItemState<any>>((set) => ({
+const useItemStore = create<ItemState<any>>((set) => ({
   data: null,
   loading: false,
   error: null,
-
   fetchItem: async (id: string, endpoint: string) => {
     if (!id || !endpoint) throw new Error('ID and endpoint are required to fetch an item')
     set({ loading: true, error: null })
@@ -189,7 +202,7 @@ export const useItemStore = create<ItemState<any>>((set) => ({
  * - reset: resets store state
  */
 
-export const useCallForPapersStore = create<CallForPapersState>((set) => ({
+const useCallForPapersStore = create<CallForPapersState>((set) => ({
   data: [],
   error: null,
   fetchCallForPapers: async (revert: boolean) => {
@@ -218,7 +231,7 @@ export const useCallForPapersStore = create<CallForPapersState>((set) => ({
  * - fetchIssues: fetches all issues
  * - reset: resets store state
  */
-export const useIssuesStore = create<IssuesState>((set) => ({
+const useIssuesStore = create<IssuesState>((set) => ({
   data: [],
   error: null,
   fetchIssues: async (revert: boolean) => {
@@ -249,7 +262,7 @@ export const useIssuesStore = create<IssuesState>((set) => ({
  * - resetFilters: reset all filters
  * - resetSpecificFilters : reset a specific filter
  */
-export const useFilterBarStore = create<FilterBarState>((set, get) => ({
+const useFilterBarStore = create<FilterBarState>((set, get) => ({
   filters: [],
   isFilterOpen: false,
   initFilters: () => {
@@ -412,7 +425,7 @@ export const useFilterBarStore = create<FilterBarState>((set, get) => ({
  * - openModal: action to open the modal
  * - closeModal: action to close the modal
  */
-export const useFormStore = create<FormState>((set) => ({
+const useFormStore = create<FormState>((set) => ({
   isModalOpen: false,
   formData: {},
   setFormData: (data: any) => set({ formData: data }),
@@ -429,12 +442,180 @@ export const useFormStore = create<FormState>((set) => ({
  * - setNotification: updates notification data and shows it
  * - clearNotification: clears notification data
  */
-export const useNotificationStore = create<NotificationState>((set) => ({
+const useNotificationStore = create<NotificationState>((set) => ({
   isVisible: false,
   notification: { type: 'info', message: '', submessage: '' },
   setNotification: (notification) => {
     set({ notification, isVisible: true })
-    setTimeout(() => set({ isVisible: false }), 5000)
+    setTimeout(() => set({ isVisible: false }), 7000)
   },
   clearNotification: () => set({ notification: { type: 'info', message: '', submessage: '' } }),
 }))
+
+//ACTION STORE
+/**
+ * useActionStore
+ * Zustand store for managing the actions and the modal.
+ * - modal: configuration for the action modal (open, action type, row data)
+ * - setModal: updates the modal configuration and opens or closes it
+ * - callAPI: calls the appropriate API based on the action type and updates notifications
+ * - getRowActions: defines actions available for each row in Table view according to the status
+ * - getDetailActions: defines actions available in the Detail view according to the status
+ */
+const useActionStore = create<ActionStore>((set, get) => ({
+  modal: {
+    open: false,
+    action: '',
+    row: null,
+  },
+  setModal: (config: ModalConfig) => set({ modal: config }),
+  closeModal: () =>
+    set({
+      modal: { open: false, action: '', row: null },
+    }),
+
+  callAPI: async ({ action, pid }) => {
+    switch (action) {
+      case 'Ojs':
+        notify('warning', 'notification.ojs.warning')
+        try {
+          const res = await postArticletoSubmissionOJS({ pid })
+          notify('success', 'notification.ojs.success', res.data.message, 7000)
+          try {
+            await patchArticleStatus({ status: 'PEER_REVIEW' }, pid)
+            notify('success', 'notification.status.success.article', '', 7000, pid)
+          } catch (error: any) {
+            notify('error', 'notification.status.error.article', error.message, 7000)
+          }
+        } catch (error: any) {
+          notify('error', 'notification.status.error.article', error.details, 7000)
+        }
+        break
+
+      case 'Submitted':
+      case 'Accepted':
+      case 'Declined':
+      case 'Abandoned':
+      case 'Suspended':
+        try {
+          const res = await patchStatus({ pids: [pid], status: action.toLowerCase() }, 'abstracts')
+          notify('success', 'notification.status.success.abstract', res.data.message, 0, pid)
+        } catch (error: any) {
+          notify('error', 'notification.status.error.abstract', error.message)
+        }
+        break
+
+      case 'Writing':
+      case 'Technical_review':
+      case 'Peer_review':
+      case 'Copy_editing':
+      case 'Design_review':
+      case 'Published':
+        try {
+          const res = await patchArticleStatus({ status: action.toUpperCase() }, pid)
+          notify('success', 'notification.status.success.article', res.status, 0, pid)
+        } catch (error: any) {
+          notify('error', 'notification.status.error.article', error.response.data.error)
+        }
+        break
+
+      default:
+        console.warn(`No API call defined for action: ${action}`)
+    }
+  },
+
+  getRowActions: (row: Row, isArticle): RowAction[] => {
+    const { setModal, callAPI } = get()
+    // ✅ Access by named property instead of index
+    const pid = (row as ArticleRow).abstract__pid ?? { pid: (row as AbstractRow).pid }
+
+    const status = row.status
+    const actions: RowAction[] = []
+
+    const defaultAction = (action: string, label?: string): DefaultAction => ({
+      label: label || action,
+      action,
+      onClick: () => callAPI({ action, pid }),
+    })
+
+    const modalAction = (action: string, label?: string): RowAction => ({
+      label: label || action,
+      onClick: () =>
+        setModal({
+          open: true,
+          action,
+          row,
+        }),
+    })
+
+    if (isArticle) {
+      switch (status) {
+        case 'TECHNICAL_REVIEW':
+          actions.push(defaultAction('Ojs', 'Send to OJS'))
+          break
+        case 'PEER_REVIEW':
+        case 'DESIGN_REVIEW':
+          actions.push(modalAction('Copyediting', 'Send docx to copyeditor'))
+          break
+        case 'PUBLISHED':
+          actions.push(modalAction('Bluesky'))
+          actions.push(modalAction('Facebook'))
+          break
+      }
+    } else {
+      switch (status) {
+        case 'SUBMITTED':
+          actions.push(modalAction('Accepted'))
+          actions.push(modalAction('Declined'))
+          actions.push(modalAction('Abandoned'))
+          break
+        case 'ACCEPTED':
+          actions.push(modalAction('Suspended'))
+          actions.push(modalAction('Abandoned'))
+          break
+      }
+    }
+
+    return actions
+  },
+
+  getDetailActions: (pid, isArticle, isAbstract): RowAction[] => {
+    const { callAPI } = get()
+    const actions: RowAction[] = []
+
+    const defaultAction = (action: string, label?: string): DefaultAction => ({
+      label: label || action,
+      action,
+      onClick: () => callAPI({ action, pid }),
+    })
+
+    if (isArticle) {
+      actions.push(defaultAction('Technical_review', 'Technical review'))
+      actions.push(defaultAction('Peer_review', 'Peer review'))
+      actions.push(defaultAction('Copy_editing', 'Copy editing'))
+      actions.push(defaultAction('Published'))
+    }
+
+    if (isAbstract) {
+      actions.push(defaultAction('Submitted'))
+      actions.push(defaultAction('Accepted'))
+      actions.push(defaultAction('Declined'))
+      actions.push(defaultAction('Abandoned'))
+      actions.push(defaultAction('Suspended'))
+    }
+
+    return actions
+  },
+}))
+
+export {
+  useActionStore,
+  useCallForPapersStore,
+  useFilterBarStore,
+  useFormStore,
+  useIssuesStore,
+  useItemsStore,
+  useItemStore,
+  useNotificationStore,
+  useSearchStore,
+}

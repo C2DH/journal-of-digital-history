@@ -9,6 +9,7 @@
 
 /* Fonts */
 body {
+  margin: 0;
   font-family: 'DM Sans', sans-serif;
   background: var(--color-background);
   color: var(--color-deep-blue);
@@ -81,7 +82,7 @@ body {
 
 /* Size */
 :root {
-  --navbar-width: 300px;
+  --navbar-width: 240px;
   --navbar-width-mobile: 100px;
   --navbar-width-mobile-active: 140px;
   --navbar-header-width: 220px;
@@ -94,4 +95,5 @@ body {
   --table-headers-top-position: 105px;
   --KPI-standard-width: 400px;
   --KPI-standard-height: 445px;
+  --logout-pill-width: 230px;
 }

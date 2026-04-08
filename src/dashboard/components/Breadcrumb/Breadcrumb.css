@@ -1,10 +1,10 @@
 .breadcrumb {
-  margin-left: var(--navbar-width);
   margin-top: var(--gap-size-3);
   margin-bottom: var(--gap-size-3);
   display: flex;
   align-items: center;
-  padding: 0% 2%;
+  padding: 0% 1%;
+  flex: 1 1 auto;
 }
 
 .breadcrumb {
@@ -20,10 +20,14 @@
   align-items: center;
 }
 
-@media (max-width: 1400px) {
-  .breadcrumb {
-    margin-left: var(--navbar-width-mobile);
-  }
+.breadcrumb a,
+.breadcrumb span {
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+@media (max-width: 1500px) {
 }
 /*Mobile view */
 @media screen and (max-width: 767px) {

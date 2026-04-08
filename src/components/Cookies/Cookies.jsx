@@ -67,7 +67,7 @@ const Cookies = () => {
         </div>
         <p className={styles.disclaimer}>
           <Trans i18nKey="cookies.banner.termsOfUseLink" values={{ termsOfUseRouteLabel: t(TermsOfUseRoute.label) }}>
-            For more information, please refer to our <LangLink to={TermsOfUseRoute.to}>{TermsOfUseRoute.label}</LangLink> (section "Data protection").
+            For more information, please refer to our <LangLink to={TermsOfUseRoute.to + '#data-protection'}>{TermsOfUseRoute.label}</LangLink> (section "Data protection").
           </Trans>
         </p>
       </Container>

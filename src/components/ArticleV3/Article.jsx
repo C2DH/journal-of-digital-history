@@ -1,31 +1,32 @@
 import React, { useEffect } from 'react'
 
-import { ArticleThebeProvider } from './ArticleThebeProvider'
 import ArticleCell from './ArticleCell'
-import ArticleLayers from './ArticleLayers'
-import { useNotebook } from '../../hooks/ipynbV3'
-import { useExecutionScope } from './ExecutionScope'
-import ArticleToC from './ArticleToC'
 import ArticleCellObserver from './ArticleCellObserver'
-
-import ArticleHeader from '../Article/ArticleHeader'
-import Footer from '../Footer'
-import ArticleBibliography from '../Article/ArticleBibliography'
+import ArticleLayers from './ArticleLayers'
+import ArticleNoteManager from './ArticleNoteManager'
+import ArticleScrollTo from './ArticleScrollTo'
+import { ArticleThebeProvider } from './ArticleThebeProvider'
+import ArticleToC from './ArticleToC'
+import { useExecutionScope } from './ExecutionScope'
 import {
   CellTypeCode,
   DisplayLayerSectionBibliography,
   LayerData,
 } from '../../constants/globalConstants'
+import { useNotebook } from '../../hooks/ipynbV3'
 import { WithWindowSize } from '../../hooks/windowSize'
+import { useArticleStore } from '../../store'
+import ArticleBibliography from '../Article/ArticleBibliography'
+import ArticleHeader from '../Article/ArticleHeader'
+import Footer from '../Footer'
 
 import '../../styles/components/ArticleV3/Article.scss'
 import './Article.css'
-import ArticleScrollTo from './ArticleScrollTo'
-import { useArticleStore } from '../../store'
-import ArticleNoteManager from './ArticleNoteManager'
+import ArticleHelmet from '../ArticleV2/ArticleHelmet'
 
 const Article = ({
   url = '',
+  imageUrl,
   publicationDate = new Date(),
   publicationStatus,
   issue,
@@ -37,6 +38,8 @@ const Article = ({
   isJavascriptTrusted = false,
   // used to remove publication info from ArticleHeader
   ignorePublicationStatus = false,
+  // used to put page specific helmet in the parent component
+  ignoreHelmet = false,
   // a translatable string that defines the article header if ignorePublicationStatus is true
   category,
   paragraphs = [],
@@ -44,6 +47,9 @@ const Article = ({
   bibliography,
   title,
   plainTitle,
+  plainContributor = '',
+  plainKeywords = [],
+  excerpt,
   abstract,
   keywords,
   contributor,
@@ -74,95 +80,109 @@ const Article = ({
   }
 
   return (
-    <div className="Article ArticleV3 page">
-      <ArticleLayers />
-      <ArticleScrollTo />
-      <ArticleNoteManager bibliography={bibliography} />
-      <ArticleToC
-        plainTitle={plainTitle}
-        paragraphs={paragraphs}
-        kernelName={kernelName}
-        hasBibliography={!!bibliography}
-        headingsPositions={headingsPositions}
-      />
+    <>
+      {!ignoreHelmet && (
+        <ArticleHelmet
+          url={url}
+          imageUrl={imageUrl}
+          plainTitle={plainTitle}
+          plainContributor={plainContributor}
+          plainKeywords={plainKeywords}
+          publicationDate={publicationDate}
+          issue={issue}
+          excerpt={excerpt}
+        />
+      )}
+      <div className="Article ArticleV3 page">
+        <ArticleLayers />
+        <ArticleScrollTo />
+        <ArticleNoteManager bibliography={bibliography} />
+        <ArticleToC
+          plainTitle={plainTitle}
+          paragraphs={paragraphs}
+          kernelName={kernelName}
+          hasBibliography={!!bibliography}
+          headingsPositions={headingsPositions}
+        />
 
-      <ArticleHeader
-        className="page mt-2 pb-0"
-        title={title}
-        abstract={abstract}
-        keywords={keywords}
-        collaborators={collaborators}
-        contributor={contributor}
-        publicationDate={publicationDate}
-        url={url}
-        repositoryUrl={repositoryUrl}
-        dataverseUrl={dataverseUrl}
-        binderUrl={binderUrl}
-        disclaimer={disclaimer}
-        publicationStatus={publicationStatus}
-        ignorePublicationStatus={ignorePublicationStatus}
-        category={category}
-        issue={issue}
-        doi={doi}
-        bibjson={bibjson}
-        isPreview={false}
-      />
+        <ArticleHeader
+          className="page mt-2 pb-0"
+          title={title}
+          abstract={abstract}
+          keywords={keywords}
+          collaborators={collaborators}
+          contributor={contributor}
+          publicationDate={publicationDate}
+          url={url}
+          repositoryUrl={repositoryUrl}
+          dataverseUrl={dataverseUrl}
+          binderUrl={binderUrl}
+          disclaimer={disclaimer}
+          publicationStatus={publicationStatus}
+          ignorePublicationStatus={ignorePublicationStatus}
+          category={category}
+          issue={issue}
+          doi={doi}
+          bibjson={bibjson}
+          isPreview={false}
+        />
 
-      {paragraphs.map((cell, idx) => {
-        return (
-          <ArticleCellObserver cell={cell} key={[url, idx].join('-')}>
-            <a className="Article_anchor"></a>
-            <div
-              className="Article_paragraphWrapper"
-              data-cell-idx={cell.idx}
-              data-cell-layer={cell.layer}
-            >
-              <div className="ArticleStream_paragraph">
-                <div className={`Article_cellActive off`} />
-                <ArticleCell
-                  isJavascriptTrusted={isJavascriptTrusted}
-                  onNumClick={onNumClickHandler}
-                  onClick={onCellClickHandler}
-                  memoid={[url, idx].join('-')}
-                  {...cell}
-                  num={cell.num}
-                  idx={cell.idx}
-                  role={cell.role}
-                  layer={cell.type !== CellTypeCode ? cell.layer : LayerData}
-                  source={cell.source}
-                  headingLevel={cell.isHeading ? cell.heading.level : 0}
-                  windowHeight={800}
-                />
+        {paragraphs.map((cell, idx) => {
+          return (
+            <ArticleCellObserver cell={cell} key={[url, idx].join('-')}>
+              <a className="Article_anchor"></a>
+              <div
+                className="Article_paragraphWrapper"
+                data-cell-idx={cell.idx}
+                data-cell-layer={cell.layer}
+              >
+                <div className="ArticleStream_paragraph">
+                  <div className={`Article_cellActive off`} />
+                  <ArticleCell
+                    isJavascriptTrusted={isJavascriptTrusted}
+                    onNumClick={onNumClickHandler}
+                    onClick={onCellClickHandler}
+                    memoid={[url, idx].join('-')}
+                    {...cell}
+                    num={cell.num}
+                    idx={cell.idx}
+                    role={cell.role}
+                    layer={cell.type !== CellTypeCode ? cell.layer : LayerData}
+                    source={cell.source}
+                    headingLevel={cell.isHeading ? cell.heading.level : 0}
+                    windowHeight={800}
+                  />
+                </div>
               </div>
-            </div>
-          </ArticleCellObserver>
-        )
-      })}
+            </ArticleCellObserver>
+          )
+        })}
 
-      <ArticleCellObserver
-        style={{ minHeight: 200 }}
-        cell={{
-          idx: DisplayLayerSectionBibliography,
-        }}
-      >
-        <div data-cell-idx={DisplayLayerSectionBibliography}>
-          {bibliography ? (
-            <ArticleBibliography articleTree={{ bibliography }} noAnchor className="mt-0" />
-          ) : null}
-        </div>
-      </ArticleCellObserver>
-      <Footer />
-    </div>
+        <ArticleCellObserver
+          style={{ minHeight: 200 }}
+          cell={{
+            idx: DisplayLayerSectionBibliography,
+          }}
+        >
+          <div data-cell-idx={DisplayLayerSectionBibliography}>
+            {bibliography ? (
+              <ArticleBibliography articleTree={{ bibliography }} noAnchor className="mt-0" />
+            ) : null}
+          </div>
+        </ArticleCellObserver>
+        <Footer />
+      </div>
+    </>
   )
 }
 
 function ArticleWithContent({ url, ipynb, kernelName, ...props }) {
-  const { paragraphs, headingsPositions, executables, bibliography, citations, sections } =
+  const { paragraphs, headingsPositions, executables, ready, bibliography, citations, sections } =
     useNotebook(url, ipynb)
   const initExecutionScope = useExecutionScope((state) => state.initialise)
 
   useEffect(() => {
-    initExecutionScope(executables)
+    initExecutionScope(executables, ready)
   }, [executables, initExecutionScope])
   console.debug('[ArticleWithContent]', url, 'is rendering', headingsPositions, citations)
   return (

@@ -1,10 +1,10 @@
 import React, { useRef } from 'react'
 
-import { useContainerWidth, useExtractOutputs, useFigureHeight } from '../../hooks/ipynbV3'
-import { getDataTablePageSize, getFigureRatio } from '../../logic/ipynbV3'
 import { CellTypeMarkdown, DataTableRefPrefix } from '../../constants/globalConstants'
-import ArticleCellOutputs from '../Article/ArticleCellOutputs'
+import { useContainerWidth, useExtractOutputs, useFigureHeight } from '../../hooks/ipynbV3'
+import { getDataTablePageSize, getFigureRatio, isTaggedFigure } from '../../logic/ipynbV3'
 import ArticleCellDataTable from '../Article/ArticleCellDataTable'
+import ArticleCellOutputs from '../Article/ArticleCellOutputs'
 import ArticleFigureCaption from '../Article/ArticleFigureCaption'
 
 import '../../styles/components/ArticleV3/ArticleCellFigure.scss'
@@ -12,7 +12,9 @@ import '../../styles/components/ArticleV3/ArticleCellFigure.scss'
 const getPictureStyle = (aspectRatio, figureHeight, shouldUseFixedHeight) =>
   shouldUseFixedHeight
     ? { height: parseInt(figureHeight) }
-    : { paddingTop: `${aspectRatio * 100}%` }
+    : aspectRatio
+      ? { paddingTop: `${aspectRatio * 100}%` }
+      : { maxHeight: '50vh' }
 
 /**
  * Component to display figure outputs
@@ -48,7 +50,7 @@ const ArticleCellFigure = ({
   const tags = Array.isArray(metadata.tags) ? metadata.tags : []
   const aspectRatio = getFigureRatio(tags)
   // issue #707: use default height only for images
-  const figureHeight = useFigureHeight(tags, !aspectRatio && pictures.length !== 0, figure.isCover)
+  const figureHeight = useFigureHeight(tags, !aspectRatio && isTaggedFigure(tags) && pictures.length !== 0, figure.isCover)
   const containerWidth = useContainerWidth(pictureRef)
   const shouldUseFixedHeight =
     figureHeight &&
@@ -66,9 +68,9 @@ const ArticleCellFigure = ({
       : children?.props?.content
 
   return (
-    <figure className={`ArticleCellFigure ${active ? 'active' : ''} ${figure.getPrefix()}`}>
-      {/* Other outputs */}
-      {!isDataTable && otherOutputs.length > 0 && (
+    <figure className={`ArticleCellFigure ${active ? 'active' : ''} ${figure.getPrefix()}`} data-tags={tags.join(' ')}>
+      {/* Other outputs and html outputs for videos */}
+      {!isDataTable && (figure.isVideo ? htmlOutputs.length > 0 : otherOutputs.length > 0) && (
         <>
           <div className="anchor" id={figure.ref} />
           <ArticleCellOutputs
@@ -77,23 +79,26 @@ const ArticleCellFigure = ({
             hideLabel
             isJavascriptTrusted={isJavascriptTrusted}
             cellIdx={figure.idx}
-            outputs={otherOutputs}
+            outputs={figure.isVideo ? htmlOutputs : otherOutputs}
             height={figureHeight && pictures.length === 0 ? parseInt(figureHeight) : 'auto'}
           />
         </>
       )}
 
       {/* Pictures */}
-      {pictures.map(({ base64 }, i) => (
-        <div
-          key={i}
-          className={`picture ${!shouldUseFixedHeight ? 'with-aspect-ratio' : ''}`}
-          style={getPictureStyle(aspectRatio, figureHeight, shouldUseFixedHeight)}
-          ref={pictureRef}
-        >
-          <img src={base64} alt="display_data output" />
-        </div>
-      ))}
+      {/* For video, we only display the picture if there is no html output (e.g. video tag) to avoid displaying twice the video */}
+      {(!figure.isVideo || htmlOutputs.length === 0) &&
+        pictures.map(({ base64 }, i) => (
+          <div
+            key={i}
+            className={`picture ${!shouldUseFixedHeight && aspectRatio ? 'with-aspect-ratio' : ''}`}
+            style={getPictureStyle(aspectRatio, figureHeight, shouldUseFixedHeight)}
+            ref={pictureRef}
+          >
+            <img src={base64} alt="display_data output" />
+          </div>
+        )
+      )}
 
       {/* Data table */}
       {isDataTable ? (

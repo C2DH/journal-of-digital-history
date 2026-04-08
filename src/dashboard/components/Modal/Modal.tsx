@@ -9,8 +9,14 @@ import Button from '../Buttons/Button/Button'
 import ContactForm from '../ContactForm/ContactForm'
 import SocialSchedule from '../SocialSchedule/SocialSchedule'
 
-const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
+const Modal = ({ item, open, onClose, action, data }: ModalProps) => {
   const { t } = useTranslation()
+
+  const contactFormActions = ['Abandoned', 'Accepted', 'Declined', 'Suspended', 'Copyediting']
+  const isContactFormAction = contactFormActions.includes(action)
+
+  const socialScheduleActions = ['Bluesky', 'Facebook']
+  const isSocialScheduleAction = socialScheduleActions.includes(action)
 
   useEffect(() => {
     if (open) {
@@ -26,21 +32,13 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
 
   if (!open) return null
 
-  const isChangingAbstractStatus =
-    action === 'Abandoned' ||
-    action === 'Accepted' ||
-    action === 'Declined' ||
-    action === 'Suspended'
-
-  const isLaunchingSocialCampaign = action === 'Bluesky' || action === 'Facebook'
-
   return (
     <div className="modal-backdrop" onClick={onClose} data-testid="modal-backdrop">
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           {action && <h2>{t(`actions.${action}`)}</h2>}
           <div className="modal-actions">
-            {isLaunchingSocialCampaign && (
+            {isSocialScheduleAction && (
               <Button
                 type="submit"
                 form="social-campaign-form"
@@ -52,30 +50,10 @@ const Modal = ({ item, open, onClose, action, data, onNotify }: ModalProps) => {
             </button>
           </div>
         </div>
-        {isChangingAbstractStatus && (
-          <ContactForm
-            rowData={data}
-            action={action.toLowerCase()}
-            onClose={onClose}
-            onNotify={onNotify}
-          />
+        {isContactFormAction && <ContactForm row={data} onClose={onClose} />}
+        {isSocialScheduleAction && (
+          <SocialSchedule rowData={data} action={action} onClose={onClose} />
         )}
-        {isLaunchingSocialCampaign && (
-          <SocialSchedule
-            rowData={data}
-            action={action}
-            onClose={onClose}
-            onNotify={onNotify ?? (() => {})}
-          />
-        )}
-        {/* {action === 'actions.change' && (
-          <ChangeStatus
-            item={item}
-            selectedRows={data.selectedRows}
-            onClose={onClose}
-            onNotify={onNotify}
-          />
-        )} */}
       </div>
     </div>
   )

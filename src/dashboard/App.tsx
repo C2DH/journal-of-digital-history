@@ -1,17 +1,17 @@
 import './styles/index.css'
 
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query'
-import { Spinner } from 'react-bootstrap'
+import { Suspense } from 'react'
 import { I18nextProvider } from 'react-i18next'
 
 import Login from '../components/Login/Login'
 import { fetchUsername } from '../logic/api/login'
+import Blob from './components/Blob/Blob'
 import Header from './components/Header/Header'
 import Navbar from './components/Navbar/Navbar'
 import Toast from './components/Toast/Toast'
 import i18n from './i18next'
 import AppRoutes from './routes'
-import { navbarItems } from './utils/constants/navbar'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,16 +32,18 @@ function AuthGate() {
     queryFn: fetchUsername,
   })
 
-  if (isLoading) return <Spinner />
-  if (!user) return <Login />
+  if (isLoading) return <Blob />
+  if (!user || isError) return <Login />
 
   return (
-    <>
-      <Toast />
-      <Navbar items={navbarItems} />
-      <Header />
-      <AppRoutes />
-    </>
+    <main>
+      <Suspense fallback={<Blob />}>
+        <Toast />
+        <Navbar />
+        <Header />
+        <AppRoutes />
+      </Suspense>
+    </main>
   )
 }
 

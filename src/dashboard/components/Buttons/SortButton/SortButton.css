@@ -12,6 +12,7 @@
 }
 
 .sort-btn span {
+  color: var(--color-deep-blue);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -27,6 +28,8 @@
 .sort-arrow {
   margin-left: var(--gap-size-0);
   vertical-align: middle;
-  transition: transform 0.2s, opacity 0.2s;
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
   display: inline-block;
 }

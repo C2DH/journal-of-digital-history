@@ -16,12 +16,10 @@ $module: ".ArticleCellFigure";
   .picture {
     position: relative;
     overflow-x: auto;
-    text-align: center;
 
     img {
       height: 100%;
       background-color: white;
-      max-width: unset;
     }
 
     &.with-aspect-ratio {

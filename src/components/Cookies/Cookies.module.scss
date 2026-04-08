@@ -12,6 +12,14 @@
 
 .disclaimer{
   font-size: .8em;
+
+  a {
+    box-shadow: 0px 1px 0px white;
+
+    &:hover {
+      box-shadow: 0px 1px 0px var(--primary);
+    }
+  }
 }
 
 .agreement{

@@ -1,7 +1,7 @@
 import { Textarea, Typography } from '@mui/joy'
 
 import { getErrorByField, getErrorByFieldAndByIndex } from '../../../logic/errors'
-import { socialMediaCampaign } from '../../schemas/socialMediaCampaign'
+import { socialMediaCampaign } from '../../schemas/socialmedia'
 import Loading from '../Loading/Loading'
 
 const Tweets = ({ action, tweets, errors }) => {

@@ -146,10 +146,31 @@ export interface ModalInfo {
   title?: string
 }
 
+export type ModalConfig = {
+  open: boolean
+  action: any
+  row: Row | null
+}
+
+/* Actions */
 export type RowAction = {
   label: string
   onClick: () => void
 }
+
+export type DefaultActionArgs = {
+  action: string
+  pid: string
+  t: any
+  label?: string
+}
+export type DefaultAction = {
+  label: string
+  action: string
+  onClick: () => void
+}
+
+export type ActionCallAPI = { action: string; pid: string; t: any }
 
 /* Zustand store types */
 export type SearchState = {
@@ -161,6 +182,7 @@ export type SearchState = {
   setResults: (results: any[]) => void
   setLoading: (loading: boolean) => void
   setError: (error: any) => void
+  resetSearch: () => void
 }
 
 export type ItemsState<T> = {
@@ -256,6 +278,49 @@ export interface NotificationState {
   clearNotification: () => void
 }
 
+export interface AbstractRow {
+  pid: string
+  title: string
+  author: string
+  callpaper_title: string | null
+  submitted_date: string
+  contact_affiliation: string
+  contact_email: string
+  status: string
+}
+
+export interface ArticleRow {
+  abstract__pid: string
+  abstract__title: string
+  author: string
+  publication_date: string | null
+  status: string
+}
+
+export type Row = ArticleRow | AbstractRow
+
+export interface ActionStore {
+  modal: ModalConfig
+  setModal: (config: ModalConfig) => void
+  closeModal: () => void
+  callAPI: ({ action, pid }: { action: string; pid: string }) => Promise<void>
+  getRowActions: (row: Row, isArticle: boolean) => RowAction[]
+  getDetailActions: (pid: string, isArticle: boolean, isAbstract: boolean) => RowAction[]
+}
+
 /* API types */
 export type APIResponse = Promise<APIResponseObject>
 export type APIResponseObject = { count: number; next: null; previous: null; results: any[] }
+
+/* Detail page */
+export type FieldRowType = {
+  label: string
+  value: React.ReactNode
+  pid?: any
+  isArticle?: boolean
+  isAbstract?: boolean
+}
+
+export interface DetailPage {
+  endpoint: string
+}
