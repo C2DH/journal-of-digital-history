@@ -17,3 +17,7 @@
   flex-direction: row;
   align-items: center;
 }
+
+p {
+  font-weight: 400;
+}
