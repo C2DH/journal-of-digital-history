@@ -193,8 +193,8 @@
     "Facebook": "Facebook",
     "Copyediting": "Send to copy editor"
   },
-  "Bluesky": "Launch Bluesky campaign",
-  "Facebook": "Launch Facebook campaign",
+  "Bluesky": "Plan Bluesky campaign",
+  "Facebook": "Plan Facebook campaign",
   "socialCampaign": {
     "send": "Post",
     "api": {
