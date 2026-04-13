@@ -56,6 +56,7 @@ const PeerReviewCounter = () => {
   const { data: count } = useSuspenseQuery({
     queryKey: ['deadlineOJSCounter'],
     queryFn: getCount,
+    initialData: 0,
   })
 
   useEffect(() => {
