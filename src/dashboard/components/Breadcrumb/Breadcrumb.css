@@ -3,7 +3,7 @@
   margin-bottom: var(--gap-size-3);
   display: flex;
   align-items: center;
-  padding: 0% 1%;
+  padding-left: var(--gap-size-1);
   flex: 1 1 auto;
 }
 
