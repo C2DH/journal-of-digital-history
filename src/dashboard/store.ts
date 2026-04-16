@@ -558,8 +558,8 @@ const useActionStore = create<ActionStore>((set, get) => ({
           actions.push(modalAction('Copyediting', 'Send docx to copyeditor'))
           break
         case 'PUBLISHED':
-          actions.push(modalAction('Bluesky'))
           actions.push(modalAction('Facebook'))
+          actions.push(modalAction('Bluesky'))
           break
       }
     } else {
