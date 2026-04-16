@@ -13,7 +13,7 @@
   display: flex;
   align-items: center;
   width: var(--navbar-header-width);
-  padding: 9% 10%;
+  padding: 4%;
 }
 
 .navbar-header p {

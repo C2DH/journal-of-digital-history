@@ -26,6 +26,7 @@ const ActionButtonLarge = ({ actions, active }: ActionButtonProps) => {
 
   return (
     <div className={`large-action-btn-wrapper ${active ? 'active' : 'inactive'}`} ref={ref}>
+      {' '}
       <button
         className={`large-action-btn ${active ? 'active' : 'inactive'}`}
         onClick={active ? () => setOpen((prev) => !prev) : undefined}
