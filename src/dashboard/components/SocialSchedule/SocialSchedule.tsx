@@ -19,6 +19,7 @@ import { notify } from '../../utils/helpers/notification'
 import { validateForm } from '../../utils/helpers/schema'
 import { cleanThreadContent } from '../../utils/helpers/tweet'
 import LinkButton from '../Buttons/LinkButton/LinkButton'
+import { referrer } from './constant'
 import Schedule from './DatePicker/DatePicker'
 import PostReplies from './PostReplies'
 import Tweets from './Tweets'
@@ -42,7 +43,7 @@ const SocialSchedule = ({ rowData, action, onClose }: SocialScheduleProps) => {
   const [frequency, setFrequency] = useState<Frequency>({ timeGap: '-', timeUnit: '-' })
   const [form, setForm] = useState<SocialMediaCampaign>({
     repository_url: `https://github.com/jdh-observer/${pid}`,
-    article_url: `https://journalofdigitalhistory.org/en/article/${pid}`,
+    article_url: `https://journalofdigitalhistory.org/en/article/${pid}?${referrer(action, pid)}`,
     schedule_main: [''],
   })
   const { closeModal } = useFormStore()
@@ -74,6 +75,7 @@ const SocialSchedule = ({ rowData, action, onClose }: SocialScheduleProps) => {
     e.preventDefault()
     if (valid) {
       if (action === 'Bluesky') {
+        console.log('🚀 ~ file: SocialSchedule.tsx:52 ~ form:', form)
         onClose()
         await postBlueskyCampaign(form)
           .then((res) => {
@@ -85,6 +87,7 @@ const SocialSchedule = ({ rowData, action, onClose }: SocialScheduleProps) => {
           .finally(() => closeModal())
       }
       if (action === 'Facebook') {
+        onClose()
         await postFacebookCampaign(form)
           .then((res) => {
             notify('success', t('socialCampaign.api.success'), res?.data?.message || '')

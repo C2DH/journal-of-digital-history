@@ -1,5 +1,9 @@
 import { FilterOption } from '../../utils/types'
 
+export const referrer = (socialNetwork: string, pid: string) => {
+  return `mtm_campaign=social_media_campaign&mtm_cid=${pid}&mtm_source=${socialNetwork.toLowerCase()}`
+}
+
 export const timeGapMinute: FilterOption[] = [
   { key: 1, value: '1', label: '1' },
   { key: 5, value: '5', label: '5' },
