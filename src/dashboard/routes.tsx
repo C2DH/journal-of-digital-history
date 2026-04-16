@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
-const Home = lazy(() => import('./pages/Home'))
+const Home = lazy(() => import('./pages/Home/Home'))
 const Abstracts = lazy(() => import('./pages/Abstracts'))
 const Articles = lazy(() => import('./pages/Articles'))
 const CallForPapers = lazy(() => import('./pages/CallForPapers'))
