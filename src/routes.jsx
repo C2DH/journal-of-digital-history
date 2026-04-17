@@ -1,5 +1,5 @@
-import { lazy, useEffect } from 'react'
 import { useMatomo } from '@jonkoops/matomo-tracker-react'
+import { lazy, useEffect } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 
 import Page from './pages/Page'
@@ -39,9 +39,12 @@ function usePageViews() {
     const url = [pathname, search].join('')
     console.info('pageview', url)
     changeBackgroundColor('var(--gray-100)')
-    trackPageView({
-      href: url,
-    })
+    // Article pages are tracked from ArticleHelmet once the final title is known.
+    if (!pathname.includes('/article/')) {
+      trackPageView({
+        href: url,
+      })
+    }
   }, [pathname, search, changeBackgroundColor])
 }
 

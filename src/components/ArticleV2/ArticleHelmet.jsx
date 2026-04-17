@@ -1,4 +1,5 @@
-import React, { useLayoutEffect } from 'react'
+import { useMatomo } from '@jonkoops/matomo-tracker-react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { Helmet } from 'react-helmet'
 
 const ArticleHelmet = ({
@@ -11,6 +12,9 @@ const ArticleHelmet = ({
   issue,
   publicationDate = new Date(),
 }) => {
+  const { trackPageView } = useMatomo()
+  const lastTrackedRef = useRef('')
+
   // apply zotero when the DOM is ready
   useLayoutEffect(() => {
     console.debug('[ArticleHelmet] @useLayoutEffect')
@@ -21,6 +25,30 @@ const ArticleHelmet = ({
       }),
     )
   }, [url])
+
+  useEffect(() => {
+
+    console.log('[ArticleHelmet] @useEffect trackPageView with title:', plainTitle);
+    // Wait for article metadata to be resolved before sending the pageview title to Matomo.
+    if (!plainTitle) {
+      return;
+    }
+
+    const href = `${window.location.pathname}${window.location.search}`;
+    const documentTitle = plainTitle;
+    const trackKey = `${href}::${documentTitle}`;
+
+    // Prevent duplicate tracking on re-renders with the same URL/title pair.
+    if (lastTrackedRef.current === trackKey) {
+      return;
+    }
+
+    lastTrackedRef.current = trackKey;
+    trackPageView({
+      href,
+      documentTitle,
+    });
+  }, [plainTitle, trackPageView]);
 
   return (
     <Helmet>
