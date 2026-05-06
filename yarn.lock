@@ -13585,6 +13585,7 @@ __metadata:
     markdown-it-anchor: "npm:^9.2.0"
     markdown-it-mathjax3: "npm:^3.0.0-0"
     markdown-it-replace-link: "npm:^1.1.0"
+    markdown-it-shortcode-tag: "npm:^1.1.0"
     mathjax: "npm:^3.2.0"
     moment: "npm:^2.30.1"
     playwright: "npm:^1.57.0"
@@ -15015,6 +15016,13 @@ __metadata:
     htmlparser2:
       optional: true
   checksum: 10c0/1d08d9c017d116a790b4731f4d353bfe74ef4fdd310ddd006317d2575d1306924dd0ce6411180b16c874127a3a771594056fcfb2dfa8354417c946103c6274de
+  languageName: node
+  linkType: hard
+
+"markdown-it-shortcode-tag@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "markdown-it-shortcode-tag@npm:1.1.0"
+  checksum: 10c0/b72e2fdb20fb1d1db6c37966c462c88e1de26c0b65a89bdf952cda4dc6024c5e5cc6523bf1ced69a80452f50ca911a385edf5ba5aa8688cb9e4f1b2b2b65d3b5
   languageName: node
   linkType: hard
 

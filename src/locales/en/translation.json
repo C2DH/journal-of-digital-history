@@ -476,5 +476,6 @@
       "consent": "Enable <1>cookies</1> to view this media."
     }
   },
-  "Hello": "Hello! Test internationalization by clicking on 🌐 in the Storybook menu."
+  "Hello": "Hello! Test internationalization by clicking on 🌐 in the Storybook menu.",
+  "matomoOptOut": "Disable anonymous audience measurement"
 }

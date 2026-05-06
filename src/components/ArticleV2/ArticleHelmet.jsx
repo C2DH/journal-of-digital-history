@@ -28,7 +28,6 @@ const ArticleHelmet = ({
 
   useEffect(() => {
 
-    console.log('[ArticleHelmet] @useEffect trackPageView with title:', plainTitle);
     // Wait for article metadata to be resolved before sending the pageview title to Matomo.
     if (!plainTitle) {
       return;

@@ -1,18 +1,87 @@
-import React, { useEffect } from 'react'
+import DOMPurify from 'dompurify'
+import parse from 'html-react-parser'
 import MarkdownIt from 'markdown-it'
 import markdownItAnchor from 'markdown-it-anchor'
+import markdownItShortcodeTag from 'markdown-it-shortcode-tag'
+import PropTypes from 'prop-types'
+import React, { useEffect, useMemo } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
+
 import StaticPageLoader from './StaticPageLoader'
 import { BootstrapFullColumLayout, StatusSuccess } from '../constants/globalConstants'
-import '../styles/pages/WikiStaticPage.scss'
-import PropTypes from 'prop-types'
 
-const markdownParser = MarkdownIt({
-  html: false,
-  linkify: true,
-  typographer: true,
-}).use(markdownItAnchor)
+import '../styles/pages/WikiStaticPage.scss'
+
+// Escape regex metacharacters in user-provided shortcode names.
+const escapeRegExp = (value = '') => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+// Convert shortcode names to parser-friendly tag names.
+const normalizeShortcodeName = (name = '') => name.toLowerCase().replace(/[^a-z0-9_]/g, '')
+
+const buildShortcodeSetup = (shortcodes = []) => {
+  const shortcodeTags = {}
+  const normalizePatterns = []
+  const shortcodeComponents = {}
+
+  shortcodes.forEach(({ name, component }) => {
+    if (!name || !component) return
+
+    const normalizedName = normalizeShortcodeName(name)
+    if (!normalizedName) return
+
+    const containerId = `shortcode-${normalizedName}-container`
+
+    // Keep author-friendly tags in markdown, then normalize them before shortcode parsing.
+    normalizePatterns.push({
+      pattern: new RegExp(`<${escapeRegExp(name)}(\\s*)>`, 'g'),
+      normalizedName,
+    })
+
+    shortcodeTags[normalizedName] = {
+      render: () => `<div id="${containerId}"></div>`,
+      inline: true,
+    }
+
+    shortcodeComponents[containerId] = component
+  })
+
+  return { shortcodeTags, normalizePatterns, shortcodeComponents }
+}
+
+// Apply all shortcode tag normalizations to raw markdown.
+const normalizeShortcodes = (content = '', normalizePatterns = []) =>
+  normalizePatterns.reduce(
+    (result, { pattern, normalizedName }) => result.replace(pattern, `<${normalizedName}$1>`),
+    content,
+  )
+
+const renderMarkdownWithShortcodes = (content = '', shortcodes = []) => {
+  const { shortcodeTags, normalizePatterns, shortcodeComponents } = buildShortcodeSetup(shortcodes)
+
+  const markdownParser = MarkdownIt({
+    html: true,
+    linkify: true,
+    typographer: true,
+  })
+    .use(markdownItAnchor)
+    .use(markdownItShortcodeTag, shortcodeTags)
+
+  const renderShortcodes = {
+    replace: (node) => {
+      // Swap placeholder containers emitted by markdown-it with the mapped React component.
+      const component = shortcodeComponents[node?.attribs?.id]
+      if (!component) return undefined
+
+      return React.isValidElement(component) ? component : React.createElement(component)
+    },
+  }
+
+  return parse(
+    DOMPurify.sanitize(markdownParser.render(normalizeShortcodes(content, normalizePatterns))),
+    renderShortcodes,
+  )
+}
 
 const scrollToHashTarget = (hash) => {
   // Resolve current URL hash into a stable anchor id.
@@ -32,7 +101,14 @@ const scrollToHashTarget = (hash) => {
   return true
 }
 
-const WikiStaticPageContent = ({ data = '...', status, className = '', children }) => {
+const WikiStaticPageContent = ({
+  data = '...',
+  status,
+  className = '',
+  shortcodes = [],
+  children
+}) => {
+  
   const { hash } = useLocation()
 
   useEffect(() => {
@@ -57,6 +133,11 @@ const WikiStaticPageContent = ({ data = '...', status, className = '', children 
     }
   }, [status, hash, data])
 
+  const renderedContent = useMemo(
+    () => (status === StatusSuccess ? renderMarkdownWithShortcodes(data, shortcodes) : null),
+    [status, data, shortcodes],
+  )
+
   return (
     <Container className={`WikiStaticPage page ${className} ${status}`} style={{ minHeight: '80vh' }}>
       <Row>
@@ -65,16 +146,22 @@ const WikiStaticPageContent = ({ data = '...', status, className = '', children 
       <Row>
         <Col
           {...BootstrapFullColumLayout}
-          dangerouslySetInnerHTML={{
-            __html: status === StatusSuccess ? markdownParser.render(data) : '',
-          }}
-        />
+        >
+          {renderedContent}
+        </Col>
       </Row>
     </Container>
   )
 }
 
-const WikiStaticPage = ({ url = '', memoid = '', delay = 0, className = '', children }) => (
+const WikiStaticPage = ({
+  url = '',
+  memoid = '',
+  delay = 0,
+  className = '',
+  shortcodes = [],
+  children
+}) => (
   <StaticPageLoader
     url={url}
     memoid={memoid}
@@ -82,7 +169,12 @@ const WikiStaticPage = ({ url = '', memoid = '', delay = 0, className = '', chil
     fakeData=""
     delay={delay}
     Component={({ data = '...', status }) => (
-      <WikiStaticPageContent data={data} status={status} className={className}>
+      <WikiStaticPageContent
+        data={data}
+        status={status}
+        className={className}
+        shortcodes={shortcodes}
+      >
         {children}
       </WikiStaticPageContent>
     )}
@@ -94,6 +186,12 @@ WikiStaticPage.propTypes = {
   memoid: PropTypes.string,
   delay: PropTypes.number,
   className: PropTypes.string,
+  shortcodes: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      component: PropTypes.oneOfType([PropTypes.node, PropTypes.elementType]).isRequired,
+    })
+  ),
   children: PropTypes.node,
 }
 
