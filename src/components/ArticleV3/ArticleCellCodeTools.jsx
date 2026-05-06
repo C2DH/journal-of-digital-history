@@ -1,7 +1,9 @@
+import { useMatomo } from '@jonkoops/matomo-tracker-react'
 import { Erase } from 'iconoir-react'
 import { useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 
+import ArticleCellExplainer from './ArticleCellExplainer'
 import ArticleCellRunCodeButton, {
   StatusBeforeExecuting,
   StatusError,
@@ -13,12 +15,12 @@ import ArticleCellRunCodeButton, {
 import { useArticleThebe } from './ArticleThebeProvider'
 import ConnectionStatusBox from './ConnectionStatusBox'
 import { useExecutionScope } from './ExecutionScope'
-
+import { MatomoActionRunCodeClick, MatomoCategoryArticleV3 } from '../../constants/matomoEvents'
 import '../../styles/components/ArticleV3/ArticleCellCodeTools.scss'
-import ArticleCellExplainer from './ArticleCellExplainer'
 
 const ArticleCellCodeTools = ({ cellIdx = -1, source = '' }) => {
   const { ready, connectAndStart, starting, session, connectionErrors } = useArticleThebe()
+  const { trackEvent } = useMatomo()
 
   const executing = useExecutionScope((state) => state.cells[cellIdx]?.executing)
   const scheduled = useExecutionScope((state) => state.cells[cellIdx]?.scheduled)
@@ -47,6 +49,13 @@ const ArticleCellCodeTools = ({ cellIdx = -1, source = '' }) => {
               : StatusIdle
 
   const onRunButtonClickHandler = () => {
+    // Track when the user clicks the Run code button; name is the cell index.
+    trackEvent({
+      category: MatomoCategoryArticleV3,
+      action: MatomoActionRunCodeClick,
+      name: String(cellIdx),
+    })
+
     if (!ready || connectionErrors) {
       connectAndStart()
       scheduleCell(cellIdx)
