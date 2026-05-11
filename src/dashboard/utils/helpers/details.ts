@@ -1,6 +1,6 @@
-import { Abstract, AbstractRow, Article, ArticleRow, Author, Row } from '../types'
+import { Abstract, AbstractRow, Article, ArticleRow, Author, Campaign, Row } from '../types'
 import { isTypeAbstract, isTypeArticle } from './checkItem'
-import { convertDate } from './date'
+import { convertDate, convertDateWithHour } from './date'
 
 /**
  * Extracts and formats data from an Abstract or Article item to display in the Detail view.
@@ -14,6 +14,18 @@ export function setDetails(item: Abstract | Article) {
   let url = ''
   let title = ''
   let abstractText = ''
+  let bskyCampaign: Campaign = {
+    platform: 'BLUESKY',
+    url: '-',
+    scheduled_time: null,
+    published_time: null,
+  }
+  let fbCampaign: Campaign = {
+    platform: 'FACEBOOK',
+    url: '-',
+    scheduled_time: null,
+    published_time: null,
+  }
 
   const adminHost =
     window.location.hostname === 'localhost' ? 'localhost:8000' : window.location.host
@@ -53,6 +65,10 @@ export function setDetails(item: Abstract | Article) {
     title = item.title
     abstractText = item.abstract
   } else if (isTypeArticle(item)) {
+    bskyCampaign =
+      item.campaigns.find((campaign) => campaign.platform === 'BLUESKY') ?? bskyCampaign
+    fbCampaign = item.campaigns.find((campaign) => campaign.platform === 'FACEBOOK') ?? fbCampaign
+
     infoFields = [
       { label: 'PID', value: item.abstract.pid },
       { label: 'Call for papers', value: item.issue.name || 'Open Submission' },
@@ -61,6 +77,14 @@ export function setDetails(item: Abstract | Article) {
       { label: 'Submission date', value: convertDate(item.abstract.submitted_date) },
       { label: 'Validation date', value: convertDate(item.abstract.validation_date) },
       { label: 'DOI', value: item.doi || '-' },
+      {
+        label: 'Bluesky',
+        value: setScheduledOrPublished(bskyCampaign),
+      },
+      {
+        label: 'Facebook',
+        value: setScheduledOrPublished(fbCampaign),
+      },
     ]
     contactFields = [
       {
@@ -145,4 +169,18 @@ export function toRow(item: any, isArticle: boolean, isAbstract: boolean): Row |
   }
 
   return null
+}
+
+/**
+ * Take a Campaign stored on a item and display either the published date or the scheduled date.
+ * Use this for detail pages for displaying Facebook or Bluesky campaign.
+ */
+function setScheduledOrPublished(campaign: Campaign): string {
+  if (campaign.published_time) {
+    return `Published on ${convertDateWithHour(campaign.published_time)}`
+  } else if (campaign.scheduled_time) {
+    return `Scheduled for ${convertDateWithHour(campaign.scheduled_time)}`
+  } else {
+    return '-'
+  }
 }
