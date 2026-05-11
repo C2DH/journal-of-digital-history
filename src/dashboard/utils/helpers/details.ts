@@ -1,4 +1,4 @@
-import { Abstract, AbstractRow, Article, ArticleRow, Author, Row } from '../types'
+import { Abstract, AbstractRow, Article, ArticleRow, Author, Campaign, Row } from '../types'
 import { isTypeAbstract, isTypeArticle } from './checkItem'
 import { convertDate } from './date'
 
@@ -14,6 +14,12 @@ export function setDetails(item: Abstract | Article) {
   let url = ''
   let title = ''
   let abstractText = ''
+  let bskyCampaign: Campaign = {
+    platform: 'BLUESKY',
+    url: '-',
+    scheduled_time: '-',
+    published_time: '-',
+  }
 
   const adminHost =
     window.location.hostname === 'localhost' ? 'localhost:8000' : window.location.host
@@ -53,6 +59,9 @@ export function setDetails(item: Abstract | Article) {
     title = item.title
     abstractText = item.abstract
   } else if (isTypeArticle(item)) {
+    bskyCampaign =
+      item.campaigns.find((campaign) => campaign.platform === 'BLUESKY') ?? bskyCampaign
+
     infoFields = [
       { label: 'PID', value: item.abstract.pid },
       { label: 'Call for papers', value: item.issue.name || 'Open Submission' },
@@ -63,7 +72,7 @@ export function setDetails(item: Abstract | Article) {
       { label: 'DOI', value: item.doi || '-' },
       {
         label: 'Bluesky',
-        value: '-',
+        value: setScheduledOrPublished(bskyCampaign),
       },
       {
         label: 'Facebook',
@@ -155,24 +164,12 @@ export function toRow(item: any, isArticle: boolean, isAbstract: boolean): Row |
   return null
 }
 
-// export function getDateForSocialNetwork(campaign: Campaign) {
-//   if (campaign != undefined) {
-//     switch (campaign.platform) {
-//       case 'BLUESKY':
-//         return setScheduledOrPublished(campaign.scheduled_time, campaign.published_time)
-//       case 'FACEBOOK':
-//         return setScheduledOrPublished(campaign.scheduled_time, campaign.published_time)
-//         break
-//       default:
-//         break
-//     }
-//   }
-// }
-
-function setScheduledOrPublished(scheduled: string | null, published: string | null) {
-  if (scheduled) {
-    return `Scheduled for ${scheduled}`
-  } else if (published) {
-    return `Published on ${published}`
+function setScheduledOrPublished(campaign: Campaign): string {
+  if (campaign.published_time) {
+    return `Published on ${campaign.published_time}`
+  } else if (campaign.scheduled_time) {
+    return `Scheduled for ${campaign.scheduled_time}`
+  } else {
+    return '-'
   }
 }
