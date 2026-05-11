@@ -61,6 +61,14 @@ export function setDetails(item: Abstract | Article) {
       { label: 'Submission date', value: convertDate(item.abstract.submitted_date) },
       { label: 'Validation date', value: convertDate(item.abstract.validation_date) },
       { label: 'DOI', value: item.doi || '-' },
+      {
+        label: 'Bluesky',
+        value: '-',
+      },
+      {
+        label: 'Facebook',
+        value: '-',
+      },
     ]
     contactFields = [
       {
@@ -145,4 +153,26 @@ export function toRow(item: any, isArticle: boolean, isAbstract: boolean): Row |
   }
 
   return null
+}
+
+// export function getDateForSocialNetwork(campaign: Campaign) {
+//   if (campaign != undefined) {
+//     switch (campaign.platform) {
+//       case 'BLUESKY':
+//         return setScheduledOrPublished(campaign.scheduled_time, campaign.published_time)
+//       case 'FACEBOOK':
+//         return setScheduledOrPublished(campaign.scheduled_time, campaign.published_time)
+//         break
+//       default:
+//         break
+//     }
+//   }
+// }
+
+function setScheduledOrPublished(scheduled: string | null, published: string | null) {
+  if (scheduled) {
+    return `Scheduled for ${scheduled}`
+  } else if (published) {
+    return `Published on ${published}`
+  }
 }
