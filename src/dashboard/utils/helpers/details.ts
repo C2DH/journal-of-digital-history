@@ -1,6 +1,6 @@
 import { Abstract, AbstractRow, Article, ArticleRow, Author, Campaign, Row } from '../types'
 import { isTypeAbstract, isTypeArticle } from './checkItem'
-import { convertDate } from './date'
+import { convertDate, convertDateWithHour } from './date'
 
 /**
  * Extracts and formats data from an Abstract or Article item to display in the Detail view.
@@ -17,8 +17,14 @@ export function setDetails(item: Abstract | Article) {
   let bskyCampaign: Campaign = {
     platform: 'BLUESKY',
     url: '-',
-    scheduled_time: '-',
-    published_time: '-',
+    scheduled_time: null,
+    published_time: null,
+  }
+  let fbCampaign: Campaign = {
+    platform: 'FACEBOOK',
+    url: '-',
+    scheduled_time: null,
+    published_time: null,
   }
 
   const adminHost =
@@ -61,6 +67,7 @@ export function setDetails(item: Abstract | Article) {
   } else if (isTypeArticle(item)) {
     bskyCampaign =
       item.campaigns.find((campaign) => campaign.platform === 'BLUESKY') ?? bskyCampaign
+    fbCampaign = item.campaigns.find((campaign) => campaign.platform === 'FACEBOOK') ?? fbCampaign
 
     infoFields = [
       { label: 'PID', value: item.abstract.pid },
@@ -76,7 +83,7 @@ export function setDetails(item: Abstract | Article) {
       },
       {
         label: 'Facebook',
-        value: '-',
+        value: setScheduledOrPublished(fbCampaign),
       },
     ]
     contactFields = [
@@ -164,11 +171,15 @@ export function toRow(item: any, isArticle: boolean, isAbstract: boolean): Row |
   return null
 }
 
+/**
+ * Take a Campaign stored on a item and display either the published date or the scheduled date.
+ * Use this for detail pages for displaying Facebook or Bluesky campaign.
+ */
 function setScheduledOrPublished(campaign: Campaign): string {
   if (campaign.published_time) {
-    return `Published on ${campaign.published_time}`
+    return `Published on ${convertDateWithHour(campaign.published_time)}`
   } else if (campaign.scheduled_time) {
-    return `Scheduled for ${campaign.scheduled_time}`
+    return `Scheduled for ${convertDateWithHour(campaign.scheduled_time)}`
   } else {
     return '-'
   }

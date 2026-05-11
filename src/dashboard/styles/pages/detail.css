@@ -69,7 +69,7 @@ h2 {
 .card-info {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, var(--gap-size-4));
+  grid-template-rows: repeat(3, var(--gap-size-5));
   grid-auto-flow: column;
   align-items: center;
   z-index: 2;
