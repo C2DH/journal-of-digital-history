@@ -1,13 +1,24 @@
 import { BarChart, BarChartProps } from '@mui/x-charts'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { colorsPeerReviewChart } from '../../styles/theme'
 import SmallCard from '../SmallCard/SmallCard'
 
+type ArticleInPeerReview = {
+  authors: string
+  title: string
+}
+type ItemInPeerReview = {
+  key: string
+  articles: ArticleInPeerReview[]
+}
+
 const PeerReviewChart = () => {
   const { t } = useTranslation()
   const [label, setLabel] = useState('Default')
+  const [round, setRound] = useState<number>(4)
+  const [data, setData] = useState<ItemInPeerReview | undefined>(undefined)
 
   const dataset = [
     [1, 3, 2, 0, 3, 'R1'],
@@ -21,6 +32,27 @@ const PeerReviewChart = () => {
     revising,
     order,
   }))
+
+  const datasetTitlesAndAuthors = [
+    {
+      key: 'assign-R1',
+      articles: [
+        {
+          authors: 'John Doe',
+          title: 'Test',
+        },
+        {
+          authors: 'Jane Doe',
+          title: 'Test2',
+        },
+      ],
+    },
+  ]
+
+  useEffect(() => {
+    const item = datasetTitlesAndAuthors.find((item) => item.key === `${label}-R${round}`)
+    setData(item)
+  }, [label, round])
 
   function getChartSettings(): Partial<BarChartProps> {
     return {
@@ -52,6 +84,7 @@ const PeerReviewChart = () => {
           series={[
             {
               dataKey: 'assign',
+              id: 'assign',
               label: 'Assign reviewer',
               layout: 'horizontal',
               stack: 'stack',
@@ -127,14 +160,27 @@ const PeerReviewChart = () => {
             },
           }}
           onItemClick={(event, d) => {
+            console.log('🚀 ~ file: PeerReviewChart.tsx:143 ~ d:', d)
             setLabel(String(d.seriesId))
+            setRound(Number(d.dataIndex + 1))
           }}
           borderRadius={12}
           {...getChartSettings()}
         />
       </SmallCard>
       <SmallCard className="home-peerreviewchart next-table chart">
-        <h3>{label}</h3>
+        <h3>
+          {label}-R{round}
+        </h3>
+        {data
+          ? data.articles.map((a) => {
+              return (
+                <p>
+                  {a.title} {a.authors}
+                </p>
+              )
+            })
+          : ''}
       </SmallCard>
     </div>
   )
