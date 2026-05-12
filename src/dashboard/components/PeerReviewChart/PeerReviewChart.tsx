@@ -1,4 +1,5 @@
 import { BarChart, BarChartProps } from '@mui/x-charts'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { colorsPeerReviewChart } from '../../styles/theme'
@@ -6,6 +7,7 @@ import SmallCard from '../SmallCard/SmallCard'
 
 const PeerReviewChart = () => {
   const { t } = useTranslation()
+  const [label, setLabel] = useState('Default')
 
   const dataset = [
     [1, 3, 2, 0, 3, 'R1'],
@@ -35,6 +37,7 @@ const PeerReviewChart = () => {
             color: 'var(--color-deep-blue)',
           },
         },
+        tooltip: { trigger: 'item' },
       },
       colors: colorsPeerReviewChart,
       barLabel: 'value',
@@ -42,70 +45,98 @@ const PeerReviewChart = () => {
   }
 
   return (
-    <SmallCard className="home-peerreviewchart chart">
-      <h3>{t('KPI.peerReviewChart.title')}</h3>
-      <BarChart
-        series={[
-          {
-            dataKey: 'assign',
-            label: 'Assign reviewer',
-            layout: 'horizontal',
-            stack: 'stack',
-          },
-          {
-            dataKey: 'awaiting',
-            label: 'Awaiting Reviewer Response',
-            layout: 'horizontal',
-            stack: 'stack',
-          },
-          {
-            dataKey: 'review',
-            label: 'Review in progress',
-            layout: 'horizontal',
-            stack: 'stack',
-          },
-          {
-            dataKey: 'reviewer',
-            label: 'Reviewer decision',
-            layout: 'horizontal',
-            stack: 'stack',
-          },
-          {
-            dataKey: 'revising',
-            label: 'Author revising',
-            layout: 'horizontal',
-            stack: 'stack',
-          },
-        ]}
-        margin={{ left: 0 }}
-        xAxis={[
-          {
-            position: 'none',
-          },
-        ]}
-        yAxis={[
-          {
-            dataKey: 'order',
-            disableLine: true,
-            disableTicks: true,
-            tickLabelStyle: {
-              fill: 'var(--color-deep-blue)',
-              fontWeight: 900,
-              fontSize: 16,
-              fontFamily: "'DM Sans', sans-serif !important",
+    <div>
+      <SmallCard className="home-peerreviewchart chart">
+        <h3>{t('KPI.peerReviewChart.title')}</h3>
+        <BarChart
+          series={[
+            {
+              dataKey: 'assign',
+              label: 'Assign reviewer',
+              layout: 'horizontal',
+              stack: 'stack',
+              highlightScope: {
+                highlight: 'item',
+                fade: 'global',
+              },
             },
-          },
-        ]}
-        sx={{
-          '.MuiBarElement-root': {
-            strokeWidth: 5,
-            stroke: 'white',
-          },
-        }}
-        {...getChartSettings()}
-        borderRadius={12}
-      />
-    </SmallCard>
+            {
+              dataKey: 'awaiting',
+              label: 'Awaiting Reviewer Response',
+              layout: 'horizontal',
+              stack: 'stack',
+              highlightScope: {
+                highlight: 'item',
+                fade: 'global',
+              },
+            },
+            {
+              dataKey: 'review',
+              label: 'Review in progress',
+              layout: 'horizontal',
+              stack: 'stack',
+              highlightScope: {
+                highlight: 'item',
+                fade: 'global',
+              },
+            },
+            {
+              dataKey: 'reviewer',
+              label: 'Reviewer decision',
+              layout: 'horizontal',
+              stack: 'stack',
+              highlightScope: {
+                highlight: 'item',
+                fade: 'global',
+              },
+            },
+            {
+              dataKey: 'revising',
+              label: 'Author revising',
+              layout: 'horizontal',
+              stack: 'stack',
+              highlightScope: {
+                highlight: 'item',
+                fade: 'global',
+              },
+            },
+          ]}
+          margin={{ left: 0 }}
+          xAxis={[
+            {
+              position: 'none',
+            },
+          ]}
+          yAxis={[
+            {
+              dataKey: 'order',
+              disableLine: true,
+              disableTicks: true,
+              tickLabelStyle: {
+                fill: 'var(--color-deep-blue)',
+                fontWeight: 900,
+                fontSize: 16,
+                fontFamily: "'DM Sans', sans-serif !important",
+              },
+            },
+          ]}
+          sx={{
+            '.MuiBarElement-root': {
+              strokeWidth: 2,
+              stroke: 'white',
+            },
+          }}
+          onItemClick={(event, d) => {
+            setLabel(String(d.seriesId))
+          }}
+          borderRadius={12}
+          {...getChartSettings()}
+        />
+      </SmallCard>
+      <SmallCard className="home-peerreviewchart next-table chart">
+        <h3>{label}</h3>
+      </SmallCard>
+    </div>
   )
 }
 
