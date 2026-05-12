@@ -8,6 +8,7 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 
 import Cookies from './components/Cookies'
 import Footer from './components/Footer'
+import GlobalHelmet from './components/GlobalHelmet'
 import Header from './components/Header'
 import Me from './components/Me/Me'
 import PercentLoader from './components/PercentLoader'
@@ -60,6 +61,7 @@ export default function App() {
             <Header availableLanguages={LANGUAGES} isAuthDisabled />
             {typeof csrfToken === 'string' && <Me />}
             <Cookies />
+            <GlobalHelmet />
             {/* Hypothes.is integration */}
             <CanonicalUpdater />
             <main>

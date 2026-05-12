@@ -2,6 +2,7 @@ import { useMatomo } from '@jonkoops/matomo-tracker-react'
 import { lazy, useEffect } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 
+import { usePageTitle } from './components/GlobalHelmet'
 import Page from './pages/Page'
 import { useStore } from './store'
 
@@ -33,6 +34,7 @@ const Faq = lazy(() => import('./pages/Faq'))
 function usePageViews() {
   const { trackPageView } = useMatomo()
   const { pathname, search } = useLocation()
+  const documentTitle = usePageTitle()
   const changeBackgroundColor = useStore((state) => state.changeBackgroundColor)
 
   useEffect(() => {
@@ -43,9 +45,10 @@ function usePageViews() {
     if (!pathname.includes('/article/')) {
       trackPageView({
         href: url,
+        documentTitle: documentTitle || undefined,
       })
     }
-  }, [pathname, search, changeBackgroundColor])
+  }, [pathname, search, changeBackgroundColor, documentTitle])
 }
 
 export function AppRoutes({ languagePath = 'en' }) {

@@ -32,6 +32,11 @@ export const GuidelinesRoute = {
   label: 'navigation.guidelines',
   alias: ['/guidelines/'],
 }
+export const FingerprintRoute = { to: '/fingerprint', label: 'navigation.fingerprint' }
+export const FingerprintViewerRoute = {
+  to: '/fingerprint-viewer',
+  label: 'navigation.fingerprintViewer',
+}
 export const FingerprintExplainedRoute = {
   to: '/fingerprint-explained',
   label: 'navigation.fingerprintExplained',
@@ -67,6 +72,21 @@ export const PrimaryRoutes = [
   GuidelinesRoute,
   NotebookViewerFormRoute,
   AboutRoute,
+]
+
+export const AllRoutes = [
+  ArticlesRoute,
+  AbstractSubmissionRoute,
+  GuidelinesRoute,
+  NotebookViewerFormRoute,
+  AboutRoute,
+  TermsOfUseRoute,
+  ReviewPolicy,
+  FaqRoute,
+  ReleaseNotesRoute,
+  FingerprintViewerRoute,
+  FingerprintExplainedRoute,
+  FingerprintRoute
 ]
 
 export const NotebookPoweredPaths = [
