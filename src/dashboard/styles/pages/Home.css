@@ -29,6 +29,9 @@ p {
 .home-barchart {
   grid-area: b;
 }
+.home-peerreviewchart {
+  grid-area: r;
+}
 
 .home-grid {
   display: grid;
@@ -37,7 +40,7 @@ p {
   grid-template-areas:
     'c c c c'
     'p b . .'
-    '. . . .';
+    'r r . .';
 }
 
 .home-grid.isAbstract {
@@ -45,7 +48,7 @@ p {
   grid-template-areas:
     'c c c c'
     'p b a a '
-    '. . . .';
+    'r r . .';
 }
 
 @media (min-width: 3000px) {
@@ -54,7 +57,7 @@ p {
     grid-template-areas:
       'c c c c c'
       'p b a a a'
-      '. . . . .';
+      'r r . . .';
   }
 }
 
@@ -66,7 +69,8 @@ p {
       'c'
       'a'
       'p'
-      'b';
+      'b'
+      'r';
   }
   .chart {
     height: fit-content;

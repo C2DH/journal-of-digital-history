@@ -10,6 +10,7 @@ import Badge from '../../components/Badge/Badge'
 import CustomBarChart from '../../components/CustomBarChart/CustomBarChart'
 import CustomPieChart from '../../components/CustomPieChart/CustomPieChart'
 import Deadline from '../../components/Deadline/Deadline'
+import PeerReviewChart from '../../components/PeerReviewChart/PeerReviewChart'
 import SmallCard from '../../components/SmallCard/SmallCard'
 import SmallTable from '../../components/SmallTable/SmallTable'
 import { useSorting } from '../../hooks/useSorting'
@@ -120,9 +121,10 @@ const Home = () => {
       <h1>{t('welcome')}</h1>
       <div className={`home-grid ${isAbstractSubmitted ? 'isAbstract' : ''}`}>
         <KPIRow />
-        <>{isAbstractSubmitted && AbstractSubmittedCard(submittedAbstracts)}</>
         <CustomPieChart />
         <CustomBarChart />
+        <>{isAbstractSubmitted && AbstractSubmittedCard(submittedAbstracts)}</>
+        <PeerReviewChart />
       </div>
       <Outlet />
     </div>
