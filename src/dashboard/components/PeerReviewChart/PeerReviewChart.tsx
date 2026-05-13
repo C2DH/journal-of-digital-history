@@ -1,9 +1,12 @@
+import './PeerReviewChart.css'
+
 import { BarChart, BarChartProps } from '@mui/x-charts'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { colorsPeerReviewChart } from '../../styles/theme'
 import SmallCard from '../SmallCard/SmallCard'
+import SmallTable from '../SmallTable/SmallTable'
 
 type ArticleInPeerReview = {
   authors: string
@@ -36,16 +39,64 @@ const PeerReviewChart = () => {
   const datasetTitlesAndAuthors = [
     {
       key: 'assign-R1',
+      articles: [{ authors: 'John Doe', title: 'The Digital Turn' }],
+    },
+    {
+      key: 'assign-R2',
       articles: [
-        {
-          authors: 'John Doe',
-          title: 'Test',
-        },
-        {
-          authors: 'Jane Doe',
-          title: 'Test2',
-        },
+        { authors: 'Bob Brown', title: 'Open Access Futures' },
+        { authors: 'Carol White', title: 'Digital Archives' },
       ],
+    },
+    {
+      key: 'assign-R3+',
+      articles: [{ authors: 'Dan Black', title: 'AI and History' }],
+    },
+    {
+      key: 'awaiting-R1',
+      articles: [
+        { authors: 'Eve Green', title: 'Crowdsourcing the Past' },
+        { authors: 'Jane Doe', title: 'History in the Cloud' },
+        { authors: 'Alice Smith', title: 'Peer Review Revolution' },
+      ],
+    },
+    {
+      key: 'awaiting-R2',
+      articles: [
+        { authors: 'Frank Blue', title: 'Digital Storytelling' },
+        { authors: 'Grace Red', title: 'Metadata Matters' },
+        { authors: 'Grace Red', title: 'Metadata Matters' },
+      ],
+    },
+    {
+      key: 'review-R1',
+      articles: [
+        { authors: 'Helen Yellow', title: 'Visualization in History' },
+        { authors: 'Helen Yellow', title: 'Visualization in History' },
+      ],
+    },
+    {
+      key: 'review-R2',
+      articles: [
+        { authors: 'Helen Yellow', title: 'Visualization in History' },
+        { authors: 'Helen Yellow', title: 'Visualization in History' },
+      ],
+    },
+    {
+      key: 'reviewer-R2',
+      articles: [{ authors: 'Ian Violet', title: 'Peer Review Automation' }],
+    },
+    {
+      key: 'revising-R1',
+      articles: [
+        { authors: 'Jack Orange', title: 'Revisioning the Journal' },
+        { authors: 'Karen Pink', title: 'Collaborative Editing' },
+        { authors: 'Karen Pink', title: 'Collaborative Editing' },
+      ],
+    },
+    {
+      key: 'assign-R3',
+      articles: [{ authors: 'Leo Indigo', title: 'Long Tail of Peer Review' }],
     },
   ]
 
@@ -77,7 +128,7 @@ const PeerReviewChart = () => {
   }
 
   return (
-    <div>
+    <>
       <SmallCard className="home-peerreviewchart chart">
         <h3>{t('KPI.peerReviewChart.title')}</h3>
         <BarChart
@@ -95,6 +146,7 @@ const PeerReviewChart = () => {
             },
             {
               dataKey: 'awaiting',
+              id: 'awaiting',
               label: 'Awaiting Reviewer Response',
               layout: 'horizontal',
               stack: 'stack',
@@ -105,6 +157,7 @@ const PeerReviewChart = () => {
             },
             {
               dataKey: 'review',
+              id: 'review',
               label: 'Review in progress',
               layout: 'horizontal',
               stack: 'stack',
@@ -115,6 +168,7 @@ const PeerReviewChart = () => {
             },
             {
               dataKey: 'reviewer',
+              id: 'reviewer',
               label: 'Reviewer decision',
               layout: 'horizontal',
               stack: 'stack',
@@ -125,6 +179,7 @@ const PeerReviewChart = () => {
             },
             {
               dataKey: 'revising',
+              id: 'revising',
               label: 'Author revising',
               layout: 'horizontal',
               stack: 'stack',
@@ -160,7 +215,6 @@ const PeerReviewChart = () => {
             },
           }}
           onItemClick={(event, d) => {
-            console.log('🚀 ~ file: PeerReviewChart.tsx:143 ~ d:', d)
             setLabel(String(d.seriesId))
             setRound(Number(d.dataIndex + 1))
           }}
@@ -168,21 +222,21 @@ const PeerReviewChart = () => {
           {...getChartSettings()}
         />
       </SmallCard>
-      <SmallCard className="home-peerreviewchart next-table chart">
-        <h3>
-          {label}-R{round}
-        </h3>
-        {data
-          ? data.articles.map((a) => {
-              return (
-                <p>
-                  {a.title} {a.authors}
-                </p>
-              )
-            })
-          : ''}
+      <SmallCard className="home-peerreviewchart-next-table chart">
+        <h2 className="home-peerreviewchart-next-table-title">
+          {`R${round} - ${t(`KPI.peerReviewChart.${label}`)}`}
+        </h2>
+        {data ? (
+          <SmallTable
+            item="articles"
+            headers={['title', 'authors']}
+            data={data.articles}
+          ></SmallTable>
+        ) : (
+          ''
+        )}
       </SmallCard>
-    </div>
+    </>
   )
 }
 

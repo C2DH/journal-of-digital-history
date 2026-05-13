@@ -37,7 +37,12 @@
       "noData": "No data to display"
     },
     "peerReviewChart": {
-      "title": "Peer Review"
+      "title": "Peer Review",
+      "assign": "Assign Reviewer",
+      "awaiting": "Awaiting Reviewer Response",
+      "review": "Review in progress",
+      "reviewer": "Reviewer decision",
+      "revising": "Author revising"
     }
   },
   "issues": {
@@ -80,7 +85,9 @@
     "publication_date": "Pub Date",
     "status": "Status",
     "repository_url": "",
-    "author": "Author"
+    "author": "Author",
+    "authors": "Authors",
+    "title": "Title"
   },
   "authors": {
     "item": "Authors",

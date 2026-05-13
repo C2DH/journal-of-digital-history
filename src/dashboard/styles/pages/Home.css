@@ -32,6 +32,9 @@ p {
 .home-peerreviewchart {
   grid-area: r;
 }
+.home-peerreviewchart-next-table {
+  grid-area: n;
+}
 
 .home-grid {
   display: grid;
@@ -40,15 +43,16 @@ p {
   grid-template-areas:
     'c c c c'
     'p b . .'
-    'r r . .';
+    'r r n .';
 }
 
 .home-grid.isAbstract {
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-areas:
     'c c c c'
-    'p b a a '
-    'r r . .';
+    'p b a a'
+    '. r r n';
 }
 
 @media (min-width: 3000px) {
@@ -57,7 +61,7 @@ p {
     grid-template-areas:
       'c c c c c'
       'p b a a a'
-      'r r . . .';
+      'r r r n .';
   }
 }
 
