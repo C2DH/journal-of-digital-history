@@ -1,7 +1,10 @@
+import { useMatomo } from '@jonkoops/matomo-tracker-react'
 import { a, useSpring } from '@react-spring/web'
+import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { useRef } from 'react'
-import { markdownParser } from '../../logic/markdown'
+import { useTranslation } from 'react-i18next'
+
 import ArticleCellExplainCodeButton, {
   StatusError,
   StatusExecuting,
@@ -9,9 +12,8 @@ import ArticleCellExplainCodeButton, {
   StatusSuccess,
 } from './ArticleCellExplainCodeButton'
 import './ArticleCellExplainer.css'
-
-import { useMutation } from '@tanstack/react-query'
-import { useTranslation } from 'react-i18next'
+import { MatomoActionExplainCodeClick, MatomoCategoryArticleV3 } from '../../constants/matomoEvents'
+import { markdownParser } from '../../logic/markdown'
 import { useArticleCellExplainerStore } from '../../store'
 
 console.info(
@@ -22,6 +24,7 @@ console.info(
 
 const ArticleCellExplainer = ({ source = '', cellIdx = '', className = '' }) => {
   const { t } = useTranslation()
+  const { trackEvent } = useMatomo()
   const messagesRef = useRef(null)
   const resultRef = useRef(null)
   const [styles, api] = useSpring(() => ({
@@ -64,6 +67,13 @@ const ArticleCellExplainer = ({ source = '', cellIdx = '', className = '' }) => 
 
   const onExplainCodeClickHandler = () => {
     console.debug('[ArticleCellExplainer] @onClick ', messagesRef.current.scrollHeight)
+    // Track when the user requests an AI explanation for a cell; name is the cell index.
+    trackEvent({
+      category: MatomoCategoryArticleV3,
+      action: MatomoActionExplainCodeClick,
+      name: String(cellIdx),
+    })
+
     lock(cellIdx)
     let codeToExplain = Array.isArray(source) ? source.join('\n') : source
     // reduce the code To Explain Length to max 500 chars

@@ -1,5 +1,6 @@
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
+
 import { DisplayLayerNarrative } from './constants/globalConstants'
 
 export const useArticleCellExplainerStore = create((set) => ({
@@ -107,7 +108,6 @@ export const useStore = create(
   persist(
     (set) => ({
       backgroundColor: '#ffffff',
-      acceptAnalyticsCookies: false,
       acceptThirdPartyCookies: false, // cookies should be accepted, session is stored locally
       showCookieBanner: true,
       releaseNotified: false,
