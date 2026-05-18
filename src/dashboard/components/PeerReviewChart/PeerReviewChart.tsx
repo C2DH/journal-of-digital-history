@@ -105,17 +105,93 @@ const PeerReviewChart = () => {
     setData(item)
   }, [label, round])
 
-  function getChartSettings(): Partial<BarChartProps> {
+  function getChartSettings(): BarChartProps {
     return {
       dataset,
+      series: [
+        {
+          dataKey: 'assign',
+          id: 'assign',
+          label: 'Assign reviewer',
+          layout: 'horizontal',
+          stack: 'stack',
+          highlightScope: {
+            highlight: 'item',
+            fade: 'global',
+          },
+        },
+        {
+          dataKey: 'awaiting',
+          id: 'awaiting',
+          label: 'Awaiting Reviewer Response',
+          layout: 'horizontal',
+          stack: 'stack',
+          highlightScope: {
+            highlight: 'item',
+            fade: 'global',
+          },
+        },
+        {
+          dataKey: 'review',
+          id: 'review',
+          label: 'Review in progress',
+          layout: 'horizontal',
+          stack: 'stack',
+          highlightScope: {
+            highlight: 'item',
+            fade: 'global',
+          },
+        },
+        {
+          dataKey: 'reviewer',
+          id: 'reviewer',
+          label: 'Reviewer decision',
+          layout: 'horizontal',
+          stack: 'stack',
+          highlightScope: {
+            highlight: 'item',
+            fade: 'global',
+          },
+        },
+        {
+          dataKey: 'revising',
+          id: 'revising',
+          label: 'Author revising',
+          layout: 'horizontal',
+          stack: 'stack',
+          highlightScope: {
+            highlight: 'item',
+            fade: 'global',
+          },
+        },
+      ],
       height: 300,
-      width: 600,
+      width: 500,
+      margin: { left: 0, top: 0 },
+      xAxis: [
+        {
+          position: 'none',
+        },
+      ],
+      yAxis: [
+        {
+          dataKey: 'order',
+          disableLine: true,
+          disableTicks: true,
+          tickLabelStyle: {
+            fill: 'var(--color-deep-blue)',
+            fontWeight: 900,
+            fontSize: 16,
+            fontFamily: "'DM Sans', sans-serif !important",
+          },
+        },
+      ],
       slotProps: {
         legend: {
           direction: 'horizontal',
           position: { vertical: 'bottom', horizontal: 'center' },
           sx: {
-            fontSize: 16,
+            fontSize: 14,
             fontFamily: 'DM Sans, sans-serif',
             color: 'var(--color-deep-blue)',
           },
@@ -132,82 +208,6 @@ const PeerReviewChart = () => {
       <SmallCard className="home-peerreviewchart chart">
         <h3>{t('KPI.peerReviewChart.title')}</h3>
         <BarChart
-          series={[
-            {
-              dataKey: 'assign',
-              id: 'assign',
-              label: 'Assign reviewer',
-              layout: 'horizontal',
-              stack: 'stack',
-              highlightScope: {
-                highlight: 'item',
-                fade: 'global',
-              },
-            },
-            {
-              dataKey: 'awaiting',
-              id: 'awaiting',
-              label: 'Awaiting Reviewer Response',
-              layout: 'horizontal',
-              stack: 'stack',
-              highlightScope: {
-                highlight: 'item',
-                fade: 'global',
-              },
-            },
-            {
-              dataKey: 'review',
-              id: 'review',
-              label: 'Review in progress',
-              layout: 'horizontal',
-              stack: 'stack',
-              highlightScope: {
-                highlight: 'item',
-                fade: 'global',
-              },
-            },
-            {
-              dataKey: 'reviewer',
-              id: 'reviewer',
-              label: 'Reviewer decision',
-              layout: 'horizontal',
-              stack: 'stack',
-              highlightScope: {
-                highlight: 'item',
-                fade: 'global',
-              },
-            },
-            {
-              dataKey: 'revising',
-              id: 'revising',
-              label: 'Author revising',
-              layout: 'horizontal',
-              stack: 'stack',
-              highlightScope: {
-                highlight: 'item',
-                fade: 'global',
-              },
-            },
-          ]}
-          margin={{ left: 0 }}
-          xAxis={[
-            {
-              position: 'none',
-            },
-          ]}
-          yAxis={[
-            {
-              dataKey: 'order',
-              disableLine: true,
-              disableTicks: true,
-              tickLabelStyle: {
-                fill: 'var(--color-deep-blue)',
-                fontWeight: 900,
-                fontSize: 16,
-                fontFamily: "'DM Sans', sans-serif !important",
-              },
-            },
-          ]}
           sx={{
             '.MuiBarElement-root': {
               strokeWidth: 2,
@@ -218,24 +218,25 @@ const PeerReviewChart = () => {
             setLabel(String(d.seriesId))
             setRound(Number(d.dataIndex + 1))
           }}
-          borderRadius={12}
           {...getChartSettings()}
         />
       </SmallCard>
-      <SmallCard className="home-peerreviewchart-next-table chart">
-        <h2 className="home-peerreviewchart-next-table-title">
-          {`R${round} - ${t(`KPI.peerReviewChart.${label}`)}`}
-        </h2>
-        {data ? (
-          <SmallTable
-            item="articles"
-            headers={['title', 'authors']}
-            data={data.articles}
-          ></SmallTable>
-        ) : (
-          ''
-        )}
-      </SmallCard>
+      {data != undefined && (
+        <SmallCard className="home-peerreviewchart-next-table chart">
+          <h2 className="home-peerreviewchart-next-table-title">
+            {`R${round} - ${t(`KPI.peerReviewChart.${label}`)}`}
+          </h2>
+          {data ? (
+            <SmallTable
+              item="articles"
+              headers={['title', 'authors']}
+              data={data.articles}
+            ></SmallTable>
+          ) : (
+            ''
+          )}
+        </SmallCard>
+      )}
     </>
   )
 }

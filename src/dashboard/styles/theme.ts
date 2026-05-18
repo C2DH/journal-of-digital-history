@@ -14,6 +14,13 @@ export const theme = createTheme({
       medium3: '#A3E1FC',
       light: '#C6EDFE',
     },
+    darktolightblue: {
+      dark: '#2B3674',
+      medium1: '#2E518E',
+      medium2: '#306CA9',
+      medium3: '#35A2DE',
+      light: '#38BDF8',
+    },
     green: {
       dark: '#14B8A6',
       main: '#5EEAD4',
@@ -35,11 +42,11 @@ export const colorsPieChart = [
 ]
 
 export const colorsPeerReviewChart = [
-  theme.palette.lightblue.dark,
-  theme.palette.lightblue.medium1,
-  theme.palette.lightblue.medium2,
-  theme.palette.lightblue.medium3,
-  theme.palette.lightblue.light,
+  theme.palette.darktolightblue.dark,
+  theme.palette.darktolightblue.medium1,
+  theme.palette.darktolightblue.medium2,
+  theme.palette.darktolightblue.medium3,
+  theme.palette.darktolightblue.light,
 ]
 
 export const colorsArticle = [

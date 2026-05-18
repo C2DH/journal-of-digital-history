@@ -11,6 +11,7 @@ import CustomBarChart from '../../components/CustomBarChart/CustomBarChart'
 import CustomPieChart from '../../components/CustomPieChart/CustomPieChart'
 import Deadline from '../../components/Deadline/Deadline'
 import PeerReviewChart from '../../components/PeerReviewChart/PeerReviewChart'
+import PeerReviewSimple from '../../components/PeerReviewSimple/PeerReviewSimple'
 import SmallCard from '../../components/SmallCard/SmallCard'
 import SmallTable from '../../components/SmallTable/SmallTable'
 import { useSorting } from '../../hooks/useSorting'
@@ -125,6 +126,7 @@ const Home = () => {
         <CustomBarChart />
         <>{isAbstractSubmitted && AbstractSubmittedCard(submittedAbstracts)}</>
         <PeerReviewChart />
+        <PeerReviewSimple />
       </div>
       <Outlet />
     </div>
