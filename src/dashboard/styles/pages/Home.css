@@ -52,7 +52,8 @@ p {
   grid-template-areas:
     'c c c c'
     'p b a a'
-    'r n n .';
+    '. r n n'
+    '. . . .';
 }
 
 @media (min-width: 3000px) {

@@ -21,6 +21,9 @@ export const theme = createTheme({
       medium3: '#35A2DE',
       light: '#38BDF8',
     },
+    orange: {
+      light: '#FFA86A',
+    },
     green: {
       dark: '#14B8A6',
       main: '#5EEAD4',
@@ -47,6 +50,11 @@ export const colorsPeerReviewChart = [
   theme.palette.darktolightblue.medium2,
   theme.palette.darktolightblue.medium3,
   theme.palette.darktolightblue.light,
+]
+
+export const colorPeerReviewSimpleChart = [
+  theme.palette.darktolightblue.medium3,
+  theme.palette.orange.light,
 ]
 
 export const colorsArticle = [

@@ -1,6 +1,7 @@
 import { BarChart, BarChartProps } from '@mui/x-charts'
 import { useTranslation } from 'react-i18next'
 
+import { colorPeerReviewSimpleChart } from '../../styles/theme'
 import SmallCard from '../SmallCard/SmallCard'
 
 const PeerReviewSimple = () => {
@@ -19,7 +20,8 @@ const PeerReviewSimple = () => {
   function getChartSettings(): BarChartProps {
     return {
       dataset,
-      width: 300,
+      height: 300,
+      margin: { left: 0, bottom: 50 },
       series: [
         {
           dataKey: 'ontime',
@@ -45,6 +47,10 @@ const PeerReviewSimple = () => {
       slotProps: {
         legend: {
           direction: 'horizontal',
+          position: {
+            vertical: 'bottom',
+            horizontal: 'center',
+          },
           sx: {
             fontSize: 16,
             fontFamily: 'DM Sans, sans-serif',
@@ -71,9 +77,8 @@ const PeerReviewSimple = () => {
           },
         },
       ],
-      margin: {
-        bottom: 80,
-      },
+      colors: colorPeerReviewSimpleChart,
+      barLabel: 'value',
     }
   }
 
@@ -86,6 +91,12 @@ const PeerReviewSimple = () => {
             '.MuiBarElement-root': {
               strokeWidth: 2,
               stroke: 'white',
+            },
+            '.MuiBarLabel-root': {
+              fill: 'white',
+              fontWeight: 700,
+              fontSize: 14,
+              fontFamily: 'DM Sans, sans-serif',
             },
           }}
           {...getChartSettings()}
