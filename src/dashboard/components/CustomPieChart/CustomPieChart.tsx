@@ -83,7 +83,7 @@ const CustomPieChart = () => {
               marginTop: '30px',
               width: { xs: '100%', lg: '100%', xl: '200px' },
             },
-            '.MuiPieArcLabel-root': {
+            '.MuiPieChart-arcLabel': {
               fill: 'white',
               fontWeight: 600,
               fontSize: 14,

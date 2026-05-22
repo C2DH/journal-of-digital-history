@@ -32,6 +32,7 @@ const PeerReviewSimple = () => {
             highlight: 'item',
             fade: 'global',
           },
+          barLabel: 'value',
         },
         {
           dataKey: 'delay',
@@ -42,6 +43,7 @@ const PeerReviewSimple = () => {
             highlight: 'item',
             fade: 'global',
           },
+          barLabel: 'value',
         },
       ],
       slotProps: {
@@ -78,7 +80,6 @@ const PeerReviewSimple = () => {
         },
       ],
       colors: colorPeerReviewSimpleChart,
-      barLabel: 'value',
     }
   }
 
@@ -92,7 +93,7 @@ const PeerReviewSimple = () => {
               strokeWidth: 2,
               stroke: 'white',
             },
-            '.MuiBarLabel-root': {
+            '.MuiBarChart-label': {
               fill: 'white',
               fontWeight: 700,
               fontSize: 14,

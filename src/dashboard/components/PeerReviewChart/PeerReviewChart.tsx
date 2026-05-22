@@ -59,7 +59,6 @@ const PeerReviewChart = () => {
         tooltip: { trigger: 'item' },
       },
       colors: colorsPeerReviewChart,
-      barLabel: 'value',
     }
   }
 
@@ -73,7 +72,7 @@ const PeerReviewChart = () => {
               strokeWidth: 2,
               stroke: 'white',
             },
-            '.MuiBarLabel-root': {
+            '.MuiBarChart-label': {
               fill: 'white',
               fontWeight: 600,
               fontSize: 14,

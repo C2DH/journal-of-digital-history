@@ -88,6 +88,7 @@ export const series: Omit<BarSeriesType, 'type'>[] = [
       highlight: 'item',
       fade: 'global',
     },
+    barLabel: 'value',
   },
   {
     dataKey: 'awaiting',
@@ -99,6 +100,7 @@ export const series: Omit<BarSeriesType, 'type'>[] = [
       highlight: 'item',
       fade: 'global',
     },
+    barLabel: 'value',
   },
   {
     dataKey: 'review',
@@ -110,6 +112,7 @@ export const series: Omit<BarSeriesType, 'type'>[] = [
       highlight: 'item',
       fade: 'global',
     },
+    barLabel: 'value',
   },
   {
     dataKey: 'reviewer',
@@ -121,6 +124,7 @@ export const series: Omit<BarSeriesType, 'type'>[] = [
       highlight: 'item',
       fade: 'global',
     },
+    barLabel: 'value',
   },
   {
     dataKey: 'revising',
@@ -132,5 +136,6 @@ export const series: Omit<BarSeriesType, 'type'>[] = [
       highlight: 'item',
       fade: 'global',
     },
+    barLabel: 'value',
   },
 ]
