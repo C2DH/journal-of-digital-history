@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
-import Badge from '../../components/Badge/Badge'
+import Badge from '../../components/Badge/Accent/Badge'
 import CustomBarChart from '../../components/CustomBarChart/CustomBarChart'
 import CustomPieChart from '../../components/CustomPieChart/CustomPieChart'
 import Deadline from '../../components/Deadline/Deadline'

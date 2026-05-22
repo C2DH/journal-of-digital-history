@@ -100,7 +100,7 @@ const PeerReviewChart = () => {
           {data ? (
             <SmallTable
               item="articles"
-              headers={['title', 'authors']}
+              headers={['title', 'authors', 'substatus']}
               data={data.articles}
             ></SmallTable>
           ) : (

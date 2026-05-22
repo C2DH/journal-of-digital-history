@@ -41,6 +41,12 @@ th.smalltable-submitted_date,
 td.smalltable-submitted_date {
   width: 22%;
 }
+th.smalltable-title {
+  width: 40%;
+}
+th.smalltable-authors {
+  width: 15%;
+}
 
 /* CELL STYLES */
 .smalltable td {
@@ -54,11 +60,12 @@ td.smalltable-name,
   font-weight: 600;
   color: var(--color-deep-blue);
 }
-/* 
-th.smalltable-author,
-th.smalltable-callpaper_title {
-  display: none;
-} */
+
+td.smalltable-substatus {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
 /*Tablet or small screen view */
 @media screen and (max-width: 1500px) {

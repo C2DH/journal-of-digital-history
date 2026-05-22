@@ -48,6 +48,20 @@
       "revising": "Author revising"
     }
   },
+  "badge": {
+    "status": {
+      "draft": "Writing",
+      "technical_review": "Technical review",
+      "peer_review": "Peer Review",
+      "copy_editing": "Copy Editing",
+      "design_review": "Design Review",
+      "social_media": "Social Media",
+      "published": "Published",
+      "archived": "Archived",
+      "thanked": "thanked",
+      "overdue": "overdue"
+    }
+  },
   "issues": {
     "item": "Issues",
     "pid": "PID",
@@ -90,7 +104,8 @@
     "repository_url": "",
     "author": "Author",
     "authors": "Authors",
-    "title": "Title"
+    "title": "Title",
+    "substatus": "Substatus"
   },
   "authors": {
     "item": "Authors",

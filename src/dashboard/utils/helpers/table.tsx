@@ -1,3 +1,4 @@
+import StatusBadge from '../../components/Badge/StatusBadge/StatusBadge'
 import IconButton from '../../components/Buttons/IconButton/IconButton'
 import Status from '../../components/Status/Status'
 import Timeline from '../../components/Timeline/Timeline'
@@ -8,6 +9,7 @@ import {
   isEmailCell,
   isLinkCell,
   isStatus,
+  isSubstatusCell,
 } from '../helpers/checkItem'
 import { Abstract, AbstractRow, ArticleRow, Row } from '../types'
 import { convertDate } from './date'
@@ -135,6 +137,17 @@ function renderCell({ isStep, cell, header, isArticle }: renderCellProps) {
     content = convertDate(cell)
   } else if (isEmailCell(cell)) {
     content = <a href={`mailto:${cell}`}>{cell}</a>
+  } else if (isSubstatusCell(header)) {
+    cell = JSON.parse(cell)
+
+    const counts = (cell as string[]).reduce<Record<string, number>>((acc, s) => {
+      acc[s] = (acc[s] ?? 0) + 1
+      return acc
+    }, {})
+
+    return Object.entries(counts).map(([status, count]) => (
+      <StatusBadge status={status} count={count} />
+    ))
   } else if (cell === '' || cell === null) {
     content = '-'
   } else {

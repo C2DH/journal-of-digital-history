@@ -47,6 +47,10 @@ function isEmailCell(cell: string): boolean {
   return typeof cell === 'string' && cell.includes('@')
 }
 
+function isSubstatusCell(headerName: string) {
+  return headerName === 'substatus'
+}
+
 function isTitleHeader(headerName: string) {
   return headerName === 'title' || headerName === 'abstract__title'
 }
@@ -140,6 +144,7 @@ export {
   isStatus,
   isStatusHeader,
   isStepCell,
+  isSubstatusCell,
   isTitleHeader,
   isTypeAbstract,
   isTypeArticle,

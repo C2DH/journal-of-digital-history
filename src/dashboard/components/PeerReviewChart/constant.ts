@@ -16,7 +16,28 @@ export const dataset = [
 export const datasetTitlesAndAuthors = [
   {
     key: 'assign-R1',
-    articles: [{ authors: 'John Doe', title: 'The Digital Turn' }],
+    articles: [
+      {
+        authors: 'John Doe',
+        title: 'The Digital Turn',
+        substatus: ['thanked', 'thanked', 'overdue'],
+      },
+      {
+        authors: 'Anna Reynolds',
+        title: 'Decolonizing Digital Archives',
+        substatus: ['thanked'],
+      },
+      {
+        authors: 'Mark Liu',
+        title: 'Networks of Knowledge',
+        substatus: ['overdue', 'thanked'],
+      },
+      {
+        authors: 'Sara Kim',
+        title: 'Crowdsourced Metadata Practices',
+        substatus: ['thanked', 'thanked'],
+      },
+    ],
   },
   {
     key: 'assign-R2',
