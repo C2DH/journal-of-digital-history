@@ -4,10 +4,8 @@ import { MatomoProvider, createInstance } from '@jonkoops/matomo-tracker-react'
 import { createRoot } from 'react-dom/client'
 
 import App from './App'
+// import { getMatomoTracker } from './components/Cookies/MatomoOptOut'
 import * as serviceWorker from './serviceWorker'
-import { useStore } from './store'
-
-const AcceptAnalyticsCookies = true;  //useStore.getState().acceptAnalyticsCookies
 
 const matomo = createInstance({
   urlBase: import.meta.env.VITE_MATOMO_URLBASE,
@@ -15,7 +13,6 @@ const matomo = createInstance({
   // userId: 'UIDC2DH', // optional, default value: `undefined`.
   // trackerUrl: 'https://LINK.TO.DOMAIN/tracking.php', // optional, default value: `${urlBase}matomo.php`
   // srcUrl: 'https://LINK.TO.DOMAIN/tracking.js', // optional, default value: `${urlBase}matomo.js`
-  disabled: !AcceptAnalyticsCookies, // optional, false by default. Makes all tracking calls no-ops if set to true.
   heartBeat: {
     // optional, enabled by default
     active: true, // optional, default value: true
@@ -32,11 +29,11 @@ const matomo = createInstance({
 })
 
 // console.info('initial saved state', persistentState)
-console.info(
-  AcceptAnalyticsCookies ? '%cMatomo enabled' : '%cMatomo disabled',
-  'font-weight: bold',
-  import.meta.env.VITE_MATOMO_URLBASE,
-)
+// console.info(
+//   getMatomoTracker().isUserOptedOut() ? '%cMatomo enabled' : '%cMatomo disabled',
+//   'font-weight: bold',
+//   import.meta.env.VITE_MATOMO_URLBASE,
+// )
 
 // replace console.* for disable log debug on production
 if (process.env.NODE_ENV === 'production' && import.meta.env.VITE_BASEURL === location.origin) {

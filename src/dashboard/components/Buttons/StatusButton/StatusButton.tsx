@@ -14,7 +14,7 @@ const StatusButton = ({ actions, value }: { actions: any; value: string }) => {
   useClick(ref, setOpen, open)
 
   return (
-    <div className="status-button-container" ref={ref}>
+    <div className="value status-button-container" ref={ref}>
       <button className="status-button-btn" type="button" onClick={() => setOpen((prev) => !prev)}>
         <Status value={String(value)} /> {open ? <NavArrowUp /> : <NavArrowDown />}
       </button>

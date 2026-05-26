@@ -57,6 +57,7 @@ export interface Article {
   issue: Issue
   authors: any[]
   fingerprint: Fingerprint
+  campaigns: Campaign[]
 }
 
 interface Fingerprint {
@@ -81,6 +82,13 @@ interface Data {
   keywords: string[]
   contributor: string[]
   [key: string]: any
+}
+
+export interface Campaign {
+  platform: 'FACEBOOK' | 'BLUESKY'
+  url: string
+  scheduled_time: string | null
+  published_time: string | null
 }
 
 /* Author */
