@@ -1,38 +1,56 @@
 import './PeerReviewChart.css'
 
 import { BarChart, BarChartProps } from '@mui/x-charts'
-import { useEffect, useState } from 'react'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { colorsPeerReviewChart } from '../../styles/theme'
+import { getPeerReviewArticlesByStage, getPeerReviewArticlesDetails } from '../../utils/api/api'
 import SmallCard from '../SmallCard/SmallCard'
 import SmallTable from '../SmallTable/SmallTable'
-import { dataset, datasetTitlesAndAuthors, series } from './constant'
+import { series } from './constant'
 import Legend from './Legend'
 
 type ArticleInPeerReview = {
   authors: string
   title: string
 }
-type ItemInPeerReview = {
-  key: string
-  articles: ArticleInPeerReview[]
-}
 
 const PeerReviewChart = () => {
   const { t } = useTranslation()
   const [label, setLabel] = useState('Default')
   const [round, setRound] = useState<number>(4)
-  const [data, setData] = useState<ItemInPeerReview | undefined>(undefined)
 
-  useEffect(() => {
-    const item = datasetTitlesAndAuthors.find((item) => item.key === `${label}-R${round}`)
-    setData(item)
-  }, [label, round])
+  const getPeerReviewByStage = async () => {
+    const data = await getPeerReviewArticlesByStage()
+    const dataWithoutNull = data.filter(
+      (item) =>
+        item.assign != 0 ||
+        item.awaiting != 0 ||
+        item.review != 0 ||
+        item.reviewer != 0 ||
+        item.revising != 0,
+    )
+    return dataWithoutNull
+  }
+
+  const { data } = useSuspenseQuery({
+    queryKey: ['peerReviewData'],
+    queryFn: getPeerReviewByStage,
+    staleTime: 0,
+  })
+
+  const { data: allItems } = useQuery({
+    queryKey: ['peerReviewArticlesDetails'],
+    queryFn: getPeerReviewArticlesDetails,
+  })
+
+  const item = allItems?.find((item) => item.key === `${label}-R${round}`)
 
   function getChartSettings(): BarChartProps {
     return {
-      dataset: dataset,
+      dataset: data,
       series: series,
       height: 200,
       width: 400,
@@ -92,16 +110,16 @@ const PeerReviewChart = () => {
           <Legend />
         </div>
       </SmallCard>
-      {data != undefined && (
+      {item != undefined && (
         <SmallCard className="home-peerreviewchart-next-table chart">
           <h2 className="home-peerreviewchart-next-table-title">
             {`R${round} - ${t(`KPI.peerReviewChart.${label}`)}`}
           </h2>
-          {data ? (
+          {item ? (
             <SmallTable
               item="articles"
               headers={['title', 'authors', 'substatus']}
-              data={data.articles}
+              data={item.articles}
             ></SmallTable>
           ) : (
             ''

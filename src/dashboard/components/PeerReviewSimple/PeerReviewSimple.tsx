@@ -1,25 +1,29 @@
 import { BarChart, BarChartProps } from '@mui/x-charts'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 
 import { colorPeerReviewSimpleChart } from '../../styles/theme'
+import { getPeerReviewArticlesTiming } from '../../utils/api/api'
 import SmallCard from '../SmallCard/SmallCard'
 
 const PeerReviewSimple = () => {
   const { t } = useTranslation()
 
-  const dataset = [
-    [8, 1, 'R1'],
-    [8, 0, 'R2'],
-    [1, 0, 'R3+'],
-  ].map(([ontime, delay, order]) => ({
-    ontime,
-    delay,
-    order,
-  }))
+  const getPeerReviewArticlesWithTiming = async () => {
+    const data = await getPeerReviewArticlesTiming()
+    const dataWithoutNull = data.filter((item) => item.ontime != 0 || item.delay != 0)
+    return dataWithoutNull
+  }
+
+  const { data } = useSuspenseQuery({
+    queryKey: ['peerReviewSimpleData'],
+    queryFn: getPeerReviewArticlesWithTiming,
+    staleTime: 0,
+  })
 
   function getChartSettings(): BarChartProps {
     return {
-      dataset,
+      dataset: data,
       height: 300,
       margin: { left: 0, bottom: 50 },
       series: [
@@ -32,7 +36,7 @@ const PeerReviewSimple = () => {
             highlight: 'item',
             fade: 'global',
           },
-          barLabel: 'value',
+          barLabel: (item) => (item.value ? String(item.value) : null),
         },
         {
           dataKey: 'delay',
@@ -43,7 +47,7 @@ const PeerReviewSimple = () => {
             highlight: 'item',
             fade: 'global',
           },
-          barLabel: 'value',
+          barLabel: (item) => (item.value ? String(item.value) : null),
         },
       ],
       slotProps: {
@@ -87,21 +91,23 @@ const PeerReviewSimple = () => {
     <>
       <SmallCard className="home-peerreviewchart-simple chart">
         <h2>{t('KPI.peerReviewChart.simple.title')}</h2>
-        <BarChart
-          sx={{
-            '.MuiBarElement-root': {
-              strokeWidth: 2,
-              stroke: 'white',
-            },
-            '.MuiBarChart-label': {
-              fill: 'white',
-              fontWeight: 700,
-              fontSize: 14,
-              fontFamily: 'DM Sans, sans-serif',
-            },
-          }}
-          {...getChartSettings()}
-        />
+        {data.length > 0 && (
+          <BarChart
+            sx={{
+              '.MuiBarElement-root': {
+                strokeWidth: 2,
+                stroke: 'white',
+              },
+              '.MuiBarChart-label': {
+                fill: 'white',
+                fontWeight: 700,
+                fontSize: 14,
+                fontFamily: 'DM Sans, sans-serif',
+              },
+            }}
+            {...getChartSettings()}
+          />
+        )}
       </SmallCard>
     </>
   )

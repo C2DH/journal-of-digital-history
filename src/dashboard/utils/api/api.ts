@@ -321,6 +321,42 @@ const sendArticleToCopyeditor = async (body: Record<string, any>) => {
     })
 }
 
+const getPeerReviewArticlesTiming = async () => {
+  console.info('GET [getPeerReviewArticlesTiming]')
+
+  return api
+    .get(`/api/articles/ojs/submissions/peer-review/timing`)
+    .then((res) => res.data.data)
+    .catch((err) => {
+      console.error(err)
+      throw err.response.data
+    })
+}
+
+const getPeerReviewArticlesByStage = async () => {
+  console.info('GET [getPeerReviewArticlesByStage]')
+
+  return api
+    .get(`/api/articles/ojs/submissions/peer-review/stage`)
+    .then((res) => res.data.data)
+    .catch((err) => {
+      console.error(err)
+      throw err.response.data
+    })
+}
+
+const getPeerReviewArticlesDetails = async () => {
+  console.info('GET [getPeerReviewArticlesDetails]')
+
+  return api
+    .get(`/api/articles/ojs/submissions/peer-review/details`)
+    .then((res) => res.data.data)
+    .catch((err) => {
+      console.error(err)
+      throw err.response.data
+    })
+}
+
 export {
   getAbstractsByStatusAndCallForPapers,
   getAbstractsSubmittedToOJS,
@@ -328,6 +364,9 @@ export {
   getArticlesByStatus,
   getArticlesByStatusAndIssues,
   getCallforpaperWithDeadlineOpen,
+  getPeerReviewArticlesByStage,
+  getPeerReviewArticlesDetails,
+  getPeerReviewArticlesTiming,
   getSocialMediaCover,
   getTweetContent,
   modifyAbstractStatusWithEmail,
