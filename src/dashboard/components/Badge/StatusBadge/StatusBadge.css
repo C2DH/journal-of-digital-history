@@ -36,6 +36,14 @@
 
 /* For Substatuses in KPI peer review Home Page */
 
+.status-fancy-badge.pending,
+.status-fancy-badge.declined,
+.status-fancy-badge.accepted,
+.status-fancy-badge.submitted,
+.status-fancy-badge.confirmed,
+.status-fancy-badge.cancelled,
+.status-fancy-badge.resent,
+.status-fancy-badge.viewed,
 .status-fancy-badge.thanked {
   border-radius: 5px;
   background-color: #e2e4ec;

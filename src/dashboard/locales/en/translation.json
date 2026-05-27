@@ -58,8 +58,16 @@
       "social_media": "Social Media",
       "published": "Published",
       "archived": "Archived",
+      "pending": "pending",
+      "declined": "declined",
+      "overdue": "overdue",
+      "accepted": "accepted",
+      "submitted": "submitted",
+      "confirmed": "confirmed",
       "thanked": "thanked",
-      "overdue": "overdue"
+      "cancelled": "cancelled",
+      "resent": "resent",
+      "viewed": "viewed"
     }
   },
   "issues": {
@@ -105,7 +113,8 @@
     "author": "Author",
     "authors": "Authors",
     "title": "Title",
-    "substatus": "Substatus"
+    "substatus": "Substatus",
+    "url": "OJS"
   },
   "authors": {
     "item": "Authors",
