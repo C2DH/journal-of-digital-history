@@ -1,7 +1,7 @@
 .smalltable {
   width: 100%;
   table-layout: fixed;
-  border-spacing: var(--gap-size-3);
+  border-spacing: var(--gap-size-2);
   border-collapse: separate;
 }
 
@@ -47,6 +47,9 @@ th.smalltable-title {
 th.smalltable-authors {
   width: 15%;
 }
+th.smalltable-url {
+  width: 10%;
+}
 
 /* CELL STYLES */
 .smalltable td {
@@ -65,6 +68,10 @@ td.smalltable-substatus {
   display: flex;
   flex-direction: row;
   align-items: center;
+  flex-wrap: wrap;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
 }
 
 /*Tablet or small screen view */

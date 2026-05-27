@@ -29,11 +29,17 @@ p {
 .home-barchart {
   grid-area: b;
 }
+.home-peerreviewchart-simple {
+  grid-area: rs;
+  height: fit-content;
+}
 .home-peerreviewchart {
   grid-area: r;
+  height: fit-content;
 }
 .home-peerreviewchart-next-table {
   grid-area: n;
+  height: fit-content;
 }
 
 .home-grid {
@@ -43,7 +49,7 @@ p {
   grid-template-areas:
     'c c c c'
     'p b . .'
-    'r r n .';
+    'rs r r n';
 }
 
 .home-grid.isAbstract {
@@ -52,7 +58,7 @@ p {
   grid-template-areas:
     'c c c c'
     'p b a a'
-    '. r n n'
+    'rs r n n'
     '. . . .';
 }
 

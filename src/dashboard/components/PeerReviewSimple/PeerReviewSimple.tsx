@@ -24,7 +24,7 @@ const PeerReviewSimple = () => {
   function getChartSettings(): BarChartProps {
     return {
       dataset: data,
-      height: 300,
+      height: 150,
       margin: { left: 0, bottom: 50 },
       series: [
         {
