@@ -1,5 +1,6 @@
 import './IconButton.css'
 
+import { OpenInNew } from '@mui/icons-material'
 import { Facebook, Github, Linkedin } from 'iconoir-react'
 
 import BlueskyIcon from '../../../../assets/images/bluesky_blue.svg?url'
@@ -50,6 +51,9 @@ const IconButton = ({ value }: any) => {
         break
       case 'linkedin':
         icon = <Linkedin className="linkedin-icon" data-testid="linkedin-icon" />
+        break
+      case 'degruyterbrill':
+        icon = <OpenInNew />
         break
       default:
         icon = mainDomain

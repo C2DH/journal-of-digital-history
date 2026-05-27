@@ -52,7 +52,7 @@ const PeerReviewChart = () => {
     return {
       dataset: data,
       series: series,
-      height: 200,
+      height: 100,
       width: 400,
       margin: { left: 0, top: 0, right: 30, bottom: 10 },
       xAxis: [
@@ -118,7 +118,7 @@ const PeerReviewChart = () => {
           {item ? (
             <SmallTable
               item="articles"
-              headers={['title', 'authors', 'substatus']}
+              headers={['pid', 'title', 'authors', 'substatus', 'url']}
               data={item.articles}
             ></SmallTable>
           ) : (

@@ -7,7 +7,8 @@
 .link-button-github,
 .link-button-bsky,
 .link-button-facebook,
-.link-button-linkedin {
+.link-button-linkedin,
+.link-button-degruyterbrill {
   padding: 0 0 0 var(--gap-size-1);
   background-color: transparent;
   border: none;
