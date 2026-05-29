@@ -2,7 +2,7 @@ import './PeerReviewChart.css'
 
 import { BarChart, BarChartProps } from '@mui/x-charts'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { colorsPeerReviewChart } from '../../styles/theme'
@@ -12,15 +12,15 @@ import SmallTable from '../SmallTable/SmallTable'
 import { series } from './constant'
 import Legend from './Legend'
 
-type ArticleInPeerReview = {
-  authors: string
-  title: string
-}
-
 const PeerReviewChart = () => {
   const { t } = useTranslation()
   const [label, setLabel] = useState('Default')
   const [round, setRound] = useState<number>(4)
+  const [item, setItem] = useState({
+    key: 'default',
+    articles: [{ pid: '', authors: '', title: '', substatus: [''], url: '' }],
+  })
+  const [placeholder, setPlaceholder] = useState(true)
 
   const getPeerReviewByStage = async () => {
     const data = await getPeerReviewArticlesByStage()
@@ -46,7 +46,13 @@ const PeerReviewChart = () => {
     queryFn: getPeerReviewArticlesDetails,
   })
 
-  const item = allItems?.find((item) => item.key === `${label}-R${round}`)
+  useEffect(() => {
+    const temp = allItems?.find((item) => item.key === `${label}-R${round}`)
+    if (temp) {
+      setItem(temp)
+      setPlaceholder(false)
+    }
+  }, [round, label])
 
   function getChartSettings(): BarChartProps {
     return {
@@ -110,22 +116,21 @@ const PeerReviewChart = () => {
           <Legend />
         </div>
       </SmallCard>
-      {item != undefined && (
-        <SmallCard className="home-peerreviewchart-next-table chart">
+      {
+        <SmallCard
+          className={`home-peerreviewchart-next-table chart ${placeholder ? 'light' : ''}`}
+        >
           <h2 className="home-peerreviewchart-next-table-title">
-            {`R${round} - ${t(`KPI.peerReviewChart.${label}`)}`}
+            {t('KPI.peerReviewChart.table.title')}
           </h2>
-          {item ? (
-            <SmallTable
-              item="articles"
-              headers={['pid', 'title', 'authors', 'substatus', 'url']}
-              data={item.articles}
-            ></SmallTable>
-          ) : (
-            ''
-          )}
+          <SmallTable
+            item="articles"
+            headers={['pid', 'title', 'authors', 'substatus', 'url']}
+            data={item.articles}
+            placeholder={placeholder}
+          ></SmallTable>
         </SmallCard>
-      )}
+      }
     </>
   )
 }

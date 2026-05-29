@@ -11,3 +11,7 @@
   box-sizing: border-box;
   word-wrap: break-word;
 }
+
+.small-card.light {
+  background-color: var(--color-background-input);
+}

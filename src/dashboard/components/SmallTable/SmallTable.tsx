@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { SmallTableProps } from './interface'
 
+import clickChart from '../../../assets/images/click_chart_horizontal3.svg?url'
 import { isPidHeader, isStepCell, isTitleHeader } from '../../utils/helpers/checkItem'
 import {
   authorColumn,
@@ -14,7 +15,7 @@ import {
   renderCell,
 } from '../../utils/helpers/table'
 
-const SmallTable = ({ item, headers, data }: SmallTableProps) => {
+const SmallTable = ({ item, headers, data, placeholder }: SmallTableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const search = location.search
@@ -51,42 +52,57 @@ const SmallTable = ({ item, headers, data }: SmallTableProps) => {
             })}
           </tr>
         </thead>
-        <tbody>
-          {cleanData.map((row, rIdx) => {
-            const cells = getValueInSpecificOrder(visibleHeaders, row)
+        {placeholder && (
+          <tbody className="placeholder-body">
+            {' '}
+            <tr>
+              <th className="placeholder-body-header" colSpan={5}>
+                {' '}
+                <img src={clickChart} className="placeholder-image" />
+                <h3>{t(`KPI.peerReviewChart.table.placeholder`)}</h3>
+                <h5>{t(`KPI.peerReviewChart.table.indication`)}</h5>
+              </th>
+            </tr>
+          </tbody>
+        )}
+        {!placeholder && (
+          <tbody>
+            {cleanData.map((row, rIdx) => {
+              const cells = getValueInSpecificOrder(visibleHeaders, row)
 
-            return (
-              <tr key={rIdx}>
-                {cells.map((cell: string | number, cIdx: number) => {
-                  const headerName = visibleHeaders[cIdx]
-                  const isPid = isPidHeader(headerName)
-                  const isTitle = isTitleHeader(headerName)
-                  const isStep = isStepCell(cell)
+              return (
+                <tr key={rIdx}>
+                  {cells.map((cell: string | number, cIdx: number) => {
+                    const headerName = visibleHeaders[cIdx]
+                    const isPid = isPidHeader(headerName)
+                    const isTitle = isTitleHeader(headerName)
+                    const isStep = isStepCell(cell)
 
-                  return (
-                    !isPid && (
-                      <td
-                        key={cIdx}
-                        className={`smalltable-${headerName}`}
-                        colSpan={isTitle ? 2 : 1}
-                        title={String(cell)}
-                        style={isTitle ? { cursor: 'pointer' } : undefined}
-                        onClick={isTitle ? () => handleRowClick(String(cells[0])) : undefined}
-                      >
-                        {renderCell({
-                          isStep,
-                          cell,
-                          header: headerName,
-                          isArticle: false,
-                        })}
-                      </td>
+                    return (
+                      !isPid && (
+                        <td
+                          key={cIdx}
+                          className={`smalltable-${headerName}`}
+                          colSpan={isTitle ? 2 : 1}
+                          title={String(cell)}
+                          style={isTitle ? { cursor: 'pointer' } : undefined}
+                          onClick={isTitle ? () => handleRowClick(String(cells[0])) : undefined}
+                        >
+                          {renderCell({
+                            isStep,
+                            cell,
+                            header: headerName,
+                            isArticle: false,
+                          })}
+                        </td>
+                      )
                     )
-                  )
-                })}
-              </tr>
-            )
-          })}
-        </tbody>
+                  })}
+                </tr>
+              )
+            })}
+          </tbody>
+        )}
       </table>
     </>
   )

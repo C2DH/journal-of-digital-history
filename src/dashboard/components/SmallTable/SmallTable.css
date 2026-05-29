@@ -32,6 +32,12 @@
   font-size: var(--text-size-3);
 }
 
+th.placeholder-body-header {
+  color: var(--color-deep-blue);
+  padding: var(--gap-size-0);
+  text-align: center;
+}
+
 th.smalltable-callpaper_title,
 th.smalltable-author {
   width: 20%;
@@ -72,6 +78,11 @@ td.smalltable-substatus {
   white-space: normal;
   overflow: visible;
   text-overflow: unset;
+}
+
+.placeholder-image {
+  width: 128px;
+  justify-content: center;
 }
 
 /*Tablet or small screen view */

@@ -40,6 +40,11 @@
       "simple": {
         "title": "Article in Rounds"
       },
+      "table": {
+        "title": "Peer Review Details",
+        "placeholder": "Select a phase to begin",
+        "indication": "←  Select a peer review phase to view article details."
+      },
       "title": "Phases in peer review",
       "assign": "Assign Reviewer",
       "awaiting": "Awaiting Reviewer Response",
