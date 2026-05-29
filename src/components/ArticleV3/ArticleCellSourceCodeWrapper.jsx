@@ -56,7 +56,7 @@ const ArticleCellSourceCodeWrapper = ({
             toggleVisibility  = {toggleVisibility}
             visible           = {visible}
             options           = {{
-              readOnly: readOnly || isCollapsed ? 'nocursor' : false
+              readOnly: readOnly || isCollapsed
             }}
             onLineCountChange = {setLineCount}
           />
