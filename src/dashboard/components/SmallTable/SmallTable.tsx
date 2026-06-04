@@ -1,5 +1,6 @@
 import './SmallTable.css'
 
+import Skeleton from '@mui/material/Skeleton'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -15,7 +16,7 @@ import {
   renderCell,
 } from '../../utils/helpers/table'
 
-const SmallTable = ({ item, headers, data, placeholder }: SmallTableProps) => {
+const SmallTable = ({ item, headers, data, placeholder, loading }: SmallTableProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const search = location.search
@@ -54,13 +55,21 @@ const SmallTable = ({ item, headers, data, placeholder }: SmallTableProps) => {
         </thead>
         {placeholder && (
           <tbody className="placeholder-body">
-            {' '}
             <tr>
               <th className="placeholder-body-header" colSpan={5}>
-                {' '}
-                <img src={clickChart} className="placeholder-image" />
-                <h3>{t(`KPI.peerReviewChart.table.placeholder`)}</h3>
-                <h5>{t(`KPI.peerReviewChart.table.indication`)}</h5>
+                {loading ? (
+                  <>
+                    <Skeleton />
+                    <Skeleton />
+                    <Skeleton />
+                  </>
+                ) : (
+                  <>
+                    <img src={clickChart} className="placeholder-image" />
+                    <h3>{t(`KPI.peerReviewChart.table.placeholder`)}</h3>
+                    <h5>{t(`KPI.peerReviewChart.table.indication`)}</h5>
+                  </>
+                )}
               </th>
             </tr>
           </tbody>

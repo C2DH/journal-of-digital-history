@@ -3,4 +3,5 @@ export type SmallTableProps = {
   headers: string[]
   data: any[]
   placeholder?: boolean
+  loading?: boolean
 }

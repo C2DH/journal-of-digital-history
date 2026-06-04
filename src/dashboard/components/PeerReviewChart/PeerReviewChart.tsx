@@ -20,6 +20,7 @@ const PeerReviewChart = () => {
     key: 'default',
     articles: [{ pid: '', authors: '', title: '', substatus: [''], url: '' }],
   })
+  const [firstClick, setFirstClick] = useState(false)
   const [placeholder, setPlaceholder] = useState(true)
 
   const getPeerReviewByStage = async () => {
@@ -51,8 +52,9 @@ const PeerReviewChart = () => {
     if (temp) {
       setItem(temp)
       setPlaceholder(false)
+      setFirstClick(false)
     }
-  }, [round, label])
+  }, [round, label, allItems])
 
   function getChartSettings(): BarChartProps {
     return {
@@ -104,6 +106,7 @@ const PeerReviewChart = () => {
             },
           }}
           onItemClick={(event, d) => {
+            setFirstClick(true)
             setLabel(String(d.seriesId))
             setRound(Number(d.dataIndex + 1))
           }}
@@ -128,6 +131,7 @@ const PeerReviewChart = () => {
             headers={['pid', 'title', 'authors', 'substatus', 'url']}
             data={item.articles}
             placeholder={placeholder}
+            loading={firstClick}
           ></SmallTable>
         </SmallCard>
       }
