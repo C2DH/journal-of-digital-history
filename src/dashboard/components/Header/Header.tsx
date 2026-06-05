@@ -3,9 +3,10 @@ import './Header.css'
 import { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 
+import BurgerMenu from '../../../assets/icons/BurgerMenu'
 import LogoBlue from '../../../assets/icons/LogoBlue'
 import Me from '../../../components/Me/Me'
-import { useActionStore, useItemStore } from '../../store'
+import { useActionStore, useItemStore, useNavStore } from '../../store'
 import { isTypeAbstract, isTypeArticle } from '../../utils/helpers/checkItem'
 import { toRow } from '../../utils/helpers/details'
 import Breadcrumb from '../Breadcrumb/Breadcrumb'
@@ -15,6 +16,8 @@ const Header = () => {
   const { pathname } = useLocation()
   const isDetailPage = pathname.split('/')[2] !== undefined
   const ref = useRef<HTMLDivElement>(null)
+
+  const { toggle } = useNavStore()
   const { data: item } = useItemStore()
   const { getRowActions } = useActionStore()
 
@@ -45,6 +48,9 @@ const Header = () => {
           </p>
         </a>{' '}
       </div>
+      <button className="burger-menu" onClick={toggle}>
+        <BurgerMenu />
+      </button>
       <Breadcrumb />
       {isDetailPage && <ActionButtonLarge actions={actions} active={actions.length > 0} />}
       <Me />

@@ -119,7 +119,7 @@ const Home = () => {
 
   return (
     <div className="home page">
-      <h1>{t('welcome')}</h1>
+      <h1 className="home-welcome">{t('welcome')}</h1>
       <div className={`home-grid ${isAbstractSubmitted ? 'isAbstract' : ''}`}>
         <KPIRow />
         <CustomPieChart />

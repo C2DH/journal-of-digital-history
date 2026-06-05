@@ -68,7 +68,7 @@ p {
     grid-template-areas:
       'c c c c c'
       'p b a a a'
-      'r r r n .';
+      'rs r r n n ';
   }
 }
 
@@ -81,7 +81,9 @@ p {
       'a'
       'p'
       'b'
-      'r';
+      'rs'
+      'r'
+      'n';
   }
   .chart {
     height: fit-content;
