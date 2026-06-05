@@ -109,7 +109,7 @@ const Home = () => {
     reset()
     setParams({
       endpoint: 'abstracts',
-      limit: 5,
+      limit: 8,
       ordering: '-submitted_date',
       params: { status: 'SUBMITTED' },
       search: '',
