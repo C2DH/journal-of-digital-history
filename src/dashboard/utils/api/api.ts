@@ -145,7 +145,7 @@ const postArticletoSubmissionOJS = async (body: { pid: string }) => {
     })
     .catch((err) => {
       console.error(err)
-      throw err.response.data
+      throw err?.response?.data ?? err
     })
 }
 
@@ -317,7 +317,7 @@ const sendArticleToCopyeditor = async (body: Record<string, any>) => {
     .then((res) => res.data)
     .catch((err) => {
       console.error(err)
-      throw err.response.data
+      throw err?.response?.data ?? err
     })
 }
 
@@ -329,7 +329,7 @@ const getPeerReviewArticlesTiming = async () => {
     .then((res) => res.data.data)
     .catch((err) => {
       console.error(err)
-      throw err.response.data
+      throw err?.response?.data ?? err
     })
 }
 
@@ -341,7 +341,7 @@ const getPeerReviewArticlesByStage = async () => {
     .then((res) => res.data.data)
     .catch((err) => {
       console.error(err)
-      throw err.response.data
+      throw err?.response?.data ?? err
     })
 }
 
@@ -353,7 +353,7 @@ const getPeerReviewArticlesDetails = async () => {
     .then((res) => res.data.data)
     .catch((err) => {
       console.error(err)
-      throw err.response.data
+      throw err?.response?.data ?? err
     })
 }
 

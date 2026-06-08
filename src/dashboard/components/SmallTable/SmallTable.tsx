@@ -56,7 +56,7 @@ const SmallTable = ({ item, headers, data, placeholder, loading }: SmallTablePro
         {placeholder && (
           <tbody className="placeholder-body">
             <tr>
-              <th className="placeholder-body-header" colSpan={5}>
+              <th className="placeholder-body-header" colSpan={visibleHeaders.length - 1}>
                 {loading ? (
                   <>
                     <Skeleton />
@@ -65,7 +65,11 @@ const SmallTable = ({ item, headers, data, placeholder, loading }: SmallTablePro
                   </>
                 ) : (
                   <>
-                    <img src={clickChart} className="placeholder-image" />
+                    <img
+                      src={clickChart}
+                      className="placeholder-image"
+                      alt={t('KPI.peerReviewChart.table.placeholder')}
+                    />
                     <h3>{t(`KPI.peerReviewChart.table.placeholder`)}</h3>
                     <h5>{t(`KPI.peerReviewChart.table.indication`)}</h5>
                   </>

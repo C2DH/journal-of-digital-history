@@ -138,15 +138,23 @@ function renderCell({ isStep, cell, header, isArticle }: renderCellProps) {
   } else if (isEmailCell(cell)) {
     content = <a href={`mailto:${cell}`}>{cell}</a>
   } else if (isSubstatusCell(header)) {
-    cell = JSON.parse(cell)
+    let substatuses: unknown
 
-    const counts = (cell as string[]).reduce<Record<string, number>>((acc, s) => {
+    try {
+      substatuses = JSON.parse(String(cell))
+    } catch {
+      return String(cell)
+    }
+    if (!Array.isArray(substatuses)) return String(cell)
+
+    //Counter for each substatuses
+    const counts = (substatuses as string[]).reduce<Record<string, number>>((acc, s) => {
       acc[s] = (acc[s] ?? 0) + 1
       return acc
     }, {})
 
     return Object.entries(counts).map(([status, count]) => (
-      <StatusBadge status={status} count={count} />
+      <StatusBadge key={status} status={status} count={count} />
     ))
   } else if (cell === '' || cell === null) {
     content = '-'

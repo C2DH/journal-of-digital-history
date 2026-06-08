@@ -48,7 +48,12 @@ const Header = () => {
           </p>
         </a>{' '}
       </div>
-      <button className="burger-menu" onClick={toggle}>
+      <button
+        type="button"
+        className="burger-menu"
+        onClick={toggle}
+        aria-label="Toggle navigation menu"
+      >
         <BurgerMenu />
       </button>
       <Breadcrumb />
