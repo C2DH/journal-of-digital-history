@@ -6,6 +6,10 @@
 h1 {
   margin-bottom: var(--space-size-4);
 }
+h2 {
+  padding: 0;
+  margin: 0;
+}
 h3 {
   margin-top: 0;
 }
@@ -109,5 +113,5 @@ p {
   gap: var(--space-size-2);
 }
 .home-abstract-card-title {
-  margin-left: var(--space-size-3);
+  margin-left: var(--space-size-2);
 }

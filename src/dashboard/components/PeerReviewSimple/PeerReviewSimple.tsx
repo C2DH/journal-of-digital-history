@@ -11,7 +11,9 @@ const PeerReviewSimple = () => {
 
   const getPeerReviewArticlesWithTiming = async () => {
     const data = await getPeerReviewArticlesTiming()
-    const dataWithoutNull = data.filter((item) => item.ontime != 0 || item.delay != 0)
+    const dataWithoutNull = data.filter(
+      (item) => item.ontime != 0 || item.delay != 0 || item.declined != 0,
+    )
     return dataWithoutNull
   }
 
@@ -29,7 +31,7 @@ const PeerReviewSimple = () => {
       series: [
         {
           dataKey: 'ontime',
-          label: 'On Time',
+          label: 'In progress',
           layout: 'horizontal',
           stack: 'stack',
           highlightScope: {
@@ -40,7 +42,18 @@ const PeerReviewSimple = () => {
         },
         {
           dataKey: 'delay',
-          label: 'Overdue',
+          label: 'Delayed',
+          layout: 'horizontal',
+          stack: 'stack',
+          highlightScope: {
+            highlight: 'item',
+            fade: 'global',
+          },
+          barLabel: (item) => (item.value ? String(item.value) : null),
+        },
+        {
+          dataKey: 'declined',
+          label: 'Declined',
           layout: 'horizontal',
           stack: 'stack',
           highlightScope: {
