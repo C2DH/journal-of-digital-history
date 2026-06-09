@@ -28,7 +28,7 @@ const Timeline = ({ steps, currentStatus }: TimelineProps) => {
           </ul>
         </div>
       )}
-      {isMobile && <StatusBadge status={currentStatus} />}
+      {isMobile && <StatusBadge status={currentStatus || 'unknown'} />}
     </>
   )
 }

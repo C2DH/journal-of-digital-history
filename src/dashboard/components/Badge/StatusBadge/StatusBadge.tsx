@@ -7,20 +7,12 @@ import { StatusBadgeProps } from './interface'
 const StatusBadge = ({ status, count }: StatusBadgeProps) => {
   const { t } = useTranslation()
 
-  if (count) {
-    return (
-      <div className="simple-status-container">
-        <span className={`status-fancy-badge ${status.toLowerCase()}`}>
-          {`${count} ${t(`badge.status.${status.toLowerCase()}`)}`}
-        </span>
-      </div>
-    )
-  }
-
   return (
-    <div className="simple-status-container">
+    <div className={`simple-status-container`} data-testid="status-badge-id">
       <span className={`status-fancy-badge ${status.toLowerCase()}`}>
-        {t(`badge.status.${status.toLowerCase()}`)}
+        {count
+          ? `${count} ${t(`badge.status.${status.toLowerCase()}`)}`
+          : t(`badge.status.${status.toLowerCase()}`)}
       </span>
     </div>
   )

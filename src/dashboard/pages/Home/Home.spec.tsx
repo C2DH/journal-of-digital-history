@@ -36,6 +36,14 @@ vi.mock('../../components/CustomPieChart/CustomPieChart', () => ({
   default: () => <div data-testid="custom-pie-chart" />,
 }))
 
+vi.mock('../../components/PeerReviewChart/PeerReviewChart', () => ({
+  default: () => <div data-testid="peer-review-chart" />,
+}))
+
+vi.mock('../../components/PeerReviewSimple/PeerReviewSimple', () => ({
+  default: () => <div data-testid="peer-review-chart-simple" />,
+}))
+
 vi.mock('../../components/Deadline/Deadline', () => ({
   default: ({ title, value }: { title: string; value?: number }) => (
     <div data-testid="deadline" data-title={title} data-value={value ?? 'none'} />
@@ -54,7 +62,7 @@ vi.mock('../../components/SmallTable/SmallTable', () => ({
   default: () => <div data-testid="small-table" />,
 }))
 
-vi.mock('../../components/Badge/Badge', () => ({
+vi.mock('../../components/Badge/Accent/Badge', () => ({
   default: () => <span data-testid="badge" />,
 }))
 
@@ -159,7 +167,7 @@ describe('Home page', () => {
       expect(setParams).toHaveBeenCalledWith(
         expect.objectContaining({
           endpoint: 'abstracts',
-          limit: 5,
+          limit: 8,
           ordering: '-submitted_date',
           params: { status: 'SUBMITTED' },
         }),

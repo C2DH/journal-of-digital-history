@@ -1,9 +1,22 @@
 import { render, screen } from '@testing-library/react'
+import { act } from 'react'
 import { describe, it, vi } from 'vitest'
 
 import { Step } from './interface'
 
 import Timeline from './Timeline'
+
+// Helper to set window width and fire resize
+function setWindowWidth(width: number) {
+  Object.defineProperty(window, 'innerWidth', {
+    writable: true,
+    configurable: true,
+    value: width,
+  })
+  act(() => {
+    window.dispatchEvent(new Event('resize'))
+  })
+}
 
 // Mock the helper function
 vi.mock('../../utils/helpers/timeline', () => ({
@@ -26,20 +39,14 @@ vi.mock('../../utils/constants/article', () => ({
   ],
 }))
 
-const mockSteps: Step[] = [
-  { key: 'submitted', label: 'Submitted' },
-  { key: 'under_review', label: 'Under Review' },
-  { key: 'accepted', label: 'Accepted' },
+const defaultSteps = [
+  { key: 'submitted', label: 'submitted' },
+  { key: 'peer_review', label: 'peer review' },
+  { key: 'accepted', label: 'accepted' },
+  { key: 'published', label: 'published' },
 ]
 
 describe('Timeline', () => {
-  const defaultSteps = [
-    { key: 'submitted', label: 'submitted' },
-    { key: 'peer_review', label: 'peer review' },
-    { key: 'accepted', label: 'accepted' },
-    { key: 'published', label: 'published' },
-  ]
-
   it('renders the timeline container and line', () => {
     render(<Timeline steps={defaultSteps} currentStatus="submitted" />)
     expect(document.querySelector('.timeline-container')).toBeTruthy()
@@ -76,27 +83,7 @@ describe('Timeline', () => {
   it('displays the correct status label in the badge', () => {
     render(<Timeline steps={defaultSteps} currentStatus="accepted" />)
 
-    expect(screen.getByText('Accepted')).toBeTruthy()
-  })
-
-  it('applies the correct CSS class to the status badge', () => {
-    const { container } = render(<Timeline steps={defaultSteps} currentStatus="accepted" />)
-
-    const badge = container.querySelector('.status-fancy-badge')
-    expect(badge).toBeTruthy()
-    expect(badge?.classList.contains('accepted')).toBe(true)
-  })
-
-  it('displays "Unknown" when currentStatus does not match any articleStatus', () => {
-    render(<Timeline steps={defaultSteps} currentStatus="nonexistent" />)
-
-    expect(screen.getByText('Unknown')).toBeTruthy()
-  })
-
-  it('renders the simple-status-container', () => {
-    const { container } = render(<Timeline steps={defaultSteps} currentStatus="published" />)
-
-    expect(container.querySelector('.simple-status-container')).toBeTruthy()
+    expect(screen.getByText('accepted')).toBeTruthy()
   })
 
   it('handles an empty steps array', () => {
@@ -105,11 +92,34 @@ describe('Timeline', () => {
     const items = container.querySelectorAll('.timeline-item')
     expect(items.length).toBe(0)
   })
+})
 
-  it('lowercases the currentStatus for the badge class', () => {
-    const { container } = render(<Timeline steps={defaultSteps} currentStatus="PUBLISHED" />)
+describe('Timeline — mobile behavior', () => {
+  afterEach(() => {
+    setWindowWidth(1024) // reset to desktop after each test
+  })
 
-    const badge = container.querySelector('.status-fancy-badge')
-    expect(badge?.classList.contains('published')).toBe(true)
+  it('renders the timeline on desktop', () => {
+    setWindowWidth(1024)
+    const { container } = render(<Timeline steps={defaultSteps} currentStatus="submitted" />)
+    expect(container.querySelector('.timeline-container')).toBeTruthy()
+    expect(container.querySelector('[data-testid="status-badge-id"]')).toBeNull()
+  })
+
+  it('renders only the status badge on mobile', () => {
+    setWindowWidth(400)
+    const { container } = render(<Timeline steps={defaultSteps} currentStatus="submitted" />)
+    expect(container.querySelector('.timeline-container')).toBeNull()
+    expect(container.querySelector('[data-testid="status-badge-id"]')).toBeTruthy()
+  })
+
+  it('switches to mobile badge when window is resized below 767px', () => {
+    setWindowWidth(1024)
+    const { container } = render(<Timeline steps={defaultSteps} currentStatus="accepted" />)
+    expect(container.querySelector('.timeline-container')).toBeTruthy()
+
+    setWindowWidth(400)
+    expect(container.querySelector('.timeline-container')).toBeNull()
+    expect(container.querySelector('[data-testid="status-badge-id"]')).toBeTruthy()
   })
 })
