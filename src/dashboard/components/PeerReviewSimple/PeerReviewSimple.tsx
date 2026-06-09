@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { colorPeerReviewSimpleChart } from '../../styles/theme'
 import { getPeerReviewArticlesTiming } from '../../utils/api/api'
 import SmallCard from '../SmallCard/SmallCard'
+import { series } from './series'
 
 const PeerReviewSimple = () => {
   const { t } = useTranslation()
@@ -28,41 +29,7 @@ const PeerReviewSimple = () => {
       dataset: data,
       height: 150,
       margin: { left: 0, bottom: 50 },
-      series: [
-        {
-          dataKey: 'ontime',
-          label: 'In progress',
-          layout: 'horizontal',
-          stack: 'stack',
-          highlightScope: {
-            highlight: 'item',
-            fade: 'global',
-          },
-          barLabel: (item) => (item.value ? String(item.value) : null),
-        },
-        {
-          dataKey: 'delay',
-          label: 'Delayed',
-          layout: 'horizontal',
-          stack: 'stack',
-          highlightScope: {
-            highlight: 'item',
-            fade: 'global',
-          },
-          barLabel: (item) => (item.value ? String(item.value) : null),
-        },
-        {
-          dataKey: 'declined',
-          label: 'Declined',
-          layout: 'horizontal',
-          stack: 'stack',
-          highlightScope: {
-            highlight: 'item',
-            fade: 'global',
-          },
-          barLabel: (item) => (item.value ? String(item.value) : null),
-        },
-      ],
+      series: series,
       slotProps: {
         legend: {
           direction: 'horizontal',

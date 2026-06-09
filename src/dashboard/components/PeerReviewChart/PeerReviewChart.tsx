@@ -9,8 +9,8 @@ import { colorsPeerReviewChart } from '../../styles/theme'
 import { getPeerReviewArticlesByStage, getPeerReviewArticlesDetails } from '../../utils/api/api'
 import SmallCard from '../SmallCard/SmallCard'
 import SmallTable from '../SmallTable/SmallTable'
-import { series } from './constant'
 import Legend from './Legend'
+import { series } from './series'
 
 const PeerReviewChart = () => {
   const { t } = useTranslation()

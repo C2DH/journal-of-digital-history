@@ -1,5 +1,5 @@
 import { colorsPeerReviewChart } from '../../styles/theme'
-import { series } from './constant'
+import { series } from './series'
 
 const Legend = () => {
   return (
