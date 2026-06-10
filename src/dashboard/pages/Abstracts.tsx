@@ -36,9 +36,10 @@ const Abstracts = () => {
   useEffect(() => {
     updateFromStores(true)
     syncFiltersWithURL(searchParams)
-    const queryParams = changeQueryParams(true)
+    const { params: queryParams } = changeQueryParams(true) as { params?: Record<string, unknown> }
+    const { endpoint } = changeQueryParams(true) as { endpoint?: string }
     setParams({
-      endpoint: 'abstracts',
+      endpoint: endpoint ?? 'abstracts',
       limit: 20,
       ordering: ordering === 'desc' ? '-submitted_date' : `${ordering}`,
       search: query,

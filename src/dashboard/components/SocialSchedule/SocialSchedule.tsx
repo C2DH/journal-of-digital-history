@@ -75,7 +75,6 @@ const SocialSchedule = ({ rowData, action, onClose }: SocialScheduleProps) => {
     e.preventDefault()
     if (valid) {
       if (action === 'Bluesky') {
-        console.log('🚀 ~ file: SocialSchedule.tsx:52 ~ form:', form)
         onClose()
         await postBlueskyCampaign(form)
           .then((res) => {
