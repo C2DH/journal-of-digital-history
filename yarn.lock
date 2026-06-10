@@ -5667,10 +5667,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rolldown/pluginutils@npm:1.0.0-rc.13":
-  version: 1.0.0-rc.13
-  resolution: "@rolldown/pluginutils@npm:1.0.0-rc.13"
-  checksum: 10c0/5ba268706b43ca0c05eed50b16a077cc014453077f70f9cdc652180561c85b0477cf073053c166016a33182021e320335832e36d9bf51b8c79799c6433018d95
+"@rolldown/pluginutils@npm:1.0.0-rc.18":
+  version: 1.0.0-rc.18
+  resolution: "@rolldown/pluginutils@npm:1.0.0-rc.18"
+  checksum: 10c0/c09f2ebe53762df23b725f452a3f7ee45968824b062a38ec06054e368551e8c5e1874b0ef28143ff3b1b9d6d5ca60177a34378bdd672e899c3646fb8d0bd5aff
   languageName: node
   linkType: hard
 
@@ -8105,12 +8105,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-rsc@npm:^0.5.23":
-  version: 0.5.23
-  resolution: "@vitejs/plugin-rsc@npm:0.5.23"
+"@vitejs/plugin-rsc@npm:^0.5.26":
+  version: 0.5.26
+  resolution: "@vitejs/plugin-rsc@npm:0.5.26"
   dependencies:
-    "@rolldown/pluginutils": "npm:1.0.0-rc.13"
-    es-module-lexer: "npm:^2.0.0"
+    "@rolldown/pluginutils": "npm:1.0.0-rc.18"
+    es-module-lexer: "npm:^2.1.0"
     estree-walker: "npm:^3.0.3"
     magic-string: "npm:^0.30.21"
     srvx: "npm:^0.11.15"
@@ -8125,7 +8125,7 @@ __metadata:
   peerDependenciesMeta:
     react-server-dom-webpack:
       optional: true
-  checksum: 10c0/23b76996d96cb60e65b7d06f82f004ea41442a4cca4ce94f4ccc44776413a24b4e89e8f007e85acbf86bb8348181ab3e9feb66d12c0d4bc824b921033e0860ac
+  checksum: 10c0/67385f7cb96c6365a80c3f375490e32cfbeb7777d15003b395805ab83e4830466a5a476f694de5ae3c2ec657b916ce4ee37239ebd615dc56a0ea7b55729f008e
   languageName: node
   linkType: hard
 
@@ -11187,10 +11187,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es-module-lexer@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "es-module-lexer@npm:2.0.0"
-  checksum: 10c0/ae78dbbd43035a4b972c46cfb6877e374ea290adfc62bc2f5a083fea242c0b2baaab25c5886af86be55f092f4a326741cb94334cd3c478c383fdc8a9ec5ff817
+"es-module-lexer@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "es-module-lexer@npm:2.1.0"
+  checksum: 10c0/93bcf2454fa72d67fe3ccd0abef8ce7933f5840a319513418a643dd8e9c6aa8f49709cecfae02ded722805dd327232d30723a807cc52e6809d6ac697c62c29fb
   languageName: node
   linkType: hard
 
@@ -13714,7 +13714,7 @@ __metadata:
     "@visx/text": "npm:^3.12.0"
     "@vitejs/plugin-react": "npm:^4.3.4"
     "@vitejs/plugin-react-refresh": "npm:^1.3.6"
-    "@vitejs/plugin-rsc": "npm:^0.5.23"
+    "@vitejs/plugin-rsc": "npm:^0.5.26"
     "@vitest/browser": "npm:^3.0.7"
     "@vitest/coverage-v8": "npm:^3.0.7"
     ajv: "npm:^8.18.0"
