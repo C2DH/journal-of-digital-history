@@ -86,6 +86,12 @@ const PeerReviewSimple = () => {
               },
             }}
             {...getChartSettings()}
+            onItemClick={(event, d) => {
+              if (d.seriesId === 'declined') {
+                window.open(`${import.meta.env.VITE_OJS_DASHBOARD}submissions#archive`)
+              }
+              window.open(`${import.meta.env.VITE_OJS_DASHBOARD}submissions#active`)
+            }}
           />
         )}
       </SmallCard>

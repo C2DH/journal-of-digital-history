@@ -114,22 +114,6 @@ const getAbstractsByStatusAndCallForPapers = async (
 }
 
 /**
- * Retrieves the count of abstracts that have been submitted to OJS.
- *
- * @returns A promise that resolves with an object containing the submission count.
- */
-const getAbstractsSubmittedToOJS = async (): Promise<{ count: number }> => {
-  console.info(`GET [getAbstractsSubmittedToOJS ]`)
-
-  return api
-    .get(`/api/articles/ojs/submissions`)
-    .then((res) => {
-      return res.data
-    })
-    .catch((err) => console.error(err))
-}
-
-/**
  * Submits an article to OJS for peer review.
  *
  * @param body - Object containing the article PID to submit.
