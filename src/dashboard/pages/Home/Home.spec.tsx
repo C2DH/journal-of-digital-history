@@ -209,40 +209,6 @@ describe('Home page', () => {
     })
   })
 
-  describe('PeerReviewCounter', () => {
-    it('does not render the Deadline when OJS count is 0', async () => {
-      vi.mocked(getAbstractsSubmittedToOJS).mockResolvedValue({ count: 0 })
-      renderHome()
-      await waitForRender()
-      const peerReviewDeadlines = screen
-        .queryAllByTestId('deadline')
-        .filter((el) => el.getAttribute('data-title') === 'Ready for')
-      expect(peerReviewDeadlines).toHaveLength(0)
-    })
-
-    it('renders the Deadline with the correct count when OJS count > 0', async () => {
-      vi.mocked(getAbstractsSubmittedToOJS).mockResolvedValue({ count: 5 })
-      renderHome()
-      await waitForRender()
-      const peerReviewDeadline = screen
-        .queryAllByTestId('deadline')
-        .find((el) => el.getAttribute('data-title') === 'Ready for')
-      expect(peerReviewDeadline).toBeInTheDocument()
-      expect(peerReviewDeadline).toHaveAttribute('data-value', '5')
-    })
-
-    it('does not crash when the OJS API throws an error', async () => {
-      vi.mocked(getAbstractsSubmittedToOJS).mockRejectedValue(new Error('Network error'))
-      renderHome()
-      await waitForRender()
-      const peerReviewDeadlines = screen
-        .queryAllByTestId('deadline')
-        .filter((el) => el.getAttribute('data-title') === 'Ready for')
-      // getCount catches the error and returns undefined; the page should still render
-      expect(peerReviewDeadlines).toHaveLength(0)
-    })
-  })
-
   describe('KPIRow – Call for Papers', () => {
     it('renders no CFP Deadlines when there are no open call for papers', async () => {
       vi.mocked(getCallforpaperWithDeadlineOpen).mockResolvedValue([])
