@@ -43,7 +43,7 @@ const getDeadlineMessages = ({ deadlineAbstract, deadlineArticle }: DeadlineProp
   return { days, message, messageDate }
 }
 
-const Deadline = ({ title, deadlineAbstract, deadlineArticle, value }: CounterProps) => {
+const Deadline = ({ title, deadlineAbstract, deadlineArticle }: CounterProps) => {
   let days = 0
   let message = 'Peer Review'
   let messageDate = 'Waiting in Action'
@@ -54,8 +54,8 @@ const Deadline = ({ title, deadlineAbstract, deadlineArticle, value }: CounterPr
 
   return (
     <div className="counter">
-      <span className={`${value ? 'counter-value' : 'campaign'} logo`}>
-        {value || <CampaignOutlined fontSize="large" />}
+      <span className={`campaign logo`}>
+        <CampaignOutlined fontSize="large" />
       </span>
       <div className="counter-info">
         <span className="counter-title" title={title}>
