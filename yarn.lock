@@ -8887,7 +8887,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1, axios@npm:^1.6.1":
+"axios@npm:1.17.0, axios@npm:^1, axios@npm:^1.6.1":
   version: 1.17.0
   resolution: "axios@npm:1.17.0"
   dependencies:
@@ -13664,6 +13664,7 @@ __metadata:
     ajv-formats: "npm:^3.0.1"
     altcha: "npm:^2.3.0"
     array-move: "npm:^3.0.1"
+    axios: "npm:1.17.0"
     bootstrap: "npm:5.3.3"
     codemirror: "npm:^5.65.18"
     d3-array: "npm:^2.9.1"
