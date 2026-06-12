@@ -343,7 +343,6 @@ const getPeerReviewArticlesDetails = async () => {
 
 export {
   getAbstractsByStatusAndCallForPapers,
-  getAbstractsSubmittedToOJS,
   getAdvanceArticles,
   getArticlesByStatus,
   getArticlesByStatusAndIssues,
