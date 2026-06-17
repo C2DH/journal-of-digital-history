@@ -33,6 +33,7 @@ vi.mock('../../utils/helpers/table', async () => {
 vi.mock('../../utils/helpers/checkItem', () => ({
   isPidHeader: (header: string) => header === 'pid',
   isTitleHeader: (header: string) => header === 'title',
+  isAuthorHeader: (header: string) => header === 'author',
   isStepCell: () => false,
 }))
 

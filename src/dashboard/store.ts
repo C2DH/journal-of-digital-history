@@ -26,6 +26,20 @@ import {
 } from './utils/types'
 
 /**
+ * useNavStore
+ * Zustand store for managing Navbar state and actions for the Burger Menu in Mobile view.
+ * - isOpen: current navbar state
+ * - toggle: function to change status of isOpen
+ * - close: function to close the Navbar
+ */
+
+const useNavStore = create<{ isOpen: boolean; toggle: () => void; close: () => void }>((set) => ({
+  isOpen: false,
+  toggle: () => set((s) => ({ isOpen: !s.isOpen })),
+  close: () => set({ isOpen: false }),
+}))
+
+/**
  * useSearchStore
  * Zustand store for managing search state and actions.
  * - query: current search string
@@ -307,13 +321,13 @@ const useFilterBarStore = create<FilterBarState>((set, get) => ({
   },
   changeQueryParams: (isAbstract: boolean) => {
     const filters = get().filters
+    let endpoint
     let params
     if (isAbstract) {
       params = filters.reduce((acc, filter) => {
         if (filter.value) {
           if (filter.name === 'issue') {
-            //exception for sorting on 'issues' it should call 'article__issue'
-            acc['article__issue'] = filter.value.replace(/^jdh0+/, '')
+            endpoint = `issues/${filter.value}/abstracts`
           } else {
             acc[filter.name] = filter.value
           }
@@ -327,7 +341,7 @@ const useFilterBarStore = create<FilterBarState>((set, get) => ({
             //exception for sorting on 'call for paper' it should call 'abstract__callpaper'
             acc['abstract__callpaper'] = filter.value
           } else if (filter.name === 'issue') {
-            acc['issue'] = filter.value.replace(/^jdh0+/, '')
+            endpoint = `issues/${filter.value}/articles`
           } else {
             acc[filter.name] = filter.value
           }
@@ -335,7 +349,7 @@ const useFilterBarStore = create<FilterBarState>((set, get) => ({
         return acc
       }, {})
     }
-    return params
+    return { params, endpoint }
   },
   changeFilters: (name: string, value: string, searchParams, setSearchParams) => {
     const newParams = new URLSearchParams(searchParams)
@@ -616,6 +630,7 @@ export {
   useIssuesStore,
   useItemsStore,
   useItemStore,
+  useNavStore,
   useNotificationStore,
   useSearchStore,
 }

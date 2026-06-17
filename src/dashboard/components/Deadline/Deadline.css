@@ -24,11 +24,6 @@
   padding: 0 0.7em;
 }
 
-.counter-value {
-  color: var(--color-accent);
-  font-weight: 600;
-}
-
 .counter-info {
   display: flex;
   flex-direction: column;

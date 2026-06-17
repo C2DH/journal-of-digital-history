@@ -4,10 +4,14 @@
   border-radius: 16px;
   border: 1px solid rgba(244, 244, 247, 0.3);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  /* backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px); */
   overflow-wrap: break-word;
   text-overflow: ellipsis;
   box-sizing: border-box;
   word-wrap: break-word;
+}
+
+.small-card.light {
+  background-color: var(--color-background-input);
 }

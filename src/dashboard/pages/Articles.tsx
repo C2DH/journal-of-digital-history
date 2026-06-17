@@ -38,9 +38,10 @@ const Articles = () => {
     reset()
     updateFromStores(false)
     syncFiltersWithURL(searchParams)
-    const queryParams = changeQueryParams(false)
+    const { params: queryParams } = changeQueryParams(false) as { params?: Record<string, unknown> }
+    const { endpoint } = changeQueryParams(false) as { endpoint?: string }
     setParams({
-      endpoint: 'articles',
+      endpoint: endpoint ?? 'articles',
       limit: 20,
       ordering,
       search: query,

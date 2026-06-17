@@ -36,6 +36,14 @@ vi.mock('../../components/CustomPieChart/CustomPieChart', () => ({
   default: () => <div data-testid="custom-pie-chart" />,
 }))
 
+vi.mock('../../components/PeerReviewChart/PeerReviewChart', () => ({
+  default: () => <div data-testid="peer-review-chart" />,
+}))
+
+vi.mock('../../components/PeerReviewSimple/PeerReviewSimple', () => ({
+  default: () => <div data-testid="peer-review-chart-simple" />,
+}))
+
 vi.mock('../../components/Deadline/Deadline', () => ({
   default: ({ title, value }: { title: string; value?: number }) => (
     <div data-testid="deadline" data-title={title} data-value={value ?? 'none'} />
@@ -54,7 +62,7 @@ vi.mock('../../components/SmallTable/SmallTable', () => ({
   default: () => <div data-testid="small-table" />,
 }))
 
-vi.mock('../../components/Badge/Badge', () => ({
+vi.mock('../../components/Badge/Accent/Badge', () => ({
   default: () => <span data-testid="badge" />,
 }))
 
@@ -159,7 +167,7 @@ describe('Home page', () => {
       expect(setParams).toHaveBeenCalledWith(
         expect.objectContaining({
           endpoint: 'abstracts',
-          limit: 5,
+          limit: 8,
           ordering: '-submitted_date',
           params: { status: 'SUBMITTED' },
         }),
@@ -198,40 +206,6 @@ describe('Home page', () => {
       const { container } = renderHome()
       await waitForRender()
       expect(container.querySelector('.home-grid')).not.toHaveClass('isAbstract')
-    })
-  })
-
-  describe('PeerReviewCounter', () => {
-    it('does not render the Deadline when OJS count is 0', async () => {
-      vi.mocked(getAbstractsSubmittedToOJS).mockResolvedValue({ count: 0 })
-      renderHome()
-      await waitForRender()
-      const peerReviewDeadlines = screen
-        .queryAllByTestId('deadline')
-        .filter((el) => el.getAttribute('data-title') === 'Ready for')
-      expect(peerReviewDeadlines).toHaveLength(0)
-    })
-
-    it('renders the Deadline with the correct count when OJS count > 0', async () => {
-      vi.mocked(getAbstractsSubmittedToOJS).mockResolvedValue({ count: 5 })
-      renderHome()
-      await waitForRender()
-      const peerReviewDeadline = screen
-        .queryAllByTestId('deadline')
-        .find((el) => el.getAttribute('data-title') === 'Ready for')
-      expect(peerReviewDeadline).toBeInTheDocument()
-      expect(peerReviewDeadline).toHaveAttribute('data-value', '5')
-    })
-
-    it('does not crash when the OJS API throws an error', async () => {
-      vi.mocked(getAbstractsSubmittedToOJS).mockRejectedValue(new Error('Network error'))
-      renderHome()
-      await waitForRender()
-      const peerReviewDeadlines = screen
-        .queryAllByTestId('deadline')
-        .filter((el) => el.getAttribute('data-title') === 'Ready for')
-      // getCount catches the error and returns undefined; the page should still render
-      expect(peerReviewDeadlines).toHaveLength(0)
     })
   })
 

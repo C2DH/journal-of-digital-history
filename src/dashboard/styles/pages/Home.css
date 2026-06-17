@@ -6,6 +6,10 @@
 h1 {
   margin-bottom: var(--space-size-4);
 }
+h2 {
+  padding: 0;
+  margin: 0;
+}
 h3 {
   margin-top: 0;
 }
@@ -29,6 +33,18 @@ p {
 .home-barchart {
   grid-area: b;
 }
+.home-peerreviewchart-simple {
+  grid-area: rs;
+  height: fit-content;
+}
+.home-peerreviewchart {
+  grid-area: r;
+  height: fit-content;
+}
+.home-peerreviewchart-next-table {
+  grid-area: n;
+  height: fit-content;
+}
 
 .home-grid {
   display: grid;
@@ -37,14 +53,16 @@ p {
   grid-template-areas:
     'c c c c'
     'p b . .'
-    '. . . .';
+    'rs r r n';
 }
 
 .home-grid.isAbstract {
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-areas:
     'c c c c'
-    'p b a a '
+    'p b a a'
+    'rs r n n'
     '. . . .';
 }
 
@@ -54,7 +72,7 @@ p {
     grid-template-areas:
       'c c c c c'
       'p b a a a'
-      '. . . . .';
+      'rs r r n n ';
   }
 }
 
@@ -66,7 +84,10 @@ p {
       'c'
       'a'
       'p'
-      'b';
+      'b'
+      'rs'
+      'r'
+      'n';
   }
   .chart {
     height: fit-content;
@@ -92,5 +113,5 @@ p {
   gap: var(--space-size-2);
 }
 .home-abstract-card-title {
-  margin-left: var(--space-size-3);
+  margin-left: var(--space-size-2);
 }

@@ -114,22 +114,6 @@ const getAbstractsByStatusAndCallForPapers = async (
 }
 
 /**
- * Retrieves the count of abstracts that have been submitted to OJS.
- *
- * @returns A promise that resolves with an object containing the submission count.
- */
-const getAbstractsSubmittedToOJS = async (): Promise<{ count: number }> => {
-  console.info(`GET [getAbstractsSubmittedToOJS ]`)
-
-  return api
-    .get(`/api/articles/ojs/submissions`)
-    .then((res) => {
-      return res.data
-    })
-    .catch((err) => console.error(err))
-}
-
-/**
  * Submits an article to OJS for peer review.
  *
  * @param body - Object containing the article PID to submit.
@@ -145,7 +129,7 @@ const postArticletoSubmissionOJS = async (body: { pid: string }) => {
     })
     .catch((err) => {
       console.error(err)
-      throw err.response.data
+      throw err?.response?.data ?? err
     })
 }
 
@@ -317,17 +301,55 @@ const sendArticleToCopyeditor = async (body: Record<string, any>) => {
     .then((res) => res.data)
     .catch((err) => {
       console.error(err)
-      throw err.response.data
+      throw err?.response?.data ?? err
+    })
+}
+
+const getPeerReviewArticlesTiming = async () => {
+  console.info('GET [getPeerReviewArticlesTiming]')
+
+  return api
+    .get(`/api/articles/ojs/submissions/peer-review/timing`)
+    .then((res) => res.data.data)
+    .catch((err) => {
+      console.error(err)
+      throw err?.response?.data ?? err
+    })
+}
+
+const getPeerReviewArticlesByStage = async () => {
+  console.info('GET [getPeerReviewArticlesByStage]')
+
+  return api
+    .get(`/api/articles/ojs/submissions/peer-review/stage`)
+    .then((res) => res.data.data)
+    .catch((err) => {
+      console.error(err)
+      throw err?.response?.data ?? err
+    })
+}
+
+const getPeerReviewArticlesDetails = async () => {
+  console.info('GET [getPeerReviewArticlesDetails]')
+
+  return api
+    .get(`/api/articles/ojs/submissions/peer-review/details`)
+    .then((res) => res.data.data)
+    .catch((err) => {
+      console.error(err)
+      throw err?.response?.data ?? err
     })
 }
 
 export {
   getAbstractsByStatusAndCallForPapers,
-  getAbstractsSubmittedToOJS,
   getAdvanceArticles,
   getArticlesByStatus,
   getArticlesByStatusAndIssues,
   getCallforpaperWithDeadlineOpen,
+  getPeerReviewArticlesByStage,
+  getPeerReviewArticlesDetails,
+  getPeerReviewArticlesTiming,
   getSocialMediaCover,
   getTweetContent,
   modifyAbstractStatusWithEmail,

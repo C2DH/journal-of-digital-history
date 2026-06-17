@@ -3,36 +3,25 @@ import './Navbar.css'
 import { useEffect, useState } from 'react'
 import { Link as RouterLink, useLocation } from 'react-router-dom'
 
-import BurgerMenu from '../../../assets/icons/BurgerMenu'
+import { useNavStore } from '../../store'
 import { navbarItems } from '../../utils/constants/navbar'
 
 const Navbar = () => {
   const location = useLocation()
   const [activeHref, setActiveHref] = useState(location.pathname.split('/')[1])
-  const [isBurgerMenuOpen, setBurgerMenuOpen] = useState(false)
+
+  const { isOpen, close } = useNavStore()
 
   useEffect(() => {
     setActiveHref(location.pathname.split('/')[1])
   }, [location])
 
-  const toggleMenu = () => {
-    setBurgerMenuOpen(!isBurgerMenuOpen)
-  }
-
-  const closeMenu = () => {
-    setBurgerMenuOpen(false)
-  }
-
   return (
     <div className="navbar">
-      <button className="burger-menu" onClick={toggleMenu}>
-        <BurgerMenu />
-      </button>
-      <div className="navbar-header"></div>
-      <ul className={isBurgerMenuOpen ? 'menu-open' : ''}>
+      <ul className={isOpen ? 'menu-open' : ''}>
         {navbarItems.map((item) => (
           <li key={item.href} className={activeHref === item.href ? 'active' : ''}>
-            <RouterLink to={`${item.href}`} className="navbar-link" onClick={closeMenu}>
+            <RouterLink to={`${item.href}`} className="navbar-link" onClick={close}>
               <span className="navbar-icons">
                 {item.iconOutlined}
                 {item.iconFilled}

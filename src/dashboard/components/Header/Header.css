@@ -57,14 +57,19 @@ p {
 }
 
 @media screen and (max-width: 767px) {
-  .navbar-logo {
-    display: flex;
-    align-items: center;
-    z-index: 2000;
+  .Logo {
+    margin-left: 40vw;
   }
   .top-bar {
-    z-index: 200;
-    margin-left: 40vw;
-    width: fit-content;
+    position: fixed;
+    width: 100%;
+    background-color: var(--color-background);
+    z-index: 320;
+    padding-left: var(--space-size-2);
+  }
+
+  .burger-menu {
+    display: block;
+    z-index: var(--z-mobile-burger);
   }
 }

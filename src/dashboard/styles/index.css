@@ -22,7 +22,7 @@ body {
 /* Color variables */
 :root {
   --color-background: #e9eafc;
-  --color-background-input: #f8fafc;
+  --color-background-input: #f8f8ff;
   --color-border: #e0e0e0;
   --color-hover: #e5edff;
   --color-primary: #51f6e0;
