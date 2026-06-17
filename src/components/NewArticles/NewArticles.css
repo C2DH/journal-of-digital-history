@@ -1,0 +1,7 @@
+.homereel-newArticles {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: var(--spacer-3);
+  margin-right: var(--spacer-5);
+}

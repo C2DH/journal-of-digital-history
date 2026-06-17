@@ -1,4 +1,5 @@
 .container-newArticle {
+  position: relative;
   width: 400px;
   display: flex;
   justify-content: space-between;
@@ -7,11 +8,13 @@
     rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   border-radius: 10px;
+  overflow: visible;
+  cursor: pointer;
 }
 
 .container-newArticle::after {
   position: absolute;
-  top: 10px;
+  top: -10px;
   left: 30px;
   transform: rotate(-3deg);
   font-size: 0.8em;
@@ -28,13 +31,13 @@
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
-span {
+.container-newArticle-text > span {
   font-size: 10px;
 }
 
 .separator {
-  padding-left: var(--space-size-0);
-  padding-right: var(--space-size-0);
+  padding-left: var(--spacer-1);
+  padding-right: var(--spacer-1);
 }
 
 h4 {
@@ -44,12 +47,11 @@ h4 {
 }
 
 .container-newArticle-fingerprint {
-  width: 124px;
-  height: 120px;
-  margin-left: var(--space-size-3);
+  margin-left: var(--spacer-3);
 }
 
 .container-newArticle-text {
   margin-left: 120px;
-  margin-top: var(--space-size-1);
+  margin-top: var(--spacer-1);
+  padding: var(--spacer-2);
 }
