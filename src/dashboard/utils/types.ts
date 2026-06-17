@@ -60,7 +60,7 @@ export interface Article {
   campaigns: Campaign[]
 }
 
-interface Fingerprint {
+export interface Fingerprint {
   cells: Array<{
     tags: string[]
     type: string
