@@ -1,6 +1,7 @@
 import './NewArticle.css'
 
 import { DateTime } from 'luxon'
+import { useNavigate } from 'react-router-dom'
 
 import { NewArticleCardProps } from './interface'
 
@@ -12,18 +13,23 @@ const Separator = () => {
 }
 
 const NewArticle = ({ article }: NewArticleCardProps) => {
+  const navigate = useNavigate()
   const [{ width: size }, ref] = useBoundingClientRect()
 
   const parsedDate = DateTime.fromISO(article.publication_date)
   const pubDate = parsedDate.isValid ? parsedDate.setLocale('en').toFormat('dd LLL yyyy') : ''
 
+  const handleClick = () => {
+    navigate(`/en/article/${article.abstract?.pid}`)
+  }
+
   return (
-    <div className="container-newArticle">
+    <div className="container-newArticle" onClick={handleClick}>
       <div className="container-newArticle-fingerprint" ref={ref}>
         <ArticleFingerprint
           stats={article.fingerprint?.stats}
           cells={article.fingerprint?.cells}
-          size={size * 4}
+          size={size > 0 ? size : 120}
         />
       </div>
       <div className="container-newArticle-text">
