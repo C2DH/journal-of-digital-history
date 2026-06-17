@@ -3,7 +3,7 @@
   width: var(--navbar-width);
   min-height: 600px;
   position: fixed;
-  top: 70px;
+  top: calc(var(--navbar-header-width) / 2);
   left: 0;
   font-size: 16px;
 }
@@ -40,7 +40,6 @@
   align-items: center;
   height: var(--space-size-5);
   margin: 2% 0%;
-  position: relative; /* Needed for ::before accent line */
 }
 
 .navbar li.active {
@@ -74,7 +73,6 @@
 .navbar-icons {
   margin-right: 12px;
   font-size: 24px;
-  /* color: var(--color-dark); */
   font-variation-settings: 'FILL' 0;
   transition:
     color 0.2s,
@@ -223,6 +221,7 @@ li.active .icon-filled {
   }
   /* Show menu when open */
   .navbar ul.menu-open {
+    top: 75px;
     left: 0;
   }
 

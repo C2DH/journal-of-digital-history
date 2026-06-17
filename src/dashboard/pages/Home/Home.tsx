@@ -1,20 +1,21 @@
 import '../../styles/pages/Home.css'
 import '../../styles/pages/pages.css'
 
-import { useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
-import Badge from '../../components/Badge/Badge'
+import Badge from '../../components/Badge/Accent/Badge'
 import CustomBarChart from '../../components/CustomBarChart/CustomBarChart'
 import CustomPieChart from '../../components/CustomPieChart/CustomPieChart'
 import Deadline from '../../components/Deadline/Deadline'
+import PeerReviewChart from '../../components/PeerReviewChart/PeerReviewChart'
+import PeerReviewSimple from '../../components/PeerReviewSimple/PeerReviewSimple'
 import SmallCard from '../../components/SmallCard/SmallCard'
 import SmallTable from '../../components/SmallTable/SmallTable'
 import { useSorting } from '../../hooks/useSorting'
 import { useItemsStore } from '../../store'
-import { getAbstractsSubmittedToOJS, getCallforpaperWithDeadlineOpen } from '../../utils/api/api'
+import { getCallforpaperWithDeadlineOpen } from '../../utils/api/api'
 import { Abstract, Callforpaper } from '../../utils/types'
 
 const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
@@ -41,28 +42,6 @@ const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
       </SmallCard>
     </>
   )
-}
-
-const PeerReviewCounter = () => {
-  const getCount = async () => {
-    try {
-      const res = await getAbstractsSubmittedToOJS()
-      return res.count ?? 0
-    } catch {
-      console.error('Error fetching count of abstracts submitted to OJS for peer review.')
-      return 0
-    }
-  }
-  const { data: count } = useSuspenseQuery({
-    queryKey: ['deadlineOJSCounter'],
-    queryFn: getCount,
-  })
-
-  useEffect(() => {
-    getCount()
-  }, [])
-
-  return count != 0 && <Deadline title="Ready for" value={count} />
 }
 
 const KPIRow = () => {
@@ -92,7 +71,6 @@ const KPIRow = () => {
           deadlineArticle={cfp.deadline_article}
         />
       ))}
-      <PeerReviewCounter />
     </div>
   )
 }
@@ -107,7 +85,7 @@ const Home = () => {
     reset()
     setParams({
       endpoint: 'abstracts',
-      limit: 5,
+      limit: 8,
       ordering: '-submitted_date',
       params: { status: 'SUBMITTED' },
       search: '',
@@ -117,12 +95,14 @@ const Home = () => {
 
   return (
     <div className="home page">
-      <h1>{t('welcome')}</h1>
+      <h1 className="home-welcome">{t('welcome')}</h1>
       <div className={`home-grid ${isAbstractSubmitted ? 'isAbstract' : ''}`}>
         <KPIRow />
-        <>{isAbstractSubmitted && AbstractSubmittedCard(submittedAbstracts)}</>
         <CustomPieChart />
         <CustomBarChart />
+        <>{isAbstractSubmitted && AbstractSubmittedCard(submittedAbstracts)}</>
+        <PeerReviewChart />
+        <PeerReviewSimple />
       </div>
       <Outlet />
     </div>

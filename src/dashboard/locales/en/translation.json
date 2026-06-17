@@ -35,6 +35,44 @@
         "description": "Abstracts"
       },
       "noData": "No data to display"
+    },
+    "peerReviewChart": {
+      "simple": {
+        "title": "Article in Rounds"
+      },
+      "table": {
+        "title": "Peer Review Details",
+        "placeholder": "Select a phase to begin",
+        "indication": "←  Select a peer review phase to view article details."
+      },
+      "title": "Peer Review Phases",
+      "assign": "Assign Reviewer",
+      "awaiting": "Awaiting Reviewer Response",
+      "review": "Review in progress",
+      "reviewer": "Reviewer decision",
+      "revising": "Author revising"
+    }
+  },
+  "badge": {
+    "status": {
+      "draft": "Writing",
+      "technical_review": "Technical review",
+      "peer_review": "Peer Review",
+      "copy_editing": "Copy Editing",
+      "design_review": "Design Review",
+      "social_media": "Social Media",
+      "published": "Published",
+      "archived": "Archived",
+      "pending": "pending",
+      "declined": "declined",
+      "overdue": "overdue",
+      "accepted": "accepted",
+      "submitted": "submitted",
+      "confirmed": "confirmed",
+      "thanked": "thanked",
+      "cancelled": "cancelled",
+      "resent": "resent",
+      "viewed": "viewed"
     }
   },
   "issues": {
@@ -77,7 +115,11 @@
     "publication_date": "Pub Date",
     "status": "Status",
     "repository_url": "",
-    "author": "Author"
+    "author": "Author",
+    "authors": "Authors",
+    "title": "Title",
+    "substatus": "Substatus",
+    "url": "OJS"
   },
   "authors": {
     "item": "Authors",

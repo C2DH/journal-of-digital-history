@@ -26,6 +26,20 @@ import {
 } from './utils/types'
 
 /**
+ * useNavStore
+ * Zustand store for managing Navbar state and actions for the Burger Menu in Mobile view.
+ * - isOpen: current navbar state
+ * - toggle: function to change status of isOpen
+ * - close: function to close the Navbar
+ */
+
+const useNavStore = create<{ isOpen: boolean; toggle: () => void; close: () => void }>((set) => ({
+  isOpen: false,
+  toggle: () => set((s) => ({ isOpen: !s.isOpen })),
+  close: () => set({ isOpen: false }),
+}))
+
+/**
  * useSearchStore
  * Zustand store for managing search state and actions.
  * - query: current search string
@@ -616,6 +630,7 @@ export {
   useIssuesStore,
   useItemsStore,
   useItemStore,
+  useNavStore,
   useNotificationStore,
   useSearchStore,
 }

@@ -1,7 +1,7 @@
 .smalltable {
   width: 100%;
   table-layout: fixed;
-  border-spacing: var(--gap-size-3);
+  border-spacing: var(--gap-size-2);
   border-collapse: separate;
 }
 
@@ -32,6 +32,12 @@
   font-size: var(--text-size-3);
 }
 
+th.placeholder-body-header {
+  color: var(--color-deep-blue);
+  padding: var(--gap-size-0);
+  text-align: center;
+}
+
 th.smalltable-callpaper_title,
 th.smalltable-author {
   width: 20%;
@@ -40,6 +46,15 @@ th.smalltable-author {
 th.smalltable-submitted_date,
 td.smalltable-submitted_date {
   width: 22%;
+}
+th.smalltable-title {
+  width: 40%;
+}
+th.smalltable-authors {
+  width: 15%;
+}
+th.smalltable-url {
+  width: 10%;
 }
 
 /* CELL STYLES */
@@ -54,11 +69,21 @@ td.smalltable-name,
   font-weight: 600;
   color: var(--color-deep-blue);
 }
-/* 
-th.smalltable-author,
-th.smalltable-callpaper_title {
-  display: none;
-} */
+
+td.smalltable-substatus {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+}
+
+.placeholder-image {
+  width: 128px;
+  justify-content: center;
+}
 
 /*Tablet or small screen view */
 @media screen and (max-width: 1500px) {
