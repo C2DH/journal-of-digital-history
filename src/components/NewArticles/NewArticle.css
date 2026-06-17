@@ -1,5 +1,5 @@
 .container-newArticle {
-  width: 500px;
+  width: 400px;
   display: flex;
   justify-content: space-between;
   border: 1px solid var(--accent);
@@ -29,7 +29,12 @@
 }
 
 span {
-  padding-left: var(--space-size-1);
+  font-size: 10px;
+}
+
+.separator {
+  padding-left: var(--space-size-0);
+  padding-right: var(--space-size-0);
 }
 
 h4 {
@@ -41,9 +46,10 @@ h4 {
 .container-newArticle-fingerprint {
   width: 124px;
   height: 120px;
-  margin: var(--space-size-1);
+  margin-left: var(--space-size-3);
 }
 
 .container-newArticle-text {
-  margin-left: 250px;
+  margin-left: 120px;
+  margin-top: var(--space-size-1);
 }

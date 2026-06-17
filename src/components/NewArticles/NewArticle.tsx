@@ -7,6 +7,10 @@ import { NewArticleCardProps } from './interface'
 import { useBoundingClientRect } from '../../hooks/graphics'
 import ArticleFingerprint from '../Article/ArticleFingerprint'
 
+const Separator = () => {
+  return <span className="separator">•</span>
+}
+
 const NewArticle = ({ article }: NewArticleCardProps) => {
   const [{ width: size }, ref] = useBoundingClientRect()
 
@@ -19,13 +23,16 @@ const NewArticle = ({ article }: NewArticleCardProps) => {
         <ArticleFingerprint
           stats={article.fingerprint?.stats}
           cells={article.fingerprint?.cells}
-          size={230}
+          size={size * 4}
         />
       </div>
       <div className="container-newArticle-text">
         <h4>{article.abstract.title}</h4>
         <span>{`${article.abstract.contact_firstname} ${article.abstract.contact_lastname}`}</span>{' '}
-        •<span>{pubDate}</span> •<span>{`Issue n.${article.issue.pid.slice(-1)}`}</span>
+        <Separator />
+        <span>{pubDate}</span>
+        <Separator />
+        <span>{`Issue n.${article.issue.pid.slice(-1)}`}</span>
       </div>
     </div>
   )
