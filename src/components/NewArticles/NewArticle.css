@@ -1,5 +1,6 @@
 .container-newArticle {
   --card-width: 400px;
+  --card-width-mobile: 320px;
   --card-height: 150px;
 
   width: var(--card-width);
@@ -53,11 +54,12 @@
   padding-right: var(--spacer-1);
 }
 
-.container-newArticle-text > span {
+.container-newArticle-text > p {
   font-size: 0.75em;
 }
 
 .container-newArticle-text > h4 {
+  padding-top: var(--spacer-3);
   font-family: var(--bs-body-font-family);
   font-weight: 700;
   font-size: 0.9em;
@@ -71,4 +73,32 @@
   white-space: normal;
   word-wrap: break-word;
   line-height: 1.4;
+}
+
+@media screen and (max-width: 767px) {
+  .container-newArticle {
+    width: var(--card-width-mobile);
+    margin-left: var(--spacer-4);
+  }
+
+  .container-newArticle-text {
+    padding: 0;
+  }
+
+  .container-newArticle-text > p {
+    font-size: 0.8em;
+    line-height: 1.2;
+  }
+
+  .container-newArticle-text > h4 {
+    font-family: var(--bs-body-font-family);
+    font-weight: 700;
+    font-size: 0.9em;
+
+    width: 80%;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+
+    line-height: 1.4;
+  }
 }

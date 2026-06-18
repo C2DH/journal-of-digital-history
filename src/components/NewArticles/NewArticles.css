@@ -5,3 +5,10 @@
   gap: var(--spacer-3);
   margin-right: var(--spacer-5);
 }
+
+@media screen and (max-width: 767px) {
+  .homereel-newArticles {
+    flex-direction: column;
+    gap: var(--spacer-4);
+  }
+}

@@ -2,6 +2,7 @@ import MarkdownIt from 'markdown-it'
 import { useMemo } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
+
 import ArticleCellContent from '../components/Article/ArticleCellContent'
 import HomeMilestones from '../components/HomeMilestones'
 import HomeReel from '../components/HomeReel'
@@ -83,7 +84,7 @@ const Home = ({ data = '', status }) => {
           <Col {...BootstrapColumLayout}>
             <h1 className="my-5">{intro[0].replace(/<[^>]+>/g, '')}</h1>
             <h2 className="my-5 mb-3-sm">{intro[1].replace(/<[^>]+>/g, '')}</h2>
-            <HomeReel height={IsMobile ? 250 : 180} />
+            <HomeReel height={IsMobile ? 340 : 180} />
             <h2
               className="mt-5"
               style={{

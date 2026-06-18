@@ -34,11 +34,13 @@ const NewArticle = ({ article }: NewArticleCardProps) => {
       </div>
       <div className="container-newArticle-text">
         <h4>{article.abstract.title}</h4>
-        <span>{`${article.abstract.contact_firstname} ${article.abstract.contact_lastname}`}</span>{' '}
-        <Separator />
-        <span>{pubDate}</span>
-        <Separator />
-        <span>{`Issue n.${article.issue.pid.slice(-1)}`}</span>
+        <p>
+          {`${article.abstract.contact_firstname} ${article.abstract.contact_lastname}`}
+          <Separator />
+          {pubDate}
+          <Separator />
+          {`Issue n.${article.issue.pid.slice(-1)}`}
+        </p>
       </div>
     </div>
   )

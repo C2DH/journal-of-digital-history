@@ -1,10 +1,11 @@
+import '../../styles/components/HomeReel.scss'
+
 import { useEffect, useRef } from 'react'
 import Slider from 'react-slick'
 
 import { StatusSuccess } from '../../constants/globalConstants'
 import { useBoundingClientRect } from '../../hooks/graphics'
 import { useGetRawContents } from '../../logic/api/fetchData'
-import '../../styles/components/HomeReel.scss'
 import NewArticles from '../NewArticles/NewArticles'
 import HomeReelItem from './HomeReelItem'
 
@@ -151,7 +152,7 @@ const HomeReel = ({ height = 180, delay = 1500 }) => {
             autoplaySpeed={3750}
             onInit={onInitHandler}
           >
-            <NewArticles />
+            {<NewArticles />}
             {items.map((item, i) => (
               <HomeReelItem
                 key={i}
