@@ -29,7 +29,7 @@ const NewArticle = ({ article }: NewArticleCardProps) => {
         <ArticleFingerprint
           stats={article.fingerprint?.stats}
           cells={article.fingerprint?.cells}
-          size={size > 0 ? size : 120}
+          size={size > 0 ? size : 150}
         />
       </div>
       <div className="container-newArticle-text">

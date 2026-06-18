@@ -18,7 +18,7 @@ const meta: Meta<typeof NewArticle> = {
       abstract: {
         pid: 'abc123',
         title:
-          'Aligning Technology with Pedagogical Goals: Digital Public History, Content Management Systems, and Minimalist Frameworks ',
+          'This title is soooo long, that is should appear with a text-ellipsis on this Storybook. Otherwise, it will mean that we have a tiny problem, that we should fix.',
         contact_firstname: 'John',
         contact_lastname: 'Doe',
       },

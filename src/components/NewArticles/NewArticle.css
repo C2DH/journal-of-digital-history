@@ -1,8 +1,15 @@
 .container-newArticle {
-  position: relative;
-  width: 400px;
+  --card-width: 400px;
+  --card-height: 150px;
+
+  width: var(--card-width);
+  height: var(--card-height);
+
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  position: relative;
+
   border: 1px solid var(--accent);
   box-shadow:
     rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
@@ -14,7 +21,7 @@
 
 .container-newArticle::after {
   position: absolute;
-  top: -10px;
+  top: -15px;
   left: 20px;
   font-size: 0.8em;
   content: 'new';
@@ -30,8 +37,15 @@
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
-.container-newArticle-text > span {
-  font-size: 10px;
+.container-newArticle-fingerprint {
+  display: flex;
+  align-items: center;
+}
+
+.container-newArticle-text {
+  margin-left: var(--card-height);
+  margin-top: var(--spacer-1);
+  padding: var(--spacer-2);
 }
 
 .separator {
@@ -39,18 +53,22 @@
   padding-right: var(--spacer-1);
 }
 
-h4 {
+.container-newArticle-text > span {
+  font-size: 0.75em;
+}
+
+.container-newArticle-text > h4 {
   font-family: var(--bs-body-font-family);
   font-weight: 700;
-  font-size: 14px;
-}
+  font-size: 0.9em;
 
-.container-newArticle-fingerprint {
-  margin-left: var(--spacer-3);
-}
-
-.container-newArticle-text {
-  margin-left: 120px;
-  margin-top: var(--spacer-1);
-  padding: var(--spacer-2);
+  width: 80%;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+  line-height: 1.4;
 }
