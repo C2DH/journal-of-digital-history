@@ -15,8 +15,7 @@
 .container-newArticle::after {
   position: absolute;
   top: -10px;
-  left: 30px;
-  transform: rotate(-3deg);
+  left: 20px;
   font-size: 0.8em;
   content: 'new';
   color: var(--white);
