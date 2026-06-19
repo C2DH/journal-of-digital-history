@@ -78,7 +78,7 @@
 @media screen and (max-width: 767px) {
   .container-newArticle {
     width: var(--card-width-mobile);
-    margin-left: var(--spacer-4);
+    /* margin-left: var(--spacer-4); */
   }
 
   .container-newArticle-text {

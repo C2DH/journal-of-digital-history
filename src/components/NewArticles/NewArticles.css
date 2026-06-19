@@ -1,9 +1,8 @@
 .homereel-newArticles {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: var(--spacer-3);
-  margin-right: var(--spacer-5);
 }
 
 @media screen and (max-width: 767px) {
