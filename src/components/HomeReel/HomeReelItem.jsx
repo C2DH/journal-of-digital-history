@@ -1,6 +1,6 @@
 import { ArrowRight, Zap } from 'react-feather'
 
-const Item = ({ item }) => {
+const ItemContent = ({ item }) => {
   return (
     <div>
       <h2 className="monospace" style={{ fontSize: 'inherit' }}>
@@ -51,7 +51,7 @@ const HomeReelItem = ({ item, onClick = function () {}, onMouseEnter, width, hei
             <Zap />
           </div>
         )}
-        <Item item={item} />
+        <ItemContent item={item} />
       </div>
     </div>
   )

@@ -24,7 +24,7 @@ const NewArticle = ({ article }: NewArticleCardProps) => {
   }
 
   return (
-    <div className="container-newArticle" onClick={handleClick}>
+    <div className="container-newArticle HomeReel_item" onClick={handleClick}>
       <div className="container-newArticle-fingerprint" ref={ref}>
         <ArticleFingerprint
           stats={article.fingerprint?.stats}
