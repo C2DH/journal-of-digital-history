@@ -2,7 +2,7 @@ import '../../styles/pages/Home.css'
 import '../../styles/pages/pages.css'
 
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
@@ -47,23 +47,24 @@ const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
 const KPIRow = () => {
   const [cfpOpen, setCfpOpen] = useState<Callforpaper[]>([])
 
-  const getCallforpaper = async () => {
+  const fetchCfpOpenData = async () => {
     try {
       const cfpOpen = await getCallforpaperWithDeadlineOpen()
-      setCfpOpen(cfpOpen)
+      return cfpOpen
     } catch (error) {
       console.error('Error fetching Call for Papers:', error)
       return []
     }
   }
 
-  useEffect(() => {
-    getCallforpaper()
-  }, [])
+  const { data } = useSuspenseQuery({
+    queryKey: ['cfpOpenData'],
+    queryFn: fetchCfpOpenData,
+  })
 
   return (
     <div className="home-counter-row">
-      {cfpOpen.map((cfp) => (
+      {data.map((cfp) => (
         <Deadline
           key={cfp.id}
           title={cfp.title}
