@@ -33,6 +33,10 @@ vi.mock('../SmallCard/SmallCard', () => ({
   ),
 }))
 
+vi.mock('../Legend/Legend', () => ({
+  default: <div datatest-id="legend">Legend</div>,
+}))
+
 vi.mock('../Buttons/Button/Button', () => ({
   default: ({
     text,

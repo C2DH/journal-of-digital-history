@@ -11,14 +11,13 @@ import { fetchPieChartData } from './fetch'
 const CustomPieChart = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  // const [articlesCounts, setArticleCounts] = useState<Array<{ label: string; value: number }>>([])
 
   const { data } = useSuspenseQuery({
     queryKey: ['pieChartData'],
     queryFn: fetchPieChartData,
   })
 
-  const articlesCounts = Array.isArray(data) ? data : data?.counts ?? []
+  const articlesCounts = Array.isArray(data) ? data : []
 
   const handleSliceClick = (event: any, index: any) => {
     const status = articlePieChart.find((status) => status.key === index.dataIndex)

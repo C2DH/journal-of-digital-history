@@ -2,7 +2,6 @@ import '../../styles/pages/Home.css'
 import '../../styles/pages/pages.css'
 
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
@@ -16,7 +15,7 @@ import SmallCard from '../../components/SmallCard/SmallCard'
 import SmallTable from '../../components/SmallTable/SmallTable'
 import { useItemsStore } from '../../store'
 import { getCallforpaperWithDeadlineOpen } from '../../utils/api/api'
-import { Abstract, Callforpaper } from '../../utils/types'
+import { Abstract } from '../../utils/types'
 
 const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
   return (
@@ -45,8 +44,6 @@ const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
 }
 
 const KPIRow = () => {
-  const [cfpOpen, setCfpOpen] = useState<Callforpaper[]>([])
-
   const fetchCfpOpenData = async () => {
     try {
       const cfpOpen = await getCallforpaperWithDeadlineOpen()
