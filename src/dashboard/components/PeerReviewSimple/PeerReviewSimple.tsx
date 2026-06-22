@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 
 import { colorPeerReviewSimpleChart } from '../../styles/theme'
 import { getPeerReviewArticlesTiming } from '../../utils/api/api'
+import Legend from '../Legend/Legend'
 import SmallCard from '../SmallCard/SmallCard'
 import { series } from './series'
 
@@ -27,22 +28,10 @@ const PeerReviewSimple = () => {
   function getChartSettings(): BarChartProps {
     return {
       dataset: data,
-      height: 150,
-      margin: { left: 0, bottom: 50 },
+      height: 200,
+      margin: { left: 0, right: 0, bottom: 20 },
       series: series,
       slotProps: {
-        legend: {
-          direction: 'horizontal',
-          position: {
-            vertical: 'bottom',
-            horizontal: 'center',
-          },
-          sx: {
-            fontSize: 16,
-            fontFamily: 'DM Sans, sans-serif',
-            color: 'var(--color-deep-blue)',
-          },
-        },
         tooltip: { trigger: 'item' },
       },
       xAxis: [
@@ -86,6 +75,7 @@ const PeerReviewSimple = () => {
               },
             }}
             {...getChartSettings()}
+            hideLegend
             onItemClick={(event, d) => {
               if (d.seriesId === 'declined') {
                 window.open(`${import.meta.env.VITE_OJS_DASHBOARD}submissions#archive`)
@@ -94,6 +84,7 @@ const PeerReviewSimple = () => {
             }}
           />
         )}
+        <Legend series={series} colors={colorPeerReviewSimpleChart} />
       </SmallCard>
     </>
   )

@@ -1,7 +1,7 @@
 import '../../styles/pages/Home.css'
 import '../../styles/pages/pages.css'
 
-import { useEffect, useState } from 'react'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Outlet } from 'react-router-dom'
 
@@ -13,10 +13,9 @@ import PeerReviewChart from '../../components/PeerReviewChart/PeerReviewChart'
 import PeerReviewSimple from '../../components/PeerReviewSimple/PeerReviewSimple'
 import SmallCard from '../../components/SmallCard/SmallCard'
 import SmallTable from '../../components/SmallTable/SmallTable'
-import { useSorting } from '../../hooks/useSorting'
 import { useItemsStore } from '../../store'
 import { getCallforpaperWithDeadlineOpen } from '../../utils/api/api'
-import { Abstract, Callforpaper } from '../../utils/types'
+import { Abstract } from '../../utils/types'
 
 const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
   return (
@@ -45,25 +44,24 @@ const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
 }
 
 const KPIRow = () => {
-  const [cfpOpen, setCfpOpen] = useState<Callforpaper[]>([])
-
-  const getCallforpaper = async () => {
+  const fetchCfpOpenData = async () => {
     try {
       const cfpOpen = await getCallforpaperWithDeadlineOpen()
-      setCfpOpen(cfpOpen)
+      return cfpOpen
     } catch (error) {
       console.error('Error fetching Call for Papers:', error)
       return []
     }
   }
 
-  useEffect(() => {
-    getCallforpaper()
-  }, [])
+  const { data } = useSuspenseQuery({
+    queryKey: ['cfpOpenData'],
+    queryFn: fetchCfpOpenData,
+  })
 
   return (
     <div className="home-counter-row">
-      {cfpOpen.map((cfp) => (
+      {data.map((cfp) => (
         <Deadline
           key={cfp.id}
           title={cfp.title}
@@ -77,11 +75,9 @@ const KPIRow = () => {
 
 const Home = () => {
   const { t } = useTranslation()
-  const { ordering } = useSorting()
-  const { data: submittedAbstracts, fetchItems, setParams, reset } = useItemsStore()
-  const isAbstractSubmitted = submittedAbstracts.length != 0
+  const { fetchItems, setParams, reset } = useItemsStore()
 
-  useEffect(() => {
+  const fetchNewAbstractData = async (): Promise<Abstract[]> => {
     reset()
     setParams({
       endpoint: 'abstracts',
@@ -90,17 +86,23 @@ const Home = () => {
       params: { status: 'SUBMITTED' },
       search: '',
     })
-    fetchItems(true)
-  }, [setParams, fetchItems, ordering])
+    await fetchItems(true)
+    return useItemsStore.getState().data as Abstract[]
+  }
+
+  const { data } = useSuspenseQuery({
+    queryKey: ['newAbstractData'],
+    queryFn: fetchNewAbstractData,
+  })
 
   return (
     <div className="home page">
       <h1 className="home-welcome">{t('welcome')}</h1>
-      <div className={`home-grid ${isAbstractSubmitted ? 'isAbstract' : ''}`}>
+      <div className={`home-grid ${data && data.length > 0 ? 'isAbstract' : ''}`}>
         <KPIRow />
         <CustomPieChart />
         <CustomBarChart />
-        <>{isAbstractSubmitted && AbstractSubmittedCard(submittedAbstracts)}</>
+        <>{data && data.length > 0 && AbstractSubmittedCard(data)}</>
         <PeerReviewChart />
         <PeerReviewSimple />
       </div>

@@ -35,7 +35,7 @@ vi.mock('../SmallCard/SmallCard', () => ({
   ),
 }))
 
-vi.mock('./Legend', () => ({
+vi.mock('../Legend/Legend', () => ({
   default: () => <div data-testid="legend">legend</div>,
 }))
 
