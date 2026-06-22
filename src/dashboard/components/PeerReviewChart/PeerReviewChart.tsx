@@ -7,15 +7,15 @@ import { useTranslation } from 'react-i18next'
 
 import { colorsPeerReviewChart } from '../../styles/theme'
 import { getPeerReviewArticlesByStage, getPeerReviewArticlesDetails } from '../../utils/api/api'
+import Legend from '../Legend/Legend'
 import SmallCard from '../SmallCard/SmallCard'
 import SmallTable from '../SmallTable/SmallTable'
-import Legend from './Legend'
 import { series } from './series'
 
 const PeerReviewChart = () => {
   const { t } = useTranslation()
   const [label, setLabel] = useState('Default')
-  const [round, setRound] = useState<number>(4)
+  const [round, setRound] = useState<number>(8)
   const [item, setItem] = useState({
     key: 'default',
     articles: [{ pid: '', authors: '', title: '', substatus: [''], url: '' }],
@@ -31,7 +31,8 @@ const PeerReviewChart = () => {
         item.awaiting != 0 ||
         item.review != 0 ||
         item.reviewer != 0 ||
-        item.revising != 0,
+        item.revising != 0 ||
+        item.resubmit != 0,
     )
     return dataWithoutNull
   }
@@ -60,7 +61,7 @@ const PeerReviewChart = () => {
     return {
       dataset: data,
       series: series,
-      height: 100,
+      height: 150,
       width: 400,
       margin: { left: 0, top: 0, right: 30, bottom: 10 },
       xAxis: [
@@ -113,11 +114,7 @@ const PeerReviewChart = () => {
           {...getChartSettings()}
           hideLegend
         />
-        <div
-          style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 8, marginLeft: 50 }}
-        >
-          <Legend />
-        </div>
+        <Legend series={series} colors={colorsPeerReviewChart} />
       </SmallCard>
       {
         <SmallCard

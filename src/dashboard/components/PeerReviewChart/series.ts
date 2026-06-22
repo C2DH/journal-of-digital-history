@@ -61,4 +61,16 @@ export const series: Omit<BarSeriesType, 'type'>[] = [
     },
     barLabel: 'value',
   },
+  {
+    dataKey: 'resubmit',
+    id: 'resubmit',
+    label: 'Resubmit',
+    layout: 'horizontal',
+    stack: 'stack',
+    highlightScope: {
+      highlight: 'item',
+      fade: 'global',
+    },
+    barLabel: 'value',
+  },
 ]
