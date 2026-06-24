@@ -34,6 +34,13 @@ const Status = ({ value }: StatusProps) => {
         <span>{t(`status.${status}`)}</span>
       </span>
     )
+  } else {
+    return (
+      <span className="status-cell value">
+        <Cancel className={` icon-status ${status}`} />
+        <span>{t(`status.${status}`)}</span>
+      </span>
+    )
   }
 }
 
