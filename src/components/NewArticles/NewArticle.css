@@ -12,9 +12,6 @@
   position: relative;
 
   border: 1px solid var(--secondary);
-  box-shadow:
-    rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   border-radius: 10px;
   overflow: visible;
   cursor: pointer;
@@ -78,7 +75,6 @@
 @media screen and (max-width: 767px) {
   .container-newArticle {
     width: var(--card-width-mobile);
-    /* margin-left: var(--spacer-4); */
   }
 
   .container-newArticle-text {
