@@ -1,18 +1,29 @@
 import './NewArticles.css'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useIsTablet } from '../../dashboard/hooks/useIsMobile'
-import { useGetJSON } from '../../logic/api/fetchData'
 import NewArticle from './NewArticle'
 
-const NewArticles = ({ width }) => {
+const NewArticles = async ({ width }) => {
   const [isTablet, setIsTablet] = useState(false)
-  const { data, error, status } = useGetJSON({
-    url: `/api/articles/?limit=${isTablet ? 1 : 2}&ordering=-publication_date&status=PUBLISHED`,
-  })
+  type Article = React.ComponentProps<typeof NewArticle>['article']
+  const [articles, setArticles] = useState<Article[]>([])
 
-  const articles = !error && status !== 'pending' ? (data?.results ?? []) : []
+  const url = `/api/articles/?limit=${isTablet ? 1 : 2}&ordering=-publication_date&status=PUBLISHED`
+
+  useEffect(() => {
+    const getNewArticles = async () => {
+      try {
+        const response = await fetch(url)
+        const data = await response.json()
+        return setArticles(data?.results ?? [])
+      } catch (error) {
+        return error
+      }
+    }
+    getNewArticles()
+  }, [])
 
   useIsTablet(setIsTablet)
 
