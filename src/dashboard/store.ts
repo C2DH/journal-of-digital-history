@@ -525,6 +525,7 @@ const useActionStore = create<ActionStore>((set, get) => ({
       case 'Copy_editing':
       case 'Design_review':
       case 'Published':
+      case 'Rejected':
         try {
           const res = await patchArticleStatus({ status: action.toUpperCase() }, pid)
           notify('success', 'notification.status.success.article', res.status, 0, pid)
@@ -608,6 +609,7 @@ const useActionStore = create<ActionStore>((set, get) => ({
       actions.push(defaultAction('Peer_review', 'Peer review'))
       actions.push(defaultAction('Copy_editing', 'Copy editing'))
       actions.push(defaultAction('Published'))
+      actions.push(defaultAction('Rejected'))
     }
 
     if (isAbstract) {
