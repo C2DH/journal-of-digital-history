@@ -1,0 +1,17 @@
+.homereel-newArticles {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: var(--spacer-3);
+}
+
+@media screen and (max-width: 1400px) {
+  .homereel-newArticles {
+    width: 80%;
+    padding-right: var(--spacer-5);
+  }
+
+  .homereel-newArticles > :nth-child(1) {
+    display: none;
+  }
+}

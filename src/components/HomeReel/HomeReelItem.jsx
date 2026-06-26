@@ -1,5 +1,26 @@
-import React from 'react'
-import { Zap, ArrowRight } from 'react-feather'
+import { ArrowRight, Zap } from 'react-feather'
+
+const ItemContent = ({ item }) => {
+  return (
+    <div>
+      <h2 className="monospace" style={{ fontSize: 'inherit' }}>
+        {item.title}
+      </h2>
+      <p className="m-0">{item.description}</p>
+      {item.url?.length > 0 && (
+        <a
+          href={item.url}
+          className="HomeReel_btn btn btn-sm rounded mt-2"
+          rel="noreferrer"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <ArrowRight size={15} />
+          &nbsp;&nbsp;{item.label || item.url}
+        </a>
+      )}
+    </div>
+  )
+}
 
 const HomeReelItem = ({ item, onClick = function () {}, onMouseEnter, width, height }) => {
   const onClickHandler = (e) => {
@@ -24,28 +45,13 @@ const HomeReelItem = ({ item, onClick = function () {}, onMouseEnter, width, hei
         onClick={onClickHandler}
         onMouseEnter={onMouseEnter}
       >
+        {' '}
         {!!item.zap && (
           <div className="icon d-none d-md-block me-2">
             <Zap />
           </div>
         )}
-        <div>
-          <h2 className="monospace" style={{ fontSize: 'inherit' }}>
-            {item.title}
-          </h2>
-          <p className="m-0">{item.description}</p>
-          {item.url?.length > 0 && (
-            <a
-              href={item.url}
-              className="HomeReel_btn btn btn-sm rounded mt-2"
-              rel="noreferrer"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <ArrowRight size={15} />
-              &nbsp;&nbsp;{item.label || item.url}
-            </a>
-          )}
-        </div>
+        <ItemContent item={item} />
       </div>
     </div>
   )
