@@ -6,20 +6,26 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { useBoundingClientRect } from '../../../hooks/graphics'
 import { colorsAbstract, colorsArticle } from '../../styles/theme'
+import { getBarChartHome } from '../../utils/api/api'
 import { abstractSeriesKey } from '../../utils/constants/abstract'
 import { articleBarChart, articleSeriesKey } from '../../utils/constants/article'
 import Button from '../Buttons/Button/Button'
 import SmallCard from '../SmallCard/SmallCard'
-import { fetchBarChartData } from './fetch'
 
 const CustomBarChart = () => {
   const { t } = useTranslation()
   const [isArticle, setIsArticle] = useState(true)
+  const [{ width: containerWidth }, containerRef] = useBoundingClientRect()
+
+  const ADVANCE_WIDTH = 70
+  const articleChartWidth = containerWidth > 0 ? containerWidth - ADVANCE_WIDTH : 300
+  const abstractChartWidth = containerWidth > 0 ? containerWidth : 370
 
   const { data } = useSuspenseQuery({
     queryKey: ['barChartData'],
-    queryFn: fetchBarChartData,
+    queryFn: getBarChartHome,
   })
 
   const { articleSeries, articleLabels, advanceSeries, abstractSeries, abstractLabels } = data
@@ -73,11 +79,10 @@ const CustomBarChart = () => {
           dataTestId="flip-button"
         />
       </div>
-
-      <div className="article-and-advance-container">
+      <div className="article-and-advance-container" ref={containerRef}>
         {/* Article chart */}
         {articleSeries.length > 0 && articleLabels.length > 0 && (
-          <div style={{ display: isArticle ? 'block' : 'none' }}>
+          <div className="article-chart-wrap" style={{ display: isArticle ? 'block' : 'none' }}>
             <BarChart
               id="article-bar-chart"
               data-testid="bar-chart-article"
@@ -98,7 +103,7 @@ const CustomBarChart = () => {
                 },
               ]}
               yAxis={commonProps.yAxis}
-              width={commonProps.width}
+              width={articleChartWidth}
               height={commonProps.height}
               hideLegend={commonProps.hideLegend}
               margin={commonProps.margin}
@@ -109,7 +114,7 @@ const CustomBarChart = () => {
 
         {/* Advance article chart */}
         {advanceSeries.length > 0 && articleLabels.length > 0 && (
-          <div style={{ display: isArticle ? 'block' : 'none' }}>
+          <div className="advance-chart-wrap" style={{ display: isArticle ? 'block' : 'none' }}>
             <BarChart
               id="article-advanced-bar-chart"
               data-testid="bar-chart-article-advanced"
@@ -131,7 +136,7 @@ const CustomBarChart = () => {
                 },
               ]}
               yAxis={[{ position: 'none', min: 0, max: getMaxYValue() }]}
-              width={70}
+              width={ADVANCE_WIDTH}
               height={commonProps.height}
               hideLegend={commonProps.hideLegend}
               margin={commonProps.margin}
@@ -165,7 +170,7 @@ const CustomBarChart = () => {
               },
             ]}
             yAxis={commonProps.yAxis}
-            width={commonProps.width}
+            width={abstractChartWidth}
             height={commonProps.height}
             hideLegend={commonProps.hideLegend}
             margin={commonProps.margin}

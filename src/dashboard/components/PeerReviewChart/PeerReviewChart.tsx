@@ -62,8 +62,7 @@ const PeerReviewChart = () => {
       dataset: data,
       series: series,
       height: 150,
-      width: 400,
-      margin: { left: 0, top: 0, right: 30, bottom: 10 },
+      margin: { left: 0, top: 0, right: 0, bottom: 10 },
       xAxis: [
         {
           position: 'none',
