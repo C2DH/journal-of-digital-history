@@ -81,13 +81,11 @@ p {
   .home-grid.isAbstract {
     grid-template-columns: repeat(1, 1fr);
     grid-template-areas:
-      'c'
-      'a'
-      'p'
-      'b'
-      'rs'
-      'r'
-      'n';
+      'c c'
+      'a a'
+      'p b'
+      'rs r'
+      'n n';
   }
   .chart {
     height: fit-content;
@@ -96,6 +94,17 @@ p {
 
 /* Mobile view */
 @media screen and (max-width: 767px) {
+  .home-grid.isAbstract {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-areas:
+      'c'
+      'a'
+      'p'
+      'b'
+      'rs'
+      'r'
+      'n';
+  }
   .home-grid {
     display: flex;
     flex-direction: column;
