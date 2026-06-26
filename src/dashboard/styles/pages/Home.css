@@ -29,9 +29,13 @@ p {
 }
 .home-piechart {
   grid-area: p;
+  height: 100%;
+  min-height: 0;
 }
 .home-barchart {
   grid-area: b;
+  width: 100%;
+  min-width: 0;
 }
 .home-peerreviewchart-simple {
   grid-area: rs;
@@ -77,13 +81,13 @@ p {
 }
 
 /* Tablet or small screen view */
-@media (max-width: 1200px) {
+@media (max-width: 1400px) {
   .home-grid.isAbstract {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
       'c c'
-      'a a'
       'p b'
+      'a a'
       'rs r'
       'n n';
   }
@@ -98,9 +102,9 @@ p {
     grid-template-columns: repeat(1, 1fr);
     grid-template-areas:
       'c'
-      'a'
       'p'
       'b'
+      'a'
       'rs'
       'r'
       'n';

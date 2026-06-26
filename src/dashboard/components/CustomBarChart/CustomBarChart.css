@@ -16,6 +16,17 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.article-chart-wrap {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.advance-chart-wrap {
+  flex: 0 0 70px;
 }
 
 p {
