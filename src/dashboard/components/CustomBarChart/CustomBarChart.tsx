@@ -7,11 +7,11 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { colorsAbstract, colorsArticle } from '../../styles/theme'
+import { getBarChartHome } from '../../utils/api/api'
 import { abstractSeriesKey } from '../../utils/constants/abstract'
 import { articleBarChart, articleSeriesKey } from '../../utils/constants/article'
 import Button from '../Buttons/Button/Button'
 import SmallCard from '../SmallCard/SmallCard'
-import { fetchBarChartData } from './fetch'
 
 const CustomBarChart = () => {
   const { t } = useTranslation()
@@ -19,7 +19,7 @@ const CustomBarChart = () => {
 
   const { data } = useSuspenseQuery({
     queryKey: ['barChartData'],
-    queryFn: fetchBarChartData,
+    queryFn: getBarChartHome,
   })
 
   const { articleSeries, articleLabels, advanceSeries, abstractSeries, abstractLabels } = data
@@ -165,7 +165,7 @@ const CustomBarChart = () => {
               },
             ]}
             yAxis={commonProps.yAxis}
-            width={commonProps.width}
+            width={370}
             height={commonProps.height}
             hideLegend={commonProps.hideLegend}
             margin={commonProps.margin}
