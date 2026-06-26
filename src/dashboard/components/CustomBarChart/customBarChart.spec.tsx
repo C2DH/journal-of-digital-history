@@ -3,12 +3,12 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { Suspense } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 
+import { getBarChartHome } from '../../utils/api/api'
 import CustomBarChart from './CustomBarChart'
-import { fetchBarChartData } from './fetch'
 
 // Mock dependencies
-vi.mock('./fetch', () => ({
-  fetchBarChartData: vi.fn(),
+vi.mock('../../utils/api/api', () => ({
+  getBarChartHome: vi.fn(),
 }))
 
 vi.mock('react-i18next', () => ({
@@ -81,7 +81,7 @@ const renderComponent = () => {
     defaultOptions: { queries: { retry: false } },
   })
 
-  vi.mocked(fetchBarChartData).mockResolvedValue(mockData)
+  vi.mocked(getBarChartHome).mockResolvedValue(mockData)
 
   return render(
     <QueryClientProvider client={queryClient}>
@@ -94,7 +94,7 @@ const renderComponent = () => {
 
 describe('CustomBarChart', () => {
   it('shows the suspense fallback while loading', () => {
-    vi.mocked(fetchBarChartData).mockImplementation(() => new Promise(() => {}))
+    vi.mocked(getBarChartHome).mockImplementation(() => new Promise(() => {}))
 
     const queryClient = new QueryClient({
       defaultOptions: { queries: { retry: false } },
@@ -163,7 +163,7 @@ describe('CustomBarChart', () => {
   })
 
   it('does not render charts when data arrays are empty', async () => {
-    vi.mocked(fetchBarChartData).mockResolvedValue({
+    vi.mocked(getBarChartHome).mockResolvedValue({
       articleSeries: [],
       articleLabels: [],
       advanceSeries: [],
