@@ -29,8 +29,6 @@ p {
 }
 .home-piechart {
   grid-area: p;
-  height: 100%;
-  min-height: 0;
 }
 .home-barchart {
   grid-area: b;

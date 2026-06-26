@@ -19,7 +19,6 @@ const CustomBarChart = () => {
   const [isArticle, setIsArticle] = useState(true)
   const [{ width: containerWidth }, containerRef] = useBoundingClientRect()
 
-  // Use measured width when available, fall back to fixed sizes
   const ADVANCE_WIDTH = 70
   const articleChartWidth = containerWidth > 0 ? containerWidth - ADVANCE_WIDTH : 300
   const abstractChartWidth = containerWidth > 0 ? containerWidth : 370
