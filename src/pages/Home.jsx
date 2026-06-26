@@ -84,7 +84,7 @@ const Home = ({ data = '', status }) => {
           <Col {...BootstrapColumLayout}>
             <h1 className="my-5">{intro[0].replace(/<[^>]+>/g, '')}</h1>
             <h2 className="my-5 mb-3-sm">{intro[1].replace(/<[^>]+>/g, '')}</h2>
-            <HomeReel height={IsMobile ? 220 : 180} />
+            <HomeReel height={IsMobile ? 250 : 180} />
             <h2
               className="mt-5"
               style={{

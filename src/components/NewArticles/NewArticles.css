@@ -5,9 +5,13 @@
   gap: var(--spacer-3);
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1400px) {
   .homereel-newArticles {
-    flex-direction: column;
-    gap: var(--spacer-4);
+    width: 80%;
+    padding-right: var(--spacer-5);
+  }
+
+  .homereel-newArticles > :nth-child(1) {
+    display: none;
   }
 }

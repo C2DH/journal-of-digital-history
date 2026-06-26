@@ -72,29 +72,8 @@
   line-height: 1.4;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1400px) {
   .container-newArticle {
-    width: var(--card-width-mobile);
-  }
-
-  .container-newArticle-text {
-    padding: 0;
-  }
-
-  .container-newArticle-text > p {
-    font-size: 0.8em;
-    line-height: 1.2;
-  }
-
-  .container-newArticle-text > h4 {
-    font-family: var(--bs-body-font-family);
-    font-weight: 700;
-    font-size: 0.9em;
-
-    width: 80%;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-
-    line-height: 1.4;
+    width: 100%;
   }
 }

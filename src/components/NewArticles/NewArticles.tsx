@@ -2,15 +2,13 @@ import './NewArticles.css'
 
 import { useEffect, useState } from 'react'
 
-import { useIsTablet } from '../../dashboard/hooks/useIsMobile'
 import NewArticle from './NewArticle'
 
 const NewArticles = async ({ width }) => {
-  const [isTablet, setIsTablet] = useState(false)
   type Article = React.ComponentProps<typeof NewArticle>['article']
   const [articles, setArticles] = useState<Article[]>([])
 
-  const url = `/api/articles/?limit=${isTablet ? 1 : 2}&ordering=-publication_date&status=PUBLISHED`
+  const url = `/api/articles/?limit=2&ordering=-publication_date&status=PUBLISHED`
 
   useEffect(() => {
     const getNewArticles = async () => {
@@ -25,14 +23,12 @@ const NewArticles = async ({ width }) => {
     getNewArticles()
   }, [])
 
-  useIsTablet(setIsTablet)
-
   return (
     <>
       {' '}
       <div className="homereel-newArticles" style={{ width: width, height: '180px' }}>
-        {articles.map((article) => (
-          <NewArticle key={article.abstract?.pid} article={article} />
+        {articles.map((article, index) => (
+          <NewArticle key={index} article={article} />
         ))}
       </div>
     </>
