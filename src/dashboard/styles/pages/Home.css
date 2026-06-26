@@ -79,7 +79,7 @@ p {
 }
 
 /* Tablet or small screen view */
-@media (max-width: 1400px) {
+@media (max-width: 1500px) {
   .home-grid.isAbstract {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
