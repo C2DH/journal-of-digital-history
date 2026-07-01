@@ -309,7 +309,7 @@ const getPeerReviewArticlesTiming = async () => {
   console.info('GET [getPeerReviewArticlesTiming]')
 
   return api
-    .get(`/api/articles/ojs/submissions/peer-review/timing`)
+    .get(`/api/articles/ojs/peer-review/timing`)
     .then((res) => res.data.data)
     .catch((err) => {
       console.error(err)
@@ -321,7 +321,7 @@ const getPeerReviewArticlesByStage = async () => {
   console.info('GET [getPeerReviewArticlesByStage]')
 
   return api
-    .get(`/api/articles/ojs/submissions/peer-review/stage`)
+    .get(`/api/articles/ojs/peer-review/stage`)
     .then((res) => res.data.data)
     .catch((err) => {
       console.error(err)
@@ -333,11 +333,23 @@ const getPeerReviewArticlesDetails = async () => {
   console.info('GET [getPeerReviewArticlesDetails]')
 
   return api
-    .get(`/api/articles/ojs/submissions/peer-review/details`)
+    .get(`/api/articles/ojs/peer-review/details`)
     .then((res) => res.data.data)
     .catch((err) => {
       console.error(err)
       throw err?.response?.data ?? err
+    })
+}
+
+const getBarChartHome = async () => {
+  console.info('GET [getBarChartHome]')
+
+  return api
+    .get(`/api/callforpaper/chart`)
+    .then((res) => res.data)
+    .catch((err) => {
+      console.error(err)
+      throw err
     })
 }
 
@@ -346,6 +358,7 @@ export {
   getAdvanceArticles,
   getArticlesByStatus,
   getArticlesByStatusAndIssues,
+  getBarChartHome,
   getCallforpaperWithDeadlineOpen,
   getPeerReviewArticlesByStage,
   getPeerReviewArticlesDetails,

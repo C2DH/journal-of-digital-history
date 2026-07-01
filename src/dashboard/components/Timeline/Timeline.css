@@ -12,6 +12,9 @@
   background: var(--color-gray);
   z-index: 0;
 }
+.timeline-line.rejected {
+  background: var(--color-gray-lighter-2);
+}
 
 .timeline-list {
   display: flex;
@@ -22,6 +25,10 @@
   margin: 0;
   position: relative;
   z-index: 1;
+}
+
+.timeline-list.rejected {
+  color: var(--color-gray-lighter-2);
 }
 
 .timeline-item {

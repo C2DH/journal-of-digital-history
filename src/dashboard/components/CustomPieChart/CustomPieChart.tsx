@@ -1,17 +1,23 @@
 import { PieChart } from '@mui/x-charts/PieChart'
-import { useEffect, useState } from 'react'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 import { colorsPieChart } from '../../styles/theme'
-import { getArticlesByStatus } from '../../utils/api/api'
 import { articlePieChart } from '../../utils/constants/article'
 import SmallCard from '../SmallCard/SmallCard'
+import { fetchPieChartData } from './fetch'
 
 const CustomPieChart = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const [articlesCounts, setArticleCounts] = useState<Array<{ label: string; value: number }>>([])
+
+  const { data } = useSuspenseQuery({
+    queryKey: ['pieChartData'],
+    queryFn: fetchPieChartData,
+  })
+
+  const articlesCounts = Array.isArray(data) ? data : []
 
   const handleSliceClick = (event: any, index: any) => {
     const status = articlePieChart.find((status) => status.key === index.dataIndex)
@@ -24,27 +30,6 @@ const CustomPieChart = () => {
       search: `?status=${encodeURIComponent(status.value)}`,
     })
   }
-
-  const getArticles = async () => {
-    try {
-      const counts = await Promise.all(
-        articlePieChart.map(async (status) => {
-          const res = await getArticlesByStatus(status.value)
-          return {
-            label: status.label,
-            value: res.count || 0,
-          }
-        }),
-      )
-      setArticleCounts(counts)
-    } catch (error) {
-      console.error('Error Fetching count of articles by status:', error)
-    }
-  }
-
-  useEffect(() => {
-    getArticles()
-  }, [])
 
   return (
     <SmallCard className="home-piechart chart">

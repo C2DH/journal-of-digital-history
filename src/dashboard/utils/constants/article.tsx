@@ -29,6 +29,7 @@ export const articleStatus = [
   { key: 6, value: 'SOCIAL', label: 'Social' },
   { key: 7, value: 'PUBLISHED', label: 'Published' },
   { key: 8, value: 'ARCHIVED', label: 'Archived' },
+  { key: 8, value: 'REJECTED', label: 'Rejected' },
 ]
 
 export const articlePieChart = [

@@ -2,6 +2,7 @@ import MarkdownIt from 'markdown-it'
 import { useMemo } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
+
 import ArticleCellContent from '../components/Article/ArticleCellContent'
 import HomeMilestones from '../components/HomeMilestones'
 import HomeReel from '../components/HomeReel'

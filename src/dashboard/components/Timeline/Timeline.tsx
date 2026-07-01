@@ -18,8 +18,8 @@ const Timeline = ({ steps, currentStatus }: TimelineProps) => {
     <>
       {!isMobile && (
         <div className="timeline-container">
-          <div className="timeline-line" />
-          <ul className="timeline-list">
+          <div className={`timeline-line ${currentStatus.toLowerCase()}`} />
+          <ul className={`timeline-list ${currentStatus.toLowerCase()}`}>
             {visuals.map((visual, idx) => (
               <li key={idx} className={`timeline-item ${visual.colorClass}`}>
                 {visual.icon}

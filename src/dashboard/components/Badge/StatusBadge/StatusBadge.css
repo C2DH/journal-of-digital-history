@@ -33,6 +33,11 @@
   color: #5eead4;
   border-color: #5eead4;
 }
+.status-fancy-badge.rejected {
+  background-color: lightpink;
+  color: var(--color-error);
+  border-color: var(--color-error);
+}
 
 /* For Substatuses in KPI peer review Home Page */
 

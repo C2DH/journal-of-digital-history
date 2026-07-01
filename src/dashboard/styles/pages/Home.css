@@ -32,6 +32,8 @@ p {
 }
 .home-barchart {
   grid-area: b;
+  width: 100%;
+  min-width: 0;
 }
 .home-peerreviewchart-simple {
   grid-area: rs;
@@ -77,17 +79,15 @@ p {
 }
 
 /* Tablet or small screen view */
-@media (max-width: 1200px) {
+@media (max-width: 1500px) {
   .home-grid.isAbstract {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-areas:
-      'c'
-      'a'
-      'p'
-      'b'
-      'rs'
-      'r'
-      'n';
+      'c c'
+      'p b'
+      'a a'
+      'rs r'
+      'n n';
   }
   .chart {
     height: fit-content;
@@ -96,6 +96,17 @@ p {
 
 /* Mobile view */
 @media screen and (max-width: 767px) {
+  .home-grid.isAbstract {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-areas:
+      'c'
+      'p'
+      'b'
+      'a'
+      'rs'
+      'r'
+      'n';
+  }
   .home-grid {
     display: flex;
     flex-direction: column;

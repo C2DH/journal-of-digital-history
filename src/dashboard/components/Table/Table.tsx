@@ -19,6 +19,7 @@ import {
   isPidHeader,
   isRepositoryHeader,
   isStatusHeader,
+  isStatusRejected,
   isStepCell,
   isTitleHeader,
 } from '../../utils/helpers/checkItem'
@@ -158,7 +159,7 @@ const Table = ({
                   const headerName = visibleHeaders[cIdx]
                   const isTitle = isTitleHeader(headerName)
                   const isAffiliation = isAffiliationHeader(headerName)
-                  const isStep = isStepCell(cell)
+                  const isStep = isStepCell(cell) || isStatusRejected(cell, headerName)
 
                   return (
                     <td

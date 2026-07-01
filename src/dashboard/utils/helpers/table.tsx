@@ -125,6 +125,8 @@ function renderCell({ isStep, cell, header, isArticle }: renderCellProps) {
 
   if (isStep && isArticle) {
     content = <Timeline steps={articleSteps} currentStatus={cell} />
+  } else if (cell === 'REJECTED') {
+    content = <Timeline steps={articleSteps} currentStatus={cell} />
   } else if (isStatus(cell, header)) {
     content = <Status value={cell} />
   } else if (isLinkCell(cell)) {
