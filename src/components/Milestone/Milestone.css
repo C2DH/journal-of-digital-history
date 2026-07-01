@@ -1,0 +1,135 @@
+.month-container {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 4px;
+}
+
+.month-title {
+  margin-bottom: var(--spacer-2);
+}
+
+.month-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: 5px solid var(--dark);
+  width: 100px;
+  padding: calc(var(--spacer-3) + 10px) var(--spacer-3) 0;
+  gap: var(--spacer-2);
+}
+
+/* hide line and dot by default */
+.month-container .middle-circle {
+  display: none;
+}
+.month-container .event-list::before {
+  display: none;
+}
+
+/* show when month has events */
+.month-container.has-events .middle-circle {
+  display: block;
+}
+.month-container.has-events .event-list::before {
+  display: block;
+}
+
+/* keep positioning/appearance as before */
+.month-container.has-events .middle-circle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 5px solid var(--dark);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  background: var(--light, #fff);
+  z-index: 2;
+}
+
+.month-container.has-events .event-list::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0%;
+  bottom: 0;
+  border-left: 2px dashed var(--dark);
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+.event-card {
+  position: relative;
+  z-index: 1;
+  background: var(--light, #fff);
+  border: 1px solid var(--dark);
+  border-radius: 5px;
+  padding: var(--spacer-2);
+  margin-top: var(--spacer-3);
+}
+
+/* FILTERS */
+.milestone-filter {
+  display: flex;
+  justify-content: space-between;
+}
+
+.milestone-facets {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+  font-size: 1em;
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .Facets_dimensionHeading {
+    display: none;
+  }
+  .DimensionGroupListItem,
+  .milestone-btn-all {
+    color: var(--dark);
+    background-color: transparent;
+    border: 1px solid var(--dark);
+    margin: var(--spacer-1);
+    padding: 1px 8px;
+    border-radius: 4px;
+    display: flex;
+
+    &:hover {
+      background-color: var(--gray-200);
+    }
+    &.with-count,
+    &.active {
+      border: 1px solid var(--dark);
+      color: var(--dark);
+    }
+    &.active {
+      box-shadow: 0 0 0px 3px;
+      background-color: var(--accent);
+      color: var(--white);
+      border: 0;
+    }
+  }
+  .DimensionGroupListItem_label {
+    cursor: pointer;
+  }
+}
+
+.milestone-dropdown {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.milestone-timeline {
+  display: flex;
+  gap: var(--spacer-2);
+}
