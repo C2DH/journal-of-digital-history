@@ -1,20 +1,27 @@
-import React, { useRef, useEffect } from 'react'
+import '../../styles/components/HomeReel.scss'
+
+import { useEffect, useRef, useState } from 'react'
 import Slider from 'react-slick'
+
+import { StatusSuccess } from '../../constants/globalConstants'
 import { useBoundingClientRect } from '../../hooks/graphics'
 import { useGetRawContents } from '../../logic/api/fetchData'
-import { StatusSuccess } from '../../constants/globalConstants'
+import NewArticles from '../NewArticles/NewArticles'
 import HomeReelItem from './HomeReelItem'
-import '../../styles/components/HomeReel.scss'
 
 const Forward = 1
 const Backward = 0
 
 const HomeReel = ({ height = 180, delay = 1500 }) => {
-  const [{ width, left }, ref] = useBoundingClientRect()
   const sliderTimer = useRef(null)
   const sliderDirection = useRef(1)
   const slider = useRef(null)
-  // load items
+
+  const [articles, setArticles] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [{ width, left }, ref] = useBoundingClientRect()
+
+  // load items for classic text sliders
   const { data, status, error } = useGetRawContents({
     url: import.meta.env.VITE_GITHUB_WIKI_NEWS,
     raw: true,
@@ -92,7 +99,7 @@ const HomeReel = ({ height = 180, delay = 1500 }) => {
           slider.current.slickGoTo(idx + 1)
         } else {
           sliderDirection.current = Backward
-          // this is END edge, swithc direction, then next
+          // this is END edge, switch direction, then next
           slider.current.slickGoTo(idx - 1)
         }
       } else {
@@ -100,7 +107,7 @@ const HomeReel = ({ height = 180, delay = 1500 }) => {
           slider.current.slickGoTo(idx - 1)
         } else {
           sliderDirection.current = Forward
-          // this is END edge, swithc direction, then next
+          // this is END edge, switch direction, then next
           slider.current.slickGoTo(idx + 1)
         }
       }
@@ -108,11 +115,37 @@ const HomeReel = ({ height = 180, delay = 1500 }) => {
     }, slider.current?.props.autoplaySpeed || delay)
   }
 
+  //loading new articles item
+  const url = `/api/articles/?limit=2&ordering=-publication_date&status=PUBLISHED`
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    const getNewArticles = async () => {
+      try {
+        const response = await fetch(url, { signal: controller.signal })
+        const data = await response.json()
+        setArticles(data?.results ?? [])
+      } catch (error) {
+        if (error?.name !== 'AbortError') {
+          console.error(error)
+        }
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    getNewArticles()
+    return () => controller.abort()
+  }, [url])
+
   useEffect(() => {
     return function cleanup() {
       clearTimeout(sliderTimer.current)
     }
   }, [])
+
+  const isReady = status === StatusSuccess && !isLoading
 
   return (
     <div className="HomeReel position-relative" ref={ref} style={{ height }}>
@@ -125,41 +158,43 @@ const HomeReel = ({ height = 180, delay = 1500 }) => {
           onMouseEnter={stopInfiniteSwingingTimer}
           onMouseLeave={playInfiniteSwingingTimer}
           style={{
-            // width,
             left: -left,
             right: -left,
             height,
             paddingTop: 'var(--spacer-2)',
           }}
         >
-          <Slider
-            ref={slider}
-            className="slider variable-width"
-            dots
-            swipeToSlide
-            infinite={false}
-            centerMode
-            centerPadding="0px"
-            slidesToShow={1}
-            slidesToScroll={1}
-            variableWidth
-            pauseOnHover={false}
-            speed={1000}
-            autoplay={false}
-            autoplaySpeed={3750}
-            onInit={onInitHandler}
-          >
-            {items.map((item, i) => (
-              <HomeReelItem
-                key={i}
-                onClick={(e, item) => onClickItemHandler(e, item, i)}
-                onMouseEnter={stopInfiniteSwingingTimer}
-                height={height}
-                width={width}
-                item={item}
-              />
-            ))}
-          </Slider>
+          {width > 0 && items.length > 1 && isReady && (
+            <Slider
+              ref={slider}
+              className="slider variable-width"
+              dots
+              swipeToSlide
+              infinite={false}
+              centerMode
+              centerPadding="0px"
+              slidesToShow={1}
+              slidesToScroll={1}
+              variableWidth
+              pauseOnHover={false}
+              speed={1000}
+              autoplay={false}
+              autoplaySpeed={3750}
+              onInit={onInitHandler}
+            >
+              {<NewArticles width={width} articles={articles} />}
+              {items.map((item, i) => (
+                <HomeReelItem
+                  key={i}
+                  onClick={(e, item) => onClickItemHandler(e, item, i)}
+                  onMouseEnter={stopInfiniteSwingingTimer}
+                  height={height}
+                  width={width}
+                  item={item}
+                />
+              ))}
+            </Slider>
+          )}
         </div>
       )}
     </div>
