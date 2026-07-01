@@ -116,7 +116,7 @@ const HomeReel = ({ height = 180, delay = 1500 }) => {
   }
 
   //loading new articles item
-  const url = `/api/articles/?limit=2&ordering=-publication_date&status=PUBLISHED`
+  const url = `/api/articles/?limit=2&tags=145&ordering=-publication_date`
 
   useEffect(() => {
     const controller = new AbortController()
