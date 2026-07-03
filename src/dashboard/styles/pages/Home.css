@@ -88,7 +88,7 @@ p {
       'rs r'
       'n n';
   }
-  .chart {
+  .home-abstract-card {
     height: fit-content;
   }
 }
@@ -113,6 +113,9 @@ p {
   }
   .home-counter-row {
     flex-direction: column;
+  }
+  .chart {
+    height: fit-content;
   }
 }
 
