@@ -94,7 +94,7 @@ const PeerReviewChart = () => {
         <h2 className="home-peerreviewchart-title">{t('KPI.peerReviewChart.title')}</h2>
         <BarChart
           sx={{
-            '.MuiBarElement-root': {
+            '.MuiBarChart-element': {
               strokeWidth: 2,
               stroke: 'white',
             },

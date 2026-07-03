@@ -45,7 +45,7 @@ p {
   height: var(--space-size-7);
 }
 
-@media (max-width: 1500px) {
+@media (max-width: 1700px) {
   p {
     display: none;
   }
