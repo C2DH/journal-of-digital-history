@@ -51,21 +51,20 @@ p {
 .home-grid {
   display: grid;
   gap: var(--space-size-2);
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-template-areas:
-    'c c c c'
-    'p b . .'
-    'rs r r n';
+    'c c c c c'
+    'p b b . .'
+    'rs r r n n';
 }
 
 .home-grid.isAbstract {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-template-areas:
-    'c c c c'
-    'p b a a'
-    'rs r n n'
-    '. . . .';
+    'c c c c c'
+    'p b b a a'
+    'rs r r n n';
 }
 
 @media (min-width: 3000px) {
