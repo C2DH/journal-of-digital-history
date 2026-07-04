@@ -95,6 +95,9 @@ p {
 
 /* Mobile view */
 @media screen and (max-width: 767px) {
+  .home-welcome {
+    margin-top: 100px;
+  }
   .home-grid.isAbstract {
     grid-template-columns: repeat(1, 1fr);
     grid-template-areas:

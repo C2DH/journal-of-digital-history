@@ -58,7 +58,7 @@ p {
 
 @media screen and (max-width: 767px) {
   .Logo {
-    margin-left: 40vw;
+    margin-left: 30vw;
   }
   .top-bar {
     position: fixed;
