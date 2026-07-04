@@ -51,21 +51,20 @@ p {
 .home-grid {
   display: grid;
   gap: var(--space-size-2);
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-template-areas:
-    'c c c c'
-    'p b . .'
-    'rs r r n';
+    'c c c c c'
+    'p b b . .'
+    'rs r r n n';
 }
 
 .home-grid.isAbstract {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-template-areas:
-    'c c c c'
-    'p b a a'
-    'rs r n n'
-    '. . . .';
+    'c c c c c'
+    'p b b a a'
+    'rs r r n n';
 }
 
 @media (min-width: 3000px) {
@@ -89,13 +88,16 @@ p {
       'rs r'
       'n n';
   }
-  .chart {
+  .home-abstract-card {
     height: fit-content;
   }
 }
 
 /* Mobile view */
 @media screen and (max-width: 767px) {
+  .home-welcome {
+    margin-top: 100px;
+  }
   .home-grid.isAbstract {
     grid-template-columns: repeat(1, 1fr);
     grid-template-areas:
@@ -114,6 +116,9 @@ p {
   }
   .home-counter-row {
     flex-direction: column;
+  }
+  .chart {
+    height: fit-content;
   }
 }
 

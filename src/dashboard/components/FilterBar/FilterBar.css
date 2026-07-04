@@ -71,9 +71,9 @@
 
 /* Mobile view */
 @media screen and (max-width: 767px) {
-  .filters-container {
+  /* .filters-container {
     display: none;
-  }
+  } */
 
   .filter-bar {
     top: 0;
@@ -81,6 +81,11 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 0 var(--space-size-2);
+    margin-bottom: 200px;
+  }
+  .filters-container {
+    display: block;
+    flex-direction: column;
   }
 
   .search-bar-container {

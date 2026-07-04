@@ -182,7 +182,7 @@ const HomeReel = ({ height = 180, delay = 1500 }) => {
               autoplaySpeed={3750}
               onInit={onInitHandler}
             >
-              {<NewArticles width={width} articles={articles} />}
+              {articles.length != 0 && <NewArticles width={width} articles={articles} />}
               {items.map((item, i) => (
                 <HomeReelItem
                   key={i}

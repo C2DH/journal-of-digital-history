@@ -29,7 +29,7 @@ const PeerReviewSimple = () => {
     return {
       dataset: data,
       height: 200,
-      margin: { left: 0, right: 0, bottom: 20 },
+      margin: { left: -10, right: 0, bottom: 20 },
       series: series,
       slotProps: {
         tooltip: { trigger: 'item' },
@@ -63,8 +63,8 @@ const PeerReviewSimple = () => {
         {data.length > 0 && (
           <BarChart
             sx={{
-              '.MuiBarElement-root': {
-                strokeWidth: 2,
+              '.MuiBarChart-element': {
+                strokeWidth: 1,
                 stroke: 'white',
               },
               '.MuiBarChart-label': {
