@@ -3,7 +3,6 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { Suspense } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { useItemsStore } from '../../store'
 import { getCallforpaperWithDeadlineOpen } from '../../utils/api/api'
 import Home from './Home'
 
@@ -11,8 +10,10 @@ vi.mock('../../utils/api/api', () => ({
   getCallforpaperWithDeadlineOpen: vi.fn(),
 }))
 
-vi.mock('../../store', () => ({
-  useItemsStore: vi.fn(),
+vi.mock('../../utils/api/headers', () => ({
+  default: {
+    get: vi.fn(),
+  },
 }))
 
 vi.mock('react-i18next', () => ({
@@ -102,25 +103,15 @@ const mockCFPData = [
   },
 ]
 
-const createMockStore = (data: any[] = []) => ({
-  fetchItems: vi.fn(),
-  setParams: vi.fn(),
-  reset: vi.fn(),
-  data,
-})
+// Import the mocked api to set up return values per test
+import api from '../../utils/api/headers'
 
-const renderComponent = (
-  abstracts = mockAbstracts,
-  cfpData = mockCFPData,
-  customMockStore?: any,
-) => {
+const renderComponent = (abstracts = mockAbstracts, cfpData = mockCFPData) => {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   })
 
-  const mockStore = customMockStore || createMockStore(abstracts)
-  vi.mocked(useItemsStore).mockReturnValue(mockStore as any)
-  vi.mocked(useItemsStore).getState = vi.fn(() => mockStore)
+  vi.mocked(api.get).mockResolvedValue({ data: { results: abstracts } })
   vi.mocked(getCallforpaperWithDeadlineOpen).mockResolvedValue(cfpData)
 
   return render(
@@ -194,20 +185,13 @@ describe('Home', () => {
   })
 
   describe('Abstract Data', () => {
-    it('should fetch abstracts on mount', async () => {
-      const mockStore = createMockStore(mockAbstracts)
-      renderComponent(mockAbstracts, mockCFPData, mockStore)
+    it('should fetch abstracts via api on mount', async () => {
+      renderComponent(mockAbstracts)
 
       await waitFor(() => {
-        expect(mockStore.reset).toHaveBeenCalled()
-        expect(mockStore.setParams).toHaveBeenCalledWith({
-          endpoint: 'abstracts',
-          limit: 8,
-          ordering: '-submitted_date',
-          params: { status: 'SUBMITTED' },
-          search: '',
-        })
-        expect(mockStore.fetchItems).toHaveBeenCalledWith(true)
+        expect(api.get).toHaveBeenCalledWith(
+          '/api/abstracts/?status=SUBMITTED&limit=8&ordering=-submitted_date',
+        )
       })
     })
 
