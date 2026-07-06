@@ -312,7 +312,7 @@ export interface ActionStore {
   setModal: (config: ModalConfig) => void
   closeModal: () => void
   callAPI: ({ action, pid }: { action: string; pid: string }) => Promise<void>
-  getRowActions: (row: Row, isArticle: boolean) => RowAction[]
+  getRowActions: (row: Row, isArticle: boolean, isAbstract: boolean) => RowAction[]
   getDetailActions: (pid: string, isArticle: boolean, isAbstract: boolean) => RowAction[]
 }
 

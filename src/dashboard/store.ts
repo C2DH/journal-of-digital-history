@@ -539,7 +539,7 @@ const useActionStore = create<ActionStore>((set, get) => ({
     }
   },
 
-  getRowActions: (row: Row, isArticle): RowAction[] => {
+  getRowActions: (row: Row, isArticle, isAbstract): RowAction[] => {
     const { setModal, callAPI } = get()
     // ✅ Access by named property instead of index
     const pid = (row as ArticleRow).abstract__pid ?? { pid: (row as AbstractRow).pid }
@@ -577,7 +577,8 @@ const useActionStore = create<ActionStore>((set, get) => ({
           actions.push(modalAction('Bluesky'))
           break
       }
-    } else {
+    }
+    if (isAbstract) {
       switch (status) {
         case 'SUBMITTED':
           actions.push(modalAction('Accepted'))

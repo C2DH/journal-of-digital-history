@@ -25,7 +25,7 @@ const Header = () => {
   const isAbstract = isTypeAbstract(item)
 
   const row = toRow(item, isArticle, isAbstract)
-  const actions = row ? getRowActions(row, isArticle) : []
+  const actions = row ? getRowActions(row, isArticle, isAbstract) : []
 
   useEffect(() => {
     const onScroll = () => {
