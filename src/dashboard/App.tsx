@@ -37,10 +37,10 @@ function AuthGate() {
 
   return (
     <main>
+      <Toast />
+      <Navbar />
+      <Header />
       <Suspense fallback={<Blob />}>
-        <Toast />
-        <Navbar />
-        <Header />
         <AppRoutes />
       </Suspense>
     </main>

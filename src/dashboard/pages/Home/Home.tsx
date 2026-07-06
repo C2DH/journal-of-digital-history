@@ -13,8 +13,8 @@ import PeerReviewChart from '../../components/PeerReviewChart/PeerReviewChart'
 import PeerReviewSimple from '../../components/PeerReviewSimple/PeerReviewSimple'
 import SmallCard from '../../components/SmallCard/SmallCard'
 import SmallTable from '../../components/SmallTable/SmallTable'
-import { useItemsStore } from '../../store'
 import { getCallforpaperWithDeadlineOpen } from '../../utils/api/api'
+import api from '../../utils/api/headers'
 import { Abstract } from '../../utils/types'
 
 const AbstractSubmittedCard = (submittedAbstracts: Abstract[]) => {
@@ -75,24 +75,13 @@ const KPIRow = () => {
 
 const Home = () => {
   const { t } = useTranslation()
-  const { fetchItems, setParams, reset } = useItemsStore()
-
-  const fetchNewAbstractData = async (): Promise<Abstract[]> => {
-    reset()
-    setParams({
-      endpoint: 'abstracts',
-      limit: 8,
-      ordering: '-submitted_date',
-      params: { status: 'SUBMITTED' },
-      search: '',
-    })
-    await fetchItems(true)
-    return useItemsStore.getState().data as Abstract[]
-  }
 
   const { data } = useSuspenseQuery({
     queryKey: ['newAbstractData'],
-    queryFn: fetchNewAbstractData,
+    queryFn: () =>
+      api
+        .get('/api/abstracts/?status=SUBMITTED&limit=8&ordering=-submitted_date')
+        .then((r) => r.data.results),
   })
 
   return (

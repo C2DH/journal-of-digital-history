@@ -513,7 +513,14 @@ const useActionStore = create<ActionStore>((set, get) => ({
       case 'Suspended':
         try {
           const res = await patchStatus({ pids: [pid], status: action.toLowerCase() }, 'abstracts')
-          notify('success', 'notification.status.success.abstract', res.data.message, 0, pid)
+          notify(
+            'success',
+            'notification.status.success.abstract',
+            res.data.message,
+            0,
+            pid,
+            'abstracts',
+          )
         } catch (error: any) {
           notify('error', 'notification.status.error.abstract', error.message)
         }
@@ -528,7 +535,7 @@ const useActionStore = create<ActionStore>((set, get) => ({
       case 'Rejected':
         try {
           const res = await patchArticleStatus({ status: action.toUpperCase() }, pid)
-          notify('success', 'notification.status.success.article', res.status, 0, pid)
+          notify('success', 'notification.status.success.article', res.status, 0, pid, 'articles')
         } catch (error: any) {
           notify('error', 'notification.status.error.article', error.response.data.error)
         }
