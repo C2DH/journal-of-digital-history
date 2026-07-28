@@ -23,6 +23,23 @@
 }
 
 /* FILTERS */
+.Articles {
+  --filter-color: var(--grey);
+  --left-line-color: var(--grey);
+}
+.CallforPapers {
+  --filter-color: var(--green);
+  --left-line-color: var(--light-green);
+}
+.Conferences {
+  --filter-color: var(--purple);
+  --left-line-color: var(--light-purple);
+}
+.Releases {
+  --filter-color: var(--blue);
+  --left-line-color: var(--light-blue);
+}
+
 .milestone-filter {
   display: flex;
   justify-content: space-between;
@@ -63,30 +80,18 @@
       color: white;
     }
   }
-  .DimensionGroupListItem.Articles {
-    --item-color: var(--grey);
-  }
-  .DimensionGroupListItem.CallforPapers {
-    --item-color: var(--green);
-  }
-  .DimensionGroupListItem.Conferences {
-    --item-color: var(--purple);
-  }
-  .DimensionGroupListItem.Releases {
-    --item-color: var(--blue);
-  }
 
   .DimensionGroupListItem {
-    color: var(--item-color);
-    border: 1px solid var(--item-color);
+    color: var(--filter-color);
+    border: 1px solid var(--filter-color);
 
     &:hover {
-      background-color: var(--item-color);
+      background-color: var(--filter-color);
     }
   }
 
   .DimensionGroupListItem.active {
-    background-color: var(--item-color);
+    background-color: var(--filter-color);
   }
 
   .DimensionGroupListItem_label {
@@ -125,7 +130,7 @@
   left: var(--spacer-2);
   top: var(--spacer-2);
   bottom: var(--spacer-2);
-  border-left: 3px solid grey;
+  border-left: 3px solid var(--left-line-color);
   z-index: 2;
 }
 

@@ -38,8 +38,11 @@
   --grey: #939393;
   --dark-grey: #4a4a4a;
   --green: #48a067;
+  --light-green: #a6edbf;
   --purple: #856ee7;
+  --light-purple: #bfb0fe;
   --blue: #3877c3;
+  --light-blue: #b9d9ff;
 
   @each $bp, $value in $grays {
     --gray-#{$bp}: #{$value};

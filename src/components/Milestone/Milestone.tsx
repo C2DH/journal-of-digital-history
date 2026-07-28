@@ -13,10 +13,10 @@ import { asEnumParam, asRegexArrayParam } from '../../logic/params'
 import Facets from '../Facets/Facets'
 import OrderByDropdown from '../OrderByDropdown'
 
-const EventCard = ({ date, text }) => {
+const EventCard = ({ date, text, type }) => {
   return (
     <div className="event-card">
-      <div className="event-content">
+      <div className={`event-content ${type.replace(/\s/g, '')}`}>
         <div className="event-text" dangerouslySetInnerHTML={{ __html: text }}></div>
         <span className="event-date">{date}</span>
       </div>
@@ -31,7 +31,7 @@ const MonthCard = ({ title, events }) => {
       <div className="month-card">
         <div className="event-list">
           {events.map((event, index) => (
-            <EventCard key={index} date={event.date} text={event.title} />
+            <EventCard key={index} date={event.date} text={event.title} type={event.type} />
           ))}
         </div>
       </div>
