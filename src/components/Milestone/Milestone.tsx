@@ -2,7 +2,7 @@ import './Milestone.css'
 
 import { ArrowLeftCircle, ArrowRightCircle, Calendar } from 'iconoir-react'
 import { DateTime } from 'luxon'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQueryParams, withDefault } from 'use-query-params'
 
@@ -40,12 +40,21 @@ const MonthCard = ({ title, events }) => {
 }
 
 const getMonths = (count: number = 6, year: number, cursor: number) => {
-  const start = DateTime.fromObject({ year: year, month: 12 }).minus({ months: cursor })
+  const start = DateTime.fromObject({ year: year, month: 6 }).minus({ months: cursor })
+
   return Array.from({ length: count }, (_, i) => {
-    const month = start.minus({ months: count - 1 - i }).startOf('month')
+    const date = start.minus({ months: count - 1 - i }).startOf('month')
+
+    if (date.month === 1 || date.month === 12) {
+      return {
+        key: date.toFormat('yyyy-MM'),
+        title: date.toFormat('LLL yyyy'),
+      }
+    }
+
     return {
-      key: month.toFormat('yyyy-MM'),
-      title: month.toFormat('MMM'),
+      key: date.toFormat('yyyy-MM'),
+      title: date.toFormat('MMM'),
     }
   })
 }
@@ -60,19 +69,18 @@ const Milestone = ({ data }: MilestoneProps) => {
     .map((year) => ({ value: year, label: year }))
     .reverse()
 
-  const [{ [OrderByQueryParam]: orderBy }, setQuery] = useQueryParams({
+  const [{ [OrderByQueryParam]: orderByYear }, setQuery] = useQueryParams({
     [OrderByQueryParam]: withDefault(asEnumParam(years.map((year) => year.value)), years[0].value),
     [FilterByQueryparam]: asRegexArrayParam(),
   })
-
-  const months = getMonths(6, orderBy, cursor)
+  const months = getMonths(6, orderByYear, cursor)
 
   const milestoneItems = [
-    ...data[orderBy].articles.map((item) => ({ ...item, type: 'Articles' })),
-    ...data[orderBy].issues.map((item) => ({ ...item, type: 'Issues' })),
-    ...data[orderBy].callForPapers.map((item) => ({ ...item, type: 'Call for Papers' })),
-    ...data[orderBy].conferences.map((item) => ({ ...item, type: 'Conferences' })),
-    ...data[orderBy].releases.map((item) => ({ ...item, type: 'Releases' })),
+    ...data[orderByYear].articles.map((item) => ({ ...item, type: 'Articles' })),
+    ...data[orderByYear].issues.map((item) => ({ ...item, type: 'Issues' })),
+    ...data[orderByYear].callForPapers.map((item) => ({ ...item, type: 'Call for Papers' })),
+    ...data[orderByYear].conferences.map((item) => ({ ...item, type: 'Conferences' })),
+    ...data[orderByYear].releases.map((item) => ({ ...item, type: 'Releases' })),
   ]
 
   const milestoneDimensions = [
@@ -95,9 +103,13 @@ const Milestone = ({ data }: MilestoneProps) => {
     setFacetsResetKey((k) => k + 1)
   }
 
+  useEffect(() => {
+    setCursor(0)
+  }, [orderByYear])
+
   return (
     <div>
-      <p>Key dates and events for {orderBy}</p>
+      <p>Key dates and events for {orderByYear}</p>
       <div className="milestone-filter">
         <div>
           <div className="milestone-facets">
@@ -110,7 +122,7 @@ const Milestone = ({ data }: MilestoneProps) => {
               All
             </button>
             <Facets
-              key={`${orderBy}-${facetsResetKey}`}
+              key={`${orderByYear}-${facetsResetKey}`}
               dimensions={milestoneDimensions}
               items={milestoneItems}
               onSelect={(_, indices) => setSelectedIndices(indices)}
@@ -121,9 +133,9 @@ const Milestone = ({ data }: MilestoneProps) => {
         <div className="milestone-dropdown">
           <Calendar />
           <OrderByDropdown
-            selectedValue={orderBy}
+            selectedValue={orderByYear}
             values={years}
-            title={t(`${orderBy}`)}
+            title={t(`${orderByYear}`)}
             onChange={({ value }) => setQuery({ [OrderByQueryParam]: value })}
           />
         </div>
