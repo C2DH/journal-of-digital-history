@@ -77,7 +77,6 @@ const Milestone = ({ data }: MilestoneProps) => {
 
   const milestoneItems = [
     ...data[orderByYear].articles.map((item) => ({ ...item, type: 'Articles' })),
-    ...data[orderByYear].issues.map((item) => ({ ...item, type: 'Issues' })),
     ...data[orderByYear].callForPapers.map((item) => ({ ...item, type: 'Call for Papers' })),
     ...data[orderByYear].conferences.map((item) => ({ ...item, type: 'Conferences' })),
     ...data[orderByYear].releases.map((item) => ({ ...item, type: 'Releases' })),

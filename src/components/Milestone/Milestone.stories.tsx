@@ -13,7 +13,6 @@ const data = {
         title: 'Review of submitted abstracts',
       },
     ],
-    issues: [],
     callForPapers: [
       {
         date: '2020-12-01',
@@ -30,16 +29,6 @@ const data = {
   },
   '2021': {
     articles: [],
-    issues: [
-      {
-        date: '2021-09-27',
-        title: '<strike>Publication of the first Issue</strike>',
-      },
-      {
-        date: '2021-10-18',
-        title: 'Publication of the first Issue',
-      },
-    ],
     callForPapers: [],
     conferences: [
       {
@@ -52,12 +41,6 @@ const data = {
   },
   '2022': {
     articles: [],
-    issues: [
-      {
-        date: '2022-04-19',
-        title: 'Publication of the second Issue',
-      },
-    ],
     callForPapers: [],
     conferences: [
       {
@@ -99,7 +82,6 @@ const data = {
         title: 'How to decide between a variety of Public History journals?',
       },
     ],
-    issues: [],
     callForPapers: [],
     conferences: [
       {
