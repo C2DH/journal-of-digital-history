@@ -18,7 +18,7 @@ const EventCard = ({ date, text, type }) => {
     <div className="event-card">
       <div className={`event-content ${type.replace(/\s/g, '')}`}>
         <div className="event-text" dangerouslySetInnerHTML={{ __html: text }}></div>
-        <span className="event-date">{date}</span>
+        <span className="event-date">{DateTime.fromISO(date).toFormat('d LLL yyyy')}</span>
       </div>
     </div>
   )
