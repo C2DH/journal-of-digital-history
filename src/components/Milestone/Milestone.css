@@ -109,6 +109,17 @@
 .milestone-timeline {
   display: flex;
   gap: var(--spacer-2);
+  margin: var(--spacer-2);
+}
+
+.milestone-timeline > svg {
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  /* push icon down to the border-top of .month-card:
+     month-title line-height (~1.2em) + its margin-bottom (--spacer-2) */
+  margin-top: calc(1.2em + var(--spacer-2) - 1px);
 }
 
 /* EVENTS */
