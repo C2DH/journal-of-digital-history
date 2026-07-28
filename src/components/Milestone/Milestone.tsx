@@ -1,6 +1,6 @@
 import './Milestone.css'
 
-import { Calendar } from 'iconoir-react'
+import { ArrowLeftCircle, ArrowRightCircle, Calendar } from 'iconoir-react'
 import { DateTime } from 'luxon'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -13,20 +13,25 @@ import { asEnumParam, asRegexArrayParam } from '../../logic/params'
 import Facets from '../Facets/Facets'
 import OrderByDropdown from '../OrderByDropdown'
 
-const EventCard = ({ text }) => {
-  return <div dangerouslySetInnerHTML={{ __html: text }} className="event-card"></div>
+const EventCard = ({ date, text }) => {
+  return (
+    <div className="event-card">
+      <div className="event-content">
+        <div className="event-text" dangerouslySetInnerHTML={{ __html: text }}></div>
+        <span className="event-date">{date}</span>
+      </div>
+    </div>
+  )
 }
 
 const MonthCard = ({ title, events }) => {
-  const hasEvents = Array.isArray(events) && events.length > 0
   return (
-    <div className={`month-container ${hasEvents ? 'has-events' : ''}`}>
+    <div className={`month-container`}>
       <span className="month-title">{title}</span>
       <div className="month-card">
-        <div className="middle-circle" />
         <div className="event-list">
           {events.map((event, index) => (
-            <EventCard key={index} text={event.title} />
+            <EventCard key={index} date={event.date} text={event.title} />
           ))}
         </div>
       </div>
@@ -34,8 +39,8 @@ const MonthCard = ({ title, events }) => {
   )
 }
 
-const getMonths = (count: number = 12, year: number) => {
-  const start = DateTime.fromObject({ year: year, month: 12 })
+const getMonths = (count: number = 6, year: number, cursor: number) => {
+  const start = DateTime.fromObject({ year: year, month: 12 }).minus({ months: cursor })
   return Array.from({ length: count }, (_, i) => {
     const month = start.minus({ months: count - 1 - i }).startOf('month')
     return {
@@ -49,6 +54,7 @@ const Milestone = ({ data }: MilestoneProps) => {
   const { t } = useTranslation()
   const [selectedIndices, setSelectedIndices] = useState<any>(null)
   const [facetsResetKey, setFacetsResetKey] = useState(0)
+  const [cursor, setCursor] = useState(0)
 
   const years = Object.keys(data)
     .map((year) => ({ value: year, label: year }))
@@ -59,7 +65,7 @@ const Milestone = ({ data }: MilestoneProps) => {
     [FilterByQueryparam]: asRegexArrayParam(),
   })
 
-  const months = getMonths(12, orderBy)
+  const months = getMonths(6, orderBy, cursor)
 
   const milestoneItems = [
     ...data[orderBy].articles.map((item) => ({ ...item, type: 'Articles' })),
@@ -123,13 +129,8 @@ const Milestone = ({ data }: MilestoneProps) => {
         </div>
       </div>
       <div className="milestone-timeline">
+        <ArrowLeftCircle onClick={() => setCursor(cursor + 1)} />
         {months.map(({ key, title }) => {
-          console.log('🚀 ~ file: Milestone.tsx:140 ~ key:', key)
-          console.log(
-            '🚀 ~ file: Milestone.tsx:140 ~ items selected:',
-            visibleItems.filter((item) => item.date.startsWith(key)),
-          )
-
           return (
             <MonthCard
               key={key}
@@ -138,6 +139,7 @@ const Milestone = ({ data }: MilestoneProps) => {
             />
           )
         })}
+        <ArrowRightCircle onClick={() => setCursor(cursor - 1)} />
       </div>
     </div>
   )

@@ -1,9 +1,10 @@
 .month-container {
-  width: 100px;
+  --month-container-width: 15vw;
+
+  width: var(--month-container-width);
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 4px;
 }
 
 .month-title {
@@ -15,61 +16,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-top: 5px solid var(--dark);
-  width: 100px;
-  padding: calc(var(--spacer-3) + 10px) var(--spacer-3) 0;
+  border-top: 2px solid var(--dark);
+  width: var(--month-container-width);
+  padding: 0 var(--spacer-1);
   gap: var(--spacer-2);
-}
-
-/* hide line and dot by default */
-.month-container .middle-circle {
-  display: none;
-}
-.month-container .event-list::before {
-  display: none;
-}
-
-/* show when month has events */
-.month-container.has-events .middle-circle {
-  display: block;
-}
-.month-container.has-events .event-list::before {
-  display: block;
-}
-
-/* keep positioning/appearance as before */
-.month-container.has-events .middle-circle {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 5px solid var(--dark);
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  background: var(--light, #fff);
-  z-index: 2;
-}
-
-.month-container.has-events .event-list::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0%;
-  bottom: 0;
-  border-left: 2px dashed var(--dark);
-  transform: translateX(-50%);
-  z-index: 0;
-}
-
-.event-card {
-  position: relative;
-  z-index: 1;
-  background: var(--light, #fff);
-  border: 1px solid var(--dark);
-  border-radius: 5px;
-  padding: var(--spacer-2);
-  margin-top: var(--spacer-3);
 }
 
 /* FILTERS */
@@ -95,29 +45,50 @@
   }
   .DimensionGroupListItem,
   .milestone-btn-all {
-    color: var(--dark);
+    color: var(--dark-grey);
     background-color: transparent;
-    border: 1px solid var(--dark);
+    border: 1px solid var(--dark-grey);
     margin: var(--spacer-1);
     padding: 1px 8px;
     border-radius: 4px;
     display: flex;
 
     &:hover {
-      background-color: var(--gray-200);
+      background-color: var(--dark-grey);
+      color: white;
     }
-    &.with-count,
+
     &.active {
-      border: 1px solid var(--dark);
-      color: var(--dark);
-    }
-    &.active {
-      box-shadow: 0 0 0px 3px;
-      background-color: var(--accent);
-      color: var(--white);
-      border: 0;
+      background-color: var(--dark-grey);
+      color: white;
     }
   }
+  .DimensionGroupListItem.Articles {
+    --item-color: var(--grey);
+  }
+  .DimensionGroupListItem.CallforPapers {
+    --item-color: var(--green);
+  }
+  .DimensionGroupListItem.Conferences {
+    --item-color: var(--purple);
+  }
+  .DimensionGroupListItem.Releases {
+    --item-color: var(--blue);
+  }
+
+  .DimensionGroupListItem {
+    color: var(--item-color);
+    border: 1px solid var(--item-color);
+
+    &:hover {
+      background-color: var(--item-color);
+    }
+  }
+
+  .DimensionGroupListItem.active {
+    background-color: var(--item-color);
+  }
+
   .DimensionGroupListItem_label {
     cursor: pointer;
   }
@@ -129,7 +100,47 @@
   align-items: center;
 }
 
+/* TIMELINE */
 .milestone-timeline {
   display: flex;
   gap: var(--spacer-2);
+}
+
+/* EVENTS */
+.event-card {
+  display: flex;
+  position: relative;
+  z-index: 1;
+  background: var(--white);
+  border: 1px solid var(--dark);
+  border-radius: 10px;
+  padding: var(--spacer-2);
+  margin-top: var(--spacer-3);
+  padding-left: 25px;
+}
+
+.event-content::before {
+  content: '';
+  position: absolute;
+  left: var(--spacer-2);
+  top: var(--spacer-2);
+  bottom: var(--spacer-2);
+  border-left: 3px solid grey;
+  z-index: 2;
+}
+
+.event-content {
+  color: var(--dark-grey);
+  font-family: 'Fira Sans';
+  line-height: 16px;
+}
+
+.event-text {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.event-date {
+  font-size: 11px;
+  font-weight: 400;
 }

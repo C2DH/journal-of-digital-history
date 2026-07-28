@@ -33,6 +33,14 @@
   --capri: #48beff;
   --almond: #f0dcca;
   --primary-dark: #007d6c; // #00B89F; // #00e0c2 #00CCB1 00B89F
+
+  //colors for Milestone
+  --grey: #939393;
+  --dark-grey: #4a4a4a;
+  --green: #48a067;
+  --purple: #856ee7;
+  --blue: #3877c3;
+
   @each $bp, $value in $grays {
     --gray-#{$bp}: #{$value};
   }
