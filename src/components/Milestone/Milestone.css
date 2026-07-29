@@ -122,6 +122,12 @@
   margin-top: calc(1.2em + var(--spacer-2) - 1px);
 }
 
+.arrow-left-deactivate,
+.arrow-right-deactivate {
+  pointer-events: none;
+  color: gray;
+}
+
 /* EVENTS */
 .event-card {
   display: flex;

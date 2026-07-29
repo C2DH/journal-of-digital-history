@@ -56,7 +56,7 @@ const getMonths = (count: number = 6, year: number, cursor: number) => {
 
     return {
       key: date.toFormat('yyyy-MM'),
-      title: date.toFormat('LLL yyyy'),
+      title: date.toFormat('LLL'),
     }
   })
 }
@@ -66,6 +66,8 @@ const Milestone = ({ data }: MilestoneProps) => {
   const [selectedIndices, setSelectedIndices] = useState<any>(null)
   const [facetsResetKey, setFacetsResetKey] = useState(0)
   const [cursor, setCursor] = useState(0)
+  const MAX_CURSOR = 0
+  const MIN_CURSOR = -6
 
   const years = Object.keys(data)
     .map((year) => ({ value: year, label: year }))
@@ -99,9 +101,13 @@ const Milestone = ({ data }: MilestoneProps) => {
       ? milestoneItems
       : milestoneItems.filter((_, index) => selectedIndices?.includes(index))
 
-  const handleAllClick = () => {
+  const handleFacetAll = () => {
     setSelectedIndices(null)
     setFacetsResetKey((k) => k + 1)
+  }
+
+  const handleCursor = (value: number) => {
+    setCursor((prev) => Math.min(MAX_CURSOR, Math.max(MIN_CURSOR, prev + value)))
   }
 
   useEffect(() => {
@@ -118,7 +124,7 @@ const Milestone = ({ data }: MilestoneProps) => {
             <p>Filter by</p>
             <button
               className={`milestone-btn-all ${selectedIndices === null ? 'active' : ''}`}
-              onClick={handleAllClick}
+              onClick={handleFacetAll}
             >
               All
             </button>
@@ -142,7 +148,10 @@ const Milestone = ({ data }: MilestoneProps) => {
         </div>
       </div>
       <div className="milestone-timeline">
-        <ArrowLeftCircle onClick={() => setCursor(cursor + 1)} />
+        <ArrowLeftCircle
+          className={`${cursor === MAX_CURSOR ? 'arrow-left-deactivate' : ''}`}
+          onClick={() => handleCursor(1)}
+        />
         {months.map(({ key, title }) => {
           return (
             <MonthCard
@@ -152,7 +161,10 @@ const Milestone = ({ data }: MilestoneProps) => {
             />
           )
         })}
-        <ArrowRightCircle onClick={() => setCursor(cursor - 1)} />
+        <ArrowRightCircle
+          className={`${cursor === MIN_CURSOR ? 'arrow-right-deactivate' : ''}`}
+          onClick={() => handleCursor(-1)}
+        />
       </div>
     </div>
   )
