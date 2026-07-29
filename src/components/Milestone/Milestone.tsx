@@ -13,12 +13,15 @@ import { asEnumParam, asRegexArrayParam } from '../../logic/params'
 import Facets from '../Facets/Facets'
 import OrderByDropdown from '../OrderByDropdown'
 
-const EventCard = ({ date, text, type }) => {
+const EventCard = ({ date, text, type, issue }) => {
   return (
     <div className="event-card">
       <div className={`event-content ${type.replace(/\s/g, '')}`}>
         <div className="event-text" dangerouslySetInnerHTML={{ __html: text }}></div>
-        <span className="event-date">{DateTime.fromISO(date).toFormat('d LLL yyyy')}</span>
+        <span className="event-date">
+          {DateTime.fromISO(date).toFormat('d LLL yyyy')}
+          {issue ? ` • Issue n.${issue}` : ''}
+        </span>
       </div>
     </div>
   )
@@ -31,7 +34,13 @@ const MonthCard = ({ title, events }) => {
       <div className="month-card">
         <div className="event-list">
           {events.map((event, index) => (
-            <EventCard key={index} date={event.date} text={event.title} type={event.type} />
+            <EventCard
+              key={index}
+              date={event.date}
+              text={event.title}
+              type={event.type}
+              issue={event.issue}
+            />
           ))}
         </div>
       </div>
@@ -45,16 +54,9 @@ const getMonths = (count: number = 6, year: number, cursor: number) => {
   return Array.from({ length: count }, (_, i) => {
     const date = start.minus({ months: count - 1 - i }).startOf('month')
 
-    if (date.month === 1 || date.month === 12) {
-      return {
-        key: date.toFormat('yyyy-MM'),
-        title: date.toFormat('LLL yyyy'),
-      }
-    }
-
     return {
       key: date.toFormat('yyyy-MM'),
-      title: date.toFormat('MMM'),
+      title: date.toFormat('LLL yyyy'),
     }
   })
 }

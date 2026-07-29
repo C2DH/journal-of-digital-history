@@ -91,6 +91,88 @@ const data = {
     ],
     releases: [],
   },
+  '2025': {
+    articles: [
+      {
+        date: '2025-01-06',
+        title:
+          'Voyages in 3D: Creating a Multimodal Narrative of the Battle of Mount Street Bridge',
+        issue: 3,
+      },
+      {
+        date: '2025-01-15',
+        title: 'Time: the Cost of Reproducibility',
+        issue: 4,
+      },
+      {
+        date: '2025-01-27',
+        title: 'Chinese Political and Cultural Elites: Twentieth Century Transformations',
+        issue: 5,
+      },
+      {
+        date: '2025-03-13',
+        title:
+          'Simulating and visualising data in environmental history: Airborne dust concentration from the Belval plant in Luxembourg (1911-1997)',
+        issue: 4,
+      },
+      {
+        date: '2025-03-20',
+        title:
+          'Chronoferencing the Italian-Slovenian Borderlands. Citizen Science, Oral History and Output Criticism',
+        issue: 4,
+      },
+      {
+        date: '2025-05-05',
+        title:
+          'In search of an interpretative environment for digital traces: the building of Arvest',
+        issue: 3,
+      },
+      {
+        date: '2025-06-18',
+        title: 'The Text Analysis Prototype for Galileo’s Library and Letters Online: GaLiLeO',
+        issue: 3,
+      },
+      {
+        date: '2025-06-19',
+        title: 'Contextualizing and unlocking political web defacements for research',
+      },
+      {
+        date: '2025-06-19',
+        title:
+          '‘Thanks for the moan!’ Disillusionment with the British sickness system, online and in print, 1997–2005',
+      },
+      {
+        date: '2025-01-27',
+        title: 'Chinese Political and Cultural Elites: Twentieth Century Transformations',
+      },
+      {
+        date: '2025-01-27',
+        title: 'Chinese Political and Cultural Elites: Twentieth Century Transformations',
+      },
+    ],
+    callForPapers: [
+      {
+        date: '2025-05-31',
+        title: 'AI & History - Deadline for submitting abstracts',
+      },
+      {
+        date: '2025-06-15',
+        title: 'AI & History - Notification of abstract acceptance',
+      },
+    ],
+    conferences: [
+      {
+        date: '2025-06-15',
+        title: 'AI through History, History through AI',
+      },
+    ],
+    releases: [
+      {
+        date: '2025-06-25',
+        title: 'Aquamarine v5',
+      },
+    ],
+  },
 }
 
 const meta: Meta = {
