@@ -1,20 +1,24 @@
+import '../styles/pages/Home.scss'
+
+import { DateTime } from 'luxon'
 import MarkdownIt from 'markdown-it'
 import { useMemo } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
+
 import ArticleCellContent from '../components/Article/ArticleCellContent'
-import HomeMilestones from '../components/HomeMilestones'
 import HomeReel from '../components/HomeReel'
 import LangLink from '../components/LangLink'
+import { data as dataMilestoneGithub } from '../components/Milestone/data'
+import Milestone from '../components/Milestone/Milestone'
 import {
   BootstrapColumLayout,
-  BootstrapFullColumLayout,
+  BootstrapMilestoneColumLayout,
   IsMobile,
-  IsPortrait,
   StatusSuccess,
 } from '../constants/globalConstants'
+import { useGetJSON } from '../logic/api/fetchData'
 import { randomFakeSentence } from '../logic/random'
-import '../styles/pages/Home.scss'
 import StaticPageLoader from './StaticPageLoader'
 
 const markdownParser = MarkdownIt({
@@ -75,6 +79,43 @@ const Home = ({ data = '', status }) => {
         .map((source) => markdownParser.render(source))
     })
   }, [status, data])
+
+  const {
+    data: articles,
+    error: errorArticles,
+    status: statusArticles,
+  } = useGetJSON({
+    url: '/api/articles?limit=500',
+    delay: 100,
+  })
+
+  const dataMilestone = useMemo(() => {
+    const articlesByYear = (articles?.results ?? []).reduce((acc, article) => {
+      const year = DateTime.fromISO(article.publication_date).year
+
+      if (!acc[year]) {
+        acc[year] = []
+      }
+
+      acc[year].push({
+        date: article.publication_date,
+        title: article.data.title,
+        issue: article.issue.pid.length - 1,
+      })
+
+      return acc
+    }, {})
+
+    return Object.keys(dataMilestoneGithub).reduce((acc, year) => {
+      acc[year] = {
+        ...dataMilestoneGithub[year],
+        articles: articlesByYear[year] ?? [],
+      }
+      return acc
+    }, {})
+  }, [articles])
+
+  console.log('🚀 ~ file: Home.jsx:93 ~ dataMilestone:', dataMilestone)
 
   return (
     <>
@@ -151,11 +192,9 @@ const Home = ({ data = '', status }) => {
       {!IsMobile && (
         <Container>
           <Row>
-            <Col {...BootstrapFullColumLayout}>
+            <Col {...BootstrapMilestoneColumLayout}>
               <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
-              <p className="mb-3 d-none d-md-block">{t('pages.home.editorialRoadmap')} ⤵</p>
-              <HomeMilestones isPortrait={IsPortrait} extent={['2020-09-30', '2023-11-30']} />
-              <p className="mt-3 d-none d-md-block">{t('pages.home.technicalRoadmap')} ⤴</p>
+              <Milestone data={dataMilestone} />
             </Col>
           </Row>
         </Container>

@@ -1,5 +1,5 @@
 .month-container {
-  --month-container-width: 15vw;
+  --month-container-width: 10vw;
 
   width: var(--month-container-width);
   display: flex;
@@ -43,6 +43,7 @@
 .milestone-filter {
   display: flex;
   justify-content: space-between;
+  align-items: start;
 }
 
 .milestone-facets {
@@ -124,8 +125,7 @@
 
 .arrow-left-deactivate,
 .arrow-right-deactivate {
-  pointer-events: none;
-  color: gray;
+  display: none;
 }
 
 /* EVENTS */
