@@ -4,6 +4,7 @@ import { ArrowLeftCircle, ArrowRightCircle, Calendar } from 'iconoir-react'
 import { DateTime } from 'luxon'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { useQueryParams, withDefault } from 'use-query-params'
 
 import { MilestoneProps } from './interface'
@@ -13,14 +14,20 @@ import { asEnumParam, asRegexArrayParam } from '../../logic/params'
 import Facets from '../Facets/Facets'
 import OrderByDropdown from '../OrderByDropdown'
 
-const EventCard = ({ date, text, type, issue }) => {
+const EventCard = ({ event }) => {
+  const navigate = useNavigate()
+  const typeClean = event.type.replace(/\s/g, '')
+
   return (
-    <div className="event-card">
-      <div className={`event-content ${type.replace(/\s/g, '')}`}>
-        <div className="event-text" dangerouslySetInnerHTML={{ __html: text }}></div>
+    <div
+      className={`event-card Dimension_${typeClean}`}
+      onClick={() => navigate(`/en/article/${event.pid}`)}
+    >
+      <div className={`event-content Dimension_${typeClean}`}>
+        <div className="event-text" dangerouslySetInnerHTML={{ __html: event.title }}></div>
         <span className="event-date">
-          {DateTime.fromISO(date).toFormat('d LLL yyyy')}
-          {issue ? ` • Issue n.${issue}` : ''}
+          {DateTime.fromISO(event.date).toFormat('d LLL yyyy')}
+          {event.issue ? ` • Issue n.${event.issue}` : ''}
         </span>
       </div>
     </div>
@@ -29,18 +36,12 @@ const EventCard = ({ date, text, type, issue }) => {
 
 const MonthCard = ({ title, events }) => {
   return (
-    <div className={`month-container`}>
+    <div className="month-container">
       <span className="month-title">{title}</span>
       <div className="month-card">
         <div className="event-list">
           {events.map((event, index) => (
-            <EventCard
-              key={index}
-              date={event.date}
-              text={event.title}
-              type={event.type}
-              issue={event.issue}
-            />
+            <EventCard key={index} event={event} />
           ))}
         </div>
       </div>

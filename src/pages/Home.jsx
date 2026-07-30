@@ -103,6 +103,7 @@ const Home = ({ data = '', status }) => {
         date: article.publication_date,
         title: title,
         issue: issue,
+        pid: article.abstract.pid,
       })
 
       return acc

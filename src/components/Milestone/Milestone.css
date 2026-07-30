@@ -23,19 +23,19 @@
 }
 
 /* FILTERS */
-.Articles {
+.Dimension_Articles {
   --filter-color: var(--grey);
   --left-line-color: var(--grey);
 }
-.CallforPapers {
+.Dimension_CallforPapers {
   --filter-color: var(--green);
   --left-line-color: var(--light-green);
 }
-.Conferences {
+.Dimension_Conferences {
   --filter-color: var(--purple);
   --left-line-color: var(--light-purple);
 }
-.Releases {
+.Dimension_Releases {
   --filter-color: var(--blue);
   --left-line-color: var(--light-blue);
 }
@@ -139,6 +139,14 @@
   padding: var(--spacer-2);
   margin-top: var(--spacer-2);
   padding-left: 25px;
+}
+
+.event-card.Dimension_Articles:hover {
+  border: 1px solid var(--accent);
+}
+.event-content.Dimension_Articles:hover {
+  color: var(--accent);
+  cursor: pointer;
 }
 
 .event-content::before {

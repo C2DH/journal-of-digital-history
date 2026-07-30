@@ -13,7 +13,7 @@ const DimensionGroupListItem = ({
   if (name === 'type') {
     return (
       <li
-        className={`DimensionGroupListItem ${isActive ? ' active' : ''} ${group.key.replace(/\s/g, '')}`}
+        className={`DimensionGroupListItem ${isActive ? ' active' : ''} ${`Dimension_${group.key.replace(/\s/g, '')}`}`}
       >
         <div className="DimensionGroupListItem_label" onClick={onClick} onMouseEnter={onMouseEnter}>
           <span>{group.key}</span>
