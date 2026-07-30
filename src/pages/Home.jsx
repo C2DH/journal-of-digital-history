@@ -92,6 +92,8 @@ const Home = ({ data = '', status }) => {
   const dataMilestone = useMemo(() => {
     const articlesByYear = (articles?.results ?? []).reduce((acc, article) => {
       const year = DateTime.fromISO(article.publication_date).year
+      const issue = article.issue.pid.replace(/jdh0+(\d+)/, (m, n) => n)
+      const title = article.data.title[0].replace('# ', '')
 
       if (!acc[year]) {
         acc[year] = []
@@ -99,13 +101,12 @@ const Home = ({ data = '', status }) => {
 
       acc[year].push({
         date: article.publication_date,
-        title: article.data.title,
-        issue: article.issue.pid.length - 1,
+        title: title,
+        issue: issue,
       })
 
       return acc
     }, {})
-
     return Object.keys(dataMilestoneGithub).reduce((acc, year) => {
       acc[year] = {
         ...dataMilestoneGithub[year],
@@ -114,8 +115,6 @@ const Home = ({ data = '', status }) => {
       return acc
     }, {})
   }, [articles])
-
-  console.log('🚀 ~ file: Home.jsx:93 ~ dataMilestone:', dataMilestone)
 
   return (
     <>

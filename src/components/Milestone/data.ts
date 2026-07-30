@@ -59,6 +59,17 @@ export const data = {
     ],
     releases: [],
   },
+  '2023': {
+    articles: [],
+    callForPapers: [],
+    conferences: [
+      {
+        date: '2024-04-03',
+        title: 'Présentation du Journal of Digital History (TGIR Huma-Num)',
+      },
+    ],
+    releases: [],
+  },
   '2024': {
     articles: [],
     callForPapers: [],
@@ -82,16 +93,31 @@ export const data = {
         title: 'AI & History - Notification of abstract acceptance',
       },
     ],
+    conferences: [],
+    releases: [
+      {
+        date: '2025-06-25',
+        title: 'Aquamarine v5',
+      },
+    ],
+  },
+  '2026': {
+    articles: [],
+    callForPapers: [],
     conferences: [
       {
-        date: '2025-06-15',
+        date: '2026-06-02',
+        title: `<a href='https://2026.dhbenelux.org/' target='_blank'>DH Benelux</a>`,
+      },
+      {
+        date: '2026-06-15',
         title: 'AI through History, History through AI',
       },
     ],
     releases: [
       {
-        date: '2025-06-25',
-        title: 'Aquamarine v5',
+        date: '2026-03-16',
+        title: 'Citrine v6',
       },
     ],
   },
