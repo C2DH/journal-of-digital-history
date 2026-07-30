@@ -150,7 +150,7 @@ const Milestone = ({ data }: MilestoneProps) => {
       <div className="milestone-timeline">
         <ArrowLeftCircle
           className={`${cursor === MAX_CURSOR ? 'arrow-left-deactivate' : ''}`}
-          onClick={() => handleCursor(1)}
+          onClick={() => handleCursor(6)}
         />
         {months.map(({ key, title }) => {
           return (
@@ -163,7 +163,7 @@ const Milestone = ({ data }: MilestoneProps) => {
         })}
         <ArrowRightCircle
           className={`${cursor === MIN_CURSOR ? 'arrow-right-deactivate' : ''}`}
-          onClick={() => handleCursor(-1)}
+          onClick={() => handleCursor(-6)}
         />
       </div>
     </div>
