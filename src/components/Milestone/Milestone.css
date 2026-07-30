@@ -1,5 +1,5 @@
 .month-container {
-  --month-container-width: 10vw;
+  --month-container-width: 9vw;
 
   width: var(--month-container-width);
   display: flex;
