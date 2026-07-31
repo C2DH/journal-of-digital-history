@@ -10,6 +10,7 @@ import { useQueryParams, withDefault } from 'use-query-params'
 import { MilestoneProps } from './interface'
 
 import { FilterByQueryparam, OrderByQueryParam } from '../../constants/globalConstants'
+import { useCurrentWindowDimensions } from '../../hooks/graphics'
 import { asEnumParam, asRegexArrayParam } from '../../logic/params'
 import Facets from '../Facets/Facets'
 import OrderByDropdown from '../OrderByDropdown'
@@ -50,11 +51,11 @@ const MonthCard = ({ title, events }) => {
   )
 }
 
-const getMonths = (count: number = 6, year: number, cursor: number) => {
-  const start = DateTime.fromObject({ year: year, month: 6 }).minus({ months: cursor })
+const getMonths = (month: number, year: number, cursor: number) => {
+  const start = DateTime.fromObject({ year: year, month: month }).minus({ months: cursor })
 
-  return Array.from({ length: count }, (_, i) => {
-    const date = start.minus({ months: count - 1 - i }).startOf('month')
+  return Array.from({ length: month }, (_, i) => {
+    const date = start.minus({ months: month - 1 - i }).startOf('month')
 
     return {
       key: date.toFormat('yyyy-MM'),
@@ -63,13 +64,24 @@ const getMonths = (count: number = 6, year: number, cursor: number) => {
   })
 }
 
+const getMonthCount = (width: number) => {
+  if (width < 768) return 2
+  if (width < 1200) return 3
+  return 6
+}
+
 const Milestone = ({ data }: MilestoneProps) => {
   const { t } = useTranslation()
+  const { width } = useCurrentWindowDimensions()
+
   const [selectedIndices, setSelectedIndices] = useState<any>(null)
   const [facetsResetKey, setFacetsResetKey] = useState(0)
   const [cursor, setCursor] = useState(0)
+
+  const YEAR_MONTHS = 12
+  const MONTH = getMonthCount(width)
   const MAX_CURSOR = 0
-  const MIN_CURSOR = -6
+  const MIN_CURSOR = -(YEAR_MONTHS - MONTH)
 
   const years = Object.keys(data)
     .map((year) => ({ value: year, label: year }))
@@ -79,7 +91,7 @@ const Milestone = ({ data }: MilestoneProps) => {
     [OrderByQueryParam]: withDefault(asEnumParam(years.map((year) => year.value)), years[0].value),
     [FilterByQueryparam]: asRegexArrayParam(),
   })
-  const months = getMonths(6, orderByYear, cursor)
+  const months = getMonths(MONTH, orderByYear, cursor)
 
   const milestoneItems = [
     ...data[orderByYear].articles.map((item) => ({ ...item, type: 'Articles' })),
@@ -117,7 +129,7 @@ const Milestone = ({ data }: MilestoneProps) => {
   }, [orderByYear])
 
   return (
-    <div>
+    <div className="milestone-wrapper">
       <p>Key dates and events for {orderByYear}</p>
       <div className="milestone-filter">
         <div>
@@ -152,7 +164,7 @@ const Milestone = ({ data }: MilestoneProps) => {
       <div className="milestone-timeline">
         <ArrowLeftCircle
           className={`${cursor === MAX_CURSOR ? 'arrow-left-deactivate' : ''}`}
-          onClick={() => handleCursor(6)}
+          onClick={() => handleCursor(MONTH)}
         />
         {months.map(({ key, title }) => {
           return (
@@ -165,7 +177,7 @@ const Milestone = ({ data }: MilestoneProps) => {
         })}
         <ArrowRightCircle
           className={`${cursor === MIN_CURSOR ? 'arrow-right-deactivate' : ''}`}
-          onClick={() => handleCursor(-6)}
+          onClick={() => handleCursor(-MONTH)}
         />
       </div>
     </div>

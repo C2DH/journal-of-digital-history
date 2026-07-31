@@ -118,7 +118,7 @@ export const BootstrapFullColumLayout = Object.freeze({
 })
 
 export const BootstrapMilestoneColumLayout = Object.freeze({
-  md: { span: 0, offset: 1 },
+  md: { span: 8, offset: 2 },
   lg: { span: 8, offset: 2 },
 })
 
