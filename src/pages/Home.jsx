@@ -165,6 +165,16 @@ const Home = ({ data = '', status }) => {
             </div>
           </Col>
         </Row>
+        {!IsMobile && (
+          <Container>
+            <Row>
+              <Col {...BootstrapMilestoneColumLayout}>
+                <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
+                <Milestone data={dataMilestone} />
+              </Col>
+            </Row>
+          </Container>
+        )}
         <Row>
           <Col md={{ offset: 2 }}>
             <h2 className="my-5">{t('pages.home.editorialBoardMembers')}</h2>
@@ -188,17 +198,6 @@ const Home = ({ data = '', status }) => {
           ))}
         </Row>
       </Container>
-
-      {!IsMobile && (
-        <Container>
-          <Row>
-            <Col {...BootstrapMilestoneColumLayout}>
-              <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
-              <Milestone data={dataMilestone} />
-            </Col>
-          </Row>
-        </Container>
-      )}
     </>
   )
 }

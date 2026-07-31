@@ -17,14 +17,15 @@ import OrderByDropdown from '../OrderByDropdown'
 const EventCard = ({ event }) => {
   const navigate = useNavigate()
   const typeClean = event.type.replace(/\s/g, '')
+  const hasAnchor = event.title.includes('</a>')
 
   return (
     <div
-      className={`event-card Dimension_${typeClean}`}
+      className={`event-card Dimension_${typeClean} ${hasAnchor ? 'hasAnchor' : ''}`}
       onClick={() => navigate(`/en/article/${event.pid}`)}
     >
-      <div className={`event-content Dimension_${typeClean}`}>
-        <div className="event-text" dangerouslySetInnerHTML={{ __html: event.title }}></div>
+      <div className={`event-content Dimension_${typeClean} ${hasAnchor ? 'hasAnchor' : ''}`}>
+        <div className={`event-text`} dangerouslySetInnerHTML={{ __html: event.title }}></div>
         <span className="event-date">
           {DateTime.fromISO(event.date).toFormat('d LLL yyyy')}
           {event.issue ? ` • Issue n.${event.issue}` : ''}
