@@ -1,6 +1,5 @@
 import '../styles/pages/Home.scss'
 
-import { DateTime } from 'luxon'
 import MarkdownIt from 'markdown-it'
 import { useMemo } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
@@ -9,7 +8,6 @@ import { useTranslation } from 'react-i18next'
 import ArticleCellContent from '../components/Article/ArticleCellContent'
 import HomeReel from '../components/HomeReel'
 import LangLink from '../components/LangLink'
-import { data as dataMilestoneGithub } from '../components/Milestone/data'
 import Milestone from '../components/Milestone/Milestone'
 import {
   BootstrapColumLayout,
@@ -17,7 +15,6 @@ import {
   IsMobile,
   StatusSuccess,
 } from '../constants/globalConstants'
-import { useGetJSON } from '../logic/api/fetchData'
 import { randomFakeSentence } from '../logic/random'
 import StaticPageLoader from './StaticPageLoader'
 
@@ -80,43 +77,6 @@ const Home = ({ data = '', status }) => {
     })
   }, [status, data])
 
-  const {
-    data: articles,
-    error: errorArticles,
-    status: statusArticles,
-  } = useGetJSON({
-    url: '/api/articles?limit=500',
-    delay: 100,
-  })
-
-  const dataMilestone = useMemo(() => {
-    const articlesByYear = (articles?.results ?? []).reduce((acc, article) => {
-      const year = DateTime.fromISO(article.publication_date).year
-      const issue = article.issue.pid.replace(/jdh0+(\d+)/, (m, n) => n)
-      const title = article.data.title[0].replace('# ', '')
-
-      if (!acc[year]) {
-        acc[year] = []
-      }
-
-      acc[year].push({
-        date: article.publication_date,
-        title: title,
-        issue: issue,
-        pid: article.abstract.pid,
-      })
-
-      return acc
-    }, {})
-    return Object.keys(dataMilestoneGithub).reduce((acc, year) => {
-      acc[year] = {
-        ...dataMilestoneGithub[year],
-        articles: articlesByYear[year] ?? [],
-      }
-      return acc
-    }, {})
-  }, [articles])
-
   return (
     <>
       <Container className={`page Home ${status !== StatusSuccess ? 'is-fake' : ''}`}>
@@ -169,7 +129,7 @@ const Home = ({ data = '', status }) => {
           <Row>
             <Col {...BootstrapMilestoneColumLayout}>
               <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
-              <Milestone data={dataMilestone} />
+              <Milestone />
             </Col>
           </Row>
         </Container>

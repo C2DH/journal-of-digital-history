@@ -2,15 +2,18 @@ import './Milestone.css'
 
 import { ArrowLeftCircle, ArrowRightCircle, Calendar } from 'iconoir-react'
 import { DateTime } from 'luxon'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useQueryParams, withDefault } from 'use-query-params'
 
-import { MilestoneProps } from './interface'
-
-import { FilterByQueryparam, OrderByQueryParam } from '../../constants/globalConstants'
+import {
+  FilterByQueryparam,
+  OrderByQueryParam,
+  StatusSuccess,
+} from '../../constants/globalConstants'
 import { useCurrentWindowDimensions } from '../../hooks/graphics'
+import { useGetJSON } from '../../logic/api/fetchData'
 import { asEnumParam, asRegexArrayParam } from '../../logic/params'
 import Facets from '../Facets/Facets'
 import OrderByDropdown from '../OrderByDropdown'
@@ -52,7 +55,7 @@ const MonthCard = ({ title, events }) => {
 }
 
 const getMonths = (month: number, year: number, cursor: number) => {
-  const start = DateTime.fromObject({ year: year, month: month }).minus({ months: cursor })
+  const start = DateTime.fromObject({ year: Number(year), month }).minus({ months: cursor })
 
   return Array.from({ length: month }, (_, i) => {
     const date = start.minus({ months: month - 1 - i }).startOf('month')
@@ -70,7 +73,7 @@ const getMonthCount = (width: number) => {
   return 6
 }
 
-const Milestone = ({ data }: MilestoneProps) => {
+const Milestone = () => {
   const { t } = useTranslation()
   const { width } = useCurrentWindowDimensions()
 
@@ -83,22 +86,87 @@ const Milestone = ({ data }: MilestoneProps) => {
   const MAX_CURSOR = 0
   const MIN_CURSOR = -(YEAR_MONTHS - MONTH)
 
+  const {
+    data: dataGithub,
+    status: statusGithub,
+    error,
+  } = useGetJSON({
+    url: import.meta.env.VITE_WIKI_EVENTS,
+  })
+
+  const {
+    data: articles,
+    error: errorArticles,
+    status: statusArticles,
+  } = useGetJSON({
+    url: '/api/articles?limit=500',
+    delay: 0,
+  })
+
+  const data = useMemo(() => {
+    if (!dataGithub) return {}
+    let json = {}
+
+    try {
+      if (statusGithub === StatusSuccess) {
+        json = JSON.parse(dataGithub.replace(/^```json\n/, '').replace(/\n```$/, ''))
+      }
+    } catch (e) {
+      console.warn('Error loading timeline data:', e)
+    }
+
+    const articlesByYear = (articles?.results ?? []).reduce((acc, article) => {
+      const year = DateTime.fromISO(article.publication_date).year
+      const issue = article.issue.pid.replace(/jdh0+(\d+)/, (m, n) => n)
+      const title = article.data.title[0].replace('# ', '')
+
+      if (!acc[year]) {
+        acc[year] = []
+      }
+
+      acc[year].push({
+        date: article.publication_date,
+        title: title,
+        issue: issue,
+        pid: article.abstract.pid,
+      })
+
+      return acc
+    }, {})
+
+    return Object.keys(json).reduce((acc, year) => {
+      acc[year] = {
+        ...json[year],
+        articles: articlesByYear[year] ?? [],
+      }
+      return acc
+    }, {})
+  }, [articles, dataGithub])
+
   const years = Object.keys(data)
     .map((year) => ({ value: year, label: year }))
     .reverse()
 
   const [{ [OrderByQueryParam]: orderByYear }, setQuery] = useQueryParams({
-    [OrderByQueryParam]: withDefault(asEnumParam(years.map((year) => year.value)), years[0].value),
+    [OrderByQueryParam]: withDefault(
+      asEnumParam(years.map((year) => year.value)),
+      years[0]?.value ?? '',
+    ),
     [FilterByQueryparam]: asRegexArrayParam(),
   })
   const months = getMonths(MONTH, orderByYear, cursor)
 
-  const milestoneItems = [
-    ...data[orderByYear].articles.map((item) => ({ ...item, type: 'Articles' })),
-    ...data[orderByYear].callForPapers.map((item) => ({ ...item, type: 'Call for Papers' })),
-    ...data[orderByYear].conferences.map((item) => ({ ...item, type: 'Conferences' })),
-    ...data[orderByYear].releases.map((item) => ({ ...item, type: 'Releases' })),
-  ]
+  const currentYearData = data[orderByYear]
+  console.log('🚀 ~ file: Milestone.tsx:163 ~ data:', data)
+
+  const milestoneItems = currentYearData
+    ? [
+        ...currentYearData.articles.map((item) => ({ ...item, type: 'Articles' })),
+        ...currentYearData.callForPapers.map((item) => ({ ...item, type: 'Call for Papers' })),
+        ...currentYearData.conferences.map((item) => ({ ...item, type: 'Conferences' })),
+        ...currentYearData.releases.map((item) => ({ ...item, type: 'Releases' })),
+      ]
+    : []
 
   const milestoneDimensions = [
     {
@@ -127,6 +195,10 @@ const Milestone = ({ data }: MilestoneProps) => {
   useEffect(() => {
     setCursor(0)
   }, [orderByYear])
+
+  if (!currentYearData) {
+    return null
+  }
 
   return (
     <div className="milestone-wrapper">
