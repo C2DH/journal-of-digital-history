@@ -1,0 +1,55 @@
+.month-title {
+  margin-bottom: var(--spacer-2);
+}
+
+.month-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: 2px solid var(--dark);
+  width: var(--month-container-width);
+  padding: 0 var(--spacer-1);
+  gap: var(--spacer-2);
+}
+
+.month-container {
+  --month-container-width: 9vw;
+  --month-container-tablet-width: 15vw;
+  --month-container-mobile-width: 35vw;
+
+  width: var(--month-container-width);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Mobile view */
+@media screen and (max-width: 767px) {
+  .milestone-facets > p {
+    display: none;
+  }
+
+  .month-container,
+  .month-card {
+    width: var(--month-container-mobile-width);
+  }
+}
+
+/* Tablet view */
+@media screen and (min-width: 767px) and (max-width: 1200px) {
+  .milestone-facets > p {
+    display: none;
+  }
+  .month-container,
+  .month-card {
+    width: var(--month-container-tablet-width);
+  }
+}
+
+/* Large screen view */
+@media screen and (min-width: 2200px) {
+  .milestone-wrapper {
+    margin-left: -30%;
+  }
+}

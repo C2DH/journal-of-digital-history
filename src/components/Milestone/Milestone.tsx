@@ -1,10 +1,11 @@
 import './Milestone.css'
 
+import hljs from 'highlight.js'
+import parse from 'html-react-parser'
 import { ArrowLeftCircle, ArrowRightCircle, Calendar } from 'iconoir-react'
 import { DateTime } from 'luxon'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import { useQueryParams, withDefault } from 'use-query-params'
 
 import {
@@ -12,66 +13,15 @@ import {
   OrderByQueryParam,
   StatusSuccess,
 } from '../../constants/globalConstants'
+import { validateForm } from '../../dashboard/utils/helpers/schema'
 import { useCurrentWindowDimensions } from '../../hooks/graphics'
 import { useGetJSON } from '../../logic/api/fetchData'
 import { asEnumParam, asRegexArrayParam } from '../../logic/params'
 import Facets from '../Facets/Facets'
 import OrderByDropdown from '../OrderByDropdown'
-
-const EventCard = ({ event }) => {
-  const navigate = useNavigate()
-  const typeClean = event.type.replace(/\s/g, '')
-  const hasAnchor = event.title.includes('</a>')
-
-  return (
-    <div
-      className={`event-card Dimension_${typeClean} ${hasAnchor ? 'hasAnchor' : ''}`}
-      onClick={() => navigate(`/en/article/${event.pid}`)}
-    >
-      <div className={`event-content Dimension_${typeClean} ${hasAnchor ? 'hasAnchor' : ''}`}>
-        <div className={`event-text`} dangerouslySetInnerHTML={{ __html: event.title }}></div>
-        <span className="event-date">
-          {DateTime.fromISO(event.date).toFormat('d LLL yyyy')}
-          {event.issue ? ` • Issue n.${event.issue}` : ''}
-        </span>
-      </div>
-    </div>
-  )
-}
-
-const MonthCard = ({ title, events }) => {
-  return (
-    <div className="month-container">
-      <span className="month-title">{title}</span>
-      <div className="month-card">
-        <div className="event-list">
-          {events.map((event, index) => (
-            <EventCard key={index} event={event} />
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const getMonths = (month: number, year: number, cursor: number) => {
-  const start = DateTime.fromObject({ year: Number(year), month }).minus({ months: cursor })
-
-  return Array.from({ length: month }, (_, i) => {
-    const date = start.minus({ months: month - 1 - i }).startOf('month')
-
-    return {
-      key: date.toFormat('yyyy-MM'),
-      title: date.toFormat('LLL'),
-    }
-  })
-}
-
-const getMonthCount = (width: number) => {
-  if (width < 768) return 2
-  if (width < 1200) return 3
-  return 6
-}
+import MonthCard from './Card/MonthCard'
+import { getMonthCount, getMonths } from './helper'
+import { milestoneSchema } from './schema'
 
 const Milestone = () => {
   const { t } = useTranslation()
@@ -88,8 +38,8 @@ const Milestone = () => {
 
   const {
     data: dataGithub,
+    error: errorGithub,
     status: statusGithub,
-    error,
   } = useGetJSON({
     url: import.meta.env.VITE_WIKI_EVENTS,
   })
@@ -103,18 +53,44 @@ const Milestone = () => {
     delay: 0,
   })
 
-  const data = useMemo(() => {
+  const { parsedTimeline, timelineError } = useMemo(() => {
     if (!dataGithub) return {}
     let json = {}
 
+    //Validate Github Data
     try {
+      if (statusGithub !== StatusSuccess) {
+        return { parsedTimeline: null, timelineError: null }
+      }
+
+      if (!dataGithub || typeof dataGithub !== 'string') {
+        return {
+          parsedTimeline: null,
+          timelineError: t('milestone.error.emptyData'),
+        }
+      }
+
       if (statusGithub === StatusSuccess) {
         json = JSON.parse(dataGithub.replace(/^```json\n/, '').replace(/\n```$/, ''))
       }
     } catch (e) {
-      console.warn('Error loading timeline data:', e)
+      return {
+        parsedTimeline: null,
+        timelineError: t('milestone.error.notValid'),
+      }
     }
 
+    const { valid, errors } = validateForm(json, milestoneSchema)
+
+    if (!valid) {
+      const detail = errors?.[0]?.message ?? t('milestone.error.structure')
+      return {
+        parsedTimeline: null,
+        timelineError: `${t('milestone.error.malformed')} ${detail}`,
+      }
+    }
+
+    // Merging data from API and Github
     const articlesByYear = (articles?.results ?? []).reduce((acc, article) => {
       const year = DateTime.fromISO(article.publication_date).year
       const issue = article.issue.pid.replace(/jdh0+(\d+)/, (m, n) => n)
@@ -134,16 +110,19 @@ const Milestone = () => {
       return acc
     }, {})
 
-    return Object.keys(json).reduce((acc, year) => {
+    const articlesAndGithubData = Object.keys(json).reduce((acc, year) => {
       acc[year] = {
         ...json[year],
         articles: articlesByYear[year] ?? [],
       }
       return acc
     }, {})
+
+    return { parsedTimeline: articlesAndGithubData, timelineError: null }
   }, [articles, dataGithub])
 
-  const years = Object.keys(data)
+  // Set up years for dropdown
+  const years = Object.keys(parsedTimeline ?? [])
     .map((year) => ({ value: year, label: year }))
     .reverse()
 
@@ -154,10 +133,15 @@ const Milestone = () => {
     ),
     [FilterByQueryparam]: asRegexArrayParam(),
   })
+
   const months = getMonths(MONTH, orderByYear, cursor)
 
-  const currentYearData = data[orderByYear]
-  console.log('🚀 ~ file: Milestone.tsx:163 ~ data:', data)
+  const currentYearData = parsedTimeline?.[orderByYear] ?? {
+    articles: [] as any[],
+    callForPapers: [] as any[],
+    conferences: [] as any[],
+    releases: [] as any[],
+  }
 
   const milestoneItems = currentYearData
     ? [
@@ -196,8 +180,16 @@ const Milestone = () => {
     setCursor(0)
   }, [orderByYear])
 
-  if (!currentYearData) {
-    return null
+  if (timelineError || errorArticles || errorGithub || parsedTimeline === undefined) {
+    const err = hljs.highlight(
+      'typescript',
+      `${t('milestone.error.general')} ${timelineError || errorArticles || errorGithub}`,
+    )
+    return (
+      <pre className="hljs" data-test="error-message">
+        <div>{parse(err.value)}</div>
+      </pre>
+    )
   }
 
   return (
