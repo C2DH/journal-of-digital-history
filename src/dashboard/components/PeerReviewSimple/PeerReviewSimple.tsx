@@ -28,8 +28,8 @@ const PeerReviewSimple = () => {
   function getChartSettings(): BarChartProps {
     return {
       dataset: data,
-      height: 200,
-      margin: { left: -10, right: 0, bottom: 20 },
+      height: 122 * data.length,
+      margin: { left: -10, right: 0, bottom: 25 },
       series: series,
       slotProps: {
         tooltip: { trigger: 'item' },

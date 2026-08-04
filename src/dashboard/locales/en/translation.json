@@ -41,16 +41,17 @@
         "title": "Article in Rounds"
       },
       "table": {
-        "title": "Peer Review Details",
         "placeholder": "Select a phase to begin",
         "indication": "←  Select a peer review phase to view article details."
       },
       "title": "Peer Review Phases",
+      "default": "Peer Review Details",
       "assign": "Assign Reviewer",
       "awaiting": "Awaiting Reviewer Response",
       "review": "Review in progress",
       "reviewer": "Reviewer decision",
-      "revising": "Author revising"
+      "revising": "Author revising",
+      "resubmit": "Resubmit"
     }
   },
   "badge": {

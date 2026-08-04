@@ -14,7 +14,8 @@ import { series } from './series'
 
 const PeerReviewChart = () => {
   const { t } = useTranslation()
-  const [label, setLabel] = useState('Default')
+  const [label, setLabel] = useState('default')
+
   const [round, setRound] = useState<number>(8)
   const [item, setItem] = useState({
     key: 'default',
@@ -61,7 +62,7 @@ const PeerReviewChart = () => {
     return {
       dataset: data,
       series: series,
-      height: 150,
+      height: 80 * data.length,
       margin: { left: 0, top: 0, right: 0, bottom: 10 },
       xAxis: [
         {
@@ -120,7 +121,7 @@ const PeerReviewChart = () => {
           className={`home-peerreviewchart-next-table chart ${placeholder ? 'light' : ''}`}
         >
           <h2 className="home-peerreviewchart-next-table-title">
-            {t('KPI.peerReviewChart.table.title')}
+            {t(`KPI.peerReviewChart.${label}`)}
           </h2>
           <SmallTable
             item="articles"
