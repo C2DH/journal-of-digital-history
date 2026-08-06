@@ -1,14 +1,19 @@
 import { DateTime } from 'luxon'
 
-export const getMonths = (month: number, year: number, cursor: number) => {
-  const start = DateTime.fromObject({ year: Number(year), month }).minus({ months: cursor })
+export const getMonths = (timeline: any, month: number) => {
+  if (!timeline) return []
+  return Object.keys(timeline)
+    .map(Number)
+    .flatMap((year) => {
+      const start = DateTime.fromObject({ year: Number(year), month })
 
-  return Array.from({ length: month }, (_, i) => {
-    const date = start.minus({ months: month - 1 - i }).startOf('month')
+      return Array.from({ length: month }, (_, i) => {
+        const date = start.minus({ months: month - 1 - i }).startOf('month')
 
-    return {
-      key: date.toFormat('yyyy-MM'),
-      title: date.toFormat('LLL yyyy'),
-    }
-  })
+        return {
+          key: date.toFormat('yyyy-MM'),
+          title: date.toFormat('LLL yyyy'),
+        }
+      })
+    })
 }
