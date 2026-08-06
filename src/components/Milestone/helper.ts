@@ -8,13 +8,7 @@ export const getMonths = (month: number, year: number, cursor: number) => {
 
     return {
       key: date.toFormat('yyyy-MM'),
-      title: date.toFormat('LLL'),
+      title: date.toFormat('LLL yyyy'),
     }
   })
-}
-
-export const getMonthCount = (width: number) => {
-  if (width < 768) return 2
-  if (width < 1200) return 3
-  return 6
 }

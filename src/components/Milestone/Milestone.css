@@ -7,6 +7,20 @@
   display: flex;
   gap: var(--spacer-2);
   margin: var(--spacer-2);
+  overflow-x: auto;
+
+  cursor: grab;
+  scroll-behavior: auto;
+  user-select: none;
+
+  /*remove scrollbar*/
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE et Edge */
+}
+
+.milestone-timeline.dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
 }
 
 .milestone-timeline > svg {
@@ -106,4 +120,21 @@
   display: flex;
   gap: 8px;
   align-items: center;
+}
+
+.timeline-btn {
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeline-btn:hover {
+  color: var(--accent);
 }

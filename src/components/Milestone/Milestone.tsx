@@ -4,7 +4,7 @@ import hljs from 'highlight.js'
 import parse from 'html-react-parser'
 import { ArrowLeftCircle, ArrowRightCircle, Calendar } from 'iconoir-react'
 import { DateTime } from 'luxon'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQueryParams, withDefault } from 'use-query-params'
 
@@ -14,27 +14,26 @@ import {
   StatusSuccess,
 } from '../../constants/globalConstants'
 import { validateForm } from '../../dashboard/utils/helpers/schema'
-import { useCurrentWindowDimensions } from '../../hooks/graphics'
 import { useGetJSON } from '../../logic/api/fetchData'
 import { asEnumParam, asRegexArrayParam } from '../../logic/params'
 import Facets from '../Facets/Facets'
 import OrderByDropdown from '../OrderByDropdown'
 import MonthCard from './Card/MonthCard'
-import { getMonthCount, getMonths } from './helper'
+import { getMonths } from './helper'
 import { milestoneSchema } from './schema'
 
 const Milestone = () => {
   const { t } = useTranslation()
-  const { width } = useCurrentWindowDimensions()
 
   const [selectedIndices, setSelectedIndices] = useState<any>(null)
   const [facetsResetKey, setFacetsResetKey] = useState(0)
   const [cursor, setCursor] = useState(0)
 
-  const YEAR_MONTHS = 12
-  const MONTH = getMonthCount(width)
-  const MAX_CURSOR = 0
-  const MIN_CURSOR = -(YEAR_MONTHS - MONTH)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
+  const MONTH = 12
 
   const {
     data: dataGithub,
@@ -172,10 +171,6 @@ const Milestone = () => {
     setFacetsResetKey((k) => k + 1)
   }
 
-  const handleCursor = (value: number) => {
-    setCursor((prev) => Math.min(MAX_CURSOR, Math.max(MIN_CURSOR, prev + value)))
-  }
-
   useEffect(() => {
     setCursor(0)
   }, [orderByYear])
@@ -190,6 +185,43 @@ const Milestone = () => {
         <div>{parse(err.value)}</div>
       </pre>
     )
+  }
+
+  // --- Scrolling with arrows ---
+  const handleScroll = (direction) => {
+    if (!containerRef.current) return
+    const scrollAmount = 300 // Length for the scrolling in pixels
+
+    containerRef.current.scrollBy({
+      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth',
+    })
+  }
+
+  // --- Scrolling with Drag to Scroll ---
+  const handleMouseDown = (e) => {
+    const container = containerRef.current
+    if (!container) return
+
+    setIsDragging(true)
+    // Initial position for the mouse related to the container
+    setStartX(e.pageX - container.offsetLeft)
+    setScrollLeft(container.scrollLeft)
+  }
+
+  const handleMouseLeaveOrUp = () => {
+    setIsDragging(false)
+  }
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return
+    const container = containerRef.current
+    if (!container) return
+
+    e.preventDefault()
+    const x = e.pageX - container.offsetLeft
+    const walk = (x - startX) * 1.5 // Speed
+    container.scrollLeft = scrollLeft - walk
   }
 
   return (
@@ -225,11 +257,15 @@ const Milestone = () => {
           />
         </div>
       </div>
-      <div className="milestone-timeline">
-        <ArrowLeftCircle
-          className={`${cursor === MAX_CURSOR ? 'arrow-left-deactivate' : ''}`}
-          onClick={() => handleCursor(MONTH)}
-        />
+      <div
+        className={`milestone-timeline ${isDragging ? 'dragging' : ''}`}
+        ref={containerRef}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeaveOrUp}
+        onMouseUp={handleMouseLeaveOrUp}
+        onMouseMove={handleMouseMove}
+      >
+        <ArrowLeftCircle className={`timeline-btn`} onClick={() => () => handleScroll('left')} />
         {months.map(({ key, title }) => {
           return (
             <MonthCard
@@ -239,10 +275,7 @@ const Milestone = () => {
             />
           )
         })}
-        <ArrowRightCircle
-          className={`${cursor === MIN_CURSOR ? 'arrow-right-deactivate' : ''}`}
-          onClick={() => handleCursor(-MONTH)}
-        />
+        <ArrowRightCircle className={`timeline-btn`} onClick={() => handleScroll('right')} />
       </div>
     </div>
   )
