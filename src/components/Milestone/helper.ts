@@ -12,6 +12,7 @@ export const getMonths = (timeline: any, month: number) => {
 
         return {
           key: date.toFormat('yyyy-MM'),
+          year: String(date.year),
           title: date.toFormat('LLL yyyy'),
         }
       })

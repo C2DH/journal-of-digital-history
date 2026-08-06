@@ -3,7 +3,7 @@ import './Milestone.css'
 import hljs from 'highlight.js'
 import parse from 'html-react-parser'
 import { ArrowLeftCircle, ArrowRightCircle, Calendar } from 'iconoir-react'
-import { useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQueryParams, withDefault } from 'use-query-params'
 
@@ -26,6 +26,7 @@ const Milestone = () => {
   } = useMilestoneFetch()
 
   const containerRef = useRef<HTMLDivElement>(null)
+  const isProgrammaticScroll = useRef(false)
   const [selectedIndices, setSelectedIndices] = useState<any>(null)
   const [facetsResetKey, setFacetsResetKey] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
@@ -83,7 +84,48 @@ const Milestone = () => {
     setFacetsResetKey((k) => k + 1)
   }
 
-  // --- Scrolling with arrows ---
+  const handleScrollSync = useCallback(() => {
+    const container = containerRef.current
+    if (!container || isProgrammaticScroll.current) return
+
+    const containerLeft = container.getBoundingClientRect().left
+    const children = container.querySelectorAll<HTMLElement>('.month-container')
+
+    for (let i = 0; i < children.length; i++) {
+      if (children[i].getBoundingClientRect().right > containerLeft + 4) {
+        const year = months[i]?.year
+        if (year && year !== orderByYear) {
+          setQuery({ [OrderByQueryParam]: year }, 'replaceIn')
+        }
+        break
+      }
+    }
+  }, [months, orderByYear, setQuery])
+
+  const scrollToYear = useCallback(
+    (year: string) => {
+      const el = containerRef.current
+      if (!el) return
+
+      const idx = months.findIndex((m) => m.year === year)
+      if (idx < 0) return
+
+      const children = el.querySelectorAll<HTMLElement>('.month-container')
+      const target = children[idx]
+      if (!target) return
+
+      const left =
+        target.getBoundingClientRect().left - el.getBoundingClientRect().left + el.scrollLeft
+      isProgrammaticScroll.current = true
+      el.scrollTo({ left, behavior: 'smooth' })
+      setTimeout(() => {
+        isProgrammaticScroll.current = false
+      }, 600)
+      setQuery({ [OrderByQueryParam]: year }, 'replaceIn')
+    },
+    [months, setQuery],
+  )
+
   const handleScroll = (direction) => {
     if (!containerRef.current) return
     const scrollAmount = 300 // Length for the scrolling in pixels
@@ -94,7 +136,6 @@ const Milestone = () => {
     })
   }
 
-  // --- Scrolling with Drag to Scroll ---
   const handleMouseDown = (e) => {
     const container = containerRef.current
     if (!container) return
@@ -103,10 +144,6 @@ const Milestone = () => {
     // Initial position for the mouse related to the container
     setStartX(e.pageX - container.offsetLeft)
     setScrollLeft(container.scrollLeft)
-  }
-
-  const handleMouseLeaveOrUp = () => {
-    setIsDragging(false)
   }
 
   const handleMouseMove = (e) => {
@@ -118,6 +155,10 @@ const Milestone = () => {
     const x = e.pageX - container.offsetLeft
     const walk = (x - startX) * 1.5 // Speed
     container.scrollLeft = scrollLeft - walk
+  }
+
+  const handleMouseLeaveOrUp = () => {
+    setIsDragging(false)
   }
 
   if (timelineError || errorArticles || errorGithub || timeline === undefined) {
@@ -161,13 +202,14 @@ const Milestone = () => {
             selectedValue={orderByYear}
             values={years}
             title={t(`${orderByYear}`)}
-            onChange={({ value }) => setQuery({ [OrderByQueryParam]: value })}
+            onChange={({ value }) => scrollToYear(value)}
           />
         </div>
       </div>
       <div
         className={`milestone-timeline ${isDragging ? 'dragging' : ''}`}
         ref={containerRef}
+        onScroll={handleScrollSync}
         onMouseDown={handleMouseDown}
         onMouseLeave={handleMouseLeaveOrUp}
         onMouseUp={handleMouseLeaveOrUp}
