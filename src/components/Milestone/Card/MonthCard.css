@@ -14,7 +14,8 @@
 }
 
 .month-container {
-  --month-container-width: 9vw;
+  --month-container-width: 12vw;
+  --month-container-width-nothing: 0.5vw;
   --month-container-tablet-width: 15vw;
   --month-container-mobile-width: 35vw;
 
@@ -22,6 +23,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.month-container.disabled,
+.month-card.disabled {
+  width: var(--month-container-width-nothing);
+  gap: 0;
+  padding: 0;
+}
+
+.month-card.disabled {
+  border-top: 0.05px solid var(--dark);
+}
+
+.month-title.disabled {
+  color: transparent;
 }
 
 /* Mobile view */

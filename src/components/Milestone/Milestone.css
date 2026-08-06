@@ -23,21 +23,6 @@
   scroll-behavior: auto;
 }
 
-.milestone-timeline > svg {
-  flex: 0 0 20px;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  /* push arrow icon down to the border-top of .month-card:
-     month-title line-height (~1.2em) + its margin-bottom (--spacer-2) */
-  margin-top: calc(1.2em + var(--spacer-2) - 1px);
-}
-
-.arrow-left-deactivate,
-.arrow-right-deactivate {
-  display: none;
-}
-
 /* FILTERS */
 .Dimension_Articles {
   --filter-color: var(--grey);
@@ -122,6 +107,7 @@
   align-items: center;
 }
 
+/* ARROW BTN */
 .timeline-btn {
   border: none;
   border-radius: 50%;
