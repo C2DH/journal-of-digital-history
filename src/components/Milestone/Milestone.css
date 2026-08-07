@@ -3,6 +3,13 @@
   margin-left: -3%;
 }
 
+@media (min-width: 2000px) {
+  .milestone-wrapper {
+    margin-left: -60%;
+    margin-right: -50%;
+  }
+}
+
 .milestone-timeline {
   display: flex;
   gap: var(--spacer-2);
