@@ -32,6 +32,8 @@ const Milestone = () => {
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
+  const [atStart, setAtStart] = useState(true)
+  const [atEnd, setAtEnd] = useState(false)
   const MONTH = 12
 
   // Set up years for dropdown
@@ -86,7 +88,12 @@ const Milestone = () => {
 
   const handleScrollSync = useCallback(() => {
     const container = containerRef.current
-    if (!container || isProgrammaticScroll.current) return
+    if (!container) return
+
+    setAtStart(container.scrollLeft <= 0)
+    setAtEnd(container.scrollLeft + container.clientWidth >= container.scrollWidth - 1)
+
+    if (isProgrammaticScroll.current) return
 
     const containerLeft = container.getBoundingClientRect().left
     const children = container.querySelectorAll<HTMLElement>('.month-container')
@@ -206,26 +213,38 @@ const Milestone = () => {
           />
         </div>
       </div>
-      <div
-        className={`milestone-timeline ${isDragging ? 'dragging' : ''}`}
-        ref={containerRef}
-        onScroll={handleScrollSync}
-        onMouseDown={handleMouseDown}
-        onMouseLeave={handleMouseLeaveOrUp}
-        onMouseUp={handleMouseLeaveOrUp}
-        onMouseMove={handleMouseMove}
-      >
-        <ArrowLeftCircle className={`timeline-btn`} onClick={() => () => handleScroll('left')} />
-        {months.map(({ key, title }) => {
-          return (
-            <MonthCard
-              key={key}
-              title={title}
-              events={visibleItems.filter((item) => item.date.startsWith(key))}
-            />
-          )
-        })}
-        <ArrowRightCircle className={`timeline-btn`} onClick={() => handleScroll('right')} />
+      <div className="milestone-timeline-wrapper">
+        {!atStart && (
+          <ArrowLeftCircle
+            className="timeline-btn timeline-btn-left"
+            onClick={() => handleScroll('left')}
+          />
+        )}
+        <div
+          className={`milestone-timeline ${isDragging ? 'dragging' : ''}`}
+          ref={containerRef}
+          onScroll={handleScrollSync}
+          onMouseDown={handleMouseDown}
+          onMouseLeave={handleMouseLeaveOrUp}
+          onMouseUp={handleMouseLeaveOrUp}
+          onMouseMove={handleMouseMove}
+        >
+          {months.map(({ key, title }) => {
+            return (
+              <MonthCard
+                key={key}
+                title={title}
+                events={visibleItems.filter((item) => item.date.startsWith(key))}
+              />
+            )
+          })}
+        </div>
+        {!atEnd && (
+          <ArrowRightCircle
+            className={`timeline-btn timeline-btn-right`}
+            onClick={() => handleScroll('right')}
+          />
+        )}
       </div>
     </div>
   )

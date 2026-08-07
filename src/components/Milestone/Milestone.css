@@ -108,7 +108,7 @@
 }
 
 /* ARROW BTN */
-.timeline-btn {
+.timeline-btn > svg {
   border: none;
   border-radius: 50%;
   width: 40px;
@@ -123,4 +123,56 @@
 
 .timeline-btn:hover {
   color: var(--accent);
+}
+
+.milestone-timeline-wrapper {
+  position: relative;
+}
+
+/* Fade gradients */
+.milestone-timeline-wrapper::before,
+.milestone-timeline-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.milestone-timeline-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, var(--gray-100) 0%, transparent 100%);
+}
+
+.milestone-timeline-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, var(--gray-100) 0%, transparent 100%);
+}
+
+/* Large centered arrows */
+.timeline-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  color: var(--dark-grey);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.timeline-btn:hover {
+  opacity: 1;
+}
+
+.timeline-btn-left {
+  left: -2em;
+}
+
+.timeline-btn-right {
+  right: -2em;
 }
