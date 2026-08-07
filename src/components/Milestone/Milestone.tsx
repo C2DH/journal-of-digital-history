@@ -44,7 +44,7 @@ const Milestone = () => {
   const [{ [OrderByQueryParam]: orderByYear }, setQuery] = useQueryParams({
     [OrderByQueryParam]: withDefault(
       asEnumParam(years.map((year) => year.value)),
-      years[0]?.value ?? '',
+      years.at(-1)?.value ?? '',
     ),
     [FilterByQueryparam]: asRegexArrayParam(),
   })

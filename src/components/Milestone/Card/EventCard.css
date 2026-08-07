@@ -41,7 +41,6 @@
 }
 
 /* Hover effect for articles and <a> anchor */
-
 .event-card.Dimension_Articles:hover,
 .event-card.hasAnchor:hover {
   border: 1px solid var(--accent);

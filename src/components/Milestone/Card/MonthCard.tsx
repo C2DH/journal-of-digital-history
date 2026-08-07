@@ -4,6 +4,7 @@ import EventCard from './EventCard'
 
 const MonthCard = ({ title, events }) => {
   const noEvent = events.length === 0
+  const manyEvents = events.length > 4
   let monthName = title
 
   if (noEvent) {
@@ -16,7 +17,7 @@ const MonthCard = ({ title, events }) => {
       <div className={`month-card ${noEvent ? 'disabled' : ''}`}>
         <div className="event-list">
           {events.map((event, index) => (
-            <EventCard key={index} event={event} />
+            <EventCard key={index} event={event} manyEvents={manyEvents} />
           ))}
         </div>
       </div>

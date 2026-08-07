@@ -15,7 +15,7 @@
 
 .month-container {
   --month-container-width: 12vw;
-  --month-container-width-nothing: 0.5vw;
+  --month-container-width-nothing: 0.3vw;
   --month-container-tablet-width: 15vw;
   --month-container-mobile-width: 35vw;
 
