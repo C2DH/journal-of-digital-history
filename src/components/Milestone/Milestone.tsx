@@ -195,7 +195,7 @@ const Milestone = () => {
               All
             </button>
             <Facets
-              key={`${orderByYear}-${facetsResetKey}`}
+              key={facetsResetKey}
               dimensions={milestoneDimensions}
               items={allEvents}
               onSelect={(_, indices) => setSelectedIndices(indices)}
