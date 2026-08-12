@@ -1,3 +1,4 @@
+import '../styles/pages/Authors.css'
 import '../styles/pages/pages.css'
 
 import { useEffect } from 'react'
@@ -17,7 +18,6 @@ const Authors = () => {
     setParams,
     loadMore,
   } = useItemsStore()
-
   useEffect(() => {
     setParams({ endpoint: 'authors', limit: 20, ordering })
     fetchItems(true)
@@ -27,7 +27,7 @@ const Authors = () => {
     <div className="authors page">
       <Card
         item="authors"
-        headers={['lastname', 'firstname', 'email', 'orcid', 'affiliation']}
+        headers={['lastname', 'firstname', 'abstracts', 'accepted', 'published']}
         data={authors}
         error={error}
         loading={loading}

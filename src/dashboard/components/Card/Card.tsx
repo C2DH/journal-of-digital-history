@@ -8,8 +8,8 @@ import { CardProps } from './interface'
 import { useInfiniteScroll } from '../../hooks/useInfiniteScroll'
 import { useActionStore, useFilterBarStore } from '../../store'
 import { isAbstract, isArticle } from '../../utils/helpers/checkItem'
+import ScrollButton from '../Buttons/ScrollButton/ScrollButton'
 import Feedback from '../Feedback/Feedback'
-import Loading from '../Loading/Loading'
 import Modal from '../Modal/Modal'
 import Table from '../Table/Table'
 
@@ -34,11 +34,13 @@ const Card = ({
   const isArticleItem = isArticle(item)
   const isArticleOrAbstracts = isAbstractItem || isArticleItem
 
-  useInfiniteScroll(loaderRef, loadMore ?? (() => {}), hasMore && !loading, [
-    hasMore,
-    loading,
-    loadMore,
-  ])
+  useInfiniteScroll(
+    loaderRef,
+    loadMore ?? (() => {}),
+    hasMore && !loading,
+    [hasMore, loading, loadMore],
+    1000,
+  )
 
   if (error) {
     return <Feedback type="error" message={error} />
@@ -56,19 +58,22 @@ const Card = ({
           <Feedback type="warning" message={'No item corresponds to your search'} />
         ) : (
           <>
-            {
-              <Table
-                item={item}
-                headers={headers}
-                data={data}
-                sortBy={sortBy}
-                sortOrder={sortOrder}
-                setSort={setSort}
-                setRowModal={setModal}
-              />
-            }
-            {loading && data.length > 0 && <Loading />}
-            <div ref={loaderRef} />
+            <Table
+              item={item}
+              headers={headers}
+              data={data}
+              sortBy={sortBy}
+              sortOrder={sortOrder}
+              setSort={setSort}
+              setRowModal={setModal}
+            />
+
+            {/* The sentinel wraps your button so it has real dimensions */}
+            {hasMore && (
+              <div ref={loaderRef} className="scroll-sentinel">
+                <ScrollButton />
+              </div>
+            )}
           </>
         )}
       </div>

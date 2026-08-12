@@ -54,6 +54,9 @@
       "resubmit": "Resubmit"
     }
   },
+  "card": {
+    "scrollTo": "Scroll to see more"
+  },
   "badge": {
     "status": {
       "draft": "Writing",
@@ -130,7 +133,10 @@
     "firstname": "Firstname",
     "affiliation": "Affiliation",
     "email": "Email",
-    "orcid": "ORCID"
+    "orcid": "ORCID",
+    "abstracts": "Abstracts",
+    "accepted": "Accepted",
+    "published": "Published"
   },
   "datasets": {
     "item": "Datasets",
