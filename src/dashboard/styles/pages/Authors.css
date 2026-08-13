@@ -2,3 +2,11 @@
   width: 50%;
   height: 50%;
 }
+
+.table.authors th {
+  position: sticky;
+  top: var(--top-bar-height);
+  background: var(--color-white);
+  z-index: 5;
+  padding: var(--space-size-3) 0;
+}
