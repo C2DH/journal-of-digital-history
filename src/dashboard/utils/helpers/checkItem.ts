@@ -87,12 +87,19 @@ function isRepositoryHeader(headerName: string) {
   return headerName === 'repository_url'
 }
 function isPidHeader(headerName: string): boolean {
-  return headerName === 'pid'
+  return headerName === 'pid' || headerName === 'abstract__pid'
 }
 
 function isAbstract(item: string): boolean {
   return item === 'abstracts'
 }
+function isAccepted(item: string): boolean {
+  return item === 'accepted'
+}
+function isPublished(item: string): boolean {
+  return item === 'published'
+}
+
 function isArticle(item: string): boolean {
   return item === 'articles'
 }
@@ -129,6 +136,7 @@ function isTypeArticle(item: any): item is Article {
 export {
   convertOrcid,
   isAbstract,
+  isAccepted,
   isAffiliationHeader,
   isArticle,
   isAuthor,
@@ -144,6 +152,7 @@ export {
   isLinkCell,
   isOrcid,
   isPidHeader,
+  isPublished,
   isRepositoryHeader,
   isStatus,
   isStatusHeader,

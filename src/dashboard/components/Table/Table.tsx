@@ -11,12 +11,15 @@ import { useActionStore } from '../../store'
 import { articleSteps } from '../../utils/constants/article'
 import {
   isAbstract,
+  isAccepted,
   isAffiliationHeader,
   isArticle,
+  isAuthor,
   isAuthorHeader,
   isCallForPaper,
   isIssues,
   isPidHeader,
+  isPublished,
   isRepositoryHeader,
   isStatusHeader,
   isStatusRejected,
@@ -67,6 +70,7 @@ const Table = ({
 
   const isAbstractItem = isAbstract(item)
   const isArticleItem = isArticle(item)
+  const isAuthorItem = isAuthor(item)
   const isArticleOrAbstracts = isAbstractItem || isArticleItem
 
   // Create author column
@@ -81,18 +85,21 @@ const Table = ({
 
   //Remove sorting on some headers
   const isUnsortableHeader = (header: any, item: any) => {
+    const isAuthor = isArticleOrAbstracts && isAuthorHeader(header)
     const isAccordeonHeader =
       isAccordeon && (isStatusHeader(header) || isTitleHeader(header) || isPidHeader(header))
     const isIssuesHeader = isIssues(item) && !isRepositoryHeader(header) && !isStatusHeader(header)
-    const isAuthor = isArticleOrAbstracts && isAuthorHeader(header)
+    const isAuthorPageHeader =
+      (isAuthorItem && isAbstract(header)) || isAccepted(header) || isPublished(header)
 
     return (
+      isAuthor ||
       isRepositoryHeader(header) ||
       isCallForPaper(item) ||
+      isPidHeader(header) ||
       isAccordeonHeader ||
       isIssuesHeader ||
-      isAuthor ||
-      isPidHeader(header)
+      isAuthorPageHeader
     )
   }
 
