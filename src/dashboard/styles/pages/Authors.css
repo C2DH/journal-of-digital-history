@@ -1,6 +1,18 @@
+.authors.page {
+  display: grid;
+  gap: var(--space-size-2);
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas:
+    'c c p .'
+    'c c . .'
+    'c c . .';
+}
+
 .authors.card {
-  width: 50%;
-  height: 50%;
+  grid-area: c;
+}
+.authors.piechart {
+  grid-area: p;
 }
 
 .table.authors th {

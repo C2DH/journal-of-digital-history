@@ -136,7 +136,10 @@
     "orcid": "ORCID",
     "abstracts": "Abstracts",
     "accepted": "Accepted",
-    "published": "Published"
+    "published": "Published",
+    "KPI": {
+      "pieChart": "Returning authors vs first-time authors"
+    }
   },
   "datasets": {
     "item": "Datasets",
