@@ -30,6 +30,8 @@ const Authors = () => {
   } = useItemsStore()
   const { data: authorDetail } = useAuthorStore()
 
+  const isEmpty = Object.keys(authorDetail).length != 0
+
   useEffect(() => {
     setParams({ endpoint: 'authors', limit: 20, ordering })
     fetchItems(true)
@@ -85,7 +87,7 @@ const Authors = () => {
           {...getBarChartSettings()}
         />
       </SmallCard>
-      {authorDetail != undefined && <AuthorCard author={authorDetail} />}
+      {isEmpty && <AuthorCard author={authorDetail} />}
     </div>
   )
 }

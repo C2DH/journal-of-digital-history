@@ -3,8 +3,8 @@
   gap: var(--space-size-2);
   grid-template-columns: repeat(5, 1fr);
   grid-template-areas:
-    'c c p b b'
-    'c c . . .'
+    'c c p b .'
+    'c c d d d'
     'c c . . .';
 }
 
@@ -18,9 +18,20 @@
 }
 .authors.piechart {
   grid-area: p;
+  position: sticky;
+  top: calc(var(--top-bar-height) + var(--space-size-1));
 }
 .authors.barchart {
   grid-area: b;
+  position: sticky;
+  top: calc(var(--top-bar-height) + var(--space-size-1));
+}
+.card-authors {
+  grid-area: d;
+  position: sticky;
+  background-color: var(--color-white);
+  border-radius: 16px;
+  top: calc(var(--KPI-standard-height) + 110px);
 }
 
 .table.authors th {

@@ -275,7 +275,7 @@ const useIssuesStore = create<IssuesState>((set) => ({
  */
 
 const useAuthorStore = create<AuthorState>((set) => ({
-  data: [],
+  data: {},
   error: null,
   fetchAuthor: async (id: string) => {
     try {

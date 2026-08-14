@@ -276,13 +276,9 @@ table.issues {
 
 /* AUTHORS */
 table.authors {
-  th.email,
-  td.email {
-    width: 25%;
-  }
-  th.affiliation,
-  td.affiliation {
-    width: 40%;
+  th.id,
+  td.id {
+    display: none;
   }
 
   /* Tablet or small screen view */

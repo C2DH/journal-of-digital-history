@@ -226,7 +226,7 @@ export type ItemState<T> = {
 }
 
 export type AuthorState = {
-  data: Issue[]
+  data: Partial<Author>
   error: string | null
   fetchAuthor: (id: string) => Promise<void>
   reset: () => void
