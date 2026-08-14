@@ -8,46 +8,16 @@ import { useLocation } from 'react-router-dom'
 import DatasetButton from '../components/Buttons/DatasetButton/DatasetButton'
 import IconButton from '../components/Buttons/IconButton/IconButton'
 import LinkButton from '../components/Buttons/LinkButton/LinkButton'
-import StatusButton from '../components/Buttons/StatusButton/StatusButton'
+import AuthorCard from '../components/Card/AuthorCard/AuthorCard'
 import Loading from '../components/Loading/Loading'
 import Modal from '../components/Modal/Modal'
 import SmallCard from '../components/SmallCard/SmallCard'
 import { useActionStore, useItemStore } from '../store'
 import { isTypeAbstract, isTypeArticle } from '../utils/helpers/checkItem'
 import { setDetails } from '../utils/helpers/details'
+import { FieldRow } from '../utils/helpers/field'
 import { formatAbstract } from '../utils/helpers/sanitize'
-import { DefaultAction, DetailPage, FieldRowType } from '../utils/types'
-
-const FieldRow = ({ label, value, pid, isArticle, isAbstract }: FieldRowType) => {
-  const { getDetailActions } = useActionStore()
-  if (label === 'Email') {
-    value = (
-      <a className="value" href={`mailto:${value}`}>
-        {value}
-      </a>
-    )
-  } else if (label === 'Status' && isArticle !== undefined && isAbstract !== undefined) {
-    let actions: any = []
-    actions = getDetailActions(pid, isArticle, isAbstract)
-
-    //Remove current status from list of status actions
-    const index = actions
-      .map((actions: DefaultAction) => actions.action.toUpperCase())
-      .indexOf(String(value))
-    actions.splice(index, 1)
-
-    value = <StatusButton actions={actions} value={String(value)} />
-  } else {
-    value = <span className="value">{value}</span>
-  }
-
-  return (
-    <div className="item">
-      <span className="label">{label}</span>
-      {value}
-    </div>
-  )
-}
+import { DetailPage } from '../utils/types'
 
 const Detail = ({ endpoint }: DetailPage) => {
   const location = useLocation()
@@ -149,42 +119,8 @@ const Detail = ({ endpoint }: DetailPage) => {
           <div className="card-authors">
             {authors.length > 0 ? (
               <>
-                {authors.map((author, index) => (
-                  <SmallCard key={index} className={`card-author`}>
-                    <h2>
-                      {author.firstname} {author.lastname}
-                    </h2>
-                    <div className="author-info">
-                      <FieldRow label="Email" value={`${author.email}`} />
-                      <FieldRow label="Affiliation" value={`${author.affiliation}`} />
-                      <FieldRow
-                        label="Links"
-                        value={
-                          <>
-                            {author.orcid && (
-                              <IconButton className="orcid-icon" value={author.orcid} />
-                            )}
-                            {author.github_id && author.github_id !== 'default_github_id' && (
-                              <IconButton value={`https://github.com/${author.github_id}`} />
-                            )}
-                            {author.bluesky_id && (
-                              <IconButton
-                                value={`https://bsky.app/profile/${author.bluesky_id}.bsky.social`}
-                              />
-                            )}
-                            {author.facebook_id && (
-                              <IconButton
-                                value={`https://www.facebook.com/${author.facebook_id}`}
-                              />
-                            )}
-                            {author.linkedin_id && (
-                              <IconButton value={`https://linkedin.com/in/${author.linkedin_id}`} />
-                            )}
-                          </>
-                        }
-                      />
-                    </div>
-                  </SmallCard>
+                {authors.map((author) => (
+                  <AuthorCard author={author} />
                 ))}
               </>
             ) : null}

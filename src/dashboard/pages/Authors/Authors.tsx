@@ -7,6 +7,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import AuthorCard from '../../components/Card/AuthorCard/AuthorCard'
 import Card from '../../components/Card/Card'
 import PieCenterLabel from '../../components/CustomPieChart/PieCenterLabel/PieCenterLabel'
 import SmallCard from '../../components/SmallCard/SmallCard'
@@ -84,7 +85,7 @@ const Authors = () => {
           {...getBarChartSettings()}
         />
       </SmallCard>
-      {<SmallCard className="author-detail">{authorDetail['firstname']}</SmallCard>}
+      {authorDetail != undefined && <AuthorCard author={authorDetail} />}
     </div>
   )
 }
