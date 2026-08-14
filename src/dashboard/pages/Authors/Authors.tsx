@@ -1,17 +1,19 @@
 import '../styles/pages/Authors.css'
 import '../styles/pages/pages.css'
 
+import { BarChart } from '@mui/x-charts'
 import { PieChart } from '@mui/x-charts/PieChart'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import Card from '../components/Card/Card'
-import SmallCard from '../components/SmallCard/SmallCard'
-import { useSorting } from '../hooks/useSorting'
-import { useItemsStore } from '../store'
-import { colorsPieChart } from '../styles/theme'
-import { getAuthorStats } from '../utils/api/api'
+import Card from '../../components/Card/Card'
+import PieCenterLabel from '../../components/CustomPieChart/PieCenterLabel/PieCenterLabel'
+import SmallCard from '../../components/SmallCard/SmallCard'
+import { useSorting } from '../../hooks/useSorting'
+import { useItemsStore } from '../../store'
+import { getAuthorStats } from '../../utils/api/api'
+import { getBarChartSettings, getPieChartSettings } from './getChartSettings'
 
 const Authors = () => {
   const { t } = useTranslation()
@@ -55,42 +57,30 @@ const Authors = () => {
         <PieChart
           series={[
             {
-              innerRadius: 50,
+              innerRadius: 60,
               outerRadius: 100,
               data: data['first-time_vs_returning'],
               highlightScope: { fade: 'global', highlight: 'item' },
               arcLabel: (item) => (item.value != 0 ? `${item.value}` : ''),
             },
           ]}
-          colors={colorsPieChart}
-          width={200}
-          height={200}
-          slotProps={{
-            legend: {
-              direction: 'horizontal',
-              position: {
-                vertical: 'bottom',
-                horizontal: 'center',
-              },
-              sx: {
-                fontSize: 16,
-                fontFamily: 'DM Sans, sans-serif',
-                color: 'var(--color-deep-blue)',
-              },
+          {...getPieChartSettings()}
+        >
+          <PieCenterLabel total={data['total']}> authors</PieCenterLabel>
+        </PieChart>
+      </SmallCard>
+      <SmallCard className="authors barchart chart">
+        <h3>{t('authors.KPI.barChart')}</h3>
+        <BarChart
+          dataset={data['coauthorship']}
+          series={[
+            {
+              dataKey: 'value',
+              barLabel: 'value',
+              barLabelPlacement: 'outside',
             },
-          }}
-          sx={{
-            '.MuiChartsLegend-root': {
-              marginTop: '40px',
-              width: { xs: '100%', lg: '70%', xl: '200px' },
-            },
-            '.MuiPieChart-arcLabel': {
-              fill: 'white',
-              fontWeight: 600,
-              fontSize: 14,
-              fontFamily: 'DM Sans, sans-serif',
-            },
-          }}
+          ]}
+          {...getBarChartSettings()}
         />
       </SmallCard>
     </div>

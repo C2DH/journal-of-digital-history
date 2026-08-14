@@ -1,11 +1,16 @@
 .authors.page {
   display: grid;
   gap: var(--space-size-2);
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   grid-template-areas:
-    'c c p .'
-    'c c . .'
-    'c c . .';
+    'c c p b b'
+    'c c . . .'
+    'c c . . .';
+}
+
+.chart {
+  background-color: var(--color-white);
+  height: 450px;
 }
 
 .authors.card {
@@ -13,6 +18,9 @@
 }
 .authors.piechart {
   grid-area: p;
+}
+.authors.barchart {
+  grid-area: b;
 }
 
 .table.authors th {

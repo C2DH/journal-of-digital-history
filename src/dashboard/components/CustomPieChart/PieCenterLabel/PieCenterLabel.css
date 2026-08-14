@@ -1,0 +1,9 @@
+.pie-chart-center-label.number {
+  fill: var(--color-deep-blue);
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.pie-chart-center-label.text {
+  fill: var(--color-gray-lighter);
+}
