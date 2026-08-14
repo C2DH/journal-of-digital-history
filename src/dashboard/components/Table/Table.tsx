@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { TableProps } from './interface'
 
 import { useIsMobile } from '../../hooks/useIsMobile'
-import { useActionStore } from '../../store'
+import { useActionStore, useAuthorStore } from '../../store'
 import { articleSteps } from '../../utils/constants/article'
 import {
   isAbstract,
@@ -33,7 +33,7 @@ import {
   getVisibleHeaders,
   renderCell,
 } from '../../utils/helpers/table'
-import { AbstractRow, ArticleRow } from '../../utils/types'
+import { AbstractRow, ArticleRow, AuthorRow } from '../../utils/types'
 import ActionButton from '../Buttons/ActionButton/Short/ActionButton'
 import DatasetButton from '../Buttons/DatasetButton/DatasetButton'
 import SortButton from '../Buttons/SortButton/SortButton'
@@ -67,6 +67,7 @@ const Table = ({
   const [isMobile, setIsMobile] = useState(false)
 
   const { getRowActions } = useActionStore()
+  const { fetchAuthor, reset } = useAuthorStore()
 
   const isAbstractItem = isAbstract(item)
   const isArticleItem = isArticle(item)
@@ -103,8 +104,13 @@ const Table = ({
     )
   }
 
-  const handleRowClick = (pid: string) => {
-    navigate(`/${item}/${pid}${search}`)
+  const handleRowClick = (id: string) => {
+    if (isArticleOrAbstracts) {
+      navigate(`/${item}/${id}${search}`)
+    } else if (isAuthorItem) {
+      reset()
+      fetchAuthor(id)
+    }
   }
 
   const handleSort = (header: string) => {
@@ -175,13 +181,12 @@ const Table = ({
                       title={isTitle || isAffiliation ? String(cell) : undefined}
                       colSpan={isStep && isArticleItem && !isMobile ? 8 : 1}
                       style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
-                      onClick={
-                        isTitle && isArticleOrAbstracts
-                          ? () =>
-                              handleRowClick(
-                                (row as AbstractRow).pid ?? (row as ArticleRow).abstract__pid,
-                              )
-                          : undefined
+                      onClick={() =>
+                        handleRowClick(
+                          (row as AbstractRow).pid ??
+                            (row as ArticleRow).abstract__pid ??
+                            (row as unknown as AuthorRow).id,
+                        )
                       }
                     >
                       {renderCell({

@@ -1,5 +1,5 @@
-import '../styles/pages/Authors.css'
-import '../styles/pages/pages.css'
+import '../../styles/pages/Authors.css'
+import '../../styles/pages/pages.css'
 
 import { BarChart } from '@mui/x-charts'
 import { PieChart } from '@mui/x-charts/PieChart'
@@ -11,7 +11,7 @@ import Card from '../../components/Card/Card'
 import PieCenterLabel from '../../components/CustomPieChart/PieCenterLabel/PieCenterLabel'
 import SmallCard from '../../components/SmallCard/SmallCard'
 import { useSorting } from '../../hooks/useSorting'
-import { useItemsStore } from '../../store'
+import { useAuthorStore, useItemsStore } from '../../store'
 import { getAuthorStats } from '../../utils/api/api'
 import { getBarChartSettings, getPieChartSettings } from './getChartSettings'
 
@@ -27,6 +27,7 @@ const Authors = () => {
     setParams,
     loadMore,
   } = useItemsStore()
+  const { data: authorDetail } = useAuthorStore()
 
   useEffect(() => {
     setParams({ endpoint: 'authors', limit: 20, ordering })
@@ -42,7 +43,7 @@ const Authors = () => {
     <div className="authors page">
       <Card
         item="authors"
-        headers={['lastname', 'firstname', 'abstracts', 'accepted', 'published']}
+        headers={['id', 'lastname', 'firstname', 'abstracts', 'accepted', 'published']}
         data={authors}
         error={error}
         loading={loading}
@@ -83,6 +84,7 @@ const Authors = () => {
           {...getBarChartSettings()}
         />
       </SmallCard>
+      {<SmallCard className="author-detail">{authorDetail['firstname']}</SmallCard>}
     </div>
   )
 }

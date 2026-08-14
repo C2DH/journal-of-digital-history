@@ -9,6 +9,7 @@ import {
   AbstractRow,
   ActionStore,
   ArticleRow,
+  AuthorState,
   CallForPapersState,
   DefaultAction,
   Filter,
@@ -258,6 +259,36 @@ const useIssuesStore = create<IssuesState>((set) => ({
       })
     } catch (err: any) {
       set({ error: err instanceof Error ? err.message : String(err) })
+    }
+  },
+  reset: () => set({ data: [], error: null }),
+}))
+
+// AUTHOR STORE
+/**
+ * useAuthorStore
+ * Zustand store for fetching an author's information.
+ * - data: array of author information
+ * - error: error state
+ * - fetchAuthor: fetches specific author data
+ * - reset: resets store state
+ */
+
+const useAuthorStore = create<AuthorState>((set) => ({
+  data: [],
+  error: null,
+  fetchAuthor: async (id: string) => {
+    try {
+      const response = await api.get(`/api/authors/${id}`)
+      const result = response.data
+      set({
+        data: result || [],
+        error: null,
+      })
+    } catch (err: any) {
+      set({
+        error: err instanceof Error ? err.message : String(err),
+      })
     }
   },
   reset: () => set({ data: [], error: null }),
@@ -634,6 +665,7 @@ const useActionStore = create<ActionStore>((set, get) => ({
 
 export {
   useActionStore,
+  useAuthorStore,
   useCallForPapersStore,
   useFilterBarStore,
   useFormStore,
