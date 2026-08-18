@@ -6,18 +6,28 @@ import { PieChart } from '@mui/x-charts/PieChart'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSearchParams } from 'react-router-dom'
 
 import AuthorCard from '../../components/Card/AuthorCard/AuthorCard'
 import Card from '../../components/Card/Card'
 import PieCenterLabel from '../../components/CustomPieChart/PieCenterLabel/PieCenterLabel'
+import FilterBar from '../../components/FilterBar/FilterBar'
 import SmallCard from '../../components/SmallCard/SmallCard'
 import { useSorting } from '../../hooks/useSorting'
-import { useAuthorStore, useItemsStore } from '../../store'
+import { useAuthorStore, useFilterBarStore, useItemsStore, useSearchStore } from '../../store'
 import { getAuthorStats } from '../../utils/api/api'
 import { getBarChartSettings, getPieChartSettings } from './getChartSettings'
 
 const Authors = () => {
   const { t } = useTranslation()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const { query, resetSearch } = useSearchStore()
+
+  // TODO : Update filters with authors'filters final version
+  const { updateFromStores, changeFilters, changeQueryParams, syncFiltersWithURL } =
+    useFilterBarStore()
+  const filters = useFilterBarStore((state) => state.filters)
+
   const { sortBy, sortOrder, ordering, setFilters } = useSorting()
   const {
     data: authors,
@@ -27,15 +37,31 @@ const Authors = () => {
     fetchItems,
     setParams,
     loadMore,
+    reset,
   } = useItemsStore()
   const { data: authorDetail } = useAuthorStore()
 
   const isEmpty = Object.keys(authorDetail).length != 0
 
   useEffect(() => {
-    setParams({ endpoint: 'authors', limit: 20, ordering })
+    resetSearch()
+  }, [])
+
+  useEffect(() => {
+    reset()
+    updateFromStores(false)
+    syncFiltersWithURL(searchParams)
+    const { params: queryParams } = changeQueryParams(false) as { params?: Record<string, unknown> }
+    const { endpoint } = changeQueryParams(false) as { endpoint?: string }
+    setParams({
+      endpoint: endpoint ?? 'authors',
+      limit: 20,
+      ordering,
+      search: query,
+      params: queryParams,
+    })
     fetchItems(true)
-  }, [ordering])
+  }, [ordering, query])
 
   const { data } = useSuspenseQuery({
     queryKey: ['authorData'],
@@ -44,6 +70,7 @@ const Authors = () => {
 
   return (
     <div className="authors page">
+      <FilterBar filters={filters} onFilterChange={changeFilters} />
       <Card
         item="authors"
         headers={['id', 'lastname', 'firstname', 'abstracts', 'accepted', 'published']}
