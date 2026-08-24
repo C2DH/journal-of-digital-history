@@ -42,7 +42,7 @@
   grid-area: i;
   position: sticky;
   background-color: var(--color-white);
-  top: calc(var(--KPI-standard-height) + 330px);
+  top: calc(var(--KPI-standard-height) + 310px);
 }
 
 .table.authors th {
@@ -51,4 +51,9 @@
   background: var(--color-white);
   z-index: 5;
   padding: var(--space-size-3) 0;
+}
+
+.article-outlined,
+.abstract-outlined {
+  color: var(--color-deep-blue);
 }

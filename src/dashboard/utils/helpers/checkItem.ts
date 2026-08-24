@@ -35,6 +35,10 @@ function isStatusRejected(cell: any, header: string): boolean {
   return typeof cell === 'string' && header.toLowerCase() === 'status' && cell === 'REJECTED'
 }
 
+function isType(cell: any, header: string): boolean {
+  return typeof cell === 'string' && header.toLowerCase() === 'type'
+}
+
 function isLinkCell(cell: any): boolean {
   return typeof cell === 'string' && (cell.startsWith('http') || isOrcid(cell))
 }
@@ -160,6 +164,7 @@ export {
   isStepCell,
   isSubstatusCell,
   isTitleHeader,
+  isType,
   isTypeAbstract,
   isTypeArticle,
 }
