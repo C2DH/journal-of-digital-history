@@ -120,7 +120,9 @@ const Detail = ({ endpoint }: DetailPage) => {
             {authors.length > 0 ? (
               <>
                 {authors.map((author) => (
-                  <AuthorCard author={author} />
+                  <div className="card-author">
+                    <AuthorCard author={author} />
+                  </div>
                 ))}
               </>
             ) : null}

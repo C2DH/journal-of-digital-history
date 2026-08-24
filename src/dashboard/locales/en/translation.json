@@ -142,6 +142,11 @@
       "barChart": "Co-authorship"
     }
   },
+  "contribution": {
+    "title": "Title",
+    "type": "Abstract or Article",
+    "status": "Status"
+  },
   "datasets": {
     "item": "Datasets",
     "id": "ID",

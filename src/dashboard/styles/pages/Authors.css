@@ -6,6 +6,7 @@
     'f f f f f'
     'c c p b .'
     'c c d d d'
+    'c c i i i'
     'c c . . .';
 }
 
@@ -30,12 +31,18 @@
   position: sticky;
   top: calc(var(--top-bar-height) + var(--space-size-1));
 }
-.card-authors {
+.card-author-contribution {
   grid-area: d;
   position: sticky;
   background-color: var(--color-white);
   border-radius: 16px;
   top: calc(var(--KPI-standard-height) + 110px);
+}
+.author-contribution {
+  grid-area: i;
+  position: sticky;
+  background-color: var(--color-white);
+  top: calc(var(--KPI-standard-height) + 330px);
 }
 
 .table.authors th {

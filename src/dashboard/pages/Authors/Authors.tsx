@@ -13,6 +13,7 @@ import Card from '../../components/Card/Card'
 import PieCenterLabel from '../../components/CustomPieChart/PieCenterLabel/PieCenterLabel'
 import FilterBar from '../../components/FilterBar/FilterBar'
 import SmallCard from '../../components/SmallCard/SmallCard'
+import SmallTable from '../../components/SmallTable/SmallTable'
 import { useSorting } from '../../hooks/useSorting'
 import { useAuthorStore, useFilterBarStore, useItemsStore, useSearchStore } from '../../store'
 import { getAuthorStats } from '../../utils/api/api'
@@ -114,7 +115,20 @@ const Authors = () => {
           {...getBarChartSettings()}
         />
       </SmallCard>
-      {isEmpty && <AuthorCard author={authorDetail} />}
+      {isEmpty && (
+        <div className="card-author-contribution">
+          <AuthorCard author={authorDetail} />
+        </div>
+      )}
+      {isEmpty && (
+        <SmallCard className="author-contribution">
+          <SmallTable
+            item="contribution"
+            headers={['pid', 'title', 'type', 'status']}
+            data={authorDetail['contributions']}
+          />
+        </SmallCard>
+      )}
     </div>
   )
 }
