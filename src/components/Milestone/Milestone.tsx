@@ -5,10 +5,7 @@ import parse from 'html-react-parser'
 import { ArrowLeftCircle, ArrowRightCircle, Calendar } from 'iconoir-react'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useQueryParams, withDefault } from 'use-query-params'
 
-import { FilterByQueryparam, OrderByQueryParam } from '../../constants/globalConstants'
-import { asEnumParam, asRegexArrayParam } from '../../logic/params'
 import Facets from '../Facets/Facets'
 import OrderByDropdown from '../OrderByDropdown'
 import MonthCard from './Card/MonthCard'
@@ -34,6 +31,7 @@ const Milestone = () => {
   const [scrollLeft, setScrollLeft] = useState(0)
   const [atStart, setAtStart] = useState(true)
   const [atEnd, setAtEnd] = useState(false)
+
   const MONTH = 12
 
   // Set up years for dropdown
@@ -41,13 +39,7 @@ const Milestone = () => {
     .map((year) => ({ value: year, label: year }))
     .reverse()
 
-  const [{ [OrderByQueryParam]: orderByYear }, setQuery] = useQueryParams({
-    [OrderByQueryParam]: withDefault(
-      asEnumParam(years.map((year) => year.value)),
-      years.at(-1)?.value ?? '',
-    ),
-    [FilterByQueryparam]: asRegexArrayParam(),
-  })
+  const [orderByYear, setOrderByYear] = useState(years.at(-1)?.value ?? 'Select a year')
 
   const months = getMonths(timeline, MONTH)
 
@@ -102,12 +94,12 @@ const Milestone = () => {
       if (children[i].getBoundingClientRect().right > containerLeft + 4) {
         const year = months[i]?.year
         if (year && year !== orderByYear) {
-          setQuery({ [OrderByQueryParam]: year }, 'replaceIn')
+          setOrderByYear(year)
         }
         break
       }
     }
-  }, [months, orderByYear, setQuery])
+  }, [months, orderByYear, setOrderByYear])
 
   const scrollToYear = useCallback(
     (year: string) => {
@@ -128,9 +120,9 @@ const Milestone = () => {
       setTimeout(() => {
         isProgrammaticScroll.current = false
       }, 600)
-      setQuery({ [OrderByQueryParam]: year }, 'replaceIn')
+      setOrderByYear(year)
     },
-    [months, setQuery],
+    [months, setOrderByYear],
   )
 
   const handleScroll = (direction) => {
@@ -182,7 +174,7 @@ const Milestone = () => {
 
   return (
     <div className="milestone-wrapper">
-      <p>Key dates and events for {orderByYear}</p>
+      <p>{Number(orderByYear) ? `Key dates and events for ${orderByYear}` : ''} </p>
       <div className="milestone-filter">
         <div>
           <div className="milestone-facets">
@@ -208,7 +200,7 @@ const Milestone = () => {
           <OrderByDropdown
             selectedValue={orderByYear}
             values={years}
-            title={t(`${orderByYear}`)}
+            title={`${orderByYear}`}
             onChange={({ value }) => scrollToYear(value)}
           />
         </div>
