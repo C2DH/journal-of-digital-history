@@ -123,7 +123,7 @@ const Authors = () => {
         <SmallCard className="author-contribution">
           <SmallTable
             item="contribution"
-            headers={['pid', 'title', 'type', 'status']}
+            headers={['pid', 'title', 'type', 'status', 'callpaper_title']}
             data={authorDetail['contributions']}
           />
         </SmallCard>

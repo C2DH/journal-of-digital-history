@@ -144,7 +144,8 @@
   "contribution": {
     "title": "Title",
     "type": "Abstract or Article",
-    "status": "Status"
+    "status": "Status",
+    "callpaper_title": "Call for paper"
   },
   "datasets": {
     "item": "Datasets",
