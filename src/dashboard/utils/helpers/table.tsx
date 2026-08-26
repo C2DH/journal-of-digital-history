@@ -134,9 +134,9 @@ function renderCell({ isStep, cell, header, isArticle }: renderCellProps) {
     content = <Status value={cell} />
   } else if (isType(cell, header)) {
     if (cell === 'abstracts') {
-      content = <NotesOutlined className="abstract-outlined" />
+      content = <NotesOutlined className="abstract-outlined" titleAccess="Abstract" />
     } else if (cell === 'articles') {
-      content = <DescriptionOutlined className="article-outlined" />
+      content = <DescriptionOutlined className="article-outlined" titleAccess="Article" />
     }
   } else if (isLinkCell(cell)) {
     content = <IconButton value={cell} />
