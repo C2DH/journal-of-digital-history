@@ -85,12 +85,11 @@ const Authors = () => {
         setSort={({ sortOrder, sortBy }) => setFilters({ sortOrder, sortBy })}
       />
       <SmallCard className="authors piechart chart">
-        <h3>{t('authors.KPI.pieChart')}</h3>
         <PieChart
           series={[
             {
-              innerRadius: 60,
-              outerRadius: 100,
+              innerRadius: 45,
+              outerRadius: 80,
               data: data['first-time_vs_returning'],
               highlightScope: { fade: 'global', highlight: 'item' },
               arcLabel: (item) => (item.value != 0 ? `${item.value}` : ''),
@@ -116,7 +115,7 @@ const Authors = () => {
         />
       </SmallCard>
       {isEmpty && (
-        <div className="card-author-contribution">
+        <div className="card-author-detail">
           <AuthorCard author={authorDetail} />
         </div>
       )}

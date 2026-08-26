@@ -138,7 +138,6 @@
     "accepted": "Accepted",
     "published": "Published",
     "KPI": {
-      "pieChart": "First-time vs returning authors",
       "barChart": "Co-authorship"
     }
   },

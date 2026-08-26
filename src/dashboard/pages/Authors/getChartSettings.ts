@@ -5,9 +5,7 @@ import { colorsAuthors } from '../../styles/theme'
 
 export function getBarChartSettings(): Omit<BarChartProps, 'series'> {
   return {
-    width: 350,
-    height: 400,
-    margin: { bottom: 60 },
+    margin: { bottom: 80 },
     slotProps: {
       tooltip: { trigger: 'item' },
     },
@@ -44,7 +42,6 @@ export function getBarChartSettings(): Omit<BarChartProps, 'series'> {
 
 export function getPieChartSettings(): Omit<PieChartProps, 'series'> {
   return {
-    height: 200,
     colors: colorsAuthors,
     slotProps: {
       legend: {
