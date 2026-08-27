@@ -21,6 +21,26 @@
 .table tbody tr:hover {
   background-color: var(--color-hover);
 }
+.table.authors tbody tr {
+  position: relative;
+}
+
+.table.authors tbody tr:hover td:last-child::after {
+  content: '>';
+  font-size: large;
+  position: absolute;
+  right: 0.75rem;
+  top: 65%;
+  transform: translateY(-50%);
+  color: var(--color-gray);
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.table.authors tbody tr:hover td:last-child {
+  padding-right: 2rem;
+}
 
 /* HEADER STYLES */
 .table th {
