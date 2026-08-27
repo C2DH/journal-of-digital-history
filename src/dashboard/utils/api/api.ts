@@ -353,11 +353,24 @@ const getBarChartHome = async () => {
     })
 }
 
+const getAuthorStats = async () => {
+  console.info('GET [getAuthorStats]')
+
+  return api
+    .get(`/api/authors/stats`)
+    .then((res) => res.data)
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
 export {
   getAbstractsByStatusAndCallForPapers,
   getAdvanceArticles,
   getArticlesByStatus,
   getArticlesByStatusAndIssues,
+  getAuthorStats,
   getBarChartHome,
   getCallforpaperWithDeadlineOpen,
   getPeerReviewArticlesByStage,

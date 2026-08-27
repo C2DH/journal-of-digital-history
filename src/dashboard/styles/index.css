@@ -84,17 +84,20 @@ body {
 
 /* Size */
 :root {
+  --filter-bar-height: 60px;
+  --landing-page-header: 200px;
+  --modal-max-width: 70vw;
+  --modal-min-width: 50vw;
   --navbar-width: 240px;
   --navbar-width-mobile: 100px;
   --navbar-width-mobile-active: 140px;
   --navbar-header-width: 220px;
-  --landing-page-header: 200px;
   --navbar-height: 200px;
   --navbar-height-mobile: 250px;
-  --modal-max-width: 70vw;
-  --modal-min-width: 50vw;
-  --filter-bar-height: 60px;
-  --table-headers-top-position: 105px;
+  --table-headers-top-position: calc(
+    88px + var(--filter-bar-height) + var(--gap-size-2) + var(--space-size-4)
+  );
+  --top-bar-height: 85px;
   --KPI-standard-width: 400px;
   --KPI-standard-height: 445px;
   --logout-pill-width: 230px;

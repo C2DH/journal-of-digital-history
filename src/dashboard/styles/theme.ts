@@ -7,6 +7,9 @@ export const theme = createTheme({
       main: '#3B82F6',
       light: '#38BDF8',
     },
+    purple: {
+      medium: '#A9BCF7',
+    },
     lightblue: {
       dark: '#38BDF8',
       medium1: '#5CC9F9',
@@ -78,3 +81,5 @@ export const colorsAbstract = [
   theme.palette.green.dark,
   theme.palette.green.light,
 ]
+
+export const colorsAuthors = [theme.palette.purple.medium, theme.palette.darktolightblue.dark1]

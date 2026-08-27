@@ -7,7 +7,7 @@ const Articles = lazy(() => import('./pages/Articles'))
 const CallForPapers = lazy(() => import('./pages/CallForPapers'))
 const Detail = lazy(() => import('./pages/Detail'))
 const Issues = lazy(() => import('./pages/Issues'))
-const Authors = lazy(() => import('./pages/Authors'))
+const Authors = lazy(() => import('./pages/Authors/Authors'))
 const Datasets = lazy(() => import('./pages/Datasets'))
 const Error = lazy(() => import('./pages/Error'))
 

@@ -35,6 +35,10 @@ function isStatusRejected(cell: any, header: string): boolean {
   return typeof cell === 'string' && header.toLowerCase() === 'status' && cell === 'REJECTED'
 }
 
+function isType(cell: any, header: string): boolean {
+  return typeof cell === 'string' && header.toLowerCase() === 'type'
+}
+
 function isLinkCell(cell: any): boolean {
   return typeof cell === 'string' && (cell.startsWith('http') || isOrcid(cell))
 }
@@ -87,12 +91,19 @@ function isRepositoryHeader(headerName: string) {
   return headerName === 'repository_url'
 }
 function isPidHeader(headerName: string): boolean {
-  return headerName === 'pid'
+  return headerName === 'pid' || headerName === 'abstract__pid'
 }
 
 function isAbstract(item: string): boolean {
   return item === 'abstracts'
 }
+function isAccepted(item: string): boolean {
+  return item === 'accepted'
+}
+function isPublished(item: string): boolean {
+  return item === 'published'
+}
+
 function isArticle(item: string): boolean {
   return item === 'articles'
 }
@@ -129,6 +140,7 @@ function isTypeArticle(item: any): item is Article {
 export {
   convertOrcid,
   isAbstract,
+  isAccepted,
   isAffiliationHeader,
   isArticle,
   isAuthor,
@@ -144,6 +156,7 @@ export {
   isLinkCell,
   isOrcid,
   isPidHeader,
+  isPublished,
   isRepositoryHeader,
   isStatus,
   isStatusHeader,
@@ -151,6 +164,7 @@ export {
   isStepCell,
   isSubstatusCell,
   isTitleHeader,
+  isType,
   isTypeAbstract,
   isTypeArticle,
 }

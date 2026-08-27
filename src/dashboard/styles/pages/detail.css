@@ -25,7 +25,7 @@
 .card-authors {
   grid-area: u;
   display: grid;
-  gap: var(--gap-size-3);
+  gap: var(--gap-size-1);
 }
 
 /* FieldRow css */
