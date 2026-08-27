@@ -6,10 +6,10 @@ export const getMonths = (timeline: any, month: number) => {
     .map(Number)
     .sort((a, b) => b - a)
     .flatMap((year) => {
-      const start = DateTime.fromObject({ year: Number(year), month }).endOf('year')
+      const start = DateTime.fromObject({ year: Number(year), month })
 
       return Array.from({ length: month }, (_, i) => {
-        const date = start.minus({ months: i }).startOf('month')
+        const date = start.minus({ months: month - 1 - i }).startOf('month')
 
         return {
           key: date.toFormat('yyyy-MM'),
