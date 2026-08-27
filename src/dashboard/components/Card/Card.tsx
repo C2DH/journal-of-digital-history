@@ -70,7 +70,7 @@ const Card = ({
 
             {/* The sentinel wraps your button so it has real dimensions */}
             {hasMore && (
-              <div ref={loaderRef} className="scroll-sentinel">
+              <div ref={loaderRef} className="scroll-sentinel" data-testid="scroll-sentinel">
                 <ScrollButton />
               </div>
             )}

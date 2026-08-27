@@ -20,9 +20,6 @@ vi.mock('react-router-dom', () => ({
 vi.mock('../Table/Table', () => ({
   default: () => <div data-testid="table-mock" />,
 }))
-vi.mock('../Loading/Loading', () => ({
-  default: () => <div data-testid="loading-mock" />,
-}))
 vi.mock('../Feedback/Feedback', () => ({
   default: ({ message }: { message: string }) => {
     return (
@@ -58,12 +55,14 @@ describe('Card', () => {
   })
 
   it('shows loading indicator when loading and has data', () => {
-    render(<Card {...defaultProps} loading={true} data={[{ title: 'A', author: 'B' }]} />)
-    expect(screen.getByTestId('loading-mock')).toBeInTheDocument()
+    render(
+      <Card {...defaultProps} loading={true} data={[{ title: 'A', author: 'B' }]} hasMore={true} />,
+    )
+    expect(screen.getByTestId('scroll-sentinel')).toBeInTheDocument()
   })
 
   it('does not show loading indicator when loading and no data', () => {
     render(<Card {...defaultProps} loading={true} data={[]} />)
-    expect(screen.queryByTestId('loading-mock')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('scroll-sentinel')).not.toBeInTheDocument()
   })
 })
