@@ -3,7 +3,7 @@ import './Milestone.css'
 import hljs from 'highlight.js'
 import parse from 'html-react-parser'
 import { ArrowLeftCircle, ArrowRightCircle, Calendar } from 'iconoir-react'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import Facets from '../Facets/Facets'
@@ -38,8 +38,7 @@ const Milestone = () => {
   const years = Object.keys(timeline ?? [])
     .map((year) => ({ value: year, label: year }))
     .reverse()
-
-  const [orderByYear, setOrderByYear] = useState(years.at(-1)?.value ?? 'Select a year')
+  const [orderByYear, setOrderByYear] = useState(years[0]?.value ?? 'Select a year')
 
   const months = getMonths(timeline, MONTH)
 
@@ -87,11 +86,11 @@ const Milestone = () => {
 
     if (isProgrammaticScroll.current) return
 
-    const containerLeft = container.getBoundingClientRect().left
+    const containerRight = container.getBoundingClientRect().right
     const children = container.querySelectorAll<HTMLElement>('.month-container')
 
-    for (let i = 0; i < children.length; i++) {
-      if (children[i].getBoundingClientRect().right > containerLeft + 4) {
+    for (let i = children.length - 1; i >= 0; i--) {
+      if (children[i].getBoundingClientRect().left < containerRight - 4) {
         const year = months[i]?.year
         if (year && year !== orderByYear) {
           setOrderByYear(year)
@@ -125,10 +124,9 @@ const Milestone = () => {
     [months, setOrderByYear],
   )
 
-  const handleScroll = (direction) => {
+  const handleArrowClick = (direction) => {
     if (!containerRef.current) return
     const scrollAmount = 300 // Length for the scrolling in pixels
-
     containerRef.current.scrollBy({
       left: direction === 'left' ? -scrollAmount : scrollAmount,
       behavior: 'smooth',
@@ -160,7 +158,40 @@ const Milestone = () => {
     setIsDragging(false)
   }
 
-  if (timelineError || errorArticles || errorGithub || timeline === undefined) {
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container || !months.length) return
+
+    let userInteracted = false
+
+    const snapToEnd = () => {
+      if (userInteracted) return
+      container.scrollLeft = container.scrollWidth - container.clientWidth
+      handleScrollSync()
+    }
+
+    const stopAutoScroll = () => {
+      userInteracted = true
+    }
+
+    const resizeObserver = new ResizeObserver(snapToEnd)
+    resizeObserver.observe(container)
+
+    container.addEventListener('wheel', stopAutoScroll, { once: true })
+    container.addEventListener('mousedown', stopAutoScroll, { once: true })
+    container.addEventListener('touchstart', stopAutoScroll, { once: true })
+
+    snapToEnd()
+
+    return () => {
+      resizeObserver.disconnect()
+      container.removeEventListener('wheel', stopAutoScroll)
+      container.removeEventListener('mousedown', stopAutoScroll)
+      container.removeEventListener('touchstart', stopAutoScroll)
+    }
+  }, [months.length])
+
+  if (timelineError || errorArticles || errorGithub || !timeline) {
     const err = hljs.highlight(
       'typescript',
       `${t('milestone.error.general')} ${timelineError || errorArticles || errorGithub}`,
@@ -209,7 +240,7 @@ const Milestone = () => {
         {!atStart && (
           <ArrowLeftCircle
             className="timeline-btn timeline-btn-left"
-            onClick={() => handleScroll('left')}
+            onClick={() => handleArrowClick('left')}
           />
         )}
         <div
@@ -234,7 +265,7 @@ const Milestone = () => {
         {!atEnd && (
           <ArrowRightCircle
             className={`timeline-btn timeline-btn-right`}
-            onClick={() => handleScroll('right')}
+            onClick={() => handleArrowClick('right')}
           />
         )}
       </div>

@@ -2,20 +2,23 @@ import { DateTime } from 'luxon'
 
 export const getMonths = (timeline: any, month: number) => {
   if (!timeline) return []
-  return Object.keys(timeline)
+
+  const years = Object.keys(timeline)
     .map(Number)
-    .sort((a, b) => b - a)
-    .flatMap((year) => {
-      const start = DateTime.fromObject({ year: Number(year), month })
+    .sort((a, b) => a - b) // oldest year first, most recent year last (rightmost)
 
-      return Array.from({ length: month }, (_, i) => {
-        const date = start.minus({ months: month - 1 - i }).startOf('month')
+  return years.flatMap((year) => {
+    const start = DateTime.fromObject({ year, month }).endOf('year')
 
-        return {
-          key: date.toFormat('yyyy-MM'),
-          year: String(date.year),
-          title: date.toFormat('LLL yyyy'),
-        }
-      })
+    return Array.from({ length: month }, (_, i) => {
+      const date = start.minus({ months: month - 1 - i }).startOf('month')
+      // i=0 -> Jan, i=11 -> Dec: ascending, so the most recent month ends up on the far right
+
+      return {
+        key: date.toFormat('yyyy-MM'),
+        year: String(date.year),
+        title: date.toFormat('LLL yyyy'),
+      }
     })
+  })
 }
