@@ -4,7 +4,7 @@ import EventCard from './EventCard'
 
 const MonthCard = ({ title, events }) => {
   const noEvent = events.length === 0
-  const manyEvents = events.length > 4
+  const manyEvents = events.length >= 4
   let monthName = title
 
   if (noEvent) {

@@ -11,7 +11,7 @@ const EventCard = ({ event, manyEvents }) => {
   let text: string = ''
 
   if (!hasAnchor && manyEvents) {
-    text = event.title.substring(0, 40) + '...'
+    text = event.title.substring(0, 30) + '...'
   } else {
     text = event.title
   }
