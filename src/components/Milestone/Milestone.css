@@ -1,0 +1,185 @@
+/* TIMELINE */
+.milestone-wrapper {
+  margin-left: -3%;
+}
+
+@media (min-width: 2000px) {
+  .milestone-wrapper {
+    margin-left: -60%;
+    margin-right: -50%;
+  }
+}
+
+.milestone-timeline {
+  display: flex;
+  gap: var(--spacer-2);
+  margin: var(--spacer-2);
+  overflow-x: auto;
+
+  cursor: grab;
+  scroll-behavior: auto;
+  user-select: none;
+
+  /*remove scrollbar*/
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE et Edge */
+}
+
+.milestone-timeline.dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+
+/* FILTERS */
+.Dimension_Articles {
+  --filter-color: var(--grey);
+  --left-line-color: var(--grey);
+}
+.Dimension_CallforPapers {
+  --filter-color: var(--green);
+  --left-line-color: var(--light-green);
+}
+.Dimension_Conferences {
+  --filter-color: var(--purple);
+  --left-line-color: var(--light-purple);
+}
+.Dimension_Releases {
+  --filter-color: var(--blue);
+  --left-line-color: var(--light-blue);
+}
+
+.milestone-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.milestone-facets {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+  font-size: 1em;
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .Facets_dimensionHeading {
+    display: none;
+  }
+  .DimensionGroupListItem,
+  .milestone-btn-all {
+    color: var(--dark-grey);
+    background-color: transparent;
+    border: 1px solid var(--dark-grey);
+    margin: var(--spacer-1);
+    padding: 1px 8px;
+    border-radius: 4px;
+    display: flex;
+
+    &:hover {
+      background-color: var(--dark-grey);
+      color: white;
+    }
+
+    &.active {
+      background-color: var(--dark-grey);
+      color: white;
+    }
+  }
+
+  .DimensionGroupListItem {
+    color: var(--filter-color);
+    border: 1px solid var(--filter-color);
+
+    &:hover {
+      background-color: var(--filter-color);
+    }
+  }
+
+  .DimensionGroupListItem.active {
+    background-color: var(--filter-color);
+  }
+
+  .DimensionGroupListItem_label {
+    cursor: pointer;
+  }
+}
+
+.milestone-dropdown {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ARROW BTN */
+.timeline-btn > svg {
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timeline-btn:hover {
+  color: var(--accent);
+}
+
+.milestone-timeline-wrapper {
+  position: relative;
+}
+
+/* Fade gradients */
+.milestone-timeline-wrapper::before,
+.milestone-timeline-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.milestone-timeline-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, var(--gray-100) 0%, transparent 100%);
+}
+
+.milestone-timeline-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, var(--gray-100) 0%, transparent 100%);
+}
+
+/* Large centered arrows */
+.timeline-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  color: var(--dark-grey);
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.timeline-btn:hover {
+  opacity: 1;
+}
+
+.timeline-btn-left {
+  left: -2em;
+}
+
+.timeline-btn-right {
+  right: -2em;
+}

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
-import Dimension, { MethodFilter, MethodReplace, MethodRemove, MethodReset } from './Dimension'
+import { useTranslation } from 'react-i18next'
+
 import '../../styles/components/Facets.scss'
+import Dimension, { MethodFilter, MethodRemove, MethodReplace, MethodReset } from './Dimension'
 
 /**
  * Sort function for items based on a specified dimension.

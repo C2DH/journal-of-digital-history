@@ -86,7 +86,7 @@ export const AllRoutes = [
   ReleaseNotesRoute,
   FingerprintViewerRoute,
   FingerprintExplainedRoute,
-  FingerprintRoute
+  FingerprintRoute,
 ]
 
 export const NotebookPoweredPaths = [
@@ -115,6 +115,11 @@ export const BootstrapColumLayoutV3 = Object.freeze({
 export const BootstrapFullColumLayout = Object.freeze({
   md: { span: 10, offset: 1 },
   lg: { span: 8, offset: 2 },
+})
+
+export const BootstrapMilestoneColumLayout = Object.freeze({
+  md: { span: 9, offset: 2 },
+  lg: { span: 9, offset: 2 },
 })
 
 export const BootstrapSideColumnLayout = Object.freeze({

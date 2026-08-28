@@ -1,21 +1,21 @@
+import '../styles/pages/Home.scss'
+
 import MarkdownIt from 'markdown-it'
 import { useMemo } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 
 import ArticleCellContent from '../components/Article/ArticleCellContent'
-import HomeMilestones from '../components/HomeMilestones'
 import HomeReel from '../components/HomeReel'
 import LangLink from '../components/LangLink'
+import Milestone from '../components/Milestone/Milestone'
 import {
   BootstrapColumLayout,
-  BootstrapFullColumLayout,
+  BootstrapMilestoneColumLayout,
   IsMobile,
-  IsPortrait,
   StatusSuccess,
 } from '../constants/globalConstants'
 import { randomFakeSentence } from '../logic/random'
-import '../styles/pages/Home.scss'
 import StaticPageLoader from './StaticPageLoader'
 
 const markdownParser = MarkdownIt({
@@ -125,6 +125,14 @@ const Home = ({ data = '', status }) => {
             </div>
           </Col>
         </Row>
+        <Container>
+          <Row>
+            <Col {...BootstrapMilestoneColumLayout}>
+              <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
+              <Milestone />
+            </Col>
+          </Row>
+        </Container>
         <Row>
           <Col md={{ offset: 2 }}>
             <h2 className="my-5">{t('pages.home.editorialBoardMembers')}</h2>
@@ -148,19 +156,6 @@ const Home = ({ data = '', status }) => {
           ))}
         </Row>
       </Container>
-
-      {!IsMobile && (
-        <Container>
-          <Row>
-            <Col {...BootstrapFullColumLayout}>
-              <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
-              <p className="mb-3 d-none d-md-block">{t('pages.home.editorialRoadmap')} ⤵</p>
-              <HomeMilestones isPortrait={IsPortrait} extent={['2020-09-30', '2023-11-30']} />
-              <p className="mt-3 d-none d-md-block">{t('pages.home.technicalRoadmap')} ⤴</p>
-            </Col>
-          </Row>
-        </Container>
-      )}
     </>
   )
 }
