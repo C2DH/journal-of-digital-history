@@ -13922,7 +13922,7 @@ __metadata:
     react-helmet: "npm:^6.1.0"
     react-i18next: "npm:^15.4.1"
     react-rocketjump: "npm:^2.6.2"
-    react-router: "npm:^7.15.1"
+    react-router: "npm:^7.18.2"
     react-router-dom: "npm:^7.6.0"
     react-scrollama: "npm:^2.2.15"
     react-slick: "npm:^0.30.3"
@@ -17262,9 +17262,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router@npm:^7.15.1":
-  version: 7.15.1
-  resolution: "react-router@npm:7.15.1"
+"react-router@npm:^7.18.2":
+  version: 7.18.2
+  resolution: "react-router@npm:7.18.2"
   dependencies:
     cookie: "npm:^1.0.1"
     set-cookie-parser: "npm:^2.6.0"
@@ -17274,7 +17274,7 @@ __metadata:
   peerDependenciesMeta:
     react-dom:
       optional: true
-  checksum: 10c0/3daff5404c7de1429447e735f1ee7e070d4f11632f589cec70c5171f2357be9cada2162f780bc9061eb153646109ad6e80c2d10a6b27256593f28a66945f4c76
+  checksum: 10c0/513b04adf020fcf95124557418e003d16b175765045332858d5817b045e49dfe33b529c4871c57b0cddf24fa5432589ffc45d1a9a5b398b069f02adb755fab15
   languageName: node
   linkType: hard
 
