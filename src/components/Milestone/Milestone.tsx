@@ -1,27 +1,16 @@
 import './Milestone.css'
 
-import hljs from 'highlight.js'
-import parse from 'html-react-parser'
 import { ArrowLeftCircle, ArrowRightCircle, Calendar } from 'iconoir-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+
+import { MilestoneProps } from './interface'
 
 import Facets from '../Facets/Facets'
 import OrderByDropdown from '../OrderByDropdown'
 import MonthCard from './Card/MonthCard'
-import useMilestoneFetch from './fetch'
 import { getMonths } from './helper'
 
-const Milestone = () => {
-  const { t } = useTranslation()
-
-  const {
-    parsedTimeline: timeline,
-    timelineError,
-    errorArticles,
-    errorGithub,
-  } = useMilestoneFetch()
-
+const Milestone = ({ timeline }: MilestoneProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const isProgrammaticScroll = useRef(false)
   const [selectedIndices, setSelectedIndices] = useState<any>(null)
@@ -190,18 +179,6 @@ const Milestone = () => {
       container.removeEventListener('touchstart', stopAutoScroll)
     }
   }, [months.length])
-
-  if (timelineError || errorArticles || errorGithub || !timeline) {
-    const err = hljs.highlight(
-      'typescript',
-      `${t('milestone.error.general')} ${timelineError || errorArticles || errorGithub}`,
-    )
-    return (
-      <pre className="hljs" data-test="error-message">
-        <div>{parse(err.value)}</div>
-      </pre>
-    )
-  }
 
   return (
     <div className="milestone-wrapper">

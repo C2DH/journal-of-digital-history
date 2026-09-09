@@ -14,5 +14,5 @@ export interface MilestoneYear {
 export type MilestoneData = Record<string, MilestoneYear>
 
 export interface MilestoneProps {
-  data: MilestoneData
+  timeline: MilestoneData
 }

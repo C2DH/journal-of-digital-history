@@ -1,31 +1,45 @@
+import { useQueries } from '@tanstack/react-query'
+import axios from 'axios'
 import { DateTime } from 'luxon'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { StatusSuccess } from '../../constants/globalConstants'
 import { validateForm } from '../../dashboard/utils/helpers/schema'
-import { useGetJSON } from '../../logic/api/fetchData'
 import { milestoneSchema } from './schema'
+
+const timeout = import.meta.env.VITE_API_TIMEOUT || 0
 
 const useMilestoneFetch = () => {
   const { t } = useTranslation()
 
   const {
-    data: dataGithub,
-    error: errorGithub,
-    status: statusGithub,
-  } = useGetJSON({
-    url: import.meta.env.VITE_WIKI_EVENTS,
-    delay: 0,
-  })
-
-  const {
-    data: articles,
-    error: errorArticles,
-    status: statusArticles,
-  } = useGetJSON({
-    url: '/api/articles?limit=500',
-    delay: 0,
+    data: [dataGithub, articles],
+    errors: [errorGithub, errorArticles],
+    statuses: [statusGithub],
+    isLoading,
+  } = useQueries({
+    queries: [
+      {
+        queryKey: [import.meta.env.VITE_WIKI_EVENTS],
+        queryFn: () =>
+          axios.get(import.meta.env.VITE_WIKI_EVENTS, { timeout }).then(({ data }) => data),
+      },
+      {
+        queryKey: ['/api/articles?limit=500&status=PUBLISHED'],
+        queryFn: () =>
+          axios
+            .get('/api/articles?limit=500&status=PUBLISHED', { timeout })
+            .then(({ data }) => data),
+      },
+    ],
+    // merge both query results into one shape consumed below
+    combine: (results) => ({
+      data: results.map((result) => result.data),
+      errors: results.map((result) => result.error),
+      statuses: results.map((result) => result.status),
+      isLoading: results.some((result) => result.isLoading),
+    }),
   })
 
   const { parsedTimeline, timelineError } = useMemo(() => {
@@ -97,7 +111,7 @@ const useMilestoneFetch = () => {
     return { parsedTimeline: articlesAndGithubData, timelineError: null }
   }, [articles, dataGithub])
 
-  return { parsedTimeline, timelineError, errorGithub, errorArticles }
+  return { parsedTimeline, timelineError, errorGithub, errorArticles, isLoading }
 }
 
 export default useMilestoneFetch
