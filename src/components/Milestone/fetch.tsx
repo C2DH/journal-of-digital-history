@@ -1,17 +1,19 @@
 import { useQueries } from '@tanstack/react-query'
 import axios from 'axios'
 import { DateTime } from 'luxon'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { StatusSuccess } from '../../constants/globalConstants'
 import { validateForm } from '../../dashboard/utils/helpers/schema'
+import { usePropsStore } from '../../store'
 import { milestoneSchema } from './schema'
 
 const timeout = import.meta.env.VITE_API_TIMEOUT || 0
 
 const useMilestoneFetch = () => {
   const { t } = useTranslation()
+  const setLoadingProgress = usePropsStore((state) => state.setLoadingProgress)
 
   const {
     data: [dataGithub, articles],
@@ -41,6 +43,16 @@ const useMilestoneFetch = () => {
       isLoading: results.some((result) => result.isLoading),
     }),
   })
+
+  useEffect(() => {
+    if (isLoading) {
+      setLoadingProgress(0.05, 'milestone')
+    } else if (errorGithub || errorArticles) {
+      setLoadingProgress(0, 'milestone')
+    } else {
+      setLoadingProgress(1, 'milestone')
+    }
+  }, [isLoading, errorGithub, errorArticles])
 
   const { parsedTimeline, timelineError } = useMemo(() => {
     if (!dataGithub) return {}
