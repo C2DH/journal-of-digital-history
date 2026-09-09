@@ -1,11 +1,14 @@
 import { Meta, StoryObj } from '@storybook/react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MemoryRouter } from 'react-router-dom'
 import { QueryParamProvider } from 'use-query-params'
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6'
 
 import Milestone from './Milestone'
 
-const data = {
+const queryClient = new QueryClient()
+
+const timeline = {
   '2020': {
     articles: [
       {
@@ -181,13 +184,15 @@ const meta: Meta = {
   decorators: [
     (Story) => (
       <MemoryRouter>
-        <QueryParamProvider adapter={ReactRouter6Adapter}>
-          <Story />
-        </QueryParamProvider>
+        <QueryClientProvider client={queryClient}>
+          <QueryParamProvider adapter={ReactRouter6Adapter}>
+            <Story />
+          </QueryParamProvider>
+        </QueryClientProvider>
       </MemoryRouter>
     ),
   ],
-  args: data,
+  args: timeline,
 }
 
 export default meta
@@ -195,6 +200,6 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    data,
+    timeline,
   },
 }

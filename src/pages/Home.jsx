@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import ArticleCellContent from '../components/Article/ArticleCellContent'
 import HomeReel from '../components/HomeReel'
 import LangLink from '../components/LangLink'
-import Milestone from '../components/Milestone/Milestone'
+import HomeMilestone from '../components/Milestone/HomeMilestone'
 import {
   BootstrapColumLayout,
   BootstrapMilestoneColumLayout,
@@ -129,7 +129,7 @@ const Home = ({ data = '', status }) => {
           <Row>
             <Col {...BootstrapMilestoneColumLayout}>
               <h2 className="my-5">{t('pages.home.journalRoadmap')}</h2>
-              <Milestone />
+              <HomeMilestone />
             </Col>
           </Row>
         </Container>
