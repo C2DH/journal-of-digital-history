@@ -1,3 +1,7 @@
+name: Storybook Tests
+on:
+  pull_request:
+    types: [opened, reopened]
 jobs:
   test:
     timeout-minutes: 15
