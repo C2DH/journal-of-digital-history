@@ -38,7 +38,7 @@ const LinkButton = ({ url }: ButtonLinkProps) => {
   const linkConfigs = {
     'github.com': {
       icon: <Github className="github-icon" data-testid="github-icon" />,
-      label: pathname,
+      label: pathname.includes('/C2DH/jdh-notebook/issues') ? 'Latest GitHub issue' : pathname,
     },
     'mybinder.org': {
       icon: (
