@@ -126,7 +126,7 @@ li.active .icon-filled {
 }
 
 /* Tablet or small screen view */
-@media (max-width: 1500px) {
+@media (max-width: 1700px) {
   .navbar {
     width: var(--navbar-width-mobile);
   }

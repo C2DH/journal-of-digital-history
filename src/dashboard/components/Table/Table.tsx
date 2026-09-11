@@ -149,7 +149,7 @@ const Table = ({
         </thead>
         <tbody>
           {cleanData.map((row, rIdx) => {
-            const actions = getRowActions(row, isArticleItem)
+            const actions = getRowActions(row, isArticleItem, isAbstractItem)
 
             const cells = getValueInSpecificOrder(visibleHeaders, row)
 

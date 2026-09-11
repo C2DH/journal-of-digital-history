@@ -6,6 +6,7 @@ export const notify = (
   submessage?: string,
   delay?: number,
   pid?: string,
+  endpoint?: string,
 ) => {
   const { setNotification } = useNotificationStore.getState()
   const { fetchItems } = useItemsStore.getState()
@@ -19,8 +20,9 @@ export const notify = (
     setNotification(notification)
   }
 
-  if (pid) {
-    fetchItem(pid, 'abstracts')
+  if (pid && endpoint) {
+    fetchItem(pid, endpoint)
+  } else if (pid) {
     fetchItem(pid, 'articles')
   } else {
     fetchItems(true)

@@ -46,6 +46,12 @@ const CustomBarChart = () => {
         [` .MuiChartsAxis-label`]: {
           fill: 'var(--color-deep-blue)',
         },
+        [`.MuiChartsAxis-line`]: {
+          stroke: 'var(--color-gray)',
+        },
+        [`.MuiChartsAxis-tick`]: {
+          stroke: 'var(--color-gray)',
+        },
       },
     }),
     xAxis: [{ height: 70, tickSize: 5, categoryGapRatio: 0.5 }],
@@ -161,10 +167,10 @@ const CustomBarChart = () => {
                 scaleType: 'band',
                 dataKey: 'cfpTitle',
                 label: 'Call for papers',
+                valueFormatter: (value) => String(value).replace(' ', '\n'),
                 tickLabelStyle: {
-                  angle: -50,
-                  fontSize: 10,
-                  textAnchor: 'end' as const,
+                  fontSize: 14,
+                  textAnchor: 'middle',
                 },
                 ...commonProps.xAxis[0],
               },

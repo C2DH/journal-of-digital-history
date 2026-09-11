@@ -45,7 +45,7 @@ p {
   height: var(--space-size-7);
 }
 
-@media (max-width: 1500px) {
+@media (max-width: 1700px) {
   p {
     display: none;
   }
@@ -58,7 +58,7 @@ p {
 
 @media screen and (max-width: 767px) {
   .Logo {
-    margin-left: 40vw;
+    margin-left: 30vw;
   }
   .top-bar {
     position: fixed;

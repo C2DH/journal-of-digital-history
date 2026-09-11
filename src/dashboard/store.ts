@@ -513,7 +513,14 @@ const useActionStore = create<ActionStore>((set, get) => ({
       case 'Suspended':
         try {
           const res = await patchStatus({ pids: [pid], status: action.toLowerCase() }, 'abstracts')
-          notify('success', 'notification.status.success.abstract', res.data.message, 0, pid)
+          notify(
+            'success',
+            'notification.status.success.abstract',
+            res.data.message,
+            0,
+            pid,
+            'abstracts',
+          )
         } catch (error: any) {
           notify('error', 'notification.status.error.abstract', error.message)
         }
@@ -528,7 +535,7 @@ const useActionStore = create<ActionStore>((set, get) => ({
       case 'Rejected':
         try {
           const res = await patchArticleStatus({ status: action.toUpperCase() }, pid)
-          notify('success', 'notification.status.success.article', res.status, 0, pid)
+          notify('success', 'notification.status.success.article', res.status, 0, pid, 'articles')
         } catch (error: any) {
           notify('error', 'notification.status.error.article', error.response.data.error)
         }
@@ -539,7 +546,7 @@ const useActionStore = create<ActionStore>((set, get) => ({
     }
   },
 
-  getRowActions: (row: Row, isArticle): RowAction[] => {
+  getRowActions: (row: Row, isArticle, isAbstract): RowAction[] => {
     const { setModal, callAPI } = get()
     // ✅ Access by named property instead of index
     const pid = (row as ArticleRow).abstract__pid ?? { pid: (row as AbstractRow).pid }
@@ -577,7 +584,8 @@ const useActionStore = create<ActionStore>((set, get) => ({
           actions.push(modalAction('Bluesky'))
           break
       }
-    } else {
+    }
+    if (isAbstract) {
       switch (status) {
         case 'SUBMITTED':
           actions.push(modalAction('Accepted'))

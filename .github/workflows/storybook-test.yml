@@ -3,33 +3,23 @@ on:
   pull_request:
     types: [opened, reopened]
   workflow_dispatch:
-
 jobs:
   test:
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.57.0-jammy
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: '25'
-
       - name: Install Yarn 4 (Berry)
         run: corepack enable && corepack prepare yarn@4.9.1 --activate
-
       - name: Install dependencies
-        env:
-          NODE_OPTIONS: '--openssl-legacy-provider'
         run: yarn install
-
-      - name: Install Playwright
-        run: npx playwright install --with-deps
-
       - name: Build Storybook
-        env:
-          NODE_OPTIONS: '--openssl-legacy-provider'
         run: yarn build-storybook --quiet
-
       - name: Serve Storybook and run tests
         run: |
           npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \

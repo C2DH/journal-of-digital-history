@@ -1,5 +1,4 @@
-import React from 'react'
-import { DropdownButton, Dropdown } from 'react-bootstrap'
+import { Dropdown, DropdownButton } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
 import '../styles/components/OrderByDropdown.scss'
 

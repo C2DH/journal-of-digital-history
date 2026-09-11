@@ -390,6 +390,15 @@
   },
   "selectCallForPapers": "Please select a call for papers",
   "openSubmission": "Open submission",
+  "milestone": {
+    "error": {
+      "emptyData": "Timeline data is empty or unavailable.",
+      "notValid": "Timeline data is not valid JSON.",
+      "structure": "Invalid timeline structure.",
+      "malformed": "Timeline data is malformed: ",
+      "general": "Oups... there is an error with the timeline."
+    }
+  },
   "numbers": {
     "issue": "Issue n.{{n}}",
     "dialog": "dialogue {{ n }}",
@@ -455,7 +464,8 @@
         }
       },
       "options": "Order by",
-      "directions": ""
+      "directions": "",
+      "type": "Filter by"
     }
   },
   "status": {

@@ -91,7 +91,7 @@ describe('PeerReviewChart', () => {
     render(<PeerReviewChart />)
 
     expect(screen.getByText('KPI.peerReviewChart.title')).toBeInTheDocument()
-    expect(screen.getByText('KPI.peerReviewChart.table.title')).toBeInTheDocument()
+    expect(screen.getByText('KPI.peerReviewChart.default')).toBeInTheDocument()
     expect(screen.getByTestId('peerreview-barchart')).toBeInTheDocument()
     expect(screen.getByTestId('legend')).toBeInTheDocument()
 
