@@ -98,7 +98,6 @@ export function setDetails(item: Abstract | Article) {
       },
     ]
     urlFields = [
-      { value: item.repository_url },
       { value: item.binder_url },
       {
         value: `https://journalofdigitalhistory.org/en/notebook-viewer/${item.notebook_url}/?v=3`,
@@ -106,6 +105,8 @@ export function setDetails(item: Abstract | Article) {
       {
         value: adminUrl(item.abstract.id.toString()),
       },
+      { value: item.github_issue },
+      { value: item.repository_url },
     ]
     datasetFields = [
       ...(item.abstract.datasets || []).map((dataset: any) => ({

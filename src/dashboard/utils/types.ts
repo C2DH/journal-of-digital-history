@@ -39,6 +39,7 @@ export interface Issue {
 /* Article */
 export interface Article {
   abstract: Abstract
+  github_issue: string
   repository_url: string
   status: string
   publication_date: string | null
