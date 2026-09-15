@@ -48,6 +48,9 @@ td.smalltable-submitted_date {
   width: 22%;
 }
 th.smalltable-title {
+  width: 30%;
+}
+th.smalltable-ojs_status {
   width: 40%;
 }
 th.smalltable-authors {

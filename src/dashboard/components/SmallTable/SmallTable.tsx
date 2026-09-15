@@ -103,7 +103,7 @@ const SmallTable = ({ item, headers, data, placeholder, loading }: SmallTablePro
                           key={cIdx}
                           className={`smalltable-${headerName}`}
                           colSpan={isTitle ? 2 : 1}
-                          title={isTitle || isAuthor ? String(cell) : undefined}
+                          title={String(cell)}
                           style={isTitle ? { cursor: 'pointer' } : undefined}
                           onClick={isTitle ? () => handleRowClick(String(cells[0])) : undefined}
                         >

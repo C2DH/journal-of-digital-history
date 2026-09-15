@@ -36,10 +36,6 @@ p {
   min-width: 0;
 }
 .home-peerreviewchart-simple {
-  grid-area: rs;
-  height: fit-content;
-}
-.home-peerreviewchart {
   grid-area: r;
   height: fit-content;
 }
@@ -55,7 +51,7 @@ p {
   grid-template-areas:
     'c c c c c'
     'p b b . .'
-    'rs r r n n';
+    'r n n n n';
 }
 
 .home-grid.isAbstract {
@@ -64,7 +60,7 @@ p {
   grid-template-areas:
     'c c c c c'
     'p b b a a'
-    'rs r r n n';
+    'r n n n n';
 }
 
 @media (min-width: 3000px) {
@@ -73,7 +69,7 @@ p {
     grid-template-areas:
       'c c c c c'
       'p b a a a'
-      'rs r r n n ';
+      'r n n n n';
   }
 }
 
@@ -85,7 +81,7 @@ p {
       'c c'
       'p b'
       'a a'
-      'rs r'
+      'r r'
       'n n';
   }
   .home-abstract-card {
@@ -105,7 +101,6 @@ p {
       'p'
       'b'
       'a'
-      'rs'
       'r'
       'n';
   }
