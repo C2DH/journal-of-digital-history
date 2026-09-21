@@ -44,8 +44,8 @@ const PeerReviewSimple = () => {
   function getChartSettings(): BarChartProps {
     return {
       dataset: data,
-      height: 122 * data.length,
-      margin: { left: 100, right: 0, bottom: 25 },
+      height: 80 * data.length,
+      margin: { left: 5, right: 0, bottom: 25 },
       series: series,
       slotProps: {
         tooltip: { trigger: 'item' },
@@ -58,6 +58,7 @@ const PeerReviewSimple = () => {
       yAxis: [
         {
           dataKey: 'order',
+          width: 120,
           disableLine: true,
           disableTicks: true,
           tickLabelStyle: {
