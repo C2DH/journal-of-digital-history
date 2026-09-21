@@ -25,7 +25,7 @@ const PeerReviewSimple = () => {
   const getPeerReviewArticlesWithTiming = async () => {
     const data = await getPeerReviewArticlesTiming()
     const dataWithoutNull = data.filter(
-      (item) => item.ontime != 0 || item.delay != 0 || item.declined != 0,
+      (item) => item.ontime != 0 || item.delay != 0 || item.declined != 0 || item.over != 0,
     )
     return dataWithoutNull
   }
@@ -36,7 +36,7 @@ const PeerReviewSimple = () => {
     staleTime: 0,
   })
 
-  const { data: allItems } = useQuery({
+  const { data: dataWithDetails } = useQuery({
     queryKey: ['peerReviewArticlesDetails'],
     queryFn: getPeerReviewArticlesDetails,
   })
@@ -45,7 +45,7 @@ const PeerReviewSimple = () => {
     return {
       dataset: data,
       height: 122 * data.length,
-      margin: { left: -10, right: 0, bottom: 25 },
+      margin: { left: 100, right: 0, bottom: 25 },
       series: series,
       slotProps: {
         tooltip: { trigger: 'item' },
@@ -73,13 +73,13 @@ const PeerReviewSimple = () => {
   }
 
   useEffect(() => {
-    const temp = allItems?.find((item) => item.key === `${label}-R${round}`)
+    const temp = dataWithDetails?.find((item) => item.key === `${label}-R${round}`)
     if (temp) {
       setItem(temp)
       setPlaceholder(false)
       setFirstClick(false)
     }
-  }, [round, label, allItems])
+  }, [round, label, dataWithDetails])
 
   return (
     <>

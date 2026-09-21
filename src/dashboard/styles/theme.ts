@@ -59,7 +59,8 @@ export const colorPeerReviewSimpleChart = [
   theme.palette.green.dark,
   theme.palette.darktolightblue.medium3,
   theme.palette.orange.light,
-  theme.palette.gray.medium,
+  theme.palette.gray.light,
+  theme.palette.darktolightblue.dark2,
 ]
 
 export const colorsArticle = [

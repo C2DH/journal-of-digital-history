@@ -51,7 +51,7 @@ p {
   grid-template-areas:
     'c c c c c'
     'p b b . .'
-    'r n n n n';
+    'r r n n n';
 }
 
 .home-grid.isAbstract {
@@ -60,7 +60,7 @@ p {
   grid-template-areas:
     'c c c c c'
     'p b b a a'
-    'r n n n n';
+    'r r n n n';
 }
 
 @media (min-width: 3000px) {
@@ -69,7 +69,7 @@ p {
     grid-template-areas:
       'c c c c c'
       'p b a a a'
-      'r n n n n';
+      'r r n n n';
   }
 }
 
