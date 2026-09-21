@@ -1,4 +1,5 @@
 import {
+  Cancel,
   CheckCircleOutlined,
   EditOutlined,
   Inventory2Outlined,
@@ -21,15 +22,15 @@ export const articleSteps = [
 ]
 
 export const articleStatus = [
-  { key: 1, value: 'DRAFT', label: 'Writing' },
-  { key: 2, value: 'TECHNICAL_REVIEW', label: 'Technical review' },
-  { key: 3, value: 'PEER_REVIEW', label: 'Peer review' },
-  { key: 4, value: 'DESIGN_REVIEW', label: 'Design review' },
-  { key: 5, value: 'COPY_EDITING', label: 'Copy editing' },
-  { key: 6, value: 'SOCIAL', label: 'Social' },
-  { key: 7, value: 'PUBLISHED', label: 'Published' },
-  { key: 8, value: 'ARCHIVED', label: 'Archived' },
-  { key: 8, value: 'REJECTED', label: 'Rejected' },
+  { key: 1, value: 'DRAFT', label: 'Writing', icon: <UploadFileOutlined /> },
+  { key: 2, value: 'TECHNICAL_REVIEW', label: 'Technical review', icon: <SettingsOutlined /> },
+  { key: 3, value: 'PEER_REVIEW', label: 'Peer review', icon: <CheckCircleOutlined /> },
+  { key: 4, value: 'DESIGN_REVIEW', label: 'Design review', icon: <PaletteOutlined /> },
+  { key: 5, value: 'COPY_EDITING', label: 'Copy editing', icon: <EditOutlined /> },
+  { key: 6, value: 'SOCIAL', label: 'Social', icon: <ShareOutlined /> },
+  { key: 7, value: 'PUBLISHED', label: 'Published', icon: <RocketLaunchOutlined /> },
+  { key: 8, value: 'ARCHIVED', label: 'Archived', icon: <Inventory2Outlined /> },
+  { key: 8, value: 'REJECTED', label: 'Rejected', icon: <Cancel /> },
 ]
 
 export const articlePieChart = [

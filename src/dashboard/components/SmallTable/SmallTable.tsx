@@ -30,8 +30,12 @@ const SmallTable = ({ item, headers, data, placeholder, loading }: SmallTablePro
   const visibleHeaders = getVisibleHeaders({ data: mergedData, headers: mergedHeaders })
   const cleanData = getCleanData({ data: mergedData, visibleHeaders })
 
-  const handleRowClick = (pid: string) => {
-    navigate(`/${item}/${pid}${search}`)
+  const handleRowClick = (pid: string, type: string) => {
+    if (item === 'contribution') {
+      navigate(`/${type}/${pid}${search}`)
+    } else {
+      navigate(`/${item}/${pid}${search}`)
+    }
   }
 
   return (
@@ -87,6 +91,8 @@ const SmallTable = ({ item, headers, data, placeholder, loading }: SmallTablePro
           <tbody>
             {cleanData.map((row, rIdx) => {
               const cells = getValueInSpecificOrder(visibleHeaders, row)
+              const pid = 'pid' in row && typeof row.pid === 'string' ? row.pid : ''
+              const type = 'type' in row && typeof row.type === 'string' ? row.type : ''
 
               return (
                 <tr key={rIdx}>
@@ -105,7 +111,7 @@ const SmallTable = ({ item, headers, data, placeholder, loading }: SmallTablePro
                           colSpan={isTitle ? 2 : 1}
                           title={isTitle || isAuthor ? String(cell) : undefined}
                           style={isTitle ? { cursor: 'pointer' } : undefined}
-                          onClick={isTitle ? () => handleRowClick(String(cells[0])) : undefined}
+                          onClick={isTitle ? () => handleRowClick(pid, type) : undefined}
                         >
                           {renderCell({
                             isStep,

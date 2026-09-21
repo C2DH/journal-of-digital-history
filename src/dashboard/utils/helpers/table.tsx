@@ -1,3 +1,5 @@
+import { DescriptionOutlined, NotesOutlined } from '@mui/icons-material'
+
 import StatusBadge from '../../components/Badge/StatusBadge/StatusBadge'
 import IconButton from '../../components/Buttons/IconButton/IconButton'
 import Status from '../../components/Status/Status'
@@ -10,6 +12,7 @@ import {
   isLinkCell,
   isStatus,
   isSubstatusCell,
+  isType,
 } from '../helpers/checkItem'
 import { Abstract, AbstractRow, ArticleRow, Row } from '../types'
 import { convertDate } from './date'
@@ -129,6 +132,12 @@ function renderCell({ isStep, cell, header, isArticle }: renderCellProps) {
     content = <Timeline steps={articleSteps} currentStatus={cell} />
   } else if (isStatus(cell, header)) {
     content = <Status value={cell} />
+  } else if (isType(cell, header)) {
+    if (cell === 'abstracts') {
+      content = <NotesOutlined className="abstract-outlined" titleAccess="Abstract" />
+    } else if (cell === 'articles') {
+      content = <DescriptionOutlined className="article-outlined" titleAccess="Article" />
+    }
   } else if (isLinkCell(cell)) {
     content = <IconButton value={cell} />
   } else if (isCallForPaperGithub(cell, header)) {

@@ -5,43 +5,35 @@ import { useTranslation } from 'react-i18next'
 
 import { StatusProps } from './interface'
 
+import { articleStatus } from '../../utils/constants/article'
+import StatusBadge from '../Badge/StatusBadge/StatusBadge'
 import { statusIcons } from './constant'
 
 const Status = ({ value }: StatusProps) => {
   const { t } = useTranslation()
   const status = value.toLowerCase()
 
-  const iconInfo = statusIcons[status] || { icon: 'help', color: 'gray' }
+  const iconInfo = statusIcons[status] ?? { icon: 'cancel', color: 'gray' }
 
-  if (iconInfo.icon === 'check_circle') {
-    return (
-      <span className="status-cell value">
-        <CheckCircle className={` icon-status ${status}`} />
-        <span>{t(`status.${status}`)}</span>
-      </span>
-    )
-  } else if (iconInfo.icon === 'error') {
-    return (
-      <span className="status-cell value">
-        <Error className={` icon-status ${status}`} />
-        <span>{t(`status.${status}`)}</span>
-      </span>
-    )
-  } else if (iconInfo.icon === 'cancel') {
-    return (
-      <span className="status-cell value">
-        <Cancel className={` icon-status ${status}`} />
-        <span>{t(`status.${status}`)}</span>
-      </span>
-    )
-  } else {
-    return (
-      <span className="status-cell value">
-        <Cancel className={` icon-status ${status}`} />
-        <span>{t(`status.${status}`)}</span>
-      </span>
-    )
+  const hasBadgeStatus = articleStatus.some((item) => item.value === value)
+  if (hasBadgeStatus) {
+    return <StatusBadge status={value} />
   }
+
+  const iconMap = {
+    check_circle: CheckCircle,
+    error: Error,
+    cancel: Cancel,
+  }
+
+  const IconComponent = iconMap[iconInfo.icon as keyof typeof iconMap] ?? Cancel
+
+  return (
+    <span className="status-cell value">
+      <IconComponent className={`icon-status ${status}`} />
+      <span>{t(`status.${status}`)}</span>
+    </span>
+  )
 }
 
 export default Status

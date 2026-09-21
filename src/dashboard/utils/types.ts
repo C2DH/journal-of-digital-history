@@ -226,6 +226,13 @@ export type ItemState<T> = {
   reset: () => void
 }
 
+export type AuthorState = {
+  data: Partial<Author>
+  error: string | null
+  fetchAuthor: (id: string) => Promise<void>
+  reset: () => void
+}
+
 export type CallForPapersState = {
   data: Callforpaper[]
   error: string | null
@@ -304,6 +311,15 @@ export interface ArticleRow {
   author: string
   publication_date: string | null
   status: string
+}
+
+export interface AuthorRow {
+  id: string
+  lastname: string
+  firstname: string
+  abstracts: string
+  accepted: string
+  published: string
 }
 
 export type Row = ArticleRow | AbstractRow

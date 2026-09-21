@@ -23,6 +23,10 @@ vi.mock('../../store', () => ({
       { label: 'Delete', onClick: vi.fn() },
     ]),
   }),
+  useAuthorStore: () => ({
+    fetchAuthor: vi.fn(),
+    reset: vi.fn(),
+  }),
 }))
 
 vi.mock('../../utils/helpers/table', async () => {

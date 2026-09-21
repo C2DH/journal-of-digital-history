@@ -21,7 +21,7 @@
   vertical-align: top;
 }
 
-.smalltable td.title:hover {
+.smalltable-title:hover {
   background-color: var(--color-hover);
 }
 

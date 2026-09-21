@@ -1,0 +1,120 @@
+.authors.page {
+  --author-detail-section-top: calc(
+    var(--top-bar-height) + var(--space-size-2) + var(--KPI-standard-height)
+  );
+
+  display: grid;
+  gap: var(--space-size-2);
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-areas:
+    'f f f f f'
+    'c c c p b'
+    'c c c d d'
+    'c c c i i'
+    'c c c . .';
+}
+
+.chart {
+  background-color: var(--color-white);
+  height: 320px;
+}
+
+.filter-bar {
+  grid-area: f;
+}
+.authors.card {
+  grid-area: c;
+}
+
+.authors.piechart,
+.authors.barchart {
+  min-width: 0; /* prevents grid item overflow from fixed-width children */
+}
+.authors.piechart {
+  grid-area: p;
+  position: sticky;
+  top: calc(2 * var(--top-bar-height) + var(--space-size-5));
+}
+.authors.barchart {
+  grid-area: b;
+  position: sticky;
+  width: 400px;
+  top: calc(2 * var(--top-bar-height) + var(--space-size-5));
+}
+
+.card-author-detail,
+.author-contribution {
+  position: sticky;
+  background-color: var(--color-white);
+}
+.card-author-detail {
+  grid-area: d;
+  border-radius: 16px;
+  top: var(--author-detail-section-top);
+}
+.author-contribution {
+  grid-area: i;
+  top: calc(var(--author-detail-section-top) + 200px);
+}
+
+.table.authors th {
+  position: sticky;
+  top: var(--top-bar-height);
+  background: var(--color-white);
+  z-index: 5;
+  padding: var(--space-size-3) 0;
+}
+
+.article-outlined,
+.abstract-outlined {
+  color: var(--color-deep-blue);
+}
+
+/* Tablet or small screen view */
+@media screen and (min-width: 768px) and (max-width: 1500px) {
+  .authors.page {
+    display: grid;
+    gap: var(--space-size-2);
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+      'p p b b'
+      'f f f f'
+      'c c d d'
+      'c c i i'
+      'c c . .';
+  }
+  .authors.piechart,
+  .authors.barchart {
+    position: static;
+    height: 280px;
+  }
+  .card-author-detail {
+    top: calc(2 * var(--top-bar-height) + var(--space-size-5));
+  }
+  .author-contribution {
+    top: calc(5 * var(--top-bar-height) + var(--space-size-1));
+  }
+}
+
+/* Mobile view */
+@media screen and (max-width: 767px) {
+  .authors.piechart,
+  .authors.barchart {
+    display: none;
+  }
+  .card-author-detail,
+  .author-contribution {
+    position: static;
+  }
+  .home-grid.isAbstract {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-areas:
+      'f'
+      'f'
+      'f'
+      'd'
+      'i'
+      'c'
+      'c';
+  }
+}

@@ -54,6 +54,9 @@
       "resubmit": "Resubmit"
     }
   },
+  "card": {
+    "scrollTo": "Scroll to see more"
+  },
   "badge": {
     "status": {
       "draft": "Writing",
@@ -130,7 +133,19 @@
     "firstname": "Firstname",
     "affiliation": "Affiliation",
     "email": "Email",
-    "orcid": "ORCID"
+    "orcid": "ORCID",
+    "abstracts": "Abstracts",
+    "accepted": "Accepted",
+    "published": "Published",
+    "KPI": {
+      "barChart": "Co-authorship"
+    }
+  },
+  "contribution": {
+    "title": "Title",
+    "type": "Abstract or Article",
+    "status": "Status",
+    "callpaper_title": "Call for paper"
   },
   "datasets": {
     "item": "Datasets",

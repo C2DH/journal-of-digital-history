@@ -1,0 +1,66 @@
+/* FieldRow css */
+.item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.label {
+  text-align: right;
+  margin-right: var(--gap-size-5);
+  min-width: 150px;
+  font-weight: bold;
+}
+
+.value {
+  flex-grow: 1;
+}
+
+.value:hover i {
+  text-decoration: underline;
+}
+
+h2 {
+  margin: 0 0 var(--space-size-3) 0;
+}
+
+/* CONTACT */
+.contact-header {
+  display: flex;
+  align-items: start;
+  gap: var(--gap-size-0);
+
+  z-index: 2;
+}
+.link-button-orcid {
+  border: 0;
+  cursor: pointer;
+}
+.link-button-orcid img {
+  height: 18px;
+}
+a {
+  color: inherit;
+}
+.orcid-icon img {
+  opacity: 0.6;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-size-1);
+}
+
+/* AUTHOR  */
+.author-info {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  gap: var(--gap-size-1);
+}
+
+.author-info > .item > .value {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
