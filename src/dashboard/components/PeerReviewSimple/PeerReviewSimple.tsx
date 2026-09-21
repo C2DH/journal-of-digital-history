@@ -35,7 +35,6 @@ const PeerReviewSimple = () => {
     queryFn: getPeerReviewArticlesWithTiming,
     staleTime: 0,
   })
-
   const { data: dataWithDetails } = useQuery({
     queryKey: ['peerReviewArticlesDetails'],
     queryFn: getPeerReviewArticlesDetails,

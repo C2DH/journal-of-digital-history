@@ -60,6 +60,5 @@ export const series: Omit<BarSeriesType, 'type'>[] = [
       fade: 'global',
     },
     barLabel: (item) => (item.value ? String(item.value) : null),
-    barLabelPlacement: 'outside',
   },
 ]

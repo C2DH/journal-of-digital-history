@@ -46,21 +46,12 @@ export const colorsPieChart = [
   theme.palette.green.main,
 ]
 
-export const colorsPeerReviewChart = [
-  theme.palette.darktolightblue.dark1,
-  theme.palette.darktolightblue.dark2,
-  theme.palette.darktolightblue.medium1,
-  theme.palette.darktolightblue.medium2,
-  theme.palette.darktolightblue.medium3,
-  theme.palette.darktolightblue.light,
-]
-
 export const colorPeerReviewSimpleChart = [
-  theme.palette.green.dark,
-  theme.palette.darktolightblue.medium3,
+  theme.palette.blue.dark,
+  theme.palette.blue.light,
   theme.palette.orange.light,
   theme.palette.gray.light,
-  theme.palette.darktolightblue.dark2,
+  theme.palette.green.light,
 ]
 
 export const colorsArticle = [

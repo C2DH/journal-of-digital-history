@@ -49,7 +49,8 @@
       "submitted": "Peer reviewed articles submitted",
       "ontime": "Peer reviewed articles ontime",
       "delay": "Peer reviewed articles delayed",
-      "declined": "Peer reviewed articles declined"
+      "declined": "Peer reviewed articles declined",
+      "over": "Peer review is done"
     }
   },
   "badge": {
