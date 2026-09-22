@@ -33,10 +33,6 @@ vi.mock('../../components/CustomBarChart/CustomBarChart', () => ({
   default: () => <div data-testid="custom-bar-chart">CustomBarChart</div>,
 }))
 
-vi.mock('../../components/PeerReviewChart/PeerReviewChart', () => ({
-  default: () => <div data-testid="peer-review-chart">PeerReviewChart</div>,
-}))
-
 vi.mock('../../components/PeerReviewSimple/PeerReviewSimple', () => ({
   default: () => <div data-testid="peer-review-simple">PeerReviewSimple</div>,
 }))
@@ -136,7 +132,6 @@ describe('Home', () => {
         expect(screen.getByText('welcome')).toBeInTheDocument()
         expect(screen.getByTestId('custom-pie-chart')).toBeInTheDocument()
         expect(screen.getByTestId('custom-bar-chart')).toBeInTheDocument()
-        expect(screen.getByTestId('peer-review-chart')).toBeInTheDocument()
         expect(screen.getByTestId('peer-review-simple')).toBeInTheDocument()
         expect(screen.getByTestId('outlet')).toBeInTheDocument()
       })
