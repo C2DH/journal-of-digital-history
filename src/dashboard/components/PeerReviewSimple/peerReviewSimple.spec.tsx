@@ -5,9 +5,15 @@ import { getPeerReviewArticlesTiming } from '../../utils/api/api'
 import PeerReviewSimple from './PeerReviewSimple'
 
 const mockUseSuspenseQuery = vi.fn()
+const mockUseQuery = vi.fn()
+const mockNavigate = vi.fn()
+vi.mock('react-router-dom', () => ({
+  useNavigate: () => mockNavigate,
+}))
 
 vi.mock('@tanstack/react-query', () => ({
   useSuspenseQuery: (...args: any[]) => mockUseSuspenseQuery(...args),
+  useQuery: (...args: any[]) => mockUseQuery(...args),
 }))
 
 vi.mock('react-i18next', () => ({
@@ -22,9 +28,34 @@ vi.mock('@mui/x-charts', () => ({
   ),
 }))
 
+vi.mock('../../store', () => ({
+  useActionStore: () => ({ modal: { open: false }, closeModal: vi.fn() }),
+  useItemStore: () => ({
+    data: {
+      abstract: { pid: 'ART-1', title: 'Article title' },
+    },
+    loading: false,
+    error: null,
+    fetchItem: vi.fn(),
+    reset: vi.fn(),
+  }),
+}))
+
+vi.mock('../../utils/helpers/details', () => ({
+  setDetails: () => ({
+    infoFields: [{ label: 'PID', value: 'ART-1' }],
+    contactFields: [],
+    datasetFields: [],
+    authors: [],
+    urlFields: [],
+    title: 'Article title',
+    abstractText: 'Article abstract',
+  }),
+}))
+
 vi.mock('../SmallCard/SmallCard', () => ({
   default: ({ children, className }: { children: React.ReactNode; className?: string }) => (
-    <section data-testid="small-card" className={className}>
+    <section data-testid={`small-card-${className}`} className={className}>
       {children}
     </section>
   ),
@@ -36,6 +67,7 @@ vi.mock('../../styles/theme', () => ({
 
 vi.mock('../../utils/api/api', () => ({
   getPeerReviewArticlesTiming: vi.fn(),
+  getPeerReviewArticlesDetails: vi.fn(),
 }))
 
 describe('PeerReviewSimple', () => {
@@ -47,10 +79,16 @@ describe('PeerReviewSimple', () => {
     mockUseSuspenseQuery.mockReturnValue({
       data: [{ order: 'R1', ontime: 2, delay: 1, declined: 0 }],
     })
+    mockUseQuery.mockReturnValue({
+      data: [{ order: 'R1', ontime: 2, delay: 1, declined: 0 }],
+    })
 
     render(<PeerReviewSimple />)
 
-    expect(screen.getByTestId('small-card')).toBeInTheDocument()
+    expect(screen.getByTestId('small-card-home-peerreviewchart-simple chart')).toBeInTheDocument()
+    expect(
+      screen.getByTestId('small-card-home-peerreviewchart-next-table chart light'),
+    ).toBeInTheDocument()
     expect(screen.getByText('KPI.peerReviewChart.simple.title')).toBeInTheDocument()
   })
 
@@ -97,10 +135,10 @@ describe('PeerReviewSimple', () => {
     })
 
     vi.mocked(getPeerReviewArticlesTiming).mockResolvedValue([
-      { order: 'R1', ontime: 0, delay: 0, declined: 0 },
-      { order: 'R2', ontime: 1, delay: 0, declined: 0 },
-      { order: 'R3', ontime: 0, delay: 2, declined: 0 },
-      { order: 'R4', ontime: 0, delay: 0, declined: 3 },
+      { order: 'R1', ontime: 0, delay: 0, declined: 0, over: 0 },
+      { order: 'R2', ontime: 1, delay: 0, declined: 0, over: 0 },
+      { order: 'R3', ontime: 0, delay: 2, declined: 0, over: 0 },
+      { order: 'R4', ontime: 0, delay: 0, declined: 3, over: 0 },
     ])
 
     render(<PeerReviewSimple />)
@@ -109,9 +147,38 @@ describe('PeerReviewSimple', () => {
     const result = await queryOptions.queryFn()
 
     expect(result).toEqual([
-      { order: 'R2', ontime: 1, delay: 0, declined: 0 },
-      { order: 'R3', ontime: 0, delay: 2, declined: 0 },
-      { order: 'R4', ontime: 0, delay: 0, declined: 3 },
+      { order: 'R2', ontime: 1, delay: 0, declined: 0, over: 0 },
+      { order: 'R3', ontime: 0, delay: 2, declined: 0, over: 0 },
+      { order: 'R4', ontime: 0, delay: 0, declined: 3, over: 0 },
     ])
+  })
+
+  it('opens the article detail when an article title is clicked', () => {
+    mockUseSuspenseQuery.mockReturnValue({
+      data: [{ order: 'R1', ontime: 2, delay: 1, declined: 0 }],
+    })
+    mockUseQuery.mockReturnValue({
+      data: [
+        {
+          key: 'default-R8',
+          articles: [
+            {
+              pid: 'ART-1',
+              title: 'Article title',
+              authors: 'Jane Doe',
+              ojs_status: 'OJS status',
+              url: '',
+              github_issue: '',
+            },
+          ],
+        },
+      ],
+    })
+
+    render(<PeerReviewSimple />)
+
+    expect(screen.getByText('Article title')).toBeInTheDocument()
+    expect(screen.getByText('Jane Doe')).toBeInTheDocument()
+    expect(screen.getByText('OJS status')).toBeInTheDocument()
   })
 })

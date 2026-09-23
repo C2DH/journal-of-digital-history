@@ -317,18 +317,6 @@ const getPeerReviewArticlesTiming = async () => {
     })
 }
 
-const getPeerReviewArticlesByStage = async () => {
-  console.info('GET [getPeerReviewArticlesByStage]')
-
-  return api
-    .get(`/api/articles/ojs/peer-review/stage`)
-    .then((res) => res.data.data)
-    .catch((err) => {
-      console.error(err)
-      throw err?.response?.data ?? err
-    })
-}
-
 const getPeerReviewArticlesDetails = async () => {
   console.info('GET [getPeerReviewArticlesDetails]')
 
@@ -360,7 +348,6 @@ export {
   getArticlesByStatusAndIssues,
   getBarChartHome,
   getCallforpaperWithDeadlineOpen,
-  getPeerReviewArticlesByStage,
   getPeerReviewArticlesDetails,
   getPeerReviewArticlesTiming,
   getSocialMediaCover,

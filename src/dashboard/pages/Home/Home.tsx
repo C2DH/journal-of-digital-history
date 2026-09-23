@@ -9,7 +9,6 @@ import Badge from '../../components/Badge/Accent/Badge'
 import CustomBarChart from '../../components/CustomBarChart/CustomBarChart'
 import CustomPieChart from '../../components/CustomPieChart/CustomPieChart'
 import Deadline from '../../components/Deadline/Deadline'
-import PeerReviewChart from '../../components/PeerReviewChart/PeerReviewChart'
 import PeerReviewSimple from '../../components/PeerReviewSimple/PeerReviewSimple'
 import SmallCard from '../../components/SmallCard/SmallCard'
 import SmallTable from '../../components/SmallTable/SmallTable'
@@ -92,7 +91,6 @@ const Home = () => {
         <CustomPieChart />
         <CustomBarChart />
         <>{data && data.length > 0 && AbstractSubmittedCard(data)}</>
-        <PeerReviewChart />
         <PeerReviewSimple />
       </div>
       <Outlet />

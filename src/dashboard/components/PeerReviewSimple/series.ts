@@ -49,4 +49,16 @@ export const series: Omit<BarSeriesType, 'type'>[] = [
     },
     barLabel: (item) => (item.value ? String(item.value) : null),
   },
+  {
+    id: 'over',
+    dataKey: 'over',
+    label: 'Post-review',
+    layout: 'horizontal',
+    stack: 'stack',
+    highlightScope: {
+      highlight: 'item',
+      fade: 'global',
+    },
+    barLabel: (item) => (item.value ? String(item.value) : null),
+  },
 ]
