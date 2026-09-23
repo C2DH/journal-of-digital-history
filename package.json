@@ -160,7 +160,8 @@
   },
   "resolutions": {
     "@lumino/algorithm": "2.0.1",
-    "moo": "github:C2DH/moo"
+    "moo": "github:C2DH/moo",
+    "@xmldom/xmldom": "0.9.12"
   },
   "browserslist": {
     "production": [
