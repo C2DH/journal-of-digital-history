@@ -115,7 +115,7 @@ const PeerReviewSimple = () => {
           className={`home-peerreviewchart-next-table chart ${placeholder ? 'light' : ''}`}
         >
           <h2 className="home-peerreviewchart-next-table-title">
-            {`${t(`KPI.peerReviewChart.${label}`)} ${round != 8 ? `- R${round}` : ''}`}
+            {`${t(`KPI.peerReviewChart.${label}`)} ${label != 'over' ? (round != 8 ? `- R${round}` : '') : ''}`}
           </h2>
           <SmallTable
             item="articles"
