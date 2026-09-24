@@ -7,12 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { SmallTableProps } from './interface'
 
 import clickChart from '../../../assets/images/click_chart_horizontal3.svg?url'
-import {
-  isAuthorHeader,
-  isPidHeader,
-  isStepCell,
-  isTitleHeader,
-} from '../../utils/helpers/checkItem'
+import { isPidHeader, isStepCell, isTitleHeader } from '../../utils/helpers/checkItem'
 import {
   authorColumn,
   getCleanData,
@@ -94,7 +89,6 @@ const SmallTable = ({ item, headers, data, placeholder, loading }: SmallTablePro
                     const headerName = visibleHeaders[cIdx]
                     const isPid = isPidHeader(headerName)
                     const isTitle = isTitleHeader(headerName)
-                    const isAuthor = isAuthorHeader(headerName)
                     const isStep = isStepCell(cell)
 
                     return (

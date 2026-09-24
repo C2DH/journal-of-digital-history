@@ -38,18 +38,17 @@
     },
     "peerReviewChart": {
       "simple": {
-        "title": "Article in Rounds"
+        "title": "Articles in Peer Review"
       },
       "table": {
         "placeholder": "Select a phase to begin",
         "indication": "←  Select a peer review phase to view article details."
       },
-      "title": "Peer Review Phases",
       "default": "Peer Review Details",
-      "submitted": "Peer reviewed articles submitted",
-      "ontime": "Peer reviewed articles ontime",
-      "delay": "Peer reviewed articles delayed",
-      "declined": "Peer reviewed articles declined",
+      "submitted": "Submitted",
+      "ontime": "Ontime",
+      "delay": "Delayed",
+      "declined": "Declined",
       "over": "Peer review is done"
     }
   },
