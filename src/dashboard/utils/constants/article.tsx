@@ -40,7 +40,8 @@ export const articlePieChart = [
     label: 'Technical review',
   },
   { key: 2, value: 'PEER_REVIEW', label: 'Peer review' },
-  { key: 3, value: 'DESIGN_REVIEW', label: 'Design review' },
+  { key: 3, value: 'COPY_EDITING', label: 'Copy editing' },
+  { key: 4, value: 'DESIGN_REVIEW', label: 'Design review' },
 ]
 
 export const articleBarChart = [
@@ -51,8 +52,9 @@ export const articleBarChart = [
     label: 'Technical review',
   },
   { key: 2, value: 'PEER_REVIEW', label: 'Peer review' },
-  { key: 3, value: 'DESIGN_REVIEW', label: 'Design review' },
-  { key: 4, value: 'PUBLISHED', label: 'Published' },
+  { key: 3, value: 'COPY_EDITING', label: 'Copy editing' },
+  { key: 4, value: 'DESIGN_REVIEW', label: 'Design review' },
+  { key: 5, value: 'PUBLISHED', label: 'Published' },
 ]
 
 export const articleSeriesKey = articleBarChart.map((item) => {
