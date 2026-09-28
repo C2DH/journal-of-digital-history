@@ -43,6 +43,7 @@ export const colorsPieChart = [
   theme.palette.blue.main,
   theme.palette.blue.dark,
   theme.palette.blue.light,
+  theme.palette.green.light,
   theme.palette.green.main,
 ]
 
@@ -58,6 +59,7 @@ export const colorsArticle = [
   theme.palette.blue.main,
   theme.palette.blue.dark,
   theme.palette.blue.light,
+  theme.palette.green.light,
   theme.palette.green.main,
   theme.palette.gray.light,
 ]

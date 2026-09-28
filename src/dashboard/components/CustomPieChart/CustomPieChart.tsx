@@ -65,7 +65,7 @@ const CustomPieChart = () => {
           }}
           sx={{
             '.MuiChartsLegend-root': {
-              marginTop: '30px',
+              marginTop: '10px',
               width: { xs: '100%', lg: '70%', xl: '200px' },
             },
             '.MuiPieChart-arcLabel': {
