@@ -40,28 +40,32 @@
 }
 
 /* For Substatuses in KPI peer review Home Page */
-
-.status-fancy-badge.pending,
 .status-fancy-badge.declined,
-.status-fancy-badge.accepted,
 .status-fancy-badge.submitted,
-.status-fancy-badge.confirmed,
-.status-fancy-badge.cancelled,
-.status-fancy-badge.resent,
-.status-fancy-badge.viewed,
-.status-fancy-badge.thanked {
-  border-radius: 5px;
-  background-color: #e2e4ec;
-  color: #637198;
-  border-color: #637198;
+.status-fancy-badge.ontime,
+.status-fancy-badge.delay {
+  border-radius: 20px;
+  background-color: #a8ccf2;
+  color: #13428c;
+  border-color: #13428c;
   font-family: 'Fira Sans', sans-serif;
   margin: var(--space-size-0);
 }
 
-.status-fancy-badge.overdue {
-  border-radius: 5px;
-  background-color: #fae5d8;
-  color: #cd7434;
-  border-color: #cd7434;
-  font-family: 'Fira Sans', sans-serif;
+.status-fancy-badge.submitted {
+  background-color: #c9ddf2;
+  color: #558cd6;
+  border-color: #558cd6;
+}
+
+.status-fancy-badge.declined {
+  background-color: #f1f3f5;
+  color: #b7b7b7;
+  border-color: #b7b7b7;
+}
+
+.status-fancy-badge.delay {
+  border: 1px solid #bf6607;
+  background: rgba(245, 168, 87, 0.2);
+  color: #bf6607;
 }

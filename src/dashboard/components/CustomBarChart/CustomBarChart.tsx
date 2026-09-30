@@ -53,6 +53,10 @@ const CustomBarChart = () => {
           stroke: 'var(--color-gray)',
         },
       },
+      ['.MuiBarChart-element']: {
+        strokeWidth: 1,
+        stroke: 'white',
+      },
     }),
     xAxis: [{ height: 70, tickSize: 5, categoryGapRatio: 0.5 }],
     yAxis: [{ width: 30, tickNumber: 5, disableTicks: true, disableLine: true }],

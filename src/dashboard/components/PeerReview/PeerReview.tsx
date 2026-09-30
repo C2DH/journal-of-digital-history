@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import { colorPeerReviewChart } from '../../styles/theme'
 import { getPeerReviewArticlesDetails, getPeerReviewArticlesTiming } from '../../utils/api/api'
+import StatusBadge from '../Badge/StatusBadge/StatusBadge'
 import Legend from '../Legend/Legend'
 import SmallCard from '../SmallCard/SmallCard'
 import SmallTable from '../SmallTable/SmallTable'
@@ -114,9 +115,17 @@ const PeerReview = () => {
         <SmallCard
           className={`home-peerreviewchart-next-table chart ${placeholder ? 'light' : ''}`}
         >
-          <h2 className="home-peerreviewchart-next-table-title">
-            {`${t(`KPI.peerReviewChart.${label}`)} ${label != 'over' ? (round != 8 ? `- R${round}` : '') : ''}`}
-          </h2>
+          <div style={{ display: 'Flex', alignItems: 'center', gap: '15px' }}>
+            <h2 className="home-peerreviewchart-next-table-title">
+              {label === 'default'
+                ? t('KPI.peerReviewChart.default')
+                : label === 'over'
+                  ? 'Post review'
+                  : `Round ${round}`}
+            </h2>
+            {label != 'default' && <StatusBadge status={label} />}
+          </div>
+
           <SmallTable
             item="articles"
             headers={['pid', 'title', 'authors', 'ojs_status', 'url', 'github_issue']}
