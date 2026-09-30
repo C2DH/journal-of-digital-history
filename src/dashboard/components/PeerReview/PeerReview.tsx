@@ -3,14 +3,14 @@ import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { colorPeerReviewSimpleChart } from '../../styles/theme'
+import { colorPeerReviewChart } from '../../styles/theme'
 import { getPeerReviewArticlesDetails, getPeerReviewArticlesTiming } from '../../utils/api/api'
 import Legend from '../Legend/Legend'
 import SmallCard from '../SmallCard/SmallCard'
 import SmallTable from '../SmallTable/SmallTable'
 import { series } from './series'
 
-const PeerReviewSimple = () => {
+const PeerReview = () => {
   const { t } = useTranslation()
 
   const [label, setLabel] = useState('default')
@@ -31,7 +31,7 @@ const PeerReviewSimple = () => {
   }
 
   const { data } = useSuspenseQuery({
-    queryKey: ['peerReviewSimpleData'],
+    queryKey: ['PeerReviewData'],
     queryFn: getPeerReviewArticlesWithTiming,
     staleTime: 0,
   })
@@ -68,7 +68,7 @@ const PeerReviewSimple = () => {
           },
         },
       ],
-      colors: colorPeerReviewSimpleChart,
+      colors: colorPeerReviewChart,
     }
   }
 
@@ -108,7 +108,7 @@ const PeerReviewSimple = () => {
             }}
           />
         )}
-        <Legend series={series} colors={colorPeerReviewSimpleChart} />
+        <Legend series={series} colors={colorPeerReviewChart} />
       </SmallCard>
       {
         <SmallCard
@@ -130,4 +130,4 @@ const PeerReviewSimple = () => {
   )
 }
 
-export default PeerReviewSimple
+export default PeerReview
