@@ -10,7 +10,7 @@ vi.mock('../../../utils/helpers/table', () => ({
 describe('IconButton', () => {
   it('renders Github icon for github url', () => {
     render(<IconButton value="https://github.com/user" />)
-    expect(screen.getByTestId('github-icon')).toBeInTheDocument()
+    expect(screen.getByTestId('github-circle-icon')).toBeInTheDocument()
   })
 
   it('renders ORCID icon for orcid url', () => {
