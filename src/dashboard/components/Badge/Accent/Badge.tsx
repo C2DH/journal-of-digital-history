@@ -5,7 +5,7 @@ interface BadgeProps {
   variant: 'accent' | 'default'
 }
 
-const Badge = ({ text, variant }) => {
+const Badge = ({ text, variant }: BadgeProps) => {
   return <div className={`badge ${variant}`}>{text}</div>
 }
 

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { getPeerReviewArticlesTiming } from '../../utils/api/api'
-import PeerReviewSimple from './PeerReviewSimple'
+import PeerReview from './PeerReview'
 
 const mockUseSuspenseQuery = vi.fn()
 const mockUseQuery = vi.fn()
@@ -62,7 +62,7 @@ vi.mock('../SmallCard/SmallCard', () => ({
 }))
 
 vi.mock('../../styles/theme', () => ({
-  colorPeerReviewSimpleChart: ['#111111', '#222222', '#333333'],
+  colorPeerReviewChart: ['#111111', '#222222', '#333333'],
 }))
 
 vi.mock('../../utils/api/api', () => ({
@@ -70,7 +70,7 @@ vi.mock('../../utils/api/api', () => ({
   getPeerReviewArticlesDetails: vi.fn(),
 }))
 
-describe('PeerReviewSimple', () => {
+describe('PeerReview', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -83,7 +83,7 @@ describe('PeerReviewSimple', () => {
       data: [{ order: 'R1', ontime: 2, delay: 1, declined: 0 }],
     })
 
-    render(<PeerReviewSimple />)
+    render(<PeerReview />)
 
     expect(screen.getByTestId('small-card-home-peerreviewchart-simple chart')).toBeInTheDocument()
     expect(
@@ -97,7 +97,7 @@ describe('PeerReviewSimple', () => {
       data: [{ order: 'R1', ontime: 2, delay: 1, declined: 0 }],
     })
 
-    render(<PeerReviewSimple />)
+    render(<PeerReview />)
 
     expect(screen.getByTestId('peerreview-simple-chart')).toBeInTheDocument()
     expect(screen.getByText('R1')).toBeInTheDocument()
@@ -108,7 +108,7 @@ describe('PeerReviewSimple', () => {
       data: [],
     })
 
-    render(<PeerReviewSimple />)
+    render(<PeerReview />)
 
     expect(screen.queryByTestId('peerreview-simple-chart')).not.toBeInTheDocument()
   })
@@ -118,11 +118,11 @@ describe('PeerReviewSimple', () => {
       data: [],
     })
 
-    render(<PeerReviewSimple />)
+    render(<PeerReview />)
 
     expect(mockUseSuspenseQuery).toHaveBeenCalledWith(
       expect.objectContaining({
-        queryKey: ['peerReviewSimpleData'],
+        queryKey: ['PeerReviewData'],
         staleTime: 0,
         queryFn: expect.any(Function),
       }),
@@ -141,7 +141,7 @@ describe('PeerReviewSimple', () => {
       { order: 'R4', ontime: 0, delay: 0, declined: 3, over: 0 },
     ])
 
-    render(<PeerReviewSimple />)
+    render(<PeerReview />)
 
     const queryOptions = mockUseSuspenseQuery.mock.calls[0][0]
     const result = await queryOptions.queryFn()
@@ -175,7 +175,7 @@ describe('PeerReviewSimple', () => {
       ],
     })
 
-    render(<PeerReviewSimple />)
+    render(<PeerReview />)
 
     expect(screen.getByText('Article title')).toBeInTheDocument()
     expect(screen.getByText('Jane Doe')).toBeInTheDocument()
