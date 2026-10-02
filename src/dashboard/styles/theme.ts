@@ -2,6 +2,23 @@ import { createTheme } from '@mui/system'
 
 export const theme = createTheme({
   palette: {
+    workflow: {
+      writing: '#3C1A78',
+      technical_review: '#5E2BFF',
+      peer_review: '#174696',
+      design_review: '#1A9E7F',
+      copyediting: '#007E86',
+      social_media: '#51F6E0',
+      published: '#E0E0E0',
+      rejected: '#B7B7B7',
+    },
+    peer_review: {
+      submitted: '#A8CCF2',
+      in_progress: '#558CD6',
+      finished: '#13428C',
+      delayed: '#F5A857',
+      declined: '#B7B7B7',
+    },
     blue: {
       dark: '#4338CA',
       main: '#3B82F6',
@@ -40,28 +57,29 @@ export const theme = createTheme({
 })
 
 export const colorsPieChart = [
-  theme.palette.blue.main,
-  theme.palette.blue.dark,
-  theme.palette.blue.light,
-  theme.palette.green.light,
-  theme.palette.green.main,
+  theme.palette.workflow.writing,
+  theme.palette.workflow.technical_review,
+  theme.palette.workflow.peer_review,
+  theme.palette.workflow.copyediting,
+  theme.palette.workflow.design_review,
 ]
 
 export const colorPeerReviewSimpleChart = [
-  theme.palette.blue.dark,
-  theme.palette.blue.light,
-  theme.palette.orange.light,
-  theme.palette.gray.light,
-  theme.palette.green.light,
+  theme.palette.peer_review.submitted,
+  theme.palette.peer_review.in_progress,
+  theme.palette.peer_review.delayed,
+  theme.palette.peer_review.declined,
+  theme.palette.peer_review.finished,
 ]
 
 export const colorsArticle = [
-  theme.palette.blue.main,
-  theme.palette.blue.dark,
-  theme.palette.blue.light,
-  theme.palette.green.light,
-  theme.palette.green.main,
-  theme.palette.gray.light,
+  theme.palette.workflow.writing,
+  theme.palette.workflow.technical_review,
+  theme.palette.workflow.peer_review,
+  theme.palette.workflow.copyediting,
+  theme.palette.workflow.design_review,
+  theme.palette.workflow.published,
+  theme.palette.workflow.rejected,
 ]
 
 export const colorsAbstract = [
