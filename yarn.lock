@@ -13896,6 +13896,8 @@ __metadata:
     i18next-browser-languagedetector: "npm:^8.0.4"
     i18next-http-backend: "npm:^3.0.5"
     iconoir-react: "npm:^7.11.0"
+    joi: "npm:17.13.7"
+    js-yaml: "npm:3.15.2"
     lodash: "npm:^4.18.1"
     luxon: "npm:^3.6.1"
     markdown-it: "npm:14.3.1"
@@ -14629,6 +14631,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"joi@npm:17.13.7":
+  version: 17.13.7
+  resolution: "joi@npm:17.13.7"
+  dependencies:
+    "@hapi/hoek": "npm:^9.3.0"
+    "@hapi/topo": "npm:^5.1.0"
+    "@sideway/address": "npm:^4.1.5"
+    "@sideway/formula": "npm:^3.0.1"
+    "@sideway/pinpoint": "npm:^2.0.0"
+  checksum: 10c0/631b917001611631d4ed1007f307aabe36c0471617187f77298784c21264213b879c0f2ccd871fafbb0325c62012d4e3b77c60abbd67cc7a4f2d583f17f24568
+  languageName: node
+  linkType: hard
+
 "joi@npm:^17.11.0":
   version: 17.13.3
   resolution: "joi@npm:17.13.3"
@@ -14669,6 +14684,18 @@ __metadata:
   version: 9.0.1
   resolution: "js-tokens@npm:9.0.1"
   checksum: 10c0/68dcab8f233dde211a6b5fd98079783cbcd04b53617c1250e3553ee16ab3e6134f5e65478e41d82f6d351a052a63d71024553933808570f04dbf828d7921e80e
+  languageName: node
+  linkType: hard
+
+"js-yaml@npm:3.15.2":
+  version: 3.15.2
+  resolution: "js-yaml@npm:3.15.2"
+  dependencies:
+    argparse: "npm:^1.0.7"
+    esprima: "npm:^4.0.0"
+  bin:
+    js-yaml: bin/js-yaml.js
+  checksum: 10c0/e341df211dece9d4b784849647ad7568b5b6a58a9ee58ead750482316d83276387343649fe4b71522705dc6c76acf97718588f23dc19443833ef3e75033af967
   languageName: node
   linkType: hard
 
