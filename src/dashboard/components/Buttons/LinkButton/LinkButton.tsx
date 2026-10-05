@@ -1,6 +1,6 @@
 import './LinkButton.css'
 
-import { Github, Link, NavArrowRight } from 'iconoir-react'
+import { Github, GithubCircle, Link, NavArrowRight } from 'iconoir-react'
 
 import { ButtonLinkProps } from './interface'
 
@@ -37,7 +37,11 @@ const LinkButton = ({ url }: ButtonLinkProps) => {
 
   const linkConfigs = {
     'github.com': {
-      icon: <Github className="github-icon" data-testid="github-icon" />,
+      icon: pathname.includes('/C2DH/jdh-notebook/issues') ? (
+        <GithubCircle className="github-cercle-icon" data-testid="github-cercle-icon" />
+      ) : (
+        <Github className="github-icon" data-testid="github-icon" />
+      ),
       label: pathname.includes('/C2DH/jdh-notebook/issues') ? 'Latest GitHub issue' : pathname,
     },
     'mybinder.org': {

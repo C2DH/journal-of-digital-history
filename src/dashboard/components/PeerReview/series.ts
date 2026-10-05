@@ -52,7 +52,7 @@ export const series: Omit<BarSeriesType, 'type'>[] = [
   {
     id: 'over',
     dataKey: 'over',
-    label: 'Post-review',
+    label: 'Finished',
     layout: 'horizontal',
     stack: 'stack',
     highlightScope: {
