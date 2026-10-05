@@ -47,7 +47,7 @@ export const colorsPieChart = [
   theme.palette.green.main,
 ]
 
-export const colorPeerReviewSimpleChart = [
+export const colorPeerReviewChart = [
   theme.palette.blue.dark,
   theme.palette.blue.light,
   theme.palette.orange.light,
