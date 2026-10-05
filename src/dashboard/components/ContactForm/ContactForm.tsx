@@ -90,7 +90,7 @@ const ContactForm = ({ row, onClose }: ContactFormProps) => {
       .then(async (res) => {
         await patchArticleStatus({ status: 'COPY_EDITING' }, pid)
           .then((res) => {
-            notify('success', t('notification.status.success.article'), '')
+            notify('success', t('notification.status.success.article'), res.message, 0, pid)
           })
           .catch((error) => {
             notify('error', t('notification.status.error.article'), error.message)
