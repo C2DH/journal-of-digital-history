@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import { useTranslation } from 'react-i18next'
-import { Container, Row, Col, Form, Button } from 'react-bootstrap'
-import { BootstrapColumLayout } from '../constants/globalConstants'
-import { useQueryParam, StringParam, withDefault } from 'use-query-params'
-import { useGetJSON } from '../logic/api/fetchData'
-import { StatusSuccess, StatusFetching } from '../constants/globalConstants'
-import { useSpring, a, animated, config } from 'react-spring'
-import { parseNotebook } from '../logic/parseNotebook'
-import { useBoundingClientRect } from '../hooks/graphics'
-import ArticleFingerprint from '../components/Article/ArticleFingerprint'
+import { a, animated, config, useSpring } from 'react-spring'
+import { StringParam, useQueryParam, withDefault } from 'use-query-params'
 
+import ArticleFingerprint from '../components/Article/ArticleFingerprint'
+import { BootstrapColumLayout, StatusFetching, StatusSuccess } from '../constants/globalConstants'
+import { useBoundingClientRect } from '../hooks/graphics'
+import { useGetJSON } from '../logic/api/fetchData'
+import { parseNotebook } from '../logic/parseNotebook'
 import ErrorViewer from './ErrorViewer'
 
 const FingerprintLoader = ({ url, delay = 0 }) => {
@@ -19,7 +18,7 @@ const FingerprintLoader = ({ url, delay = 0 }) => {
   const [animatedTooltipProps, tooltipApi] = useSpring(() => ({
     x: 0,
     y: 0,
-    opacity: 1,
+    opacity: 0,
     backgroundColor: 'var(--secondary)',
     color: 'var(--white)',
     config: config.stiff,
@@ -52,14 +51,14 @@ const FingerprintLoader = ({ url, delay = 0 }) => {
         datum.type === 'code'
           ? 'var(--white)'
           : datum.isHermeneutic
-          ? 'var(--secondary)'
-          : 'var(--white)',
+            ? 'var(--secondary)'
+            : 'var(--white)',
       backgroundColor:
         datum.type === 'code'
           ? 'var(--accent)'
           : datum.isHermeneutic
-          ? 'var(--primary)'
-          : 'var(--secondary)',
+            ? 'var(--primary)'
+            : 'var(--secondary)',
       opacity: 1,
     })
   }
@@ -124,7 +123,7 @@ const FingerprintLoader = ({ url, delay = 0 }) => {
           </Row>
           <Row>
             <Col className="bg-transparent" {...BootstrapColumLayout} style={{ height: size }}>
-              <div ref={ref} onMouseOut={onMouseOutHandler}>
+              <div ref={ref} className="position-relative" onMouseOut={onMouseOutHandler}>
                 {fingerprintData ? (
                   <ArticleFingerprint
                     debug={true}
@@ -154,11 +153,12 @@ const FingerprintViewer = () => {
   const [value, setValue] = useState('')
   const [ipynbUrl, setIpynbUrl] = useQueryParam('url', withDefault(StringParam, ''))
   console.info('initial url', ipynbUrl)
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
     console.info('@submit', value)
     // is a vaild, full url
     setIpynbUrl(value)
-    // eslint-disable-next-line
+
     // debugger
     // history.push({
     //   pathname: generatePath("/:lang/fingerprint-viewer", {
@@ -184,7 +184,7 @@ const FingerprintViewer = () => {
                 defaultValue={value}
                 onChange={(e) => setValue(e.target.value)}
                 type="url"
-                placeholder="https://"
+                placeholder="https://raw.githubusercontent.com/<username>/<repo-name>/..."
               />
               <Form.Text
                 className="text-muted"

@@ -34,7 +34,7 @@ const ErrorViewer = ({ error = {}, language = 'python', className = 'page', chil
           <div className="alert alert-warning" role="alert">
             page: <b>{window.location.pathname}</b>
             <br />
-            error message: <b>{error.response.data.message}</b>
+            error message: <b>{error?.response?.data?.message ?? error?.message}</b>
           </div>
           <pre className="hljs" data-test="error-message">
             {cleanError.split('\n').map((line, index) => (
