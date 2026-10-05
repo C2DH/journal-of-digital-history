@@ -13897,7 +13897,7 @@ __metadata:
     i18next-http-backend: "npm:^3.0.5"
     iconoir-react: "npm:^7.11.0"
     joi: "npm:17.13.7"
-    js-yaml: "npm:3.15.2"
+    js-yaml: "npm:4.3.2"
     lodash: "npm:^4.18.1"
     luxon: "npm:^3.6.1"
     markdown-it: "npm:14.3.1"
@@ -14687,15 +14687,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-yaml@npm:3.15.2":
-  version: 3.15.2
-  resolution: "js-yaml@npm:3.15.2"
+"js-yaml@npm:4.3.2":
+  version: 4.3.2
+  resolution: "js-yaml@npm:4.3.2"
   dependencies:
-    argparse: "npm:^1.0.7"
-    esprima: "npm:^4.0.0"
+    argparse: "npm:^2.0.1"
   bin:
     js-yaml: bin/js-yaml.js
-  checksum: 10c0/e341df211dece9d4b784849647ad7568b5b6a58a9ee58ead750482316d83276387343649fe4b71522705dc6c76acf97718588f23dc19443833ef3e75033af967
+  checksum: 10c0/dedd34c2e8fef1d504687f1bc94ed0ee1311a1f78770fa2800352c6d59c635ccf555009d74e9afe529ae62199da2b1ccef30e53dc84dcd8d2d8187c22574bc97
   languageName: node
   linkType: hard
 
