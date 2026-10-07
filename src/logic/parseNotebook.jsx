@@ -10,8 +10,8 @@ export function parseNotebook({ cells=[] }={}) {
   const parsedCells = []
   cells.forEach((cell, i) => {
     const c = {}
-    const tags = cell.metadata.tags ?? []
-    const sources = cell.source.join('')
+    const tags = cell.metadata?.tags ?? []
+    const sources = (cell.source ?? []).join('')
     c.type = cell.cell_type
     c.tags = tags
     c.idx = i
@@ -40,7 +40,7 @@ export function parseNotebook({ cells=[] }={}) {
       c.isTable = tags.some(t => t.indexOf('table-') !== -1)
       c.firstWords = c.type === 'markdown'
         ? markdownParser.render(sources).replace(/<[^>]*>/g, '').split(/[\s\n,.]+/).slice(0, 10).concat(['...']).join(' ')
-        : cell.source.slice(0, 1).join(' ')
+        : (cell.source ?? []).slice(0, 1).join(' ')
       // c.firstWordsHeading = [
       //   c.isHermeneutic ? 'Hermeneutics': 'Narrative',
       //   c.type=="code" ? 'CODE' : null,
