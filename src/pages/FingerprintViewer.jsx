@@ -126,7 +126,7 @@ const FingerprintLoader = ({ url, delay = 0 }) => {
               <div ref={ref} className="position-relative" onMouseOut={onMouseOutHandler}>
                 {fingerprintData ? (
                   <ArticleFingerprint
-                    debug={true}
+                    debug={false}
                     onMouseMove={onMouseMoveHandler}
                     stats={fingerprintData.stats}
                     cells={fingerprintData.cells}
