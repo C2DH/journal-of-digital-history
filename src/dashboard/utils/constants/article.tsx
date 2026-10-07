@@ -15,8 +15,8 @@ export const articleSteps = [
   { key: 'peer_review', label: 'Peer Review', icon: <CheckCircleOutlined /> },
   { key: 'design_review', label: 'Design Review', icon: <PaletteOutlined /> },
   { key: 'copy_editing', label: 'Copy editing', icon: <EditOutlined /> },
-  { key: 'published', label: 'Published', icon: <RocketLaunchOutlined /> },
   { key: 'social', label: 'Social', icon: <ShareOutlined /> },
+  { key: 'published', label: 'Published', icon: <RocketLaunchOutlined /> },
   { key: 'archived', label: 'Archived', icon: <Inventory2Outlined /> },
 ]
 
