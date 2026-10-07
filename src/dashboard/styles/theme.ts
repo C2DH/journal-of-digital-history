@@ -64,12 +64,12 @@ export const colorsPieChart = [
   theme.palette.workflow.design_review,
 ]
 
-export const colorPeerReviewSimpleChart = [
-  theme.palette.peer_review.submitted,
-  theme.palette.peer_review.in_progress,
-  theme.palette.peer_review.delayed,
-  theme.palette.peer_review.declined,
-  theme.palette.peer_review.finished,
+export const colorPeerReviewChart = [
+  theme.palette.blue.dark,
+  theme.palette.blue.light,
+  theme.palette.orange.light,
+  theme.palette.gray.light,
+  theme.palette.green.light,
 ]
 
 export const colorsArticle = [

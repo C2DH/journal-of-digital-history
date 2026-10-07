@@ -1,7 +1,7 @@
 import './IconButton.css'
 
 import { OpenInNew } from '@mui/icons-material'
-import { Facebook, Github, Linkedin } from 'iconoir-react'
+import { Facebook, GithubCircle, Linkedin } from 'iconoir-react'
 
 import BlueskyIcon from '../../../../assets/images/bluesky_blue.svg?url'
 import OrcidIconUrl from '../../../../assets/images/orcid_logo_blue_inverted.svg?url'
@@ -34,7 +34,7 @@ const IconButton = ({ value }: any) => {
         )
         break
       case 'github':
-        icon = <Github className="github-icon" data-testid="github-icon" />
+        icon = <GithubCircle className="github-circle-icon" data-testid="github-circle-icon" />
         break
       case 'bsky':
         icon = (

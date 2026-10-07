@@ -33,8 +33,8 @@ vi.mock('../../components/CustomBarChart/CustomBarChart', () => ({
   default: () => <div data-testid="custom-bar-chart">CustomBarChart</div>,
 }))
 
-vi.mock('../../components/PeerReviewSimple/PeerReviewSimple', () => ({
-  default: () => <div data-testid="peer-review-simple">PeerReviewSimple</div>,
+vi.mock('../../components/PeerReview/PeerReview', () => ({
+  default: () => <div data-testid="peer-review-simple">PeerReview</div>,
 }))
 
 vi.mock('../../components/SmallTable/SmallTable', () => ({

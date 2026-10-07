@@ -619,6 +619,7 @@ const useActionStore = create<ActionStore>((set, get) => ({
       actions.push(defaultAction('Technical_review', 'Technical review'))
       actions.push(defaultAction('Peer_review', 'Peer review'))
       actions.push(defaultAction('Copy_editing', 'Copy editing'))
+      actions.push(defaultAction('Design_review', 'Design review'))
       actions.push(defaultAction('Published'))
       actions.push(defaultAction('Rejected'))
     }

@@ -55,6 +55,7 @@ export const articleBarChart = [
   { key: 3, value: 'COPY_EDITING', label: 'Copy editing' },
   { key: 4, value: 'DESIGN_REVIEW', label: 'Design review' },
   { key: 5, value: 'PUBLISHED', label: 'Published' },
+  { key: 6, value: 'REJECTED', label: 'Rejected' },
 ]
 
 export const articleSeriesKey = articleBarChart.map((item) => {
