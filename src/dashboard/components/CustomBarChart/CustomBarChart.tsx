@@ -54,7 +54,7 @@ const CustomBarChart = () => {
         },
       },
       ['.MuiBarChart-element']: {
-        strokeWidth: 1,
+        strokeWidth: 2,
         stroke: 'white',
       },
     }),

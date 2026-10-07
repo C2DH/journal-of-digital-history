@@ -90,7 +90,7 @@ const PeerReview = () => {
           <BarChart
             sx={{
               '.MuiBarChart-element': {
-                strokeWidth: 1,
+                strokeWidth: 2,
                 stroke: 'white',
               },
               '.MuiBarChart-label': {
