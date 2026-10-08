@@ -17,7 +17,9 @@
   align-items: center;
   gap: var(--gap-size-1);
   padding: var(--space-size-0);
-  width: fit-content;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .link-container:hover {
@@ -34,9 +36,15 @@
   align-items: center;
   gap: var(--gap-size-2);
   overflow: hidden;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.link-label {
+  overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 100%;
+  min-width: 0;
+  flex: 1 1 auto;
 }
 
 .link {
