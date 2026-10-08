@@ -20,6 +20,7 @@
   &.technical_review,
   &.design_review,
   &.copy_editing,
+  &.social_media,
   &.social {
     color: var(--color-warning);
   }
