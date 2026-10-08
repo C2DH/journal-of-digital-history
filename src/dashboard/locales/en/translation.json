@@ -38,20 +38,13 @@
     },
     "peerReviewChart": {
       "simple": {
-        "title": "Article in Rounds"
+        "title": "Articles in Peer Review"
       },
       "table": {
         "placeholder": "Select a phase to begin",
         "indication": "←  Select a peer review phase to view article details."
       },
-      "title": "Peer Review Phases",
-      "default": "Peer Review Details",
-      "assign": "Assign Reviewer",
-      "awaiting": "Awaiting Reviewer Response",
-      "review": "Review in progress",
-      "reviewer": "Reviewer decision",
-      "revising": "Author revising",
-      "resubmit": "Resubmit"
+      "default": "Peer Review Details"
     }
   },
   "badge": {
@@ -65,16 +58,11 @@
       "published": "Published",
       "archived": "Archived",
       "rejected": "Rejected",
-      "pending": "pending",
-      "declined": "declined",
-      "overdue": "overdue",
-      "accepted": "accepted",
-      "submitted": "submitted",
-      "confirmed": "confirmed",
-      "thanked": "thanked",
-      "cancelled": "cancelled",
-      "resent": "resent",
-      "viewed": "viewed"
+      "submitted": "Submitted",
+      "declined": "Declined",
+      "ontime": "In progression",
+      "delay": "Delayed",
+      "over": "Finished"
     }
   },
   "issues": {
@@ -121,7 +109,9 @@
     "authors": "Authors",
     "title": "Title",
     "substatus": "Substatus",
-    "url": "OJS"
+    "url": "OJS",
+    "ojs_status": "OJS status",
+    "github_issue": "Issue GitHub"
   },
   "authors": {
     "item": "Authors",

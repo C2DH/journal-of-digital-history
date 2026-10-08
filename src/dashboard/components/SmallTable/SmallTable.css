@@ -48,6 +48,9 @@ td.smalltable-submitted_date {
   width: 22%;
 }
 th.smalltable-title {
+  width: 30%;
+}
+th.smalltable-ojs_status {
   width: 40%;
 }
 th.smalltable-authors {
@@ -55,6 +58,17 @@ th.smalltable-authors {
 }
 th.smalltable-url {
   width: 10%;
+}
+th.smalltable-github_issue {
+  width: 13%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
 }
 
 /* CELL STYLES */
@@ -70,7 +84,7 @@ td.smalltable-name,
   color: var(--color-deep-blue);
 }
 
-td.smalltable-substatus {
+td.smalltable-ojs_status {
   display: flex;
   flex-direction: row;
   align-items: center;

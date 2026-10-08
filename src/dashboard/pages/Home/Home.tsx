@@ -9,8 +9,7 @@ import Badge from '../../components/Badge/Accent/Badge'
 import CustomBarChart from '../../components/CustomBarChart/CustomBarChart'
 import CustomPieChart from '../../components/CustomPieChart/CustomPieChart'
 import Deadline from '../../components/Deadline/Deadline'
-import PeerReviewChart from '../../components/PeerReviewChart/PeerReviewChart'
-import PeerReviewSimple from '../../components/PeerReviewSimple/PeerReviewSimple'
+import PeerReview from '../../components/PeerReview/PeerReview'
 import SmallCard from '../../components/SmallCard/SmallCard'
 import SmallTable from '../../components/SmallTable/SmallTable'
 import { getCallforpaperWithDeadlineOpen } from '../../utils/api/api'
@@ -92,8 +91,7 @@ const Home = () => {
         <CustomPieChart />
         <CustomBarChart />
         <>{data && data.length > 0 && AbstractSubmittedCard(data)}</>
-        <PeerReviewChart />
-        <PeerReviewSimple />
+        <PeerReview />
       </div>
       <Outlet />
     </div>

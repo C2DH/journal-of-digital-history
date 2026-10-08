@@ -35,7 +35,7 @@ export const submissionFormSchema = {
           orcidUrl: {
             type: 'string',
             format: 'uri',
-            pattern: '^https?://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9X]{4}$',
+            pattern: '^https://orcid.org/[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9X]{4}$',
           },
           githubId: {
             anyOf: [
