@@ -36,6 +36,7 @@ export const colorsPieChart = [
   theme.palette.workflow.peer_review,
   theme.palette.workflow.copyediting,
   theme.palette.workflow.design_review,
+  theme.palette.workflow.social_media,
 ]
 
 export const colorPeerReviewChart = [
@@ -52,6 +53,7 @@ export const colorsArticle = [
   theme.palette.workflow.peer_review,
   theme.palette.workflow.copyediting,
   theme.palette.workflow.design_review,
+  theme.palette.workflow.social_media,
   theme.palette.workflow.published,
   theme.palette.workflow.rejected,
 ]
