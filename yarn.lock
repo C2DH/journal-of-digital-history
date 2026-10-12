@@ -13896,7 +13896,7 @@ __metadata:
     i18next-browser-languagedetector: "npm:^8.0.4"
     i18next-http-backend: "npm:^3.0.5"
     iconoir-react: "npm:^7.11.0"
-    joi: "npm:17.13.7"
+    joi: "npm:17.13.8"
     js-yaml: "npm:4.3.2"
     lodash: "npm:^4.18.1"
     luxon: "npm:^3.6.1"
@@ -14631,16 +14631,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"joi@npm:17.13.7":
-  version: 17.13.7
-  resolution: "joi@npm:17.13.7"
+"joi@npm:17.13.8":
+  version: 17.13.8
+  resolution: "joi@npm:17.13.8"
   dependencies:
     "@hapi/hoek": "npm:^9.3.0"
     "@hapi/topo": "npm:^5.1.0"
     "@sideway/address": "npm:^4.1.5"
     "@sideway/formula": "npm:^3.0.1"
     "@sideway/pinpoint": "npm:^2.0.0"
-  checksum: 10c0/631b917001611631d4ed1007f307aabe36c0471617187f77298784c21264213b879c0f2ccd871fafbb0325c62012d4e3b77c60abbd67cc7a4f2d583f17f24568
+  checksum: 10c0/7fe2b38d26dfcbcf1836892384ba2f42f83058795f32dcb3733de4c3b97cac923a8b9053738f10701663872a994f77af351c71e1428117a20bbfc1f94768f648
   languageName: node
   linkType: hard
 
