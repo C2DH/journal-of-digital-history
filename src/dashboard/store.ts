@@ -531,6 +531,7 @@ const useActionStore = create<ActionStore>((set, get) => ({
       case 'Peer_review':
       case 'Copy_editing':
       case 'Design_review':
+      case 'Social_media':
       case 'Published':
       case 'Rejected':
         try {
@@ -577,11 +578,10 @@ const useActionStore = create<ActionStore>((set, get) => ({
           actions.push(modalAction('Copyediting', 'Send docx to copyeditor'))
           break
         case 'PEER_REVIEW':
-          actions.push(modalAction('Copyediting', 'Send docx to copyeditor'))
-          break
         case 'DESIGN_REVIEW':
           actions.push(modalAction('Copyediting', 'Send docx to copyeditor'))
           break
+        case 'SOCIAL_MEDIA':
         case 'PUBLISHED':
           actions.push(modalAction('Facebook'))
           actions.push(modalAction('Bluesky'))
@@ -620,6 +620,7 @@ const useActionStore = create<ActionStore>((set, get) => ({
       actions.push(defaultAction('Peer_review', 'Peer review'))
       actions.push(defaultAction('Copy_editing', 'Copy editing'))
       actions.push(defaultAction('Design_review', 'Design review'))
+      actions.push(defaultAction('Social_media', 'Social media'))
       actions.push(defaultAction('Published'))
       actions.push(defaultAction('Rejected'))
     }

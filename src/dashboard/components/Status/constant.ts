@@ -10,6 +10,7 @@ export const statusIcons: Record<string, { icon: string }> = {
   peer_review: { icon: 'error' },
   design_review: { icon: 'error' },
   copy_editing: { icon: 'error' },
+  social_media: { icon: 'error' },
   published: { icon: 'check_circle' },
   social: { icon: 'error' },
   archived: { icon: 'check_circle' },
