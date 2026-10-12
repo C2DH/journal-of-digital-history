@@ -15,7 +15,7 @@ export const articleSteps = [
   { key: 'peer_review', label: 'Peer Review', icon: <CheckCircleOutlined /> },
   { key: 'design_review', label: 'Design Review', icon: <PaletteOutlined /> },
   { key: 'copy_editing', label: 'Copy editing', icon: <EditOutlined /> },
-  { key: 'social', label: 'Social', icon: <ShareOutlined /> },
+  { key: 'social_media', label: 'Social', icon: <ShareOutlined /> },
   { key: 'published', label: 'Published', icon: <RocketLaunchOutlined /> },
   { key: 'archived', label: 'Archived', icon: <Inventory2Outlined /> },
 ]
@@ -26,7 +26,7 @@ export const articleStatus = [
   { key: 3, value: 'PEER_REVIEW', label: 'Peer review' },
   { key: 4, value: 'DESIGN_REVIEW', label: 'Design review' },
   { key: 5, value: 'COPY_EDITING', label: 'Copy editing' },
-  { key: 6, value: 'SOCIAL', label: 'Social' },
+  { key: 6, value: 'SOCIAL_MEDIA', label: 'Social media' },
   { key: 7, value: 'PUBLISHED', label: 'Published' },
   { key: 8, value: 'ARCHIVED', label: 'Archived' },
   { key: 8, value: 'REJECTED', label: 'Rejected' },
