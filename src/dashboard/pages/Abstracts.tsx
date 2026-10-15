@@ -23,6 +23,7 @@ const Abstracts = () => {
     hasMore,
     fetchItems,
     setParams,
+    reset,
     loadMore,
   } = useItemsStore()
   const { updateFromStores, changeFilters, changeQueryParams, syncFiltersWithURL } =
@@ -34,6 +35,7 @@ const Abstracts = () => {
   }, [])
 
   useEffect(() => {
+    reset()
     updateFromStores(true)
     syncFiltersWithURL(searchParams)
     const { params: queryParams } = changeQueryParams(true) as { params?: Record<string, unknown> }
