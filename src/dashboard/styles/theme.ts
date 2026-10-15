@@ -4,8 +4,8 @@ export const theme = createTheme({
   palette: {
     workflow: {
       writing: '#0072B2',
-      technical_review: '#56B4E9',
-      peer_review: '#332288',
+      technical_review: '#332288',
+      peer_review: '#56B4E9',
       design_review: '#44AA99',
       copyediting: '#CC79A7',
       social_media: '#F0E442',
@@ -13,9 +13,9 @@ export const theme = createTheme({
       rejected: '#A9A9A9',
     },
     peer_review: {
-      submitted: '#D8DBFF',
-      in_progress: '#9193F0',
-      finished: '#332288',
+      submitted: '#BBE5FF',
+      in_progress: '#56B4E9',
+      finished: '#006894',
       delayed: '#F5A55A',
       declined: '#A9A9A9',
     },
