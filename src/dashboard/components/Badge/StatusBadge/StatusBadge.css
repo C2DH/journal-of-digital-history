@@ -6,7 +6,7 @@
   width: fit-content;
   border: 1px solid var(--color-dark);
   border-radius: 16px;
-  padding: var(--space-size-0) var(--space-size-0);
+  padding: var(--space-size-0) var(--space-size-1);
 }
 .status-fancy-badge.draft {
   background-color: #cadcf9;
@@ -45,23 +45,23 @@
 .status-fancy-badge.ontime,
 .status-fancy-badge.delay {
   border-radius: 20px;
-  background-color: #d8dbff;
-  color: #332288;
-  border-color: #332288;
+  background-color: #bbe5ff;
+  color: #006894;
+  border-color: #006894;
   font-family: 'Fira Sans', sans-serif;
   margin: var(--space-size-0);
 }
 
 .status-fancy-badge.submitted {
-  background-color: #d8dbff;
-  color: #9193f0;
-  border-color: #9193f0;
+  background-color: #d7ebf8;
+  color: #56b4e9;
+  border-color: #56b4e9;
 }
 
 .status-fancy-badge.over {
-  background-color: #9193f0;
-  color: #332288;
-  border-color: #332288;
+  background-color: white;
+  color: #006894;
+  border-color: #006894;
 }
 
 .status-fancy-badge.declined {
