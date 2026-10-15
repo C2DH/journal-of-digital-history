@@ -52,7 +52,7 @@ const Abstracts = () => {
     <div className="abstract page">
       <div className="card-header-title">
         <h1>{t(`abstracts.item`)}</h1>
-        {count && <Counter value={count} />}
+        {!loading && <Counter value={count} />}
       </div>
       <FilterBar filters={filters} onFilterChange={changeFilters} />
       <Card
