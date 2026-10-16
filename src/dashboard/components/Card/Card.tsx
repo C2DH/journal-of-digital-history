@@ -61,6 +61,7 @@ const Card = ({
                 item={item}
                 headers={headers}
                 data={data}
+                loading={loading ?? false}
                 sortBy={sortBy}
                 sortOrder={sortOrder}
                 setSort={setSort}

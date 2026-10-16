@@ -25,7 +25,7 @@ type GetVisibleHeadersParams = {
  * @returns An array of string which are the headers, we want to display.
  */
 function getVisibleHeaders({ data, headers }: GetVisibleHeadersParams): string[] {
-  if (data.length === 0) return []
+  if (data.length === 0) return headers
   return headers.filter((header) => getNestedValue(data[0], header) !== undefined)
 }
 
