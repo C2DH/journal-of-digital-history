@@ -215,16 +215,12 @@ const Table = ({
                             : undefined
                         }
                       >
-                        {loading ? (
-                          <Skeleton />
-                        ) : (
-                          renderCell({
-                            isStep,
-                            cell,
-                            header: headerName,
-                            isArticle: isArticleItem,
-                          })
-                        )}
+                        {renderCell({
+                          isStep,
+                          cell,
+                          header: headerName,
+                          isArticle: isArticleItem,
+                        })}
                       </td>
                     )
                   })}
