@@ -10,7 +10,7 @@ import { contactFormCopyEditingSchema } from '../../schemas/copyEditing'
 import { contactFormSchema } from '../../schemas/form'
 import { useFormStore } from '../../store'
 import {
-  modifyAbstractStatusWithEmail,
+  patchAbstractStatusWithEmail,
   patchArticleStatus,
   sendArticleToCopyeditor,
 } from '../../utils/api/api'
@@ -104,7 +104,7 @@ const ContactForm = ({ row, onClose }: ContactFormProps) => {
   const handleDefaultAction = async () => {
     closeBothModal()
 
-    await modifyAbstractStatusWithEmail(formData?.pid, formData)
+    await patchAbstractStatusWithEmail(formData?.pid, formData)
       .then((res) => {
         notify('success', t('email.success.api.contactForm'), res?.data?.message, 0, pid)
       })

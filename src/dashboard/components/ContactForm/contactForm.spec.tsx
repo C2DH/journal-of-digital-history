@@ -34,7 +34,7 @@ vi.mock('../../store', () => ({
 }))
 
 vi.mock('../../utils/api/api', () => ({
-  modifyAbstractStatusWithEmail: vi.fn(() =>
+  patchAbstractStatusWithEmail: vi.fn(() =>
     Promise.resolve({ data: { message: 'Message sent successfully!' } }),
   ),
   patchArticleStatus: vi.fn(() => Promise.resolve({ message: 'Status updated' })),
@@ -127,7 +127,7 @@ describe('ContactForm', () => {
   })
 
   it('sends sucessfully an email', async () => {
-    const { modifyAbstractStatusWithEmail } = await import('../../utils/api/api')
+    const { patchAbstractStatusWithEmail } = await import('../../utils/api/api')
     const { notify } = await import('../../utils/helpers/notification')
 
     mockIsModalOpen = true
@@ -137,7 +137,7 @@ describe('ContactForm', () => {
     fireEvent.click(confirmButton)
 
     await waitFor(() => {
-      expect(modifyAbstractStatusWithEmail).toHaveBeenCalledWith(mockFormData.pid, mockFormData)
+      expect(patchAbstractStatusWithEmail).toHaveBeenCalledWith(mockFormData.pid, mockFormData)
       expect(mockCloseModal).toHaveBeenCalled()
       expect(mockOnClose).toHaveBeenCalled()
       expect(notify).toHaveBeenCalledWith(
@@ -151,9 +151,9 @@ describe('ContactForm', () => {
   })
 
   it('calls notify with error when api call fails', async () => {
-    const { modifyAbstractStatusWithEmail } = await import('../../utils/api/api')
+    const { patchAbstractStatusWithEmail } = await import('../../utils/api/api')
     const { notify } = await import('../../utils/helpers/notification')
-    vi.mocked(modifyAbstractStatusWithEmail).mockRejectedValueOnce({ error: 'API Error' })
+    vi.mocked(patchAbstractStatusWithEmail).mockRejectedValueOnce({ error: 'API Error' })
 
     mockIsModalOpen = true
     render(<ContactForm row={mockAbstractRow} onClose={mockOnClose} />)
