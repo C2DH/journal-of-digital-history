@@ -10,11 +10,11 @@ import api from './headers'
  * @param body - Object containing the new status and email details.
  * @returns A promise that resolves with the API response.
  */
-const modifyAbstractStatusWithEmail = async (pid: string, body: Record<string, any>) => {
-  console.info('PATCH [modifyAbstractStatusWithEmail]')
+const patchAbstractStatusWithEmail = async (pid: string, body: Record<string, any>) => {
+  console.info('PATCH [patchAbstractStatusWithEmail]')
 
   return api
-    .patch(`/api/abstracts/${pid}/status`, body)
+    .patch(`/api/abstracts/${pid}/status/email`, body)
     .then((res) => {
       console.log(res)
       return res
@@ -352,7 +352,7 @@ export {
   getPeerReviewArticlesTiming,
   getSocialMediaCover,
   getTweetContent,
-  modifyAbstractStatusWithEmail,
+  patchAbstractStatusWithEmail,
   patchArticleStatus,
   patchStatus,
   postArticletoSubmissionOJS,
