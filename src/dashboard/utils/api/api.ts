@@ -28,19 +28,16 @@ const patchAbstractStatusWithEmail = async (pid: string, body: Record<string, an
 /**
  * Updates the status of multiple items (articles or abstracts).
  *
- * @param body - Object containing an array of PIDs and the new status.
- * @param item - The item type ('articles' or 'abstracts').
+ * @param body - Object containing the new status.
+ * @param pid - The unique identifier of the article.
  * @returns A promise that resolves with the API response.
  */
-const patchStatus = async (body: { pids: string[]; status: string }, item: string) => {
-  console.info(`PATCH [modifyStatus] - ${item} `)
+const patchAbstractStatus = async (body: { status: string }, pid: string) => {
+  console.info('PATCH [patchAbstractStatus]')
 
   return api
-    .patch(`/api/${item}/status`, body)
-    .then((res) => {
-      console.log(res)
-      return res
-    })
+    .patch(`/api/abstracts/${pid}/status`, body)
+    .then((res) => res.data)
     .catch((err) => {
       console.error(err)
       throw err
@@ -352,9 +349,9 @@ export {
   getPeerReviewArticlesTiming,
   getSocialMediaCover,
   getTweetContent,
+  patchAbstractStatus,
   patchAbstractStatusWithEmail,
   patchArticleStatus,
-  patchStatus,
   postArticletoSubmissionOJS,
   postBlueskyCampaign,
   postFacebookCampaign,

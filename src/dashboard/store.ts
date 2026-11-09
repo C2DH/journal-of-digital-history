@@ -1,6 +1,10 @@
 import create from 'zustand'
 
-import { patchArticleStatus, patchStatus, postArticletoSubmissionOJS } from './utils/api/api'
+import {
+  patchAbstractStatus,
+  patchArticleStatus,
+  postArticletoSubmissionOJS,
+} from './utils/api/api'
 import api from './utils/api/headers'
 import { abstractStatus } from './utils/constants/abstract'
 import { articleStatus } from './utils/constants/article'
@@ -512,15 +516,8 @@ const useActionStore = create<ActionStore>((set, get) => ({
       case 'Abandoned':
       case 'Suspended':
         try {
-          const res = await patchStatus({ pids: [pid], status: action.toLowerCase() }, 'abstracts')
-          notify(
-            'success',
-            'notification.status.success.abstract',
-            res.data.message,
-            0,
-            pid,
-            'abstracts',
-          )
+          const res = await patchAbstractStatus({ status: action.toUpperCase() }, pid)
+          notify('success', 'notification.status.success.abstract', res.status, 0, pid, 'abstracts')
         } catch (error: any) {
           notify('error', 'notification.status.error.abstract', error.message)
         }
