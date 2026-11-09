@@ -4,7 +4,7 @@ export const notify = (
   type: 'success' | 'error' | 'warning',
   message: string,
   submessage?: string,
-  delay?: number,
+  delay: number = 0,
   pid?: string,
   endpoint?: string,
 ) => {
@@ -14,16 +14,12 @@ export const notify = (
 
   const notification = { type, message, submessage }
 
-  if (delay) {
-    setTimeout(() => setNotification(notification), delay)
-  } else {
-    setNotification(notification)
-  }
+  setNotification(notification, delay)
 
-  if (pid && endpoint) {
-    fetchItem(pid, endpoint)
-  } else if (pid) {
-    fetchItem(pid, 'articles')
+  if (type != 'success') return
+
+  if (pid) {
+    fetchItem(pid, endpoint ?? 'articles')
   } else {
     fetchItems(true)
   }

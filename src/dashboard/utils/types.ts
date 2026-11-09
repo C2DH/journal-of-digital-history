@@ -283,7 +283,7 @@ export type SetNotification = (notification: Notification) => void | undefined
 export interface NotificationState {
   isVisible: boolean
   notification: Notification
-  setNotification: (notification: Notification) => void
+  setNotification: (notification: Notification, delay: number) => void
   clearNotification: () => void
 }
 

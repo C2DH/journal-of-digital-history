@@ -45,6 +45,25 @@ const patchAbstractStatus = async (body: { status: string }, pid: string) => {
 }
 
 /**
+ * Updates the status of a specific article.
+ *
+ * @param body - Object containing the new status.
+ * @param pid - The unique identifier of the article.
+ * @returns A promise that resolves with the updated article data.
+ */
+const patchArticleStatus = async (body: { status: string }, pid: string) => {
+  console.info('PATCH [patchArticleStatus]')
+
+  return api
+    .patch(`/api/articles/${pid}/status`, body)
+    .then((res) => res.data)
+    .catch((err) => {
+      console.error(err)
+      throw err
+    })
+}
+
+/**
  * Retrieves all articles filtered by status.
  *
  * @param status - The status to filter articles by.
@@ -259,25 +278,6 @@ const getSocialMediaCover = async (pid: string): Promise<{ download_url: string 
     .then((res) => {
       return res.data
     })
-    .catch((err) => {
-      console.error(err)
-      throw err
-    })
-}
-
-/**
- * Updates the status of a specific article.
- *
- * @param body - Object containing the new status.
- * @param pid - The unique identifier of the article.
- * @returns A promise that resolves with the updated article data.
- */
-const patchArticleStatus = async (body: { status: string }, pid: string) => {
-  console.info('PATCH [patchArticleStatus]')
-
-  return api
-    .patch(`/api/articles/${pid}/status`, body)
-    .then((res) => res.data)
     .catch((err) => {
       console.error(err)
       throw err

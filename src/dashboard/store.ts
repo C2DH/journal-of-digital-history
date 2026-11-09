@@ -465,10 +465,10 @@ let hideTimer: ReturnType<typeof setTimeout> | undefined
 const useNotificationStore = create<NotificationState>((set) => ({
   isVisible: false,
   notification: { type: 'info', message: '', submessage: '' },
-  setNotification: (notification) => {
+  setNotification: (notification, delay) => {
     clearTimeout(hideTimer)
     set({ notification, isVisible: true })
-    hideTimer = setTimeout(() => set({ isVisible: false }), 7000)
+    hideTimer = setTimeout(() => set({ isVisible: false }), delay)
   },
   clearNotification: () => set({ notification: { type: 'info', message: '', submessage: '' } }),
 }))
@@ -503,8 +503,8 @@ const useActionStore = create<ActionStore>((set, get) => ({
           const res = await postArticletoSubmissionOJS({ pid })
           notify('success', 'notification.ojs.success', res.data.message, 7000)
           try {
-            await patchArticleStatus({ status: 'PEER_REVIEW' }, pid)
-            notify('success', 'notification.status.success.article', '', 7000, pid)
+            const res = await patchArticleStatus({ status: 'PEER_REVIEW' }, pid)
+            notify('success', 'notification.status.success.article', res.status, 7000, pid)
           } catch (error: any) {
             notify('error', 'notification.status.error.article', error.message, 7000)
           }
@@ -520,7 +520,14 @@ const useActionStore = create<ActionStore>((set, get) => ({
       case 'Suspended':
         try {
           const res = await patchAbstractStatus({ status: action.toUpperCase() }, pid)
-          notify('success', 'notification.status.success.abstract', res.status, 0, pid, 'abstracts')
+          notify(
+            'success',
+            'notification.status.success.abstract',
+            res.status,
+            7000,
+            pid,
+            'abstracts',
+          )
         } catch (error: any) {
           notify('error', 'notification.status.error.abstract', error.message)
         }
