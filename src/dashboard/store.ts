@@ -460,12 +460,15 @@ const useFormStore = create<FormState>((set) => ({
  * - setNotification: updates notification data and shows it
  * - clearNotification: clears notification data
  */
+let hideTimer: ReturnType<typeof setTimeout> | undefined
+
 const useNotificationStore = create<NotificationState>((set) => ({
   isVisible: false,
   notification: { type: 'info', message: '', submessage: '' },
   setNotification: (notification) => {
+    clearTimeout(hideTimer)
     set({ notification, isVisible: true })
-    setTimeout(() => set({ isVisible: false }), 7000)
+    hideTimer = setTimeout(() => set({ isVisible: false }), 7000)
   },
   clearNotification: () => set({ notification: { type: 'info', message: '', submessage: '' } }),
 }))
