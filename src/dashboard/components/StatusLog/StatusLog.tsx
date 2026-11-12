@@ -11,13 +11,13 @@ const StatusLog = ({ logs }: StatusLogProps) => {
   return (
     <ul className="log-status-list">
       {logs.map((log) => {
+        const step = articleSteps.find((step) => step.key === log.status.toLowerCase())
+
         return (
           <>
             <li key={log.status}>
               <span className="status-icon" title={log.status.toUpperCase()}>
-                {articleSteps.find((step) => step.key === log.status.toLowerCase())?.icon ?? (
-                  <Cancel />
-                )}
+                {step?.icon ?? <Cancel />}
               </span>
               <div className="icon-container">
                 <span className="log-status-icon">
@@ -31,8 +31,12 @@ const StatusLog = ({ logs }: StatusLogProps) => {
               <div className="round-icon"></div>
 
               <div className="log-label">
-                <span className="log-label-date"> done {convertDate(log.date)}</span>
-                <span className="log-label-user"> by {log.user}</span>
+                <span className="log-label-user">
+                  {' '}
+                  <b>{step?.label ?? 'Rejected'} </b>
+                  by {log.user}
+                </span>
+                <span className="log-label-date">{convertDate(log.date)}</span>
               </div>
             </li>
           </>

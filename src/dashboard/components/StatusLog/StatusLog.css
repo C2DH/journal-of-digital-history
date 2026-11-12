@@ -73,3 +73,7 @@
   flex-direction: column;
   justify-content: end;
 }
+
+.log-label-date {
+  font-weight: 200;
+}
