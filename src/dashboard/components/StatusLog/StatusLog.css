@@ -1,0 +1,79 @@
+.log-status-list {
+  --margin-left: 60px;
+
+  position: relative;
+  padding-left: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 10px;
+    font-size: var(--text-size-3);
+    line-height: 2em;
+  }
+  .log-label {
+    margin-bottom: 13px;
+  }
+}
+
+.log-status-list li::before {
+  content: '';
+  position: absolute;
+  left: var(--margin-left);
+  top: 0;
+  bottom: 0;
+  width: 1.2px;
+  background-color: var(--color-deep-blue);
+  z-index: -1;
+}
+
+.status-icon {
+  margin-right: var(--space-size-2);
+}
+
+.round-icon {
+  position: absolute;
+  left: 55px;
+  width: 17px;
+  height: 19px;
+  background-color: var(--color-background);
+  border-radius: 100%;
+  top: 25px;
+  z-index: 0;
+}
+
+.log-status-icon {
+  position: relative;
+  z-index: 1;
+  margin-right: 0.5rem;
+}
+
+.log-status-icon {
+  .log-warning-icon {
+    color: var(--color-warning);
+  }
+  .log-check-icon {
+    color: var(--color-success);
+  }
+}
+
+.log-status-list li:first-child::before {
+  top: 50%;
+}
+
+.log-status-list li:last-child::before {
+  bottom: 50%;
+}
+
+.log-label {
+  margin-left: 2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+}
+
+.log-label-date {
+  font-weight: 200;
+}

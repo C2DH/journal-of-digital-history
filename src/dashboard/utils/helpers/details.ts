@@ -1,4 +1,4 @@
-import { Abstract, AbstractRow, Article, ArticleRow, Author, Campaign, Row } from '../types'
+import { Abstract, AbstractRow, Article, ArticleRow, Author, Campaign, Log, Row } from '../types'
 import { isTypeAbstract, isTypeArticle } from './checkItem'
 import { convertDate, convertDateWithHour } from './date'
 
@@ -26,6 +26,7 @@ export function setDetails(item: Abstract | Article) {
     scheduled_time: null,
     published_time: null,
   }
+  let logs: Log[] = []
 
   const adminHost =
     window.location.hostname === 'localhost' ? 'localhost:8000' : window.location.host
@@ -64,6 +65,7 @@ export function setDetails(item: Abstract | Article) {
     url = item.repository_url === undefined ? '-' : item.repository_url
     title = item.title
     abstractText = item.abstract
+    logs = item.status_log
   } else if (isTypeArticle(item)) {
     bskyCampaign =
       item.campaigns.find((campaign) => campaign.platform === 'BLUESKY') ?? bskyCampaign
@@ -125,6 +127,7 @@ export function setDetails(item: Abstract | Article) {
       Array.isArray(item.data?.abstract) && item.data?.abstract.length > 0
         ? item.data.abstract[0]
         : item.abstract.abstract
+    logs = item.status_log
   }
 
   return {
@@ -136,6 +139,7 @@ export function setDetails(item: Abstract | Article) {
     url,
     title,
     abstractText,
+    logs,
   }
 }
 

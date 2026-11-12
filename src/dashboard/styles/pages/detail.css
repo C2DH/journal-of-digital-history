@@ -27,6 +27,9 @@
   display: grid;
   gap: var(--gap-size-3);
 }
+.card-status-log {
+  grid-area: sl;
+}
 
 /* FieldRow css */
 .item {
@@ -59,8 +62,8 @@ h2 {
   grid-template-areas:
     'i i c'
     'a a l'
-    'a a u'
-    'a a .';
+    'a a sl'
+    'a a u';
   gap: var(--gap-size-4);
   padding: var(--space-size-1);
 }
@@ -126,7 +129,8 @@ a {
       'i i .'
       'a a l'
       'a a c'
-      'a a u';
+      'a a u'
+      'a a sl';
   }
 }
 
@@ -137,6 +141,7 @@ a {
     grid-template-areas:
       'i i'
       'l c'
+      'sl sl'
       'a a'
       'a a'
       'u u'
@@ -158,6 +163,7 @@ a {
       'i i'
       'l l'
       'c c'
+      'sl sl'
       'a a'
       'a a'
       'u u';

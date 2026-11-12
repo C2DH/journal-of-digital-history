@@ -1,6 +1,10 @@
 import create from 'zustand'
 
-import { patchArticleStatus, patchStatus, postArticletoSubmissionOJS } from './utils/api/api'
+import {
+  patchAbstractStatus,
+  patchArticleStatus,
+  postArticletoSubmissionOJS,
+} from './utils/api/api'
 import api from './utils/api/headers'
 import { abstractStatus } from './utils/constants/abstract'
 import { articleStatus } from './utils/constants/article'
@@ -456,12 +460,15 @@ const useFormStore = create<FormState>((set) => ({
  * - setNotification: updates notification data and shows it
  * - clearNotification: clears notification data
  */
+let hideTimer: ReturnType<typeof setTimeout> | undefined
+
 const useNotificationStore = create<NotificationState>((set) => ({
   isVisible: false,
   notification: { type: 'info', message: '', submessage: '' },
-  setNotification: (notification) => {
+  setNotification: (notification, delay) => {
+    clearTimeout(hideTimer)
     set({ notification, isVisible: true })
-    setTimeout(() => set({ isVisible: false }), 7000)
+    hideTimer = setTimeout(() => set({ isVisible: false }), delay)
   },
   clearNotification: () => set({ notification: { type: 'info', message: '', submessage: '' } }),
 }))
@@ -496,8 +503,8 @@ const useActionStore = create<ActionStore>((set, get) => ({
           const res = await postArticletoSubmissionOJS({ pid })
           notify('success', 'notification.ojs.success', res.data.message, 7000)
           try {
-            await patchArticleStatus({ status: 'PEER_REVIEW' }, pid)
-            notify('success', 'notification.status.success.article', '', 7000, pid)
+            const res = await patchArticleStatus({ status: 'PEER_REVIEW' }, pid)
+            notify('success', 'notification.status.success.article', res.status, 7000, pid)
           } catch (error: any) {
             notify('error', 'notification.status.error.article', error.message, 7000)
           }
@@ -512,12 +519,12 @@ const useActionStore = create<ActionStore>((set, get) => ({
       case 'Abandoned':
       case 'Suspended':
         try {
-          const res = await patchStatus({ pids: [pid], status: action.toLowerCase() }, 'abstracts')
+          const res = await patchAbstractStatus({ status: action.toUpperCase() }, pid)
           notify(
             'success',
             'notification.status.success.abstract',
-            res.data.message,
-            0,
+            res.status,
+            7000,
             pid,
             'abstracts',
           )
