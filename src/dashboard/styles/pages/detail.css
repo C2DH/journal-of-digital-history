@@ -129,8 +129,8 @@ a {
       'i i .'
       'a a l'
       'a a c'
-      'a a u'
-      'a a sl';
+      'a a sl'
+      'a a u';
   }
 }
 
@@ -192,14 +192,35 @@ a {
 
 /* Mobile view */
 @media screen and (max-width: 767px) {
-  .detail-page-action-btn {
-    display: none;
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'i'
+      'l'
+      'c'
+      'sl'
+      'a'
+      'a'
+      'u';
+    width: 100%;
+    padding: var(--space-size-1);
   }
 
-  .detail-grid {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-size-2);
+  /* Also ensure cards don't overflow */
+  .card-info,
+  .card-link,
+  .card-abstract,
+  .card-contact,
+  .card-authors,
+  .card-status-log {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .detail-page-action-btn {
+    display: none;
   }
 
   a {

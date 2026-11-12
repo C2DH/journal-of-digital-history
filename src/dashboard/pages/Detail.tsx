@@ -106,32 +106,34 @@ const Detail = ({ endpoint }: DetailPage) => {
               />
             ))}
           </SmallCard>
-          <SmallCard className="card-link">
-            <h2>Links</h2>
-            {urlFields ? (
-              urlFields.map(({ value }, index) =>
-                value ? <LinkButton key={index} url={String(value)} /> : null,
-              )
-            ) : (
-              <span>-</span>
-            )}
-            {datasetFields.length > 0 ? (
-              <>
-                <h4>Datasets</h4>
-                {datasetFields.map(({ label, value: url, description }, index) =>
-                  url ? (
-                    <DatasetButton
-                      key={index}
-                      url={String(url)}
-                      description={String(description)}
-                    />
-                  ) : (
-                    <span>-</span>
-                  ),
-                )}
-              </>
-            ) : null}
-          </SmallCard>
+          {urlFields[0].value != null && (
+            <SmallCard className="card-link">
+              <h2>Links</h2>
+              {urlFields ? (
+                urlFields.map(({ value }, index) =>
+                  value ? <LinkButton key={index} url={String(value)} /> : null,
+                )
+              ) : (
+                <span>-</span>
+              )}
+              {datasetFields.length > 0 ? (
+                <>
+                  <h4>Datasets</h4>
+                  {datasetFields.map(({ label, value: url, description }, index) =>
+                    url ? (
+                      <DatasetButton
+                        key={index}
+                        url={String(url)}
+                        description={String(description)}
+                      />
+                    ) : (
+                      <span>-</span>
+                    ),
+                  )}
+                </>
+              ) : null}
+            </SmallCard>
+          )}
           <SmallCard className="card-abstract">
             <h2>{title}</h2>
             <div>{abstractText ? parse(formatAbstract(String(abstractText))) : null}</div>
@@ -198,10 +200,12 @@ const Detail = ({ endpoint }: DetailPage) => {
               </>
             ) : null}
           </div>
-          <SmallCard className="card-status-log">
-            <h2>Log Status</h2>
-            <StatusLog logs={logs} />
-          </SmallCard>
+          {logs.length > 0 && (
+            <SmallCard className="card-status-log">
+              <h2>Log Status</h2>
+              <StatusLog logs={logs} />
+            </SmallCard>
+          )}
         </div>
       </div>
       <Modal
