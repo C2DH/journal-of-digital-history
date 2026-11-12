@@ -1,0 +1,53 @@
+.log-status-list {
+  position: relative;
+  padding-left: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-left: 10px;
+    font-size: 16px;
+    line-height: 2em;
+  }
+  .log-label {
+    margin-bottom: 13px;
+  }
+}
+
+.log-status-list li::before {
+  content: '';
+  position: absolute;
+  left: 21px;
+  top: 0;
+  bottom: 0;
+  width: 1.2px;
+  background-color: var(--color-deep-blue);
+  z-index: -1;
+}
+
+.round-icon {
+  position: absolute;
+  left: 14px;
+  width: 17px;
+  height: 19px;
+  background-color: var(--color-background);
+  border-radius: 100%;
+  top: 8px;
+  z-index: 0;
+}
+
+.log-status-icon {
+  position: relative;
+  z-index: 1;
+  margin-right: 0.5rem;
+}
+
+.log-status-list li:first-child::before {
+  top: 50%;
+}
+
+.log-status-list li:last-child::before {
+  bottom: 50%;
+}

@@ -12,6 +12,7 @@ import StatusButton from '../components/Buttons/StatusButton/StatusButton'
 import Loading from '../components/Loading/Loading'
 import Modal from '../components/Modal/Modal'
 import SmallCard from '../components/SmallCard/SmallCard'
+import StatusLog from '../components/StatusLog/StatusLog'
 import { useActionStore, useItemStore } from '../store'
 import { isTypeAbstract, isTypeArticle } from '../utils/helpers/checkItem'
 import { setDetails } from '../utils/helpers/details'
@@ -63,8 +64,16 @@ const Detail = ({ endpoint }: DetailPage) => {
   const isArticle = isTypeArticle(item)
   const isAbstract = isTypeAbstract(item)
 
-  const { infoFields, contactFields, datasetFields, authors, urlFields, title, abstractText } =
-    setDetails(item)
+  const {
+    infoFields,
+    contactFields,
+    datasetFields,
+    authors,
+    urlFields,
+    title,
+    abstractText,
+    logs,
+  } = setDetails(item)
 
   if (loading) {
     return <Loading />
@@ -189,6 +198,10 @@ const Detail = ({ endpoint }: DetailPage) => {
               </>
             ) : null}
           </div>
+          <SmallCard className="card-status-log">
+            <h2>Log Status</h2>
+            <StatusLog logs={logs} />
+          </SmallCard>
         </div>
       </div>
       <Modal
