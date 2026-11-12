@@ -62,8 +62,8 @@ h2 {
   grid-template-areas:
     'i i c'
     'a a l'
-    'a a u'
-    'a a sl';
+    'a a sl'
+    'a a u';
   gap: var(--gap-size-4);
   padding: var(--space-size-1);
 }
