@@ -57,6 +57,9 @@
   .log-check-icon {
     color: var(--color-success);
   }
+  .log-error-icon {
+    color: var(--color-abandoned);
+  }
 }
 
 .log-status-list li:first-child::before {
