@@ -90,7 +90,14 @@ const ContactForm = ({ row, onClose }: ContactFormProps) => {
       .then(async (res) => {
         await patchArticleStatus({ status: 'COPY_EDITING' }, pid)
           .then((res) => {
-            notify('success', t('notification.status.success.article'), res.message, 0, pid)
+            notify(
+              'success',
+              t('notification.status.success.article'),
+              res.message,
+              0,
+              pid,
+              'articles',
+            )
           })
           .catch((error) => {
             notify('error', t('notification.status.error.article'), error.message)
@@ -106,7 +113,14 @@ const ContactForm = ({ row, onClose }: ContactFormProps) => {
 
     await patchAbstractStatusWithEmail(formData?.pid, formData)
       .then((res) => {
-        notify('success', t('email.success.api.contactForm'), res?.data?.message, 0, pid)
+        notify(
+          'success',
+          t('email.success.api.contactForm'),
+          res?.data?.message,
+          0,
+          pid,
+          'abstracts',
+        )
       })
       .catch((error) => {
         notify('error', t('email.error.api.message'), error?.error)

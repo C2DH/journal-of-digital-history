@@ -36,11 +36,8 @@ const IconSelector = ({ log, logs, isArticle, isAbstract }) => {
 }
 
 const StatusLog = ({ logs, isArticle, isAbstract }: StatusLogProps) => {
-  const logsInversed = [...logs].reverse() // reverse on a copy of the array
-  // const logsInversed = logs
-
   if (isAbstract && logs.length === 1) {
-    logsInversed.unshift({
+    logs.unshift({
       date: String(DateTime.now()),
       status: 'Waiting for action',
       user: '',
@@ -49,7 +46,7 @@ const StatusLog = ({ logs, isArticle, isAbstract }: StatusLogProps) => {
 
   return (
     <ul className="log-status-list">
-      {logsInversed.map((log) => {
+      {logs.map((log) => {
         const articleStep = articleSteps.find((step) => step.key === log.status.toLowerCase())
         const abstractStep = abstractStatus.find((status) => status.value === log.status)
 
@@ -66,7 +63,7 @@ const StatusLog = ({ logs, isArticle, isAbstract }: StatusLogProps) => {
                 <span className="log-status-icon">
                   <IconSelector
                     log={log}
-                    logs={logsInversed}
+                    logs={logs}
                     isArticle={isArticle}
                     isAbstract={isAbstract}
                   />
