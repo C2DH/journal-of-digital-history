@@ -94,7 +94,7 @@ const Detail = ({ endpoint }: DetailPage) => {
       {' '}
       <div className="detail page ">
         <div className="detail-grid">
-          <SmallCard className="card-info">
+          <SmallCard className={`card-info ${isAbstract ? 'abstract' : ''}`}>
             {infoFields.map(({ label, value }) => (
               <FieldRow
                 key={label}
@@ -203,7 +203,7 @@ const Detail = ({ endpoint }: DetailPage) => {
           {logs.length > 0 && (
             <SmallCard className="card-status-log">
               <h2>Log Status</h2>
-              <StatusLog logs={logs} />
+              <StatusLog logs={logs} isArticle={isArticle} isAbstract={isAbstract} />
             </SmallCard>
           )}
         </div>
