@@ -146,6 +146,7 @@ describe('ContactForm', () => {
         'Message sent successfully!',
         0,
         mockAbstractRow.row.pid,
+        'abstracts',
       )
     })
   })
