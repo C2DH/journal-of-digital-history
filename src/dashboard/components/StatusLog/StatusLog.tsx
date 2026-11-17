@@ -15,7 +15,7 @@ const IconSelector = ({ log, logs, isArticle, isAbstract }) => {
   if (isArticle) {
     return (
       <span className="log-status-icon">
-        {logs.indexOf(logs) === 0
+        {logs.indexOf(log) === 0
           ? (icon = <Error className="log-warning-icon" />)
           : (icon = <CheckCircle className="log-check-icon" />)}
       </span>
@@ -27,7 +27,11 @@ const IconSelector = ({ log, logs, isArticle, isAbstract }) => {
       return (icon = <Error className="log-warning-icon" />)
     } else if (log.status === 'ABANDONED' || log.status === 'DECLINED') {
       return (icon = <Cancel className="log-error-icon" />)
-    } else if (log.status === 'ACCEPTED' || log.status === 'SUBMITTED') {
+    } else if (
+      log.status === 'ACCEPTED' ||
+      log.status === 'SUBMITTED' ||
+      log.status === 'PUBLISHED'
+    ) {
       return (icon = <CheckCircle className="log-check-icon" />)
     }
   }
