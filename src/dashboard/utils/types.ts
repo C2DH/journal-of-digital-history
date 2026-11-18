@@ -1,6 +1,5 @@
 import { SetURLSearchParams } from 'react-router-dom'
 
-import { Log } from '../components/StatusLog/interface'
 /* Abstract */
 export interface Abstract {
   id: number
