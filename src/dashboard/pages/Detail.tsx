@@ -106,7 +106,7 @@ const Detail = ({ endpoint }: DetailPage) => {
               />
             ))}
           </SmallCard>
-          {urlFields[0].value != null && (
+          {urlFields[0].value != null && datasetFields[0].value != null && (
             <SmallCard className="card-link">
               <h2>Links</h2>
               {urlFields ? (

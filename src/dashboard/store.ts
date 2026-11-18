@@ -468,7 +468,7 @@ const useNotificationStore = create<NotificationState>((set) => ({
   setNotification: (notification, delay) => {
     clearTimeout(hideTimer)
     set({ notification, isVisible: true })
-    hideTimer = setTimeout(() => set({ isVisible: false }), delay)
+    hideTimer = setTimeout(() => set({ isVisible: false }), delay && delay > 0 ? delay : 7000)
   },
   clearNotification: () => set({ notification: { type: 'info', message: '', submessage: '' } }),
 }))

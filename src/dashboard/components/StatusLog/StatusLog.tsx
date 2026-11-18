@@ -40,8 +40,10 @@ const IconSelector = ({ log, logs, isArticle, isAbstract }) => {
 }
 
 const StatusLog = ({ logs, isArticle, isAbstract }: StatusLogProps) => {
-  if (isAbstract && logs.length === 1) {
-    logs.unshift({
+  const statusLogs = logs
+
+  if (isAbstract && statusLogs.length === 1) {
+    statusLogs.unshift({
       date: String(DateTime.now()),
       status: 'Waiting for action',
       user: '',
@@ -50,7 +52,7 @@ const StatusLog = ({ logs, isArticle, isAbstract }: StatusLogProps) => {
 
   return (
     <ul className="log-status-list">
-      {logs.map((log) => {
+      {statusLogs.map((log) => {
         const articleStep = articleSteps.find((step) => step.key === log.status.toLowerCase())
         const abstractStep = abstractStatus.find((status) => status.value === log.status)
 
@@ -67,7 +69,7 @@ const StatusLog = ({ logs, isArticle, isAbstract }: StatusLogProps) => {
                 <span className="log-status-icon">
                   <IconSelector
                     log={log}
-                    logs={logs}
+                    logs={statusLogs}
                     isArticle={isArticle}
                     isAbstract={isAbstract}
                   />
