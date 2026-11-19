@@ -155,7 +155,7 @@ describe('StatusLog', () => {
 
       const { container } = render(<StatusLog logs={logs} isArticle={false} isAbstract={true} />)
 
-      const errorIcons = container.querySelectorAll('.log-error-icon')
+      const errorIcons = container.querySelectorAll('.log-abandoned-icon')
       expect(errorIcons).toHaveLength(1)
 
       expect(screen.getByText('Abandoned')).toBeInTheDocument()
@@ -169,7 +169,7 @@ describe('StatusLog', () => {
 
       const { container } = render(<StatusLog logs={logs} isArticle={false} isAbstract={true} />)
 
-      const errorIcons = container.querySelectorAll('.log-error-icon')
+      const errorIcons = container.querySelectorAll('.log-declined-icon')
       expect(errorIcons).toHaveLength(1)
 
       expect(screen.getByText('Declined')).toBeInTheDocument()
