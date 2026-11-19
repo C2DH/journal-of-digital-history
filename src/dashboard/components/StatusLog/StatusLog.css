@@ -57,8 +57,11 @@
   .log-check-icon {
     color: var(--color-success);
   }
-  .log-error-icon {
+  .log-abandoned-icon {
     color: var(--color-abandoned);
+  }
+  .log-declined-icon {
+    color: var(--color-error);
   }
 }
 

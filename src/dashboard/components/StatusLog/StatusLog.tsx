@@ -25,8 +25,10 @@ const IconSelector = ({ log, logs, isArticle, isAbstract }) => {
   if (isAbstract) {
     if (log.status === 'Waiting for action' || log.status === 'SUSPENDED') {
       return (icon = <Error className="log-warning-icon" />)
-    } else if (log.status === 'ABANDONED' || log.status === 'DECLINED') {
-      return (icon = <Cancel className="log-error-icon" />)
+    } else if (log.status === 'ABANDONED') {
+      return (icon = <Cancel className="log-abandoned-icon" />)
+    } else if (log.status === 'DECLINED') {
+      return (icon = <Cancel className="log-declined-icon" />)
     } else if (
       log.status === 'ACCEPTED' ||
       log.status === 'SUBMITTED' ||
