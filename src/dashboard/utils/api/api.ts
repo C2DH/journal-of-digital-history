@@ -10,11 +10,11 @@ import api from './headers'
  * @param body - Object containing the new status and email details.
  * @returns A promise that resolves with the API response.
  */
-const modifyAbstractStatusWithEmail = async (pid: string, body: Record<string, any>) => {
-  console.info('PATCH [modifyAbstractStatusWithEmail]')
+const patchAbstractStatusWithEmail = async (pid: string, body: Record<string, any>) => {
+  console.info('PATCH [patchAbstractStatusWithEmail]')
 
   return api
-    .patch(`/api/abstracts/${pid}/status`, body)
+    .patch(`/api/abstracts/${pid}/status/email`, body)
     .then((res) => {
       console.log(res)
       return res
@@ -28,19 +28,35 @@ const modifyAbstractStatusWithEmail = async (pid: string, body: Record<string, a
 /**
  * Updates the status of multiple items (articles or abstracts).
  *
- * @param body - Object containing an array of PIDs and the new status.
- * @param item - The item type ('articles' or 'abstracts').
+ * @param body - Object containing the new status.
+ * @param pid - The unique identifier of the article.
  * @returns A promise that resolves with the API response.
  */
-const patchStatus = async (body: { pids: string[]; status: string }, item: string) => {
-  console.info(`PATCH [modifyStatus] - ${item} `)
+const patchAbstractStatus = async (body: { status: string }, pid: string) => {
+  console.info('PATCH [patchAbstractStatus]')
 
   return api
-    .patch(`/api/${item}/status`, body)
-    .then((res) => {
-      console.log(res)
-      return res
+    .patch(`/api/abstracts/${pid}/status`, body)
+    .then((res) => res.data)
+    .catch((err) => {
+      console.error(err)
+      throw err
     })
+}
+
+/**
+ * Updates the status of a specific article.
+ *
+ * @param body - Object containing the new status.
+ * @param pid - The unique identifier of the article.
+ * @returns A promise that resolves with the updated article data.
+ */
+const patchArticleStatus = async (body: { status: string }, pid: string) => {
+  console.info('PATCH [patchArticleStatus]')
+
+  return api
+    .patch(`/api/articles/${pid}/status`, body)
+    .then((res) => res.data)
     .catch((err) => {
       console.error(err)
       throw err
@@ -269,25 +285,6 @@ const getSocialMediaCover = async (pid: string): Promise<{ download_url: string 
 }
 
 /**
- * Updates the status of a specific article.
- *
- * @param body - Object containing the new status.
- * @param pid - The unique identifier of the article.
- * @returns A promise that resolves with the updated article data.
- */
-const patchArticleStatus = async (body: { status: string }, pid: string) => {
-  console.info('PATCH [patchArticleStatus]')
-
-  return api
-    .patch(`/api/articles/${pid}/status`, body)
-    .then((res) => res.data)
-    .catch((err) => {
-      console.error(err)
-      throw err
-    })
-}
-
-/**
  * Sends an article in DOCX file to the copy editor via email.
  *
  * @param body - Object containing the article pid(string) and body(string) content.
@@ -352,9 +349,9 @@ export {
   getPeerReviewArticlesTiming,
   getSocialMediaCover,
   getTweetContent,
-  modifyAbstractStatusWithEmail,
+  patchAbstractStatus,
+  patchAbstractStatusWithEmail,
   patchArticleStatus,
-  patchStatus,
   postArticletoSubmissionOJS,
   postBlueskyCampaign,
   postFacebookCampaign,

@@ -27,6 +27,9 @@
   display: grid;
   gap: var(--gap-size-3);
 }
+.card-status-log {
+  grid-area: sl;
+}
 
 /* FieldRow css */
 .item {
@@ -59,8 +62,8 @@ h2 {
   grid-template-areas:
     'i i c'
     'a a l'
-    'a a u'
-    'a a .';
+    'a a sl'
+    'a a u';
   gap: var(--gap-size-4);
   padding: var(--space-size-1);
 }
@@ -73,6 +76,9 @@ h2 {
   grid-auto-flow: column;
   align-items: center;
   z-index: 2;
+}
+.card-info.abstract {
+  grid-template-columns: repeat(2, 1fr);
 }
 
 /* CONTACT */
@@ -126,6 +132,7 @@ a {
       'i i .'
       'a a l'
       'a a c'
+      'a a sl'
       'a a u';
   }
 }
@@ -137,6 +144,7 @@ a {
     grid-template-areas:
       'i i'
       'l c'
+      'sl sl'
       'a a'
       'a a'
       'u u'
@@ -158,6 +166,7 @@ a {
       'i i'
       'l l'
       'c c'
+      'sl sl'
       'a a'
       'a a'
       'u u';
@@ -186,14 +195,35 @@ a {
 
 /* Mobile view */
 @media screen and (max-width: 767px) {
-  .detail-page-action-btn {
-    display: none;
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'i'
+      'l'
+      'c'
+      'sl'
+      'a'
+      'a'
+      'u';
+    width: 100%;
+    padding: var(--space-size-1);
   }
 
-  .detail-grid {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-size-2);
+  /* Also ensure cards don't overflow */
+  .card-info,
+  .card-link,
+  .card-abstract,
+  .card-contact,
+  .card-authors,
+  .card-status-log {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .detail-page-action-btn {
+    display: none;
   }
 
   a {

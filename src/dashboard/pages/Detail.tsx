@@ -12,6 +12,7 @@ import StatusButton from '../components/Buttons/StatusButton/StatusButton'
 import Loading from '../components/Loading/Loading'
 import Modal from '../components/Modal/Modal'
 import SmallCard from '../components/SmallCard/SmallCard'
+import StatusLog from '../components/StatusLog/StatusLog'
 import { useActionStore, useItemStore } from '../store'
 import { isTypeAbstract, isTypeArticle } from '../utils/helpers/checkItem'
 import { setDetails } from '../utils/helpers/details'
@@ -63,8 +64,16 @@ const Detail = ({ endpoint }: DetailPage) => {
   const isArticle = isTypeArticle(item)
   const isAbstract = isTypeAbstract(item)
 
-  const { infoFields, contactFields, datasetFields, authors, urlFields, title, abstractText } =
-    setDetails(item)
+  const {
+    infoFields,
+    contactFields,
+    datasetFields,
+    authors,
+    urlFields,
+    title,
+    abstractText,
+    logs,
+  } = setDetails(item)
 
   if (loading) {
     return <Loading />
@@ -85,7 +94,7 @@ const Detail = ({ endpoint }: DetailPage) => {
       {' '}
       <div className="detail page ">
         <div className="detail-grid">
-          <SmallCard className="card-info">
+          <SmallCard className={`card-info ${isAbstract ? 'abstract' : ''}`}>
             {infoFields.map(({ label, value }) => (
               <FieldRow
                 key={label}
@@ -97,32 +106,34 @@ const Detail = ({ endpoint }: DetailPage) => {
               />
             ))}
           </SmallCard>
-          <SmallCard className="card-link">
-            <h2>Links</h2>
-            {urlFields ? (
-              urlFields.map(({ value }, index) =>
-                value ? <LinkButton key={index} url={String(value)} /> : null,
-              )
-            ) : (
-              <span>-</span>
-            )}
-            {datasetFields.length > 0 ? (
-              <>
-                <h4>Datasets</h4>
-                {datasetFields.map(({ label, value: url, description }, index) =>
-                  url ? (
-                    <DatasetButton
-                      key={index}
-                      url={String(url)}
-                      description={String(description)}
-                    />
-                  ) : (
-                    <span>-</span>
-                  ),
-                )}
-              </>
-            ) : null}
-          </SmallCard>
+          {urlFields[0].value != null && datasetFields[0].value != null && (
+            <SmallCard className="card-link">
+              <h2>Links</h2>
+              {urlFields ? (
+                urlFields.map(({ value }, index) =>
+                  value ? <LinkButton key={index} url={String(value)} /> : null,
+                )
+              ) : (
+                <span>-</span>
+              )}
+              {datasetFields.length > 0 ? (
+                <>
+                  <h4>Datasets</h4>
+                  {datasetFields.map(({ label, value: url, description }, index) =>
+                    url ? (
+                      <DatasetButton
+                        key={index}
+                        url={String(url)}
+                        description={String(description)}
+                      />
+                    ) : (
+                      <span>-</span>
+                    ),
+                  )}
+                </>
+              ) : null}
+            </SmallCard>
+          )}
           <SmallCard className="card-abstract">
             <h2>{title}</h2>
             <div>{abstractText ? parse(formatAbstract(String(abstractText))) : null}</div>
@@ -189,6 +200,12 @@ const Detail = ({ endpoint }: DetailPage) => {
               </>
             ) : null}
           </div>
+          {logs.length > 0 && (
+            <SmallCard className="card-status-log">
+              <h2>Log Status</h2>
+              <StatusLog logs={logs} isArticle={isArticle} isAbstract={isAbstract} />
+            </SmallCard>
+          )}
         </div>
       </div>
       <Modal
