@@ -106,10 +106,10 @@ const Detail = ({ endpoint }: DetailPage) => {
               />
             ))}
           </SmallCard>
-          {urlFields[0].value != null && datasetFields[0].value != null && (
+          {
             <SmallCard className="card-link">
               <h2>Links</h2>
-              {urlFields ? (
+              {urlFields[0].value != null ? (
                 urlFields.map(({ value }, index) =>
                   value ? <LinkButton key={index} url={String(value)} /> : null,
                 )
@@ -133,7 +133,7 @@ const Detail = ({ endpoint }: DetailPage) => {
                 </>
               ) : null}
             </SmallCard>
-          )}
+          }
           <SmallCard className="card-abstract">
             <h2>{title}</h2>
             <div>{abstractText ? parse(formatAbstract(String(abstractText))) : null}</div>

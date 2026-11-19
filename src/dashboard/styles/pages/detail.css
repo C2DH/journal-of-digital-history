@@ -129,10 +129,10 @@ a {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-areas:
-      'i i .'
+      'i i c'
       'a a l'
-      'a a c'
       'a a sl'
+      'a a u'
       'a a u';
   }
 }
