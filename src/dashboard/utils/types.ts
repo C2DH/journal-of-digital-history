@@ -1,4 +1,5 @@
 import { SetURLSearchParams } from 'react-router-dom'
+
 /* Abstract */
 export interface Abstract {
   id: number
@@ -19,6 +20,7 @@ export interface Abstract {
   authors: Author[]
   datasets: Dataset[]
   repository_url: string
+  status_log: Log[]
 }
 
 export interface Issue {
@@ -59,6 +61,13 @@ export interface Article {
   authors: any[]
   fingerprint: Fingerprint
   campaigns: Campaign[]
+  status_log: Log[]
+}
+
+export interface Log {
+  date: string
+  user: string
+  status: string
 }
 
 export interface Fingerprint {
@@ -283,7 +292,7 @@ export type SetNotification = (notification: Notification) => void | undefined
 export interface NotificationState {
   isVisible: boolean
   notification: Notification
-  setNotification: (notification: Notification) => void
+  setNotification: (notification: Notification, delay?: number) => void
   clearNotification: () => void
 }
 

@@ -34,7 +34,7 @@ const CustomBarChart = () => {
 
   const commonProps = {
     width: 300,
-    height: 350,
+    height: 380,
     hideLegend: true,
     margin: { bottom: 10, right: 20 },
     sx: (theme: any) => ({
@@ -54,7 +54,7 @@ const CustomBarChart = () => {
         },
       },
       ['.MuiBarChart-element']: {
-        strokeWidth: 1,
+        strokeWidth: 2,
         stroke: 'white',
       },
     }),

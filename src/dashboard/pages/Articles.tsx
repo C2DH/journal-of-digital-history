@@ -54,7 +54,7 @@ const Articles = () => {
     <div className="articles page">
       <div className="card-header-title">
         <h1>{t(`articles.item`)}</h1>
-        {count && <Counter value={count} />}
+        {!loading && <Counter value={count} />}
       </div>
       <FilterBar filters={filters} onFilterChange={changeFilters} />
       <Card

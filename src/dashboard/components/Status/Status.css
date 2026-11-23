@@ -8,9 +8,12 @@
     'opsz' 48;
 
   &.error,
-  &.abandoned,
   &.declined {
     color: var(--color-error);
+  }
+
+  &.abandoned {
+    color: var(--color-abandoned);
   }
 
   &.submitted,
@@ -20,6 +23,7 @@
   &.technical_review,
   &.design_review,
   &.copy_editing,
+  &.social_media,
   &.social {
     color: var(--color-warning);
   }

@@ -1,5 +1,6 @@
 import './Table.css'
 
+import Skeleton from '@mui/material/Skeleton'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -49,10 +50,38 @@ const ArticleHeader = ({ isMobile }: { isMobile: boolean }) => {
   )
 }
 
+const LoadingRow = ({
+  visibleHeaders,
+  isArticleItem,
+  isMobile,
+  isArticleOrAbstracts,
+  isAccordeon,
+}) => {
+  return Array.from({ length: 8 }).map((_, i) => (
+    <tr key={`skeleton-${i}`}>
+      {visibleHeaders.map((header) => {
+        const isStatusStep = header === 'status' && isArticleItem
+
+        return (
+          <td key={header} className={header} colSpan={isStatusStep && !isMobile ? 8 : 1}>
+            <Skeleton sx={{ bgcolor: 'var(--color-background)' }} />
+          </td>
+        )
+      })}
+      {isArticleOrAbstracts && !isAccordeon && (
+        <td className="actions-cell">
+          <Skeleton sx={{ bgcolor: 'var(--color-background)' }} width={24} />
+        </td>
+      )}
+    </tr>
+  ))
+}
+
 const Table = ({
   item,
   headers,
   data,
+  loading,
   sortBy,
   sortOrder,
   setSort,
@@ -148,52 +177,62 @@ const Table = ({
           </tr>
         </thead>
         <tbody>
-          {cleanData.map((row, rIdx) => {
-            const actions = getRowActions(row, isArticleItem, isAbstractItem)
+          {loading && cleanData.length === 0 ? (
+            <LoadingRow
+              visibleHeaders={visibleHeaders}
+              isArticleItem={isArticleItem}
+              isMobile={isMobile}
+              isArticleOrAbstracts={isArticleOrAbstracts}
+              isAccordeon={isAccordeon}
+            />
+          ) : (
+            cleanData.map((row, rIdx) => {
+              const actions = getRowActions(row, isArticleItem, isAbstractItem)
 
-            const cells = getValueInSpecificOrder(visibleHeaders, row)
+              const cells = getValueInSpecificOrder(visibleHeaders, row)
 
-            return (
-              <tr key={rIdx}>
-                {cells.map((cell: string | number, cIdx: number) => {
-                  const headerName = visibleHeaders[cIdx]
-                  const isTitle = isTitleHeader(headerName)
-                  const isAffiliation = isAffiliationHeader(headerName)
-                  const isStep = isStepCell(cell) || isStatusRejected(cell, headerName)
+              return (
+                <tr key={rIdx}>
+                  {cells.map((cell: string | number, cIdx: number) => {
+                    const headerName = visibleHeaders[cIdx]
+                    const isTitle = isTitleHeader(headerName)
+                    const isAffiliation = isAffiliationHeader(headerName)
+                    const isStep = isStepCell(cell) || isStatusRejected(cell, headerName)
 
-                  return (
-                    <td
-                      key={cIdx}
-                      className={`${isAccordeon ? 'accordeon' : ''} ${headerName}`}
-                      title={isTitle || isAffiliation ? String(cell) : undefined}
-                      colSpan={isStep && isArticleItem && !isMobile ? 8 : 1}
-                      style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
-                      onClick={
-                        isTitle && isArticleOrAbstracts
-                          ? () =>
-                              handleRowClick(
-                                (row as AbstractRow).pid ?? (row as ArticleRow).abstract__pid,
-                              )
-                          : undefined
-                      }
-                    >
-                      {renderCell({
-                        isStep,
-                        cell,
-                        header: headerName,
-                        isArticle: isArticleItem,
-                      })}
+                    return (
+                      <td
+                        key={cIdx}
+                        className={`${isAccordeon ? 'accordeon' : ''} ${headerName}`}
+                        title={isTitle || isAffiliation ? String(cell) : undefined}
+                        colSpan={isStep && isArticleItem && !isMobile ? 8 : 1}
+                        style={isTitle && isArticleOrAbstracts ? { cursor: 'pointer' } : undefined}
+                        onClick={
+                          isTitle && isArticleOrAbstracts
+                            ? () =>
+                                handleRowClick(
+                                  (row as AbstractRow).pid ?? (row as ArticleRow).abstract__pid,
+                                )
+                            : undefined
+                        }
+                      >
+                        {renderCell({
+                          isStep,
+                          cell,
+                          header: headerName,
+                          isArticle: isArticleItem,
+                        })}
+                      </td>
+                    )
+                  })}
+                  {isArticleOrAbstracts && !isAccordeon && (
+                    <td className="actions-cell">
+                      {<ActionButton actions={actions} active={actions.length > 0} />}
                     </td>
-                  )
-                })}
-                {isArticleOrAbstracts && !isAccordeon && (
-                  <td className="actions-cell">
-                    {<ActionButton actions={actions} active={actions.length > 0} />}
-                  </td>
-                )}
-              </tr>
-            )
-          })}
+                  )}
+                </tr>
+              )
+            })
+          )}
         </tbody>
       </table>
     </>

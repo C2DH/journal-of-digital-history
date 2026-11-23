@@ -23,6 +23,7 @@ const Abstracts = () => {
     hasMore,
     fetchItems,
     setParams,
+    reset,
     loadMore,
   } = useItemsStore()
   const { updateFromStores, changeFilters, changeQueryParams, syncFiltersWithURL } =
@@ -34,6 +35,7 @@ const Abstracts = () => {
   }, [])
 
   useEffect(() => {
+    reset()
     updateFromStores(true)
     syncFiltersWithURL(searchParams)
     const { params: queryParams } = changeQueryParams(true) as { params?: Record<string, unknown> }
@@ -52,7 +54,7 @@ const Abstracts = () => {
     <div className="abstract page">
       <div className="card-header-title">
         <h1>{t(`abstracts.item`)}</h1>
-        {count && <Counter value={count} />}
+        {!loading && <Counter value={count} />}
       </div>
       <FilterBar filters={filters} onFilterChange={changeFilters} />
       <Card

@@ -56,12 +56,12 @@ const SmallTable = ({ item, headers, data, placeholder, loading }: SmallTablePro
         {placeholder && (
           <tbody className="placeholder-body">
             <tr>
-              <th className="placeholder-body-header" colSpan={visibleHeaders.length - 1}>
+              <th className="placeholder-body-header" colSpan={visibleHeaders.length}>
                 {loading ? (
                   <>
-                    <Skeleton />
-                    <Skeleton />
-                    <Skeleton />
+                    <Skeleton sx={{ bgcolor: 'var(--color-background)' }} />
+                    <Skeleton sx={{ bgcolor: 'var(--color-background)' }} />
+                    <Skeleton sx={{ bgcolor: 'var(--color-background)' }} />
                   </>
                 ) : (
                   <>

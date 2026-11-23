@@ -18,7 +18,7 @@ const PeerReview = () => {
   const [round, setRound] = useState<number>(8)
   const [item, setItem] = useState({
     key: 'default',
-    articles: [{ pid: '', authors: '', title: '', substatus: [''], url: '' }],
+    articles: [{ pid: '', title: '', authors: '', ojs_status: '', url: '', github_issue: '' }],
   })
   const [firstClick, setFirstClick] = useState(false)
   const [placeholder, setPlaceholder] = useState(true)
@@ -90,7 +90,7 @@ const PeerReview = () => {
           <BarChart
             sx={{
               '.MuiBarChart-element': {
-                strokeWidth: 1,
+                strokeWidth: 2,
                 stroke: 'white',
               },
               '.MuiBarChart-label': {
