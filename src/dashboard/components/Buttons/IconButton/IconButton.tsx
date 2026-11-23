@@ -53,6 +53,7 @@ const IconButton = ({ value }: any) => {
         icon = <Linkedin className="linkedin-icon" data-testid="linkedin-icon" />
         break
       case 'degruyterbrill':
+      case 'ubiquityjournal':
         icon = <OpenInNew />
         break
       default:
