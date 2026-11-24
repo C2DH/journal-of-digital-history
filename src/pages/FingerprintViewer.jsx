@@ -130,8 +130,7 @@ const FingerprintLoader = ({ url, delay = 0 }) => {
                     onMouseMove={onMouseMoveHandler}
                     stats={fingerprintData.stats}
                     cells={fingerprintData.cells}
-                    size={size}
-                    margin={20}
+                    size={size / 2}
                   />
                 ) : null}
               </div>
