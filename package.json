@@ -66,7 +66,7 @@
     "highlight.js": "^10.5.0",
     "history": "^5.0.0",
     "html-react-parser": "^5.2.3",
-    "i18next": "^24.2.2",
+    "i18next": "^26.3.4",
     "i18next-browser-languagedetector": "^8.0.4",
     "i18next-http-backend": "^4.0.4",
     "iconoir-react": "^7.11.0",
