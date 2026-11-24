@@ -8,7 +8,7 @@ import ArticleFingerprintCellGraphics from './ArticleFingerprintCellGraphics'
 const ArticleFingerprint = ({
   stats = {},
   cells = [],
-  // svg dimnsion. Radisu is calculated based on this.
+  // svg dimnsion. Radius is calculated based on this.
   size = 100,
   debug = false,
   // this space is needed for the text elements
@@ -25,7 +25,7 @@ const ArticleFingerprint = ({
   const [pointer, api] = useSpring(() => ({ theta: 0, idx: 0, opacity: 0, config: config.stiff }))
   const compactScale = Math.max(0.45, Math.min(1, size / 220))
   const markerScale = Math.max(0.35, Math.min(1, size / 260))
-  const lineStrokeWidth = Math.max(0.35, 0.8 * compactScale)
+  const lineStrokeWidth = Math.max(0.35, 1.2 * compactScale)
   const circleStrokeWidth = Math.max(0.3, 0.75 * markerScale)
   const originDotRadius = Math.max(0.25, 0.8 * markerScale)
   const headingDotRadius = Math.max(1.4, 4.5 * markerScale)
