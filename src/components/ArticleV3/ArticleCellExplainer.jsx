@@ -5,6 +5,9 @@ import axios from 'axios'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import { MatomoActionExplainCodeClick, MatomoCategoryArticleV3 } from '../../constants/matomoEvents'
+import { markdownParser } from '../../logic/markdown'
+import { useArticleCellExplainerStore } from '../../store'
 import ArticleCellExplainCodeButton, {
   StatusError,
   StatusExecuting,
@@ -12,9 +15,6 @@ import ArticleCellExplainCodeButton, {
   StatusSuccess,
 } from './ArticleCellExplainCodeButton'
 import './ArticleCellExplainer.css'
-import { MatomoActionExplainCodeClick, MatomoCategoryArticleV3 } from '../../constants/matomoEvents'
-import { markdownParser } from '../../logic/markdown'
-import { useArticleCellExplainerStore } from '../../store'
 
 console.info(
   '%cEnable Code Explainer',
@@ -76,12 +76,8 @@ const ArticleCellExplainer = ({ source = '', cellIdx = '', className = '' }) => 
 
     lock(cellIdx)
     let codeToExplain = Array.isArray(source) ? source.join('\n') : source
-    // reduce the code To Explain Length to max 500 chars
+
     codeToExplain = codeToExplain.trim().replace(/\n/g, ' ').replace(/\s+/g, ' ')
-    if (codeToExplain.length > 1000) {
-      codeToExplain = codeToExplain.slice(0, 1000)
-      console.debug('[ArticleCellExplainer] codeToExplain shortened to 1000 chars')
-    }
 
     mutate(codeToExplain)
   }
